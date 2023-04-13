@@ -3,17 +3,21 @@ import { ref } from 'vue';
 
 import AppMenuItem from './AppMenuItem.vue';
 
+function getImageUrl(path) {
+   return new URL(path, import.meta.url).href
+}
+
 const model = ref([
     {
         // User Panel
         visible:true,
         section: "user",
         items: [
-            { label: 'Headers', to: '/Headers', image: '/src/assets/icons/nav/dashboard.svg'},
-            { label: 'Headers', to: '/Headers', image: '/src/assets/icons/nav/customers.svg'},
-            { label: 'Tables', to: '/Tables', image: '/src/assets/icons/nav/contacts.svg' },
-            { label: 'Tables', to: '/Tables', image: '/src/assets/icons/nav/services.svg' },
-            { label: 'Tables', to: '/Tables', image: '/src/assets/icons/nav/tasks.svg' }
+            { label: 'Headers', to: '/Headers', image: new URL('@/assets/icons/nav/dashboard.svg', import.meta.url).href },
+            { label: 'Headers', to: '/Headers', image: new URL('@/assets/icons/nav/customers.svg', import.meta.url).href },
+            { label: 'Tables', to: '/Tables', image: new URL('@/assets/icons/nav/contacts.svg', import.meta.url).href },
+            { label: 'Tables', to: '/Tables', image: new URL('@/assets/icons/nav/services.svg', import.meta.url).href},
+            { label: 'Tables', to: '/Tables', image: new URL('@/assets/icons/nav/tasks.svg', import.meta.url).href }
     ]
     },
     {
@@ -21,10 +25,12 @@ const model = ref([
         visible: false,
         section: "admin",
         items: [
-            { label: 'Headers', to: '/Headers', image: '/src/assets/icons/add_customer_active.svg' },
-            { label: 'Buttons', to: '/Buttons', image: '/src/assets/icons/add_customer_active.svg' },
-            { label: 'Tables', to: '/Tables', image: '/src/assets/icons/add_customer_active.svg' }
+            { label: 'Headers', to: '/Headers', image: '@/assets/icons/add_customer_active.svg' },
+            { label: 'Buttons', to: '/Buttons', image: '@/assets/icons/add_customer_active.svg' },
+            { label: 'Tables', to: '/Tables', image: '@/assets/icons/add_customer_active.svg' }
     ]
+
+    
     }
     // {
     //     label: 'UI Components',
