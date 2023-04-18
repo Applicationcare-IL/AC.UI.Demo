@@ -64,19 +64,21 @@ const isOutsideClicked = (event) => {
 <template>
     <div class="layout-topbar flex  justify-content-between">
 
-        <div class="flex px-4">
+        <div class="flex mx-3">
             <router-link to="/" class="layout-topbar-logo">
                 <img :src="logoUrl" alt="logo" />
             </router-link>
 
-            <div class="class px-4 flex align-items-center ">
-                <span>תזכורות</span>
-                <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg ">24</span>
-            </div>
+            <div class="flex mx-4 gap-2">
+                <div class="class px-3 flex align-items-center ">
+                    <span>תזכורות</span>
+                    <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg text-white">24</span>
+                </div>
 
-            <div class="class px-4 flex align-items-center">
-                <span>מעקבים</span>
-                <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg ">24</span>
+                <div class="class px-3 flex align-items-center">
+                    <span>מעקבים</span>
+                    <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg text-white">24</span>
+                </div>
             </div>
         </div>
 

@@ -16,7 +16,8 @@
 }
 
 .layout-topbar {
-    height: 76px;
+    height: $topbarHeight;
+    padding: 0;
 }
 
 .layout-topbar .layout-topbar-logo {
@@ -26,6 +27,10 @@
     & img {
         height: 45px;
     }
+}
+
+.wm-subheader {
+    padding: 18px 48px;
 }
 
 .layout-menu ul a {
@@ -41,25 +46,104 @@
 
 @media (min-width: 992px) {
     .layout-wrapper.layout-static .layout-main-container {
-        margin-left: 42px;
         padding: 0px;
         padding-left: 0px;
         margin-left: 72px;
-        margin-top: 76px;
+
+    }
+}
+
+@media (max-width: 991px) {
+    .layout-wrapper .layout-main-container {
+        padding: 0px;
     }
 }
 
 .layout-wrapper.layout-static.layout-static-inactive .layout-main-container {
-     padding: 0px ; 
+    padding: 0px;
+}
+
+.layout-wrapper{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout-topbar{
+    position: static;
+    flex: 0 0 auto;
+}
+
+.layout-main-container{
+    min-height: auto;
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+.layout-main-container {
+    padding: 0px;
 }
 
 body {
     background-color: white;
 }
 
-.p-divider {}
+.layout-main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+// Multi select Button 
+
+.p-selectbutton.p-buttonset .p-button:first-of-type {
+    border-radius: 20px 0 0 20px;
+}
+
+.p-selectbutton.p-buttonset .p-button:last-of-type {
+    border-radius: 0 20px 20px 0;
+}
+
+.p-selectbutton.p-buttonset .p-button.p-highlight {
+    background-color: var(--blue-50);
+    text-shadow: 0 0 .65px var(--blue-300), 0 0 .65px var(--blue-300);
+    color: var(--blue-300);
+}
+
+.p-selectbutton.p-buttonset .p-button {
+    color: var(--blue-300);
+    border-color: var(--blue-300);
+    white-space: nowrap;
+}
 
 
+
+@media (max-width: 991px) {
+    .p-divider.p-divider-vertical {
+        display: none;
+    }
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+    width: 18px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--gray-500);
+    border-radius: 9px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+}
 
 :root {
     --gray-25: #F7FAFC;

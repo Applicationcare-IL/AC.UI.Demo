@@ -28,7 +28,8 @@ const containerClass = computed(() => {
         'layout-overlay-active': layoutState.overlayMenuActive.value,
         'layout-mobile-active': layoutState.staticMenuMobileActive.value,
         'p-input-filled': layoutConfig.inputStyle.value === 'filled',
-        'p-ripple-disabled': !layoutConfig.ripple.value
+        'p-ripple-disabled': !layoutConfig.ripple.value,
+        'layout-rtl' : layoutConfig.isRTL.value
     };
 });
 const bindOutsideClickListener = () => {
@@ -69,7 +70,7 @@ const isOutsideClicked = (event) => {
             </div>
             <app-footer></app-footer>
         </div>
-        <!-- <app-config></app-config> -->
+        <app-config></app-config>
         <div class="layout-mask"></div>
     </div>
 </template>

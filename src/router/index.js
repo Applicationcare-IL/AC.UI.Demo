@@ -11,7 +11,7 @@ const router = createRouter({
                 {
                     path: '/',
                     name: 'Home',
-                    component: AppLayout,
+                    compocomponent: () => import('@/views/Headers.vue'),
                    
                 },
                 {

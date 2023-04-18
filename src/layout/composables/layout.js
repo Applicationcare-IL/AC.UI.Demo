@@ -3,6 +3,7 @@ import { toRefs, reactive, computed } from 'vue';
 const contextPath = import.meta.env.BASE_URL;
 
 const layoutConfig = reactive({
+    isRTL: false,
     ripple: false,
     darkTheme: false,
     inputStyle: 'outlined',

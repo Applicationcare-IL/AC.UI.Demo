@@ -1,0 +1,36 @@
+
+.layout-rtl{
+    direction: rtl;
+}
+
+.layout-rtl .layout-sidebar{
+    right: 0px;
+    left:auto;
+}
+
+.layout-rtl .layout-main-container{
+    margin-right: 72px;
+    margin-left: 0px;
+}
+
+.layout-rtl .layout-config-button{
+    right: auto;
+    left: 0px;
+}
+
+// Select button
+.layout-rtl .p-selectbutton.p-buttonset .p-button:first-of-type{
+    border-radius: 0 20px 20px 0;
+}
+.layout-rtl .p-selectbutton.p-buttonset .p-button:last-of-type{
+    border-radius:  20px 0 0 20px ;
+}
+
+
+
+@media (min-width: 992px) {
+    .layout-rtl.layout-wrapper.layout-static .layout-main-container {
+        margin-right: 72px;
+        margin-left: 0px;
+    }
+}

@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, reactive } from 'vue'
 import App from './App.vue'
 // import 'maze-components/dist/index.css'
 
@@ -13,11 +13,13 @@ import InputText  from 'primevue/inputtext';
 import Badge  from 'primevue/badge';
 import Divider  from 'primevue/divider';
 import SelectButton  from 'primevue/selectbutton';
+import ScrollPanel  from 'primevue/scrollpanel';
+
 
 import '@/assets/styles.scss';
 import '@/assets/themes/mytheme/theme.scss';
 
-createApp(App)
+const app = createApp(App)
 .use(PrimeVue, {ripple:true})
 .use(mazeComponents)
 .use(router)
@@ -27,5 +29,9 @@ createApp(App)
 .component('Badge', Badge)
 .component('Divider', Divider)
 .component('SelectButton', SelectButton)
-.mount('#app')
+.component('ScrollPanel', ScrollPanel);
+
+app.config.globalProperties.$appState = reactive({ isRTL: false, isNewThemeLoaded: false, layoutMode: 'light' });
+
+app.mount('#app')
   

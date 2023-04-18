@@ -13,11 +13,11 @@ const model = ref([
         visible:true,
         section: "user",
         items: [
-            { label: 'Headers', to: '/Headers', image: new URL('@/assets/icons/nav/dashboard.svg', import.meta.url).href },
-            { label: 'Headers', to: '/Headers', image: new URL('@/assets/icons/nav/customers.svg', import.meta.url).href },
-            { label: 'Tables', to: '/Tables', image: new URL('@/assets/icons/nav/contacts.svg', import.meta.url).href },
-            { label: 'Tables', to: '/Tables', image: new URL('@/assets/icons/nav/services.svg', import.meta.url).href},
-            { label: 'Tables', to: '/Tables', image: new URL('@/assets/icons/nav/tasks.svg', import.meta.url).href }
+            { label: 'Headers', to: '/Headers', image: new URL('/icons/nav/dashboard.svg', import.meta.url).href },
+            { label: 'Headers', to: '/Headers', image: new URL('/icons/nav/customers.svg', import.meta.url).href },
+            { label: 'Tables', to: '/Tables', image: new URL('/icons/nav/contacts.svg', import.meta.url).href },
+            { label: 'Tables', to: '/Tables', image: new URL('/icons/nav/services.svg', import.meta.url).href},
+            { label: 'Tables', to: '/Tables', image: new URL('/icons/nav/tasks.svg', import.meta.url).href }
     ]
     },
     {
@@ -25,9 +25,9 @@ const model = ref([
         visible: false,
         section: "admin",
         items: [
-            { label: 'Headers', to: '/Headers', image: '@/assets/icons/add_customer_active.svg' },
-            { label: 'Buttons', to: '/Buttons', image: '@/assets/icons/add_customer_active.svg' },
-            { label: 'Tables', to: '/Tables', image: '@/assets/icons/add_customer_active.svg' }
+            { label: 'Headers', to: '/Headers', image: '/icons/add_customer_active.svg' },
+            { label: 'Buttons', to: '/Buttons', image: '/icons/add_customer_active.svg' },
+            { label: 'Tables', to: '/Tables', image: '/icons/add_customer_active.svg' }
     ]
 
     
