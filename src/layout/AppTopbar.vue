@@ -3,11 +3,17 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useLayout } from '@/layout/composables/layout';
 import { useRouter } from 'vue-router';
 
+const emit = defineEmits(['topbar-item-click'])
+
 const { layoutConfig, onMenuToggle, contextPath } = useLayout();
 
 const outsideClickListener = ref(null);
 const topbarMenuActive = ref(false);
 const router = useRouter();
+
+defineProps({
+    activeTopbarItem: String
+});
 
 onMounted(() => {
     bindOutsideClickListener();
@@ -29,6 +35,12 @@ const onSettingsClick = () => {
     topbarMenuActive.value = false;
     router.push('/documentation');
 };
+
+const onTopbarItemClick = (event, item) => {
+    emit('topbar-item-click', { originalEvent: event, item: item });
+    event.preventDefault();
+};
+
 const topbarMenuClasses = computed(() => {
     return {
         'layout-topbar-menu-mobile-active': topbarMenuActive.value
@@ -88,12 +100,67 @@ const isOutsideClicked = (event) => {
             <InputText class="w-30rem" v-model="value1" placeholder="Search" />
         </span>
 
-        <div>
+        <div class="flex mx-6">
             <div class="layout-topbar-menu" :class="topbarMenuClasses">
 
-                <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle()">
-                    <i class="pi pi-bars"></i>
-                </button>
+                <!-- <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle()">
+                            <i class="pi pi-bars"></i>
+                        </button> -->
+                        
+                <li class="topbar-item notifications"
+                    :class="{ 'active-topmenuitem': activeTopbarItem === 'notifications' }">
+                    <a href="#" @click="onTopbarItemClick($event, 'notifications')">
+                        <Button type="button" class="border-none bg-white">
+                            <img alt="logo" src="/icons/notifications_bell.svg"
+                                 class="h-2rem" />
+                            <Badge value="2" class="topbar-badge notifications-badge p-badge-warning"></Badge>
+                        </Button>
+                    </a>
+                    
+                    <ul class="notifications-dropdown fadeInDown p-4">
+                        <li class="layout-submenu-header flex flex-row justify-content-between">
+                            <h6 class="header-text">Notifications</h6>
+                            <span class="p-badge">3</span>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#" @click="onTopbarSubItemClick($event)">
+                                <div class="notifications-item">
+                                    <h6>Notification 1</h6>
+                                </div>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#" @click="onTopbarSubItemClick($event)">
+                                <div class="notifications-item">
+                                    <h6>Notification 2</h6>
+                                </div>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#" @click="onTopbarSubItemClick($event)">
+                                <div class="notifications-item">
+                                    <h6>Notification 3</h6>
+                                </div>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a href="#" @click="onTopbarSubItemClick($event)">
+                                <div class="notifications-item">
+                                    <div class="notifications-item">
+                                    <h6>Notification 4</h6>
+                                </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <a href="#" @click="onTopbarItemClick($event, 'notifications')" class="flex flex-row flex align-items-center gap-2">
+                        Israel Israeli
+                        <img alt="logo" src="/icons/user.svg"
+                             class="" />
+                    
+          
+                </a>
             </div>
         </div>
     </div>

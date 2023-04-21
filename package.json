@@ -9,7 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "maze-components": "^0.0.13",
+    "chart.js": "^4.2.1",
+    "maze-components": "^0.0.15",
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
     "primevue": "^3.22.1",

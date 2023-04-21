@@ -15,7 +15,6 @@ td {
 .p-datatable .p-datatable-tbody > tr.p-highlight > td {
     background: #2196F3;
     color: #ffffff;
-    ;
 }
 
 .p-datatable .p-datatable-tbody > tr {
@@ -25,7 +24,6 @@ td {
 .p-datatable .p-datatable-tbody > tr > td {
     border: solid 2px white;
     padding: 0.75rem;
-    text-align: right;
 }
 
 .p-datatable .p-datatable-thead > tr > th {
@@ -33,7 +31,12 @@ td {
     background-color: #E9EEF2;
     padding: 7px 12px;
     font-size: 16px;
-    ;
+}
+
+.p-datatable .p-datatable-tbody .numeric {
+    text-align: center;
+    font-weight: 700;
+    font-size: 16px;
 }
 
 // Code to allow the table to have round borders.

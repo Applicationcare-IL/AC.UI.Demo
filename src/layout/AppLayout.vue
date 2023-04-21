@@ -10,6 +10,9 @@ const { layoutConfig, layoutState, isSidebarActive } = useLayout();
 
 const outsideClickListener = ref(null);
 
+const activeTopbarItem = ref(null);
+const topbarItemClick = ref(false);
+
 watch(isSidebarActive, (newVal) => {
     if (newVal) {
         bindOutsideClickListener();
@@ -29,7 +32,7 @@ const containerClass = computed(() => {
         'layout-mobile-active': layoutState.staticMenuMobileActive.value,
         'p-input-filled': layoutConfig.inputStyle.value === 'filled',
         'p-ripple-disabled': !layoutConfig.ripple.value,
-        'layout-rtl' : layoutConfig.isRTL.value
+        'layout-rtl': layoutConfig.isRTL.value
     };
 });
 const bindOutsideClickListener = () => {
@@ -56,11 +59,33 @@ const isOutsideClicked = (event) => {
 
     return !(sidebarEl.isSameNode(event.target) || sidebarEl.contains(event.target) || topbarEl.isSameNode(event.target) || topbarEl.contains(event.target));
 };
+
+const onTopbarItemClick = (event) => {
+    topbarItemClick.value = true;
+
+    if (activeTopbarItem.value === event.item) {
+        activeTopbarItem.value = null;
+    } else {
+        activeTopbarItem.value = event.item;
+    }
+
+    event.originalEvent.preventDefault();
+};
+
+const onDocumentClick = (event) => {
+    if (!topbarItemClick.value) {
+        activeTopbarItem.value = null;
+    }
+
+    topbarItemClick.value = false;
+};
+
 </script>
 
 <template>
-    <div class="layout-wrapper" :class="containerClass">
-        <app-topbar></app-topbar>
+    <div class="layout-wrapper" :class="containerClass" @click="onDocumentClick($event)">
+        <app-topbar @topbar-item-click="onTopbarItemClick"
+                    :activeTopbarItem="activeTopbarItem"></app-topbar>
         <div class="layout-sidebar">
             <app-sidebar></app-sidebar>
         </div>

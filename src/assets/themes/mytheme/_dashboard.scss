@@ -1,0 +1,48 @@
+.wm-subheader .input-search{
+    height: 24px;
+    width: 30rem;
+}
+
+.dashboard-content{
+    overflow: auto;
+}
+
+.dashboard-content .p-card {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 10px 10px 10px 10px;
+}
+
+.dashboard-content .card-container > .p-card{
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 10px 40px 10px 10px;
+}
+
+.dashboard-content .small-text{
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 27px;
+}
+
+.dashboard-content .big-text{
+    font-size: 60px;
+    font-weight: 700;
+    line-height: 60px;
+}
+
+.dashboard-content .counter, .dashboard-content .time-info{
+    border-radius: 10px;
+}
+
+.dashboard-content .counter-red{
+    background-color: var(--red-25);
+    color: var(--red-400);
+}
+
+.dashboard-content .counter-green{
+    background-color: var(--teal-100);
+    color: var(--teal-700);
+}
+
+.dashboard-content .time-info{
+    background-color: var(--gray-25);
+}
