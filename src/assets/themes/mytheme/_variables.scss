@@ -7,6 +7,9 @@ $primaryTextColor: #ffffff;
 // top-bar heigh
 $topbarHeight: 76px;
 
+// table row height
+$tableRowHeight: 34px;
+
 $colors: (
     "blue": #2196F3,
     "green": #4caf50,
@@ -79,4 +82,78 @@ $colors: (
     --focus-ring: #{$focusShadow};
     --maskbg: #{$maskBg};
     color-scheme: light;
+    --font-family: 'Assistant', sans-serif;
+    --gray-25: #F7FAFC;
+    --gray-50: #F5F8FA;
+    --gray-100: #E9EEF2;
+    --gray-200: #DFE7ED;
+    --gray-300: #D7DFE5;
+    --gray-400: #B5C1C9;
+    --gray-500: #919EA8;
+    --gray-600: #6B7780;
+    --gray-700: #515A61;
+    --gray-800: #384147;
+    --gray-900: #283036;
+    --gray-1000: #151B1F;
+    --blue-25: #EDF5FF;
+    --blue-50: #CEE4FF;
+    --blue-75: #ABD1FF;
+    --blue-100: #7EB8FF;
+    --blue-200: #529EFC;
+    --blue-300: #3283E7;
+    --blue-400: #0D69DD;
+    --blue-600: #0A4997;
+    --blue-500: #0055C0;
+    --blue-700: #03397A;
+    --blue-800: #092C57;
+    --blue-900: #012147;
+    --red-25: #FFF5F7;
+    --red-50: #FFE8ED;
+    --red-100: #FFD2DC;
+    --red-200: #FFB8C7;
+    --red-300: #FF8BA4;
+    --red-400: #FC587C;
+    --red-500: #EE4266;
+    --red-600: #CE1E44;
+    --red-700: #AF0C2F;
+    --red-800: #8C0623;
+    --red-900: #740019;
+    --green-50: #EDFFF3;
+    --green-100: #DCF7E4;
+    --green-200: #BCF5CD;
+    --green-300: #88EBA6;
+    --green-400: #59DE81;
+    --green-500: #36C260;
+    --green-600: #1EA848;
+    --green-700: #138A37;
+    --green-800: #0A7A2C;
+    --green-900: #05591F;
+    --yellow-50: #FAF2E6;
+    --yellow-100: #FAEAD2;
+    --yellow-200: #FFDBA5;
+    --yellow-300: #FFCF87;
+    --yellow-400: #F8B44F;
+    --yellow-500: #F4AB3E;
+    --yellow-600: #D4912C;
+    --yellow-700: #AD7724;
+    --yellow-800: #85550F;
+    --yellow-900: #5E3E0E;
+    --teal-100: #ECFBFB;
+    --teal-200: #D0F5F5;
+    --teal-300: #AAF0F0;
+    --teal-400: #8CE5E5;
+    --teal-500: #74D6D6;
+    --teal-600: #44C7C7;
+    --teal-700: #18ABAB;
+    --teal-800: #008889;
+    --teal-900: #036161;
+    --orange-100: #FFE8E0;
+    --orange-200: #FFD0BF;
+    --orange-300: #FFB399;
+    --orange-400: #FF8459;
+    --orange-500: #FF642E;
+    --orange-600: #F24E15;
+    --orange-700: #DE3F07;
+    --orange-800: #BF3604;
+    --orange-900: #A12B01;
 }

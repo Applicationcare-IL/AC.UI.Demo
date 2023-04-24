@@ -39,6 +39,24 @@ td {
     font-size: 16px;
 }
 
+.p-datatable .p-datatable-tbody .priority {
+    text-align: center;
+    padding: 0px !important;
+    line-height: $tableRowHeight;
+}
+
+.p-datatable .p-datatable-tbody .sla {
+    text-align: center !important;
+    padding: 0px !important;
+    line-height: $tableRowHeight;
+    font-weight: 700;
+}
+
+.p-datatable .p-datatable-tbody .inactive_row {
+    background-color: var(--gray-300);
+}
+
+
 // Code to allow the table to have round borders.
 // TODO: for LTR the borders are scrambled. Should have some conditional styles for this
 
