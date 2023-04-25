@@ -80,13 +80,25 @@ const onDocumentClick = (event) => {
     topbarItemClick.value = false;
 };
 
+const isExpanded = ref(false);
+
+const mouseover = () => {
+    layoutConfig.isSidebarExpanded.value = true;
+    isExpanded.value = true;
+};
+
+const mouseleave = () => {
+    layoutConfig.isSidebarExpanded.value = false;
+    isExpanded.value = false;
+};
+
 </script>
 
 <template>
     <div class="layout-wrapper" :class="containerClass" @click="onDocumentClick($event)">
         <app-topbar @topbar-item-click="onTopbarItemClick"
                     :activeTopbarItem="activeTopbarItem"></app-topbar>
-        <div class="layout-sidebar">
+        <div class="layout-sidebar" :class="{ 'expanded': isExpanded }" @mouseover="mouseover" @mouseleave="mouseleave">
             <app-sidebar></app-sidebar>
         </div>
         <div class="layout-main-container">
@@ -100,4 +112,6 @@ const onDocumentClick = (event) => {
     </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>

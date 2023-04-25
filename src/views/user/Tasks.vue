@@ -96,10 +96,10 @@ onMounted(() => {
 });
 
 const tasks = ref();
-const selectedCustomers = ref([]);
+const selectedTasks = ref([]);
 
 const isAnyRowSelected = computed(() => {
-    return selectedCustomers?.value.length > 0;
+    return selectedTasks?.value.length > 0;
 });
 
 const metaKey = ref(true);

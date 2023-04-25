@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
-        <DataTable v-model:selection="selectedCustomers" :value="customers" dataKey="id" tableStyle="min-width: 50rem"
+        <DataTable v-model:selection="selectedContacts" :value="contacts" dataKey="contact_id" tableStyle="min-width: 50rem"
                    class="p-datatable-sm" scrollable scrollHeight="flex">
             <Column style="width: 35px">
                 <template #body="slotProps">
@@ -36,19 +36,39 @@
                 </template> 
             </Column>
             <Column style="width: 40px" selectionMode="multiple" ></Column>
-            <Column field="telephone" header="מס’ לקוח"></Column>
-            <Column field="name" header="שם לקוח"></Column>
-            <Column field="type" header="סוג"></Column>
-            <Column field="selected_product" header="איש קשר ראשי"></Column>
-            <Column field="status" header="סטטוס"></Column>
+            <Column field="contact" header="איש קשר">
+                <template #body="slotProps">
+                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.contact }}</router-link>
+                </template>
+            </Column>
+            <Column field="customer" header="לקוח">
+                <template #body="slotProps">
+                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.customer }}</router-link>
+                </template>
+            </Column>
+            <Column field="telephone" header="טלפון נייד"></Column>
+            <Column field="landline" header="טלפון נייח"></Column>
+            <Column field="email" header="דוא”ל"></Column>
             <Column field="address" header="כתובת"></Column>
-            <Column field="open_processes" header="תהליכים פתוחים"></Column>
-            <Column field="open_tasks" header="תהליכים בחריגה"></Column>
-            <Column field="exception_tasks" header="משימות פתוחות"></Column>
-            <Column field="rating" header="משימות בחריגה"></Column>
-            <Column field="domain" header="דירוג"></Column>
-            <Column field="status" header="תחום"></Column>
-            <Column field="id" header="מזהה"></Column>
+            <Column field="open_processes" header="תהליכים פתוחים" class="numeric">
+            </Column>
+            <Column field="exception_processes" header="תהליכים בחריגה" class="numeric">
+                <template #body="slotProps">
+                    <div :class="highlightCellClass(slotProps.data.exception_processes)">
+                        {{ slotProps.data.exception_processes }}
+                    </div>
+                </template>
+            </Column>
+            <Column field="open_tasks" header="תהליכים בחריגה" class="numeric"></Column>
+            <Column field="exception_tasks" header="משימות בחריגה" class="numeric">
+                <template #body="slotProps">
+                    <div :class="highlightCellClass(slotProps.data.exception_tasks)">
+                        {{ slotProps.data.exception_tasks }}
+                    </div>
+                </template>
+            </Column>
+            <Column field="contact_id" header="מזהה"></Column>
+            <Column field="status" header="סטטוס"></Column>
             <Column field="in_charge" header="אחראי"></Column>
         </DataTable>
     </div>
@@ -56,17 +76,17 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { CustomerService } from '@/service/CustomerService';
+import { ContactsService } from '@/service/ContactsService';
 
 onMounted(() => {
-    CustomerService.getCustomers().then((data) => (customers.value = data));
+    ContactsService.getContacts().then((data) => (contacts.value = data));
 });
 
-const customers = ref();
-const selectedCustomers = ref([]);
+const contacts = ref();
+const selectedContacts = ref([]);
 
 const isAnyRowSelected = computed(() => {
-  return selectedCustomers?.value.length > 0;
+  return selectedContacts?.value.length > 0;
 });
 
 const metaKey = ref(true);
@@ -78,6 +98,10 @@ const options = ref([
 ]);
 
 const searchValue = ref('');
+
+const highlightCellClass = (data) => {
+    return [{'bg-red-100 text-red-600': data > 0}];
+};
 
 </script>
 

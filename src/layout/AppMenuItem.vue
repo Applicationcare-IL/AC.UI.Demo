@@ -7,6 +7,8 @@ const route = useRoute();
 
 const { layoutConfig, layoutState, setActiveMenuItem, onMenuToggle } = useLayout();
 
+
+
 const props = defineProps({
     item: {
         type: Object,
@@ -43,6 +45,14 @@ watch(
         isActiveMenu.value = newVal === itemKey.value || newVal.startsWith(itemKey.value + '-');
     }
 );
+
+watch(
+    () => layoutConfig.isSidebarExpanded.value,
+    (newVal) => {
+        console.log(newVal)
+    }
+);
+
 const itemClick = (event, item) => {
     if (item.disabled) {
         event.preventDefault();
@@ -85,7 +95,7 @@ const checkActiveRoute = (item) => {
         <router-link v-if="item.to && !item.items && item.visible !== false" @click="itemClick($event, item, index)" :class="[item.class, { 'active-route': checkActiveRoute(item) }]" tabindex="0" :to="item.to">
             <!-- <i :class="item.icon" class="layout-menuitem-icon"></i> -->
             <img :src="item.image">
-            <!-- <span class="layout-menuitem-text">{{ item.label }}</span> -->
+            <span v-if="layoutConfig.isSidebarExpanded.value" class="layout-menuitem-text px-2">{{ item.label }}</span>
             <!-- <i class="pi pi-fw pi-angle-down layout-submenu-toggler" v-if="item.items"></i> -->
         </router-link>
         <Transition v-if="item.items && item.visible !== false" name="layout-submenu">
