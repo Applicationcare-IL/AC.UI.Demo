@@ -53,26 +53,40 @@ const applyScale = () => {
         <i class="pi pi-cog"></i>
     </button>
 
-    <Sidebar v-model:visible="visible" position="right" :transitionOptions="'.3s cubic-bezier(0, 0, 0.2, 1)'" class="layout-config-sidebar w-20rem">
+    <Sidebar v-model:visible="visible" position="right" :transitionOptions="'.3s cubic-bezier(0, 0, 0.2, 1)'"
+             class="layout-config-sidebar w-20rem">
+
+        <h5>Language</h5>
+        <div class="flex flex-row gap-2">
+            <i-button @click="$i18n.locale = 'en'; layoutConfig.isRTL.value = false"> <span class="flag flag-gb"></span></i-button>
+            <i-button @click="$i18n.locale = 'he'; layoutConfig.isRTL.value = true"> <span class="flag flag-il"></span></i-button>
+        </div>
         <h5>Scale</h5>
         <div class="flex align-items-center">
-            <Button icon="pi pi-minus" type="button" @click="decrementScale()" class="p-button-text p-button-rounded w-2rem h-2rem mr-2" :disabled="layoutConfig.scale.value === scales[0]"></Button>
+            <Button icon="pi pi-minus" type="button" @click="decrementScale()"
+                    class="p-button-text p-button-rounded w-2rem h-2rem mr-2"
+                    :disabled="layoutConfig.scale.value === scales[0]"></Button>
             <div class="flex gap-2 align-items-center">
-                <i class="pi pi-circle-fill text-300" v-for="s in scales" :key="s" :class="{ 'text-primary-500': s === layoutConfig.scale.value }"></i>
+                <i class="pi pi-circle-fill text-300" v-for="s in scales" :key="s"
+                   :class="{ 'text-primary-500': s === layoutConfig.scale.value }"></i>
             </div>
-            <Button icon="pi pi-plus" type="button" pButton @click="incrementScale()" class="p-button-text p-button-rounded w-2rem h-2rem ml-2" :disabled="layoutConfig.scale.value === scales[scales.length - 1]"></Button>
+            <Button icon="pi pi-plus" type="button" pButton @click="incrementScale()"
+                    class="p-button-text p-button-rounded w-2rem h-2rem ml-2"
+                    :disabled="layoutConfig.scale.value === scales[scales.length - 1]"></Button>
         </div>
 
         <template v-if="!simple">
             <h5>Menu Type</h5>
             <div class="flex">
                 <div class="field-radiobutton flex-1">
-                    <RadioButton name="menuMode" value="static" v-model="layoutConfig.menuMode.value" inputId="mode1"></RadioButton>
+                    <RadioButton name="menuMode" value="static" v-model="layoutConfig.menuMode.value" inputId="mode1">
+                    </RadioButton>
                     <label for="mode1">Static</label>
                 </div>
 
                 <div class="field-radiobutton flex-1">
-                    <RadioButton name="menuMode" value="overlay" v-model="layoutConfig.menuMode.value" inputId="mode2"></RadioButton>
+                    <RadioButton name="menuMode" value="overlay" v-model="layoutConfig.menuMode.value" inputId="mode2">
+                    </RadioButton>
                     <label for="mode2">Overlay</label>
                 </div>
             </div>
@@ -82,11 +96,13 @@ const applyScale = () => {
             <h5>Input Style</h5>
             <div class="flex">
                 <div class="field-radiobutton flex-1">
-                    <RadioButton name="inputStyle" value="outlined" v-model="layoutConfig.inputStyle.value" inputId="outlined_input"></RadioButton>
+                    <RadioButton name="inputStyle" value="outlined" v-model="layoutConfig.inputStyle.value"
+                                 inputId="outlined_input"></RadioButton>
                     <label for="outlined_input">Outlined</label>
                 </div>
                 <div class="field-radiobutton flex-1">
-                    <RadioButton name="inputStyle" value="filled" v-model="layoutConfig.inputStyle.value" inputId="filled_input"></RadioButton>
+                    <RadioButton name="inputStyle" value="filled" v-model="layoutConfig.inputStyle.value"
+                                 inputId="filled_input"></RadioButton>
                     <label for="filled_input">Filled</label>
                 </div>
             </div>
@@ -94,7 +110,7 @@ const applyScale = () => {
             <h5>Ripple Effect</h5>
             <InputSwitch v-model="layoutConfig.ripple.value"></InputSwitch>
 
-            
+
             <h5>RTL</h5>
             <InputSwitch v-model="layoutConfig.isRTL.value"></InputSwitch>
         </template>
@@ -103,22 +119,26 @@ const applyScale = () => {
         <div class="grid">
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('bootstrap4-light-blue', 'light')">
-                    <img src="/layout/images/themes/bootstrap4-light-blue.svg" class="w-2rem h-2rem" alt="Bootstrap Light Blue" />
+                    <img src="/layout/images/themes/bootstrap4-light-blue.svg" class="w-2rem h-2rem"
+                         alt="Bootstrap Light Blue" />
                 </button>
             </div>
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('bootstrap4-light-purple', 'light')">
-                    <img src="/layout/images/themes/bootstrap4-light-purple.svg" class="w-2rem h-2rem" alt="Bootstrap Light Purple" />
+                    <img src="/layout/images/themes/bootstrap4-light-purple.svg" class="w-2rem h-2rem"
+                         alt="Bootstrap Light Purple" />
                 </button>
             </div>
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('bootstrap4-dark-blue', 'dark')">
-                    <img src="/layout/images/themes/bootstrap4-dark-blue.svg" class="w-2rem h-2rem" alt="Bootstrap Dark Blue" />
+                    <img src="/layout/images/themes/bootstrap4-dark-blue.svg" class="w-2rem h-2rem"
+                         alt="Bootstrap Dark Blue" />
                 </button>
             </div>
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('bootstrap4-dark-purple', 'dark')">
-                    <img src="/layout/images/themes/bootstrap4-dark-purple.svg" class="w-2rem h-2rem" alt="Bootstrap Dark Purple" />
+                    <img src="/layout/images/themes/bootstrap4-dark-purple.svg" class="w-2rem h-2rem"
+                         alt="Bootstrap Dark Purple" />
                 </button>
             </div>
         </div>
@@ -127,12 +147,14 @@ const applyScale = () => {
         <div class="grid">
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('md-light-indigo', 'light')">
-                    <img src="/layout/images/themes/md-light-indigo.svg" class="w-2rem h-2rem" alt="Material Light Indigo" />
+                    <img src="/layout/images/themes/md-light-indigo.svg" class="w-2rem h-2rem"
+                         alt="Material Light Indigo" />
                 </button>
             </div>
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('md-light-deeppurple', 'light')">
-                    <img src="/layout/images/themes/md-light-deeppurple.svg" class="w-2rem h-2rem" alt="Material Light DeepPurple" />
+                    <img src="/layout/images/themes/md-light-deeppurple.svg" class="w-2rem h-2rem"
+                         alt="Material Light DeepPurple" />
                 </button>
             </div>
             <div class="col-3">
@@ -142,7 +164,8 @@ const applyScale = () => {
             </div>
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('md-dark-deeppurple', 'dark')">
-                    <img src="/layout/images/themes/md-dark-deeppurple.svg" class="w-2rem h-2rem" alt="Material Dark DeepPurple" />
+                    <img src="/layout/images/themes/md-dark-deeppurple.svg" class="w-2rem h-2rem"
+                         alt="Material Dark DeepPurple" />
                 </button>
             </div>
         </div>
@@ -151,12 +174,14 @@ const applyScale = () => {
         <div class="grid">
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('mdc-light-indigo', 'light')">
-                    <img src="/layout/images/themes/md-light-indigo.svg" class="w-2rem h-2rem" alt="Material Light Indigo" />
+                    <img src="/layout/images/themes/md-light-indigo.svg" class="w-2rem h-2rem"
+                         alt="Material Light Indigo" />
                 </button>
             </div>
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('mdc-light-deeppurple', 'light')">
-                    <img src="/layout/images/themes/md-light-deeppurple.svg" class="w-2rem h-2rem" alt="Material Light Deep Purple" />
+                    <img src="/layout/images/themes/md-light-deeppurple.svg" class="w-2rem h-2rem"
+                         alt="Material Light Deep Purple" />
                 </button>
             </div>
             <div class="col-3">
@@ -166,7 +191,8 @@ const applyScale = () => {
             </div>
             <div class="col-3">
                 <button class="p-link w-2rem h-2rem" @click="onChangeTheme('mdc-dark-deeppurple', 'dark')">
-                    <img src="/layout/images/themes/md-dark-deeppurple.svg" class="w-2rem h-2rem" alt="Material Dark Deep Purple" />
+                    <img src="/layout/images/themes/md-dark-deeppurple.svg" class="w-2rem h-2rem"
+                         alt="Material Dark Deep Purple" />
                 </button>
             </div>
         </div>

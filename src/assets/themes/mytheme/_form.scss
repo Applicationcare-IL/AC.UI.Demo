@@ -1,0 +1,98 @@
+// Form
+
+.wm-form-container{
+    padding: 10px 160px;
+    background-color: var(--gray-25);
+}
+
+.wm-form-row{
+    // gap: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+// Input Component and dropdown
+
+.wm-input {
+    gap: 4px;
+    position: relative;
+}
+
+.wm-input > input, .wm-input > .p-dropdown{
+    border: 1px solid var(--gray-400);
+    height: 24px;
+    border-radius: 4px;
+    width: 120px;
+    box-shadow: none;
+    color: var(--gray-900);
+}
+
+.wm-input > .p-dropdown.p-component > span{
+    padding: 1px 4px;
+}
+
+.p-dropdown:not(.p-disabled).p-focus{
+    border-color: var(--blue-500);
+    box-shadow: none;
+}
+
+.p-dropdown-panel .p-dropdown-items {
+    z-index: 1;
+    background-color: white;
+    list-style: none;
+    text-align: center;
+    margin: 0;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+    color: var(--gray-900);
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 0rem 0;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+    background-color: var(--blue-50);
+    color: var(--blue-300);
+}
+
+.wm-input > input:enabled:focus, .wm-input > .p-dropdown:enabled:focus {
+    box-shadow: none;
+    border-color: var(--blue-500);
+}
+
+.wm-input > input:disabled, .wm-input > .p-dropdown:disabled {
+    background-color: var(--gray-200);
+}
+
+.wm-input > input.wm-input-error, .wm-input > input:enabled:focus.wm-input-error, .wm-input > input:enabled:hover.wm-input-error,
+.wm-input > .p-dropdown.wm-input-error, .wm-input > .p-dropdown:enabled:focus.wm-input-error, .wm-input > .p-dropdown:enabled:hover.wm-input-error {
+    border-color: var(--red-500);
+    color: var(--red-500);
+}
+
+.wm-form-label.highlighted {
+    font-weight: 700;
+}
+
+.wm-form-label {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--gray-800)
+}
+
+.wm-validation-message{
+    font-size: 10px;
+    line-height: 14px;
+    background-color: var(--red-50);
+    color: var(--red-600);
+    padding: 2px 4px;
+    width: fit-content;
+    position: absolute;
+    bottom: -24px;
+}
+
+.p-inputtext .p-placeholder{
+    color: var(--gray-500);
+}

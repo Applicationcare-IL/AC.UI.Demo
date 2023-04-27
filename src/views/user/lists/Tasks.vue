@@ -1,35 +1,6 @@
 <template>
-    <div class="wm-subheader shadow-1 flex-none">
-        <div class="flex flex-column gap-5">
-            <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
-                <div class="flex flex-row flex-wrap">
-                    <WMButton class="m-1 col-6" name="new" icon="new">חדש</WMButton>
-                    <WMButton class="m-1 col-6" name="export-white" icon="export">ייצוא נתונים</WMButton>
-                    <Divider layout="vertical" />
-                    <WMButton class="m-1 col-6" name="assign-white" icon="assign" :disabled="!isAnyRowSelected">הקצה
-                    </WMButton>
-                    <WMButton class="m-1 col-6" name="done-white" icon="done" :disabled="!isAnyRowSelected">הקצה
-                    </WMButton>
-                    <WMButton class="m-1 col-6" name="phone-white" icon="phone" :disabled="!isAnyRowSelected">הקצה
-                    </WMButton>
-                    <WMButton class="m-1 col-6" name="mail-white" icon="mail" :disabled="!isAnyRowSelected">הקצה</WMButton>
-                    <Divider layout="vertical" />
-                    <WMButton class="m-1 col-6 " name="basic-secondary">כפתור  דינאמי </WMButton>
-                </div>
-                <div class="flex flex-row">
-                    <WMButton class="m-1 col-6" name="filter" icon="filter">חדש</WMButton>
-                    <SelectButton v-model="value" :options="options" optionLabel="name" class="flex flex-nowrap" />
-                </div>
-            </div>
-            <div class="">
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search" />
-                    <InputText class="w-30rem" v-model="searchValue" placeholder="Search" />
-                </span>
-
-            </div>
-        </div>
-    </div>
+    <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]">
+    </WMListSubHeader>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
         <DataTable v-model:selection="selectedTasks" :rowClass="rowClass" :value="tasks" dataKey="task_number"
                    tableStyle="min-width: 50rem"
@@ -90,10 +61,11 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { TasksService } from '@/service/TasksService';
+import WMListSubHeader from '@/components/layout/WMListSubHeader.vue';
 
 onMounted(() => {
     TasksService.getTasks().then((data) => (tasks.value = data));
-});
+}); 
 
 const tasks = ref();
 const selectedTasks = ref([]);
@@ -119,7 +91,7 @@ const rowClass = (data) => {
 
 const slaClass = (data) => {
     return [
-        
+
         {
             'bg-teal-200 text-teal-900': data.SLA === '10 ימים',
             'bg-yellow-100 text-gray-900': data.SLA === '2 ימים',
@@ -129,6 +101,16 @@ const slaClass = (data) => {
         }
     ];
 };
+
+const menuItems = [
+    { label: 'Whatsapp', value: 'option1' },
+    { label: 'SMS', value: 'option2' },
+]
+
+const filterLabels = [
+    { name: 'כל המשימות', value: 2 },
+    { name: 'המשימות שלי', value: 1 },
+]
 
 </script>
 

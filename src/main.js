@@ -9,7 +9,9 @@ import router from './router';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import AutoComplete from 'primevue/autocomplete';
 import InputText  from 'primevue/inputtext';
+import Dropdown from 'primevue/dropdown';
 import Badge  from 'primevue/badge';
 import Divider  from 'primevue/divider';
 import SelectButton  from 'primevue/selectbutton';
@@ -19,6 +21,7 @@ import Button from 'primevue/button';
 import Card from 'primevue/card';
 import Chart from 'primevue/chart';
 import Tag from 'primevue/tag';
+import i18n from '@/i18n';
 
 
 import '@/assets/styles.scss';
@@ -30,7 +33,9 @@ const app = createApp(App)
 .use(router)
 .component('Column', Column)
 .component('DataTable', DataTable)
+.component('AutoComplete', AutoComplete)
 .component('InputText', InputText)
+.component('Dropdown', Dropdown)
 .component('Badge', Badge)
 .component('Divider', Divider)
 .component('SelectButton', SelectButton)
@@ -43,6 +48,7 @@ const app = createApp(App)
 
 app.config.globalProperties.$appState = reactive({ isRTL: false, isNewThemeLoaded: false, layoutMode: 'light' });
 app.directive('badge', BadgeDirective);
+app.use(i18n);
 
 app.mount('#app')
   
