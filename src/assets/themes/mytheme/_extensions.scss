@@ -1,9 +1,17 @@
 /* Customizations to the designer theme should be defined here */
 
-.p-inputtext {
-    border-radius: 8px;
-    height: 32px;
+//General
+
+ul {
+    padding-inline-start: 0px;
 }
+
+
+body {
+    background-color: white;
+}
+
+// Layout
 
 .layout-sidebar {
     height: calc(100vh - 76px);
@@ -31,19 +39,6 @@
     white-space: nowrap;
 }
 
-// .layout-sidebar {
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     width: 2rem;
-//     height: 100%;
-//     background-color: #fff;
-//     overflow: auto;
-
-//     z-index: 1000;
-   
-// }
-
 .layout-topbar {
     height: $topbarHeight;
     padding: 0;
@@ -63,12 +58,20 @@
     z-index: 1;
 }
 
+
+@media (max-width: 991px) {
+    .p-divider.p-divider-vertical {
+        display: none;
+    }
+}
+
 .layout-menu ul a {
     justify-content: center;
     height: 48px;
     margin-bottom: 24px;
 
 }
+
 
 @media (min-width: 992px) {
     .layout-wrapper.layout-static .layout-main-container {
@@ -110,8 +113,11 @@
     padding: 0px;
 }
 
-body {
-    background-color: white;
+// Input Text
+
+.p-inputtext {
+    border-radius: 8px;
+    height: 32px;
 }
 
 .layout-main {
@@ -143,15 +149,8 @@ body {
     white-space: nowrap;
 }
 
+// Scroll
 
-
-@media (max-width: 991px) {
-    .p-divider.p-divider-vertical {
-        display: none;
-    }
-}
-
-/* custom scrollbar */
 ::-webkit-scrollbar {
     width: 18px;
 }
@@ -170,6 +169,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background-color: #a8bbbf;
 }
+
+// FadeinDown
 
 @-webkit-keyframes fadeInDown {
     from {
@@ -201,6 +202,8 @@ body {
     -webkit-animation-name: fadeInDown;
     animation-name: fadeInDown;
 }
+
+// Top bar
 
 .layout-topbar .layout-topbar-menu>li.active-topmenuitem>ul {
     display: block;
@@ -352,3 +355,6 @@ a {
    border-radius: 6px 16px 6px 6px;
    box-shadow: none;
 }
+
+//Dropdown
+//p-dropdown-panel p-component > p-dropdown-items-wrapper > p-dropdown-item
