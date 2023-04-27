@@ -7,8 +7,7 @@
             {{ label }} <span v-if="required" class="text-red-500"> *</span>
         </label>  
         <AutoComplete :suggestions="filteredOptions" optionLabel="name" 
-        forceSelection dropdown  @complete="search" v-model="selectedOption" 
-        :virtualScrollerOptions="{ itemSize: 30, lazy:true, showLoader:true, delay="250"  }"></AutoComplete>
+        forceSelection dropdown  @complete="search" v-model="selectedOption" ></AutoComplete>
     </div>
 </template>
 
