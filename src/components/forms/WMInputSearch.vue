@@ -9,7 +9,7 @@
         <AutoComplete :suggestions="filteredOptions" optionLabel="name" :placeholder="placeholder"
                       :multiple="props.multiple" :disabled="props.disabled"
                       :class="[{
-                           'wm-input-error': true,
+                           'wm-input-error': !!errorMessage,
                        }]"
                       forceSelection @complete="search" v-model="value"></AutoComplete>
         <span v-if="errorMessage" class="wm-validation-message">

@@ -82,8 +82,12 @@
     color: var(--red-500);
 }
 
-.p-autocomplete.wm-input-error > .p-autocomplete-multiple-container {
+.p-autocomplete.wm-input-error > .p-autocomplete-multiple-container,
+.p-autocomplete.wm-input-error > .p-autocomplete-multiple-container:hover,
+.p-autocomplete.wm-input-error > .p-autocomplete-multiple-container:focus
+ {
     border: 1px solid var(--red-500);
+    border-color: var(--red-500) !important;
     color: var(--red-500);
 }
 
