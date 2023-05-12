@@ -28,6 +28,24 @@
         "male" : "Male",
         "female" : "Female"
     },
+    "customer" : {
+        "new": "New Customer",
+        "id": "ID",
+        "in-charge": "In Charge",
+        "name": "Customer Name",
+        "number": "Customer Number",
+        "type": "Type",
+        "rating": "Rating",
+        "area": "Area",
+        "select_area": "Select Area",
+        "address": "Address",
+        "city": "City",
+        "street": "Street",
+        "house-number": "House Number",
+        "apartment": "Apartment",
+        "entrance": "Entrance",
+        "zip": "ZIP"
+    },
     "validation": {
         "required": "Field required",
         "contactid": "Invalid ID Card",

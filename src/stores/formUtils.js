@@ -8,6 +8,8 @@ export const useFormUtilsStore = defineStore('formUtils', {
             { value: 'female', translationKey: 'genders.female' },
             { value: 'other', translationKey: 'genders.other' },
         ],
+        submit: '',
+        formErrors : '',
     }),
     getters: {
         getGenders: (state) => {

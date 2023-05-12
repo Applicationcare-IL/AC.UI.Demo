@@ -5,20 +5,28 @@
                        highlighted: props.highlighted,
                    }]">
             {{ label }} <span v-if="required" class="text-red-500"> *</span>
-        </label>  
-        <AutoComplete :suggestions="filteredOptions" optionLabel="name" :placeholder="placeholder" :multiple="props.multiple" :disabled="props.disabled"
-        forceSelection @complete="search" v-model="selectedOptions"></AutoComplete>
+        </label>
+        <AutoComplete :suggestions="filteredOptions" optionLabel="name" :placeholder="placeholder"
+                      :multiple="props.multiple" :disabled="props.disabled"
+                      :class="[{
+                           'wm-input-error': true,
+                       }]"
+                      forceSelection @complete="search" v-model="value"></AutoComplete>
+        <span v-if="errorMessage" class="wm-validation-message">
+            {{ typeof errorMessage === 'string' ? $t(errorMessage) : $t(errorMessage.key, errorMessage.values) }}
+        </span>
         <div class="selected-options flex flex-row gap-2 absolute">
-            <Chip v-if="props.multiple" v-for="item in selectedOptions" :label="item.name" removable />
+            <Chip v-if="props.multiple" v-for="item in value" :label="item.name" removable />
         </div>
     </div>
 </template>
 
 <script setup>
-import { defineProps, ref, computed } from 'vue';
+import { defineProps, ref, toRef, computed } from 'vue';
+import { useField } from 'vee-validate';
 
 const filteredOptions = ref();
-const selectedOptions = ref();
+// const selectedOptions = ref();
 
 const props = defineProps({
     highlighted: {
@@ -64,6 +72,10 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    modelValue: {
+        type: String,
+        default: '',
+    },
 });
 
 const search = (event) => {
@@ -82,24 +94,35 @@ const width = computed(() => {
     return props.width + 'px';
 });
 
+  const name = toRef(props, 'name');
+
+const { value, errorMessage } = useField(name, validateField, { initialValue: [] } );
+
+function validateField(value) {
+    console.log('value', value);
+    if (this.value === []) {
+        return 'Value is required2.';
+    }
+
+    return true;
+}
+
 </script>
 
 <style scoped lang="scss">
-
 :deep(.p-autocomplete > input) {
-    width : v-bind(width)
+    width: v-bind(width)
 }
 
 :deep(.p-autocomplete > ul) {
-    width : v-bind(width)
+    width: v-bind(width)
 }
 
-:deep(.p-autocomplete-token){
-    display:none;
+:deep(.p-autocomplete-token) {
+    display: none;
 }
 
-.selected-options{
+.selected-options {
     top: 54px;
 }
-
 </style>

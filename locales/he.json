@@ -28,6 +28,24 @@
         "male" : "זכר",
         "female" : "נקבה"
     },
+    "customer" : {
+        "new": "לקוח חדש",
+        "id": "מזהה",
+        "in-charge": "אחראי",
+        "name": "שם הלקוח",
+        "number": "מספר הלקוח",
+        "type": "סוג",
+        "rating": "דירוג",
+        "area": "תחום",
+        "select_area" : "הוספת תחום",
+        "address": "כתובת",
+        "city": "עיר",
+        "street": "רחוב",
+        "house-number": "מספר בית",
+        "apartment": "דירה",
+        "entrance": "כניסה",
+        "zip": "מיקוד"
+    },
     "validation": {
         "required": "שדה חובה",
         "contactid": "תעודת זהות לא תקינה",
