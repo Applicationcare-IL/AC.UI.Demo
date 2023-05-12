@@ -3,7 +3,7 @@
         <div class="flex flex-column gap-5">
             <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
                 <div class="flex flex-row flex-wrap">
-                    <WMButton class="m-1 col-6" name="new" icon="new" @click="$router.push('new-' + entity)">חדש</WMButton>
+                    <WMButton class="m-1 col-6" name="new" icon="new" @click="$router.push('new-' + props.entity)">חדש</WMButton>
                     <WMButton class="m-1 col-6" name="export-white" icon="export">ייצוא נתונים</WMButton>
                     <Divider layout="vertical" />
                     <WMButton class="m-1 col-6" name="assign-white" icon="assign" :disabled="!actveButtons">הקצה

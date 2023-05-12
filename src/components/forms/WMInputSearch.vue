@@ -1,22 +1,24 @@
 <template>
-    <div class="wm-input flex flex-column">
+    <div class="wm-inputsearch flex flex-column relative">
         <label v-if="label != ''" class="wm-form-label"
                :class="[{
                        highlighted: props.highlighted,
                    }]">
             {{ label }} <span v-if="required" class="text-red-500"> *</span>
         </label>  
-        <AutoComplete :suggestions="filteredOptions" optionLabel="name" 
-        forceSelection dropdown  @complete="search" v-model="selectedOption" ></AutoComplete>
+        <AutoComplete :suggestions="filteredOptions" optionLabel="name" :placeholder="placeholder" :multiple="props.multiple" :disabled="props.disabled"
+        forceSelection @complete="search" v-model="selectedOptions"></AutoComplete>
+        <div class="selected-options flex flex-row gap-2 absolute">
+            <Chip v-if="props.multiple" v-for="item in selectedOptions" :label="item.name" removable />
+        </div>
     </div>
 </template>
 
 <script setup>
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, computed } from 'vue';
 
 const filteredOptions = ref();
-const selectedOption = ref();
-const allOptions = ref();
+const selectedOptions = ref();
 
 const props = defineProps({
     highlighted: {
@@ -58,6 +60,10 @@ const props = defineProps({
         type: String,
         default: '120',
     },
+    multiple: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const search = (event) => {
@@ -72,23 +78,28 @@ const search = (event) => {
     }, 250);
 }
 
-// const search = (event) => {
-//     //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-//     let query = event.query;
-//     let _filteredOptions = [];
-
-//     for (let i = 0; i < props.options.length; i++) {
-//         let item = props.options[i];
-        
-//         console.log(item)
-//         if (item.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-//             _filteredOptions.push(item);
-//         }
-//     }
-
-//     filteredOptions.value = _filteredOptions;
-// };
+const width = computed(() => {
+    return props.width + 'px';
+});
 
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+
+:deep(.p-autocomplete > input) {
+    width : v-bind(width)
+}
+
+:deep(.p-autocomplete > ul) {
+    width : v-bind(width)
+}
+
+:deep(.p-autocomplete-token){
+    display:none;
+}
+
+.selected-options{
+    top: 54px;
+}
+
+</style>

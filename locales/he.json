@@ -1,3 +1,42 @@
 {
-    "new": "חדש"
+    "new": "חדש",
+    "test": "בדיקה {min}",
+    "contact" : {
+        "new" : "איש קשר חדש",
+        "in-charge" : "אחראי",
+        "first-name" : "שם פרטי",
+        "last-name" : "שם משפחה",
+        "id" : "תעודת זהות",
+        "gender" : "מגדר",
+        "mobilephone" : "טלפון נייד",
+        "landline" : "טלפון נייח",
+        "email" : "דוא”ל",
+        "fax" : "פקס",
+        "customer" : "לקוח",
+        "address" : "כתובת",
+        "city" : "עיר",
+        "street" : "רחוב",
+        "house-number" : "מס’ בית",
+        "apartment" : "דירה",
+        "entrance" : "כניסה",
+        "zip" : "מיקוד",
+        "notes" : "הערות לאיש קשר",
+        "select_city" : "בחירת עיר",
+        "select_street" : "בחירת רחוב",
+        "select_customer" : "בחירת לקוח",
+        "select_gender" : "בחירת מגדר",
+        "male" : "זכר",
+        "female" : "נקבה"
+    },
+    "validation": {
+        "required": "שדה חובה",
+        "contactid": "תעודת זהות לא תקינה",
+        "phone": "מס’ טלפון לא תקין",
+        "email": "כתובת הדוא”ל לא תקינה"
+    },
+    "genders": {
+        "male" : "Male",
+        "female" : "Female",
+        "other" : "Other"
+    }
 }

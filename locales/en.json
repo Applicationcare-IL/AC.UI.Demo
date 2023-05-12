@@ -1,3 +1,42 @@
 {
-    "new": "New"
+    "new": "New",
+    "test": "Test {min}",
+    "contact": {
+        "new": "New Contact",
+        "in-charge": "In Charge",
+        "first-name": "First Name",
+        "last-name": "Last Name",
+        "id": "ID",
+        "gender": "Gender",
+        "mobilephone": "Mobile Phone",
+        "landline": "Landline",
+        "email": "Email",
+        "fax": "Fax",
+        "customer": "Customer",
+        "address": "Address",
+        "city": "City",
+        "street": "Street",
+        "house-number": "House Number",
+        "apartment": "Apartment",
+        "entrance": "Entrance",
+        "zip": "ZIP",
+        "notes": "Contact Notes",
+        "select_city" : "Select city",
+        "select_street" : "Select street",
+        "select_customer" : "Select customer",
+        "select_gender" : "Select gender",
+        "male" : "Male",
+        "female" : "Female"
+    },
+    "validation": {
+        "required": "Field required",
+        "contactid": "Invalid ID Card",
+        "phone": "Invalid phone number",
+        "email": "Invalid email address"
+    },
+    "genders": {
+        "male": "זכר",
+        "female": "נקבה",
+        "other": "אחר"
+      }
 }

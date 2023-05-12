@@ -1,5 +1,5 @@
 <template>
-    <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]">
+    <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]" entity="customer">
     </WMListSubHeader>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
         <DataTable v-model:selection="selectedCustomers" :value="customers" dataKey="id" tableStyle="min-width: 50rem"

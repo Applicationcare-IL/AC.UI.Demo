@@ -14,18 +14,25 @@
 
 // Input Component and dropdown
 
-.wm-input {
+.wm-input,  .wm-inputsearch {
     gap: 4px;
     position: relative;
 }
 
-.wm-input > input, .wm-input > .p-dropdown{
+.wm-input > input, .wm-input > .p-dropdown, .wm-inputsearch .p-autocomplete > input, .p-autocomplete-multiple-container{
     border: 1px solid var(--gray-400);
     height: 24px;
     border-radius: 4px;
     width: 120px;
     box-shadow: none;
     color: var(--gray-900);
+}
+
+.p-autocomplete .p-autocomplete-multiple-container, .p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-input-token{
+    padding: 0 0.25rem;
+    > li {
+        padding: 0px;
+    }
 }
 
 .wm-input > .p-dropdown.p-component > span{
@@ -56,7 +63,7 @@
     color: var(--blue-300);
 }
 
-.wm-input > input:enabled:focus, .wm-input > .p-dropdown:enabled:focus {
+.wm-input > input:enabled:focus, .wm-input > .p-dropdown:enabled:focus, .p-autocomplete:not(.p-disabled).p-focus .p-autocomplete-multiple-container, .p-inputtext:enabled:focus {
     box-shadow: none;
     border-color: var(--blue-500);
 }
@@ -91,8 +98,13 @@
     width: fit-content;
     position: absolute;
     bottom: -24px;
+    white-space: nowrap;
 }
 
 .p-inputtext .p-placeholder{
     color: var(--gray-500);
+}
+
+.p-divider.p-divider-horizontal:before {
+    border-top: 4px #F3F6F7 solid;
 }

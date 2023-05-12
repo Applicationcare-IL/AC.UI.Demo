@@ -1,4 +1,5 @@
 import { createApp, reactive } from 'vue'
+import { createPinia } from 'pinia';
 import App from './App.vue'
 // import 'maze-components/dist/index.css'
 
@@ -11,6 +12,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import AutoComplete from 'primevue/autocomplete';
 import InputText  from 'primevue/inputtext';
+import Textarea from 'primevue/textarea';
 import Dropdown from 'primevue/dropdown';
 import Badge  from 'primevue/badge';
 import Divider  from 'primevue/divider';
@@ -20,6 +22,7 @@ import BadgeDirective from 'primevue/badgedirective';
 import Button from 'primevue/button';
 import Card from 'primevue/card';
 import Chart from 'primevue/chart';
+import Chip from 'primevue/chip';
 import Tag from 'primevue/tag';
 import i18n from '@/i18n';
 
@@ -35,6 +38,7 @@ const app = createApp(App)
 .component('DataTable', DataTable)
 .component('AutoComplete', AutoComplete)
 .component('InputText', InputText)
+.component('Textarea', Textarea)
 .component('Dropdown', Dropdown)
 .component('Badge', Badge)
 .component('Divider', Divider)
@@ -43,12 +47,14 @@ const app = createApp(App)
 .component('Button', Button)
 .component('Card', Card)
 .component('Chart', Chart)
+.component('Chip', Chip)
 .component('Tag', Tag);
-
 
 app.config.globalProperties.$appState = reactive({ isRTL: false, isNewThemeLoaded: false, layoutMode: 'light' });
 app.directive('badge', BadgeDirective);
 app.use(i18n);
+app.use(createPinia());
 
 app.mount('#app')
+
   

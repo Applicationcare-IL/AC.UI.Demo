@@ -51,6 +51,11 @@ const router = createRouter({
                     component: () => import('@/views/user/forms/Contact.vue'),
                 },
                 {
+                    path: '/new-customer',
+                    name: 'newCustomer',
+                    component: () => import('@/views/user/forms/Customer.vue'),
+                },
+                {
                     path: '/Services',
                     name: 'Services',
                     component: () => import('@/views/user/lists/Services.vue'),

@@ -23,17 +23,22 @@ body {
     padding: 8px;
     transition: width 0.1s ease-in-out;
     text-align: right;
+
     &.expanded {
         width: 10rem;
     }
 }
 
-.layout-submenu > li{
+.layout-menu ul a{
+    transition: none;
+}
+
+.layout-submenu>li {
     display: flex;
     flex-direction: row;
 }
 
-.layout-menuitem-text{
+.layout-menuitem-text {
     color: var(--orange-500);
     font-weight: 400;
     white-space: nowrap;
@@ -222,7 +227,7 @@ body {
     animation-duration: 0.2s;
 }
 
-.topbar-item{
+.topbar-item {
     position: relative;
 }
 
@@ -235,15 +240,16 @@ body {
     overflow-y: auto;
 }
 
-.p-badge.notifications-badge{
+.p-badge.notifications-badge {
     position: absolute;
     top: 4px;
     right: 8px;
     width: 16px;
     height: 16px;
 }
-.p-badge.p-badge-warning{
-    background-color:var(--yellow-500);
+
+.p-badge.p-badge-warning {
+    background-color: var(--yellow-500);
     color: white;
 }
 
@@ -252,7 +258,7 @@ body {
     src: url('@/assets/fonts/Assistant-VariableFont_wght.ttf');
 }
 
-.p-component{
+.p-component {
     font-family: var(--font-family);
 }
 
@@ -303,57 +309,70 @@ a {
     @apply text-blue-600 underline;
 }
 
-// Tags
+// Tags & chips
 
-.p-tag {
+.p-tag,
+.p-chip {
     font-size: 14px;
     line-height: 15.7px;
     font-weight: 500;
     border-radius: 6px;
-    gap:4px;
+    gap: 4px;
     height: 24px;
 }
 
-.p-tag{
+.p-tag {
     background-color: var(--teal-700);
     color: white;
 }
-.p-tag.p-tag-success{
+
+.p-tag.p-tag-success {
     background-color: var(--teal-200);
     color: var(--teal-900);
 }
-.p-tag.p-tag-info{
+
+.p-tag.p-tag-info {
     background-color: var(--blue-500);
     color: var(--blue-800);
 }
-.p-tag.p-tag-warning{
+
+.p-tag.p-tag-warning {
     background-color: var(--yellow-100);
     color: var(--yellow-800);
 }
-.p-tag.p-tag-danger{
+
+.p-tag.p-tag-danger {
     background-color: var(--red-100);
     color: var(--red-800);
 }
 
-.p-tag > div>i  {
+.p-tag>div>i {
     font-size: 10px !important;
+}
+
+.p-chip {
+    background-color: var(--teal-700);
+    color: white;
+    white-space: nowrap;
 }
 
 //Buttons
 
-.p-selectbutton.p-buttonset.p-component > div{
+.p-selectbutton.p-buttonset.p-component>div {
     padding: 10px 10px 10px 10px;
 }
-.p-selectbutton.p-buttonset.p-component{
+
+.p-selectbutton.p-buttonset.p-component {
     height: 32px;
 }
 
 // Side Menu
 
-.layout-menu ul a.active-route, .layout-menu ul a:hover {
-   background-color: var(--orange-100);
-   border-radius: 6px 16px 6px 6px;
-   box-shadow: none;
+.layout-menu ul a.active-route,
+.layout-menu ul a:hover {
+    background-color: var(--orange-100);
+    border-radius: 6px 16px 6px 6px;
+    box-shadow: none;
 }
 
 //Dropdown
