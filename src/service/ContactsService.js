@@ -6,6 +6,7 @@ export const ContactsService = {
             const is_active = Math.random() < 0.95;
             contacts.push({
                 contact_id: '795'+ i,
+                name: 'שלומי שבת',
                 contact: 'שלומי שבת',
                 customer: 'שם של לקוח כלשהו',
                 telephone: '050-1234567',
@@ -44,6 +45,9 @@ export const ContactsService = {
 
     getContactsWithOrders() {
         return Promise.resolve(this.getContactsWithOrdersData());
+    },
+    getContact(id){
+        return Promise.resolve(this.getContactsData().find((contact) => contact.contact_id === id));
     }
     
     

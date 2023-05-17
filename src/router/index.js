@@ -36,11 +36,6 @@ const router = createRouter({
                     component: () => import('@/views/user/Dashboard.vue'),
                 },
                 {
-                    path: '/Customers',
-                    name: 'Customers',
-                    component: () => import('@/views/user/lists/Customers.vue'),
-                },
-                {
                     path: '/Contacts',
                     name: 'Contacts',
                     component: () => import('@/views/user/lists/Contacts.vue'),
@@ -48,12 +43,22 @@ const router = createRouter({
                 {
                     path: '/new-contact',
                     name: 'newContact',
-                    component: () => import('@/views/user/forms/Contact.vue'),
+                    component: () => import('@/views/user/forms/new/Contact.vue'),
+                },
+                {
+                    path: '/contact/:id',
+                    name: 'contactDetail',
+                    component: () => import('@/views/user/forms/detail/Contact.vue'),
+                },
+                {
+                    path: '/Customers',
+                    name: 'Customers',
+                    component: () => import('@/views/user/lists/Customers.vue'),
                 },
                 {
                     path: '/new-customer',
                     name: 'newCustomer',
-                    component: () => import('@/views/user/forms/Customer.vue'),
+                    component: () => import('@/views/user/forms/new/Customer.vue'),
                 },
                 {
                     path: '/Services',
@@ -61,9 +66,19 @@ const router = createRouter({
                     component: () => import('@/views/user/lists/Services.vue'),
                 },
                 {
+                    path: '/new-service',
+                    name: 'newService',
+                    component: () => import('@/views/user/forms/new/Service.vue'),
+                },
+                {
                     path: '/Tasks',
                     name: 'Tasks',
                     component: () => import('@/views/user/lists/Tasks.vue'),
+                },
+                {
+                    path: '/new-task',
+                    name: 'newTask',
+                    component: () => import('@/views/user/forms/new/Task.vue'),
                 },
 
             ]

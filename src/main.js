@@ -16,6 +16,7 @@ import Textarea from 'primevue/textarea';
 import Dropdown from 'primevue/dropdown';
 import Badge  from 'primevue/badge';
 import Divider  from 'primevue/divider';
+import Skeleton  from 'primevue/skeleton';
 import SelectButton  from 'primevue/selectbutton';
 import ScrollPanel  from 'primevue/scrollpanel';
 import BadgeDirective from 'primevue/badgedirective';
@@ -42,6 +43,7 @@ const app = createApp(App)
 .component('Dropdown', Dropdown)
 .component('Badge', Badge)
 .component('Divider', Divider)
+.component('Skeleton', Skeleton)
 .component('SelectButton', SelectButton)
 .component('ScrollPanel', ScrollPanel)
 .component('Button', Button)

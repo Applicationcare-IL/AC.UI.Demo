@@ -9,8 +9,8 @@
         <AutoComplete :suggestions="filteredOptions" optionLabel="name" :placeholder="placeholder"
                       :multiple="props.multiple" :disabled="props.disabled"
                       :class="[{
-                           'wm-input-error': !!errorMessage,
-                       }]"
+                              'wm-input-error': !!errorMessage,
+                          }]"
                       forceSelection @complete="search" v-model="value"></AutoComplete>
         <span v-if="errorMessage" class="wm-validation-message">
             {{ typeof errorMessage === 'string' ? $t(errorMessage) : $t(errorMessage.key, errorMessage.values) }}
@@ -94,9 +94,9 @@ const width = computed(() => {
     return props.width + 'px';
 });
 
-  const name = toRef(props, 'name');
+const name = toRef(props, 'name');
 
-const { value, errorMessage } = useField(name, validateField, { initialValue: [] } );
+const { value, errorMessage } = useField(name, validateField, { initialValue: [] });
 
 function validateField(value) {
     console.log('value', value);

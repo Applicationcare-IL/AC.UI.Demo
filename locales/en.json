@@ -1,43 +1,67 @@
 {
-    "new": "New",
+    "new": "New @.lower:{0}",
+    "save": "Save",
+    "discard": "Discard",
+    "select": "Select @.lower:{0}",
     "test": "Test {min}",
-    "contact": {
-        "new": "New Contact",
-        "in-charge": "In Charge",
-        "first-name": "First Name",
-        "last-name": "Last Name",
-        "id": "ID",
-        "gender": "Gender",
-        "mobilephone": "Mobile Phone",
-        "landline": "Landline",
-        "email": "Email",
-        "fax": "Fax",
-        "customer": "Customer",
-        "address": "Address",
-        "city": "City",
-        "street": "Street",
-        "house-number": "House Number",
-        "apartment": "Apartment",
-        "entrance": "Entrance",
-        "zip": "ZIP",
-        "notes": "Contact Notes",
-        "select_city" : "Select city",
-        "select_street" : "Select street",
-        "select_customer" : "Select customer",
-        "select_gender" : "Select gender",
-        "male" : "Male",
-        "female" : "Female"
+    "general-details": "General Details",
+    "communication-details": "Communication Details",
+    "role": "Role",
+    "in-charge": "In Charge",
+    "first-name": "First Name",
+    "last-name": "Last Name",
+    "id": "ID",
+    "gender": "Gender",
+    "mobilephone": "Mobile Phone",
+    "landline": "Landline",
+    "email": "Email",
+    "facebook": "Facebook",
+    "fax": "Fax",
+    "type": "Type",
+    "rating": "Rating",
+    "general-information": "General information",
+    "team": "Team",
+    "orientation": "Orientation",
+    "channel": "Channel",
+    "priority": "Priority",
+    "classification": "Classification",
+    "short-classification": "Short Classification",
+    "classification-1": "Area",
+    "classification-2": "Subarea",
+    "classification-3": "Process Core",
+    "classification-4": "Process Subject",
+    "classification-5": "Process Detail",
+    "description": "Description",
+    "contact" : {
+        "contact": "Contact",
+        "notes": "Contact notes",
+        "id" : "ID",
+        "system-id" : "System ID"
     },
-    "customer" : {
-        "new": "New Customer",
-        "id": "ID",
-        "in-charge": "In Charge",
+    "customer":{
+        "customer": "Customer",
         "name": "Customer Name",
         "number": "Customer Number",
-        "type": "Type",
+        "type": "Customer Type",
         "rating": "Rating",
-        "area": "Area",
-        "select_area": "Select Area",
+        "field" : "Field"
+    },
+    "service": {
+        "service": "שירות"
+    },
+    "task" : {
+        "task": "Task",
+        "family": "Task family",
+        "type": "Task type"
+    },
+    "site": {
+        "site": "Site",
+        "name": "Site name",
+        "type": "Site type",
+        "contact": "Site contact",
+        "contact-role": "Site contact role"
+    },
+    "address": {
         "address": "Address",
         "city": "City",
         "street": "Street",
@@ -48,13 +72,15 @@
     },
     "validation": {
         "required": "Field required",
+        "required-select": "No @.lower:{label} was selected",
+        "missing-field": "Missing  @.lower:{label}",
         "contactid": "Invalid ID Card",
         "phone": "Invalid phone number",
         "email": "Invalid email address"
     },
     "genders": {
-        "male": "זכר",
-        "female": "נקבה",
-        "other": "אחר"
-      }
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+    }
 }

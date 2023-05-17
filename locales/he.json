@@ -1,43 +1,67 @@
 {
-    "new": "חדש",
+    "new": "חדש @.lower:{0}",
+    "save": "שמירה",
+    "discard": "ביטול",
+    "select": "בחירה @.lower:{0}",
     "test": "בדיקה {min}",
-    "contact" : {
-        "new" : "איש קשר חדש",
-        "in-charge" : "אחראי",
-        "first-name" : "שם פרטי",
-        "last-name" : "שם משפחה",
-        "id" : "תעודת זהות",
-        "gender" : "מגדר",
-        "mobilephone" : "טלפון נייד",
-        "landline" : "טלפון נייח",
-        "email" : "דוא”ל",
-        "fax" : "פקס",
-        "customer" : "לקוח",
-        "address" : "כתובת",
-        "city" : "עיר",
-        "street" : "רחוב",
-        "house-number" : "מס’ בית",
-        "apartment" : "דירה",
-        "entrance" : "כניסה",
-        "zip" : "מיקוד",
-        "notes" : "הערות לאיש קשר",
-        "select_city" : "בחירת עיר",
-        "select_street" : "בחירת רחוב",
-        "select_customer" : "בחירת לקוח",
-        "select_gender" : "בחירת מגדר",
-        "male" : "זכר",
-        "female" : "נקבה"
+    "general-details": "פרטים כלליים",
+    "communication-details": "פרטי התקשרות",
+    "role": "תפקיד",
+    "owner": "אחראי",
+    "first-name": "שם פרטי",
+    "last-name": "שם משפחה",
+    "id": "תעודת זהות",
+    "gender": "מגדר",
+    "mobilephone": "טלפון נייד",
+    "landline": "טלפון נייח",
+    "email": "דוא”ל",
+    "facebook": "פייסבוק",
+    "fax": "פקס",
+    "type": "סוג",
+    "notes": "הערות לאיש קשר",
+    "general-information": "מידע כללי",
+    "team": "צוות",
+    "direction": "כיוון",
+    "channel": "ערוץ",
+    "priority": "דחיפות",
+    "classification": "סיווג",
+    "short-classification": "סיווג מהיר",
+    "classification-1": "תחום",
+    "classification-2": "תת-תחום",
+    "classification-3": "תהליך מרכזי",
+    "classification-4": "נושא תהליך",
+    "classification-5": "פרט תהליך",
+    "description": "תיאור",
+    "contact": {
+        "contact": "איש קשר",
+        "notes": "Contact notes",
+        "id" : "ת”ז:",
+        "system-id" : "מזהה:"
     },
-    "customer" : {
-        "new": "לקוח חדש",
-        "id": "מזהה",
-        "in-charge": "אחראי",
+    "customer": {
+        "customer": "לקוח",
         "name": "שם הלקוח",
         "number": "מספר הלקוח",
-        "type": "סוג",
+        "type": "סוג הלקוח",
         "rating": "דירוג",
-        "area": "תחום",
-        "select_area" : "הוספת תחום",
+        "field": "תחום"
+    },
+    "service": {
+        "service": "שירות"
+    },
+    "task": {
+        "task": "משימה",
+        "family": "משפחה",
+        "type": "סוג המשימה"
+    },
+    "site": {
+        "site": "מיקום",
+        "name": "שם המיקום",
+        "type": "סוג המיקום",
+        "contact": "איש קשר במיקום",
+        "contact-role": "תפקיד איש הקשר"
+    },
+    "address": {
         "address": "כתובת",
         "city": "עיר",
         "street": "רחוב",
@@ -48,13 +72,15 @@
     },
     "validation": {
         "required": "שדה חובה",
+        "required-select": "לא נבחר  @:{label}",
+        "missing-field": "חסר @:{label}",
         "contactid": "תעודת זהות לא תקינה",
-        "phone": "מס’ טלפון לא תקין",
-        "email": "כתובת הדוא”ל לא תקינה"
+        "phone": "מספר טלפון לא תקין",
+        "email": "כתובת דואל לא תקינה"
     },
     "genders": {
-        "male" : "Male",
-        "female" : "Female",
-        "other" : "Other"
+        "male": "זכר",
+        "female": "נקבה",
+        "other": "אחר"
     }
 }

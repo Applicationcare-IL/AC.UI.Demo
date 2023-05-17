@@ -1,15 +1,15 @@
 <template>
-  <div class="wm-form-container flex flex-auto flex-column overflow-auto">
-    <div class="contact-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 class="h1 mb-0">{{ $t('customer.new') }}</h1>
+  <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
+    <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
+      <h1 class="h1 mb-0">{{ $t('new',  ['customer.customer']) }}</h1>
       <div class="wm-form-row gap-5">
         <WMInput name="owner"
                  type="info" :highlighted="true"
-                 :label="$t('customer.in-charge') + ':'"
+                 :label="$t('in-charge') + ':'"
                  value="Israel Israeli" />
         <WMInput name="id" type="info"
                  :highlighted="true"
-                 :label="$t('customer.id') + ':'"
+                 :label="$t('id') + ':'"
                  value="000012" />
       </div>
       <div class="wm-form-row gap-5">
@@ -35,56 +35,56 @@
                  width="48" />
       </div>
       <div class="wm-form-row gap-5">
-        <WMInputSearch name="area"
+        <WMInputSearch name="field"
                        type="input-search"
-                       :placeholder="$t('customer.select_area')"
+                       :placeholder="$t('select', ['customer.field'])"
                        :required="true"
-                       :label="$t('customer.area') + ':'"
+                       :label="$t('customer.field') + ':'"
                        :multiple="true" width="248"
                        :options="customers"
                        :highlighted="true" />
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px;" />
-      <div class="contact-data flex flex-auto flex-column gap-5">
-        <h2 class="h2 mb-0">{{ $t('contact.address') }}</h2>
+      <div class="customer-address flex flex-auto flex-column gap-5">
+        <h2 class="h2 mb-0">{{ $t('address.address') }}</h2>
 
         <div class="wm-form-row gap-5">
           <WMInputSearch name="city"
                          :highlighted="true"
                          :required="true"
-                         :label="$t('contact.city') + ':'"
+                         :label="$t('address.city') + ':'"
                          :options="customers"
                          width="152"
-                         :placeholder="$t('contact.select_city')" />
+                         :placeholder="$t('select', ['address.street'])" />
           <WMInputSearch name="street"
                          :required="true"
                          :highlighted="true"
-                         :label="$t('contact.street') + ':'"
+                         :label="$t('address.street') + ':'"
                          :options="customers"
                          width="152"
-                         :placeholder="$t('contact.select_street')" />
+                         :placeholder="$t('select', ['address.street'])" />
         </div>
         <div class="wm-form-row gap-5">
           <WMInput name="house-number"
                    type="input-text"
                    :required="true"
-                   :label="$t('contact.house-number') + ':'"
+                   :label="$t('address.house-number') + ':'"
                    width="48" />
           <WMInput name="apartment"
                    type="input-text"
-                   :label="$t('contact.apartment') + ':'"
+                   :label="$t('address.apartment') + ':'"
                    width="48" />
           <WMInput name="entrance"
                    type="input-select"
                    :highlighted="true"
-                   :label="$t('contact.entrance') + ':'"
+                   :label="$t('address.entrance') + ':'"
                    :options="alphabetWithDash"
                    width="48" />
         </div>
         <div class="wm-form-row gap-5">
           <WMInput name="zip"
                    type="input-text"
-                   :label="$t('contact.zip') + ':'"
+                   :label="$t('address.zip') + ':'"
                    width="80" />
         </div>
 
@@ -111,17 +111,18 @@ onMounted(() => {
 
 const formUtilsStore = useFormUtilsStore();
 
-const schema = yup.object({
-  'name': yup.string().min(9).required(),
-  'number': yup.string().required(),
-  'area': yup.array().min(1),
-  'city': yup.array().min(1),
-  'street': yup.array().min(1),
-  'house-number': yup.string().required(),
-});
+// const schema = yup.object({
+//   'name': yup.string().min(9).required(),
+//   'number': yup.string().required(),
+//   'area': yup.array().min(1),
+//   'city': yup.array().min(1),
+//   'street': yup.array().min(1),
+//   'house-number': yup.string().required(),
+// });
+
 
 const { errors, handleSubmit } = useForm({
-  validationSchema: schema,
+  validationSchema: formUtilsStore.getCustomerFormValidationSchema,
 });
 
 const onSubmit = handleSubmit((values) => {
