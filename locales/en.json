@@ -5,8 +5,10 @@
     "select": "Select @.lower:{0}",
     "test": "Test {min}",
     "general-details": "General Details",
+    "entry-details": "Entry Details",
     "communication-details": "Communication Details",
     "role": "Role",
+    "actions": "Actions",
     "in-charge": "In Charge",
     "first-name": "First Name",
     "last-name": "Last Name",
@@ -18,6 +20,8 @@
     "facebook": "Facebook",
     "fax": "Fax",
     "type": "Type",
+    "filter" : "Filter",
+    "search" : "Search",
     "rating": "Rating",
     "general-information": "General information",
     "team": "Team",
@@ -32,6 +36,12 @@
     "classification-4": "Process Subject",
     "classification-5": "Process Detail",
     "description": "Description",
+    "all-entities": "All @.lower:{label}",
+    "my-entities": "My @.lower:{label}",
+    "created_by": "Created by",
+    "modified_by": "Changed by",
+    "created_at": "Created at",
+    "modified_at": "Modified at",
     "contact" : {
         "contact": "Contact",
         "notes": "Contact notes",
@@ -40,19 +50,38 @@
     },
     "customer":{
         "customer": "Customer",
+        "customers": "Customers",
+        "all" : "All Customers",
+        "my" : "My Customers",
         "name": "Customer Name",
         "number": "Customer Number",
+        "number-abbreviation": "Customer No.",
         "type": "Customer Type",
         "rating": "Rating",
-        "field" : "Field"
+        "field" : "Field",
+        "add" :"Add Customer",
+        "main": "Main"
     },
     "service": {
-        "service": "שירות"
+        "service": "Service",
+        "services": "Services",
+        "open" : "Open Services",
+        "assign" : "Assign"
+        
     },
     "task" : {
         "task": "Task",
+        "tasks": "Tasks",
         "family": "Task family",
-        "type": "Task type"
+        "type": "Task type",
+        "open" : "Open Tasks",
+        "number": "Task number",
+        "stage" : "Stage",
+        "sla" : "SLA",
+        "due_date" : "Due date",
+        "in_charge" : "In charge",
+        "status" : "Status",
+        "notes" : "Notes"
     },
     "site": {
         "site": "Site",
@@ -82,5 +111,10 @@
         "male": "Male",
         "female": "Female",
         "other": "Other"
+    },
+    "status": "Status",
+    "statuses":{
+        "open": "Open",
+        "closed": "Closed"
     }
 }

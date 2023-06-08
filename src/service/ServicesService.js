@@ -5,13 +5,13 @@ export const ServicesService = {
         for (let i = 0; i < 100; i++) {
             const is_active = Math.random() < 0.5;
             services.push({
-                process_number: '469879'+ i,
+                service_number: '469879'+ i,
                 contact: 'שלומי שבת',
                 open_date: '11/11/22',
                 due_date: '11/12/23',
-                domain: 'בטחון',
-                subdomain: 'בטחון',
-                mahut_talij: 'אדם חשוד',
+                classification_1: 'בטחון',
+                classification_2: 'בטחון',
+                classification_3: 'אדם חשוד',
                 duration: '01:40:00',
                 in_charge: 'Israel Israeli',
                 staff: '106 מוקד',
@@ -22,6 +22,7 @@ export const ServicesService = {
                 last_change: '11/11/22 10:23',
                 closed: '--',
                 stage: 'שליחת נציג בטחון',
+                team: 'מוקד 106',
                 is_active: is_active,
             });
         }

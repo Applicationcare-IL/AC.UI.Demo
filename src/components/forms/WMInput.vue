@@ -1,5 +1,5 @@
 <template>
-    <div class="wm-input flex flex-column">
+    <div class="wm-input flex" :class="{ 'flex-row': inline,  'flex-column': !inline}">
         <label v-if="label != ''" class="wm-form-label"
                :class="[{
                        highlighted: props.highlighted,
@@ -7,14 +7,14 @@
             {{ label }} <span v-if="required" class="text-red-500"> *</span>
         </label>
         <InputText v-if="type == 'input-text'" :name="name" :disabled="props.disabled" :placeholder="placeholder"
-                   :value="modelValue" @input="$emit('update:modelValue', $event.target.value); handleChange($event.target.value)"
+                   :value="value" @input="$emit('update:value', $event.target.value); handleChange($event.target.value)"
                     @blur="handleBlur"
                    :class="[{
                            'wm-input-error': !!errorMessage,
                        }]"
                    :style="{ width: width + 'px' }" />
         <Dropdown v-if="type == 'input-select'" :name="name" :disabled="props.disabled" :options="options"
-                  optionLabel="label" v-model="selectedInput" :placeholder="placeholder"
+                  optionLabel="label" v-model="selectedInput"  :placeholder="placeholder"
                   :style="{ width: width + 'px' }">
         </Dropdown>
         <span v-if="type == 'info'">{{ value }}</span>
@@ -29,12 +29,12 @@ import { defineProps, ref } from 'vue';
 import { toRef } from 'vue';
 import { useField } from 'vee-validate';
 
-const selectedInput = ref(null);
+const selectedInput = ref(props.selectedOption);
 
-defineEmits(['update:modelValue'])
+defineEmits(['update:value'])
 
 const props = defineProps({
-    modelValue: {
+    value: {
         type: String,
         default: '',
     },
@@ -79,25 +79,32 @@ const props = defineProps({
         type: String,
     },
     options: {
-        type: String,
+        type: Array,
     },
     width: {
         type: String,
         default: '120',
     },
+    inline: {
+        type: Boolean,
+        default: false,
+    },
+    selectedOption:{
+        type: Object,
+    }
 });
 
 
 const name = toRef(props, 'name');
 
 const {
-    value: modelValue,
+    value: value,
     errorMessage,
     handleBlur,
     handleChange,
     meta,
 } = useField(name, undefined, {
-    initialValue: props.modelValue,
+    initialValue: props.value,
 });
 
 </script>

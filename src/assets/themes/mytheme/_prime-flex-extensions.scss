@@ -74,6 +74,29 @@
     --orange-700: #DE3F07;
     --orange-800: #BF3604;
     --orange-900: #A12B01;
+    --font-size-12: 12px;
+    --font-size-14: 14px;
+    --font-size-16: 16px;
+    --font-size-18: 18px;
+    --font-size-20: 20px;
+    --font-size-24: 24px;
+    --font-size-28: 28px;
+    --font-size-32: 32px;
+    --font-size-36: 36px;
+    --font-size-40: 40px;
+    --font-size-48: 48px;
+    --font-size-56: 56px;
+    --font-size-64: 64px;
+    --font-size-72: 72px;
+    --font-size-80: 80px;
+    --font-size-96: 96px;
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    --font-weight-black: 900;
 }
 
 .bg-gray-25 {background-color: var(--gray-25);}
@@ -310,6 +333,32 @@
 .border-orange-700 {border-color: var(--orange-700);}
 .border-orange-800 {border-color: var(--orange-800);}
 .border-orange-900 {border-color: var(--orange-900);}
+
+.font-size-12 {font-size: var(--font-size-12);}
+.font-size-14 {font-size: var(--font-size-14);}
+.font-size-16 {font-size: var(--font-size-16);}
+.font-size-18 {font-size: var(--font-size-18);}
+.font-size-20 {font-size: var(--font-size-20);}
+.font-size-24 {font-size: var(--font-size-24);}
+.font-size-28 {font-size: var(--font-size-28);}
+.font-size-32 {font-size: var(--font-size-32);}
+.font-size-36 {font-size: var(--font-size-36);}
+.font-size-40 {font-size: var(--font-size-40);}
+.font-size-48 {font-size: var(--font-size-48);}
+.font-size-56 {font-size: var(--font-size-56);}
+.font-size-64 {font-size: var(--font-size-64);}
+.font-size-72 {font-size: var(--font-size-72);}
+.font-size-80 {font-size: var(--font-size-80);}
+.font-size-96 {font-size: var(--font-size-96);}
+
+
+.font-weight-light {font-weight: var(--font-weight-light);}
+.font-weight-normal {font-weight: var(--font-weight-normal);}
+.font-weight-medium {font-weight: var(--font-weight-medium);}
+.font-weight-semibold {font-weight: var(--font-weight-semibold);}
+.font-weight-bold {font-weight: var(--font-weight-bold);}
+.font-weight-extrabold {font-weight: var(--font-weight-extrabold);}
+.font-weight-black {font-weight: var(--font-weight-black);}
 
 
 

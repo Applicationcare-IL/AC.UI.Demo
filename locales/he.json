@@ -5,8 +5,10 @@
     "select": "בחירה @.lower:{0}",
     "test": "בדיקה {min}",
     "general-details": "פרטים כלליים",
+    "entry-details": "פרטי רשומה",
     "communication-details": "פרטי התקשרות",
     "role": "תפקיד",
+    "actions": "פעולות",
     "owner": "אחראי",
     "first-name": "שם פרטי",
     "last-name": "שם משפחה",
@@ -18,7 +20,8 @@
     "facebook": "פייסבוק",
     "fax": "פקס",
     "type": "סוג",
-    "notes": "הערות לאיש קשר",
+    "filter" : "סינון",
+    "search" : "חיפוש",
     "general-information": "מידע כללי",
     "team": "צוות",
     "direction": "כיוון",
@@ -32,27 +35,49 @@
     "classification-4": "נושא תהליך",
     "classification-5": "פרט תהליך",
     "description": "תיאור",
+    "all-entities": "כל ה@.lower:{label}",
+    "my-entities": "ה@.lower:{label} שלי",
+    "created_by": "נוצר ע”י",
+    "modified_by": "שינוי אחרון ע”י",
+    "created_at": "נוצר ב:",
+    "modified_at": "שינוי אחרון",
     "contact": {
         "contact": "איש קשר",
-        "notes": "Contact notes",
-        "id" : "ת”ז:",
-        "system-id" : "מזהה:"
+        "notes": "הערות לאיש קשר",
+        "id" : "ת”ז",
+        "system-id" : "מזהה"
     },
     "customer": {
         "customer": "לקוח",
+        "customers": "לקוחות",
         "name": "שם הלקוח",
         "number": "מספר הלקוח",
+        "number-abbreviation": "מס’ לקוח",
         "type": "סוג הלקוח",
         "rating": "דירוג",
-        "field": "תחום"
+        "field": "תחום",
+        "add" :"הוספת לקוח",
+        "main": "ראשי",
+        "role": "שם תפקיד"
     },
     "service": {
-        "service": "שירות"
+        "service": "תהליך",
+        "services": "תהליכים",
+        "assign" : "הקצה",
+        "open" : "פתיחה תהליכים"
     },
     "task": {
         "task": "משימה",
+        "tasks": "משימות",
         "family": "משפחה",
-        "type": "סוג המשימה"
+        "type": "סוג המשימה",
+        "number": "מספר משימה",
+        "stage" : "שלב",
+        "sla" : "SLA",
+        "due_date" : "תאריך יעד",
+        "in_charge" : "אחראי",
+        "status" : "סטטוס",
+        "notes" : "הערות"
     },
     "site": {
         "site": "מיקום",
@@ -82,5 +107,10 @@
         "male": "זכר",
         "female": "נקבה",
         "other": "אחר"
+    },
+    "status": "סטטוס",
+    "statuses":{
+        "open": "פתוח",
+        "closed": "סגור"
     }
 }

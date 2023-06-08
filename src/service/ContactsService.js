@@ -4,11 +4,16 @@ export const ContactsService = {
         
         for (let i = 0; i < 100; i++) {
             const is_active = Math.random() < 0.95;
+            const is_male = Math.random() < 0.5;
             contacts.push({
+                id: '000'+ i,
                 contact_id: '795'+ i,
                 name: 'שלומי שבת',
+                'firstName': 'שלומי',
+                'lastName': 'שבת',
                 contact: 'שלומי שבת',
                 customer: 'שם של לקוח כלשהו',
+                customer_id: '0000' + i,
                 telephone: '050-1234567',
                 landline: '050-1234567',
                 email: 'mailmail@mail.com',
@@ -18,9 +23,9 @@ export const ContactsService = {
                 open_tasks: parseInt(Math.random() * 8),
                 exception_tasks:  parseInt(Math.random() * 3),
                 staff: '106 מוקד',
-                status: is_active ? 'פעיל' : 'לא פעיל',
-                status: is_active ? 'פעיל' : 'לא פעיל',
+                status: is_active ? 'open' : 'closed',
                 in_charge: 'Israel Israeli', 
+                gender: is_male ? 'male' : 'female'
             });
         }
 

@@ -12,6 +12,10 @@ export const useFormUtilsStore = defineStore('formUtils', {
             { value: 'female', translationKey: 'genders.female' },
             { value: 'other', translationKey: 'genders.other' },
         ],
+        statusOptions: [
+            { value: 'open', translationKey: 'statuses.open' },
+            { value: 'closed', translationKey: 'statuses.closed' },
+        ],
         submit: '',
         formErrors: '',
         israeliPhoneRegex:israeliPhoneRegex,
@@ -29,6 +33,13 @@ export const useFormUtilsStore = defineStore('formUtils', {
             const alphabet = 'אבגדהוזחטיכךלמםנןסעפףצץקרשת'.split('');
             const alphabetWithDash = alphabet.map(letter => ({ label: "-" + letter, value: "-" + letter }));
             return alphabetWithDash;
+        },
+        getStatusOptions: (state) => {
+            const i18n = useI18n();
+            return state.statusOptions.map((option) => ({
+                value: option.value,
+                label: i18n.t(option.translationKey),
+            }));
         },
         // getIsraeliPhoneRegex: () => {
         //     return /^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$/;
@@ -92,6 +103,16 @@ export const useFormUtilsStore = defineStore('formUtils', {
                 'mobile-phone': yup.string().trim().matches(state.israeliPhoneRegex, 'validation.phone').required(),
                 'landline': yup.string().trim().matches(state.israeliLandlineRegex, 'validation.phone').required(),
                 'email': yup.string().trim().email('validation.email').required(),
+            });
+        },
+        getContactDetailFormValidationSchema: (state) => {
+            return yup.object({
+                // 'contactid': yup.string().min(9, 'validation.contactid').required(),
+                // 'mobile-phone': yup.string().trim().matches(state.israeliPhoneRegex, 'validation.phone').required(),
+                // 'landline': yup.string().trim().matches(state.israeliLandlineRegex, 'validation.phone').required(),
+                // 'email': yup.string().trim().email('validation.email').required(),
+                'first-name' : yup.string().required(),
+                'last-name' : yup.string().required(),
             });
         }
     },

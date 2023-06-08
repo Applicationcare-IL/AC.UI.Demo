@@ -5,9 +5,14 @@ td {
 
 .p-datatable-wrapper {
     border-radius: 14px;
+    flex: 0 1 auto !important;
+    height: auto !important;
 }
 
-
+.p-datatable .p-datatable-tbody .column-star{
+    width: 20px;
+    text-align: center;
+}
 
 .p-datatable .p-datatable-tbody > tr.p-highlight {
      background: var(--gray-50);
@@ -33,7 +38,7 @@ td {
 
 .p-datatable .p-datatable-tbody > tr > td {
     border: solid 2px white;
-    padding: 0.75rem;
+    padding: 0.5rem;
 }
 
 .p-datatable .p-datatable-thead > tr > th {
@@ -52,6 +57,13 @@ td {
     line-height: $tableRowHeight;
 }
 
+.p-datatable .p-datatable-tbody >tr > td.buttons  {
+    text-align: center !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    
+}
+
 .p-datatable .p-datatable-tbody .sla {
     text-align: center !important;
     padding: 0px !important;
@@ -59,6 +71,12 @@ td {
     font-weight: 700;
 }
 
+
+.p-datatable .p-datatable-tbody .p-selection-column, 
+.p-datatable .p-datatable-tbody .column-star
+ {
+    text-align: center !important;
+}
 
 // Code to allow the table to have round borders.
 // TODO: for LTR the borders are scrambled. Should have some conditional styles for this
@@ -83,3 +101,4 @@ td {
 .p-datatable .p-datatable-thead > tr > th:first-child {
     border-right: none;
 }
+

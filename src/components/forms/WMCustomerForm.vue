@@ -111,16 +111,6 @@ onMounted(() => {
 
 const formUtilsStore = useFormUtilsStore();
 
-// const schema = yup.object({
-//   'name': yup.string().min(9).required(),
-//   'number': yup.string().required(),
-//   'area': yup.array().min(1),
-//   'city': yup.array().min(1),
-//   'street': yup.array().min(1),
-//   'house-number': yup.string().required(),
-// });
-
-
 const { errors, handleSubmit } = useForm({
   validationSchema: formUtilsStore.getCustomerFormValidationSchema,
 });

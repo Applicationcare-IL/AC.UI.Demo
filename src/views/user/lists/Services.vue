@@ -2,7 +2,7 @@
     <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]" entity="service">
     </WMListSubHeader>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
-        <DataTable v-model:selection="selectedCustomers" :rowClass="rowClass" :value="customers" dataKey="process_number"
+        <DataTable v-model:selection="selectedCustomers" :rowClass="rowClass" :value="customers" dataKey="service_number"
                    tableStyle="min-width: 50rem"
                    class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="15">
             <Column style="width: 35px">
@@ -11,9 +11,9 @@
                 </template>
             </Column>
             <Column style="width: 40px" selectionMode="multiple"></Column>
-            <Column field="process_number" header="מס’ תהליך">
+            <Column field="service_number" header="מס’ תהליך">
                 <template #body="slotProps">
-                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.process_number }}</router-link>
+                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.service_number }}</router-link>
                 </template>
             </Column>
             <Column field="contact" header="איש קשר">
@@ -24,9 +24,9 @@
 
             <Column field="open_date" header="נפתח"></Column>
             <Column field="due_date" header="תאריך יעד"></Column>
-            <Column field="domain" header="תחום"></Column>
-            <Column field="subdomain" header="תת-תחום"></Column>
-            <Column field="mahut_talij" header="מהות תהליך"></Column>
+            <Column field="classification_1" header="תחום"></Column>
+            <Column field="classification_2" header="תת-תחום"></Column>
+            <Column field="classification_3" header="מהות תהליך"></Column>
             <Column field="duration" header="משך"></Column>
             <Column field="in_charge" header="אחראי">
                 <template #body="slotProps">

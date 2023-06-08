@@ -1,4 +1,4 @@
-// Form
+// Form layout
 
 .wm-new-form-container{
     padding: 10px 160px;
@@ -145,18 +145,34 @@
 
 // Card
 
-// .wm-detail-form-container .p-card {
-//     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
-//     border-radius: 10px 10px 10px 10px;
-// }
-
 .wm-detail-form-container .card-container > .p-card{
     box-shadow:none;
     background-color: #F7FAFC;
     border: 1px solid #D7DFE5;
+    border-radius: 10px;
+}
+
+.wm-detail-form-container .card-container:first-child > .p-card{
     border-radius: 10px 40px 10px 10px;
 }
 
-.top-info-card > .p-card{
-    height: 288px;
+//Contact
+
+.contact-data .top-info-card > .p-card{
+    min-height: 288px;
+}
+
+.contact-data .middle-info-card > .p-card{
+    min-height: 200px;
+}
+
+.contact-counter{
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+    padding: 8px 16px 8px 16px
+}
+
+textarea {
+    width: 100%;
 }

@@ -61,6 +61,11 @@ const router = createRouter({
                     component: () => import('@/views/user/forms/new/Customer.vue'),
                 },
                 {
+                    path: '/customer/:id',
+                    name: 'customerDetail',
+                    component: () => import('@/views/user/forms/detail/Customer.vue'),
+                },
+                {
                     path: '/Services',
                     name: 'Services',
                     component: () => import('@/views/user/lists/Services.vue'),

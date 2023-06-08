@@ -12,12 +12,12 @@
             <Column style="width: 40px" selectionMode="multiple"></Column>
             <Column field="contact" header="איש קשר">
                 <template #body="slotProps">
-                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.contact }}</router-link>
+                    <router-link :to="{name:'contactDetail', params : {'id': slotProps.data.contact_id}}" class="vertical-align-middle">{{ slotProps.data.contact }}</router-link>
                 </template>
             </Column>
             <Column field="customer" header="לקוח">
                 <template #body="slotProps">
-                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.customer }}</router-link>
+                    <router-link :to="{name:'customerDetail', params : {'id': slotProps.data.customer_id}}" class="vertical-align-middle">{{ slotProps.data.customer }}</router-link>
                 </template>
             </Column>
             <Column field="telephone" header="טלפון נייד"></Column>

@@ -56,5 +56,4 @@ const isFilterApplied = ref(false);
 const selectedOption = props.defaultOption;
 
 
-
 </script>

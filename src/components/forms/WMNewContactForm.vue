@@ -96,7 +96,6 @@ import { CustomerService } from '@/service/CustomerService';
 import WMInputSearch from '@/components/forms/WMInputSearch.vue';
 import WMInput from '@/components/forms/WMInput.vue';
 import { useForm } from 'vee-validate';
-import * as yup from 'yup';
 import { useFormUtilsStore } from '@/stores/formUtils';
 
 const formUtilsStore = useFormUtilsStore();
