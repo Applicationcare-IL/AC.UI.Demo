@@ -97,7 +97,7 @@
         </div>
         <div class="card-container flex-1 middle-info-card">
           <Card>
-            <template #title> {{ $t('service.open') }} </template>
+            <template #title> {{ $t('service.open') }} : 4 </template>
 
             <template #content>
               <div class="flex flex-column gap-3">
@@ -117,7 +117,7 @@
         </div>
         <div class=" card-container flex-1 middle-info-card">
           <Card>
-            <template #title> {{ $t('task.open') }} </template>
+            <template #title> {{ $t('task.open') }} : 14</template>
             <template #content>
               <div class="flex flex-column gap-3">
                 <div
@@ -202,7 +202,7 @@ const formUtilsStore = useFormUtilsStore();
 const genders = formUtilsStore.getGenders;
 const contact = ref();
 const route = useRoute();
-const alphabetWithDash = formUtilsStore.alphabetWithDash
+const alphabetWithDash = formUtilsStore.getAlphabetWithDash
 const statusOptions = formUtilsStore.getStatusOptions
 
 const customerColumns = ref(['star', 'customer_number', 'name', 'type', 'open_processes', 'breached_processes', 'open_tasks', 'breached_tasks', 'classification_1', 'role', 'actions']);

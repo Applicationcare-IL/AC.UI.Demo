@@ -254,12 +254,29 @@ body {
 }
 
 @font-face {
-    font-family: 'Assistant';
-    src: url('@/assets/fonts/Assistant-VariableFont_wght.ttf');
+    font-family: 'Futurism';
+    src: url('@/assets/fonts/Futurism-Light.woff2') format('woff2'), url('@/assets/fonts/Futurism-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futurism';
+    src: url('@/assets/fonts/Futurism-Bold.woff2') format('woff2'), url('@/assets/fonts/Futurism-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+.p-component,
+.p-component .numeric,
+.p-component .sla {
+    font-family: var(--font-family);
 }
 
 .p-component {
-    font-family: var(--font-family);
+    & input,tr, .p-dropdown-items, .wm-input>span{
+        font-family:  var(--font-family-secondary);
+    }
 }
 
 
