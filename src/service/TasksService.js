@@ -20,6 +20,7 @@ export const TasksService = {
                 close_date: is_open ? '':'11/12/23',
                 last_change: '11/11/22 10:23',
                 remarks: 'תוכן של הערה שכתובה יפה מאוד',
+                stage: "קבלת בקשה",
                 is_open: is_open,
             });
         }
