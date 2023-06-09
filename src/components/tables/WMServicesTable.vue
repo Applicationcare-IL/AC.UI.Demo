@@ -24,57 +24,28 @@
             </span>
         </div>
     </div>
-    <DataTable v-model:filters="filters" v-model:selection="selectedServices" :rowClass="rowClass" :value="services" dataKey="id"
-               tableStyle="min-width: 50rem" scrollable paginator :rows="rows">
-        <Column v-if="columns.includes('eye')" style="width: 35px">
-            <template #body="slotProps">
+    <DataTable v-model:filters="filters" v-model:selection="selectedServices" :rowClass="rowClass" :value="services"
+               dataKey="service_number" tableStyle="min-width: 50rem" scrollable paginator :rows="rows">
+        <Column v-if="multiselect" style="width: 40px" selectionMode="multiple"></Column>
+        <Column v-for="column in columns" :key="column.name" :field="column.name"
+                :header="column.header ? $t(column.header) : $t(`service.${column.name}`)" :class="column.class">
+            <template v-if="column.type === 'detail'" #body="slotProps">
                 <img src="/icons/eye.svg" alt="" class="vertical-align-middle">
             </template>
-        </Column>
-        <Column v-if="columns.includes('selection')" style="width: 40px" selectionMode="multiple"></Column>
-        <Column v-if="columns.includes('service_number')" field="service_number" header="מס’ תהליך">
-            <template #body="slotProps">
+            <template v-if="column.type === 'link'" #body="slotProps">
                 <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.service_number }}</router-link>
             </template>
-        </Column>
-        <Column  v-if="columns.includes('contact')" field="contact" header="איש קשר">
-            <template #body="slotProps">
-                <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.contact }}</router-link>
-            </template>
-        </Column>
-
-        <Column  v-if="columns.includes('open_date')" field="open_date" header="נפתח"></Column>
-        <Column v-if="columns.includes('due_date')" field="due_date" header="תאריך יעד"></Column>
-        <Column v-if="columns.includes('classification_1')" field="classification_1" header="תחום"></Column>
-        <Column v-if="columns.includes('classification_2')" field="classification_2" header="תת-תחום"></Column>
-        <Column v-if="columns.includes('classification_3')" field="classification_3" header="מהות תהליך"></Column>
-        <Column v-if="columns.includes('duration')" field="duration" header="משך"></Column>
-        <Column v-if="columns.includes('in_charge')" field="in_charge" header="אחראי">
-            <template #body="slotProps">
-                <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.in_charge }}</router-link>
-            </template>
-        </Column>
-        <Column v-if="columns.includes('team')" field="team" header="צוות"></Column>
-        <Column v-if="columns.includes('staff')" field="staff" header="צוות"></Column>
-        <Column v-if="columns.includes('SLA')" field="SLA" header="SLA" class="sla">
-            <template #body="slotProps">
+            <template v-if="column.type === 'sla'" #body="slotProps">
                 <div :class="slaClass(slotProps.data)">
                     {{ slotProps.data.SLA }}
                 </div>
             </template>
-        </Column>
-        <Column  v-if="columns.includes('priority')" field="priority" header="עדיפות" class="numeric priority">
-            <template #body="slotProps">
+            <template v-if="column.type === 'priority'" #body="slotProps">
                 <div :class="priorityClass(slotProps.data)">
                     {{ slotProps.data.is_active ? slotProps.data.priority : '-' }}
                 </div>
             </template>
         </Column>
-        <Column  v-if="columns.includes('recurrent')" field="recurrent" header="חוזר"></Column>
-        <Column  v-if="columns.includes('last_change')" field="last_change" header="שינוי אחרון"></Column>
-        <Column  v-if="columns.includes('urgent')" field="urgent" header="שינוי אחרון"></Column>
-        <Column  v-if="columns.includes('closed')" field="closed" header="נסגר"></Column>
-        <Column  v-if="columns.includes('stage')" field="stage" header="שליחת נציג בטחון"></Column>
     </DataTable>
 </template>
 
@@ -99,6 +70,10 @@ const props = defineProps({
     columns: {
         type: Array,
         default: ['eye', 'name', 'telephone', 'type', 'selected_product', 'status', 'address', 'open_processes', 'open_tasks', 'exception_tasks', 'rating', 'domain', 'status', 'id', 'in_charge']
+    },
+    multiselect: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -111,8 +86,8 @@ const options = ref(getSelectButtonValues());
 
 function getSelectButtonValues() {
     return [
-        { name: t('all-entities',  {label: 'service.services'}), value: 2 },
-        { name: t('my-entities', {label: 'service.services'}), value: 1 },
+        { name: t('all-entities', { label: 'service.services' }), value: 2 },
+        { name: t('my-entities', { label: 'service.services' }), value: 1 },
     ]
 }
 

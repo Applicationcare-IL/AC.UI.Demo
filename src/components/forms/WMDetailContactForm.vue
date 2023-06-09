@@ -140,7 +140,7 @@
         </WMCustomersTable>
       </div>
       <div>
-        <WMServicesTable :services="services" :columns="serviceColumns" :rows="5">
+        <WMServicesTable :services="services" :columns="serviceColumns" :rows="5" multiselect>
         </WMServicesTable>
       </div>
       <div>
@@ -184,6 +184,7 @@ import WMInputSearch from '@/components/forms/WMInputSearch.vue';
 import WMInput from '@/components/forms/WMInput.vue';
 import { useForm } from 'vee-validate';
 import { useFormUtilsStore } from '@/stores/formUtils';
+import { useListUtilsStore } from '@/stores/listUtils';
 import { useRoute } from 'vue-router'
 import { CustomerService } from '@/service/CustomerService';
 import { ServicesService } from '@/service/ServicesService';
@@ -199,24 +200,16 @@ const tasks = ref();
 const cities = ref();
 
 const formUtilsStore = useFormUtilsStore();
+const listUtilsStore = useListUtilsStore();
 const genders = formUtilsStore.getGenders;
 const contact = ref();
 const route = useRoute();
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash
 const statusOptions = formUtilsStore.getStatusOptions
 
-const customerColumns = ref(['star', 'customer_number', 'name', 'type', 'open_processes', 'breached_processes', 'open_tasks', 'breached_tasks', 'classification_1', 'role', 'actions']);
-const serviceColumns = ref(['selection', 'service_number', 'open_date', 'due_date', 'classification_1', 'classification_2', 'classification_3', 'duration', 'in_charge', 'team', 'SLA', 'priority', 'recurrent', 'last_change', 'closed', 'stage']);
-const taskColumns = ref([
-  { name: 'task_number', type: 'link', header: 'task.number' },
-  { name: 'task_type', type: 'text', header: 'task.type' },
-  { name: 'family', type: 'text' },
-  { name: 'stage', type: 'text' },
-  { name: 'sla', type: 'sla', class: 'sla' },
-  { name: 'due_date', type: 'text' },
-  { name: 'in_charge', type: 'link' },
-  { name: 'status', type: 'text' },
-  { name: 'notes', type: 'text' }]);
+const customerColumns = ref(listUtilsStore.getCustomerColumns);
+const serviceColumns = ref(listUtilsStore.getServiceColumns);
+const taskColumns = ref(listUtilsStore.getTaskColumns);
 
 onMounted(() => {
   setTimeout(function () {

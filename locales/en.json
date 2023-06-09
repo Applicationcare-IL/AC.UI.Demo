@@ -56,17 +56,36 @@
         "name": "Customer Name",
         "number": "Customer Number",
         "number-abbreviation": "Customer No.",
-        "type": "Customer Type",
+        "type": "Type",
         "rating": "Rating",
         "field" : "Field",
         "add" :"Add Customer",
-        "main": "Main"
+        "main": "Main",
+        "open-services" : "Open Services",
+        "breached-services" : "Breached Services",
+        "open-tasks" : "Open Tasks",
+        "breached-tasks" : "Breached Tasks"
     },
     "service": {
         "service": "Service",
         "services": "Services",
         "open" : "Open Services",
-        "assign" : "Assign"
+        "breached" : "Open Services",
+        "assign" : "Assign",
+        "number": "Service number",
+        "open-date": "Open date",
+        "due-date": "Due date",
+        "stage" : "Stage",
+        "sla" : "SLA",
+        "in-charge" : "In charge",
+        "status" : "Status",
+        "notes" : "Notes",
+        "duration" : "Duration",
+        "team" : "Team",
+        "priority" : "Priority",
+        "recurrent" : "Recurrent",
+        "last-change" : "Last change",
+        "date-closed" : "Closed at"
         
     },
     "task" : {

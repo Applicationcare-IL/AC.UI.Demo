@@ -41,12 +41,6 @@ export const useFormUtilsStore = defineStore('formUtils', {
                 label: i18n.t(option.translationKey),
             }));
         },
-        // getIsraeliPhoneRegex: () => {
-        //     return /^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$/;
-        // },
-        // getIsraeliLandlineRegex: () => {
-        //     return /^0(?:[234689]|5[0-689]|7[246789])(?![01])(\d{7})$/;
-        // },
         getServiceFormValidationSchema: () => {
             return yup.object({
                 'contact': yup.object().required({ key: 'validation.required-select', values: { label: 'contact' } })
@@ -79,7 +73,6 @@ export const useFormUtilsStore = defineStore('formUtils', {
                     .typeError({ key: 'validation.required-select', values: { label: 'task.type' } }),
                 'task-family': yup.object().required({ key: 'validation.required-select', values: { label: 'task.family' } })
                     .typeError({ key: 'validation.required-select', values: { label: 'task.family' } }),
-
             });
         },
 
@@ -107,10 +100,6 @@ export const useFormUtilsStore = defineStore('formUtils', {
         },
         getContactDetailFormValidationSchema: (state) => {
             return yup.object({
-                // 'contactid': yup.string().min(9, 'validation.contactid').required(),
-                // 'mobile-phone': yup.string().trim().matches(state.israeliPhoneRegex, 'validation.phone').required(),
-                // 'landline': yup.string().trim().matches(state.israeliLandlineRegex, 'validation.phone').required(),
-                // 'email': yup.string().trim().email('validation.email').required(),
                 'first-name' : yup.string().required(),
                 'last-name' : yup.string().required(),
             });
