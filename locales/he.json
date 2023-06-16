@@ -150,5 +150,10 @@
     "customer-rating": {
         "vip": "VIP",
         "regular": "רגיל"
+    },
+    "classification1" : {
+        "urban-architect" : "אדריכל עירוני",
+        "sharp-internet-jokes": "חדות וצחוקי אינטרנט",
+        "people-named-robert" : "אנשים שנקראים רוברט"
     }
 }

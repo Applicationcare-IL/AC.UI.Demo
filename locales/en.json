@@ -153,5 +153,10 @@
     "customer-rating": {
         "vip": "VIP",
         "regular": "Regular"
+    },
+    "classification1" : {
+        "urban-architect" : "Urban Architect",
+        "sharp-internet-jokes": "Sharp Internet Jokes",
+        "people-named-robert" : "People named Robert"
     }
 }

@@ -1,17 +1,15 @@
 <template>
     <div class="wm-inputsearch flex flex-column relative">
-        <label v-if="label != ''" class="wm-form-label"
-               :class="[{
-                       highlighted: props.highlighted,
-                   }]">
+        <label v-if="label != ''" class="wm-form-label" :class="[{ highlighted: props.highlighted }]">
             {{ label }} <span v-if="required" class="text-red-500"> *</span>
         </label>
-        <AutoComplete :suggestions="filteredOptions" optionLabel="name" :placeholder="placeholder"
-                      :multiple="props.multiple" :disabled="props.disabled"
-                      :class="[{
-                              'wm-input-error': !!errorMessage,
-                          }]"
-                      forceSelection @complete="search" v-model="value"></AutoComplete>
+        <AutoComplete :suggestions="filteredOptions" optionLabel="name"  
+                      :placeholder="placeholder"
+                      :multiple="props.multiple" 
+                      :disabled="props.disabled" 
+                      :class="[{ 'wm-input-error': !!errorMessage }]"
+                      forceSelection @complete="search" completeOnFocus v-model="value">
+        </AutoComplete>
         <span v-if="errorMessage" class="wm-validation-message">
             {{ typeof errorMessage === 'string' ? $t(errorMessage) : $t(errorMessage.key, errorMessage.values) }}
         </span>
@@ -76,14 +74,20 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    searchBy: {
+        type: String,
+        default: 'name',
+    },
 });
+
 
 const search = (event) => {
     setTimeout(() => {
-        if (!event.query.trim().length) {
+        if (!event.query?.trim().length) {
             filteredOptions.value = [...props.options];
         } else {
             filteredOptions.value = props.options.filter((option) => {
+                console.log(props.searchBy);
                 return option.name.toLowerCase().startsWith(event.query.toLowerCase());
             });
         }
@@ -111,6 +115,10 @@ function validateField(value) {
 
 <style scoped lang="scss">
 :deep(.p-autocomplete > input) {
+    width: v-bind(width)
+}
+
+:deep(.p-autocomplete) {
     width: v-bind(width)
 }
 
