@@ -22,6 +22,7 @@ export const CustomerService = {
                 rating: 'רגיל',
                 role: 'שם של תפקיד',
                 domain: 'שם של תחום',
+                number: '0000' + i,
                 id: '0000' + i,
                 in_charge: 'Israel Israeli',
             });
@@ -49,5 +50,8 @@ export const CustomerService = {
 
     getCustomersWithOrders() {
         return Promise.resolve(this.getCustomersWithOrdersData());
+    },
+    getCustomer(id){
+        return Promise.resolve(this.getCustomersData().find((customer) => customer.id === id));
     }
 };

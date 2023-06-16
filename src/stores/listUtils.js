@@ -1,10 +1,25 @@
 import { defineStore } from 'pinia';
+import { useI18n } from 'vue-i18n';
 
 export const useListUtilsStore = defineStore('listUtils', {
     state: () => ({
 
     }),
     getters: {
+        getContactColumns: () => {
+            return [
+                { name: 'star', type: 'star', header: 'contact.main', class: 'column-star' },
+                { name: 'name', type: 'link', to: 'contact', linkParameter: 'id' },
+                { name: 'telephone', type: 'text' },
+                { name: 'landline', type: 'text' },
+                { name: 'email', type: 'text' },
+                { name: 'address', type: 'text' },
+                { name: 'open_services', type: 'alert', header: 'contact.open-services', class: 'numeric' },
+                { name: 'open_tasks', type: 'alert', header: 'contact.open-tasks', class: 'numeric' },
+                { name: 'role', type: 'text', header: 'role' },
+                { name: 'actions', type: 'actions', header: 'actions', class: 'buttons' }
+            ];
+        },
         getCustomerColumns: () => {
             return [
                 { name: 'star', type: 'star', header: 'customer.main', class: 'column-star' },
@@ -55,4 +70,39 @@ export const useListUtilsStore = defineStore('listUtils', {
         },
 
     },
+    actions: {
+        getAlertCellConditionalStyle: (data) =>{
+            return [{ 'bg-red-100 text-red-600': data > 0 }];
+        },
+
+        getSelectFilterButtonValues: (entityPlural) => {
+            const i18n = useI18n();
+            return [
+                { name: i18n.t('all-entities', { label: entityPlural }), value: 2 },
+                { name: i18n.t('my-entities', { label: entityPlural }), value: 1 },
+            ]
+        },
+
+        getSlaConditionalStyle: (data) => {
+            return [
+                {
+                    'bg-teal-200 text-teal-900': data.SLA === '10 ימים',
+                    'bg-yellow-100 text-gray-900': data.SLA === '2 ימים',
+                    'bg-red-100 text-red-600 ': data.SLA === '3 ימים',
+                    'text-teal-900': data.SLA === 'עמד ביעד',
+                    'text-red-600': data.SLA === 'הסתיים בחריגה',
+                }
+            ];
+        },
+        getPriorityConditionalStyle: (data) => {
+            return [
+                'text-blue-600',
+                {
+                    'bg-blue-75': data.priority === 1 && data.is_active,
+                    'bg-blue-50': data.priority === 2 && data.is_active,
+                    'bg-blue-25': data.priority === 3 && data.is_active
+                }
+            ];
+        }
+    }
 });

@@ -53,6 +53,7 @@
 import { defineProps, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { FilterMatchMode } from 'primevue/api'
+import { useListUtilsStore } from '@/stores/listUtils';
 
 const { t, locale } = useI18n();
 
@@ -60,6 +61,7 @@ const selectedServices = ref(null);
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
+const listUtilsStore = useListUtilsStore();
 
 const props = defineProps({
     services: Array,
@@ -77,50 +79,23 @@ const props = defineProps({
     }
 });
 
+const options = ref();
+options.value = listUtilsStore.getSelectFilterButtonValues('service.services');
+
 watch(locale, () => {
-    options.value = getSelectButtonValues();
+    options.value = listUtilsStore.getSelectFilterButtonValues('service.services');
 });
-
-
-const options = ref(getSelectButtonValues());
-
-function getSelectButtonValues() {
-    return [
-        { name: t('all-entities', { label: 'service.services' }), value: 2 },
-        { name: t('my-entities', { label: 'service.services' }), value: 1 },
-    ]
-}
-
-const highlightCellClass = (data) => {
-    return [{ 'bg-red-100 text-red-600': data > 0 }];
-};
 
 const rowClass = (data) => {
     return [{ 'inactive_row': !data.is_active }];
 };
 
 const slaClass = (data) => {
-    return [
-
-        {
-            'bg-teal-200 text-teal-900': data.SLA === '10 ימים',
-            'bg-yellow-100 text-gray-900': data.SLA === '2 ימים',
-            'bg-red-100 text-red-600 ': data.SLA === '3 ימים',
-            'text-teal-900': data.SLA === 'עמד ביעד',
-            'text-red-600': data.SLA === 'הסתיים בחריגה',
-        }
-    ];
-};
+    return listUtilsStore.getSlaConditionalStyle(data);
+}
 
 const priorityClass = (data) => {
-    return [
-        'text-blue-600',
-        {
-            'bg-blue-75': data.priority === 1 && data.is_active,
-            'bg-blue-50': data.priority === 2 && data.is_active,
-            'bg-blue-25': data.priority === 3 && data.is_active
-        }
-    ];
+    return listUtilsStore.getPriorityConditionalStyle(data);
 };
 
 const filters = ref({

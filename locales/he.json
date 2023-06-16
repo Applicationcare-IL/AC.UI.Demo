@@ -43,9 +43,18 @@
     "modified_at": "שינוי אחרון",
     "contact": {
         "contact": "איש קשר",
+        "contacts": "אנשי קשר",
+        "name": "שם האיש קשר",
+        "telephone" : "טלפון",
+        "landline" : "טלפון נייח",
+        "email" : "דוא”ל",
+        "address" : "כתובת",
+        "open-services" : "פתיחת תהליכים",
+        "open-tasks" : "פתיחת תהליכים",
         "notes": "הערות לאיש קשר",
         "id" : "ת”ז",
-        "system-id" : "מזהה"
+        "system-id" : "מזהה",
+        "main": "ראשי"
     },
     "customer": {
         "customer": "לקוח",
@@ -62,7 +71,8 @@
         "open-services" : "פתיחת תהליכים",
         "breached-services" : "תהליכים שנפרצו",
         "open-tasks" : "פתיחת משימות",
-        "breached-tasks" : "משימות שנפרצו"
+        "breached-tasks" : "משימות שנפרצו",
+        "notes" : ""
     },
     "service": {
         "service": "תהליך",
@@ -132,5 +142,13 @@
     "statuses":{
         "open": "פתוח",
         "closed": "סגור"
+    },
+    "customer-type": {
+        "private": "פרטי",
+        "business": "עסקי"
+    },
+    "customer-rating": {
+        "vip": "VIP",
+        "regular": "רגיל"
     }
 }

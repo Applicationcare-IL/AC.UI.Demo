@@ -1,7 +1,7 @@
 <template>
-  <div v-if="contact" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
-    <div class="contact-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 class="h1 mb-0">{{ $t('contact.contact') }}: {{ contact.name }}</h1>
+  <div v-if="customer" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
+    <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
+      <h1 class="h1 mb-0">{{ $t('customer.customer') }}: {{ customer.name }}</h1>
       <div class=" flex flex-row gap-5 flex-wrap">
         <div class="flex-1 card-container top-info-card">
           <Card>
@@ -10,52 +10,23 @@
               <div class="flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput name="owner" type="info" :highlighted="true" :label="$t('in-charge') + ':'"
-                           :value="contact.in_charge" />
-                  <WMInput name="id" type="info" :highlighted="true" :label="$t('id') + ':'"
-                           :value="contact.contact_id" />
+                           :value="customer.in_charge" />
+                  <WMInput name="id" type="info" :highlighted="true" :label="$t('id') + ':'" :value="customer.number" />
                   <WMInput name="system-id" type="info" :highlighted="true" :label="$t('system-id') + ':'"
-                           :value="contact.id" />
-                </div>
-                <div class="wm-form-row gap-5">
-                  <WMInput name="first-name" :required="true" type="input-text" :label="$t('first-name') + ':'"
-                           :value="contact.firstName" />
-                  <WMInput name="last-name" :required="true" validationMessage="Validation Message" type="input-text"
-                           :label="$t('last-name') + ':'" :value="contact.lastName" />
+                           :value="customer.id" />
                 </div>
                 <div class="wm-form-row gap-5">
                   <div class="wm-form-row gap-4">
-                    <WMInput name="status" :highlighted="true" type="input-select" :label="$t('status') + ':'"
-                             :options="statuses"
-                             :selectedOption="statuses.find(status => status.value === contact.status)" />
-
-                    <WMInput name="gender" :highlighted="true" type="input-select" :label="$t('gender') + ':'"
-                             :options="genders" :selectedOption="genders.find(gender => gender.value === contact.gender)"
-                             :placeholder="$t('select', ['gender'])" width="130" />
+                    <WMInput name="type" :highlighted="true" type="input-select" :label="$t('type') + ':'"
+                             :options="typeOptions"
+                             :selectedOption="typeOptions.find(type => type.value === customer.type)" />
+                    <WMInput name="rating" :highlighted="true" type="input-select" :label="$t('type') + ':'"
+                             :options="ratingOptions"
+                             :selectedOption="ratingOptions.find(rating => rating.value === customer.rating)" />
+                    <WMInput name="status" :highlighted="true" type="input-select" :label="$t('type') + ':'"
+                             :options="statusOptions"
+                             :selectedOption="statusOptions.find(status => status.value === customer.status)" />
                   </div>
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div>
-        <div class="flex-1 card-container top-info-card">
-          <Card>
-            <template #title> {{ $t('communication-details') }} </template>
-            <template #content>
-              <div class="flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <div class="wm-form-row gap-5">
-                    <WMInput name="mobile-phone" :required="true" type="input-text" :label="$t('mobilephone') + ':'"
-                             width="88" :value="contact.telephone" />
-                    <WMInput name="landline" type="input-text" :label="$t('landline') + ':'" width="88"
-                             :value="contact.landline" />
-                    <WMInput name="fax" type="input-text" :label="$t('fax') + ':'" width="88" />
-                  </div>
-                </div>
-                <div class="wm-form-row gap-5">
-                  <WMInput name="facebook" type="input-text" :label="$t('facebook') + ':'" width="88" />
-                  <WMInput name="email" :required="true" type="input-text" :label="$t('email') + ':'" width="240"
-                           :value="contact.email" />
-
                 </div>
               </div>
             </template>
@@ -77,10 +48,9 @@
                   <WMInput name="apartment" type="input-text" :label="$t('address.apartment') + ':'" width="48" />
                   <WMInput name="entrance" type="input-select" :highlighted="true" :label="$t('address.entrance') + ':'"
                            :options="alphabetWithDash" width="48" />
-                </div>
-                <div class="wm-form-row gap-5">
                   <WMInput name="zip" type="input-text" :label="$t('address.zip') + ':'" width="80" />
                 </div>
+
               </div>
             </template>
           </Card>
@@ -89,7 +59,7 @@
       <div class=" flex flex-row gap-5 flex-wrap">
         <div class="card-container middle-info-card" style="flex: 2">
           <Card>
-            <template #title> {{ $t('contact.notes') }} </template>
+            <template #title> {{ $t('customer.notes') }} </template>
             <template #content>
               <div class="contact-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
@@ -140,8 +110,8 @@
         </div>
       </div>
       <div>
-        <WMCustomersTable :customers="customers" :columns="customerColumns" :rows="5">
-        </WMCustomersTable>
+        <WMContactsTable :contacts="contacts" :columns="contactColumns" :rows="5">
+        </WMContactsTable>
       </div>
       <div>
         <WMServicesTable :services="services" :columns="serviceColumns" :rows="5" multiselect>
@@ -151,12 +121,20 @@
         <WMTasksTable :tasks="tasks" :columns="taskColumns" :rows="5" multiselect>
         </WMTasksTable>
       </div>
+      <div class=" flex flex-row gap-5 flex-wrap mt-5">
       <div class="flex-1 card-container">
         <Card>
           <template #title>
-            <div class="h1 mx-5 mt-5">{{ $t('general-details') }}</div>
+            <div class="h1 mx-5 mt-5">קבצים מצורפים</div>
           </template>
           <template #content>
+            
+          </template>
+        </Card>
+      </div>
+      <div class="flex-1 tabs-container">
+        <TabView>
+          <TabPanel header="נתונים נוספים">
             <div class="flex flex-column gap-5 m-5">
               <div class="flex flex-auto gap-5 flex-row">
                 <WMInput name="created_by" type="info" :highlighted="true" :label="$t('created_by') + ':'"
@@ -171,9 +149,28 @@
                          value="12:38  11/11/22" inline />
               </div>
             </div>
-          </template>
-        </Card>
+          </TabPanel>
+          <TabPanel header="טאב 1">
+            <p>
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+              aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+              Nemo enim
+              ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos
+              qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
+            </p>
+          </TabPanel>
+          <TabPanel header="טאב 2">
+            <p>
+              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
+              atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique
+              sunt in culpa qui
+              officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et
+              expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
+            </p>
+          </TabPanel>
+        </TabView>
       </div>
+    </div>
     </div>
   </div>
   <div v-else>
@@ -196,7 +193,7 @@ import { ServicesService } from '@/service/ServicesService';
 import { TasksService } from '@/service/TasksService';
 import { CitiesService } from '@/service/CitiesService';
 import WMServicesTable from '@/components/tables/WMServicesTable.vue';
-import WMCustomersTable from '@/components/tables/WMCustomersTable.vue';
+import WMContactsTable from '@/components/tables/WMContactsTable.vue';
 import WMTasksTable from '@/components/tables/WMTasksTable.vue';
 
 const customers = ref();
@@ -205,24 +202,26 @@ const tasks = ref();
 const cities = ref();
 
 const formUtilsStore = useFormUtilsStore();
+const OptionSetsStore = useOptionSetsStore();
 const listUtilsStore = useListUtilsStore();
-const optionSetsStore = useOptionSetsStore();
-const genders = optionSetsStore.getOptionSetValues("gender");
-const contact = ref();
+const customer = ref();
+const contacts = ref();
 const route = useRoute();
+const typeOptions = OptionSetsStore.getOptionSetValues("type")
+const ratingOptions = OptionSetsStore.getOptionSetValues("rating")
+const statusOptions = OptionSetsStore.getOptionSetValues("status")
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash
-const statuses = optionSetsStore.getOptionSetValues("status")
 
-const customerColumns = ref(listUtilsStore.getCustomerColumns);
+const contactColumns = ref(listUtilsStore.getContactColumns);
 const serviceColumns = ref(listUtilsStore.getServiceColumns);
 const taskColumns = ref(listUtilsStore.getTaskColumns);
 
 onMounted(() => {
   setTimeout(function () {
-    ContactsService.getContact(route.params.id).then((data) => (contact.value = data));
+    CustomerService.getCustomer(route.params.id).then((data) => (customer.value = data));
   }, 1000);
   setTimeout(function () {
-    CustomerService.getCustomersMini().then((data) => (customers.value = data));
+    ContactsService.getContactsMini().then((data) => (contacts.value = data));
   }, 2000);
   setTimeout(function () {
     ServicesService.getServicesMini().then((data) => (services.value = data));

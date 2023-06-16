@@ -44,6 +44,7 @@
 import { defineProps, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { FilterMatchMode } from 'primevue/api'
+import { useListUtilsStore } from '@/stores/listUtils';
 
 const { t, locale } = useI18n();
 
@@ -51,6 +52,7 @@ const selectedTasks = ref(null);
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
+const listUtilsStore = useListUtilsStore();
 
 const props = defineProps({
     tasks: Array,
@@ -60,22 +62,7 @@ const props = defineProps({
     },
     columns: {
         type: Array,
-        default: [{ name: 'eye', type: 'detail' },
-        { name: 'name', type: 'link' },
-        { name: 'telephone', type: 'text' },
-        { name: 'type', type: 'text' },
-        { name: 'selected_product', type: 'text' },
-        { name: 'status', type: 'text' },
-        { name: 'address', type: 'text' },
-        { name: 'open_processes', type: 'text' },
-        { name: 'open_tasks', type: 'text' },
-        { name: 'exception_tasks', type: 'text' },
-        { name: 'rating', type: 'text' },
-        { name: 'domain', type: 'text' },
-        { name: 'status', type: 'text' },
-        { name: 'id', type: 'text' },
-        { name: 'in_charge', type: 'text' }
-        ]
+        required: true
     },
     multiselect: {
         type: Boolean,
@@ -83,36 +70,20 @@ const props = defineProps({
     }
 });
 
+const options = ref();
+options.value = listUtilsStore.getSelectFilterButtonValues('task.tasks');
+
 watch(locale, () => {
-    options.value = getSelectButtonValues();
+    options.value = listUtilsStore.getSelectFilterButtonValues('task.tasks');
 });
-
-
-const options = ref(getSelectButtonValues());
-
-function getSelectButtonValues() {
-    return [
-        { name: t('all-entities', { label: 'task.tasks' }), value: 2 },
-        { name: t('my-entities', { label: 'task.tasks' }), value: 1 },
-    ]
-}
 
 const rowClass = (data) => {
     return [{ 'inactive_row': !data.is_open }];
 };
 
 const slaClass = (data) => {
-    return [
-
-        {
-            'bg-teal-200 text-teal-900': data.SLA === '10 ימים',
-            'bg-yellow-100 text-gray-900': data.SLA === '2 ימים',
-            'bg-red-100 text-red-600 ': data.SLA === '3 ימים',
-            'text-teal-900': data.SLA === 'עמד ביעד',
-            'text-red-600': data.SLA === 'הסתיים בחריגה',
-        }
-    ];
-};
+    return listUtilsStore.getSlaConditionalStyle(data);
+}
 
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },

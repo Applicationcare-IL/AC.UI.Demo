@@ -24,7 +24,10 @@ import Button from 'primevue/button';
 import Card from 'primevue/card';
 import Chart from 'primevue/chart';
 import Chip from 'primevue/chip';
+import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
 import Tag from 'primevue/tag';
+
 import i18n from '@/i18n';
 
 
@@ -50,6 +53,8 @@ const app = createApp(App)
 .component('Card', Card)
 .component('Chart', Chart)
 .component('Chip', Chip)
+.component('TabView', TabView)
+.component('TabPanel', TabPanel)
 .component('Tag', Tag);
 
 app.config.globalProperties.$appState = reactive({ isRTL: false, isNewThemeLoaded: false, layoutMode: 'light' });

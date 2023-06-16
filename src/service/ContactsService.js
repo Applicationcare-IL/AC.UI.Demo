@@ -5,6 +5,7 @@ export const ContactsService = {
         for (let i = 0; i < 100; i++) {
             const is_active = Math.random() < 0.95;
             const is_male = Math.random() < 0.5;
+            const is_main = Math.random() < 0.2;
             contacts.push({
                 id: '000'+ i,
                 contact_id: '795'+ i,
@@ -18,14 +19,16 @@ export const ContactsService = {
                 landline: '050-1234567',
                 email: 'mailmail@mail.com',
                 address: 'שמעון פרס 15, רחובות',
-                open_processes: parseInt(Math.random() * 4),
-                exception_processes: parseInt(Math.random() * 8),
+                open_services: parseInt(Math.random() * 4),
+                exception_services: parseInt(Math.random() * 8),
                 open_tasks: parseInt(Math.random() * 8),
                 exception_tasks:  parseInt(Math.random() * 3),
                 staff: '106 מוקד',
                 status: is_active ? 'open' : 'closed',
                 in_charge: 'Israel Israeli', 
-                gender: is_male ? 'male' : 'female'
+                gender: is_male ? 'male' : 'female',
+                is_main: is_main,
+                role: 'שם של תפקיד',
             });
         }
 

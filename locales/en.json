@@ -44,9 +44,18 @@
     "modified_at": "Modified at",
     "contact" : {
         "contact": "Contact",
+        "contacts": "Contacts",
+        "name" : "Contact Name",
+        "telephone" : "Telephone",
+        "landline" : "Landline",
+        "email" : "Email",
+        "address" : "Address",
+        "open-services" : "Open Services",
+        "open-tasks" : "Open Tasks",
         "notes": "Contact notes",
         "id" : "ID",
-        "system-id" : "System ID"
+        "system-id" : "System ID",
+        "main" : "Main"
     },
     "customer":{
         "customer": "Customer",
@@ -64,7 +73,8 @@
         "open-services" : "Open Services",
         "breached-services" : "Breached Services",
         "open-tasks" : "Open Tasks",
-        "breached-tasks" : "Breached Tasks"
+        "breached-tasks" : "Breached Tasks",
+        "notes" : "Customer Notes"
     },
     "service": {
         "service": "Service",
@@ -135,5 +145,13 @@
     "statuses":{
         "open": "Open",
         "closed": "Closed"
+    },
+    "customer-type": {
+        "private": "Private",
+        "business": "Business"
+    },
+    "customer-rating": {
+        "vip": "VIP",
+        "regular": "Regular"
     }
 }

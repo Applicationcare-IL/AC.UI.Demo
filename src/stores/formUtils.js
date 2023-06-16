@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { useI18n } from 'vue-i18n';
 import * as yup from 'yup';
 
 const israeliPhoneRegex = /^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$/;
@@ -7,40 +6,20 @@ const israeliLandlineRegex = /^0(?:[234689]|5[0-689]|7[246789])(?![01])(\d{7})$/
 
 export const useFormUtilsStore = defineStore('formUtils', {
     state: () => ({
-        genders: [
-            { value: 'male', translationKey: 'genders.male' },
-            { value: 'female', translationKey: 'genders.female' },
-            { value: 'other', translationKey: 'genders.other' },
-        ],
-        statusOptions: [
-            { value: 'open', translationKey: 'statuses.open' },
-            { value: 'closed', translationKey: 'statuses.closed' },
-        ],
+
         submit: '',
         formErrors: '',
         israeliPhoneRegex:israeliPhoneRegex,
         israeliLandlineRegex:israeliLandlineRegex,
     }),
     getters: {
-        getGenders: (state) => {
-            const i18n = useI18n();
-            return state.genders.map((gender) => ({
-                value: gender.value,
-                label: i18n.t(gender.translationKey),
-            }));
-        },
+       
         getAlphabetWithDash: () => {
             const alphabet = 'אבגדהוזחטיכךלמםנןסעפףצץקרשת'.split('');
             const alphabetWithDash = alphabet.map(letter => ({ label: "-" + letter, value: "-" + letter }));
             return alphabetWithDash;
         },
-        getStatusOptions: (state) => {
-            const i18n = useI18n();
-            return state.statusOptions.map((option) => ({
-                value: option.value,
-                label: i18n.t(option.translationKey),
-            }));
-        },
+       
         getServiceFormValidationSchema: () => {
             return yup.object({
                 'contact': yup.object().required({ key: 'validation.required-select', values: { label: 'contact' } })

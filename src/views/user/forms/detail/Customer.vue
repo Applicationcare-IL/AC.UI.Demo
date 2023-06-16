@@ -1,9 +1,9 @@
 <template>
     <WMDetailFormSubHeader></WMDetailFormSubHeader>
-    <WMDetailContactForm></WMDetailContactForm>
+    <WMDetailCustomerForm></WMDetailCustomerForm>
 </template>
 
 <script setup>
-import WMDetailContactForm from '@/components/forms/WMDetailContactForm.vue';
+import WMDetailCustomerForm from '@/components/forms/WMDetailCustomerForm.vue';
 import WMDetailFormSubHeader from '@/components/layout/WMDetailFormSubHeader.vue';
 </script>
