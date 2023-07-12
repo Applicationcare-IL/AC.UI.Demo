@@ -17,7 +17,10 @@
                   optionLabel="label" v-model="selectedInput"  :placeholder="placeholder"
                   :style="{ width: width + 'px' }">
         </Dropdown>
-        <span v-if="type == 'info'">{{ value }}</span>
+        <span v-if="type == 'info'" :class="props.class">{{ value }}</span>
+        <span v-if="type == 'info-link'">
+            <router-link :to="props.to">{{ value }}</router-link>
+        </span>
         <span v-if="errorMessage" class="wm-validation-message">
             {{ typeof errorMessage === 'string' ? $t(errorMessage) : $t(errorMessage.key, errorMessage.values) }}
         </span>
@@ -35,6 +38,10 @@ defineEmits(['update:value'])
 
 const props = defineProps({
     value: {
+        type: String,
+        default: '',
+    },
+    to: {
         type: String,
         default: '',
     },
@@ -91,6 +98,9 @@ const props = defineProps({
     },
     selectedOption:{
         type: Object,
+    },
+    class:{
+        type: String,
     }
 });
 

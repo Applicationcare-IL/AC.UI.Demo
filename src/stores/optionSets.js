@@ -25,6 +25,16 @@ export const useOptionSetsStore = defineStore('optionSets', {
             { value: 'sharp-internet-jokes', translationKey: 'classification1.sharp-internet-jokes' },
             { value: 'people-named-robert', translationKey: 'classification1.people-named-robert' },
         ],
+        classification4: [
+            { value: 'urban-architect', translationKey: 'classification1.urban-architect' },
+            { value: 'sharp-internet-jokes', translationKey: 'classification1.sharp-internet-jokes' },
+            { value: 'people-named-robert', translationKey: 'classification1.people-named-robert' },
+        ],
+        classification5: [
+            { value: 'urban-architect', translationKey: 'classification1.urban-architect' },
+            { value: 'sharp-internet-jokes', translationKey: 'classification1.sharp-internet-jokes' },
+            { value: 'people-named-robert', translationKey: 'classification1.people-named-robert' },
+        ],
     }),
     getters: {
 

@@ -13,12 +13,12 @@
             <Column style="width: 40px" selectionMode="multiple"></Column>
             <Column field="service_number" header="מס’ תהליך">
                 <template #body="slotProps">
-                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.service_number }}</router-link>
+                    <router-link :to="{name:'serviceDetail', params : {'id': slotProps.data.service_number}}" class="vertical-align-middle">{{ slotProps.data.contact }}</router-link>
                 </template>
             </Column>
             <Column field="contact" header="איש קשר">
                 <template #body="slotProps">
-                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.contact }}</router-link>
+                    <router-link :to="{name:'contactDetail', params : {'id': slotProps.data.contact_id}}" class="vertical-align-middle">{{ slotProps.data.contact }}</router-link>
                 </template>
             </Column>
 
@@ -48,8 +48,8 @@
                     </div>
                 </template>
             </Column>
-            <Column field="recurrent" header="חוזר"></Column>
-            <Column field="urgent" header="שינוי אחרון"></Column>
+            <Column field="recurring" header="חוזר"></Column>
+            <Column field="urgency" header="שינוי אחרון"></Column>
             <Column field="closed" header="נסגר"></Column>
             <Column field="stage" header="שליחת נציג בטחון"></Column>
 

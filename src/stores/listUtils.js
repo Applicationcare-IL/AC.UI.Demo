@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { useI18n } from 'vue-i18n';
 
 export const useListUtilsStore = defineStore('listUtils', {
     state: () => ({
@@ -48,7 +47,7 @@ export const useListUtilsStore = defineStore('listUtils', {
                 {name: 'team', type: 'text', header: 'service.team'},
                 {name: 'SLA', type: 'sla', header: 'service.sla', class: 'sla'},
                 {name: 'priority', type: 'priority', header: 'service.priority', class: 'numeric'},
-                {name: 'recurrent', type: 'text', header: 'service.recurrent'},
+                {name: 'recurring', type: 'text', header: 'service.recurring'},
                 {name: 'last_change', type: 'text', header: 'service.last-change'},
                 {name: 'closed', type: 'text', header: 'service.date-closed'},
                 {name: 'stage', type: 'text', header: 'service.stage'},
@@ -75,8 +74,8 @@ export const useListUtilsStore = defineStore('listUtils', {
             return [{ 'bg-red-100 text-red-600': data > 0 }];
         },
 
-        getSelectFilterButtonValues: (entityPlural) => {
-            const i18n = useI18n();
+        getSelectFilterButtonValues: (entityPlural, i18n) => {
+            
             return [
                 { name: i18n.t('all-entities', { label: entityPlural }), value: 2 },
                 { name: i18n.t('my-entities', { label: entityPlural }), value: 1 },

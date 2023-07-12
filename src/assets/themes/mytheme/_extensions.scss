@@ -154,6 +154,18 @@ body {
     white-space: nowrap;
 }
 
+.p-dataview-layout-options.p-selectbutton.p-buttonset .p-button:first-of-type{
+    border-radius: 4px 0 0 4px;
+    width: 24px;
+    height: 24px;
+}
+
+.p-dataview-layout-options.p-selectbutton.p-buttonset .p-button:last-of-type {
+    border-radius: 0 4px 4px 0;
+    width: 24px;
+    height: 24px;
+}
+
 // Scroll
 
 ::-webkit-scrollbar {
@@ -274,7 +286,7 @@ body {
 }
 
 .p-component {
-    & input,tr, .p-dropdown-items, .wm-input>span{
+    & input,tr, .p-dropdown-items, .wm-input>span, .p-dataview{
         font-family:  var(--font-family-secondary);
     }
 }
@@ -392,5 +404,15 @@ a {
     box-shadow: none;
 }
 
-//Dropdown
-//p-dropdown-panel p-component > p-dropdown-items-wrapper > p-dropdown-item
+//Dataview
+.files-dataview .p-dataview-content{
+    padding: 8px;
+    height: 220px;
+    overflow: auto;
+    border-radius: 8px;
+}
+
+.files-dataview .p-dataview-header{
+    border:none;
+    background: none;
+}

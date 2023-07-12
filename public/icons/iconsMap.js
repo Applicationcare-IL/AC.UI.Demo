@@ -35,6 +35,18 @@ export default {
     active: 'done_type1_active.svg',
     disabled: 'done_type1_disabled.svg'
   },
+  expand: {
+    default: 'expand_light.svg',
+    hovered: 'expand_light.svg',
+    active: 'expand_light.svg',
+    disabled: 'expand_disabled.svg'
+  },
+  expand_white: {
+    default: 'expand_dark.svg',
+    hovered: 'expand_dark.svg',
+    active: 'expand_dark.svg',
+    disabled: 'expand_disabled.svg'
+  },
   export: {
     default: 'export_type1_default.svg',
     hovered: 'export_type1_hover.svg',
@@ -82,6 +94,12 @@ export default {
     hovered: 'unlink_default.svg',
     active: 'unlink_default.svg',
     disabled: 'unlink_disabled.svg'
+  },
+  kebab: {
+    default: 'kebab_default.svg',
+    hovered: 'kebab_default.svg',
+    active: 'kebab_default.svg',
+    disabled: 'kebab_disabled.svg'
   },
   edit: {
     default: 'edit_default.svg',

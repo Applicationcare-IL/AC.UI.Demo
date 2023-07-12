@@ -1,3 +1,5 @@
+import { number } from "yup";
+
 export const ServicesService = {
     getServicesData() {
         const services = []; 
@@ -7,23 +9,48 @@ export const ServicesService = {
             services.push({
                 service_number: '469879'+ i,
                 contact: 'שלומי שבת',
+                contact_id: '795'+ i,
+                customer: 'מועצה דתית בית הכנסת',
+                customer_id: '0000' + i,
                 open_date: '11/11/22',
                 due_date: '11/12/23',
                 classification_1: 'בטחון',
                 classification_2: 'בטחון',
                 classification_3: 'אדם חשוד',
+                classification_4: 'אדם חשוד',
+                classification_5: 'אדם חשוד',
                 duration: '01:40:00',
-                in_charge: 'Israel Israeli',
+                owner: 'Israel Israeli',
                 staff: '106 מוקד',
                 SLA: is_active ? slas[parseInt(Math.random() * 3)] : slas[parseInt(Math.random() * 2 + 3)],
                 priority: parseInt(Math.random() * 3 +1)  ,
-                recurrent: 'לא',
-                urgent: 'לא דחוף',
+                recurring: 'לא',
+                urgency: 'לא דחוף',
                 last_change: '11/11/22 10:23',
                 closed: '--',
                 stage: 'שליחת נציג בטחון',
-                team: 'מוקד 106',
+                team: 'אגף רישוי ופיקוח (הנדסה)',
                 is_active: is_active,
+                location: {
+                    house_number: '12',
+                    apartment: '42',
+                    entrance: 'ב',
+                    street: 'שמעון פרס',
+                    city: 'כוכב יאיר',
+                    country: 'ישראל',
+                    zip: '1234567',
+                },
+                site: {
+                    name: 'מועצה דתית בית הכנסת',
+                    contact: 'שלומי שבת',
+                    contact_id: '795'+ i,
+                    contact_role: 'אחראי תברואה',
+                    phone: '054-1234567',
+                    email: 'mailmail@mailmail.com',
+                    type: 'ציבורי',
+
+                }
+                
             });
         }
 
@@ -48,6 +75,9 @@ export const ServicesService = {
 
     getServicesWithOrders() {
         return Promise.resolve(this.getServicesWithOrdersData());
+    },
+    getService(service_number){
+        return Promise.resolve(this.getServicesData().find((service) => service.service_number === service_number));
     }
     
     

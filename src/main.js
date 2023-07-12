@@ -21,12 +21,19 @@ import SelectButton  from 'primevue/selectbutton';
 import ScrollPanel  from 'primevue/scrollpanel';
 import BadgeDirective from 'primevue/badgedirective';
 import Button from 'primevue/button';
+import Menu from 'primevue/menu';
+import ContextMenu from 'primevue/contextmenu';
 import Card from 'primevue/card';
 import Chart from 'primevue/chart';
 import Chip from 'primevue/chip';
 import TabView from 'primevue/tabview';
+import DataView from 'primevue/dataView';
+import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions';
 import TabPanel from 'primevue/tabpanel';
+import FileUpload from 'primevue/fileupload';
 import Tag from 'primevue/tag';
+import Steps from 'primevue/steps';
+
 
 import i18n from '@/i18n';
 
@@ -50,12 +57,18 @@ const app = createApp(App)
 .component('SelectButton', SelectButton)
 .component('ScrollPanel', ScrollPanel)
 .component('Button', Button)
+.component('Menu', Menu)
+.component('ContextMenu', ContextMenu)
 .component('Card', Card)
 .component('Chart', Chart)
 .component('Chip', Chip)
 .component('TabView', TabView)
+.component('DataView', DataView)
+.component('DataViewLayoutOptions', DataViewLayoutOptions)
 .component('TabPanel', TabPanel)
-.component('Tag', Tag);
+.component('FileUpload', FileUpload)
+.component('Tag', Tag)
+.component('Steps', Steps);
 
 app.config.globalProperties.$appState = reactive({ isRTL: false, isNewThemeLoaded: false, layoutMode: 'light' });
 app.directive('badge', BadgeDirective);

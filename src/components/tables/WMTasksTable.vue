@@ -53,6 +53,7 @@ const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
 const listUtilsStore = useListUtilsStore();
+const i18n = useI18n();
 
 const props = defineProps({
     tasks: Array,
@@ -71,10 +72,10 @@ const props = defineProps({
 });
 
 const options = ref();
-options.value = listUtilsStore.getSelectFilterButtonValues('task.tasks');
+options.value = listUtilsStore.getSelectFilterButtonValues('task.tasks', i18n);
 
 watch(locale, () => {
-    options.value = listUtilsStore.getSelectFilterButtonValues('task.tasks');
+    options.value = listUtilsStore.getSelectFilterButtonValues('task.tasks', i18n);
 });
 
 const rowClass = (data) => {

@@ -32,9 +32,9 @@
     "short-classification": "Short Classification",
     "classification-1": "Area",
     "classification-2": "Subarea",
-    "classification-3": "Process Core",
-    "classification-4": "Process Subject",
-    "classification-5": "Process Detail",
+    "classification-3": "Service Core",
+    "classification-4": "Service Subject",
+    "classification-5": "Service Detail",
     "description": "Description",
     "all-entities": "All @.lower:{label}",
     "my-entities": "My @.lower:{label}",
@@ -79,9 +79,9 @@
     "service": {
         "service": "Service",
         "services": "Services",
+        "assign" : "Assign",
         "open" : "Open Services",
         "breached" : "Open Services",
-        "assign" : "Assign",
         "number": "Service number",
         "open-date": "Open date",
         "due-date": "Due date",
@@ -93,9 +93,13 @@
         "duration" : "Duration",
         "team" : "Team",
         "priority" : "Priority",
-        "recurrent" : "Recurrent",
+        "urgency" : "Urgency",
+        "recurring" : "Recurring",
         "last-change" : "Last change",
-        "date-closed" : "Closed at"
+        "date-closed" : "Closed at",
+        "location": "Location",
+        "description" :"Description",
+        "classification" : "Classification"
         
     },
     "task" : {
@@ -113,11 +117,15 @@
         "notes" : "Notes"
     },
     "site": {
+        "details": "Site Details",
         "site": "Site",
         "name": "Site name",
         "type": "Site type",
         "contact": "Site contact",
-        "contact-role": "Site contact role"
+        "contact_role": "Site contact role",
+        "phone": "Phone",
+        "email": "Email",
+        "street": "Street"
     },
     "address": {
         "address": "Address",

@@ -75,8 +75,8 @@
         "notes" : ""
     },
     "service": {
-        "service": "תהליך",
-        "services": "תהליכים",
+        "service": "שירות",
+        "services": "שירותים",
         "assign" : "הקצה",
         "open" : "פתיחה תהליכים",
         "breached" : "תהליכים שנפרצו",
@@ -91,9 +91,13 @@
         "duration" : "משך זמן",
         "team" : "צוות",
         "priority" : "דחיפות",
-        "recurrent" : "חוזר",
+        "recurring" : "פניה חוזרת",
+        "urgency" : "דחיפות",
         "last-change" : "שינוי אחרון",
-        "date-closed" : "נסגר בתאריך"
+        "date-closed" : "נסגר בתאריך",
+        "location": "מיקום",
+        "description" :"תיאור",
+        "classification" : "סיווג"
     },
     "task": {
         "task": "משימה",
@@ -110,11 +114,15 @@
         "notes" : "הערות"
     },
     "site": {
+        "details" : "פרטי מיקום",
         "site": "מיקום",
         "name": "שם המיקום",
         "type": "סוג המיקום",
         "contact": "איש קשר במיקום",
-        "contact-role": "תפקיד איש הקשר"
+        "contact_role": "תפקיד איש הקשר",
+        "phone": "טלפון",
+        "email": "דוא”ל",
+        "street": "רחוב"
     },
     "address": {
         "address": "כתובת",
