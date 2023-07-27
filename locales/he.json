@@ -85,7 +85,7 @@
         "due-date": "תאריך יעד",
         "stage" : "שלב",
         "sla" : "SLA",
-        "in-charge" : "אחראי",
+        "owner" : "אחראי",
         "status" : "סטטוס",
         "notes" : "הערות",
         "duration" : "משך זמן",
@@ -109,7 +109,7 @@
         "stage" : "שלב",
         "sla" : "SLA",
         "due_date" : "תאריך יעד",
-        "in_charge" : "אחראי",
+        "owner" : "אחראי",
         "status" : "סטטוס",
         "notes" : "הערות"
     },

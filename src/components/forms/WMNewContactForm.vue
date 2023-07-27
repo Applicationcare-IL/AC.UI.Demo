@@ -4,7 +4,7 @@
       <h1 class="h1 mb-0">{{ $t('new', ['contact.contact']) }}</h1>
 
       <div class="wm-form-row">
-        <WMInput name="owner" type="info" :highlighted="true" :label="$t('in-charge') + ':'"
+        <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner') + ':'"
                  value="Israel Israeli"></WMInput>
       </div>
       <div class="wm-form-row gap-5">

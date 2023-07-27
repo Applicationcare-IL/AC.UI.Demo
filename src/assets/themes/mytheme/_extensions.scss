@@ -405,14 +405,20 @@ a {
 }
 
 //Dataview
-.files-dataview .p-dataview-content{
+.files-dataview .p-dataview-content,
+.journal-dataview .p-dataview-content{
     padding: 8px;
     height: 220px;
     overflow: auto;
     border-radius: 8px;
 }
 
-.files-dataview .p-dataview-header{
+.service-data .p-fileupload-content{
     border:none;
-    background: none;
 }
+
+// .files-dataview .p-dataview-header,
+//     .journal-dataview .p-dataview-header{
+//     border:none;
+//     background: none;
+// }

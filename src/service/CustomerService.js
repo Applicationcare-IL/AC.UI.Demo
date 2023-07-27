@@ -24,7 +24,7 @@ export const CustomerService = {
                 domain: 'שם של תחום',
                 number: '0000' + i,
                 id: '0000' + i,
-                in_charge: 'Israel Israeli',
+                owner: 'Israel Israeli',
             });
         }
 

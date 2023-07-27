@@ -5,7 +5,7 @@
       <div class="wm-form-row gap-5">
         <WMInput name="owner"
                  type="info" :highlighted="true"
-                 :label="$t('in-charge') + ':'"
+                 :label="$t('owner') + ':'"
                  value="Israel Israeli" />
         <WMInput name="id" type="info"
                  :highlighted="true"

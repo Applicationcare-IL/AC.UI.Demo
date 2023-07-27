@@ -71,7 +71,7 @@ const props = defineProps({
     },
     columns: {
         type: Array,
-        default: ['eye', 'name', 'telephone', 'type', 'selected_product', 'status', 'address', 'open_processes', 'open_tasks', 'exception_tasks', 'rating', 'domain', 'status', 'id', 'in_charge']
+        default: ['eye', 'name', 'telephone', 'type', 'selected_product', 'status', 'address', 'open_processes', 'open_tasks', 'exception_tasks', 'rating', 'domain', 'status', 'id', 'owner']
     },
     multiselect: {
         type: Boolean,

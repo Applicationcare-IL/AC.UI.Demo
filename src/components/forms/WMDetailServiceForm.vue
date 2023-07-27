@@ -178,24 +178,15 @@
              Journal
             </template>
             <template #content>
+
+              <div class="journal-dataview">
+                <WMJournalDataView></WMJournalDataView>
+              </div>
             </template>
           </Card>
         </div>
       </div>
 
-
-      <div class=" flex flex-row gap-5 flex-wrap mt-5">
-        <div class="flex-1 card-container">
-          <Card>
-            <template #title>
-              <div class="h1 mx-5 mt-5">קבצים מצורפים</div>
-            </template>
-            <template #content>
-
-            </template>
-          </Card>
-        </div>
-      </div>
       <div class="flex-1 tabs-container mt-5">
           <TabView>
             <TabPanel header="נתונים נוספים">
@@ -258,6 +249,7 @@ import { TasksService } from '@/service/TasksService';
 import WMTasksTable from '@/components/tables/WMTasksTable.vue';
 import Stepper from '@/components/WMStepper.vue';
 import WMFilesDataView from '@/components/WMFilesDataView.vue';
+import WMJournalDataView from '@/components/WMJournalDataView.vue';
 
 const items = ref([
   {

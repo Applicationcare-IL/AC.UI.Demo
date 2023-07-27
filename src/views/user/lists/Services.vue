@@ -13,7 +13,7 @@
             <Column style="width: 40px" selectionMode="multiple"></Column>
             <Column field="service_number" header="מס’ תהליך">
                 <template #body="slotProps">
-                    <router-link :to="{name:'serviceDetail', params : {'id': slotProps.data.service_number}}" class="vertical-align-middle">{{ slotProps.data.contact }}</router-link>
+                    <router-link :to="{name:'serviceDetail', params : {'id': slotProps.data.service_number}}" class="vertical-align-middle">{{ slotProps.data.service_number }}</router-link>
                 </template>
             </Column>
             <Column field="contact" header="איש קשר">
@@ -28,9 +28,9 @@
             <Column field="classification_2" header="תת-תחום"></Column>
             <Column field="classification_3" header="מהות תהליך"></Column>
             <Column field="duration" header="משך"></Column>
-            <Column field="in_charge" header="אחראי">
+            <Column field="owner" header="אחראי">
                 <template #body="slotProps">
-                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.in_charge }}</router-link>
+                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.owner }}</router-link>
                 </template>
             </Column>
             <Column field="staff" header="צוות"></Column>

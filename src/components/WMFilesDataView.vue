@@ -69,7 +69,7 @@
                     </div>
                 </template>
             </DataView>
-            <WMButton class="my-3" name="attach" icon="attach" @click="onAttachClick">Attach</WMButton>
+            
             <div v-if='uploadedFiles.length > 0'>
                 <span>Uploaded Files</span>
                 <div v-for="(file, index) of uploadedFiles"
@@ -78,7 +78,10 @@
                 </div>
             </div>
         </template>
+
+        
     </FileUpload>
+    <WMButton class="my-3" name="attach" icon="attach" @click="onAttachClick">Attach</WMButton>
 </template>
 
 <script setup>
@@ -95,7 +98,7 @@ const onAttachClick = () => {
     document.querySelector('.p-fileupload-choose').click();
 };
 
-const layout = ref('grid');
+const layout = ref('list');
 const products = ref();
 
 const menu = ref();

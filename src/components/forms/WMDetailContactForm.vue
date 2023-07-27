@@ -9,8 +9,8 @@
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <WMInput name="owner" type="info" :highlighted="true" :label="$t('in-charge') + ':'"
-                           :value="contact.in_charge" />
+                  <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner') + ':'"
+                           :value="contact.owner" />
                   <WMInput name="id" type="info" :highlighted="true" :label="$t('id') + ':'"
                            :value="contact.contact_id" />
                   <WMInput name="system-id" type="info" :highlighted="true" :label="$t('system-id') + ':'"

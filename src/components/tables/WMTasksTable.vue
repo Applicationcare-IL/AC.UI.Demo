@@ -26,7 +26,7 @@
         <Column v-for="column in columns" :key="column.name" :field="column.name"
                 :header="column.header ? $t(column.header) : $t(`task.${column.name}`)" :class="column.class">
             <template v-if="column.type === 'link'" #body="slotProps">
-                <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data[column.name] }}</router-link>
+                <router-link :to="{name:'taskDetail', params : {'id': slotProps.data.task_number}}" class="vertical-align-middle">{{ slotProps.data.task_number }}</router-link>
             </template>
             <template v-if="column.type === 'detail'">
                 <img src="/icons/eye.svg" alt="" class="vertical-align-middle">

@@ -48,7 +48,6 @@ export const ServicesService = {
                     phone: '054-1234567',
                     email: 'mailmail@mailmail.com',
                     type: 'ציבורי',
-
                 }
                 
             });

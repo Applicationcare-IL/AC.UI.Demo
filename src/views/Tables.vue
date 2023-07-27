@@ -52,7 +52,7 @@
             <Column field="domain" header="דירוג"></Column>
             <Column field="status" header="תחום"></Column>
             <Column field="id" header="מזהה"></Column>
-            <Column field="in_charge" header="אחראי"></Column>
+            <Column field="owner" header="אחראי"></Column>
         </DataTable>
     </div>
 </template>

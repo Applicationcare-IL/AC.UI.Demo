@@ -43,7 +43,7 @@ export const useListUtilsStore = defineStore('listUtils', {
                 {name: 'classification_2', type: 'text', header: 'classification-2'},
                 {name: 'classification_3', type: 'text', header: 'classification-3'},
                 {name: 'duration', type: 'text', header: 'service.duration'},
-                {name: 'in_charge', type: 'link', header: 'service.in-charge'},
+                {name: 'owner', type: 'link', header: 'service.owner'},
                 {name: 'team', type: 'text', header: 'service.team'},
                 {name: 'SLA', type: 'sla', header: 'service.sla', class: 'sla'},
                 {name: 'priority', type: 'priority', header: 'service.priority', class: 'numeric'},
@@ -62,7 +62,7 @@ export const useListUtilsStore = defineStore('listUtils', {
                 { name: 'stage', type: 'text' },
                 { name: 'sla', type: 'sla', class: 'sla' },
                 { name: 'due_date', type: 'text' },
-                { name: 'in_charge', type: 'link' },
+                { name: 'owner', type: 'link' },
                 { name: 'status', type: 'text' },
                 { name: 'notes', type: 'text' }
             ];

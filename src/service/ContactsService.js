@@ -25,7 +25,7 @@ export const ContactsService = {
                 exception_tasks:  parseInt(Math.random() * 3),
                 staff: '106 מוקד',
                 status: is_active ? 'open' : 'closed',
-                in_charge: 'Israel Israeli', 
+                owner: 'Israel Israeli', 
                 gender: is_male ? 'male' : 'female',
                 is_main: is_main,
                 role: 'שם של תפקיד',

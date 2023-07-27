@@ -1,10 +1,10 @@
 <template>
-    <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]" entity="task">
+    <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]"
+                     entity="task">
     </WMListSubHeader>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
         <DataTable v-model:selection="selectedTasks" :rowClass="rowClass" :value="tasks" dataKey="task_number"
-                   tableStyle="min-width: 50rem"
-                   class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="15">
+                   tableStyle="min-width: 50rem" class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="15">
             <Column style="width: 35px">
                 <template #body="slotProps">
                     <img src="/icons/eye.svg" alt="" class="vertical-align-middle">
@@ -13,12 +13,14 @@
             <Column style="width: 40px" selectionMode="multiple"></Column>
             <Column field="task_number" header="מס’ משימה">
                 <template #body="slotProps">
-                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.task_number }}</router-link>
+                    <router-link :to="{ name: 'taskDetail', params: { 'id': slotProps.data.task_number } }"
+                                 class="vertical-align-middle">{{ slotProps.data.task_number }}</router-link>
                 </template>
             </Column>
             <Column field="process_number" header="מס’ תהליך">
                 <template #body="slotProps">
                     <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.process_number }}</router-link>
+                
                 </template>
             </Column>
 
@@ -38,9 +40,9 @@
                     </div>
                 </template>
             </Column>
-            <Column field="in_charge" header="אחראי">
+            <Column field="owner" header="אחראי">
                 <template #body="slotProps">
-                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.in_charge }}</router-link>
+                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.owner }}</router-link>
                 </template>
             </Column>
             <Column field="customer" header="לקוח">
@@ -65,7 +67,7 @@ import WMListSubHeader from '@/components/layout/WMListSubHeader.vue';
 
 onMounted(() => {
     TasksService.getTasks().then((data) => (tasks.value = data));
-}); 
+});
 
 const tasks = ref();
 const selectedTasks = ref([]);
