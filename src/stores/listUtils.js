@@ -19,6 +19,15 @@ export const useListUtilsStore = defineStore('listUtils', {
                 { name: 'actions', type: 'actions', header: 'actions', class: 'buttons' }
             ];
         },
+        getContactDetailColumns: () => {
+            return [
+                { name: 'star', type: 'star', header: 'contact.main', class: 'column-star' },
+                { name: 'name', type: 'link', to: 'contact', linkParameter: 'id' },
+                { name: 'telephone', type: 'text' },
+                { name: 'email', type: 'text' },
+                { name: 'role', type: 'text', header: 'role' },
+            ];
+        },
         getCustomerColumns: () => {
             return [
                 { name: 'star', type: 'star', header: 'customer.main', class: 'column-star' },
@@ -35,23 +44,23 @@ export const useListUtilsStore = defineStore('listUtils', {
             ];
         },
         getServiceColumns: () => {
-                return [
-                {name: 'service_number', type: 'link', header: 'service.number'},
-                {name: 'open_date', type: 'text', header: 'service.open-date'},
-                {name: 'due_date', type: 'text', header: 'service.due-date'},
-                {name: 'classification_1', type: 'text', header: 'classification-1'},
-                {name: 'classification_2', type: 'text', header: 'classification-2'},
-                {name: 'classification_3', type: 'text', header: 'classification-3'},
-                {name: 'duration', type: 'text', header: 'service.duration'},
-                {name: 'owner', type: 'link', header: 'service.owner'},
-                {name: 'team', type: 'text', header: 'service.team'},
-                {name: 'SLA', type: 'sla', header: 'service.sla', class: 'sla'},
-                {name: 'priority', type: 'priority', header: 'service.priority', class: 'numeric'},
-                {name: 'recurring', type: 'text', header: 'service.recurring'},
-                {name: 'last_change', type: 'text', header: 'service.last-change'},
-                {name: 'closed', type: 'text', header: 'service.date-closed'},
-                {name: 'stage', type: 'text', header: 'service.stage'},
-                
+            return [
+                { name: 'service_number', type: 'link', header: 'service.number' },
+                { name: 'open_date', type: 'text', header: 'service.open-date' },
+                { name: 'due_date', type: 'text', header: 'service.due-date' },
+                { name: 'classification_1', type: 'text', header: 'classification-1' },
+                { name: 'classification_2', type: 'text', header: 'classification-2' },
+                { name: 'classification_3', type: 'text', header: 'classification-3' },
+                { name: 'duration', type: 'text', header: 'service.duration' },
+                { name: 'owner', type: 'link', header: 'service.owner' },
+                { name: 'team', type: 'text', header: 'service.team' },
+                { name: 'SLA', type: 'sla', header: 'service.sla', class: 'sla' },
+                { name: 'priority', type: 'priority', header: 'service.priority', class: 'numeric' },
+                { name: 'recurring', type: 'text', header: 'service.recurring' },
+                { name: 'last_change', type: 'text', header: 'service.last-change' },
+                { name: 'closed', type: 'text', header: 'service.date-closed' },
+                { name: 'stage', type: 'text', header: 'service.stage' },
+
             ];
         },
         getTaskColumns: () => {
@@ -70,12 +79,12 @@ export const useListUtilsStore = defineStore('listUtils', {
 
     },
     actions: {
-        getAlertCellConditionalStyle: (data) =>{
+        getAlertCellConditionalStyle: (data) => {
             return [{ 'bg-red-100 text-red-600': data > 0 }];
         },
 
         getSelectFilterButtonValues: (entityPlural, i18n) => {
-            
+            console.log(i18n);
             return [
                 { name: i18n.t('all-entities', { label: entityPlural }), value: 2 },
                 { name: i18n.t('my-entities', { label: entityPlural }), value: 1 },

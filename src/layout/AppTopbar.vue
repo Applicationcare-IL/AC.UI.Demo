@@ -13,6 +13,7 @@ const { layoutConfig, onMenuToggle, contextPath } = useLayout();
 const outsideClickListener = ref(null);
 const topbarMenuActive = ref(false);
 const router = useRouter();
+const searchValue = ref('');
 
 defineProps({
     activeTopbarItem: String
@@ -99,7 +100,7 @@ const isOutsideClicked = (event) => {
 
         <span class="p-input-icon-left lg:flex hidden">
             <i class="pi pi-search" />
-            <InputText class="w-30rem" v-model="value1" placeholder="Search" />
+            <InputText class="w-30rem" v-model="searchValue" placeholder="Search" />
         </span>
 
         <div class="flex mx-6">

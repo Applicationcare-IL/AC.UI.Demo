@@ -32,7 +32,7 @@ const menuItems = [
 ]
 
 const props = defineProps({
-    actveButtons: Boolean,
+    activeButtons: Boolean,
     filterLabels: Array,
     defaultOption: Object,
     entity: String,

@@ -58,6 +58,7 @@ import { defineProps, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { FilterMatchMode } from 'primevue/api'
 import { useListUtilsStore } from '@/stores/listUtils';
+const i18n = useI18n();
 
 const { t, locale } = useI18n();
 
@@ -84,10 +85,10 @@ const props = defineProps({
 });
 
 const options = ref();
-options.value = listUtilsStore.getSelectFilterButtonValues('customer.customers');
+options.value = listUtilsStore.getSelectFilterButtonValues('customer.customers', i18n);
 
 watch(locale, () => {
-    options.value = listUtilsStore.getSelectFilterButtonValues('customer.customers');
+    options.value = listUtilsStore.getSelectFilterButtonValues('customer.customers', i18n);
 });
 
 const alertCellConditionalStyle = (data) => {

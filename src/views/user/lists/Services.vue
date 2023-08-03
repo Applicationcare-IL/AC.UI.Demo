@@ -2,7 +2,7 @@
     <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]" entity="service">
     </WMListSubHeader>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
-        <DataTable v-model:selection="selectedCustomers" :rowClass="rowClass" :value="customers" dataKey="service_number"
+        <DataTable v-model:selection="selectedServices" :rowClass="rowClass" :value="services" dataKey="service_number"
                    tableStyle="min-width: 50rem"
                    class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="15">
             <Column style="width: 35px">
@@ -63,14 +63,14 @@ import { ServicesService } from '@/service/ServicesService';
 import WMListSubHeader from '@/components/layout/WMListSubHeader.vue';
 
 onMounted(() => {
-    ServicesService.getServices().then((data) => (customers.value = data));
+    ServicesService.getServices().then((data) => (services.value = data));
 });
 
-const customers = ref();
-const selectedCustomers = ref([]);
+const services = ref();
+const selectedServices = ref([]);
 
 const isAnyRowSelected = computed(() => {
-    return selectedCustomers?.value.length > 0;
+    return selectedServices?.value.length > 0;
 });
 
 const metaKey = ref(true);
@@ -87,7 +87,6 @@ const isFilterApplied = ref(false);
 const searchValue = ref('');
 
 const rowClass = (data) => {
-    console.log(data.is_active);
     return [{ 'inactive_row': !data.is_active }];
 };
 

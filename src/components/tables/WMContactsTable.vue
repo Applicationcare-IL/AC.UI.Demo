@@ -1,6 +1,6 @@
 <template>
     <h2 class="h2">{{ $t('contact.contact') }}</h2>
-    <div class="flex flex-column gap-3 mb-3">
+    <div v-if="showControls" class="flex flex-column gap-3 mb-3">
         <div class="flex flex-row justify-content-between">
             <div class="flex flex-row">
                 <WMButton class="m-1 col-6" name="new" icon="new" icon-position="right">{{ t('new') }}</WMButton>
@@ -51,6 +51,8 @@ import { useI18n } from 'vue-i18n'
 import { FilterMatchMode } from 'primevue/api'
 import { useListUtilsStore } from '@/stores/listUtils';
 
+const i18n = useI18n();
+
 const { t, locale } = useI18n();
 
 const selectedContacts = ref(null);
@@ -72,14 +74,18 @@ const props = defineProps({
     multiselect: {
         type: Boolean,
         default: true
+    },
+    showControls: {
+        type: Boolean,
+        default: true
     }
 });
 
 const options = ref();
-options.value = listUtilsStore.getSelectFilterButtonValues('contact.contacts');
+options.value = listUtilsStore.getSelectFilterButtonValues('contact.contacts', i18n);
 
 watch(locale, () => {
-    options.value = listUtilsStore.getSelectFilterButtonValues('contact.contacts');
+    options.value = listUtilsStore.getSelectFilterButtonValues('contact.contacts', i18n);
 });
 
 

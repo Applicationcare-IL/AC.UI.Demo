@@ -2,7 +2,7 @@ export const CustomerService = {
     getCustomersData() {
         const customers = [];
         
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < 100; i++) {
             const is_active = Math.random() < 0.95;
             customers.push({
                 telephone: '45689' + String(i).padStart(4, '0'),
@@ -25,6 +25,8 @@ export const CustomerService = {
                 number: '0000' + i,
                 id: '0000' + i,
                 owner: 'Israel Israeli',
+                contact_id: '795'+ i,
+                contact: 'שלומי שבת',
             });
         }
 

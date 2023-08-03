@@ -33,6 +33,8 @@ import TabPanel from 'primevue/tabpanel';
 import FileUpload from 'primevue/fileupload';
 import Tag from 'primevue/tag';
 import Steps from 'primevue/steps';
+import Dialog from 'primevue/dialog';
+import Sidebar from 'primevue/sidebar';
 
 
 import i18n from '@/i18n';
@@ -68,7 +70,10 @@ const app = createApp(App)
 .component('TabPanel', TabPanel)
 .component('FileUpload', FileUpload)
 .component('Tag', Tag)
-.component('Steps', Steps);
+.component('Steps', Steps)
+.component('Sidebar', Sidebar)
+.component('Dialog', Dialog);
+
 
 app.config.globalProperties.$appState = reactive({ isRTL: false, isNewThemeLoaded: false, layoutMode: 'light' });
 app.directive('badge', BadgeDirective);

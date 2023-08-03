@@ -6,8 +6,9 @@ const router = useRouter();
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        isAuthenticated: false,
+        isAuthenticated: true,
         user: null,
+        token: "token"
     }),
     actions: {
         login(email, password) {

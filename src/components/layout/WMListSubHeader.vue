@@ -3,16 +3,16 @@
         <div class="flex flex-column gap-5">
             <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
                 <div class="flex flex-row flex-wrap">
-                    <WMButton class="m-1 col-6" name="new" icon="new" @click="$router.push('new-' + props.entity)">חדש</WMButton>
+                    <WMButton class="m-1 col-6" name="new" icon="new" @click="$emit('new')">חדש</WMButton>
                     <WMButton class="m-1 col-6" name="export-white" icon="export">ייצוא נתונים</WMButton>
                     <Divider layout="vertical" />
-                    <WMButton class="m-1 col-6" name="assign-white" icon="assign" :disabled="!actveButtons">הקצה
+                    <WMButton class="m-1 col-6" name="assign-white" icon="assign" :disabled="!activeButtons">הקצה
                     </WMButton>
-                    <WMButtonMenu class="m-1" mode="light" :menuItems="menuItems" :disabled="!actveButtons">הודעה
+                    <WMButtonMenu class="m-1" mode="light" :menuItems="menuItems" :disabled="!activeButtons">הודעה
                     </WMButtonMenu>
-                    <WMButton class="m-1 col-6" name="phone-white" icon="phone" :disabled="!actveButtons">הקצה
+                    <WMButton class="m-1 col-6" name="phone-white" icon="phone" :disabled="!activeButtons">הקצה
                     </WMButton>
-                    <WMButton class="m-1 col-6" name="mail-white" icon="mail" :disabled="!actveButtons">הקצה</WMButton>
+                    <WMButton class="m-1 col-6" name="mail-white" icon="mail" :disabled="!activeButtons">הקצה</WMButton>
                     <Divider layout="vertical" />
                     <WMButton class="m-1 col-6 " name="basic-secondary">כפתור </WMButton>
                 </div>
@@ -49,6 +49,9 @@ const props = defineProps({
     defaultOption: Object,
     entity: String,
 });
+
+const emits = defineEmits(['new']);
+
 const value = ref();
 
 const isFilterOpen = ref(false);

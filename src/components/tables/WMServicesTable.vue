@@ -56,6 +56,7 @@ import { FilterMatchMode } from 'primevue/api'
 import { useListUtilsStore } from '@/stores/listUtils';
 
 const { t, locale } = useI18n();
+const i18n = useI18n();
 
 const selectedServices = ref(null);
 const isFilterOpen = ref(false);
@@ -80,10 +81,10 @@ const props = defineProps({
 });
 
 const options = ref();
-options.value = listUtilsStore.getSelectFilterButtonValues('service.services');
+options.value = listUtilsStore.getSelectFilterButtonValues('service.services', i18n);
 
 watch(locale, () => {
-    options.value = listUtilsStore.getSelectFilterButtonValues('service.services');
+    options.value = listUtilsStore.getSelectFilterButtonValues('service.services', i18n);
 });
 
 const rowClass = (data) => {

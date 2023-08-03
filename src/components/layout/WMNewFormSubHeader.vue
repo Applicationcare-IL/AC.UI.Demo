@@ -23,7 +23,7 @@ import {computed} from 'vue';
  const formStore = useFormUtilsStore();
 
 const props = defineProps({
-    actveButtons: Boolean,
+    activeButtons: Boolean,
     filterLabels: Array,
     defaultOption: Object,
     entity: String,
