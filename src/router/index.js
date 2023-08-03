@@ -1,12 +1,19 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import AppLayout from '@/layout/AppLayout.vue';
+import { useAuthStore } from '@/stores/auth';
 
 const router = createRouter({
     history: createWebHashHistory(),
     routes: [
         {
+            path: '/login',
+            name: 'login',
+            component: () => import('@/views/auth/Login.vue'),
+        },
+        {
             path: '/',
             component: AppLayout,
+            meta: { requiresAuth: true },
             children: [
                 {
                     path: '/',
@@ -15,21 +22,6 @@ const router = createRouter({
                     component: () => import('@/views/user/Dashboard.vue'),
                    
                 },
-                // {
-                //     path: '/Headers',
-                //     name: 'Headers',
-                //     component: () => import('@/views/Headers.vue'),
-                // },
-                // {
-                //     path: '/Buttons',
-                //     name: 'Buttons',
-                //     component: () => import('@/views/Buttons.vue'),
-                // },
-                // {
-                //     path: '/Tables',
-                //     name: 'Tables',
-                //     component: () => import('@/views/Tables.vue'),
-                // },
                 {
                     path: '/Dashboard',
                     name: 'Dashboard',
@@ -100,5 +92,15 @@ const router = createRouter({
         },
     ]
 });
+
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore();
+
+    if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+      next('/login');
+    } else {
+      next();
+    }
+  });
 
 export default router;

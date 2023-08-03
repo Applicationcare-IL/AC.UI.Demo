@@ -12,7 +12,7 @@
                    :class="[{
                            'wm-input-error': !!errorMessage,
                        }]"
-                   :style="{ width: width + 'px' }" />
+                   style="width:100%" />
         <Dropdown v-if="type == 'input-select'" :name="name" :disabled="props.disabled" :options="options"
                   optionLabel="label" v-model="selectedInput"  :placeholder="placeholder"
                   :style="{ width: width + 'px' }">

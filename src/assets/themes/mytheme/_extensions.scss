@@ -265,6 +265,15 @@ body {
     color: white;
 }
 
+.profile-dropdown {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
 @font-face {
     font-family: 'Futurism';
     src: url('@/assets/fonts/Futurism-Light.woff2') format('woff2'), url('@/assets/fonts/Futurism-Light.woff') format('woff');
