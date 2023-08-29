@@ -27,7 +27,7 @@ import Card from 'primevue/card';
 import Chart from 'primevue/chart';
 import Chip from 'primevue/chip';
 import TabView from 'primevue/tabview';
-import DataView from 'primevue/dataView';
+import DataView from 'primevue/dataview';
 import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions';
 import TabPanel from 'primevue/tabpanel';
 import FileUpload from 'primevue/fileupload';
