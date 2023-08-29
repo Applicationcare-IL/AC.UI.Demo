@@ -242,7 +242,7 @@ import WMInput from '@/components/forms/WMInput.vue';
 import { useForm } from 'vee-validate';
 import { useFormUtilsStore } from '@/stores/formUtils';
 import { useListUtilsStore } from '@/stores/listUtils';
-import { useOptionSetsStore } from '@/stores/OptionSets';
+import { useOptionSetsStore } from '@/stores/optionSets';
 import { useRoute } from 'vue-router'
 import { ServicesService } from '@/service/ServicesService';
 import { TasksService } from '@/service/TasksService';
