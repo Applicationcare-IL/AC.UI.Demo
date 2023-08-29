@@ -17,17 +17,27 @@
                     <WMButton class="m-1 col-6 " name="basic-secondary">כפתור </WMButton>
                 </div>
                 <div class="flex flex-row align-items-center gap-3">
-                    <WMButton name="filter" icon="filter" :open="isFilterOpen" :applied="isFilterApplied">הקצה
-                    </WMButton>
-                    <SelectButton v-model="selectedOption" :options="filterLabels" optionLabel="name" class="flex flex-nowrap" />
+                    <SelectButton v-model="selectedOption" :options="filterLabels" optionLabel="name"
+                                  class="flex flex-nowrap" />
                 </div>
             </div>
-            <div class="">
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search" />
-                    <InputText class="w-30rem" v-model="searchValue" placeholder="Search" />
-                </span>
+            <div class="flex flex-row justify-content-between">
+                <div class="flex flex-row gap-3">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search" />
+                        <InputText class="w-30rem" v-model="searchValue" placeholder="Search" />
+                    </span>
 
+                    <WMButton name="filter" icon="filter" :open="isFilterOpen" :applied="isFilterApplied">הקצה
+                    </WMButton>
+
+                </div>
+                <div class="flex flex-row gap-3">
+                    <span>רשומות בדף:</span>
+                    <WMInput width="70" name="status" :highlighted="true" type="input-select" :options="numberOfRows"
+                             :selectedOption="preferedNumberOfRows" />
+
+                </div>
             </div>
         </div>
     </div>
@@ -36,10 +46,16 @@
 <script setup>
 
 import { ref } from 'vue';
+import { useListUtilsStore } from '@/stores/listUtils';
+import WMInput from '@/components/forms/WMInput.vue';
 const menuItems = [
     { label: 'Whatsapp', value: 'option1' },
     { label: 'SMS', value: 'option2' },
 ]
+
+const listUtilsStore = useListUtilsStore();
+const numberOfRows = listUtilsStore.listRowsPerPage;
+const preferedNumberOfRows = listUtilsStore.preferedNumberOfRows;
 
 const searchValue = ref('');
 

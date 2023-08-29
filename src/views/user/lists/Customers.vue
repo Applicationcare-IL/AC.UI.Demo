@@ -10,7 +10,8 @@
         </WMContactsTable>
 
     </Sidebar>
-    <Sidebar v-model:visible="isNewFormVisible" class="new-sidebar w-6" :class="layoutConfig.isRTL.value ? 'layout-rtl': ''" :position="layoutConfig.isRTL.value ? 'left': 'right'">
+    <Sidebar v-model:visible="isNewFormVisible" class="new-sidebar w-6"
+             :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''" :position="layoutConfig.isRTL.value ? 'left' : 'right'">
         <h2>לקוח חדש</h2>
 
         <WMNewCustomerForm> </WMNewCustomerForm>

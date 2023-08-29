@@ -2,7 +2,13 @@ import { defineStore } from 'pinia';
 
 export const useListUtilsStore = defineStore('listUtils', {
     state: () => ({
-
+        listRowsPerPage: [
+            { label: '15', value: 15 },
+            { label: '30', value: 30 },
+            { label: '50', value: 50 },
+            { label: '100', value: 100 },
+        ],
+        preferedNumberOfRows: 15,
     }),
     getters: {
         getContactColumns: () => {
@@ -111,6 +117,9 @@ export const useListUtilsStore = defineStore('listUtils', {
                     'bg-blue-25': data.priority === 3 && data.is_active
                 }
             ];
+        },
+        changePreferredNumberOfRows: (state, payload) => {
+            state.preferredNumberOfRows = payload;
         }
     }
 });
