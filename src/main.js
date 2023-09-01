@@ -35,6 +35,7 @@ import Tag from 'primevue/tag';
 import Steps from 'primevue/steps';
 import Dialog from 'primevue/dialog';
 import Sidebar from 'primevue/sidebar';
+import Password from 'primevue/password';
 
 
 import i18n from '@/i18n';
@@ -72,7 +73,8 @@ const app = createApp(App)
 .component('Tag', Tag)
 .component('Steps', Steps)
 .component('Sidebar', Sidebar)
-.component('Dialog', Dialog);
+.component('Dialog', Dialog)
+.component('Password', Password);
 
 
 app.config.globalProperties.$appState = reactive({ isRTL: false, isNewThemeLoaded: false, layoutMode: 'light' });

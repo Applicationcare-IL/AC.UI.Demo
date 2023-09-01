@@ -24,13 +24,17 @@
     position: relative;
 }
 
-.wm-input > input, .wm-input > .p-dropdown, .wm-inputsearch .p-autocomplete > input, .p-autocomplete-multiple-container{
+.wm-input > input,.wm-input > .p-password > input, .wm-input > .p-dropdown, .wm-inputsearch .p-autocomplete > input, .p-autocomplete-multiple-container{
     border: 1px solid var(--gray-400);
     height: 24px;
     border-radius: 4px;
     width: 120px;
     box-shadow: none;
     color: var(--gray-900);
+}
+
+.wm-input > .p-password > input{
+    width: 100%;
 }
 
 .p-autocomplete .p-autocomplete-multiple-container, .p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-input-token{

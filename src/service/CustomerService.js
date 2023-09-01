@@ -1,3 +1,5 @@
+import axiosConfig from '@/service/axiosConfig';
+
 export const CustomerService = {
     getCustomersData() {
         const customers = [];
@@ -33,6 +35,39 @@ export const CustomerService = {
         return customers;
     },
 
+    getCustomersFromApi(params){
+       console.log(params)
+        return axiosConfig.get('/customers', {params})
+            .then((response) => {
+                const customers =  response.data.data.map((customer)=> {
+                    return {
+                        telephone: customer.phone,
+                        name: customer.name,
+                        type: customer.type.value,
+                        status: customer.status.value,
+                        address: customer.street ? customer.street + ' ' + customer.street_number + ', ' + customer.city + ' ' + customer.zipcode : '',
+                        open_services: parseInt(Math.random() * 4),
+                        breached_services: parseInt(Math.random() * 4),
+                        open_tasks: parseInt(Math.random() * 12),
+                        breached_tasks: parseInt(Math.random() * 12),
+                        classification1: ["שם של תחום", "שם של תחום"],
+                        rating: customer.rating ? customer.rating.value : '',
+                        number: customer.number,
+                        id: customer.id,
+                        owner: 'Israel Israeli',
+                        contact_id: '795',
+                        contact: 'שלומי שבת',
+                        business: customer.business ? customer.business.value: '',
+                    }
+                })
+                const totalRecords = response.data.meta.total;
+                return {customers, totalRecords};
+                
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    },
 
     getCustomersMini() {
         return Promise.resolve(this.getCustomersData().slice(0, 5));

@@ -13,6 +13,8 @@
                            'wm-input-error': !!errorMessage,
                        }]"
                    style="width:100%" />
+        <Password v-if="type == 'input-password'" :name="name" :disabled="props.disabled" :placeholder="placeholder" :feedback="false" style="width:100%" :value="value"
+        @input="$emit('update:value', $event.target.value); handleChange($event.target.value)" @blur="handleBlur"></Password>
         <Dropdown v-if="type == 'input-select'" :name="name" :disabled="props.disabled" :options="options"
                   optionLabel="label" v-model="selectedInput"  :placeholder="placeholder"
                   :style="{ width: width + 'px' }">
@@ -54,10 +56,6 @@ const props = defineProps({
         default: false,
     },
     label: {
-        type: String,
-        required: false,
-    },
-    value: {
         type: String,
         required: false,
     },

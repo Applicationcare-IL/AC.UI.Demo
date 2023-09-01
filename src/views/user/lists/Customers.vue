@@ -18,8 +18,9 @@
 
     </Sidebar>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
-        <DataTable v-model:selection="selectedCustomers" :value="customers" dataKey="id" tableStyle="min-width: 50rem"
-                   class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="15">
+        <DataTable lazy v-model:selection="selectedCustomers" :value="customers" dataKey="id" tableStyle="min-width: 50rem"
+                   class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="10" :first="0" ref="dt"
+                   :totalRecords="totalRecords" :loading="loading" @page="onPage($event)">
             <Column style="width: 35px">
                 <template #body="slotProps">
                     <img @click="displayDetails(slotProps.data)" src="/icons/eye.svg" alt="" class="vertical-align-middle">
@@ -27,7 +28,7 @@
             </Column>
             <Column style="width: 40px" selectionMode="multiple"></Column>
 
-            <Column field="telephone" header="מס’ לקוח">
+            <Column field="id" header="מס’ לקוח">
                 <template #body="slotProps">
                     <router-link :to="{ name: 'customerDetail', params: { 'id': slotProps.data.id } }"
                                  class="vertical-align-middle">{{ slotProps.data.id }}</router-link>
@@ -35,21 +36,51 @@
             </Column>
 
             <Column field="name" header="שם לקוח"></Column>
-            <Column field="type" header="סוג"></Column>
+            <Column field="type" header="סוג">
+                <template #body="slotProps">
+                    <div :class="highlightCellClass(slotProps.data.type)">
+                        {{ $t(slotProps.data.type) }}
+                    </div>
+                </template>
+            </Column>
             <Column field="selected_product" header="איש קשר ראשי">
                 <template #body="slotProps">
                     <router-link :to="{ name: 'contactDetail', params: { 'id': slotProps.data.contact_id } }"
                                  class="vertical-align-middle">{{ slotProps.data.contact }}</router-link> </template>
             </Column>
-            <Column field="status" header="סטטוס"></Column>
+            <Column field="status" header="סטטוס">
+                <template #body="slotProps">
+                    <div :class="highlightCellClass(slotProps.data.status)">
+                        {{ $t('statuses.' + slotProps.data.status.toLowerCase()) }}
+                    </div>
+                </template>
+            </Column>
             <Column field="address" header="כתובת"></Column>
-            <Column field="open_processes" header="תהליכים פתוחים" class="numeric"></Column>
+            <Column field="open_services" header="תהליכים פתוחים" class="numeric"></Column>
+            <Column field="breached_services" header="תהליכים בחריגה" class="numeric">
+                <template #body="slotProps">
+                    <div :class="highlightCellClass(slotProps.data.breached_services)">
+                        {{ slotProps.data.breached_services }}
+                    </div>
+                </template>
+            </Column>
             <Column field="open_tasks" header="תהליכים בחריגה" class="numeric"></Column>
-            <Column field="exception_tasks" header="משימות פתוחות" class="numeric"></Column>
-            <Column field="rating" header="משימות בחריגה"></Column>
-            <Column field="domain" header="דירוג"></Column>
-            <Column field="status" header="תחום"></Column>
-            <Column field="id" header="מזהה"></Column>
+            <Column field="breached_tasks" header="משימות בחריגה" class="numeric">
+                <template #body="slotProps">
+                    <div :class="highlightCellClass(slotProps.data.breached_tasks)">
+                        {{ slotProps.data.breached_tasks }}
+                    </div>
+                </template>
+            </Column>
+            <Column field="rating" header="דירוג">
+                <template #body="slotProps">
+                    <div :class="highlightCellClass(slotProps.data.rating)">
+                        {{ slotProps.data.rating ? $t('customer-rating.' + slotProps.data.rating) : '' }}
+                    </div>
+                </template>
+            </Column>
+            <Column field="business" header="תחום"></Column>
+            <Column field="number" header="מזהה"></Column>
             <Column field="owner" header="אחראי"></Column>
         </DataTable>
     </div>
@@ -67,12 +98,40 @@ import WMContactsTable from '@/components/tables/WMContactsTable.vue';
 import WMNewCustomerForm from '@/components/forms/WMCustomerForm.vue';
 import { useLayout } from '@/layout/composables/layout';
 
+
+
 onMounted(() => {
-    CustomerService.getCustomers().then((data) => (customers.value = data));
+    loading.value=true;
+
+    loadLazyData();
+
     ContactsService.getContactsMini().then((data) => (contacts.value = data));
     ServicesService.getServicesMini().then((data) => (services.value = data));
     TasksService.getTasksMini().then((data) => (tasks.value = data));
 });
+
+const dt = ref();
+const loading = ref(false);
+const totalRecords = ref(0);
+const lazyParams = ref({});
+
+const loadLazyData = () => {
+    loading.value = true;
+
+    CustomerService.getCustomersFromApi({ page: lazyParams.value.page+1 }).then((data) => {
+        console.log(data);
+        customers.value = data.customers;
+        totalRecords.value = data.totalRecords;
+        loading.value = false;
+    });
+};
+
+const onPage = (event) => {
+
+    lazyParams.value = event;
+    console.log(lazyParams)
+    loadLazyData();
+};
 
 const customers = ref();
 const contacts = ref();
@@ -86,21 +145,6 @@ const { layoutConfig } = useLayout();
 const isAnyRowSelected = computed(() => {
     return selectedCustomers?.value.length > 0;
 });
-
-const metaKey = ref(true);
-
-const value = ref(null);
-const options = ref([
-    { name: 'כל אנשי הקשר', value: 2 },
-    { name: 'אנשי הקשר שלי', value: 1 },
-]);
-
-const searchValue = ref('');
-
-const menuItems = [
-    { label: 'Whatsapp', value: 'option1' },
-    { label: 'SMS', value: 'option2' },
-]
 
 const filterLabels = [
     { name: 'כל הלקוחות', value: 2 },
@@ -121,6 +165,10 @@ const isNewFormVisible = ref(false);
 const displayNewForm = () => {
     isNewFormVisible.value = true;
 }
+
+const highlightCellClass = (data) => {
+    return [{ 'bg-red-100 text-red-600': data > 0 }];
+};
 
 
 </script>

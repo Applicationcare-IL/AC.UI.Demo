@@ -42,6 +42,8 @@
     "modified_by": "Changed by",
     "created_at": "Created at",
     "modified_at": "Modified at",
+    "private" : "Private",
+    "business" : "Business",
     "contact" : {
         "contact": "Contact",
         "contacts": "Contacts",
@@ -152,7 +154,9 @@
     "status": "Status",
     "statuses":{
         "open": "Open",
-        "closed": "Closed"
+        "closed": "Closed",
+        "active": "Active",
+        "inactive": "Not Active"
     },
     "customer-type": {
         "private": "Private",

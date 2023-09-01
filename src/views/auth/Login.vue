@@ -13,9 +13,15 @@
                     <div class="w-full text-gray-600">Enter an Email address and password to log in</div>
                     <div class="mt-6 flex flex-column">
                         <WMInput name="email" type="input-text" :highlighted="true" :label="$t('email') + ':'" />
-                        <WMInput name="password" type="input-text" :highlighted="true" :label="$t('password') + ':'" style="margin-top:32px" />
-                        <router-link to="/login" class="align-self-end">Forgot your password?</router-link>
-                        <WMButton class="w-full" name="new" type="submit" style="margin-top:120px" @click="handleLogin">Login</WMButton> 
+                        <WMInput name="password" type="input-password" :highlighted="true" :label="$t('password') + ':'"
+                                 style="margin-top:32px" />
+                        <router-link to="/login" class="align-self-end mb-4">Forgot your password?</router-link>
+
+                        <div v-if="error != ''" class="bg-red-100 text-red-700 p-2">
+                            {{ error }}
+                        </div>
+
+                        <WMButton class="w-full mt-4" name="new" type="submit" @click="handleLogin">Login</WMButton>
                     </div>
 
                 </div>
@@ -34,17 +40,23 @@ import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import WMInput from '@/components/forms/WMInput.vue';
 import { useRouter } from 'vue-router';
+import { useForm } from 'vee-validate';
 
-const email = ref('');
-const password = ref('');
+const { errors, handleSubmit, setFieldError } = useForm();
+
 const router = useRouter();
+const error = ref('');
 
-const handleLogin = () => {
-    console.log('handleLogin');
-    console.log(email + password)
-    useAuthStore().login("admin@mazemateapp.com", "12345678" );
-    router.push('/dashboard');
-};
+const handleLogin = handleSubmit((values) => {
+    console.log(values);
+    useAuthStore().login(values.email, values.password).then(() => {
+        if (useAuthStore().isAuthenticated)
+            router.push('/dashboard');
+        else {
+            error.value = "Looks like your email or password are incorrect. Maybe try again?"
+        }
+    });
+});
 
 </script >
 
@@ -54,7 +66,7 @@ const handleLogin = () => {
     height: 100vh;
 }
 
-.login-form{
+.login-form {
     width: 400px;
 }
 </style>

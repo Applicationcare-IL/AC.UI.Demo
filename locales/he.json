@@ -41,6 +41,8 @@
     "modified_by": "שינוי אחרון ע”י",
     "created_at": "נוצר ב:",
     "modified_at": "שינוי אחרון",
+    "private" : "פרטי",
+    "business" : "עסקי",
     "contact": {
         "contact": "איש קשר",
         "contacts": "אנשי קשר",
@@ -149,7 +151,9 @@
     "status": "סטטוס",
     "statuses":{
         "open": "פתוח",
-        "closed": "סגור"
+        "closed": "סגור",
+        "active": "פעיל",
+        "inactive": "לא פעיל"
     },
     "customer-type": {
         "private": "פרטי",

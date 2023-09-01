@@ -6,17 +6,30 @@ const router = useRouter();
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        isAuthenticated: true,
+        isAuthenticated: localStorage.getItem('isAuthenticated'),
         user: null,
-        token: "token"
+        token: localStorage.getItem("token")
     }),
     actions: {
         login(email, password) {
-            AuthService.login(email, password);
-            this.isAuthenticated = true;
+
+            return Promise.resolve(AuthService.login(email, password)
+                .then((response) => {
+                    console.log(response);
+                    this.isAuthenticated = true;
+                    this.token = response.data.data.token;
+                    localStorage.setItem('token', this.token);
+                    localStorage.setItem('isAuthenticated', this.token);
+                })
+                .catch((error) => {
+                    console.log(error);
+                }));
         },
         logout() {
             this.isAuthenticated = false;
+            this.token = null;
+            localStorage.setItem('isAuthenticated', false);
+            localStorage.setItem('token', null);
             router.push('/account/login');
         },
     },
