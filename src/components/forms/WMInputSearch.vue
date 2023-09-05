@@ -3,11 +3,8 @@
         <label v-if="label != ''" class="wm-form-label" :class="[{ highlighted: props.highlighted }]">
             {{ label }} <span v-if="required" class="text-red-500"> *</span>
         </label>
-        <AutoComplete :suggestions="filteredOptions" optionLabel="name"  
-                      :placeholder="placeholder"
-                      :multiple="props.multiple" 
-                      :disabled="props.disabled" 
-                      :class="[{ 'wm-input-error': !!errorMessage }]"
+        <AutoComplete :suggestions="filteredOptions" optionLabel="name" :placeholder="placeholder"
+                      :multiple="props.multiple" :disabled="props.disabled" :class="[{ 'wm-input-error': !!errorMessage }]"
                       forceSelection @complete="search" completeOnFocus v-model="value">
         </AutoComplete>
         <span v-if="errorMessage" class="wm-validation-message">
@@ -20,11 +17,13 @@
 </template>
 
 <script setup>
-import { defineProps, ref, toRef, computed } from 'vue';
+import { defineProps, ref, toRef, computed, watch, onMounted } from 'vue';
 import { useField } from 'vee-validate';
 
 const filteredOptions = ref();
 // const selectedOptions = ref();
+
+
 
 const props = defineProps({
     highlighted: {
@@ -78,8 +77,23 @@ const props = defineProps({
         type: String,
         default: 'name',
     },
+    selectedOptions: {
+        type: Array,
+        default: null,
+    },
+    selectedOption: {
+        type: Object,
+        default: null,
+    },
 });
 
+
+onMounted(() => {
+    if (props.multiple)
+        value.value = props.selectedOptions
+    else
+        value.value = props.selectedOption
+});
 
 const search = (event) => {
     setTimeout(() => {
@@ -87,7 +101,7 @@ const search = (event) => {
             filteredOptions.value = [...props.options];
         } else {
             filteredOptions.value = props.options.filter((option) => {
-                console.log(props.searchBy);
+                // console.log(props.searchBy);
                 return option.name.toLowerCase().startsWith(event.query.toLowerCase());
             });
         }
@@ -102,6 +116,7 @@ const name = toRef(props, 'name');
 
 const { value, errorMessage } = useField(name, validateField, { initialValue: [] });
 
+
 function validateField(value) {
     console.log('value', value);
     if (this.value === []) {
@@ -110,6 +125,8 @@ function validateField(value) {
 
     return true;
 }
+
+
 
 </script>
 

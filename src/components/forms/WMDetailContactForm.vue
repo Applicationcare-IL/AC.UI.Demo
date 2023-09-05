@@ -183,7 +183,6 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { ContactsService } from '@/service/ContactsService';
 import WMInputSearch from '@/components/forms/WMInputSearch.vue';
 import WMInput from '@/components/forms/WMInput.vue';
 import { useForm } from 'vee-validate';
@@ -191,6 +190,7 @@ import { useFormUtilsStore } from '@/stores/formUtils';
 import { useListUtilsStore } from '@/stores/listUtils';
 import { useOptionSetsStore } from '@/stores/optionSets';
 import { useRoute } from 'vue-router'
+import { ContactsService } from '@/service/ContactsService';
 import { CustomerService } from '@/service/CustomerService';
 import { ServicesService } from '@/service/ServicesService';
 import { TasksService } from '@/service/TasksService';
@@ -218,9 +218,12 @@ const serviceColumns = ref(listUtilsStore.getServiceColumns);
 const taskColumns = ref(listUtilsStore.getTaskColumns);
 
 onMounted(() => {
-  setTimeout(function () {
-    ContactsService.getContact(route.params.id).then((data) => (contact.value = data));
-  }, 1000);
+
+  ContactsService.getContactFromApi(route.params.id).then((data) => {
+    (contact.value = data)
+    console.log(contact.value)
+  });
+
   setTimeout(function () {
     CustomerService.getCustomersMini().then((data) => (customers.value = data));
   }, 2000);

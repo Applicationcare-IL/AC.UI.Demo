@@ -3,7 +3,7 @@ import axiosConfig from '@/service/axiosConfig';
 export const CustomerService = {
     getCustomersData() {
         const customers = [];
-        
+
         for (let i = 0; i < 100; i++) {
             const is_active = Math.random() < 0.95;
             customers.push({
@@ -27,7 +27,7 @@ export const CustomerService = {
                 number: '0000' + i,
                 id: '0000' + i,
                 owner: 'Israel Israeli',
-                contact_id: '795'+ i,
+                contact_id: '795' + i,
                 contact: 'שלומי שבת',
             });
         }
@@ -35,33 +35,29 @@ export const CustomerService = {
         return customers;
     },
 
-    getCustomersFromApi(params){
-       console.log(params)
-        return axiosConfig.get('/customers', {params})
+    getCustomersFromApi(params) {
+        console.log(params)
+        return axiosConfig.get('/customers', { params })
             .then((response) => {
-                const customers =  response.data.data.map((customer)=> {
-                    return {
-                        telephone: customer.phone,
-                        name: customer.name,
-                        type: customer.type.value,
-                        status: customer.status.value,
-                        address: customer.street ? customer.street + ' ' + customer.street_number + ', ' + customer.city + ' ' + customer.zipcode : '',
-                        open_services: parseInt(Math.random() * 4),
-                        breached_services: parseInt(Math.random() * 4),
-                        open_tasks: parseInt(Math.random() * 12),
-                        breached_tasks: parseInt(Math.random() * 12),
-                        classification1: ["שם של תחום", "שם של תחום"],
-                        rating: customer.rating ? customer.rating.value : '',
-                        number: customer.number,
-                        id: customer.id,
-                        owner: 'Israel Israeli',
-                        contact_id: '795',
-                        contact: 'שלומי שבת',
-                        business: customer.business ? customer.business.value: '',
-                    }
+                const customers = response.data.data.map((customer) => {
+                    return this.mapCustomer(customer);
                 })
                 const totalRecords = response.data.meta.total;
-                return {customers, totalRecords};
+                return { customers, totalRecords };
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    },
+
+    getCustomerFromApi(id) {
+
+        return axiosConfig.get('/customers/' + id)
+            .then((response) => {
+                console.log(response)
+                const customer = response.data.data;
+                return this.mapCustomer(customer);
                 
             })
             .catch((error) => {
@@ -88,7 +84,33 @@ export const CustomerService = {
     getCustomersWithOrders() {
         return Promise.resolve(this.getCustomersWithOrdersData());
     },
-    getCustomer(id){
+    getCustomer(id) {
         return Promise.resolve(this.getCustomersData().find((customer) => customer.id === id));
+    },
+
+    mapCustomer(customer){
+        return {
+            telephone: customer.phone,
+            name: customer.name,
+            type: customer.type.value,
+            status: customer.status.value,
+            address: customer.street ? customer.street + ' ' + customer.street_number + ', ' + customer.city + ' ' + customer.zipcode : '',
+            street: customer.street,
+            street_number: customer.street_number,
+            city: customer.city,
+            zipcode: customer.zipcode,
+            open_services: parseInt(Math.random() * 4),
+            breached_services: parseInt(Math.random() * 4),
+            open_tasks: parseInt(Math.random() * 12),
+            breached_tasks: parseInt(Math.random() * 12),
+            classification1: ["שם של תחום", "שם של תחום"],
+            rating: customer.rating ? customer.rating.value : '',
+            number: customer.number,
+            id: customer.id,
+            owner: 'Israel Israeli',
+            contact_id: '795',
+            contact: 'שלומי שבת',
+            area: customer.business ? customer.business.value : '',
+        }
     }
 };

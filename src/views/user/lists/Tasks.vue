@@ -3,8 +3,10 @@
                      entity="task">
     </WMListSubHeader>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
-        <DataTable v-model:selection="selectedTasks" :rowClass="rowClass" :value="tasks" dataKey="task_number"
-                   tableStyle="min-width: 50rem" class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="15">
+        <DataTable lazy v-model:selection="selectedTasks" :rowClass="rowClass" :value="tasks" dataKey="task_number"
+                   tableStyle="min-width: 50rem" class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="10"
+                   :first="0" ref="dt" :totalRecords="totalRecords" :loading="loading" @page="onPage($event)">
+
             <Column style="width: 35px">
                 <template #body="slotProps">
                     <img src="/icons/eye.svg" alt="" class="vertical-align-middle">
@@ -66,8 +68,29 @@ import { TasksService } from '@/service/TasksService';
 import WMListSubHeader from '@/components/layout/WMListSubHeader.vue';
 
 onMounted(() => {
-    TasksService.getTasks().then((data) => (tasks.value = data));
+    loading.value = true;
+    loadLazyData();
 });
+
+const loadLazyData = () => {
+    TasksService.getTasksFromApi({ page: lazyParams.value.page + 1 }).then((data) => {
+        console.log(data);
+        tasks.value = data.tasks;
+        totalRecords.value = data.totalRecords;
+        loading.value = false;
+    });
+};
+
+const onPage = (event) => {
+    lazyParams.value = event;
+    console.log(lazyParams)
+    loadLazyData();
+};
+
+const dt = ref();
+const loading = ref(false);
+const totalRecords = ref(0);
+const lazyParams = ref({});
 
 const tasks = ref();
 const selectedTasks = ref([]);

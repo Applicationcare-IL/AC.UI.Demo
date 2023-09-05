@@ -20,12 +20,12 @@
                     <WMInput name="type" :highlighted="true" type="input-select" :label="$t('type') + ':'"
                              :options="typeOptions"
                              :selectedOption="typeOptions.find(type => type.value === customer.type)" />
-                    <WMInput name="rating" :highlighted="true" type="input-select" :label="$t('type') + ':'"
+                    <WMInput name="rating" :highlighted="true" type="input-select" :label="$t('rating') + ':'"
                              :options="ratingOptions"
                              :selectedOption="ratingOptions.find(rating => rating.value === customer.rating)" />
-                    <WMInput name="status" :highlighted="true" type="input-select" :label="$t('type') + ':'"
+                    <WMInput name="status" :highlighted="true" type="input-select" :label="$t('status') + ':'"
                              :options="statusOptions"
-                             :selectedOption="statusOptions.find(status => status.value === customer.status)" />
+                             :selectedOption="statusOptions.find(status => status.value === customer.status.toLowerCase())" />
                   </div>
                 </div>
               </div>
@@ -39,16 +39,19 @@
               <div class="flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInputSearch name="city" :highlighted="true" :label="$t('address.city') + ':'" :options="cities"
-                                 width="152" :placeholder="$t('select', ['address.city'])" />
-                  <WMInputSearch name="street" :highlighted="true" :label="$t('address.street') + ':'"
-                                 :options="customers" width="152" :placeholder="$t('select', ['address.street'])" />
+                                 width="152" :placeholder="$t('select', ['address.city'])"
+                                 :selectedOption="customer.city" />
+                  <WMInput name="street" type="input-text" :label="$t('address.street') + ':'" width="48"
+                           :value="customer.street" />
                 </div>
                 <div class="wm-form-row gap-5">
-                  <WMInput name="house-number" type="input-text" :label="$t('address.house-number') + ':'" width="48" />
+                  <WMInput name="house-number" type="input-text" :label="$t('address.house-number') + ':'" width="48"
+                           :value="customer.street_number" />
                   <WMInput name="apartment" type="input-text" :label="$t('address.apartment') + ':'" width="48" />
                   <WMInput name="entrance" type="input-select" :highlighted="true" :label="$t('address.entrance') + ':'"
                            :options="alphabetWithDash" width="48" />
-                  <WMInput name="zip" type="input-text" :label="$t('address.zip') + ':'" width="80" />
+                  <WMInput name="zip" type="input-text" :label="$t('address.zip') + ':'" width="80"
+                           :value="customer.zipcode" />
                 </div>
 
               </div>
@@ -60,8 +63,9 @@
             <template #title> {{ $t('customer.classification1') }} </template>
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
-                <WMInputSearch name="classification-1" type="input-search" :options="classification1Options" width="252"
-                               :placeholder="$t('select', ['classification-1'])" searchBy="label" multiple />
+                <WMInputSearch name="classification-1" type="input-search" :options="areaOptions" width="252"
+                               :placeholder="$t('select', ['classification-1'])" searchBy="label" multiple
+                               :selectedOptions="selectedArea" />
               </div>
             </template>
           </Card>
@@ -210,7 +214,6 @@ import WMServicesTable from '@/components/tables/WMServicesTable.vue';
 import WMContactsTable from '@/components/tables/WMContactsTable.vue';
 import WMTasksTable from '@/components/tables/WMTasksTable.vue';
 
-const customers = ref();
 const services = ref();
 const tasks = ref();
 const cities = ref();
@@ -230,24 +233,21 @@ const contactColumns = ref(listUtilsStore.getContactColumns);
 const serviceColumns = ref(listUtilsStore.getServiceColumns);
 const taskColumns = ref(listUtilsStore.getTaskColumns);
 
-const classification1Options = OptionSetsStore.getOptionSetValues("classification1");
+const selectedArea = ref('');
+const areaOptions = OptionSetsStore.getOptionSetValues("area");
 
 onMounted(() => {
-  setTimeout(function () {
-    CustomerService.getCustomer(route.params.id).then((data) => (customer.value = data));
-  }, 1000);
-  setTimeout(function () {
-    ContactsService.getContactsMini().then((data) => (contacts.value = data));
-  }, 2000);
-  setTimeout(function () {
-    ServicesService.getServicesMini().then((data) => (services.value = data));
-  }, 2000);
-  setTimeout(function () {
-    TasksService.getTasksMini().then((data) => (tasks.value = data));
-  }, 2000);
-  setTimeout(function () {
-    CitiesService.getCities().then((data) => (cities.value = data));
-  }, 2000);
+
+  CustomerService.getCustomerFromApi(route.params.id).then((data) => {
+    (customer.value = data)
+    selectedArea.value = areaOptions.filter((item) => item.value == customer.value.area);
+    console.log(customer.value)
+  });
+
+  ContactsService.getContactsMini().then((data) => (contacts.value = data));
+  ServicesService.getServicesMini().then((data) => (services.value = data));
+  TasksService.getTasksMini().then((data) => (tasks.value = data));
+  CitiesService.getCities().then((data) => (cities.value = data));
 });
 
 const { errors, handleSubmit, setFieldError } = useForm({

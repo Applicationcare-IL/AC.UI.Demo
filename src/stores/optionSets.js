@@ -11,6 +11,8 @@ export const useOptionSetsStore = defineStore('optionSets', {
         status: [
             { value: 'open', translationKey: 'statuses.open' },
             { value: 'closed', translationKey: 'statuses.closed' },
+            { value: 'active', translationKey: 'statuses.active' },
+            { value: 'not_active', translationKey: 'statuses.not_active' },
         ],
         type: [
             { value: 'private', translationKey: 'customer-type.private' },
@@ -19,6 +21,11 @@ export const useOptionSetsStore = defineStore('optionSets', {
         rating: [
             { value: 'vip', translationKey: 'customer-rating.vip' },
             { value: 'regular', translationKey: 'customer-rating.regular' },
+        ],
+        area: [
+            { value: 'water_service', translationKey: 'area.water_service' },
+            { value: 'funeral_service', translationKey: 'area.funeral_service' },
+            { value: 'municipality', translationKey: 'area.municipality' },
         ],
         classification1: [
             { value: 'urban-architect', translationKey: 'classification1.urban-architect' },

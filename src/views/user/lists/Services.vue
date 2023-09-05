@@ -1,10 +1,11 @@
 <template>
-    <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]" entity="service">
+    <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]"
+                     entity="service">
     </WMListSubHeader>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
         <DataTable v-model:selection="selectedServices" :rowClass="rowClass" :value="services" dataKey="service_number"
-                   tableStyle="min-width: 50rem"
-                   class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="15">
+                   tableStyle="min-width: 50rem" class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="10"
+                   :first="0" ref="dt" :totalRecords="totalRecords" :loading="loading" @page="onPage($event)">
             <Column style="width: 35px">
                 <template #body="slotProps">
                     <img src="/icons/eye.svg" alt="" class="vertical-align-middle">
@@ -13,12 +14,14 @@
             <Column style="width: 40px" selectionMode="multiple"></Column>
             <Column field="service_number" header="מס’ תהליך">
                 <template #body="slotProps">
-                    <router-link :to="{name:'serviceDetail', params : {'id': slotProps.data.service_number}}" class="vertical-align-middle">{{ slotProps.data.service_number }}</router-link>
+                    <router-link :to="{ name: 'serviceDetail', params: { 'id': slotProps.data.service_number } }"
+                                 class="vertical-align-middle">{{ slotProps.data.service_number }}</router-link>
                 </template>
             </Column>
             <Column field="contact" header="איש קשר">
                 <template #body="slotProps">
-                    <router-link :to="{name:'contactDetail', params : {'id': slotProps.data.contact_id}}" class="vertical-align-middle">{{ slotProps.data.contact }}</router-link>
+                    <router-link :to="{ name: 'contactDetail', params: { 'id': slotProps.data.contact_id } }"
+                                 class="vertical-align-middle">{{ slotProps.data.contact }}</router-link>
                 </template>
             </Column>
 
@@ -63,8 +66,30 @@ import { ServicesService } from '@/service/ServicesService';
 import WMListSubHeader from '@/components/layout/WMListSubHeader.vue';
 
 onMounted(() => {
-    ServicesService.getServices().then((data) => (services.value = data));
+    loading.value = true;
+    loadLazyData();
 });
+
+const loadLazyData = () => {
+    ServicesService.getServicesFromApi({ page: lazyParams.value.page + 1 }).then((data) => {
+        console.log(data);
+        services.value = data.services;
+        totalRecords.value = data.totalRecords;
+        loading.value = false;
+    });
+};
+
+const onPage = (event) => {
+
+    lazyParams.value = event;
+    console.log(lazyParams)
+    loadLazyData();
+};
+
+const dt = ref();
+const loading = ref(false);
+const totalRecords = ref(0);
+const lazyParams = ref({});
 
 const services = ref();
 const selectedServices = ref([]);

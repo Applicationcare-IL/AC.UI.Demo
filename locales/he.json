@@ -167,5 +167,10 @@
         "urban-architect" : "אדריכל עירוני",
         "sharp-internet-jokes": "חדות וצחוקי אינטרנט",
         "people-named-robert" : "אנשים שנקראים רוברט"
+    },
+    "area":{
+        "water_service": "שירותי מים",
+        "funeral_service": "שירותי קבורה",
+        "municipality": "רשות מקומית" 
     }
 }

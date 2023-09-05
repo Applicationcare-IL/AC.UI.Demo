@@ -1,3 +1,5 @@
+import axiosConfig from '@/service/axiosConfig';
+
 export const ContactsService = {
     getContactsData() {
         const contacts = []; 
@@ -35,6 +37,36 @@ export const ContactsService = {
         return contacts;
     },
 
+    getContactsFromApi(params) {
+        console.log(params)
+        return axiosConfig.get('/contacts', { params })
+            .then((response) => {
+                console.log(response)
+                const contacts = response.data.data.map((contact) => {
+                    return this.mapContact(contact);
+                })
+                const totalRecords = response.data.meta.total;
+                console.log(contacts)
+                return { contacts, totalRecords };
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    },
+
+    getContactFromApi(id) {
+
+        return axiosConfig.get('/contacts/' + id)
+            .then((response) => {
+                console.log(response)
+                const contact = response.data.data;
+                return this.mapContact(contact);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    },
+
     getContactsMini() {
         return Promise.resolve(this.getContactsData().slice(0, 5));
     },
@@ -56,6 +88,32 @@ export const ContactsService = {
     },
     getContact(id){
         return Promise.resolve(this.getContactsData().find((contact) => contact.contact_id === id));
+    },
+    mapContact(contact){
+        return {
+            id: contact.id,
+            contact_id: contact.id,
+            name: contact.name + ' ' + contact.surname,
+            'firstName': contact.name,
+            'lastName': contact.surname,
+            contact: 'שלומי שבת',
+            customer: 'שם של לקוח כלשהו',   
+            customer_id: '0000',
+            telephone: contact.phone,
+            landline: contact.land_line,
+            email: contact.email,
+            address: contact.street ? contact.street + ' ' + contact.street_number + ', ' + contact.city + ' ' + contact.zipcode : '',
+            open_services: parseInt(Math.random() * 4),
+            breached_services: parseInt(Math.random() * 8),
+            open_tasks: parseInt(Math.random() * 8),
+            breached_tasks:  parseInt(Math.random() * 3),
+            staff: '106 מוקד',
+            status: 'open',
+            owner: 'Israel Israeli', 
+            gender: true,//is_male ? 'male' : 'female',
+            is_main: true, //is_main,
+            role: 'שם של תפקיד',
+        }
     }
     
     

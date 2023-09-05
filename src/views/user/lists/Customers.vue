@@ -79,7 +79,13 @@
                     </div>
                 </template>
             </Column>
-            <Column field="business" header="תחום"></Column>
+            <Column field="area" header="תחום">
+                <template #body="slotProps">
+                    <div :class="highlightCellClass(slotProps.data.area)">
+                        {{ slotProps.data.area ? $t('area.' + slotProps.data.area) : '' }}
+                    </div>
+                </template>
+            </Column>
             <Column field="number" header="מזהה"></Column>
             <Column field="owner" header="אחראי"></Column>
         </DataTable>
@@ -118,9 +124,9 @@ const lazyParams = ref({});
 const loadLazyData = () => {
     loading.value = true;
 
-    CustomerService.getCustomersFromApi({ page: lazyParams.value.page+1 }).then((data) => {
+    ServicesService.getServicesFromApi({ page: lazyParams.value.page+1 }).then((data) => {
         console.log(data);
-        customers.value = data.customers;
+        services.value = data.services;
         totalRecords.value = data.totalRecords;
         loading.value = false;
     });

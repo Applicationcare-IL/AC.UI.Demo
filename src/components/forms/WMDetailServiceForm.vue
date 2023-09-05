@@ -290,9 +290,9 @@ const serviceColumns = ref(listUtilsStore.getServiceColumns);
 const taskColumns = ref(listUtilsStore.getTaskColumns);
 
 onMounted(() => {
-  setTimeout(function () {
-    ServicesService.getService(route.params.id).then((data) => (service.value = data));
-  }, 1000);
+  ServicesService.getServiceFromApi(route.params.id).then((data) => {
+    (service.value = data)
+  });
   setTimeout(function () {
     TasksService.getTasksMini().then((data) => (tasks.value = data));
   }, 2000);

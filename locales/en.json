@@ -170,5 +170,11 @@
         "urban-architect" : "Urban Architect",
         "sharp-internet-jokes": "Sharp Internet Jokes",
         "people-named-robert" : "People named Robert"
+    },
+    "area":{
+        "water_service": "Water Service",
+        "funeral_service": "Funeral Service" ,
+        "municipality": "Municipality" 
     }
+    
 }

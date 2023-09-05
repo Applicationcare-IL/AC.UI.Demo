@@ -285,17 +285,15 @@ const serviceColumns = ref(listUtilsStore.getServiceColumns);
 const taskColumns = ref(listUtilsStore.getTaskColumns);
 
 onMounted(() => {
-  setTimeout(function () {
-    TasksService.getTask(route.params.id).then((data) => {
-      (task.value = data);
 
-      console.log(task.value.service_number);
-      setTimeout(function () {
-        ServicesService.getService(task.value.service_number).then((data) => { (service.value = data); console.log(service.value) });
-      }, 2000);
-    });
-  }, 1000);
+  TasksService.getTaskFromApi(route.params.id).then((data) => {
+    (task.value = data)
 
+    console.log(task.value.service_number);
+    setTimeout(function () {
+      ServicesService.getService(task.value.service_number).then((data) => { (service.value = data); console.log(service.value) });
+    }, 2000);
+  });
 });
 
 const { errors, handleSubmit, setFieldError } = useForm({

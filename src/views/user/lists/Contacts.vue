@@ -2,8 +2,9 @@
     <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]" entity="contact">
     </WMListSubHeader>
     <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-        <DataTable v-model:selection="selectedContacts" :value="contacts" dataKey="contact_id" tableStyle="min-width: 50rem"
-                   class="p-datatable-sm" scrollable scrollHeight="flex">
+        <DataTable lazy v-model:selection="selectedContacts" :value="contacts" dataKey="contact_id" tableStyle="min-width: 50rem"
+                   class="p-datatable-sm" paginator scrollable scrollHeight="flex" :rows="10" :first="0" ref="dt"
+                   :totalRecords="totalRecords" :loading="loading" @page="onPage($event)">
             <Column style="width: 35px">
                 <template #body="slotProps">
                     <img src="/icons/eye.svg" alt="" class="vertical-align-middle">
@@ -12,7 +13,7 @@
             <Column style="width: 40px" selectionMode="multiple"></Column>
             <Column field="contact" header="איש קשר">
                 <template #body="slotProps">
-                    <router-link :to="{name:'contactDetail', params : {'id': slotProps.data.contact_id}}" class="vertical-align-middle">{{ slotProps.data.contact }}</router-link>
+                    <router-link :to="{name:'contactDetail', params : {'id': slotProps.data.contact_id}}" class="vertical-align-middle">{{ slotProps.data.name }}</router-link>
                 </template>
             </Column>
             <Column field="customer" header="לקוח">
@@ -24,20 +25,20 @@
             <Column field="landline" header="טלפון נייח"></Column>
             <Column field="email" header="דוא”ל"></Column>
             <Column field="address" header="כתובת"></Column>
-            <Column field="open_processes" header="תהליכים פתוחים" class="numeric">
+            <Column field="open_services" header="תהליכים פתוחים" class="numeric">
             </Column>
-            <Column field="exception_processes" header="תהליכים בחריגה" class="numeric">
+            <Column field="breached_services" header="תהליכים בחריגה" class="numeric">
                 <template #body="slotProps">
-                    <div :class="highlightCellClass(slotProps.data.exception_processes)">
-                        {{ slotProps.data.exception_processes }}
+                    <div :class="highlightCellClass(slotProps.data.breached_services)">
+                        {{ slotProps.data.breached_services }}
                     </div>
                 </template>
             </Column>
             <Column field="open_tasks" header="תהליכים בחריגה" class="numeric"></Column>
-            <Column field="exception_tasks" header="משימות בחריגה" class="numeric">
+            <Column field="breached_tasks" header="משימות בחריגה" class="numeric">
                 <template #body="slotProps">
-                    <div :class="highlightCellClass(slotProps.data.exception_tasks)">
-                        {{ slotProps.data.exception_tasks }}
+                    <div :class="highlightCellClass(slotProps.data.breached_tasks)">
+                        {{ slotProps.data.breached_tasks }}
                     </div>
                 </template>
             </Column>
@@ -53,19 +54,42 @@ import { ref, onMounted, computed } from 'vue';
 import { ContactsService } from '@/service/ContactsService';
 import WMListSubHeader from '@/components/layout/WMListSubHeader.vue';
 
-onMounted(() => {
-    ContactsService.getContacts().then((data) => (contacts.value = data));
-});
-
 const contacts = ref();
 const selectedContacts = ref([]);
+
+onMounted(() => {
+    // ContactsService.getContacts().then((data) => (contacts.value = data));
+    loadLazyData();
+});
+
+const loadLazyData = () => {
+    loading.value = true;
+
+    ContactsService.getContactsFromApi({ page: lazyParams.value.page+1 }).then((data) => {
+        console.log(data);
+        contacts.value = data.contacts;
+        totalRecords.value = data.totalRecords;
+        loading.value = false;
+    });
+};
+
+const dt = ref();
+const loading = ref(false);
+const totalRecords = ref(0);
+const lazyParams = ref({});
+
+
 
 const isAnyRowSelected = computed(() => {
     return selectedContacts?.value.length > 0;
 });
 
-const metaKey = ref(true);
+const onPage = (event) => {
 
+lazyParams.value = event;
+console.log(lazyParams)
+loadLazyData();
+};
 
 const highlightCellClass = (data) => {
     return [{ 'bg-red-100 text-red-600': data > 0 }];
