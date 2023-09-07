@@ -175,6 +175,16 @@
         "water_service": "Water Service",
         "funeral_service": "Funeral Service" ,
         "municipality": "Municipality" 
+    },
+    "login":{
+        "hello" : "Hello!",
+        "instructions" : "Enter an Email address and password to log in",
+        "email" : "Email",
+        "password" : "Password",
+        "forgot_password" : "Forgot password?",
+        "submit" : "Log in",
+        "invalid_credentials" : "Looks like your email or password are incorrect. Maybe try again?"
+
     }
     
 }

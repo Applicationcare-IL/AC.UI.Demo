@@ -10,8 +10,8 @@ const messages = {
 
 const i18n = createI18n({
   legacy: false, 
-  locale: 'en', // set the default locale
-  fallbackLocale: 'en', // set the fallback locale
+  locale: 'he', // set the default locale
+  fallbackLocale: 'he', // set the fallback locale
   messages, // set the messages
   globalInjection: true,
 })

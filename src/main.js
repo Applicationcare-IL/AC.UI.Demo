@@ -77,7 +77,7 @@ const app = createApp(App)
 .component('Password', Password);
 
 
-app.config.globalProperties.$appState = reactive({ isRTL: false, isNewThemeLoaded: false, layoutMode: 'light' });
+app.config.globalProperties.$appState = reactive({ isRTL: true, isNewThemeLoaded: false, layoutMode: 'light' });
 app.directive('badge', BadgeDirective);
 app.use(i18n);
 app.use(createPinia());

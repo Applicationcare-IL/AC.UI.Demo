@@ -4,7 +4,7 @@ const contextPath = import.meta.env.BASE_URL;
 
 const layoutConfig = reactive({
     isSidebarExpanded: false,
-    isRTL: false,
+    isRTL: true,
     ripple: false,
     darkTheme: false,
     inputStyle: 'outlined',

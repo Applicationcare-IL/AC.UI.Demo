@@ -124,9 +124,9 @@ const lazyParams = ref({});
 const loadLazyData = () => {
     loading.value = true;
 
-    ServicesService.getServicesFromApi({ page: lazyParams.value.page+1 }).then((data) => {
+    CustomerService.getCustomersFromApi({ page: lazyParams.value.page+1 }).then((data) => {
         console.log(data);
-        services.value = data.services;
+        customers.value = data.customers;
         totalRecords.value = data.totalRecords;
         loading.value = false;
     });
