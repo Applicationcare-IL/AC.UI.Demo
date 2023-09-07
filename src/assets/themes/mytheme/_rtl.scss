@@ -51,5 +51,10 @@
     text-align: right;
 }
 
+.layout-rtl .p-paginator-icon {
+    transform: rotate(180deg);
+}
+
+
 // Icons
 
