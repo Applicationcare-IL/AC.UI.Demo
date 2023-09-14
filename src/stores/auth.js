@@ -7,9 +7,14 @@ const router = useRouter();
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         isAuthenticated: localStorage.getItem('isAuthenticated'),
-        user: null,
+        user: JSON.parse(localStorage.getItem('user')),
         token: localStorage.getItem("token")
     }),
+    getters:{
+        userFullName(){
+            return this.user.name + ' ' + this.user.surname;
+        }
+    },
     actions: {
         login(email, password) {
 
@@ -19,7 +24,7 @@ export const useAuthStore = defineStore('auth', {
                     this.isAuthenticated = true;
                     this.token = response.data.data.token;
                     localStorage.setItem('token', this.token);
-                    localStorage.setItem('isAuthenticated', this.token);
+                    localStorage.setItem('isAuthenticated', true);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -30,7 +35,21 @@ export const useAuthStore = defineStore('auth', {
             this.token = null;
             localStorage.setItem('isAuthenticated', false);
             localStorage.setItem('token', null);
-            router.push('/account/login');
+            localStorage.clear();
+
+            // router.push('/login');
         },
+        userData() {
+            return Promise.resolve(AuthService.userData()
+                .then((response) => {
+                    console.log(response);
+                    this.user = response.data.data;
+                    localStorage.setItem('user', JSON.stringify(this.user));
+                })
+                .catch((error) => {
+                    console.log(error);
+                }
+                ));
+        }
     },
 });

@@ -101,7 +101,7 @@ import { TasksService } from '@/service/TasksService';
 import { useListUtilsStore } from '@/stores/listUtils';
 import WMListSubHeader from '@/components/layout/WMListSubHeader.vue';
 import WMContactsTable from '@/components/tables/WMContactsTable.vue';
-import WMNewCustomerForm from '@/components/forms/WMCustomerForm.vue';
+import WMNewCustomerForm from '@/components/forms/WMNewCustomerForm.vue';
 import { useLayout } from '@/layout/composables/layout';
 
 

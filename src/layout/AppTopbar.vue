@@ -161,7 +161,7 @@ const isOutsideClicked = (event) => {
                 <li class="topbar-item profile" :class="{ 'active-topmenuitem': activeTopbarItem === 'profile' }">
                     <a href="#" @click="onTopbarItemClick($event, 'profile')"
                        class="flex flex-row flex align-items-center gap-2">
-                        Israel Israeli
+                        {{ authStore.user?.name }} {{ authStore.user?.surname }}
                         <img alt="logo" src="/icons/user.svg" class="" />
                     </a>
 

@@ -1,9 +1,9 @@
 <template>
     <WMNewFormSubHeader></WMNewFormSubHeader>
-    <WMCustomerForm></WMCustomerForm>
+    <WMNewCustomerForm></WMNewCustomerForm>
 </template>
 
 <script setup>
-import WMCustomerForm from '@/components/forms/WMCustomerForm.vue';
+import WMNewCustomerForm from '@/components/forms/WMNewCustomerForm.vue';
 import WMNewFormSubHeader from '@/components/layout/WMNewFormSubHeader.vue';
 </script>
