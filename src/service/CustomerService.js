@@ -52,7 +52,6 @@ export const CustomerService = {
     },
 
     getCustomerFromApi(id) {
-
         return axiosConfig.get('/customers/' + id)
             .then((response) => {
                 console.log(response)
@@ -112,5 +111,15 @@ export const CustomerService = {
             contact: 'שלומי שבת',
             area: customer.business ? customer.business.value : '',
         }
+    },
+    createCustomer(customer) {
+        return axiosConfig.post('/customers', customer)
+            .then((response) => {
+                console.log(response)
+                return response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 };
