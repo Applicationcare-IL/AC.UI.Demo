@@ -209,6 +209,13 @@
             "water_service": "Water Service",
             "funeral_service": "Funeral Service"
         }
+    },
+    "toast" : {
+        "success" : "Success",
+        "error" : "Error",
+        "warning" : "Warning",
+        "info" : "Info",
+        "successful-action" : "{0} successfully {1}"
     }
     
 }

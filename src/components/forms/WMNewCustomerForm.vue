@@ -1,7 +1,7 @@
 <template>
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 class="h1 mb-0">{{ $t('new', ['customer.customer']) }}</h1>
+      <h1 v-if="!formUtilsStore.isSidebar" class="h1 mb-0">{{ $t('new', ['customer.customer']) }}</h1>
       <div class="wm-form-row gap-5">
         <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner') + ':'"
                  :value="authStore.userFullName" />
@@ -16,11 +16,14 @@
                  width="80" />
         <WMInput name="rating" type="input-select" :highlighted="true" :label="$t('customer.rating') + ':'"
                  :options="rating" width="80" />
+        <WMInput name="is_provider" type="input-select-button" :highlighted="true" :label="$t('customer.is-provider') + ':'"
+                 :options="yesNoOptions" width="80" />
+
       </div>
       <div class="wm-form-row gap-5">
-        <WMInputSearch name="service_area" type="input-search" :placeholder="$t('select', ['customer.area'])" :required="true"
-                       :label="$t('customer.area') + ':'" :multiple="true" width="248" :options="business"
-                       :highlighted="true" />
+        <WMInputSearch name="service_area" type="input-search" :placeholder="$t('select', ['customer.area'])"
+                       :required="true" :label="$t('customer.area') + ':'" :multiple="true" width="248"
+                       :options="business" :highlighted="true" />
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px;" />
       <div class="customer-address flex flex-auto flex-column gap-5">
@@ -58,11 +61,7 @@ import { CustomerService } from '@/service/CustomerService';
 import { useOptionSetsStore } from '@/stores/optionSets';
 import { CitiesService } from '@/service/CitiesService';
 import { useToast } from '@/stores/toast';
-import { useConfirm } from "primevue/useconfirm";
-import { useI18n } from 'vue-i18n'
-
-const i18n = useI18n();
-const confirm = useConfirm();
+import { useDialog } from '@/stores/dialog';
 
 const customers = ref();
 const authStore = useAuthStore();
@@ -75,6 +74,8 @@ const rating = ref();
 const business = ref();
 const alphabetWithDash = ref(formUtilsStore.getAlphabetWithDash);
 const toast = useToast();
+const dialog = useDialog();
+
 
 onMounted(() => {
   CustomerService.getCustomersFromApi({ page: 1 }).then((data) => (customers.value = data.customers));
@@ -90,41 +91,19 @@ const { errors, handleSubmit, meta } = useForm({
 
 const onSave = handleSubmit((values) => {
   CustomerService.createCustomer(CustomerService.parseCustomer(values)).then((data) => {
-    toast.success(i18n.t('customer.toast.created'));
-    confirm.require({
-    message: i18n.t('customer.notification.created.message'),
-    header: i18n.t('customer.notification.created.header'),
-    acceptLabel: i18n.t('customer.notification.created.detail'),
-    rejectLabel: i18n.t('customer.notification.created.list'),
-    accept: () => {
-      formUtilsStore.goToDetail(data.data.id);
-    },
-    reject: () => {
-      formUtilsStore.closeForm();
-    },
-  });
+    dialog.confirmNewCustomer(data.data.id);
+    toast.successAction('customer', 'created');
   }).catch((error) => {
-    toast.error('An Error Ocurred');
     console.log(error);
+    toast.error('customer', 'not-created');
   });
 });
 
 const onCancel = () => {
-  if (!formUtilsStore.formMeta.dirty) {
-    formUtilsStore.closeForm();
-    return;
+  toast.successAction('customer', 'created');
+  if (formUtilsStore.formMeta.dirty) {
+    dialog.discardNewCustomer();
   }
-  confirm.require({
-    message: i18n.t('customer.notification.discard.message'),
-    header: i18n.t('customer.notification.discard.header'),
-    acceptLabel: i18n.t('customer.notification.discard.accept'),
-    rejectLabel: i18n.t('customer.notification.discard.cancel'),
-    accept: () => {
-      formUtilsStore.closeForm();
-    },
-    reject: () => {
-    },
-  });
 };
 
 formUtilsStore.save = onSave;
@@ -136,6 +115,11 @@ formUtilsStore.formEntity = "customer";
 // const searchCustomer = (query) => {
   // return CustomerService.getCustomersFromApi({ search: query });
 // }
+
+const yesNoOptions = [
+  { value: true, name: 'yes' },
+  { value: false, name: 'no' },
+];
 
 </script>
 

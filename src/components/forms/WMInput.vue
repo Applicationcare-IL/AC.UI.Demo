@@ -18,6 +18,7 @@
                   optionLabel="label" v-model="value" :placeholder="placeholder"
                   :style="{ width: width + 'px' }">
         </Dropdown>
+        <SelectButton v-if="type == 'input-select-button'" :name="name" v-model="value" :options="options" optionLabel="name" />
         <span v-if="type == 'info'" :class="props.class">{{ value }}</span>
         <span v-if="type == 'info-link'">
             <router-link :to="props.to">{{ value }}</router-link>

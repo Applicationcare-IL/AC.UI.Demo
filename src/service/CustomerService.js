@@ -119,7 +119,7 @@ export const CustomerService = {
             project_manager_type: 'employee',
             type: form.type.id,
             rating: form.rating.id,
-            is_provider: false, //Optional pero si no lo pones peta
+            is_provider: form.is_provider.value, //Optional pero si no lo pones peta
             // business: form.business.id,
             service_area: form.service_area.map(x=>x.id),
             street: form.street.name,

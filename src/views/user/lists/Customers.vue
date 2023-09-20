@@ -5,21 +5,19 @@
     <Sidebar v-model:visible="isDetailsVisible" class="details-sidebar w-6" :showCloseIcon="false">
         <h2>{{ customerDetailRow.name }}</h2>
         <Divider />
-
         <WMContactsTable :contacts="contacts" :columns="contactColumns" :showControls="false" :rows="5">
         </WMContactsTable>
-
     </Sidebar>
     <Sidebar v-model:visible="formUtilsStore.isSidebarExpanded" class="new-sidebar w-6" :showCloseIcon="false"
              :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''" :position="layoutConfig.isRTL.value ? 'left' : 'right'">
         <div class="flex flex-row justify-content-between align-content-center">
-            <h2></h2>
+            <h1 class="h1 mb-0">{{ $t('new', ['customer.customer']) }}</h1>
             <router-link :to="{ name: 'newCustomer' }" class="p-2">
                 <img src="@/assets/icons/fullScreen.svg" alt="fullScreen" />
             </router-link>
         </div>
         <Divider />
-        <WMNewCustomerForm> </WMNewCustomerForm>
+        <WMNewCustomerForm></WMNewCustomerForm>
         <WMFormButtons></WMFormButtons>
     </Sidebar>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">

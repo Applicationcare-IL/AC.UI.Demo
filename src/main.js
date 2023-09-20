@@ -26,6 +26,7 @@ import ContextMenu from 'primevue/contextmenu';
 import Card from 'primevue/card';
 import Chart from 'primevue/chart';
 import Chip from 'primevue/chip';
+import Chips from 'primevue/chips';
 import TabView from 'primevue/tabview';
 import DataView from 'primevue/dataview';
 import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions';
@@ -70,6 +71,7 @@ const app = createApp(App)
     .component('Card', Card)
     .component('Chart', Chart)
     .component('Chip', Chip)
+    .component('Chips', Chips)
     .component('TabView', TabView)
     .component('DataView', DataView)
     .component('DataViewLayoutOptions', DataViewLayoutOptions)

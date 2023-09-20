@@ -213,5 +213,13 @@
             "water_service": "שירותי מים",
             "funeral_service": "שירותי קבורה"
         }
-    }
+    },
+    "toast" : {
+        "success" : "הצלחה",
+        "error" : "שגיאה",
+        "warning" : "אזהרה",
+        "info" : "מידע",
+        "successful-action" : "@:{entity} בהצלחה @:{action}"
+    },
+    "created": "נוצר בהצלחה"
 }
