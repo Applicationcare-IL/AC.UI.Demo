@@ -5,7 +5,9 @@
         </label>
         <AutoComplete :suggestions="filteredOptions" optionLabel="name" :placeholder="placeholder"
                       :multiple="props.multiple" :disabled="props.disabled" :class="[{ 'wm-input-error': !!errorMessage }]"
-                      forceSelection @complete="search" completeOnFocus v-model="value">
+                      forceSelection @complete="search" completeOnFocus v-model="value"
+                      @input="$emit('update:value', $event.target.value)"
+                      >
         </AutoComplete>
         <span v-if="errorMessage" class="wm-validation-message">
             {{ typeof errorMessage === 'string' ? $t(errorMessage) : $t(errorMessage.key, errorMessage.values) }}
@@ -17,13 +19,10 @@
 </template>
 
 <script setup>
-import { defineProps, ref, toRef, computed, watch, onMounted } from 'vue';
+import { defineProps, ref, toRef, computed, onMounted } from 'vue';
 import { useField } from 'vee-validate';
 
 const filteredOptions = ref();
-// const selectedOptions = ref();
-
-
 
 const props = defineProps({
     highlighted: {
@@ -85,25 +84,36 @@ const props = defineProps({
         type: Object,
         default: null,
     },
+    searchFunction: {
+        type: Function,
+        default: null,
+    },
 });
 
-
 onMounted(() => {
-    if (props.multiple)
+    if (props.multiple && props.selectedOptions)
         value.value = props.selectedOptions
-    else
+    if (!props.multiple && props.selectedOptions)
         value.value = props.selectedOption
 });
 
 const search = (event) => {
     setTimeout(() => {
-        if (!event.query?.trim().length) {
-            filteredOptions.value = [...props.options];
-        } else {
-            filteredOptions.value = props.options.filter((option) => {
-                // console.log(props.searchBy);
-                return option.name.toLowerCase().startsWith(event.query.toLowerCase());
+        if (props.searchFunction) {
+            props.searchFunction(event.query.toLowerCase()).then((result) => {
+                return filteredOptions.value = result.data.filter((option) => {
+                    return option.name;
+                });
             });
+        } else {
+            console.log("Search")
+            if (!event.query?.trim().length) {
+                filteredOptions.value = [...props.options];
+            } else {
+                filteredOptions.value = props.options.filter((option) => {
+                    return option.name.toLowerCase().startsWith(event.query.toLowerCase());
+                });
+            }
         }
     }, 250);
 }
@@ -114,19 +124,13 @@ const width = computed(() => {
 
 const name = toRef(props, 'name');
 
-const { value, errorMessage } = useField(name, validateField, { initialValue: [] });
-
-
-function validateField(value) {
-    console.log('value', value);
-    if (this.value === []) {
-        return 'Value is required2.';
-    }
-
-    return true;
-}
-
-
+const { value, errorMessage } = useField(name, undefined, {
+    validateOnValueUpdate: true,
+    validateOnMount: false,
+    validateOnBlur: true,
+    validateOnChange: true,
+    value: props.modelValue,
+})
 
 </script>
 

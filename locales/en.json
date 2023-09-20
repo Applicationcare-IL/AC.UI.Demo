@@ -42,8 +42,6 @@
     "modified_by": "Changed by",
     "created_at": "Created at",
     "modified_at": "Modified at",
-    "private" : "Private",
-    "business" : "Business",
     "contact" : {
         "contact": "Contact",
         "contacts": "Contacts",
@@ -69,14 +67,33 @@
         "number-abbreviation": "Customer No.",
         "type": "Type",
         "rating": "Rating",
-        "field" : "Field",
+        "area" : "Field",
         "add" :"Add Customer",
         "main": "Main",
         "open-services" : "Open Services",
         "breached-services" : "Breached Services",
         "open-tasks" : "Open Tasks",
         "breached-tasks" : "Breached Tasks",
-        "notes" : "Customer Notes"
+        "notes" : "Customer Notes",
+        "notification" : {
+            "created" : {
+                "header" : "New Customer Created",
+                "message" : "The new customer was successfully created! /n From now on he will appear in your customer list",
+                "detail" : "View Customer",
+                "list" : "View List"
+            },
+            "discard" : {
+                "header" : "The customer is not saved",
+                "message" : "You have not finished creating the new customer. /n You would like to exit this page without saving it",
+                "accept" : "Remain on this page",
+                "cancel" : "Exit without saving"
+            }
+        },
+        "toast" : {
+            "created" : "New Customer Created",
+            "error" : "An error occurred"
+        }
+
     },
     "service": {
         "service": "Service",
@@ -158,14 +175,6 @@
         "active": "Active",
         "inactive": "Not Active"
     },
-    "customer-type": {
-        "private": "Private",
-        "business": "Business"
-    },
-    "customer-rating": {
-        "vip": "VIP",
-        "regular": "Regular"
-    },
     "classification1" : {
         "urban-architect" : "Urban Architect",
         "sharp-internet-jokes": "Sharp Internet Jokes",
@@ -185,6 +194,21 @@
         "submit" : "Log in",
         "invalid_credentials" : "Looks like your email or password are incorrect. Maybe try again?"
 
+    },
+    "option-set":{
+        "customer_type": {
+            "private": "Private",
+            "business": "Business"
+        },
+        "customer_business": {
+            "regular" : "Regular",
+            "vip": "VIP"
+        },
+        "customer_business": {
+            "municipality": "Municipality",
+            "water_service": "Water Service",
+            "funeral_service": "Funeral Service"
+        }
     }
     
 }

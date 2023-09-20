@@ -13,11 +13,11 @@ const model = ref([
         visible:true,
         section: "user",
         items: [
-            { label: 'דאשבורד', to: '/Dashboard', image: new URL('/icons/nav/dashboard.svg', import.meta.url).href },
-            { label: 'לקוחות', to: '/Customers', image: new URL('/icons/nav/customers.svg', import.meta.url).href },
-            { label: 'אנשי קשר', to: '/Contacts', image: new URL('/icons/nav/contacts.svg', import.meta.url).href },
-            { label: 'תהליכים', to: '/Services', image: new URL('/icons/nav/services.svg', import.meta.url).href},
-            { label: 'משימות', to: '/Tasks', image: new URL('/icons/nav/tasks.svg', import.meta.url).href }
+            { label: 'דאשבורד', to: '/dashboard', image: new URL('/icons/nav/dashboard.svg', import.meta.url).href },
+            { label: 'לקוחות', to: '/customers', image: new URL('/icons/nav/customers.svg', import.meta.url).href },
+            { label: 'אנשי קשר', to: '/contacts', image: new URL('/icons/nav/contacts.svg', import.meta.url).href },
+            { label: 'תהליכים', to: '/services', image: new URL('/icons/nav/services.svg', import.meta.url).href},
+            { label: 'משימות', to: '/tasks', image: new URL('/icons/nav/tasks.svg', import.meta.url).href }
     ]
     },
     {

@@ -4,22 +4,25 @@ import * as yup from 'yup';
 const israeliPhoneRegex = /^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$/;
 const israeliLandlineRegex = /^0(?:[234689]|5[0-689]|7[246789])(?![01])(\d{7})$/;
 
+
 export const useFormUtilsStore = defineStore('formUtils', {
     state: () => ({
-
-        submit: '',
+        formEntity: '',
+        save: '',
+        cancel: '',
         formErrors: '',
-        israeliPhoneRegex:israeliPhoneRegex,
-        israeliLandlineRegex:israeliLandlineRegex,
+        israeliPhoneRegex: israeliPhoneRegex,
+        israeliLandlineRegex: israeliLandlineRegex,
+        isSidebar: false,
+        isSidebarExpanded: false,
     }),
     getters: {
-       
+
         getAlphabetWithDash: () => {
             const alphabet = 'אבגדהוזחטיכךלמםנןסעפףצץקרשת'.split('');
-            const alphabetWithDash = alphabet.map(letter => ({ label: "-" + letter, value: "-" + letter }));
-            return alphabetWithDash;
+            return alphabet.map(letter => ({ label: "-" + letter, value: "-" + letter }));
         },
-       
+
         getServiceFormValidationSchema: () => {
             return yup.object({
                 'contact': yup.object().required({ key: 'validation.required-select', values: { label: 'contact' } })
@@ -59,11 +62,17 @@ export const useFormUtilsStore = defineStore('formUtils', {
             return yup.object({
                 'name': yup.string().min(9).required(),
                 'number': yup.string().required(),
-                'field': yup.array().min(1, { key: 'validation.required-select', values: { label: 'customer.field' } })
-                    .typeError({ key: 'validation.required-select', values: { label: 'customer.field' } }),
-                'city': yup.object().required({ key: 'validation.required-select', values: { label: 'address.city' } })
+                'service_area': yup.array()
+                     .min(1, { key: 'validation.required-select', values: { label: 'customer.field' } }),
+                // 'business': yup.object().required({ key: 'validation.required-select', values: { label: 'customer.field' } }),
+                // 'business': yup.array()
+                //      .min(1, { key: 'validation.required-select', values: { label: 'customer.field' } })
+                //     .typeError({ key: 'validation.required-select', values: { label: 'customer.field' } }),
+                'city': yup.object()
+                    .required({ key: 'validation.required-select', values: { label: 'address.city' } })
                     .typeError({ key: 'validation.required-select', values: { label: 'address.city' } }),
-                'street': yup.object().required({ key: 'validation.required-select', values: { label: 'address.street' } })
+                'street': yup.object()
+                    .required({ key: 'validation.required-select', values: { label: 'address.street' } })
                     .typeError({ key: 'validation.required-select', values: { label: 'address.street' } }),
                 'house-number': yup.string().required(),
             });
@@ -79,9 +88,23 @@ export const useFormUtilsStore = defineStore('formUtils', {
         },
         getContactDetailFormValidationSchema: (state) => {
             return yup.object({
-                'first-name' : yup.string().required(),
-                'last-name' : yup.string().required(),
+                'first-name': yup.string().required(),
+                'last-name': yup.string().required(),
             });
-        }
+        },
+        
+
+
     },
+    actions: {
+        closeForm() {
+            if (this.isSidebar)
+                this.isSidebarExpanded = false;
+            else
+                this.router.push("/" + this.formEntity + "s");
+        },
+        goToDetail(id){
+            this.router.push("/" + this.formEntity + "/" + id);
+        }
+    }
 });

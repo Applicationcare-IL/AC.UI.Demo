@@ -41,8 +41,6 @@
     "modified_by": "שינוי אחרון ע”י",
     "created_at": "נוצר ב:",
     "modified_at": "שינוי אחרון",
-    "private" : "פרטי",
-    "business" : "עסקי",
     "contact": {
         "contact": "איש קשר",
         "contacts": "אנשי קשר",
@@ -66,7 +64,7 @@
         "number-abbreviation": "מס’ לקוח",
         "type": "סוג",
         "rating": "דירוג",
-        "field": "תחום",
+        "area": "תחום",
         "add" :"הוספת לקוח",
         "main": "ראשי",
         "role": "שם תפקיד",
@@ -74,7 +72,26 @@
         "breached-services" : "תהליכים שנפרצו",
         "open-tasks" : "פתיחת משימות",
         "breached-tasks" : "משימות שנפרצו",
-        "notes" : ""
+        "notes" : "",
+        "notification" : {
+            "created" : {
+                "header" : "נוצר לקוח חדש",
+                "message" : "הלקוח החדש נוצר בהצלחה! /n מעתה הוא יופיע ברשימת הלקוחות שלך",
+                "detail" : "צפייה באיש קשר",
+                "list" : "חזרה לרשימה"
+            },
+            "discard" : {
+                "header" : "הלקוח לא נשמר",
+                "message" : "לא סיימת ליצור את הלקוח החדש. /n תרצה לצאת מעמוד זה מבלי לשמור אותו?",
+                "accept" : "השאר בעמוד זה",
+                "cancel" : "יציאה ללא שמירה"
+            }
+        },
+        "toast" : {
+            "created" : "נוצר לקוח חדש",
+            "error" : "An error occurred"
+        }
+
     },
     "service": {
         "service": "שירות",
@@ -181,5 +198,20 @@
         "forgot_password" : "שכחת את הסיסמה?",
         "submit" : "כניסה",
         "invalid_credentials" : "כתובת הדוא”ל או הסיסמה אינם תקינים. אולי יש טעות באחד השדות?"
+    },
+    "option-set":{
+        "customer_type": {
+            "private" : "פרטי",
+            "business" : "עסקי"
+        },
+        "customer_rating": {
+            "regular" : "רגיל",
+            "vip": "VIP"
+        },
+        "customer_business": {
+            "municipality": "רשות מקומית",
+            "water_service": "שירותי מים",
+            "funeral_service": "שירותי קבורה"
+        }
     }
 }

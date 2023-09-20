@@ -2,7 +2,7 @@
     <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]"
                      entity="customer" @new="displayNewForm">
     </WMListSubHeader>
-    <Sidebar v-model:visible="isDetailsVisible" class="details-sidebar w-6">
+    <Sidebar v-model:visible="isDetailsVisible" class="details-sidebar w-6" :showCloseIcon="false">
         <h2>{{ customerDetailRow.name }}</h2>
         <Divider />
 
@@ -10,16 +10,21 @@
         </WMContactsTable>
 
     </Sidebar>
-    <Sidebar v-model:visible="isNewFormVisible" class="new-sidebar w-6"
+    <Sidebar v-model:visible="formUtilsStore.isSidebarExpanded" class="new-sidebar w-6" :showCloseIcon="false"
              :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''" :position="layoutConfig.isRTL.value ? 'left' : 'right'">
-        <h2>לקוח חדש</h2>
-
+        <div class="flex flex-row justify-content-between align-content-center">
+            <h2></h2>
+            <router-link :to="{ name: 'newCustomer' }" class="p-2">
+                <img src="@/assets/icons/fullScreen.svg" alt="fullScreen" />
+            </router-link>
+        </div>
+        <Divider />
         <WMNewCustomerForm> </WMNewCustomerForm>
-
+        <WMFormButtons></WMFormButtons>
     </Sidebar>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
         <DataTable lazy v-model:selection="selectedCustomers" :value="customers" dataKey="id" tableStyle="min-width: 50rem"
-                   class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="10" :first="0" ref="dt"
+                   class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="15" :first="0" ref="dt"
                    :totalRecords="totalRecords" :loading="loading" @page="onPage($event)">
             <Column style="width: 35px">
                 <template #body="slotProps">
@@ -100,14 +105,14 @@ import { ServicesService } from '@/service/ServicesService';
 import { TasksService } from '@/service/TasksService';
 import { useListUtilsStore } from '@/stores/listUtils';
 import WMListSubHeader from '@/components/layout/WMListSubHeader.vue';
+import WMFormButtons from '@/components/layout/WMFormButtons.vue';
 import WMContactsTable from '@/components/tables/WMContactsTable.vue';
 import WMNewCustomerForm from '@/components/forms/WMNewCustomerForm.vue';
 import { useLayout } from '@/layout/composables/layout';
-
-
+import { useFormUtilsStore } from '@/stores/formUtils';
 
 onMounted(() => {
-    loading.value=true;
+    loading.value = true;
 
     loadLazyData();
 
@@ -120,20 +125,20 @@ const dt = ref();
 const loading = ref(false);
 const totalRecords = ref(0);
 const lazyParams = ref({});
+const formUtilsStore = useFormUtilsStore();
 
 const loadLazyData = () => {
     loading.value = true;
 
-    CustomerService.getCustomersFromApi({ page: lazyParams.value.page+1 }).then((data) => {
-        console.log(data);
-        customers.value = data.customers;
-        totalRecords.value = data.totalRecords;
+    CustomerService.getCustomersFromApi({ page: lazyParams.value.page + 1 }).then((result) => {
+        console.log(result);
+        customers.value = result.data;
+        totalRecords.value = result.totalRecords;
         loading.value = false;
     });
 };
 
 const onPage = (event) => {
-
     lazyParams.value = event;
     console.log(lazyParams)
     loadLazyData();
@@ -169,13 +174,13 @@ const displayDetails = (data) => {
 
 const isNewFormVisible = ref(false);
 const displayNewForm = () => {
-    isNewFormVisible.value = true;
+    formUtilsStore.isSidebar = true;
+    formUtilsStore.isSidebarExpanded = true;
 }
 
 const highlightCellClass = (data) => {
     return [{ 'bg-red-100 text-red-600': data > 0 }];
 };
-
 
 </script>
 

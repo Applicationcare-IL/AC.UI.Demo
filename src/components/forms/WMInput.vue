@@ -1,22 +1,21 @@
 <template>
-    <div class="wm-input flex" :class="{ 'flex-row': inline,  'flex-column': !inline}">
-        <label v-if="label != ''" class="wm-form-label"
-               :class="[{
-                       highlighted: props.highlighted,
-                   }]">
+    <div class="wm-input flex" :class="{ 'flex-row': inline, 'flex-column': !inline }">
+        <label v-if="label != ''" class="wm-form-label" :class="[{
+            highlighted: props.highlighted,
+        }]">
             {{ label }} <span v-if="required" class="text-red-500"> *</span>
         </label>
         <InputText v-if="type == 'input-text'" :name="name" :disabled="props.disabled" :placeholder="placeholder"
                    :value="value" @input="$emit('update:value', $event.target.value); handleChange($event.target.value)"
-                    @blur="handleBlur"
-                   :class="[{
-                           'wm-input-error': !!errorMessage,
-                       }]"
-                   style="width:100%" />
-        <Password v-if="type == 'input-password'" :name="name" :disabled="props.disabled" :placeholder="placeholder" :feedback="false" style="width:100%"
-        @input="$emit('update:value', $event.target.value); handleChange($event.target.value)" @blur="handleBlur"></Password>
+                   @blur="handleBlur" :class="[{
+                       'wm-input-error': !!errorMessage,
+                   }]" style="width:100%" />
+        <Password v-if="type == 'input-password'" :name="name" :disabled="props.disabled" :placeholder="placeholder"
+                  :feedback="false" style="width:100%"
+                  @input="$emit('update:value', $event.target.value); handleChange($event.target.value)" @blur="handleBlur">
+        </Password>
         <Dropdown v-if="type == 'input-select'" :name="name" :disabled="props.disabled" :options="options"
-                  optionLabel="label" v-model="selectedInput"  :placeholder="placeholder"
+                  optionLabel="label" v-model="value" :placeholder="placeholder"
                   :style="{ width: width + 'px' }">
         </Dropdown>
         <span v-if="type == 'info'" :class="props.class">{{ value }}</span>
@@ -33,8 +32,6 @@
 import { defineProps, ref } from 'vue';
 import { toRef } from 'vue';
 import { useField } from 'vee-validate';
-
-const selectedInput = ref(props.selectedOption);
 
 defineEmits(['update:value'])
 
@@ -94,14 +91,13 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-    selectedOption:{
+    selectedOption: {
         type: Object,
     },
-    class:{
+    class: {
         type: String,
     }
 });
-
 
 const name = toRef(props, 'name');
 

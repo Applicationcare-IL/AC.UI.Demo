@@ -95,6 +95,7 @@ const mouseleave = () => {
 </script>
 
 <template>
+    <Toast/>
     <div class="layout-wrapper" :class="containerClass" @click="onDocumentClick($event)">
         <app-topbar @topbar-item-click="onTopbarItemClick"
                     :activeTopbarItem="activeTopbarItem"></app-topbar>

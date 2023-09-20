@@ -4,39 +4,23 @@
       <h1 class="h1 mb-0">{{ $t('new', ['contact.contact']) }}</h1>
 
       <div class="wm-form-row">
-        <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner') + ':'"
-                 value="Israel Israeli"></WMInput>
+        <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner') + ':'" value="Israel Israeli"></WMInput>
       </div>
       <div class="wm-form-row gap-5">
-        <WMInput name="first-name"
-                 :required="true"
-                 type="input-text"
-                 :label="$t('first-name') + ':'" />
-        <WMInput name="last-name"
-                 :required="true"
-                 validationMessage="Validation Message"
-                 type="input-text"
+        <WMInput name="first-name" :required="true" type="input-text" :label="$t('first-name') + ':'" />
+        <WMInput name="last-name" :required="true" validationMessage="Validation Message" type="input-text"
                  :label="$t('last-name') + ':'" />
       </div>
 
       <div class="wm-form-row gap-4">
-        <WMInput name="contactid"
-                 :required="true"
-                 type="input-text"
-                 :label="$t('id') + ':'" />
+        <WMInput name="contactid" :required="true" type="input-text" :label="$t('id') + ':'" />
 
-        <WMInput name="gender"
-                 :highlighted="true"
-                 type="input-select"
-                 :label="$t('gender') + ':'"
-                 :options="genders"
-                 :placeholder="$t('select', ['gender'])" 
-                 width="130" />
+        <WMInput name="gender" :highlighted="true" type="input-select" :label="$t('gender') + ':'" :options="genders"
+                 :placeholder="$t('select', ['gender'])" width="130" />
       </div>
 
       <div class="wm-form-row gap-5">
-        <WMInput name="mobile-phone" :required="true" type="input-text" :label="$t('mobilephone') + ':'"
-                 width="88" />
+        <WMInput name="mobile-phone" :required="true" type="input-text" :label="$t('mobilephone') + ':'" width="88" />
         <WMInput name="landline" type="input-text" :label="$t('landline') + ':'" width="88" />
       </div>
 
@@ -46,7 +30,7 @@
       </div>
 
       <div class="wm-form-row align-items-end gap-2">
-        <WMInputSearch name="customer" :placeholder="$t('select', ['customer'])"  :required="true" type="input-search"
+        <WMInputSearch name="customer" :placeholder="$t('select', ['customer'])" :required="true" type="input-search"
                        :label="$t('customer') + ':'" :multiple="true" width="248" :options="customers"
                        :highlighted="true" />
         <WMButton class="small" name="new" icon="new" @click="">{{ $t('new') }}</WMButton>
@@ -60,7 +44,7 @@
 
       <div class="wm-form-row gap-5">
         <WMInputSearch name="city" :highlighted="true" :label="$t('address.city') + ':'" :options="customers" width="152"
-        :placeholder="$t('select', ['address.city'])" />
+                       :placeholder="$t('select', ['address.city'])" />
         <WMInputSearch name="street" :highlighted="true" :label="$t('address.street') + ':'" :options="customers"
                        width="152" :placeholder="$t('select', ['address.street'])" />
       </div>
@@ -97,8 +81,10 @@ import WMInputSearch from '@/components/forms/WMInputSearch.vue';
 import WMInput from '@/components/forms/WMInput.vue';
 import { useForm } from 'vee-validate';
 import { useFormUtilsStore } from '@/stores/formUtils';
+import { useOptionSetsStore } from '@/stores/optionSets';
 
 const formUtilsStore = useFormUtilsStore();
+const optionSetsStore = useOptionSetsStore();
 
 const customers = ref();
 
@@ -110,7 +96,7 @@ const { errors, handleSubmit, setFieldError } = useForm({
   validationSchema: formUtilsStore.getContactFormValidationSchema,
 });
 
-const genders = formUtilsStore.getGenders;
+const genders = optionSetsStore.getOptionSetValues("gender");
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash;
 
 const onSubmit = handleSubmit((values) => {

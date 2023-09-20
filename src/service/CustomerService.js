@@ -36,15 +36,13 @@ export const CustomerService = {
     },
 
     getCustomersFromApi(params) {
-        console.log(params)
         return axiosConfig.get('/customers', { params })
             .then((response) => {
-                const customers = response.data.data.map((customer) => {
+                const data = response.data.data.map((customer) => {
                     return this.mapCustomer(customer);
                 })
                 const totalRecords = response.data.meta.total;
-                return { customers, totalRecords };
-
+                return { data, totalRecords };
             })
             .catch((error) => {
                 console.log(error);
@@ -57,7 +55,6 @@ export const CustomerService = {
                 console.log(response)
                 const customer = response.data.data;
                 return this.mapCustomer(customer);
-                
             })
             .catch((error) => {
                 console.log(error);
@@ -87,7 +84,7 @@ export const CustomerService = {
         return Promise.resolve(this.getCustomersData().find((customer) => customer.id === id));
     },
 
-    mapCustomer(customer){
+    mapCustomer(customer) {
         return {
             telephone: customer.phone,
             name: customer.name,
@@ -112,14 +109,45 @@ export const CustomerService = {
             area: customer.business ? customer.business.value : '',
         }
     },
+
+    parseCustomer(form) {
+        console.log(form)
+        return {
+            name: form.name,
+            number: form.number,
+            project_manager_id: 1,
+            project_manager_type: 'employee',
+            type: form.type.id,
+            rating: form.rating.id,
+            is_provider: false, //Optional pero si no lo pones peta
+            // business: form.business.id,
+            service_area: form.service_area.map(x=>x.id),
+            street: form.street.name,
+            street_number: form.street_number,
+            city: form.city.name,
+            zipcode: form.zipcode,
+            // "file_folder_link": "et",
+            // "account_number": "exercitationem",
+            // "registration_area": "voluptatem",
+            // "subscription": "possimus",
+            // "water_meter": "in"
+            // Missing: entrance, house_number, apartment
+        }
+    },
+
     createCustomer(customer) {
         return axiosConfig.post('/customers', customer)
             .then((response) => {
-                console.log(response)
                 return response.data;
             })
             .catch((error) => {
                 console.log(error);
             });
-    }
+    },
 };
+
+
+
+
+
+

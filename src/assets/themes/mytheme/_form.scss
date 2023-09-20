@@ -1,7 +1,10 @@
 // Form layout
 
 .wm-new-form-container{
-    padding: 10px 160px;
+    padding: 24px 48px;
+}
+
+.layout-main > .wm-new-form-container{
     background-color: var(--gray-25);
 }
 
@@ -11,7 +14,6 @@
 }
 
 .wm-form-row{
-    // gap: 2rem;
     display: flex;
     flex-direction: row;
     align-items: center;

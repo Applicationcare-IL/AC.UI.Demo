@@ -23,13 +23,13 @@ const router = createRouter({
                    
                 },
                 {
-                    path: '/Dashboard',
-                    name: 'Dashboard',
+                    path: '/dashboard',
+                    name: 'dashboard',
                     component: () => import('@/views/user/Dashboard.vue'),
                 },
                 {
-                    path: '/Contacts',
-                    name: 'Contacts',
+                    path: '/contacts',
+                    name: 'contacts',
                     component: () => import('@/views/user/lists/Contacts.vue'),
                 },
                 {
@@ -43,8 +43,8 @@ const router = createRouter({
                     component: () => import('@/views/user/forms/detail/Contact.vue'),
                 },
                 {
-                    path: '/Customers',
-                    name: 'Customers',
+                    path: '/customers',
+                    name: 'customers',
                     component: () => import('@/views/user/lists/Customers.vue'),
                 },
                 {
@@ -58,8 +58,8 @@ const router = createRouter({
                     component: () => import('@/views/user/forms/detail/Customer.vue'),
                 },
                 {
-                    path: '/Services',
-                    name: 'Services',
+                    path: '/services',
+                    name: 'services',
                     component: () => import('@/views/user/lists/Services.vue'),
                 },
                 {
@@ -73,8 +73,8 @@ const router = createRouter({
                     component: () => import('@/views/user/forms/detail/Service.vue'),
                 },
                 {
-                    path: '/Tasks',
-                    name: 'Tasks',
+                    path: '/tasks',
+                    name: 'tasks',
                     component: () => import('@/views/user/lists/Tasks.vue'),
                 },
                 {
