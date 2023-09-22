@@ -11,15 +11,15 @@
                        'wm-input-error': !!errorMessage,
                    }]" style="width:100%" />
         <Password v-if="type == 'input-password'" :name="name" :disabled="props.disabled" :placeholder="placeholder"
-                  :feedback="false" style="width:100%"
+                  :feedback="true" style="width:100%"
                   @input="$emit('update:value', $event.target.value); handleChange($event.target.value)" @blur="handleBlur">
         </Password>
         <Dropdown v-if="type == 'input-select'" :name="name" :disabled="props.disabled" :options="options"
-                  optionLabel="label" v-model="value" :placeholder="placeholder"
-                  :style="{ width: width + 'px' }">
+                  optionLabel="label" v-model="value" :placeholder="placeholder" :style="{ width: width + 'px' }">
         </Dropdown>
-        <SelectButton v-if="type == 'input-select-button'" :name="name" v-model="value" :options="options" optionLabel="name" />
-        <span v-if="type == 'info'" :class="props.class">{{ value }}</span>
+        <SelectButton v-if="type == 'input-select-button'" :name="name" v-model="value" :options="options"
+                      optionLabel="name" class="form-select-button flex-nowrap flex" />
+        <span v-if="type == 'info'" :class="styles" :style="{ width: width + 'px' }">{{ value }}</span>
         <span v-if="type == 'info-link'">
             <router-link :to="props.to">{{ value }}</router-link>
         </span>
@@ -30,8 +30,8 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from 'vue';
-import { toRef } from 'vue';
+import { defineProps, onMounted, watch } from 'vue';
+import { toRef, ref } from 'vue';
 import { useField } from 'vee-validate';
 
 defineEmits(['update:value'])
@@ -100,7 +100,24 @@ const props = defineProps({
     }
 });
 
+const styles = toRef(props, 'class');
 const name = toRef(props, 'name');
+const selectedOption = toRef(props, 'selectedOption');
+
+watch(selectedOption, (newValue) => {
+    value.value = newValue
+})
+
+watch(styles, (newValue) => {
+    console.log("newValue", newValue)
+})
+
+onMounted(() => {
+    if (props.type == 'input-select-button')
+        value.value = props.selectedOption
+    if (props.type == 'input-select')
+        value.value = props.selectedOption
+});
 
 const {
     value: value,

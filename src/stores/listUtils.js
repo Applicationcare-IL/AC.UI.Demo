@@ -90,7 +90,6 @@ export const useListUtilsStore = defineStore('listUtils', {
         },
 
         getSelectFilterButtonValues: (entityPlural, i18n) => {
-            console.log(i18n);
             return [
                 { name: i18n.t('all-entities', { label: entityPlural }), value: 2 },
                 { name: i18n.t('my-entities', { label: entityPlural }), value: 1 },

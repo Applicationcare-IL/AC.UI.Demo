@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
-import { useI18n } from 'vue-i18n';
+import { i18n } from '@/i18n';
 import axiosConfig from '@/service/axiosConfig';
+
+// const i18n = useI18n();
 
 export const useOptionSetsStore = defineStore('optionSets', {
     state: () => ({
@@ -43,13 +45,16 @@ export const useOptionSetsStore = defineStore('optionSets', {
             { value: 'sharp-internet-jokes', translationKey: 'classification1.sharp-internet-jokes' },
             { value: 'people-named-robert', translationKey: 'classification1.people-named-robert' },
         ],
+        yesNo: [
+            { value: true, translationKey: 'yes' },
+            { value: false, translationKey: 'no' },
+        ]
     }),
     getters: {
 
     },
     actions: {
         getOptionSetValues(optionSet) {
-            const i18n = useI18n();
             return this[optionSet].map((option) => ({
                 value: option.value,
                 name: i18n.t(option.translationKey),
@@ -57,9 +62,8 @@ export const useOptionSetsStore = defineStore('optionSets', {
             }));
         },
         getOptionSetValuesFromApi(optionSet) {
-            const i18n = useI18n();
             return axiosConfig.get('/options-set', { params: { name: optionSet } })
-                .then((response) => {
+            .then((response) => {
                     const optionSetValues = response.data.data.map((option) => ({
                         value: option.value,
                         id: option.id,

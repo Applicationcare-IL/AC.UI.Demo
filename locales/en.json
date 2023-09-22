@@ -4,6 +4,8 @@
     "discard": "Discard",
     "select": "Select @.lower:{0}",
     "test": "Test {min}",
+    "yes" : "Yes",
+    "no" : "No",
     "general-details": "General Details",
     "entry-details": "Entry Details",
     "communication-details": "Communication Details",
@@ -68,6 +70,7 @@
         "type": "Type",
         "rating": "Rating",
         "area" : "Field",
+        "areas" : "Field",
         "add" :"Add Customer",
         "main": "Main",
         "open-services" : "Open Services",
@@ -75,16 +78,18 @@
         "open-tasks" : "Open Tasks",
         "breached-tasks" : "Breached Tasks",
         "notes" : "Customer Notes",
+        "is-provider" : "Is Provider",
+        "system-id" : "System ID",
         "notification" : {
             "created" : {
                 "header" : "New Customer Created",
-                "message" : "The new customer was successfully created! /n From now on he will appear in your customer list",
+                "message" : "The new customer was successfully created! \n From now on he will appear in your customer list",
                 "detail" : "View Customer",
                 "list" : "View List"
             },
             "discard" : {
                 "header" : "The customer is not saved",
-                "message" : "You have not finished creating the new customer. /n You would like to exit this page without saving it",
+                "message" : "You have not finished creating the new customer. \n You would like to exit this page without saving it",
                 "accept" : "Remain on this page",
                 "cancel" : "Exit without saving"
             }
@@ -161,7 +166,8 @@
         "missing-field": "Missing  @.lower:{label}",
         "contactid": "Invalid ID Card",
         "phone": "Invalid phone number",
-        "email": "Invalid email address"
+        "email": "Invalid email address",
+        "exists" : "@:{label} already exists"
     },
     "genders": {
         "male": "Male",
@@ -200,9 +206,16 @@
             "private": "Private",
             "business": "Business"
         },
-        "customer_business": {
+        "customer_rating": {
             "regular" : "Regular",
             "vip": "VIP"
+        },
+        "customer_status": {
+            "potential": "Potential",
+            "Active": "Active",
+            "Terminated" : "Terminated",
+            "Cancelled" : "Cancelled",
+            "Left" : "Left"
         },
         "customer_business": {
             "municipality": "Municipality",

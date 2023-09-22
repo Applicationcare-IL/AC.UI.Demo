@@ -404,6 +404,17 @@ a {
     height: 32px;
 }
 
+.p-selectbutton.p-buttonset.p-component.form-select-button>div {
+    padding: 0px 12px 0px 12px;
+    height: 24px;
+}
+
+.p-selectbutton.p-buttonset.p-component.form-select-button {
+    height: 24px;
+}
+
+
+
 // Side Menu
 
 .layout-menu ul a.active-route,
@@ -431,3 +442,8 @@ a {
 //     border:none;
 //     background: none;
 // }
+
+//Dialogs
+.p-dialog-content{
+    white-space: pre-line;
+}

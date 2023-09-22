@@ -4,6 +4,8 @@
     "discard": "ביטול",
     "select": "בחירה @.lower:{0}",
     "test": "בדיקה {min}",
+    "yes" : "כן",
+    "no" : "לא",
     "general-details": "פרטים כלליים",
     "entry-details": "פרטי רשומה",
     "communication-details": "פרטי התקשרות",
@@ -65,6 +67,7 @@
         "type": "סוג",
         "rating": "דירוג",
         "area": "תחום",
+        "areas" : "תחומים",
         "add" :"הוספת לקוח",
         "main": "ראשי",
         "role": "שם תפקיד",
@@ -73,16 +76,18 @@
         "open-tasks" : "פתיחת משימות",
         "breached-tasks" : "משימות שנפרצו",
         "notes" : "",
+        "is-provider" : "ספק",
+        "system-id" : "מזהה",
         "notification" : {
             "created" : {
                 "header" : "נוצר לקוח חדש",
-                "message" : "הלקוח החדש נוצר בהצלחה! /n מעתה הוא יופיע ברשימת הלקוחות שלך",
+                "message" : "הלקוח החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת הלקוחות שלך",
                 "detail" : "צפייה באיש קשר",
                 "list" : "חזרה לרשימה"
             },
             "discard" : {
                 "header" : "הלקוח לא נשמר",
-                "message" : "לא סיימת ליצור את הלקוח החדש. /n תרצה לצאת מעמוד זה מבלי לשמור אותו?",
+                "message" : "לא סיימת ליצור את הלקוח החדש. \n תרצה לצאת מעמוד זה מבלי לשמור אותו?",
                 "accept" : "השאר בעמוד זה",
                 "cancel" : "יציאה ללא שמירה"
             }
@@ -158,7 +163,8 @@
         "missing-field": "חסר @:{label}",
         "contactid": "תעודת זהות לא תקינה",
         "phone": "מספר טלפון לא תקין",
-        "email": "כתובת דואל לא תקינה"
+        "email": "כתובת דואל לא תקינה",
+        "exists" : "@:{label} כבר קיים במערכת"
     },
     "genders": {
         "male": "זכר",
@@ -207,6 +213,13 @@
         "customer_rating": {
             "regular" : "רגיל",
             "vip": "VIP"
+        },
+        "customer_status": {
+            "potential": "פוטנציאלי",
+            "Active": "פעיל",
+            "Terminated" : "הסתיים",
+            "Canceled" : "מבוטל",
+            "Left" : "מושאר"
         },
         "customer_business": {
             "municipality": "רשות מקומית",

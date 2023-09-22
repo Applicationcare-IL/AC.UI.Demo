@@ -18,6 +18,12 @@ export const useFormUtilsStore = defineStore('formUtils', {
     }),
     getters: {
 
+        yesNoOptions: () => {
+            return [
+            { value: true, name: 'yes' },
+            { value: false, name: 'no' },
+          ];
+        },
         getAlphabetWithDash: () => {
             const alphabet = 'אבגדהוזחטיכךלמםנןסעפףצץקרשת'.split('');
             return alphabet.map(letter => ({ label: "-" + letter, value: "-" + letter }));

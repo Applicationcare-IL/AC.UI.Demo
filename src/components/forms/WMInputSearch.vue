@@ -1,7 +1,7 @@
 <template>
     <div class="wm-inputsearch flex flex-column relative">
         <label v-if="label != ''" class="wm-form-label" :class="[{ highlighted: props.highlighted }]">
-            {{ label }} <span v-if="required" class="text-red-500"> *</span>
+            {{ label }} <span v-if="required && label" class="text-red-500"> *</span>
         </label>
         <AutoComplete :suggestions="filteredOptions" optionLabel="name" :placeholder="placeholder"
                       :multiple="props.multiple" :disabled="props.disabled" :class="[{ 'wm-input-error': !!errorMessage }]"
@@ -11,7 +11,7 @@
         <span v-if="errorMessage" class="wm-validation-message">
             {{ typeof errorMessage === 'string' ? $t(errorMessage) : $t(errorMessage.key, errorMessage.values) }}
         </span>
-        <div  v-if="props.multiple" class="selected-options flex flex-row gap-2 absolute">
+        <div v-if="props.multiple" class="selected-options flex flex-row gap-2 absolute">
             <Chip v-for="item in value" :label="item.name">
                 <span>{{ item.name }}</span>
                 <i class="pi pi-times" @click="onRemove(item)"></i>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref, toRef, computed, onMounted } from 'vue';
+import { defineProps, ref, toRef, computed, onMounted, watch } from 'vue';
 import { useField } from 'vee-validate';
 
 const filteredOptions = ref();
@@ -95,7 +95,7 @@ const props = defineProps({
 onMounted(() => {
     if (props.multiple && props.selectedOptions)
         value.value = props.selectedOptions
-    if (!props.multiple && props.selectedOptions)
+    if (!props.multiple && props.selectedOption)
         value.value = props.selectedOption
 });
 
@@ -119,15 +119,16 @@ const search = (event) => {
             }
         }
         //Remove the selected options from the available options
-        filteredOptions.value = filteredOptions.value.filter((option) => {
-            if (value.value.length == 0) return true;
-            const returnValue = !value.value.find((selectedOption) => {
-                return selectedOption.id == option.id;
-            });
+        if (props.multiple && value.value.length > 0)
+            filteredOptions.value = filteredOptions.value.filter((option) => {
+                if (value.value.length == 0) return true;
+                const returnValue = !value.value.find((selectedOption) => {
+                    return selectedOption.id == option.id;
+                });
 
-            if (returnValue)
-                return option.name
-        });
+                if (returnValue)
+                    return option.name
+            });
     }, 250);
 }
 

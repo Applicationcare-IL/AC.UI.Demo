@@ -43,7 +43,7 @@ import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 
 
-import i18n from '@/i18n';
+import i18nInstance from '@/i18n';
 
 
 import '@/assets/styles.scss';
@@ -88,7 +88,7 @@ const app = createApp(App)
 
 app.config.globalProperties.$appState = reactive({ isRTL: true, isNewThemeLoaded: false, layoutMode: 'light' });
 app.directive('badge', BadgeDirective);
-app.use(i18n);
+app.use(i18nInstance);
 
 const pinia = createPinia()
 

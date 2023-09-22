@@ -8,7 +8,7 @@ const messages = {
   he
 }
 
-const i18n = createI18n({
+const instance  = createI18n({
   legacy: false, 
   locale: 'he', // set the default locale
   fallbackLocale: 'he', // set the fallback locale
@@ -25,4 +25,5 @@ setLocale({
   },
 });
 
-export default i18n
+export default instance 
+export const i18n = instance.global

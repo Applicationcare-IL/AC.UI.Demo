@@ -11,22 +11,27 @@
                 <div class="wm-form-row gap-5">
                   <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner') + ':'"
                            :value="customer.owner" />
-                  <WMInput name="id" type="info" :highlighted="true" :label="$t('id') + ':'" :value="customer.number" />
-                  <WMInput name="system-id" type="info" :highlighted="true" :label="$t('system-id') + ':'"
+                  <WMInput name="system-id" type="info" :highlighted="true" :label="$t('customer.system-id') + ':'"
                            :value="customer.id" />
                 </div>
                 <div class="wm-form-row gap-5">
-                  <div class="wm-form-row gap-4">
-                    <WMInput name="type" :highlighted="true" type="input-select" :label="$t('type') + ':'"
-                             :options="typeOptions"
-                             :selectedOption="typeOptions.find(type => type.value === customer.type)" />
-                    <WMInput name="rating" :highlighted="true" type="input-select" :label="$t('rating') + ':'"
-                             :options="ratingOptions"
-                             :selectedOption="ratingOptions.find(rating => rating.value === customer.rating)" />
-                    <WMInput name="status" :highlighted="true" type="input-select" :label="$t('status') + ':'"
-                             :options="statusOptions"
-                             :selectedOption="statusOptions.find(status => status.value === customer.status.toLowerCase())" />
-                  </div>
+                  <WMInput name="name" type="input-text" :highlighted="true" :label="$t('id') + ':'"
+                           :value="customer.name" width="150" required />
+                  <WMInput name="number" type="input-text" :highlighted="true" :label="$t('id') + ':'"
+                           :value="customer.number" width="150" required />
+
+                </div>
+                <div class="wm-form-row gap-5">
+
+                  <WMInput name="type" :highlighted="true" type="input-select" :label="$t('type') + ':'" :options="types"
+                           :selectedOption="selectedType" width="80" />
+                  <WMInput name="rating" :highlighted="true" type="input-select" :label="$t('rating') + ':'"
+                           :options="ratings" :selectedOption="selectedRating" width="80" />
+                  <WMInput name="is_provider" type="input-select-button" :highlighted="true"
+                           :label="$t('customer.is-provider') + ':'" :options="yesNoOptions" :selectedOption="isProvider"
+                           width="80" />
+                  <WMInput name="status" type="info" :highlighted="true" :label="$t('status') + ':'"
+                           :class="statusConditionalStyle" :value="$t(selectedStatus)" :width="72" />
                 </div>
               </div>
             </template>
@@ -41,8 +46,9 @@
                   <WMInputSearch name="city" :highlighted="true" :label="$t('address.city') + ':'" :options="cities"
                                  width="152" :placeholder="$t('select', ['address.city'])"
                                  :selectedOption="customer.city" />
-                  <WMInput name="street" type="input-text" :label="$t('address.street') + ':'" width="48"
-                           :value="customer.street" />
+                  <WMInputSearch name="street" :highlighted="true" :label="$t('address.street') + ':'" :options="cities"
+                                 width="152" :placeholder="$t('select', ['address.street'])"
+                                 :selectedOption="customer.street" />
                 </div>
                 <div class="wm-form-row gap-5">
                   <WMInput name="house-number" type="input-text" :label="$t('address.house-number') + ':'" width="48"
@@ -60,12 +66,15 @@
         </div>
         <div class="flex-1 card-container top-info-card">
           <Card>
-            <template #title> {{ $t('customer.classification1') }} </template>
+            <template #title> {{ $t('customer.areas') }} </template>
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
-                <WMInputSearch name="classification-1" type="input-search" :options="areaOptions" width="252"
+                <!-- <WMInputSearch name="classification-1" type="input-search" :options="areaOptions" width="252"
                                :placeholder="$t('select', ['classification-1'])" searchBy="label" multiple
-                               :selectedOptions="selectedArea" />
+                               :selectedOptions="selectedArea" /> -->
+                <WMInputSearch name="service_area" type="input-search" :placeholder="$t('select', ['customer.area'])"
+                               :required="true"  :multiple="true" width="248"
+                               :options="business" :highlighted="true" :selectedOptions="selectedBusiness" />
               </div>
             </template>
           </Card>
@@ -86,19 +95,19 @@
         </div>
         <div class="card-container flex-1 middle-info-card">
           <Card>
-            <template #title> {{ $t('service.open') }} : 4 </template>
+            <template #title> {{ $t('service.open') }} : {{ customer.open_services }} </template>
 
             <template #content>
               <div class="flex flex-column gap-3">
                 <div
                      class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-teal-200 text-teal-900">
                   <span class="font-size-20 font-weight-light">No breach</span>
-                  <span class="font-size-24 font-weight-bold">4</span>
+                  <span class="font-size-24 font-weight-bold">{{ customer.open_services - customer.breached_services }}</span>
                 </div>
                 <div
                      class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900">
                   <span class="font-size-20 font-weight-light">Breach</span>
-                  <span class="font-size-24 font-weight-bold">0</span>
+                  <span class="font-size-24 font-weight-bold">{{ customer.breached_services }}</span>
                 </div>
               </div>
             </template>
@@ -106,18 +115,18 @@
         </div>
         <div class=" card-container flex-1 middle-info-card">
           <Card>
-            <template #title> {{ $t('task.open') }} : 14</template>
+            <template #title> {{ $t('task.open') }} : {{ customer.open_tasks }}</template>
             <template #content>
               <div class="flex flex-column gap-3">
                 <div
                      class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-teal-200 text-teal-900">
                   <span class="font-size-20 font-weight-light">No breach</span>
-                  <span class="font-size-24 font-weight-bold">10</span>
+                  <span class="font-size-24 font-weight-bold">{{ customer.open_tasks - customer.breached_tasks }}</span>
                 </div>
                 <div
                      class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-red-50 text-red-600">
                   <span class="font-size-20 font-weight-light">Breach</span>
-                  <span class="font-size-24 font-weight-bold">4</span>
+                  <span class="font-size-24 font-weight-bold">{{ customer.breached_tasks }}</span>
                 </div>
               </div>
             </template>
@@ -204,6 +213,7 @@ import WMInput from '@/components/forms/WMInput.vue';
 import { useForm } from 'vee-validate';
 import { useFormUtilsStore } from '@/stores/formUtils';
 import { useListUtilsStore } from '@/stores/listUtils';
+import { useUtilsStore } from '@/stores/utils';
 import { useOptionSetsStore } from '@/stores/optionSets';
 import { useRoute } from 'vue-router'
 import { CustomerService } from '@/service/CustomerService';
@@ -213,41 +223,66 @@ import { CitiesService } from '@/service/CitiesService';
 import WMServicesTable from '@/components/tables/WMServicesTable.vue';
 import WMContactsTable from '@/components/tables/WMContactsTable.vue';
 import WMTasksTable from '@/components/tables/WMTasksTable.vue';
+import { i18n } from '@/i18n';
 
 const services = ref();
 const tasks = ref();
 const cities = ref();
 
 const formUtilsStore = useFormUtilsStore();
-const OptionSetsStore = useOptionSetsStore();
+const optionSetsStore = useOptionSetsStore();
 const listUtilsStore = useListUtilsStore();
+const utilsStore = useUtilsStore();
 const customer = ref();
 const contacts = ref();
 const route = useRoute();
-const typeOptions = OptionSetsStore.getOptionSetValues("type")
-const ratingOptions = OptionSetsStore.getOptionSetValues("rating")
-const statusOptions = OptionSetsStore.getOptionSetValues("status")
+const types = ref();
+const ratings = ref();
+const selectedType = ref('');
+const selectedRating = ref();
+const selectedStatus = ref();
+const statusConditionalStyle = ref('');
+
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash
 
 const contactColumns = ref(listUtilsStore.getContactColumns);
 const serviceColumns = ref(listUtilsStore.getServiceColumns);
 const taskColumns = ref(listUtilsStore.getTaskColumns);
 
-const selectedArea = ref('');
-const areaOptions = OptionSetsStore.getOptionSetValues("area");
+const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo")
+const isProvider = ref('');
+
+const business = ref();
+const selectedBusiness = ref('');
 
 onMounted(() => {
-
+  optionSetsStore.getOptionSetValuesFromApi('customer_business').then((data) => (business.value = data));
+  console.log(business);
   CustomerService.getCustomerFromApi(route.params.id).then((data) => {
-    (customer.value = data)
-    selectedArea.value = areaOptions.filter((item) => item.value == customer.value.area);
-    console.log(customer.value)
+    customer.value = data
+
+    selectedBusiness.value = business.value.filter((item) => item.value == customer.value.area);
+
+    optionSetsStore.getOptionSetValuesFromApi('customer_type').then((data) => {
+      types.value = data
+      selectedType.value = types.value.find(type => type.id == customer.value.type.id)
+    });
+    optionSetsStore.getOptionSetValuesFromApi('customer_rating').then((data) => {
+      ratings.value = data
+      selectedRating.value = ratings.value.find(rating => rating.id == customer.value.rating.id)
+    });
+    selectedStatus.value = i18n.t('option-set.customer_status.' + customer.value.status.value);
+
+    statusConditionalStyle.value = utilsStore.getStatusConditionalStyle(customer.value.status.value);
+    isProvider.value = yesNoOptions.find(option => option.value == customer.value.is_provider);
   });
 
   ContactsService.getContactsMini().then((data) => (contacts.value = data));
   ServicesService.getServicesMini().then((data) => (services.value = data));
   TasksService.getTasksMini().then((data) => (tasks.value = data));
   CitiesService.getCities().then((data) => (cities.value = data));
+
+
 });
 
 const { errors, handleSubmit, setFieldError } = useForm({

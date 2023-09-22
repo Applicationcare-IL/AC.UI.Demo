@@ -9,16 +9,17 @@
       </div>
       <div class="wm-form-row gap-5">
         <WMInput name="name" :required="true" type="input-text" :label="$t('customer.name') + ':'" />
-        <WMInput name="number" :required="true" type="input-text" :label="$t('customer.number') + ':'" />
+        <WMInput @input.stop="onCustomerNumberChanged" name="number" :required="true" type="input-text"
+                 :label="$t('customer.number') + ':'" />
       </div>
       <div class="wm-form-row gap-5">
         <WMInput name="type" type="input-select" :highlighted="true" :label="$t('customer.type') + ':'" :options="types"
                  width="80" />
         <WMInput name="rating" type="input-select" :highlighted="true" :label="$t('customer.rating') + ':'"
                  :options="rating" width="80" />
-        <WMInput name="is_provider" type="input-select-button" :highlighted="true" :label="$t('customer.is-provider') + ':'"
-                 :options="yesNoOptions" width="80" />
-
+        <WMInput name="is_provider" type="input-select-button" :highlighted="true"
+                 :label="$t('customer.is-provider') + ':'" :options="yesNoOptions" :selectedOption="yesNoOptions[1]"
+                 width="80" />
       </div>
       <div class="wm-form-row gap-5">
         <WMInputSearch name="service_area" type="input-search" :placeholder="$t('select', ['customer.area'])"
@@ -55,6 +56,7 @@ import { ref, onMounted } from 'vue';
 import WMInput from '@/components/forms/WMInput.vue';
 import WMInputSearch from '@/components/forms/WMInputSearch.vue';
 import { useFormUtilsStore } from '@/stores/formUtils';
+import { useUtilsStore } from '@/stores/utils';
 import { useForm } from 'vee-validate';
 import { useAuthStore } from '@/stores/auth';
 import { CustomerService } from '@/service/CustomerService';
@@ -67,6 +69,7 @@ const customers = ref();
 const authStore = useAuthStore();
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
+const utilsStore = useUtilsStore();
 
 const cities = ref();
 const types = ref();
@@ -75,6 +78,7 @@ const business = ref();
 const alphabetWithDash = ref(formUtilsStore.getAlphabetWithDash);
 const toast = useToast();
 const dialog = useDialog();
+const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo")
 
 
 onMounted(() => {
@@ -85,7 +89,7 @@ onMounted(() => {
   optionSetsStore.getOptionSetValuesFromApi('customer_business').then((data) => (business.value = data));
 });
 
-const { errors, handleSubmit, meta } = useForm({
+const { errors, handleSubmit, meta, setFieldError } = useForm({
   validationSchema: formUtilsStore.getCustomerFormValidationSchema,
 });
 
@@ -100,10 +104,18 @@ const onSave = handleSubmit((values) => {
 });
 
 const onCancel = () => {
-  toast.successAction('customer', 'created');
-  if (formUtilsStore.formMeta.dirty) {
+  if (formUtilsStore.formMeta.dirty)
     dialog.discardNewCustomer();
-  }
+};
+
+const onCustomerNumberChanged = (event) => {
+  utilsStore.debounceAction(() => {
+    CustomerService.existsCustomer("id", event.target.value)
+      .then((exists) => ( 
+        exists ? 
+        setFieldError('number', {key: 'validation.exists', values: {label: 'customer.customer'}})        
+       : clearErrors('number')))
+  });
 };
 
 formUtilsStore.save = onSave;
@@ -116,10 +128,6 @@ formUtilsStore.formEntity = "customer";
   // return CustomerService.getCustomersFromApi({ search: query });
 // }
 
-const yesNoOptions = [
-  { value: true, name: 'yes' },
-  { value: false, name: 'no' },
-];
 
 </script>
 

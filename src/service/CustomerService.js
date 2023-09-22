@@ -61,6 +61,19 @@ export const CustomerService = {
             });
     },
 
+    //Add Field when the API is ready
+    existsCustomer(field, value) {
+        return axiosConfig.get('/customers?search=' + value)
+            .then((response) => {
+                // console.log(response)
+                // const customers = response.data.data;
+                return response.data.data.length > 0;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    },
+
     getCustomersMini() {
         return Promise.resolve(this.getCustomersData().slice(0, 5));
     },
@@ -88,25 +101,26 @@ export const CustomerService = {
         return {
             telephone: customer.phone,
             name: customer.name,
-            type: customer.type.value,
-            status: customer.status.value,
+            type: customer.type,
+            status: customer.status,
             address: customer.street ? customer.street + ' ' + customer.street_number + ', ' + customer.city + ' ' + customer.zipcode : '',
             street: customer.street,
             street_number: customer.street_number,
             city: customer.city,
             zipcode: customer.zipcode,
-            open_services: parseInt(Math.random() * 4),
-            breached_services: parseInt(Math.random() * 4),
-            open_tasks: parseInt(Math.random() * 12),
-            breached_tasks: parseInt(Math.random() * 12),
+            open_services: customer.open_services,
+            breached_services: customer.breached_services,
+            open_tasks: customer.open_tasks,
+            breached_tasks: customer.breached_tasks,
             classification1: ["שם של תחום", "שם של תחום"],
-            rating: customer.rating ? customer.rating.value : '',
+            rating: customer.rating ? customer.rating : '',
             number: customer.number,
             id: customer.id,
             owner: 'Israel Israeli',
             contact_id: '795',
             contact: 'שלומי שבת',
             area: customer.business ? customer.business.value : '',
+            is_provider: customer.is_provider,
         }
     },
 

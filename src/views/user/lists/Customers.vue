@@ -42,7 +42,7 @@
             <Column field="type" header="סוג">
                 <template #body="slotProps">
                     <div :class="highlightCellClass(slotProps.data.type)">
-                        {{ $t(slotProps.data.type) }}
+                        {{ $t(slotProps.data.type.value) }}
                     </div>
                 </template>
             </Column>
@@ -54,7 +54,7 @@
             <Column field="status" header="סטטוס">
                 <template #body="slotProps">
                     <div :class="highlightCellClass(slotProps.data.status)">
-                        {{ $t('statuses.' + slotProps.data.status.toLowerCase()) }}
+                        {{ $t('statuses.' + slotProps.data.status.value.toLowerCase()) }}
                     </div>
                 </template>
             </Column>
@@ -78,7 +78,7 @@
             <Column field="rating" header="דירוג">
                 <template #body="slotProps">
                     <div :class="highlightCellClass(slotProps.data.rating)">
-                        {{ slotProps.data.rating ? $t('customer-rating.' + slotProps.data.rating) : '' }}
+                        {{ slotProps.data.rating ? $t('customer-rating.' + slotProps.data.rating.value) : '' }}
                     </div>
                 </template>
             </Column>
