@@ -41,6 +41,8 @@ import Sidebar from 'primevue/sidebar';
 import Password from 'primevue/password';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
+import OverlayPanel from 'primevue/overlaypanel';
+
 
 
 import i18nInstance from '@/i18n';
@@ -83,7 +85,8 @@ const app = createApp(App)
     .component('ConfirmDialog', ConfirmDialog)
     .component('Dialog', Dialog)
     .component('Password', Password)
-    .component('Toast', Toast);
+    .component('Toast', Toast)
+    .component('OverlayPanel', OverlayPanel);
 
 
 app.config.globalProperties.$appState = reactive({ isRTL: true, isNewThemeLoaded: false, layoutMode: 'light' });

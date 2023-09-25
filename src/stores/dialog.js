@@ -22,6 +22,21 @@ export function useDialog() {
         });
     }; 
 
+    const confirmUpdateCustomer = (id) => {
+        confirm.require({
+            message: i18n.t('customer.notification.update.message'),
+            header: i18n.t('customer.notification.update.header'),
+            acceptLabel: i18n.t('customer.notification.update.detail'),
+            rejectLabel: i18n.t('customer.notification.update.list'),
+            accept: () => {
+                // formUtilsStore.goToDetail(id);
+            },
+            reject: () => {
+                // formUtilsStore.closeForm();
+            },
+        });
+    }; 
+
     const discardNewCustomer = () => {
         confirm.require({
             message: i18n.t('customer.notification.discard.message'),

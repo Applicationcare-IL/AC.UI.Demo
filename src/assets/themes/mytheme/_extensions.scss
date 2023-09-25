@@ -413,6 +413,10 @@ a {
     height: 24px;
 }
 
+.disabled {
+    pointer-events: none !important;
+}
+
 
 
 // Side Menu

@@ -8,7 +8,7 @@ export const useListUtilsStore = defineStore('listUtils', {
             { label: '50', value: 50 },
             { label: '100', value: 100 },
         ],
-        preferedNumberOfRows: 15,
+        rows: 15,
     }),
     getters: {
         getContactColumns: () => {

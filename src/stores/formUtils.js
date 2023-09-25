@@ -1,9 +1,24 @@
 import { defineStore } from 'pinia';
 import * as yup from 'yup';
+import { useMagicKeys, whenever  } from '@vueuse/core'
+
+
+const { ctrl_s } = useMagicKeys({
+    passive: false,
+    onEventFired(e) {
+      if (e.ctrlKey && e.key === 's' && e.type === 'keydown')
+      {   
+        e.preventDefault()
+      }
+    },
+  })
+
+whenever(ctrl_s,  () => {
+    useFormUtilsStore().save();
+})
 
 const israeliPhoneRegex = /^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$/;
 const israeliLandlineRegex = /^0(?:[234689]|5[0-689]|7[246789])(?![01])(\d{7})$/;
-
 
 export const useFormUtilsStore = defineStore('formUtils', {
     state: () => ({
@@ -64,9 +79,9 @@ export const useFormUtilsStore = defineStore('formUtils', {
             });
         },
 
-        getCustomerFormValidationSchema: () => {
+        getCustomerNewFormValidationSchema: () => {
             return yup.object({
-                'name': yup.string().min(9).required(),
+                'name': yup.string().required(),
                 'number': yup.string().required(),
                 'service_area': yup.array()
                      .min(1, { key: 'validation.required-select', values: { label: 'customer.field' } }),
@@ -81,6 +96,14 @@ export const useFormUtilsStore = defineStore('formUtils', {
                     .required({ key: 'validation.required-select', values: { label: 'address.street' } })
                     .typeError({ key: 'validation.required-select', values: { label: 'address.street' } }),
                 'house-number': yup.string().required(),
+            });
+        },
+        getCustomerDetailFormValidationSchema: () => {
+            return yup.object({
+                'name': yup.string().required(),
+                'number': yup.string().required(),
+                'service_area': yup.array()
+                     .min(1, { key: 'validation.required-select', values: { label: 'customer.field' } }),
             });
         },
 

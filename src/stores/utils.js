@@ -3,9 +3,14 @@ import { defineStore } from 'pinia';
 export const useUtilsStore = defineStore('utils', {
     id: 'debounce',
     state: () => ({
+        selectedElements: [],
         debounceTimer: null
     }),
     actions: {
+        updateSelectedElements(elements) 
+        {
+            // this.selectedElements = elements;
+        },
         debounceAction(callback, delay = 500) {
             // Cancelar el temporizador anterior si existe
             if (this.debounceTimer) {

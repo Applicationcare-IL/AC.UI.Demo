@@ -12,12 +12,10 @@
 
 import { useFormUtilsStore } from '@/stores/formUtils';
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useLayout } from '@/layout/composables/layout';
 
 const { layoutConfig } = useLayout();
 
-const router = useRouter();
 const formStore = useFormUtilsStore();
 
 const props = defineProps({

@@ -75,7 +75,7 @@
         "breached-services" : "תהליכים שנפרצו",
         "open-tasks" : "פתיחת משימות",
         "breached-tasks" : "משימות שנפרצו",
-        "notes" : "",
+        "notes" : "הערות ללקוח",
         "is-provider" : "ספק",
         "system-id" : "מזהה",
         "notification" : {

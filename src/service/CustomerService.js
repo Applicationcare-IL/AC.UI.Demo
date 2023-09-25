@@ -124,28 +124,29 @@ export const CustomerService = {
         }
     },
 
-    parseCustomer(form) {
-        console.log(form)
+    parseCustomer(customer) {
+        console.log(customer)
         return {
-            name: form.name,
-            number: form.number,
+            name: customer.name,
+            number: customer.number,
             project_manager_id: 1,
             project_manager_type: 'employee',
-            type: form.type.id,
-            rating: form.rating.id,
-            is_provider: form.is_provider.value, //Optional pero si no lo pones peta
-            // business: form.business.id,
-            service_area: form.service_area.map(x=>x.id),
-            street: form.street.name,
-            street_number: form.street_number,
-            city: form.city.name,
-            zipcode: form.zipcode,
+            type: customer.type ? customer.type.id: '',
+            rating: customer.rating ? customer.rating.id : '',
+            is_provider: customer.is_provider.value, //Optional pero si no lo pones peta
+            // business: customer.business ? customer.business.id : '',
+            service_area: customer.service_area? customer.service_area.map(x=>x.id) : '',
+            street: customer.street.name,
+            street_number: customer.street_number,
+            city: customer.city.name,
+            zipcode: customer.zipcode,
             // "file_folder_link": "et",
             // "account_number": "exercitationem",
             // "registration_area": "voluptatem",
             // "subscription": "possimus",
             // "water_meter": "in"
             // Missing: entrance, house_number, apartment
+            notes: customer.notes,
         }
     },
 
@@ -156,6 +157,19 @@ export const CustomerService = {
             })
             .catch((error) => {
                 console.log(error);
+                throw error;
+            });
+    },
+
+    updateCustomer(id, customer) {
+        console.log(customer)
+        return axiosConfig.patch('/customers/' + id, customer)
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+                throw error;
             });
     },
 };

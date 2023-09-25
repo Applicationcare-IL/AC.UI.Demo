@@ -88,12 +88,12 @@ const isOutsideClicked = (event) => {
             <div class="flex mx-4 gap-2">
                 <div class="class px-3 flex align-items-center ">
                     <span>תזכורות</span>
-                    <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg text-white">24</span>
+                    <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg text-white">0</span>
                 </div>
 
                 <div class="class px-3 flex align-items-center">
                     <span>מעקבים</span>
-                    <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg text-white">24</span>
+                    <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg text-white">0</span>
                 </div>
             </div>
         </div>
@@ -114,16 +114,16 @@ const isOutsideClicked = (event) => {
                     <a href="#" @click="onTopbarItemClick($event, 'notifications')">
                         <Button type="button" class="border-none bg-white">
                             <img alt="logo" src="/icons/notifications_bell.svg" class="h-2rem" />
-                            <Badge value="2" class="topbar-badge notifications-badge p-badge-warning"></Badge>
+                            <!-- <Badge value="1" class="topbar-badge notifications-badge p-badge-warning"></Badge> -->
                         </Button>
                     </a>
 
                     <ul class="notifications-dropdown fadeInDown p-4">
                         <li class="layout-submenu-header flex flex-row justify-content-between">
-                            <h6 class="header-text">Notifications</h6>
-                            <span class="p-badge">3</span>
+                            <h6 class="header-text">There are no notifications</h6>
+                            <!-- <span class="p-badge">3</span> -->
                         </li>
-                        <li role="menuitem">
+                        <!-- <li role="menuitem">
                             <a href="#" @click="onTopbarSubItemClick($event)">
                                 <div class="notifications-item">
                                     <h6>Notification 1</h6>
@@ -152,7 +152,7 @@ const isOutsideClicked = (event) => {
                                     </div>
                                 </div>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </li>
 

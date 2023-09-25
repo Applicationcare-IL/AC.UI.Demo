@@ -22,8 +22,10 @@
     </Sidebar>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
         <DataTable lazy v-model:selection="selectedCustomers" :value="customers" dataKey="id" tableStyle="min-width: 50rem"
-                   class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="15" :first="0" ref="dt"
-                   :totalRecords="totalRecords" :loading="loading" @page="onPage($event)">
+                   class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="rows" :first="0" ref="dt"
+                   :totalRecords="totalRecords" :loading="loading" @page="onPage($event)" 
+                   @update:selection="onSelectionChanged" 
+                   @update:rows="onRowsChanged" >
             <Column style="width: 35px">
                 <template #body="slotProps">
                     <img @click="displayDetails(slotProps.data)" src="/icons/eye.svg" alt="" class="vertical-align-middle">
@@ -42,7 +44,7 @@
             <Column field="type" header="סוג">
                 <template #body="slotProps">
                     <div :class="highlightCellClass(slotProps.data.type)">
-                        {{ $t(slotProps.data.type.value) }}
+                        {{ $t('option-set.customer_type.' + slotProps.data.type.value) }}
                     </div>
                 </template>
             </Column>
@@ -108,6 +110,7 @@ import WMContactsTable from '@/components/tables/WMContactsTable.vue';
 import WMNewCustomerForm from '@/components/forms/WMNewCustomerForm.vue';
 import { useLayout } from '@/layout/composables/layout';
 import { useFormUtilsStore } from '@/stores/formUtils';
+import { useUtilsStore } from '@/stores/utils';
 
 onMounted(() => {
     loading.value = true;
@@ -124,12 +127,13 @@ const loading = ref(false);
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const formUtilsStore = useFormUtilsStore();
+const utilsStore = useUtilsStore();
 
 const loadLazyData = () => {
     loading.value = true;
 
-    CustomerService.getCustomersFromApi({ page: lazyParams.value.page + 1 }).then((result) => {
-        console.log(result);
+    CustomerService.getCustomersFromApi({ page: lazyParams.value.page + 1, per_page: listUtilsStore.rows}).then((result) => {
+        // console.log(result);
         customers.value = result.data;
         totalRecords.value = result.totalRecords;
         loading.value = false;
@@ -179,6 +183,21 @@ const displayNewForm = () => {
 const highlightCellClass = (data) => {
     return [{ 'bg-red-100 text-red-600': data > 0 }];
 };
+
+const onSelectionChanged = () => {
+    utilsStore.selectedElements = selectedCustomers.value;
+};
+
+const onRowsChanged = (value) => {
+    console.log("onRowsChanged", value)
+    loadLazyData();
+    // dt.value.reset();
+};
+
+const rows = computed(() => {
+    loadLazyData();
+    return listUtilsStore.rows;
+});
 
 </script>
 

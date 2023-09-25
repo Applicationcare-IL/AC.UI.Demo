@@ -15,7 +15,9 @@
                   @input="$emit('update:value', $event.target.value); handleChange($event.target.value)" @blur="handleBlur">
         </Password>
         <Dropdown v-if="type == 'input-select'" :name="name" :disabled="props.disabled" :options="options"
-                  optionLabel="label" v-model="value" :placeholder="placeholder" :style="{ width: width + 'px' }">
+                  optionLabel="label" v-model="value" :placeholder="placeholder" :style="{ width: width + 'px' }"
+                  @change="$emit('update:selectedItem', $event.value); handleChange($event.value)" @blur="handleBlur"
+                  >
         </Dropdown>
         <SelectButton v-if="type == 'input-select-button'" :name="name" v-model="value" :options="options"
                       optionLabel="name" class="form-select-button flex-nowrap flex" />
@@ -34,7 +36,7 @@ import { defineProps, onMounted, watch } from 'vue';
 import { toRef, ref } from 'vue';
 import { useField } from 'vee-validate';
 
-defineEmits(['update:value'])
+defineEmits(['update:value', 'update:selectedItem'])
 
 const props = defineProps({
     value: {

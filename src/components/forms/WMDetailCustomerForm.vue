@@ -1,5 +1,5 @@
 <template>
-  <div v-if="customer" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
+  <div v-if="loaded" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
       <h1 class="h1 mb-0">{{ $t('customer.customer') }}: {{ customer.name }}</h1>
       <div class=" flex flex-row gap-5 flex-wrap">
@@ -11,7 +11,7 @@
                 <div class="wm-form-row gap-5">
                   <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner') + ':'"
                            :value="customer.owner" />
-                  <WMInput name="system-id" type="info" :highlighted="true" :label="$t('customer.system-id') + ':'"
+                  <WMInput name="system_id" type="info" :highlighted="true" :label="$t('customer.system-id') + ':'"
                            :value="customer.id" />
                 </div>
                 <div class="wm-form-row gap-5">
@@ -45,10 +45,10 @@
                 <div class="wm-form-row gap-5">
                   <WMInputSearch name="city" :highlighted="true" :label="$t('address.city') + ':'" :options="cities"
                                  width="152" :placeholder="$t('select', ['address.city'])"
-                                 :selectedOption="customer.city" />
+                                 :selectedOption="selectedCity" />
                   <WMInputSearch name="street" :highlighted="true" :label="$t('address.street') + ':'" :options="cities"
                                  width="152" :placeholder="$t('select', ['address.street'])"
-                                 :selectedOption="customer.street" />
+                                 :selectedOption="selectedStreet" />
                 </div>
                 <div class="wm-form-row gap-5">
                   <WMInput name="house-number" type="input-text" :label="$t('address.house-number') + ':'" width="48"
@@ -73,8 +73,8 @@
                                :placeholder="$t('select', ['classification-1'])" searchBy="label" multiple
                                :selectedOptions="selectedArea" /> -->
                 <WMInputSearch name="service_area" type="input-search" :placeholder="$t('select', ['customer.area'])"
-                               :required="true"  :multiple="true" width="248"
-                               :options="business" :highlighted="true" :selectedOptions="selectedBusiness" />
+                               :required="true" :multiple="true" width="248" :options="business" :highlighted="true"
+                               :selectedOptions="selectedBusiness" />
               </div>
             </template>
           </Card>
@@ -87,7 +87,7 @@
             <template #content>
               <div class="contact-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <Textarea v-model="value" autoResize rows="5" />
+                  <Textarea name="notes" v-model="value" autoResize rows="5" />
                 </div>
               </div>
             </template>
@@ -102,7 +102,8 @@
                 <div
                      class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-teal-200 text-teal-900">
                   <span class="font-size-20 font-weight-light">No breach</span>
-                  <span class="font-size-24 font-weight-bold">{{ customer.open_services - customer.breached_services }}</span>
+                  <span class="font-size-24 font-weight-bold">{{ customer.open_services - customer.breached_services
+                  }}</span>
                 </div>
                 <div
                      class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900">
@@ -224,18 +225,23 @@ import WMServicesTable from '@/components/tables/WMServicesTable.vue';
 import WMContactsTable from '@/components/tables/WMContactsTable.vue';
 import WMTasksTable from '@/components/tables/WMTasksTable.vue';
 import { i18n } from '@/i18n';
+import { useToast } from '@/stores/toast';
 
 const services = ref();
 const tasks = ref();
 const cities = ref();
 
+const route = useRoute();
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 const listUtilsStore = useListUtilsStore();
 const utilsStore = useUtilsStore();
+const toast = useToast();
+
+const loaded = ref(false);
+
 const customer = ref();
 const contacts = ref();
-const route = useRoute();
 const types = ref();
 const ratings = ref();
 const selectedType = ref('');
@@ -255,13 +261,17 @@ const isProvider = ref('');
 const business = ref();
 const selectedBusiness = ref('');
 
+const selectedCity = ref('');
+const selectedStreet = ref('');
+
 onMounted(() => {
-  optionSetsStore.getOptionSetValuesFromApi('customer_business').then((data) => (business.value = data));
-  console.log(business);
   CustomerService.getCustomerFromApi(route.params.id).then((data) => {
     customer.value = data
 
-    selectedBusiness.value = business.value.filter((item) => item.value == customer.value.area);
+    optionSetsStore.getOptionSetValuesFromApi('customer_business').then((data) => {
+      business.value = data;
+      selectedBusiness.value = business.value.filter((item) => item.value == customer.value.area);
+    });
 
     optionSetsStore.getOptionSetValuesFromApi('customer_type').then((data) => {
       types.value = data
@@ -275,27 +285,41 @@ onMounted(() => {
 
     statusConditionalStyle.value = utilsStore.getStatusConditionalStyle(customer.value.status.value);
     isProvider.value = yesNoOptions.find(option => option.value == customer.value.is_provider);
+    loaded.value = true;
+
   });
-
   ContactsService.getContactsMini().then((data) => (contacts.value = data));
-  ServicesService.getServicesMini().then((data) => (services.value = data));
-  TasksService.getTasksMini().then((data) => (tasks.value = data));
-  CitiesService.getCities().then((data) => (cities.value = data));
-
+    ServicesService.getServicesMini().then((data) => (services.value = data));
+    TasksService.getTasksMini().then((data) => (tasks.value = data));
+    CitiesService.getCities().then((data) => {
+      cities.value = data;
+      selectedCity.value = cities.value.find(city => city.value == customer.value.city);
+      selectedStreet.value = cities.value.find(street => street.value == customer.value.street);
+    });
 
 });
 
 const { errors, handleSubmit, setFieldError } = useForm({
-  validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
+  validationSchema: formUtilsStore.getCustomerDetailFormValidationSchema,
 });
 
-const onSubmit = handleSubmit((values) => {
-  setFieldError('mobile-phone', 'Customer already exists');
+const onSave = handleSubmit((values) => {
+  CustomerService.updateCustomer(route.params.id, CustomerService.parseCustomer(values)).then((data) => {
+    // dialog.confirmUpdateCustomer(data.data.id);
+    toast.successAction('customer', 'updated');
+  }).catch((error) => {
+    console.log(error);
+    toast.error('customer', 'not-updated');
+  });
+
+
+  // setFieldError('mobile-phone', 'Customer already exists');
   console.log(values);
 });
 
-formUtilsStore.submit = onSubmit;
+formUtilsStore.save = onSave;
 formUtilsStore.formErrors = errors;
+formUtilsStore.formEntity = "customer";
 
 </script>
 

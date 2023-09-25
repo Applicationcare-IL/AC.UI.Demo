@@ -3,8 +3,8 @@
         <div class="flex flex-column gap-5">
             <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
                 <div class="flex flex-row flex-wrap gap-2 align-items-center">
-                    <WMButton @click="formStore.submit" name="save" icon="save" type="specialSave" iconPosition="left">
-                    {{ $t('save') }}</WMButton>
+                    <WMButton @click="formStore.save" name="save" icon="save" type="specialSave" iconPosition="left">
+                        {{ $t('save') }}</WMButton>
                     <Divider layout="vertical" />
                     <WMButton class="m-1 col-6" name="assign-white" icon="assign">הקצה
                     </WMButton>

@@ -6,8 +6,9 @@
                     <WMButton class="m-1 col-6" name="new" icon="new" @click="$emit('new')">חדש</WMButton>
                     <WMButton class="m-1 col-6" name="export-white" icon="export">ייצוא נתונים</WMButton>
                     <Divider layout="vertical" />
-                    <WMButton class="m-1 col-6" name="assign-white" icon="assign" :disabled="!activeButtons">הקצה
-                    </WMButton>
+                    
+                    <WMAssignButton />
+                    
                     <WMButtonMenu class="m-1" mode="light" :menuItems="menuItems" :disabled="!activeButtons">הודעה
                     </WMButtonMenu>
                     <WMButton class="m-1 col-6" name="phone-white" icon="phone" :disabled="!activeButtons">הקצה
@@ -34,8 +35,8 @@
                 </div>
                 <div class="flex flex-row gap-3">
                     <span>רשומות בדף:</span>
-                    <WMInput width="70" name="status" :highlighted="true" type="input-select" :options="numberOfRows"
-                             :selectedOption="preferedNumberOfRows" />
+                    <WMInput @update:selectedItem="onChange" width="70" name="status" :highlighted="true" type="input-select" :options="listUtilsStore.listRowsPerPage"
+                             :selectedOption="numberOfRows" />
 
                 </div>
             </div>
@@ -48,14 +49,14 @@
 import { ref } from 'vue';
 import { useListUtilsStore } from '@/stores/listUtils';
 import WMInput from '@/components/forms/WMInput.vue';
+import WMAssignButton from '@/components/buttons/WMAssignButton.vue';
 const menuItems = [
     { label: 'Whatsapp', value: 'option1' },
     { label: 'SMS', value: 'option2' },
 ]
 
 const listUtilsStore = useListUtilsStore();
-const numberOfRows = listUtilsStore.listRowsPerPage;
-const preferedNumberOfRows = listUtilsStore.preferedNumberOfRows;
+const numberOfRows = ref(listUtilsStore.listRowsPerPage.find(x => x.value === listUtilsStore.rows)) 
 
 const searchValue = ref('');
 
@@ -72,7 +73,11 @@ const value = ref();
 
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
-const selectedOption = props.defaultOption;
+// const selectedOption = props.defaultOption;
+
+const onChange = (event) => {
+    listUtilsStore.rows = event.value;
+}
 
 
 </script>
