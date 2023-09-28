@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import WMInput from '@/components/forms/WMInput.vue';
 import WMInputSearch from '@/components/forms/WMInputSearch.vue';
 import { useFormUtilsStore } from '@/stores/formUtils';
@@ -112,14 +112,16 @@ const onCustomerNumberChanged = (event) => {
       .then((exists) => ( 
         exists ? 
         setFieldError('number', {key: 'validation.exists', values: {label: 'customer.customer'}})        
-       : clearErrors('number')))
+       : setFieldError('number', '')))
   });
 };
 
 formUtilsStore.save = onSave;
 formUtilsStore.cancel = onCancel;
-formUtilsStore.formMeta = meta;
 formUtilsStore.formEntity = "customer";
+watch(() => meta.value, (value) => {
+  formUtilsStore.formMeta = value;
+});
 
 </script>
 

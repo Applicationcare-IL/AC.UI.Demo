@@ -38,15 +38,12 @@ export const ContactsService = {
     },
 
     getContactsFromApi(params) {
-        console.log(params)
         return axiosConfig.get('/contacts', { params })
             .then((response) => {
-                console.log(response)
                 const contacts = response.data.data.map((contact) => {
                     return this.mapContact(contact);
                 })
                 const totalRecords = response.data.meta.total;
-                console.log(contacts)
                 return { contacts, totalRecords };
             })
             .catch((error) => {
@@ -57,7 +54,6 @@ export const ContactsService = {
     getContactFromApi(id) {
         return axiosConfig.get('/contacts/' + id)
             .then((response) => {
-                console.log(response)
                 const contact = response.data.data;
                 return this.mapContact(contact);
             })

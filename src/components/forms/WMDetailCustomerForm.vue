@@ -324,11 +324,10 @@ const onCustomerNumberChanged = (event) => {
   });
 };
 
+formUtilsStore.$reset();
 formUtilsStore.save = onSave;
 formUtilsStore.formEntity = "customer";
 utilsStore.entity= "customer";
-
-formUtilsStore.$reset();
 
 watch(() => meta.value, (value) => {
   formUtilsStore.formMeta = value;

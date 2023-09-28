@@ -3,7 +3,7 @@
         <div class="flex flex-column gap-5">
             <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
                 <div class="flex flex-row flex-wrap gap-2 align-items-center">
-                    <WMButton @click="formStore.save" name="save" icon="save" type="specialSave" iconPosition="left">
+                    <WMButton @click="formStore.save" name="save" icon="save" type="specialSave" iconPosition="left" :disabled="!formStore.formMeta.dirty || !formStore.formMeta.valid">
                         {{ $t('save') }}</WMButton>
                     <Divider layout="vertical" />
                     <WMAssignButton :entity="utilsStore.entity"/>
@@ -23,7 +23,6 @@
 import { useFormUtilsStore } from '@/stores/formUtils';
 import { useUtilsStore } from '@/stores/utils';
 import WMAssignButton from '@/components/buttons/WMAssignButton.vue';
-
 
 const formStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();

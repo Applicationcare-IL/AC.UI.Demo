@@ -52,7 +52,6 @@ export const CustomerService = {
     getCustomerFromApi(id) {
         return axiosConfig.get('/customers/' + id)
             .then((response) => {
-                console.log(response)
                 const customer = response.data.data;
                 return this.mapCustomer(customer);
             })
@@ -66,7 +65,7 @@ export const CustomerService = {
         return axiosConfig.get('/customers?search=' + value)
             .then((response) => {
                 // console.log(response)
-                // const customers = response.data.data;
+                const customers = response.data.data;
                 return response.data.data.length > 0;
             })
             .catch((error) => {
@@ -98,7 +97,6 @@ export const CustomerService = {
     },
 
     mapCustomer(customer) {
-        console.log(customer)
         return {
             telephone: customer.phone,
             name: customer.name,
@@ -125,7 +123,6 @@ export const CustomerService = {
     },
 
     parseCustomer(customer) {
-        // console.log(customer)
         return {
             name: customer.name,
             number: customer.number,

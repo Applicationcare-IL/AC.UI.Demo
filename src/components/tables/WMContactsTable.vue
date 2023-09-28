@@ -110,7 +110,6 @@ const contacts = ref([]);
 const lazyParams = ref({});
 
 const loadLazyData = () => {
-    console.log(props.customer)
     ContactsService.getContactsFromApi({ page: lazyParams.value.page + 1, per_page: props.rows, customer_id: props.customer.id })
         .then((result) => {
             contacts.value = result.contacts;
