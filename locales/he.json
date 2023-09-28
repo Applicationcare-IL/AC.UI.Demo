@@ -225,6 +225,26 @@
             "municipality": "רשות מקומית",
             "water_service": "שירותי מים",
             "funeral_service": "שירותי קבורה"
+        },
+        "service_area": {
+            "SPI": "SPI",
+            "TIKS": "TIKS",
+            "BIT": "BIT",
+            "ARN": "ARN",
+            "CSF": "CSF",
+            "VTR": "VTR",
+            "HSML": "HSML",
+            "CNCH": "CNCH",
+            "LISC": "LISC",
+            "HND": "HND",
+            "DAT": "DAT",
+            "PIK": "PIK",
+            "CLLI": "CLLI",
+            "RVH": "RVH",
+            "SHR": "SHR",
+            "TAGD": "TAGD",
+            "AMUDEY_TEINA": "AMUDEY_TEINA",
+            "sales": "Sales"
         }
     },
     "toast" : {

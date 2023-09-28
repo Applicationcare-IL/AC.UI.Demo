@@ -78,26 +78,13 @@ const props = defineProps({
         type: String,
         default: 'name',
     },
-    selectedOptions: {
-        type: Array,
-        default: null,
-    },
-    selectedOption: {
-        type: Object,
-        default: null,
-    },
+
     searchFunction: {
         type: Function,
         default: null,
     },
 });
 
-onMounted(() => {
-    if (props.multiple && props.selectedOptions)
-        value.value = props.selectedOptions
-    if (!props.multiple && props.selectedOption)
-        value.value = props.selectedOption
-});
 
 const search = (event) => {
     setTimeout(() => {

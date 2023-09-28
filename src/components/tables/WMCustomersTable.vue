@@ -28,8 +28,8 @@
                 <div :class="alertCellConditionalStyle(slotProps.data[column.name])">
                     {{ slotProps.data[column.name] }}
                 </div>
-            </template>
-            <template v-if="column.type === 'link'" #body="slotProps">
+            </template> 
+            <template v-if="column.type === 'link'" #body="slotProps" class="link-col">
                 <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data[column.name] }}</router-link>
             </template>
             <template v-if="column.type === 'detail'">

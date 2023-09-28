@@ -14,7 +14,7 @@ export const useListUtilsStore = defineStore('listUtils', {
         getContactColumns: () => {
             return [
                 { name: 'star', type: 'star', header: 'contact.main', class: 'column-star' },
-                { name: 'name', type: 'link', to: 'contact', linkParameter: 'id' },
+                { name: 'name', type: 'link', to: 'contact', linkParameter: 'id', class: 'link-col' },
                 { name: 'telephone', type: 'text' },
                 { name: 'landline', type: 'text' },
                 { name: 'email', type: 'text' },
@@ -28,7 +28,7 @@ export const useListUtilsStore = defineStore('listUtils', {
         getContactDetailColumns: () => {
             return [
                 { name: 'star', type: 'star', header: 'contact.main', class: 'column-star' },
-                { name: 'name', type: 'link', to: 'contact', linkParameter: 'id' },
+                { name: 'name', type: 'link', to: 'contact', linkParameter: 'id', class: 'link-col' },
                 { name: 'telephone', type: 'text' },
                 { name: 'email', type: 'text' },
                 { name: 'role', type: 'text', header: 'role' },
@@ -37,7 +37,7 @@ export const useListUtilsStore = defineStore('listUtils', {
         getCustomerColumns: () => {
             return [
                 { name: 'star', type: 'star', header: 'customer.main', class: 'column-star' },
-                { name: 'id', type: 'link', header: 'customer.number-abbreviation' },
+                { name: 'id', type: 'link', header: 'customer.number-abbreviation', class: 'link-col' },
                 { name: 'name', type: 'text' },
                 { name: 'type', type: 'text', header: 'customer.type' },
                 { name: 'open_services', type: 'text', header: 'customer.open-services', class: 'numeric' },
@@ -51,14 +51,14 @@ export const useListUtilsStore = defineStore('listUtils', {
         },
         getServiceColumns: () => {
             return [
-                { name: 'service_number', type: 'link', header: 'service.number' },
+                { name: 'service_number', type: 'link', header: 'service.number', class: 'link-col' },
                 { name: 'open_date', type: 'text', header: 'service.open-date' },
                 { name: 'due_date', type: 'text', header: 'service.due-date' },
                 { name: 'classification_1', type: 'text', header: 'classification-1' },
                 { name: 'classification_2', type: 'text', header: 'classification-2' },
                 { name: 'classification_3', type: 'text', header: 'classification-3' },
                 { name: 'duration', type: 'text', header: 'service.duration' },
-                { name: 'owner', type: 'link', header: 'service.owner' },
+                { name: 'owner', type: 'link', header: 'service.owner', class: 'link-col' },
                 { name: 'team', type: 'text', header: 'service.team' },
                 { name: 'SLA', type: 'sla', header: 'service.sla', class: 'sla' },
                 { name: 'priority', type: 'priority', header: 'service.priority', class: 'numeric' },
@@ -71,13 +71,13 @@ export const useListUtilsStore = defineStore('listUtils', {
         },
         getTaskColumns: () => {
             return [
-                { name: 'task_number', type: 'link', header: 'task.number' },
+                { name: 'task_number', type: 'link', header: 'task.number', class: 'link-col' },
                 { name: 'task_type', type: 'text', header: 'task.type' },
                 { name: 'family', type: 'text' },
                 { name: 'stage', type: 'text' },
                 { name: 'sla', type: 'sla', class: 'sla' },
                 { name: 'due_date', type: 'text' },
-                { name: 'owner', type: 'link' },
+                { name: 'owner', type: 'link', class: 'link-col' },
                 { name: 'status', type: 'text' },
                 { name: 'notes', type: 'text' }
             ];

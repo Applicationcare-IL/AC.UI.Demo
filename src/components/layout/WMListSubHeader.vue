@@ -7,11 +7,11 @@
                     <WMButton class="m-1 col-6" name="export-white" icon="export">ייצוא נתונים</WMButton>
                     <Divider layout="vertical" />
                     
-                    <WMAssignButton />
+                    <WMAssignButton :entity="utilsStore.entity"/>
                     
                     <WMButtonMenu class="m-1" mode="light" :menuItems="menuItems" :disabled="!activeButtons">הודעה
                     </WMButtonMenu>
-                    <WMButton class="m-1 col-6" name="phone-white" icon="phone" :disabled="!activeButtons">הקצה
+                    <WMButton class="m-1 col-6" name="phone-white" icon="phone" :disabled="utilsStore.selectedElements.length != 1">הקצה
                     </WMButton>
                     <WMButton class="m-1 col-6" name="mail-white" icon="mail" :disabled="!activeButtons">הקצה</WMButton>
                     <Divider layout="vertical" />
@@ -48,8 +48,10 @@
 
 import { ref } from 'vue';
 import { useListUtilsStore } from '@/stores/listUtils';
+import { useUtilsStore } from '@/stores/utils';
 import WMInput from '@/components/forms/WMInput.vue';
 import WMAssignButton from '@/components/buttons/WMAssignButton.vue';
+const utilsStore = useUtilsStore();
 const menuItems = [
     { label: 'Whatsapp', value: 'option1' },
     { label: 'SMS', value: 'option2' },
@@ -73,7 +75,7 @@ const value = ref();
 
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
-// const selectedOption = props.defaultOption;
+const selectedOption = props.defaultOption;
 
 const onChange = (event) => {
     listUtilsStore.rows = event.value;

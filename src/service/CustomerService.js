@@ -98,6 +98,7 @@ export const CustomerService = {
     },
 
     mapCustomer(customer) {
+        console.log(customer)
         return {
             telephone: customer.phone,
             name: customer.name,
@@ -106,7 +107,7 @@ export const CustomerService = {
             address: customer.street ? customer.street + ' ' + customer.street_number + ', ' + customer.city + ' ' + customer.zipcode : '',
             street: customer.street,
             street_number: customer.street_number,
-            city: customer.city,
+            city: customer.city ? customer.city : '',
             zipcode: customer.zipcode,
             open_services: customer.open_services,
             breached_services: customer.breached_services,
@@ -117,15 +118,14 @@ export const CustomerService = {
             number: customer.number,
             id: customer.id,
             owner: 'Israel Israeli',
-            contact_id: '795',
-            contact: 'שלומי שבת',
-            area: customer.business ? customer.business.value : '',
+            main_contact: customer.main_contact,
+            service_areas: customer.service_areas,
             is_provider: customer.is_provider,
         }
     },
 
     parseCustomer(customer) {
-        console.log(customer)
+        // console.log(customer)
         return {
             name: customer.name,
             number: customer.number,

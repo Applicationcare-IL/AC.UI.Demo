@@ -94,9 +94,7 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-    selectedOption: {
-        type: Object,
-    },
+
     class: {
         type: String,
     }
@@ -104,22 +102,11 @@ const props = defineProps({
 
 const styles = toRef(props, 'class');
 const name = toRef(props, 'name');
-const selectedOption = toRef(props, 'selectedOption');
-
-watch(selectedOption, (newValue) => {
-    value.value = newValue
-})
 
 watch(styles, (newValue) => {
     console.log("newValue", newValue)
 })
 
-onMounted(() => {
-    if (props.type == 'input-select-button')
-        value.value = props.selectedOption
-    if (props.type == 'input-select')
-        value.value = props.selectedOption
-});
 
 const {
     value: value,

@@ -106,7 +106,6 @@ const onSubmit = handleSubmit((values) => {
 });
 
 formUtilsStore.submit = onSubmit;
-formUtilsStore.formErrors = errors;
 
 </script>
 

@@ -9,39 +9,39 @@ td {
     height: auto !important;
 }
 
-.p-datatable .p-datatable-tbody .column-star{
+.p-datatable .p-datatable-tbody .column-star {
     width: 20px;
     text-align: center;
 }
 
-.p-datatable .p-datatable-tbody > tr.p-highlight {
-     background: var(--gray-50);
-     color: var(--gray-900);
-}
-
-.p-datatable .p-datatable-tbody > tr.p-highlight > td {
+.p-datatable .p-datatable-tbody>tr.p-highlight {
     background: var(--gray-50);
     color: var(--gray-900);
 }
 
-.p-datatable .p-datatable-tbody .inactive_row, 
-.p-datatable .p-datatable-tbody > tr.p-highlight.inactive_row, 
-.p-datatable .p-datatable-tbody > tr.p-highlight.inactive_row > td {
+.p-datatable .p-datatable-tbody>tr.p-highlight>td {
+    background: var(--gray-50);
+    color: var(--gray-900);
+}
+
+.p-datatable .p-datatable-tbody .inactive_row,
+.p-datatable .p-datatable-tbody>tr.p-highlight.inactive_row,
+.p-datatable .p-datatable-tbody>tr.p-highlight.inactive_row>td {
     background-color: var(--gray-300);
 }
 
 
 
-.p-datatable .p-datatable-tbody > tr {
+.p-datatable .p-datatable-tbody>tr {
     background: var(--gray-50);
 }
 
-.p-datatable .p-datatable-tbody > tr > td {
+.p-datatable .p-datatable-tbody>tr>td {
     border: solid 2px white;
     padding: 0.5rem;
 }
 
-.p-datatable .p-datatable-thead > tr > th {
+.p-datatable .p-datatable-thead>tr>th {
     border: solid 2px white;
     background: var(--gray-100);
     padding: 7px 12px;
@@ -49,7 +49,7 @@ td {
     font-family: var(--font-family);
 }
 
-.p-datatable .p-datatable-tbody .numeric{
+.p-datatable .p-datatable-tbody .numeric {
     text-align: center !important;
     font-weight: 700;
     font-size: 16px;
@@ -58,11 +58,11 @@ td {
     line-height: $tableRowHeight;
 }
 
-.p-datatable .p-datatable-tbody >tr > td.buttons  {
+.p-datatable .p-datatable-tbody>tr>td.buttons {
     text-align: center !important;
     padding-top: 0px !important;
     padding-bottom: 0px !important;
-    
+
 }
 
 .p-datatable .p-datatable-tbody .sla {
@@ -73,33 +73,42 @@ td {
 }
 
 
-.p-datatable .p-datatable-tbody .p-selection-column, 
-.p-datatable .p-datatable-tbody .column-star
- {
+.p-datatable .p-datatable-tbody .p-selection-column,
+.p-datatable .p-datatable-tbody .column-star {
     text-align: center !important;
 }
 
 // Code to allow the table to have round borders.
 // TODO: for LTR the borders are scrambled. Should have some conditional styles for this
 
-.p-datatable .p-datatable-thead > tr> th {
+.p-datatable .p-datatable-thead>tr>th {
     border-top: none;
 }
 
-.p-datatable .p-datatable-tbody tr > td:last-child {
+.p-datatable .p-datatable-tbody tr>td:last-child {
     border-left: none;
 }
 
-.p-datatable .p-datatable-thead > tr > th:last-child {
+.p-datatable .p-datatable-thead>tr>th:last-child {
     border-left: none;
 }
 
-
-.p-datatable .p-datatable-tbody tr > td:first-child {
+.p-datatable .p-datatable-tbody tr>td:first-child {
     border-right: none;
 }
 
-.p-datatable .p-datatable-thead > tr > th:first-child {
+.p-datatable .p-datatable-thead>tr>th:first-child {
     border-right: none;
 }
 
+//Make whole cell clickable when containing a link
+td.link-col > a{
+    width: 100%;
+    display: block;
+    padding: 0px 5px;
+}
+
+td.link-col  {
+    padding: 0px !important;
+    line-height: $tableRowHeight;
+}

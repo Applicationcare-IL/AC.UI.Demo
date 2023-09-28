@@ -11,7 +11,6 @@
 <script setup>
 
 import { useFormUtilsStore } from '@/stores/formUtils';
-import { computed } from 'vue';
 import { useLayout } from '@/layout/composables/layout';
 
 const { layoutConfig } = useLayout();
@@ -23,10 +22,6 @@ const props = defineProps({
     filterLabels: Array,
     defaultOption: Object,
     entity: String,
-});
-
-const hasErrors = computed(() => {
-    return Object.keys(formStore.formErrors).length > 0;
 });
 
 </script>

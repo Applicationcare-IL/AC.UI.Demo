@@ -24,7 +24,7 @@
       <div class="wm-form-row gap-5">
         <WMInputSearch name="service_area" type="input-search" :placeholder="$t('select', ['customer.area'])"
                        :required="true" :label="$t('customer.area') + ':'" :multiple="true" width="248"
-                       :options="business" :highlighted="true" />
+                       :options="service_areas" :highlighted="true" />
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px;" />
       <div class="customer-address flex flex-auto flex-column gap-5">
@@ -65,7 +65,6 @@ import { CitiesService } from '@/service/CitiesService';
 import { useToast } from '@/stores/toast';
 import { useDialog } from '@/stores/dialog';
 
-const customers = ref();
 const authStore = useAuthStore();
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
@@ -74,7 +73,7 @@ const utilsStore = useUtilsStore();
 const cities = ref();
 const types = ref();
 const rating = ref();
-const business = ref();
+const service_areas = ref();
 const alphabetWithDash = ref(formUtilsStore.getAlphabetWithDash);
 const toast = useToast();
 const dialog = useDialog();
@@ -82,15 +81,14 @@ const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo")
 
 
 onMounted(() => {
-  CustomerService.getCustomersFromApi({ page: 1 }).then((data) => (customers.value = data.customers));
   CitiesService.getCities().then((data) => (cities.value = data));
   optionSetsStore.getOptionSetValuesFromApi('customer_type').then((data) => (types.value = data));
   optionSetsStore.getOptionSetValuesFromApi('customer_rating').then((data) => (rating.value = data));
-  optionSetsStore.getOptionSetValuesFromApi('customer_business').then((data) => (business.value = data));
+  optionSetsStore.getOptionSetValuesFromApi('service_area').then((data) => (service_areas.value = data));
 });
 
 const { errors, handleSubmit, meta, setFieldError } = useForm({
-  validationSchema: formUtilsStore.getCustomerFormValidationSchema,
+  validationSchema: formUtilsStore.getCustomerNewFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {
@@ -120,14 +118,8 @@ const onCustomerNumberChanged = (event) => {
 
 formUtilsStore.save = onSave;
 formUtilsStore.cancel = onCancel;
-formUtilsStore.formErrors = errors;
 formUtilsStore.formMeta = meta;
 formUtilsStore.formEntity = "customer";
-
-// const searchCustomer = (query) => {
-  // return CustomerService.getCustomersFromApi({ search: query });
-// }
-
 
 </script>
 

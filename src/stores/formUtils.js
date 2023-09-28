@@ -25,11 +25,12 @@ export const useFormUtilsStore = defineStore('formUtils', {
         formEntity: '',
         save: '',
         cancel: '',
-        formErrors: '',
         israeliPhoneRegex: israeliPhoneRegex,
         israeliLandlineRegex: israeliLandlineRegex,
         isSidebar: false,
         isSidebarExpanded: false,
+        expandSidebar: '',
+        formMeta: {},
     }),
     getters: {
 

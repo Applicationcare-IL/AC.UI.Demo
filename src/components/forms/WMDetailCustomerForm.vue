@@ -18,20 +18,20 @@
                   <WMInput name="name" type="input-text" :highlighted="true" :label="$t('id') + ':'"
                            :value="customer.name" width="150" required />
                   <WMInput name="number" type="input-text" :highlighted="true" :label="$t('id') + ':'"
-                           :value="customer.number" width="150" required />
+                           @input.stop="onCustomerNumberChanged" :value="customer.number" width="150" required />
 
                 </div>
                 <div class="wm-form-row gap-5">
 
                   <WMInput name="type" :highlighted="true" type="input-select" :label="$t('type') + ':'" :options="types"
-                           :selectedOption="selectedType" width="80" />
+                            width="80" :value="selectedType" />
                   <WMInput name="rating" :highlighted="true" type="input-select" :label="$t('rating') + ':'"
-                           :options="ratings" :selectedOption="selectedRating" width="80" />
+                           :options="ratings" :value="selectedRating" width="80" />
                   <WMInput name="is_provider" type="input-select-button" :highlighted="true"
-                           :label="$t('customer.is-provider') + ':'" :options="yesNoOptions" :selectedOption="isProvider"
-                           width="80" />
+                           :label="$t('customer.is-provider') + ':'" :options="yesNoOptions"
+                           :value="isProvider" width="80" />
                   <WMInput name="status" type="info" :highlighted="true" :label="$t('status') + ':'"
-                           :class="statusConditionalStyle" :value="$t(selectedStatus)" :width="72" />
+                           :class="statusConditionalStyle" :value="$t(selectedStatus)" width="72" />
                 </div>
               </div>
             </template>
@@ -44,18 +44,19 @@
               <div class="flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInputSearch name="city" :highlighted="true" :label="$t('address.city') + ':'" :options="cities"
-                                 width="152" :placeholder="$t('select', ['address.city'])"
-                                 :selectedOption="selectedCity" />
+                                 width="152" :placeholder="$t('select', ['address.city'])" :selectedOption="selectedCity"
+                                 :modelValue="selectedCity" />
                   <WMInputSearch name="street" :highlighted="true" :label="$t('address.street') + ':'" :options="cities"
                                  width="152" :placeholder="$t('select', ['address.street'])"
-                                 :selectedOption="selectedStreet" />
+                                 :selectedOption="selectedStreet" :modelValue="selectedStreet" />
                 </div>
                 <div class="wm-form-row gap-5">
                   <WMInput name="house-number" type="input-text" :label="$t('address.house-number') + ':'" width="48"
                            :value="customer.street_number" />
                   <WMInput name="apartment" type="input-text" :label="$t('address.apartment') + ':'" width="48" />
                   <WMInput name="entrance" type="input-select" :highlighted="true" :label="$t('address.entrance') + ':'"
-                           :options="alphabetWithDash" width="48" />
+                           :options="alphabetWithDash" width="48"
+                           :value="selectedEntrance" />
                   <WMInput name="zip" type="input-text" :label="$t('address.zip') + ':'" width="80"
                            :value="customer.zipcode" />
                 </div>
@@ -69,12 +70,9 @@
             <template #title> {{ $t('customer.areas') }} </template>
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
-                <!-- <WMInputSearch name="classification-1" type="input-search" :options="areaOptions" width="252"
-                               :placeholder="$t('select', ['classification-1'])" searchBy="label" multiple
-                               :selectedOptions="selectedArea" /> -->
                 <WMInputSearch name="service_area" type="input-search" :placeholder="$t('select', ['customer.area'])"
-                               :required="true" :multiple="true" width="248" :options="business" :highlighted="true"
-                               :selectedOptions="selectedBusiness" />
+                               :required="true" :multiple="true" width="248" :options="service_areas" :highlighted="true"
+                               :modelValue="selectedServiceAreas" />
               </div>
             </template>
           </Card>
@@ -135,7 +133,7 @@
         </div>
       </div>
       <div>
-        <WMContactsTable :contacts="contacts" :columns="contactColumns" :rows="5">
+        <WMContactsTable :columns="contactColumns" :rows="5" :customer="customer">
         </WMContactsTable>
       </div>
       <div>
@@ -207,7 +205,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { ContactsService } from '@/service/ContactsService';
 import WMInputSearch from '@/components/forms/WMInputSearch.vue';
 import WMInput from '@/components/forms/WMInput.vue';
@@ -241,12 +239,12 @@ const toast = useToast();
 const loaded = ref(false);
 
 const customer = ref();
-const contacts = ref();
 const types = ref();
 const ratings = ref();
 const selectedType = ref('');
 const selectedRating = ref();
 const selectedStatus = ref();
+const selectedEntrance = ref('');
 const statusConditionalStyle = ref('');
 
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash
@@ -258,68 +256,83 @@ const taskColumns = ref(listUtilsStore.getTaskColumns);
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo")
 const isProvider = ref('');
 
-const business = ref();
-const selectedBusiness = ref('');
+const service_areas = ref();
+const selectedServiceAreas = ref('');
 
 const selectedCity = ref('');
 const selectedStreet = ref('');
 
+utilsStore.resetElements();
+
 onMounted(() => {
-  CustomerService.getCustomerFromApi(route.params.id).then((data) => {
+  fetchData();
+});
+
+const fetchData = async () => {
+  await optionSetsStore.getOptionSetValuesFromApi('service_area').then((data) => service_areas.value = data);
+
+  await optionSetsStore.getOptionSetValuesFromApi('customer_type').then((data) => types.value = data);
+  await optionSetsStore.getOptionSetValuesFromApi('customer_rating').then((data) => ratings.value = data);
+  await CitiesService.getCities().then((data) => cities.value = data);
+  await CustomerService.getCustomerFromApi(route.params.id).then((data) => {
     customer.value = data
+    utilsStore.selectedElements['customer'] = [customer.value];
 
-    optionSetsStore.getOptionSetValuesFromApi('customer_business').then((data) => {
-      business.value = data;
-      selectedBusiness.value = business.value.filter((item) => item.value == customer.value.area);
-    });
+    selectedServiceAreas.value = service_areas.value.filter((item) => customer.value.service_areas.find(x => x.id == item.id));
+    selectedRating.value = ratings.value.find(rating => rating.id == customer.value.rating.id)
+    selectedCity.value = customer.value.city != null ? cities.value.find(city => city.name == customer.value.city) : '';
+    selectedStreet.value = customer.value.street != null ? cities.value.find(street => street.name == customer.value.street) : '';
 
-    optionSetsStore.getOptionSetValuesFromApi('customer_type').then((data) => {
-      types.value = data
-      selectedType.value = types.value.find(type => type.id == customer.value.type.id)
-    });
-    optionSetsStore.getOptionSetValuesFromApi('customer_rating').then((data) => {
-      ratings.value = data
-      selectedRating.value = ratings.value.find(rating => rating.id == customer.value.rating.id)
-    });
+    selectedType.value = types.value.find(type => type.id == customer.value.type.id)
     selectedStatus.value = i18n.t('option-set.customer_status.' + customer.value.status.value);
 
     statusConditionalStyle.value = utilsStore.getStatusConditionalStyle(customer.value.status.value);
     isProvider.value = yesNoOptions.find(option => option.value == customer.value.is_provider);
-    loaded.value = true;
-
   });
-  ContactsService.getContactsMini().then((data) => (contacts.value = data));
-    ServicesService.getServicesMini().then((data) => (services.value = data));
-    TasksService.getTasksMini().then((data) => (tasks.value = data));
-    CitiesService.getCities().then((data) => {
-      cities.value = data;
-      selectedCity.value = cities.value.find(city => city.value == customer.value.city);
-      selectedStreet.value = cities.value.find(street => street.value == customer.value.street);
-    });
+  loaded.value = true;
+  ServicesService.getServicesMini().then((data) => (services.value = data));
+  TasksService.getTasksMini().then((data) => (tasks.value = data));
+}
 
-});
-
-const { errors, handleSubmit, setFieldError } = useForm({
+const { errors, handleSubmit, setFieldError, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getCustomerDetailFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {
+  if(customerNumberExists.value) {
+    setFieldError('number', { key: 'validation.exists', values: { label: 'customer.customer' } })
+    return
+  }
   CustomerService.updateCustomer(route.params.id, CustomerService.parseCustomer(values)).then((data) => {
-    // dialog.confirmUpdateCustomer(data.data.id);
     toast.successAction('customer', 'updated');
+    resetForm(({ values: values }));
   }).catch((error) => {
     console.log(error);
     toast.error('customer', 'not-updated');
   });
-
-
-  // setFieldError('mobile-phone', 'Customer already exists');
-  console.log(values);
 });
 
+const customerNumberExists = ref(false);
+const onCustomerNumberChanged = (event) => {
+  utilsStore.debounceAction(() => {
+    CustomerService.existsCustomer("id", event.target.value)
+      .then((exists) => (
+        customerNumberExists.value = exists,
+        exists ?
+          setFieldError('number', { key: 'validation.exists', values: { label: 'customer.customer' } })
+          : setFieldError('number', undefined)))
+  });
+};
+
 formUtilsStore.save = onSave;
-formUtilsStore.formErrors = errors;
 formUtilsStore.formEntity = "customer";
+utilsStore.entity= "customer";
+
+formUtilsStore.$reset();
+
+watch(() => meta.value, (value) => {
+  formUtilsStore.formMeta = value;
+});
 
 </script>
 

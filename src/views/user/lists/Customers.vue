@@ -23,9 +23,8 @@
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
         <DataTable lazy v-model:selection="selectedCustomers" :value="customers" dataKey="id" tableStyle="min-width: 50rem"
                    class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="rows" :first="0" ref="dt"
-                   :totalRecords="totalRecords" :loading="loading" @page="onPage($event)" 
-                   @update:selection="onSelectionChanged" 
-                   @update:rows="onRowsChanged" >
+                   :totalRecords="totalRecords" :loading="loading" @page="onPage($event)"
+                   @update:selection="onSelectionChanged">
             <Column style="width: 35px">
                 <template #body="slotProps">
                     <img @click="displayDetails(slotProps.data)" src="/icons/eye.svg" alt="" class="vertical-align-middle">
@@ -33,10 +32,11 @@
             </Column>
             <Column style="width: 40px" selectionMode="multiple"></Column>
 
-            <Column field="id" header="מס’ לקוח">
+             <Column field="id" header="מס’ לקוח" class="link-col">
                 <template #body="slotProps">
                     <router-link :to="{ name: 'customerDetail', params: { 'id': slotProps.data.id } }"
                                  class="vertical-align-middle">{{ slotProps.data.id }}</router-link>
+
                 </template>
             </Column>
 
@@ -48,10 +48,11 @@
                     </div>
                 </template>
             </Column>
-            <Column field="selected_product" header="איש קשר ראשי">
+            <Column field="main_contact" header="איש קשר ראשי" class="link-col">
                 <template #body="slotProps">
-                    <router-link :to="{ name: 'contactDetail', params: { 'id': slotProps.data.contact_id } }"
-                                 class="vertical-align-middle">{{ slotProps.data.contact }}</router-link> </template>
+                    <router-link v-if="slotProps.data.main_contact.id != null" :to="{ name: 'contactDetail', params: { 'id': slotProps.data.main_contact.id } }"
+                                 class="vertical-align-middle">{{ slotProps.data.main_contact.name }}</router-link>
+                </template>
             </Column>
             <Column field="status" header="סטטוס">
                 <template #body="slotProps">
@@ -84,10 +85,10 @@
                     </div>
                 </template>
             </Column>
-            <Column field="area" header="תחום">
+            <Column field="service_areas" header="תחום">
                 <template #body="slotProps">
-                    <div :class="highlightCellClass(slotProps.data.area)">
-                        {{ slotProps.data.area ? $t('area.' + slotProps.data.area) : '' }}
+                    <div :class="highlightCellClass(slotProps.data.area)" class="flex flex-row gap-2">
+                        <Chip v-for="area in slotProps.data.service_areas" :label="area.value"></Chip>
                     </div>
                 </template>
             </Column>
@@ -98,7 +99,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { CustomerService } from '@/service/CustomerService';
 import { ContactsService } from '@/service/ContactsService';
 import { ServicesService } from '@/service/ServicesService';
@@ -132,8 +133,8 @@ const utilsStore = useUtilsStore();
 const loadLazyData = () => {
     loading.value = true;
 
-    CustomerService.getCustomersFromApi({ page: lazyParams.value.page + 1, per_page: listUtilsStore.rows}).then((result) => {
-        // console.log(result);
+    CustomerService.getCustomersFromApi({ page: lazyParams.value.page + 1, per_page: listUtilsStore.rows }).then((result) => {
+        console.log(result);
         customers.value = result.data;
         totalRecords.value = result.totalRecords;
         loading.value = false;
@@ -142,7 +143,6 @@ const loadLazyData = () => {
 
 const onPage = (event) => {
     lazyParams.value = event;
-    console.log(lazyParams)
     loadLazyData();
 };
 
@@ -184,19 +184,18 @@ const highlightCellClass = (data) => {
     return [{ 'bg-red-100 text-red-600': data > 0 }];
 };
 
+utilsStore.resetElements();
 const onSelectionChanged = () => {
-    utilsStore.selectedElements = selectedCustomers.value;
-};
-
-const onRowsChanged = (value) => {
-    console.log("onRowsChanged", value)
-    loadLazyData();
-    // dt.value.reset();
+    utilsStore.selectedElements['customer'] = selectedCustomers.value;
 };
 
 const rows = computed(() => {
-    loadLazyData();
+    // loadLazyData();
     return listUtilsStore.rows;
+});
+
+watch(() => listUtilsStore.rows, () => {
+    loadLazyData();
 });
 
 </script>

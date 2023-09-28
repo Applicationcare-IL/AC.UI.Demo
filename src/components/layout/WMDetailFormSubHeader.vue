@@ -6,13 +6,12 @@
                     <WMButton @click="formStore.save" name="save" icon="save" type="specialSave" iconPosition="left">
                         {{ $t('save') }}</WMButton>
                     <Divider layout="vertical" />
-                    <WMButton class="m-1 col-6" name="assign-white" icon="assign">הקצה
-                    </WMButton>
-                    <WMButtonMenu class="m-1" mode="light" :menuItems="menuItems">הודעה
+                    <WMAssignButton :entity="utilsStore.entity"/>
+                    <WMButtonMenu class="m-1" mode="light" :menuItems="menuItems" disabled>הודעה
                     </WMButtonMenu>
-                    <WMButton class="m-1 col-6" name="phone-white" icon="phone">הקצה
+                    <WMButton class="m-1 col-6" name="phone-white" icon="phone" disabled>הקצה
                     </WMButton>
-                    <WMButton class="m-1 col-6" name="mail-white" icon="mail">הקצה</WMButton>
+                    <WMButton class="m-1 col-6" name="mail-white" icon="mail" disabled>הקצה</WMButton>
                 </div>
             </div>
         </div>
@@ -22,9 +21,12 @@
 <script setup>
 
 import { useFormUtilsStore } from '@/stores/formUtils';
-import { computed } from 'vue';
+import { useUtilsStore } from '@/stores/utils';
+import WMAssignButton from '@/components/buttons/WMAssignButton.vue';
+
 
 const formStore = useFormUtilsStore();
+const utilsStore = useUtilsStore();
 
 const menuItems = [
     { label: 'Whatsapp', value: 'option1' },
@@ -37,11 +39,4 @@ const props = defineProps({
     defaultOption: Object,
     entity: String,
 });
-
-const hasErrors = computed(() => {
-    return Object.keys(formStore.formErrors).length > 0;
-});
-
-
-
 </script>

@@ -316,7 +316,6 @@ const priorityClass = (data) => {
 };
 
 formUtilsStore.submit = onSubmit;
-formUtilsStore.formErrors = errors;
 
 </script>
 

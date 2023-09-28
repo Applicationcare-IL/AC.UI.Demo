@@ -4,8 +4,8 @@
     "discard": "Discard",
     "select": "Select @.lower:{0}",
     "test": "Test {min}",
-    "yes" : "Yes",
-    "no" : "No",
+    "yes": "Yes",
+    "no": "No",
     "general-details": "General Details",
     "entry-details": "Entry Details",
     "communication-details": "Communication Details",
@@ -22,8 +22,8 @@
     "facebook": "Facebook",
     "fax": "Fax",
     "type": "Type",
-    "filter" : "Filter",
-    "search" : "Search",
+    "filter": "Filter",
+    "search": "Search",
     "rating": "Rating",
     "general-information": "General information",
     "team": "Team",
@@ -44,101 +44,99 @@
     "modified_by": "Changed by",
     "created_at": "Created at",
     "modified_at": "Modified at",
-    "contact" : {
+    "contact": {
         "contact": "Contact",
         "contacts": "Contacts",
-        "name" : "Contact Name",
-        "telephone" : "Telephone",
-        "landline" : "Landline",
-        "email" : "Email",
-        "address" : "Address",
-        "open-services" : "Open Services",
-        "open-tasks" : "Open Tasks",
+        "name": "Contact Name",
+        "telephone": "Telephone",
+        "landline": "Landline",
+        "email": "Email",
+        "address": "Address",
+        "open-services": "Open Services",
+        "open-tasks": "Open Tasks",
         "notes": "Contact notes",
-        "id" : "ID",
-        "system-id" : "System ID",
-        "main" : "Main"
+        "id": "ID",
+        "system-id": "System ID",
+        "main": "Main"
     },
-    "customer":{
+    "customer": {
         "customer": "Customer",
         "customers": "Customers",
-        "all" : "All Customers",
-        "my" : "My Customers",
+        "all": "All Customers",
+        "my": "My Customers",
         "name": "Customer Name",
         "number": "Customer Number",
         "number-abbreviation": "Customer No.",
         "type": "Type",
         "rating": "Rating",
-        "area" : "Field",
-        "areas" : "Field",
-        "add" :"Add Customer",
+        "area": "Field",
+        "areas": "Field",
+        "add": "Add Customer",
         "main": "Main",
-        "open-services" : "Open Services",
-        "breached-services" : "Breached Services",
-        "open-tasks" : "Open Tasks",
-        "breached-tasks" : "Breached Tasks",
-        "notes" : "Customer Notes",
-        "is-provider" : "Is Provider",
-        "system-id" : "System ID",
-        "notification" : {
-            "created" : {
-                "header" : "New Customer Created",
-                "message" : "The new customer was successfully created! \n From now on he will appear in your customer list",
-                "detail" : "View Customer",
-                "list" : "View List"
+        "open-services": "Open Services",
+        "breached-services": "Breached Services",
+        "open-tasks": "Open Tasks",
+        "breached-tasks": "Breached Tasks",
+        "notes": "Customer Notes",
+        "is-provider": "Is Provider",
+        "system-id": "System ID",
+        "notification": {
+            "created": {
+                "header": "New Customer Created",
+                "message": "The new customer was successfully created! \n From now on he will appear in your customer list",
+                "detail": "View Customer",
+                "list": "View List"
             },
-            "discard" : {
-                "header" : "The customer is not saved",
-                "message" : "You have not finished creating the new customer. \n You would like to exit this page without saving it",
-                "accept" : "Remain on this page",
-                "cancel" : "Exit without saving"
+            "discard": {
+                "header": "The customer is not saved",
+                "message": "You have not finished creating the new customer. \n You would like to exit this page without saving it",
+                "accept": "Remain on this page",
+                "cancel": "Exit without saving"
             }
         },
-        "toast" : {
-            "created" : "New Customer Created",
-            "error" : "An error occurred"
+        "toast": {
+            "created": "New Customer Created",
+            "error": "An error occurred"
         }
-
     },
     "service": {
         "service": "Service",
         "services": "Services",
-        "assign" : "Assign",
-        "open" : "Open Services",
-        "breached" : "Open Services",
+        "assign": "Assign",
+        "open": "Open Services",
+        "breached": "Open Services",
         "number": "Service number",
         "open-date": "Open date",
         "due-date": "Due date",
-        "stage" : "Stage",
-        "sla" : "SLA",
-        "owner" : "Owner",
-        "status" : "Status",
-        "notes" : "Notes",
-        "duration" : "Duration",
-        "team" : "Team",
-        "priority" : "Priority",
-        "urgency" : "Urgency",
-        "recurring" : "Recurring",
-        "last-change" : "Last change",
-        "date-closed" : "Closed at",
+        "stage": "Stage",
+        "sla": "SLA",
+        "owner": "Owner",
+        "status": "Status",
+        "notes": "Notes",
+        "duration": "Duration",
+        "team": "Team",
+        "priority": "Priority",
+        "urgency": "Urgency",
+        "recurring": "Recurring",
+        "last-change": "Last change",
+        "date-closed": "Closed at",
         "location": "Location",
-        "description" :"Description",
-        "classification" : "Classification"
-        
+        "description": "Description",
+        "classification": "Classification"
     },
-    "task" : {
+    "task": {
         "task": "Task",
         "tasks": "Tasks",
         "family": "Task family",
         "type": "Task type",
-        "open" : "Open Tasks",
+        "open": "Open Tasks",
         "number": "Task number",
-        "stage" : "Stage",
-        "sla" : "SLA",
-        "due_date" : "Due date",
-        "owner" : "Owner",
-        "status" : "Status",
-        "notes" : "Notes"
+        "stage": "Stage",
+        "sla": "SLA",
+        "due_date": "Due date",
+        "owner": "Owner",
+        "status": "Status",
+        "notes": "Notes"
     },
     "site": {
         "details": "Site Details",
@@ -167,7 +165,7 @@
         "contactid": "Invalid ID Card",
         "phone": "Invalid phone number",
         "email": "Invalid email address",
-        "exists" : "@:{label} already exists"
+        "exists": "@:{label} already exists"
     },
     "genders": {
         "male": "Male",
@@ -175,60 +173,78 @@
         "other": "Other"
     },
     "status": "Status",
-    "statuses":{
+    "statuses": {
         "open": "Open",
         "closed": "Closed",
         "active": "Active",
         "inactive": "Not Active"
     },
-    "classification1" : {
-        "urban-architect" : "Urban Architect",
+    "classification1": {
+        "urban-architect": "Urban Architect",
         "sharp-internet-jokes": "Sharp Internet Jokes",
-        "people-named-robert" : "People named Robert"
+        "people-named-robert": "People named Robert"
     },
-    "area":{
+    "area": {
         "water_service": "Water Service",
-        "funeral_service": "Funeral Service" ,
-        "municipality": "Municipality" 
+        "funeral_service": "Funeral Service",
+        "municipality": "Municipality"
     },
-    "login":{
-        "hello" : "Hello!",
-        "instructions" : "Enter an Email address and password to log in",
-        "email" : "Email",
-        "password" : "Password",
-        "forgot_password" : "Forgot password?",
-        "submit" : "Log in",
-        "invalid_credentials" : "Looks like your email or password are incorrect. Maybe try again?"
-
+    "login": {
+        "hello": "Hello!",
+        "instructions": "Enter an Email address and password to log in",
+        "email": "Email",
+        "password": "Password",
+        "forgot_password": "Forgot password?",
+        "submit": "Log in",
+        "invalid_credentials": "Looks like your email or password are incorrect. Maybe try again?"
     },
-    "option-set":{
+    "option-set": {
         "customer_type": {
             "private": "Private",
             "business": "Business"
         },
         "customer_rating": {
-            "regular" : "Regular",
+            "regular": "Regular",
             "vip": "VIP"
         },
         "customer_status": {
             "potential": "Potential",
             "Active": "Active",
-            "Terminated" : "Terminated",
-            "Cancelled" : "Cancelled",
-            "Left" : "Left"
+            "Terminated": "Terminated",
+            "Cancelled": "Cancelled",
+            "Left": "Left"
         },
         "customer_business": {
             "municipality": "Municipality",
             "water_service": "Water Service",
             "funeral_service": "Funeral Service"
+        },
+        "service_area": {
+            "SPI": "SPI",
+            "TIKS": "TIKS",
+            "BIT": "BIT",
+            "ARN": "ARN",
+            "CSF": "CSF",
+            "VTR": "VTR",
+            "HSML": "HSML",
+            "CNCH": "CNCH",
+            "LISC": "LISC",
+            "HND": "HND",
+            "DAT": "DAT",
+            "PIK": "PIK",
+            "CLLI": "CLLI",
+            "RVH": "RVH",
+            "SHR": "SHR",
+            "TAGD": "TAGD",
+            "AMUDEY_TEINA": "AMUDEY_TEINA",
+            "sales": "Sales"
         }
     },
-    "toast" : {
-        "success" : "Success",
-        "error" : "Error",
-        "warning" : "Warning",
-        "info" : "Info",
-        "successful-action" : "{0} successfully {1}"
+    "toast": {
+        "success": "Success",
+        "error": "Error",
+        "warning": "Warning",
+        "info": "Info",
+        "successful-action": "{0} successfully {1}"
     }
-    
 }
