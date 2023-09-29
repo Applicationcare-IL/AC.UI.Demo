@@ -6,14 +6,15 @@
                     <WMButton class="m-1 col-6" name="new" icon="new" @click="$emit('new')">חדש</WMButton>
                     <WMButton class="m-1 col-6" name="export-white" icon="export">ייצוא נתונים</WMButton>
                     <Divider layout="vertical" />
-                    
-                    <WMAssignButton :entity="utilsStore.entity"/>
-                    
-                    <WMButtonMenu class="m-1" mode="light" :menuItems="menuItems" :disabled="!activeButtons">הודעה
+
+                    <WMAssignButton :entity="utilsStore.entity" />
+
+                    <WMButtonMenu class="m-1" mode="light" :menuItems="menuItems" :disabled="selectedElements == 0">הודעה
                     </WMButtonMenu>
-                    <WMButton class="m-1 col-6" name="phone-white" icon="phone" :disabled="utilsStore.selectedElements.length != 1">הקצה
+                    <WMButton class="m-1 col-6" name="phone-white" icon="phone" :disabled="selectedElements != 1">הקצה
                     </WMButton>
-                    <WMButton class="m-1 col-6" name="mail-white" icon="mail" :disabled="!activeButtons">הקצה</WMButton>
+                    <WMButton class="m-1 col-6" name="mail-white" icon="mail" :disabled="selectedElements == 0">הקצה
+                    </WMButton>
                     <Divider layout="vertical" />
                     <WMButton class="m-1 col-6 " name="basic-secondary">כפתור </WMButton>
                 </div>
@@ -35,8 +36,8 @@
                 </div>
                 <div class="flex flex-row gap-3">
                     <span>רשומות בדף:</span>
-                    <WMInput @update:selectedItem="onChange" width="70" name="status" :highlighted="true" type="input-select" :options="listUtilsStore.listRowsPerPage"
-                             :selectedOption="numberOfRows" />
+                    <WMInput @update:selectedItem="onChange" width="70" name="status" :highlighted="true"
+                             type="input-select" :options="listUtilsStore.listRowsPerPage" :value="numberOfRows" />
 
                 </div>
             </div>
@@ -46,7 +47,7 @@
 
 <script setup>
 
-import { ref } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useListUtilsStore } from '@/stores/listUtils';
 import { useUtilsStore } from '@/stores/utils';
 import WMInput from '@/components/forms/WMInput.vue';
@@ -58,7 +59,7 @@ const menuItems = [
 ]
 
 const listUtilsStore = useListUtilsStore();
-const numberOfRows = ref(listUtilsStore.listRowsPerPage.find(x => x.value === listUtilsStore.rows)) 
+const numberOfRows = ref(listUtilsStore.listRowsPerPage.find(x => x.value === listUtilsStore.rows))
 
 const searchValue = ref('');
 
@@ -71,7 +72,6 @@ const props = defineProps({
 
 const emits = defineEmits(['new']);
 
-const value = ref();
 
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
@@ -81,5 +81,13 @@ const onChange = (event) => {
     listUtilsStore.rows = event.value;
 }
 
+const selectedElements = ref(0);
+watch(() => utilsStore.selectedElements[props.entity], (value) => {
+    selectedElements.value = value.length
+});
 
+// const selectedElements = computed(() => {
+//     utilsStore.selectedElements[props.entity] != undefined ? utilsStore.selectedElements[props.entity].length : 0;
+//     console.log(utilsStore.selectedElements[props.entity] != undefined ? utilsStore.selectedElements[props.entity].length : 0)
+// });
 </script>

@@ -10,7 +10,7 @@
               <div class="flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner') + ':'"
-                           :value="customer.owner" />
+                           :value="customer.owner.name" />
                   <WMInput name="system_id" type="info" :highlighted="true" :label="$t('customer.system-id') + ':'"
                            :value="customer.id" />
                 </div>
@@ -328,6 +328,7 @@ formUtilsStore.$reset();
 formUtilsStore.save = onSave;
 formUtilsStore.formEntity = "customer";
 utilsStore.entity= "customer";
+
 
 watch(() => meta.value, (value) => {
   formUtilsStore.formMeta = value;

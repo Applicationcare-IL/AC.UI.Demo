@@ -115,7 +115,7 @@ export const CustomerService = {
             rating: customer.rating ? customer.rating : '',
             number: customer.number,
             id: customer.id,
-            owner: 'Israel Israeli',
+            owner: customer.owner,
             main_contact: customer.main_contact,
             service_areas: customer.service_areas,
             is_provider: customer.is_provider,

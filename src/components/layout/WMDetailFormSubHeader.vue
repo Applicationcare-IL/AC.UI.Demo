@@ -7,11 +7,11 @@
                         {{ $t('save') }}</WMButton>
                     <Divider layout="vertical" />
                     <WMAssignButton :entity="utilsStore.entity"/>
-                    <WMButtonMenu class="m-1" mode="light" :menuItems="menuItems" disabled>הודעה
+                    <WMButtonMenu class="m-1" mode="light" :menuItems="menuItems" :disabled="selectedElements==0">הודעה
                     </WMButtonMenu>
-                    <WMButton class="m-1 col-6" name="phone-white" icon="phone" disabled>הקצה
+                    <WMButton class="m-1 col-6" name="phone-white" icon="phone" :disabled="selectedElements==0">הקצה
                     </WMButton>
-                    <WMButton class="m-1 col-6" name="mail-white" icon="mail" disabled>הקצה</WMButton>
+                    <WMButton class="m-1 col-6" name="mail-white" icon="mail" :disabled="selectedElements==0">הקצה</WMButton>
                 </div>
             </div>
         </div>
@@ -20,6 +20,7 @@
 
 <script setup>
 
+import { ref, computed, watch } from 'vue';
 import { useFormUtilsStore } from '@/stores/formUtils';
 import { useUtilsStore } from '@/stores/utils';
 import WMAssignButton from '@/components/buttons/WMAssignButton.vue';
@@ -31,11 +32,14 @@ const menuItems = [
     { label: 'Whatsapp', value: 'option1' },
     { label: 'SMS', value: 'option2' },
 ]
+const selectedElements = ref(0);
+watch(() => utilsStore.selectedElements[utilsStore.entity], (value) => {
+    selectedElements.value = value.length
+});
 
 const props = defineProps({
     activeButtons: Boolean,
     filterLabels: Array,
     defaultOption: Object,
-    entity: String,
 });
 </script>

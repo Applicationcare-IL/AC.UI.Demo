@@ -1,25 +1,13 @@
 <template>
-    <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]"
-                     entity="customer" @new="displayNewForm">
+    <WMListSubHeader :filterLabels="filterLabels" :defaultOption="filterLabels[1]"
+                      entity="customer" @new="displayNewForm">
     </WMListSubHeader>
     <Sidebar v-model:visible="isDetailsVisible" class="details-sidebar w-6" :showCloseIcon="false">
-        <h2>{{ customerDetailRow.name }}</h2>
+        <h2>{{ customerDetail.name }}</h2>
         <Divider />
-        <WMContactsTable :contacts="contacts" :columns="contactColumns" :showControls="false" :rows="5">
-        </WMContactsTable>
+        <WMContactsTable :customer="customerDetail" :columns="contactColumns" :showControls="false" :rows="5" />
     </Sidebar>
-    <Sidebar v-model:visible="formUtilsStore.isSidebarExpanded" class="new-sidebar w-6" :showCloseIcon="false"
-             :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''" :position="layoutConfig.isRTL.value ? 'left' : 'right'">
-        <div class="flex flex-row justify-content-between align-content-center">
-            <h1 class="h1 mb-0">{{ $t('new', ['customer.customer']) }}</h1>
-            <router-link :to="{ name: 'newCustomer' }" class="p-2">
-                <img src="@/assets/icons/fullScreen.svg" alt="fullScreen" />
-            </router-link>
-        </div>
-        <Divider />
-        <WMNewCustomerForm></WMNewCustomerForm>
-        <WMFormButtons></WMFormButtons>
-    </Sidebar>
+    <WMNewEntitySidebar name="newCustomer" entity="customer"/>
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
         <DataTable lazy v-model:selection="selectedCustomers" :value="customers" dataKey="id" tableStyle="min-width: 50rem"
                    class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="rows" :first="0" ref="dt"
@@ -93,7 +81,7 @@
                 </template>
             </Column>
             <Column field="number" header="מזהה"></Column>
-            <Column field="owner" header="אחראי"></Column>
+            <Column field="owner.type" header="אחראי"></Column>
         </DataTable>
     </div>
 </template>
@@ -112,13 +100,14 @@ import WMNewCustomerForm from '@/components/forms/WMNewCustomerForm.vue';
 import { useLayout } from '@/layout/composables/layout';
 import { useFormUtilsStore } from '@/stores/formUtils';
 import { useUtilsStore } from '@/stores/utils';
+import WMNewEntitySidebar from '@/components/layout/WMNewEntitySidebar.vue';
 
 onMounted(() => {
     loading.value = true;
+    utilsStore.entity="customer"
 
     loadLazyData();
 
-    ContactsService.getContactsMini().then((data) => (contacts.value = data));
     ServicesService.getServicesMini().then((data) => (services.value = data));
     TasksService.getTasksMini().then((data) => (tasks.value = data));
 });
@@ -147,37 +136,27 @@ const onPage = (event) => {
 };
 
 const customers = ref();
-const contacts = ref();
 const services = ref();
 const tasks = ref();
 const selectedCustomers = ref([]);
 const listUtilsStore = useListUtilsStore();
 const contactColumns = ref(listUtilsStore.getContactDetailColumns);
-const { layoutConfig } = useLayout();
-
-const isAnyRowSelected = computed(() => {
-    return selectedCustomers?.value.length > 0;
-});
 
 const filterLabels = [
     { name: 'כל הלקוחות', value: 2 },
     { name: 'הלקוחות שלי', value: 1 },
 ]
 
-const visible = ref(false);
-const customerDetailRow = ref(null);
+const customerDetail = ref(null);
 
 const isDetailsVisible = ref(false);
 const displayDetails = (data) => {
-    console.log(data);
+    customerDetail.value = data;
     isDetailsVisible.value = true;
-    customerDetailRow.value = data;
 }
 
-const isNewFormVisible = ref(false);
 const displayNewForm = () => {
-    formUtilsStore.isSidebar = true;
-    formUtilsStore.isSidebarExpanded = true;
+    formUtilsStore.expandSidebar = 'newCustomer';
 }
 
 const highlightCellClass = (data) => {
@@ -190,7 +169,6 @@ const onSelectionChanged = () => {
 };
 
 const rows = computed(() => {
-    // loadLazyData();
     return listUtilsStore.rows;
 });
 

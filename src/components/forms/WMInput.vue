@@ -11,7 +11,7 @@
                        'wm-input-error': !!errorMessage,
                    }]" style="width:100%" />
         <Password v-if="type == 'input-password'" :name="name" :disabled="props.disabled" :placeholder="placeholder"
-                  :feedback="true" style="width:100%"
+                  :feedback="false" style="width:100%"
                   @input="$emit('update:value', $event.target.value); handleChange($event.target.value)" @blur="handleBlur">
         </Password>
         <Dropdown v-if="type == 'input-select'" :name="name" :disabled="props.disabled" :options="options"

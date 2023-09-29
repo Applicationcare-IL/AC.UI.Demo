@@ -1,6 +1,6 @@
 <template>
     <WMButton @click="toggle" class="m-1 col-6" name="assign-white" icon="assign"
-              :disabled="utilsStore.selectedElements[props.entity]?.length == 0">הקצה
+              :disabled="selectedElements==0">הקצה
     </WMButton>
     <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
         <div class="flex flex-column gap-2">
@@ -29,7 +29,7 @@
 
 <script setup>
 
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useUtilsStore } from '@/stores/utils';
 import { useLayout } from '@/layout/composables/layout';
 // import { UserService } from '@/service/UserService';
@@ -57,6 +57,12 @@ const onAssignTo = (type) => {
 }
 
 const usersOrTeams = ref([{}]);
+
+const selectedElements = ref(0);
+watch(() => utilsStore.selectedElements[props.entity], (value) => {
+    selectedElements.value = value.length
+});
+
 
 // onMounted(() => {
 //     UsersService.getUsers().then((response) => {
