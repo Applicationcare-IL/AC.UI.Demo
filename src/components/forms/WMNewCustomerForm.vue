@@ -1,7 +1,7 @@
 <template>
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 v-if="!formUtilsStore.isSidebar" class="h1 mb-0">{{ $t('new', ['customer.customer']) }}</h1>
+      <h1 v-if="!props.isSidebar" class="h1 mb-0">{{ $t('new', ['customer.customer']) }}</h1>
       <div class="wm-form-row gap-5">
         <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner') + ':'"
                  :value="authStore.userFullName" />
@@ -65,6 +65,13 @@ import { CitiesService } from '@/service/CitiesService';
 import { useToast } from '@/stores/toast';
 import { useDialog } from '@/stores/dialog';
 
+const props = defineProps({
+  isSidebar: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const authStore = useAuthStore();
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
@@ -104,21 +111,25 @@ const onSave = handleSubmit((values) => {
 const onCancel = () => {
   if (formUtilsStore.formMeta.dirty)
     dialog.discardNewCustomer();
+  else {
+    formUtilsStore.closeForm();
+  }
 };
 
 const onCustomerNumberChanged = (event) => {
   utilsStore.debounceAction(() => {
     CustomerService.existsCustomer("id", event.target.value)
-      .then((exists) => ( 
-        exists ? 
-        setFieldError('number', {key: 'validation.exists', values: {label: 'customer.customer'}})        
-       : setFieldError('number', '')))
+      .then((exists) => (
+        exists ?
+          setFieldError('number', { key: 'validation.exists', values: { label: 'customer.customer' } })
+          : setFieldError('number', '')))
   });
 };
 
 formUtilsStore.save = onSave;
 formUtilsStore.cancel = onCancel;
 formUtilsStore.formEntity = "customer";
+
 watch(() => meta.value, (value) => {
   formUtilsStore.formMeta = value;
 });

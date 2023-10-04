@@ -65,7 +65,7 @@ export const CustomerService = {
         return axiosConfig.get('/customers?search=' + value)
             .then((response) => {
                 // console.log(response)
-                const customers = response.data.data;
+                // const customers = response.data.data;
                 return response.data.data.length > 0;
             })
             .catch((error) => {
@@ -111,7 +111,7 @@ export const CustomerService = {
             breached_services: customer.breached_services,
             open_tasks: customer.open_tasks,
             breached_tasks: customer.breached_tasks,
-            classification1: ["שם של תחום", "שם של תחום"],
+            // classification1: ["שם של תחום", "שם של תחום"],
             rating: customer.rating ? customer.rating : '',
             number: customer.number,
             id: customer.id,

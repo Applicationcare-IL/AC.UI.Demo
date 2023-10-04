@@ -1,19 +1,18 @@
 import { defineStore } from 'pinia';
 import * as yup from 'yup';
-import { useMagicKeys, whenever  } from '@vueuse/core'
+import { useMagicKeys, whenever } from '@vueuse/core'
 
 
 const { ctrl_s } = useMagicKeys({
     passive: false,
     onEventFired(e) {
-      if (e.ctrlKey && e.key === 's' && e.type === 'keydown')
-      {   
-        e.preventDefault()
-      }
+        if (e.ctrlKey && e.key === 's' && e.type === 'keydown') {
+            e.preventDefault()
+        }
     },
-  })
+})
 
-whenever(ctrl_s,  () => {
+whenever(ctrl_s, () => {
     useFormUtilsStore().save();
 })
 
@@ -36,9 +35,9 @@ export const useFormUtilsStore = defineStore('formUtils', {
 
         yesNoOptions: () => {
             return [
-            { value: true, name: 'yes' },
-            { value: false, name: 'no' },
-          ];
+                { value: true, name: 'yes' },
+                { value: false, name: 'no' },
+            ];
         },
         getAlphabetWithDash: () => {
             const alphabet = 'אבגדהוזחטיכךלמםנןסעפףצץקרשת'.split('');
@@ -85,7 +84,7 @@ export const useFormUtilsStore = defineStore('formUtils', {
                 'name': yup.string().required(),
                 'number': yup.string().required(),
                 'service_area': yup.array()
-                     .min(1, { key: 'validation.required-select', values: { label: 'customer.field' } }),
+                    .min(1, { key: 'validation.required-select', values: { label: 'customer.field' } }),
                 // 'business': yup.object().required({ key: 'validation.required-select', values: { label: 'customer.field' } }),
                 // 'business': yup.array()
                 //      .min(1, { key: 'validation.required-select', values: { label: 'customer.field' } })
@@ -104,16 +103,28 @@ export const useFormUtilsStore = defineStore('formUtils', {
                 'name': yup.string().required(),
                 'number': yup.string().required(),
                 'service_area': yup.array()
-                     .min(1, { key: 'validation.required-select', values: { label: 'customer.field' } }),
+                    .min(1, { key: 'validation.required-select', values: { label: 'customer.field' } }),
             });
         },
 
-        getContactFormValidationSchema: (state) => {
+        getContactNewFormValidationSchema: (state) => {
             return yup.object({
                 'contactid': yup.string().min(9, 'validation.contactid').required(),
+                'first-name': yup.string().required(),
+                'last-name': yup.string().required(),
                 'mobile-phone': yup.string().trim().matches(state.israeliPhoneRegex, 'validation.phone').required(),
-                'landline': yup.string().trim().matches(state.israeliLandlineRegex, 'validation.phone').required(),
                 'email': yup.string().trim().email('validation.email').required(),
+                'customer': yup.array()
+                    .min(1, { key: 'validation.required-select', values: { label: 'customer.field' } }),
+
+            });
+        },
+        getContactDetailFormValidationSchema: (state) => {
+            return yup.object({
+                'contactid': yup.string().min(9, 'validation.contactid').required(),
+                // 'mobile-phone': yup.string().trim().matches(state.israeliPhoneRegex, 'validation.phone').required(),
+                // 'landline': yup.string().trim().matches(state.israeliLandlineRegex, 'validation.phone').required(),
+                // 'email': yup.string().trim().email('validation.email').required(),
             });
         },
         getContactDetailFormValidationSchema: (state) => {
@@ -122,18 +133,20 @@ export const useFormUtilsStore = defineStore('formUtils', {
                 'last-name': yup.string().required(),
             });
         },
-        
+
 
 
     },
     actions: {
         closeForm() {
+            console.log("Close Form")
+            console.log(this.isSidebar)
             if (this.isSidebar)
-                this.isSidebarExpanded = false;
+                this.expandSidebar = '';
             else
                 this.router.push("/" + this.formEntity + "s");
         },
-        goToDetail(id){
+        goToDetail(id) {
             this.router.push("/" + this.formEntity + "/" + id);
         }
     }

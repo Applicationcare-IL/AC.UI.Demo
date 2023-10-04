@@ -8,15 +8,19 @@
                       @complete="search" completeOnFocus v-model="value" unstyled @item-unselect="onRemove"
                       @input="$emit('update:value', $event.target.value)">
         </AutoComplete>
+        <div>
+            <slot name="message"></slot>
+        </div>
         <span v-if="errorMessage" class="wm-validation-message">
             {{ typeof errorMessage === 'string' ? $t(errorMessage) : $t(errorMessage.key, errorMessage.values) }}
         </span>
-        <div v-if="props.multiple" class="selected-options flex flex-row gap-2 absolute">
+        <div v-if="props.multiple" class="selected-options flex flex-row gap-2">
             <Chip v-for="item in value" :label="item.name">
                 <span>{{ item.name }}</span>
                 <i class="pi pi-times" @click="onRemove(item)"></i>
             </Chip>
         </div>
+
     </div>
 </template>
 
@@ -91,12 +95,14 @@ const search = (event) => {
         //In case we have a search function, we will use it to filter the options
         if (props.searchFunction) {
             props.searchFunction(event.query.toLowerCase()).then((result) => {
+                
                 return filteredOptions.value = result.data.filter((option) => {
-                    option.name
+                    return option.name
                 });
             });
             //Otherwise we will filter the static list 
         } else {
+            console.log(props.options)
             if (!event.query?.trim().length) {
                 filteredOptions.value = [...props.options];
             } else {

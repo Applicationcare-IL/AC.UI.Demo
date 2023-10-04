@@ -1,5 +1,5 @@
 <template>
-  <div v-if="contact" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
+  <div v-if="loaded" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="contact-data flex flex-auto flex-column gap-5 mb-5">
       <h1 class="h1 mb-0">{{ $t('contact.contact') }}: {{ contact.name }}</h1>
       <div class=" flex flex-row gap-5 flex-wrap">
@@ -101,19 +101,19 @@
         </div>
         <div class="card-container flex-1 middle-info-card">
           <Card>
-            <template #title> {{ $t('service.open') }} : 4 </template>
+            <template #title> {{ $t('service.open') }} : {{contact.open_services}} </template>
 
             <template #content>
               <div class="flex flex-column gap-3">
                 <div
                      class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-teal-200 text-teal-900">
                   <span class="font-size-20 font-weight-light">No breach</span>
-                  <span class="font-size-24 font-weight-bold">4</span>
+                  <span class="font-size-24 font-weight-bold">{{ contact.open_services - contact.breached_services}}</span>
                 </div>
                 <div
                      class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900">
                   <span class="font-size-20 font-weight-light">Breach</span>
-                  <span class="font-size-24 font-weight-bold">0</span>
+                  <span class="font-size-24 font-weight-bold">{{ contact.breached_services}}</span>
                 </div>
               </div>
             </template>
@@ -121,18 +121,18 @@
         </div>
         <div class=" card-container flex-1 middle-info-card">
           <Card>
-            <template #title> {{ $t('task.open') }} : 14</template>
+            <template #title> {{ $t('task.open') }} : {{contact.open_tasks}}</template>
             <template #content>
               <div class="flex flex-column gap-3">
                 <div
                      class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-teal-200 text-teal-900">
                   <span class="font-size-20 font-weight-light">No breach</span>
-                  <span class="font-size-24 font-weight-bold">10</span>
+                  <span class="font-size-24 font-weight-bold">{{ contact.open_tasks - contact.breached_tasks}}</span>
                 </div>
                 <div
                      class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-red-50 text-red-600">
                   <span class="font-size-20 font-weight-light">Breach</span>
-                  <span class="font-size-24 font-weight-bold">4</span>
+                  <span class="font-size-24 font-weight-bold">{{ contact.breached_tasks }} </span>
                 </div>
               </div>
             </template>
@@ -140,7 +140,7 @@
         </div>
       </div>
       <div>
-        <WMCustomersTable :customers="customers" :columns="customerColumns" :rows="5">
+        <WMCustomersTable :contact="contact" :columns="customerColumns" :rows="5">
         </WMCustomersTable>
       </div>
       <div>
@@ -182,13 +182,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import WMInputSearch from '@/components/forms/WMInputSearch.vue';
 import WMInput from '@/components/forms/WMInput.vue';
 import { useForm } from 'vee-validate';
 import { useFormUtilsStore } from '@/stores/formUtils';
 import { useListUtilsStore } from '@/stores/listUtils';
 import { useOptionSetsStore } from '@/stores/optionSets';
+import { useUtilsStore } from '@/stores/utils';
 import { useRoute } from 'vue-router'
 import { ContactsService } from '@/service/ContactsService';
 import { CustomerService } from '@/service/CustomerService';
@@ -198,6 +199,7 @@ import { CitiesService } from '@/service/CitiesService';
 import WMServicesTable from '@/components/tables/WMServicesTable.vue';
 import WMCustomersTable from '@/components/tables/WMCustomersTable.vue';
 import WMTasksTable from '@/components/tables/WMTasksTable.vue';
+import { useToast } from '@/stores/toast';
 
 const customers = ref();
 const services = ref();
@@ -207,26 +209,24 @@ const cities = ref();
 const formUtilsStore = useFormUtilsStore();
 const listUtilsStore = useListUtilsStore();
 const optionSetsStore = useOptionSetsStore();
+const utilsStore = useUtilsStore();
 const genders = optionSetsStore.getOptionSetValues("gender");
 const contact = ref();
 const route = useRoute();
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash
 const statuses = optionSetsStore.getOptionSetValues("status")
 
+const loaded = ref(false);
+
 const customerColumns = ref(listUtilsStore.getCustomerColumns);
 const serviceColumns = ref(listUtilsStore.getServiceColumns);
 const taskColumns = ref(listUtilsStore.getTaskColumns);
 
+const toast = useToast();
+
 onMounted(() => {
+  fetchData();
 
-  ContactsService.getContactFromApi(route.params.id).then((data) => {
-    (contact.value = data)
-    console.log(contact.value)
-  });
-
-  setTimeout(function () {
-    CustomerService.getCustomersMini().then((data) => (customers.value = data));
-  }, 2000);
   setTimeout(function () {
     ServicesService.getServicesMini().then((data) => (services.value = data));
   }, 2000);
@@ -238,16 +238,39 @@ onMounted(() => {
   }, 2000);
 });
 
-const { errors, handleSubmit, setFieldError } = useForm({
+const fetchData = async () => {
+  ContactsService.getContactFromApi(route.params.id).then((data) => {
+    contact.value = data;
+    utilsStore.selectedElements['contact'] = [contact.value];
+    console.log(contact.value)
+    loaded.value = true;
+  });
+}
+
+const { errors, handleSubmit, setFieldError, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
 });
 
-const onSubmit = handleSubmit((values) => {
-  setFieldError('mobile-phone', 'Customer already exists');
-  console.log(values);
+const onSave = handleSubmit((values) => {
+  ContactsService.updateContact(route.params.id, ContactsService.parseContact(values)).then((data) => {
+    toast.successAction('contact', 'updated');
+    resetForm(({ values: values }));
+  }).catch((error) => {
+    console.log(error);
+    toast.error('customer', 'not-updated');
+  });
 });
 
-formUtilsStore.submit = onSubmit;
+formUtilsStore.$reset();
+formUtilsStore.save = onSave;
+formUtilsStore.formEntity = "contact";
+utilsStore.entity= "contact";
+
+
+watch(() => meta.value, (value) => {
+  formUtilsStore.formMeta = value;
+});
+
 
 </script>
 

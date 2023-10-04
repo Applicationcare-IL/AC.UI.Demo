@@ -8,8 +8,8 @@
             </router-link>
         </div>
         <Divider />
-        <WMNewCustomerForm v-if="props.name === 'newCustomer'"></WMNewCustomerForm>
-        <WMNewContactForm v-if="props.name === 'newContact'"></WMNewContactForm>
+        <WMNewCustomerForm v-if="props.name === 'newCustomer'" :isSidebar="true"></WMNewCustomerForm>
+        <WMNewContactForm v-if="props.name === 'newContact'" :isSidebar="true"></WMNewContactForm>
         <WMFormButtons></WMFormButtons>
     </Sidebar>
 </template>
@@ -27,6 +27,8 @@ const formUtilsStore = useFormUtilsStore();
 const { layoutConfig } = useLayout();
 
 const isVisible = ref();
+
+formUtilsStore.isSidebar = true;
 
 watch(() => formUtilsStore.expandSidebar, (value) => {
     isVisible.value = value == props.name;

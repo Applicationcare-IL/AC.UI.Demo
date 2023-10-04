@@ -39,12 +39,13 @@ export const ContactsService = {
 
     getContactsFromApi(params) {
         return axiosConfig.get('/contacts', { params })
-            .then((response) => {
-                const contacts = response.data.data.map((contact) => {
+        .then((response) => {
+                console.log(response.data.data)
+                const data = response.data.data.map((contact) => {
                     return this.mapContact(contact);
                 })
                 const totalRecords = response.data.meta.total;
-                return { contacts, totalRecords };
+                return { data, totalRecords };
             })
             .catch((error) => {
                 console.log(error);
@@ -54,6 +55,7 @@ export const ContactsService = {
     getContactFromApi(id) {
         return axiosConfig.get('/contacts/' + id)
             .then((response) => {
+                console.log(response.data.data)
                 const contact = response.data.data;
                 return this.mapContact(contact);
             })
@@ -92,8 +94,8 @@ export const ContactsService = {
             'firstName': contact.name,
             'lastName': contact.surname,
             contact: 'שלומי שבת',
-            customer: 'שם של לקוח כלשהו',
-            customer_id: '0000',
+            customer: 'אלעד וילנר',
+            customer_id: '1',
             telephone: contact.phone,
             landline: contact.land_line,
             email: contact.email,
@@ -109,7 +111,51 @@ export const ContactsService = {
             is_main: contact.is_main,
             role: contact.role?.value,
         }
-    }
+    },
+    parseContact(contact) {
+        console.log(contact);
+        return {
+            // id: contact.id,
+            // contact_id: contact.id,
+            // name: contact.firstName,
+            // surname: contact.lastName,
+            name: contact['first-name'],
+            surname: contact['last-name'],
+            phone: contact['mobile-phone'],
+            email: contact['email'],
+            gender: contact['gender'],
+            customers: contact['customer']? contact['customer'].map(x=>x.id) : '',
+            street: contact['street'],
+            street_number: contact['house-number'],
+            city: contact['city'],
+            zipcode: contact['zipcode'],
+            fax: contact['fax'],
+            land_line: contact['landline'],
+        }
+    },
+
+    createContact(contact) {
+        return axiosConfig.post('/contacts', contact)
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+                throw error;
+            });
+    },
+
+    updateContact(id, contact) {
+        console.log(contact)
+        return axiosConfig.patch('/contacts/' + id, contact)
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+                throw error;
+            });
+    },
 
 
 };

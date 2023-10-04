@@ -51,6 +51,35 @@ export function useDialog() {
         });
     }
 
-    return { confirmNewCustomer, discardNewCustomer }
+    const confirmNewContact = (id) => {
+        confirm.require({
+            message: i18n.t('contact.notification.created.message'),
+            header: i18n.t('contact.notification.created.header'),
+            acceptLabel: i18n.t('contact.notification.created.detail'),
+            rejectLabel: i18n.t('contact.notification.created.list'),
+            accept: () => {
+                formUtilsStore.goToDetail(id);
+            },
+            reject: () => {
+                formUtilsStore.closeForm();
+            },
+        });
+    }; 
+
+    const discardNewContact = () => {
+        confirm.require({
+            message: i18n.t('contact.notification.discard.message'),
+            header: i18n.t('contact.notification.discard.header'),
+            acceptLabel: i18n.t('contact.notification.discard.accept'),
+            rejectLabel: i18n.t('contact.notification.discard.cancel'),
+            accept: () => {
+                formUtilsStore.closeForm();
+            },
+            reject: () => {
+            },
+        });
+    }
+
+    return { confirmNewCustomer, discardNewCustomer,confirmNewContact, discardNewContact }
 
 }

@@ -1,13 +1,12 @@
 <template>
-    <WMListSubHeader :filterLabels="filterLabels" :defaultOption="filterLabels[1]"
-                      entity="customer" @new="displayNewForm">
+    <WMListSubHeader :filterLabels="filterLabels" :defaultOption="filterLabels[1]" entity="customer" @new="displayNewForm">
     </WMListSubHeader>
-    <Sidebar v-model:visible="isDetailsVisible" class="details-sidebar w-6" :showCloseIcon="false">
+    <Sidebar v-model:visible="isDetailsVisible" class="details-sidebar w-6" :showCloseIcon="false" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
         <h2>{{ customerDetail.name }}</h2>
         <Divider />
         <WMContactsTable :customer="customerDetail" :columns="contactColumns" :showControls="false" :rows="5" />
     </Sidebar>
-    <WMNewEntitySidebar name="newCustomer" entity="customer"/>
+    <WMNewEntitySidebar name="newCustomer" entity="customer" />
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
         <DataTable lazy v-model:selection="selectedCustomers" :value="customers" dataKey="id" tableStyle="min-width: 50rem"
                    class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="rows" :first="0" ref="dt"
@@ -20,15 +19,14 @@
             </Column>
             <Column style="width: 40px" selectionMode="multiple"></Column>
 
-             <Column field="id" header="מס’ לקוח" class="link-col">
+            <Column field="id" header="מס’ לקוח" class="link-col">
                 <template #body="slotProps">
                     <router-link :to="{ name: 'customerDetail', params: { 'id': slotProps.data.id } }"
                                  class="vertical-align-middle">{{ slotProps.data.id }}</router-link>
-
                 </template>
             </Column>
 
-            <Column field="name" header="שם לקוח"></Column>
+            <Column field="name" header="שם לקוח"  ></Column>
             <Column field="type" header="סוג">
                 <template #body="slotProps">
                     <div :class="highlightCellClass(slotProps.data.type)">
@@ -38,7 +36,8 @@
             </Column>
             <Column field="main_contact" header="איש קשר ראשי" class="link-col">
                 <template #body="slotProps">
-                    <router-link v-if="slotProps.data.main_contact.id != null" :to="{ name: 'contactDetail', params: { 'id': slotProps.data.main_contact.id } }"
+                    <router-link v-if="slotProps.data.main_contact.id != null"
+                                 :to="{ name: 'contactDetail', params: { 'id': slotProps.data.main_contact.id } }"
                                  class="vertical-align-middle">{{ slotProps.data.main_contact.name }}</router-link>
                 </template>
             </Column>
@@ -89,22 +88,19 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
 import { CustomerService } from '@/service/CustomerService';
-import { ContactsService } from '@/service/ContactsService';
 import { ServicesService } from '@/service/ServicesService';
 import { TasksService } from '@/service/TasksService';
+import { useUtilsStore } from '@/stores/utils';
+import { useFormUtilsStore } from '@/stores/formUtils';
 import { useListUtilsStore } from '@/stores/listUtils';
 import WMListSubHeader from '@/components/layout/WMListSubHeader.vue';
-import WMFormButtons from '@/components/layout/WMFormButtons.vue';
 import WMContactsTable from '@/components/tables/WMContactsTable.vue';
-import WMNewCustomerForm from '@/components/forms/WMNewCustomerForm.vue';
-import { useLayout } from '@/layout/composables/layout';
-import { useFormUtilsStore } from '@/stores/formUtils';
-import { useUtilsStore } from '@/stores/utils';
 import WMNewEntitySidebar from '@/components/layout/WMNewEntitySidebar.vue';
+import { useLayout } from '@/layout/composables/layout';
+const { layoutConfig } = useLayout();
 
 onMounted(() => {
-    loading.value = true;
-    utilsStore.entity="customer"
+    utilsStore.entity = "customer"
 
     loadLazyData();
 
@@ -112,12 +108,18 @@ onMounted(() => {
     TasksService.getTasksMini().then((data) => (tasks.value = data));
 });
 
-const dt = ref();
-const loading = ref(false);
+const formUtilsStore = useFormUtilsStore();
+const listUtilsStore = useListUtilsStore();
+const utilsStore = useUtilsStore();
+
+//Pagination and table content
 const totalRecords = ref(0);
 const lazyParams = ref({});
-const formUtilsStore = useFormUtilsStore();
-const utilsStore = useUtilsStore();
+const customers = ref();
+const services = ref();
+const tasks = ref();
+const loading = ref(false);
+const dt = ref();
 
 const loadLazyData = () => {
     loading.value = true;
@@ -135,39 +137,37 @@ const onPage = (event) => {
     loadLazyData();
 };
 
-const customers = ref();
-const services = ref();
-const tasks = ref();
-const selectedCustomers = ref([]);
-const listUtilsStore = useListUtilsStore();
+//Display sidebars
 const contactColumns = ref(listUtilsStore.getContactDetailColumns);
+const customerDetail = ref(null);
+const displayDetails = (data) => {
+    customerDetail.value = data;
+    isDetailsVisible.value = true;
+}
+
+const isDetailsVisible = ref(false);
+const displayNewForm = () => {
+    formUtilsStore.expandSidebar = 'newCustomer';
+}
+
+//Move to Store
+const highlightCellClass = (data) => {
+    return [{ 'bg-red-100 text-red-600': data > 0 }];
+};
 
 const filterLabels = [
     { name: 'כל הלקוחות', value: 2 },
     { name: 'הלקוחות שלי', value: 1 },
 ]
 
-const customerDetail = ref(null);
-
-const isDetailsVisible = ref(false);
-const displayDetails = (data) => {
-    customerDetail.value = data;
-    isDetailsVisible.value = true;
-}
-
-const displayNewForm = () => {
-    formUtilsStore.expandSidebar = 'newCustomer';
-}
-
-const highlightCellClass = (data) => {
-    return [{ 'bg-red-100 text-red-600': data > 0 }];
-};
-
+//Manage selected rows
+const selectedCustomers = ref([]);
 utilsStore.resetElements();
 const onSelectionChanged = () => {
     utilsStore.selectedElements['customer'] = selectedCustomers.value;
 };
 
+//Number of rows per page
 const rows = computed(() => {
     return listUtilsStore.rows;
 });

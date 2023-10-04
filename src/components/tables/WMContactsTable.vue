@@ -1,11 +1,12 @@
 <template>
-    <WMNewEntitySidebar name="newContact" entity="contact"/>
+    <WMNewEntitySidebar name="newContact" entity="contact" />
     <h2 class="h2">{{ $t('contact.contact') }}</h2>
     <div v-if="showControls" class="flex flex-column gap-3 mb-3">
         <div class="flex flex-row justify-content-between">
             <div class="flex flex-row">
-                <WMButton @click="formUtilsStore.expandSidebar = 'newContact'" class="m-1 col-6" name="new" icon="new" icon-position="right">{{ t('new') }}</WMButton>
-                <WMAssignButton entity="contact"/>
+                <WMButton @click="formUtilsStore.expandSidebar = 'newContact'" class="m-1 col-6" name="new" icon="new"
+                          icon-position="right">{{ t('new') }}</WMButton>
+                <WMAssignButton entity="contact" />
             </div>
             <div class="flex flex-row align-items-center gap-3">
                 <WMButton name="filter" icon="filter" :open="isFilterOpen" :applied="isFilterApplied">{{ t('filter') }}
@@ -20,9 +21,9 @@
             </span>
         </div>
     </div>
-    <DataTable lazy v-model:filters="filters" v-model:selection="selectedContacts" :value="contacts"
-               dataKey="contact_id" tableStyle="min-width: 50rem" scrollable paginator :rows="rows"
-               @page="onPage($event)" :totalRecords="totalRecords" @update:selection="onSelectionChanged">
+    <DataTable lazy v-model:filters="filters" v-model:selection="selectedContacts" :value="contacts" dataKey="contact_id"
+               tableStyle="min-width: 50rem" scrollable paginator :rows="rows" @page="onPage($event)"
+               :totalRecords="totalRecords" @update:selection="onSelectionChanged">
         <Column v-if="multiselect" style="width: 40px" selectionMode="multiple"></Column>
         <Column v-for="column in columns" :key="column.name" :field="column.name"
                 :header="column.header ? $t(column.header) : $t(`contact.${column.name}`)" :class="column.class">
@@ -31,7 +32,8 @@
                              class="vertical-align-middle">{{ slotProps.data[column.name] }}</router-link>
             </template>
             <template v-if="column.type === 'star'" #body="slotProps">
-                <img v-if="props.customer.main_contact?.id == slotProps.data.id" src="/icons/star.svg" alt="" class="vertical-align-middle">
+                <img v-if="props.customer.main_contact?.id == slotProps.data.id" src="/icons/star.svg" alt=""
+                     class="vertical-align-middle">
             </template>
             <template v-if="column.type === 'actions'" #body="slotProps">
                 <div class="flex flex-row gap-2">
@@ -112,7 +114,7 @@ const lazyParams = ref({});
 const loadLazyData = () => {
     ContactsService.getContactsFromApi({ page: lazyParams.value.page + 1, per_page: props.rows, customer_id: props.customer.id })
         .then((result) => {
-            contacts.value = result.contacts;
+            contacts.value = result.data;
             totalRecords.value = result.totalRecords;
         });
 };

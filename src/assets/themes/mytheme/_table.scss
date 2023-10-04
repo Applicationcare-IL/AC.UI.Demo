@@ -112,3 +112,11 @@ td.link-col  {
     padding: 0px !important;
     line-height: $tableRowHeight;
 }
+
+//Frozen Columns
+
+.frozen{
+    right:0px !important;
+    position:sticky;
+    background: inherit;
+}

@@ -39,16 +39,33 @@ export const useListUtilsStore = defineStore('listUtils', {
                 { name: 'star', type: 'star', header: 'customer.main', class: 'column-star' },
                 { name: 'id', type: 'link', header: 'customer.number-abbreviation', class: 'link-col' },
                 { name: 'name', type: 'text' },
-                { name: 'type', type: 'text', header: 'customer.type' },
+                { name: 'type', type: 'option-set', header: 'customer.type' },
                 { name: 'open_services', type: 'text', header: 'customer.open-services', class: 'numeric' },
                 { name: 'breached_services', type: 'alert', header: 'customer.breached-services', class: 'numeric' },
                 { name: 'open_tasks', type: 'text', header: 'customer.open-tasks', class: 'numeric' },
                 { name: 'breached_tasks', type: 'alert', header: 'customer.breached-tasks', class: 'numeric' },
-                { name: 'classification1', type: 'tags', header: 'classification-1', class: 'tags buttons' },
+                { name: 'service_areas', type: 'tags', header: 'service_areas', class: 'tags buttons' },
                 { name: 'role', type: 'text', header: 'role' },
                 { name: 'actions', type: 'actions', header: 'actions', class: 'buttons' }
             ];
         },
+
+        getCustomerDetailColumns: () => {
+            return [
+                { name: 'star', type: 'star', header: 'customer.main', class: 'column-star' },
+                { name: 'id', type: 'link', header: 'customer.number-abbreviation', class: 'link-col' },
+                { name: 'name', type: 'text' },
+                { name: 'type', type: 'option-set', header: 'customer.type' },
+                { name: 'open_services', type: 'text', header: 'customer.open-services', class: 'numeric' },
+                { name: 'breached_services', type: 'alert', header: 'customer.breached-services', class: 'numeric' },
+                { name: 'open_tasks', type: 'text', header: 'customer.open-tasks', class: 'numeric' },
+                { name: 'breached_tasks', type: 'alert', header: 'customer.breached-tasks', class: 'numeric' },
+                { name: 'service_areas', type: 'tags', header: 'service_areas', class: 'tags buttons' },
+                { name: 'role', type: 'text', header: 'role' },
+                { name: 'actions', type: 'actions', header: 'actions', class: 'buttons' }
+            ];
+        },
+
         getServiceColumns: () => {
             return [
                 { name: 'service_number', type: 'link', header: 'service.number', class: 'link-col' },
