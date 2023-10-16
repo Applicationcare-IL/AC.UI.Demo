@@ -238,6 +238,35 @@
             "TAGD": "TAGD",
             "AMUDEY_TEINA": "AMUDEY_TEINA",
             "sales": "Sales"
+        },
+        "service_direction": {
+            "inbound": "Inbound",
+            "outbound": "Outbound"
+        },
+        "service_channel": {
+            "phone": "Phone",
+            "email": "Email",
+            "fax": "Fax",
+            "Facebook": "Facebook",
+            "Twitter": "Twitter",
+            "WhatsApp": "Whatsapp",
+            "Instagram": "Instagram",
+            "website": "Web",
+            "Mobile": "Mobile",
+            "sms": "SMS",
+            "ivr": "IVR",
+            "chat": "Chat",
+            "other": "Other",
+            "call": "Call"
+        },
+        "service_urgent": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+        },
+        "service_urgent": {
+            "urgent": "Urgent",
+            "not_urgent": "Not Urgent"
         }
     },
     "toast": {

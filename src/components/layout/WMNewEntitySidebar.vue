@@ -10,6 +10,8 @@
         <Divider />
         <WMNewCustomerForm v-if="props.name === 'newCustomer'" :isSidebar="true"></WMNewCustomerForm>
         <WMNewContactForm v-if="props.name === 'newContact'" :isSidebar="true"></WMNewContactForm>
+        <WMNewServiceForm v-if="props.name === 'newService'" :isSidebar="true"></WMNewServiceForm>
+        <WMNewTaskForm v-if="props.name === 'newTask'" :isSidebar="true"></WMNewTaskForm>
         <WMFormButtons></WMFormButtons>
     </Sidebar>
 </template>
@@ -21,6 +23,8 @@ import { useLayout } from '@/layout/composables/layout';
 import { useFormUtilsStore } from '@/stores/formUtils';
 import  WMNewCustomerForm  from '@/components/forms/WMNewCustomerForm.vue';
 import  WMNewContactForm  from '@/components/forms/WMNewContactForm.vue';
+import  WMNewServiceForm  from '@/components/forms/WMNewServiceForm.vue';
+import  WMNewTaskForm  from '@/components/forms/WMNewTaskForm.vue';
 import  WMFormButtons  from '@/components/layout/WMFormButtons.vue';
 
 const formUtilsStore = useFormUtilsStore();

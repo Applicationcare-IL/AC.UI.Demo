@@ -46,23 +46,23 @@ export const useFormUtilsStore = defineStore('formUtils', {
 
         getServiceFormValidationSchema: () => {
             return yup.object({
-                'contact': yup.object().required({ key: 'validation.required-select', values: { label: 'contact' } })
-                    .typeError({ key: 'validation.required-select', values: { label: 'contact' } }),
-                'customer': yup.object().required({ key: 'validation.required-select', values: { label: 'customer' } })
-                    .typeError({ key: 'validation.required-select', values: { label: 'customer' } }),
-                'classification-1': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-1' } })
-                    .typeError({ key: 'validation.required-select', values: { label: 'classification-1' } }),
-                'classification-2': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-2' } })
-                    .typeError({ key: 'validation.required-select', values: { label: 'classification-2' } }),
-                'classification-3': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-3' } })
-                    .typeError({ key: 'validation.required-select', values: { label: 'classification-3' } }),
-                'city': yup.object().required({ key: 'validation.required-select', values: { label: 'address.city' } })
-                    .typeError({ key: 'validation.required-select', values: { label: 'address.city' } }),
-                'street': yup.object().required({ key: 'validation.required-select', values: { label: 'address.street' } })
-                    .typeError({ key: 'validation.required-select', values: { label: 'address.street' } }),
-                'site-name': yup.string().required({ key: 'validation.missing-field', values: { label: 'site.name' } }),
-                'site-contact': yup.object().required({ key: 'validation.required-select', values: { label: 'site.contact' } })
-                    .typeError({ key: 'validation.required-select', values: { label: 'site.contact' } }),
+                // 'contact': yup.object().required({ key: 'validation.required-select', values: { label: 'contact' } })
+                //     .typeError({ key: 'validation.required-select', values: { label: 'contact' } }),
+                // 'customer': yup.object().required({ key: 'validation.required-select', values: { label: 'customer' } })
+                //     .typeError({ key: 'validation.required-select', values: { label: 'customer' } }),
+                // 'classification-1': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-1' } })
+                //     .typeError({ key: 'validation.required-select', values: { label: 'classification-1' } }),
+                // 'classification-2': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-2' } })
+                //     .typeError({ key: 'validation.required-select', values: { label: 'classification-2' } }),
+                // 'classification-3': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-3' } })
+                //     .typeError({ key: 'validation.required-select', values: { label: 'classification-3' } }),
+                // 'city': yup.object().required({ key: 'validation.required-select', values: { label: 'address.city' } })
+                //     .typeError({ key: 'validation.required-select', values: { label: 'address.city' } }),
+                // 'street': yup.object().required({ key: 'validation.required-select', values: { label: 'address.street' } })
+                //     .typeError({ key: 'validation.required-select', values: { label: 'address.street' } }),
+                // 'site-name': yup.string().required({ key: 'validation.missing-field', values: { label: 'site.name' } }),
+                // 'site-contact': yup.object().required({ key: 'validation.required-select', values: { label: 'site.contact' } })
+                //     .typeError({ key: 'validation.required-select', values: { label: 'site.contact' } }),
 
             });
         },

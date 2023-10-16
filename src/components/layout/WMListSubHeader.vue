@@ -15,8 +15,8 @@
                     </WMButton>
                     <WMButton class="m-1 col-6" name="mail-white" icon="mail" :disabled="selectedElements == 0">הקצה
                     </WMButton>
-                    <Divider layout="vertical" />
-                    <WMButton class="m-1 col-6 " name="basic-secondary">כפתור </WMButton>
+                    <!-- <Divider layout="vertical" /> -->
+                    <!-- <WMButton class="m-1 col-6 " name="basic-secondary">כפתור </WMButton> -->
                 </div>
                 <div class="flex flex-row align-items-center gap-3">
                     <SelectButton v-model="selectedOption" :options="filterLabels" optionLabel="name"

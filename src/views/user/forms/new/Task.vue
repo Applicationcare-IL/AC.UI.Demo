@@ -1,9 +1,9 @@
 <template>
     <WMNewFormSubHeader></WMNewFormSubHeader>
-    <WMTaskForm></WMTaskForm>
+    <WMNewTaskForm></WMNewTaskForm>
 </template>
 
 <script setup>
-import WMTaskForm from '@/components/forms/WMTaskForm.vue';
+import WMNewTaskForm from '@/components/forms/WMNewTaskForm.vue';
 import WMNewFormSubHeader from '@/components/layout/WMNewFormSubHeader.vue';
 </script>

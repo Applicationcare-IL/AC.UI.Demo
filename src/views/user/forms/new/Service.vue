@@ -1,9 +1,9 @@
 <template>
     <WMNewFormSubHeader></WMNewFormSubHeader>
-    <WMServiceForm></WMServiceForm>
+    <WMNewServiceForm></WMNewServiceForm>
 </template>
 
 <script setup>
-import WMServiceForm from '@/components/forms/WMServiceForm.vue';
+import WMNewServiceForm from '@/components/forms/WMNewServiceForm.vue';
 import WMNewFormSubHeader from '@/components/layout/WMNewFormSubHeader.vue';
 </script>

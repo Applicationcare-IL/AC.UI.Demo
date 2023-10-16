@@ -1,7 +1,7 @@
 <template>
     <WMListSubHeader :filterLabels="filterLabels" :defaultOption="filterLabels[1]" entity="customer" @new="displayNewForm">
     </WMListSubHeader>
-    <Sidebar v-model:visible="isDetailsVisible" class="details-sidebar w-6" :showCloseIcon="false" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
+    <Sidebar v-model:visible="isDetailsVisible" class="details-sidebar w-6" :showCloseIcon="false">
         <h2>{{ customerDetail.name }}</h2>
         <Divider />
         <WMContactsTable :customer="customerDetail" :columns="contactColumns" :showControls="false" :rows="5" />
@@ -96,8 +96,6 @@ import { useListUtilsStore } from '@/stores/listUtils';
 import WMListSubHeader from '@/components/layout/WMListSubHeader.vue';
 import WMContactsTable from '@/components/tables/WMContactsTable.vue';
 import WMNewEntitySidebar from '@/components/layout/WMNewEntitySidebar.vue';
-import { useLayout } from '@/layout/composables/layout';
-const { layoutConfig } = useLayout();
 
 onMounted(() => {
     utilsStore.entity = "customer"

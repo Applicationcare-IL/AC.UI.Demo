@@ -126,14 +126,6 @@ const { errors, handleSubmit, setFieldError, meta } = useForm({
 const genders = optionSetsStore.getOptionSetValues("gender");
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash;
 
-const onSubmit = handleSubmit((values) => {
-  setFieldError('mobile-phone', 'Customer already exists');
-
-  console.log(values);
-});
-
-formUtilsStore.submit = onSubmit;
-
 const searchCustomer = (query) => {
   return CustomerService.getCustomersFromApi({ search: query });
 }
@@ -150,7 +142,7 @@ const onSave = handleSubmit((values) => {
 
 const onCancel = () => {
   if (formUtilsStore.formMeta.dirty)
-    dialog.discardNewContact();
+    dialog.discardNewContactp();
   else {
     formUtilsStore.closeForm();
   }
