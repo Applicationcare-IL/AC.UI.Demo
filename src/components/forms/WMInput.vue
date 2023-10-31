@@ -16,9 +16,15 @@
         </Password>
         <Dropdown v-if="type == 'input-select'" :name="name" :disabled="props.disabled" :options="options"
                   optionLabel="label" v-model="value" :placeholder="placeholder" :style="{ width: width + 'px' }"
-                  @change="$emit('update:selectedItem', $event.value); handleChange($event.value)" @blur="handleBlur"
-                  >
+                  @change="$emit('update:selectedItem', $event.value); handleChange($event.value)" @blur="handleBlur">
         </Dropdown>
+        <Textarea v-if="type == 'text-area'" :name="name" :disabled="props.disabled" :placeholder="placeholder"
+                  :value="value" @input="$emit('update:value', $event.target.value); handleChange($event.target.value)"
+                  @blur="handleBlur" :class="[{
+                      'wm-input-error': !!errorMessage,
+                  }]" style="width:100%"
+                  autoResize rows="8" cols="100">
+        </Textarea>
         <SelectButton v-if="type == 'input-select-button'" :name="name" v-model="value" :options="options"
                       optionLabel="name" class="form-select-button flex-nowrap flex" />
         <span v-if="type == 'info'" :class="styles" :style="{ width: width + 'px' }">{{ value }}</span>

@@ -142,6 +142,7 @@ export const ServicesService = {
             "description": service.description,
             "address" : "Address",
             "area_id" : service.area?.id,
+            "type_id" : service.type?.id,
             // "location": {
             //     "site_id": 1,
             //     "site_type_id": 1,
@@ -185,6 +186,7 @@ export const ServicesService = {
             stage: '',//'שליחת נציג בטחון',
             team: 'אגף רישוי ופיקוח (הנדסה)',
             is_active: true, //is_active,
+            description: service.description,
             location: {
                 house_number: '12',
                 apartment: '42',

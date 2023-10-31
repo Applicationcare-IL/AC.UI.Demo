@@ -111,7 +111,7 @@
             <template #content>
               <div class="contact-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <Textarea v-model="value" autoResize rows="5" />
+                  <WMInput type="text-area" id="description" name="description" :value="service.description"/>
                 </div>
               </div>
             </template>

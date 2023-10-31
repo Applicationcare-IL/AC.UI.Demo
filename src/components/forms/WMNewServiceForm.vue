@@ -64,7 +64,7 @@
       <div class="service-description flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">{{ $t('description') }}</h2>
         <div class="wm-form-row gap-5">
-          <Textarea id="description" name="description" v-model="description" autoResize rows="8" cols="100" />
+          <WMInput type="text-area" id="description" name="description"/>
         </div>
 
       </div>
@@ -126,7 +126,7 @@ import { ref, onMounted, watch } from 'vue';
 import WMInput from '@/components/forms/WMInput.vue';
 import WMInputSearch from '@/components/forms/WMInputSearch.vue';
 import { useFormUtilsStore } from '@/stores/formUtils';
-import { useForm } from 'vee-validate';
+import { useForm, useField } from 'vee-validate';
 import { CustomerService } from '@/service/CustomerService';
 import { ContactsService } from '@/service/ContactsService';
 import { useOptionSetsStore } from '@/stores/optionSets';
@@ -159,6 +159,7 @@ const types = ref([]);
 const requests1 = ref([]);
 const requests2 = ref([]);
 const requests3 = ref([]);
+const { value } = useField('description');
 
 onMounted(() => {
   optionSetsStore.getOptionSetValuesFromApi('service_direction').then((data) => (directions.value = data));
@@ -183,8 +184,14 @@ const searchContact = (query) => {
   return ContactsService.getContactsFromApi({ search: query, customer_id: values.customer.id });
 }
 
+const descriptionUpdated = () => {
+  console.log(value);
+}
+
 const { errors, handleSubmit, setFieldError, meta, values } = useForm({
   validationSchema: formUtilsStore.getServiceFormValidationSchema,
+  initialValues: {description: '',
+  },
 });
 
 const onSave = handleSubmit((values) => {

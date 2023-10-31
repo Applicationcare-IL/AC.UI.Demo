@@ -46,6 +46,7 @@ export const useFormUtilsStore = defineStore('formUtils', {
 
         getServiceFormValidationSchema: () => {
             return yup.object({
+                // description: yup.string().required().default(null).nullable()
                 // 'contact': yup.object().required({ key: 'validation.required-select', values: { label: 'contact' } })
                 //     .typeError({ key: 'validation.required-select', values: { label: 'contact' } }),
                 // 'customer': yup.object().required({ key: 'validation.required-select', values: { label: 'customer' } })
