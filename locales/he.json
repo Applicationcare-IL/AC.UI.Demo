@@ -134,7 +134,12 @@
         "due_date": "תאריך יעד",
         "owner": "אחראי",
         "status": "סטטוס",
-        "notes": "הערות"
+        "notes": "הערות",
+        "customer": "לקוח",
+        "call": "נקרא",
+        "open_date": "נפתח",
+        "close_date": "נסגר",
+        "service_number": "מס’ תהליך"
     },
     "site": {
         "details": "פרטי מיקום",

@@ -7,35 +7,35 @@
         <DataTable lazy v-model:selection="selectedTasks" :rowClass="rowClass" :value="tasks" dataKey="task_number"
                    tableStyle="min-width: 50rem" class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="10"
                    :first="0" ref="dt" :totalRecords="totalRecords" :loading="loading" @page="onPage($event)">
-
-            <Column style="width: 35px">
-                <template #body="slotProps">
-                    <img src="/icons/eye.svg" alt="" class="vertical-align-middle">
-                </template>
-            </Column>
             <Column style="width: 40px" selectionMode="multiple"></Column>
-            <Column field="task_number" header="מס’ משימה">
+            <!-- Task number -->
+            <Column field="task_number" :header="$t('task.number')">
                 <template #body="slotProps">
                     <router-link :to="{ name: 'taskDetail', params: { 'id': slotProps.data.task_number } }"
                                  class="vertical-align-middle">{{ slotProps.data.task_number }}</router-link>
                 </template>
             </Column>
-            <Column field="process_number" header="מס’ תהליך">
+            <!-- Service number -->
+            <Column field="process_number" :header="$t('task.service_number')">
                 <template #body="slotProps">
                     <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.process_number }}</router-link>
-                
                 </template>
             </Column>
-
-            <Column field="task_type" header="סוג משימה"></Column>
-            <Column field="family" header="משפחה"></Column>
-            <Column field="contact" header="איש קשר">
+            <!-- Task type -->
+            <Column field="task_type" :header="$t('task.type')"></Column>
+            <!-- Task family -->
+            <Column field="family" :header="$t('task.family')"></Column>
+            <!-- Task contact -->
+            <Column field="contact" :header="$t('contact.contact')">
                 <template #body="slotProps">
                     <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.contact }}</router-link>
                 </template>
             </Column>
-            <Column field="status" header="סטטוס"></Column>
-            <Column field="due_date" header="תאריך יעד"></Column>
+            <!-- Task status -->
+            <Column field="status" :header="$t('task.status')"></Column>
+            <!-- Goal date -->
+            <Column field="due_date" :header="$t('task.due_date')"></Column>
+            <!-- SLA -->
             <Column field="SLA" header="SLA" class="sla">
                 <template #body="slotProps">
                     <div :class="slaClass(slotProps.data)">
@@ -43,21 +43,28 @@
                     </div>
                 </template>
             </Column>
-            <Column field="owner" header="אחראי">
+            <!-- Owner -->
+            <Column field="owner" :header="$t('task.owner')">
                 <template #body="slotProps">
                     <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.owner }}</router-link>
                 </template>
             </Column>
-            <Column field="customer" header="לקוח">
+            <!-- Customer -->
+            <Column field="customer" :header="$t('task.customer')">
                 <template #body="slotProps">
                     <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.customer }}</router-link>
                 </template>
             </Column>
-            <Column field="call" header="נקרא"></Column>
-            <Column field="open_date" header="נפתח"></Column>
-            <Column field="close_date" header="נסגר"></Column>
-            <Column field="last_change" header="שינוי אחרון"></Column>
-            <Column field="remarks" header="הערות"></Column>
+            <!-- Read -->
+            <Column field="call" :header="$t('task.call')"></Column>
+            <!-- Date opened -->
+            <Column field="open_date" :header="$t('task.open_date')"></Column>
+            <!-- Date closed -->
+            <Column field="close_date" :header="$t('task.close_date')"></Column>
+            <!-- Last changed -->
+            <Column field="last_change" :header="$t('modified_at')"></Column>
+            <!-- Notes -->
+            <Column field="remarks" :header="$t('task.notes')"></Column>
 
         </DataTable>
     </div>

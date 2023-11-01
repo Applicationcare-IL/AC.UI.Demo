@@ -136,7 +136,12 @@
         "due_date": "Due date",
         "owner": "Owner",
         "status": "Status",
-        "notes": "Notes"
+        "notes": "Notes",
+        "customer": "Customer",
+        "call": "Call",
+        "open_date": "Date opened",
+        "close_date": "Date closed",
+        "service_number": "Service number"
     },
     "site": {
         "details": "Site Details",
