@@ -19,7 +19,7 @@
                 <div class="wm-form-row gap-5">
                   <div class="wm-form-row gap-4">
                     <WMInput name="due-date" type="info" :highlighted="true" :label="$t('service.due-date')"
-                             :value="service.due_date" />
+                             :value="useDateFormat(service.due_date, 'DD/MM/YY')" />
                     <WMInput name="sla" type="info" :highlighted="true" :label="$t('service.sla')" :value="service.SLA"
                              :class="slaClass(service)" class="sla" />
                     <WMInput name="priority" type="info" :highlighted="true" :label="$t('service.priority')"
@@ -29,7 +29,7 @@
                 <div class="wm-form-row gap-5">
                   <div class="wm-form-row gap-4">
                     <WMInput name="open-date" type="info" :highlighted="true" :label="$t('service.open-date')"
-                             :value="service.open_date" />
+                             :value="useDateFormat(service.open_date, 'DD/MM/YY')" />
                     <WMInput name="urgency" type="info" :highlighted="true" :label="$t('service.urgency')"
                              :value="service.urgency" />
                     <WMInput name="recurring" type="info" :highlighted="true" :label="$t('service.recurring')"
@@ -111,7 +111,7 @@
             <template #content>
               <div class="contact-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <WMInput type="text-area" id="description" name="description" :value="service.description"/>
+                  <WMInput type="text-area" id="description" name="description" :value="service.description" disabled/>
                 </div>
               </div>
             </template>
@@ -150,7 +150,7 @@
       </div>
 
       <div class="mt-5">
-        <Stepper :steps="items" :currentStep="2" aria-label="Form Steps" />
+        <Stepper :steps="stages" :currentStep="currentStage" aria-label="Form Steps" />
       </div>
 
       <div>
@@ -244,35 +244,40 @@ import { useFormUtilsStore } from '@/stores/formUtils';
 import { useListUtilsStore } from '@/stores/listUtils';
 import { useOptionSetsStore } from '@/stores/optionSets';
 import { useRoute } from 'vue-router'
+import { useDateFormat  } from '@vueuse/core';
 import { ServicesService } from '@/service/ServicesService';
 import { TasksService } from '@/service/TasksService';
 import WMTasksTable from '@/components/tables/WMTasksTable.vue';
 import Stepper from '@/components/WMStepper.vue';
 import WMFilesDataView from '@/components/WMFilesDataView.vue';
 import WMJournalDataView from '@/components/WMJournalDataView.vue';
+import { date } from 'yup';
 
-const items = ref([
-  {
-    label: 'שם של שלב',
-    date: '11/11/22',
-  },
-  {
-    label: 'שם של שלב',
-    date: '11/11/22',
-  },
-  {
-    label: 'שם של שלב',
-    date: '11/11/22',
-  },
-  {
-    label: 'שם של שלב',
-    date: '11/11/22',
-  },
-  {
-    label: 'שם של שלב',
-    date: '11/11/22',
-  },
-]);
+// const items = ref([
+//   {
+//     label: 'שם של שלב',
+//     date: '11/11/22',
+//   },
+//   {
+//     label: 'שם של שלב',
+//     date: '11/11/22',
+//   },
+//   {
+//     label: 'שם של שלב',
+//     date: '11/11/22',
+//   },
+//   {
+//     label: 'שם של שלב',
+//     date: '11/11/22',
+//   },
+//   {
+//     label: 'שם של שלב',
+//     date: '11/11/22',
+//   },
+// ]);
+
+const stages = ref([]);
+const currentStage = ref();
 
 const tasks = ref();
 
@@ -292,6 +297,8 @@ const taskColumns = ref(listUtilsStore.getTaskColumns);
 onMounted(() => {
   ServicesService.getServiceFromApi(route.params.id).then((data) => {
     (service.value = data)
+    stages.value = data.stages.map((stage) => ({label:stage.name, date: useDateFormat(stage.sla.due_date, "DD/MM/YY")} ));
+    currentStage.value = data.current_stage.order -1;
   });
   setTimeout(function () {
     TasksService.getTasksMini().then((data) => (tasks.value = data));
