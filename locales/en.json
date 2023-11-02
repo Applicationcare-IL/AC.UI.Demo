@@ -44,6 +44,13 @@
     "modified_by": "Changed by",
     "created_at": "Created at",
     "modified_at": "Modified at",
+    "navigation": {
+        "dashboard": "Dashboard",
+        "customers": "Customers",
+        "contacts": "Contacts",
+        "services": "Services",
+        "tasks": "Tasks"
+    },
     "contact": {
         "contact": "Contact",
         "contacts": "Contacts",

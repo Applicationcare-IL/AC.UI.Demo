@@ -43,6 +43,13 @@
     "modified_by": "שינוי אחרון ע”י",
     "created_at": "נוצר ב:",
     "modified_at": "שינוי אחרון",
+    "navigation": {
+        "dashboard": "דאשבורד",
+        "customers": "לקוחות",
+        "contacts": "אנשי קשר",
+        "services": "תהליכים",
+        "tasks": "משימות"
+    },
     "contact": {
         "contact": "איש קשר",
         "contacts": "אנשי קשר",
