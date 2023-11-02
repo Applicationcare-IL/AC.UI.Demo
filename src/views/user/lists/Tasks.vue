@@ -1,7 +1,8 @@
 <template>
     <WMListSubHeader :activeButtons="isAnyRowSelected" :filterLabels="filterLabels" :defaultOption="filterLabels[1]"
-                     entity="task">
+                     entity="task" @new="displayNewForm">
     </WMListSubHeader>
+    <WMNewEntitySidebar name="newTask" entity="task"  />
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
         <DataTable lazy v-model:selection="selectedTasks" :rowClass="rowClass" :value="tasks" dataKey="task_number"
                    tableStyle="min-width: 50rem" class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="10"
@@ -65,6 +66,9 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { TasksService } from '@/service/TasksService';
+import { useFormUtilsStore } from '@/stores/formUtils';
+
+import WMNewEntitySidebar from '@/components/layout/WMNewEntitySidebar.vue';
 import WMListSubHeader from '@/components/layout/WMListSubHeader.vue';
 
 onMounted(() => {
@@ -106,6 +110,13 @@ const options = ref([
     { name: 'כל אנשי הקשר', value: 2 },
     { name: 'אנשי הקשר שלי', value: 1 },
 ]);
+
+
+const formUtilsStore = useFormUtilsStore();
+
+const displayNewForm = () => {
+    formUtilsStore.expandSidebar = 'newTask';
+}
 
 const searchValue = ref('');
 
