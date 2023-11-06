@@ -33,9 +33,17 @@
             :options="customers"
             :highlighted="true"
           />
-          <WMButton class="small" name="new" icon="new" @click=""
-            >{{ $t("new") }} / NEW</WMButton
+          <WMButton
+            class="small"
+            name="new"
+            icon="new"
+            @click="toggleSidebarVisibility"
           >
+            {{ $t("new") }} / NEW
+          </WMButton>
+          <WMSidebar :visible="isVisible" @close-sidebar="closeSidebar">
+            Form to create new contact
+          </WMSidebar>
         </div>
         <WMInputSearch
           name="customer"
@@ -85,7 +93,10 @@
 import { ref, onMounted } from "vue";
 import WMInput from "@/components/forms/WMInput.vue";
 import WMInputSearch from "@/components/forms/WMInputSearch.vue";
+import WMSidebar from "@/components/WMSidebar.vue";
+
 import { useFormUtilsStore } from "@/stores/formUtils";
+
 import { useForm } from "vee-validate";
 import { CustomerService } from "@/service/CustomerService";
 
@@ -104,6 +115,16 @@ const { errors, handleSubmit } = useForm({
 const onSubmit = handleSubmit((values) => {
   console.log(values);
 });
+
+const isVisible = ref(false);
+
+function toggleSidebarVisibility() {
+  isVisible.value = !isVisible.value;
+}
+
+function closeSidebar() {
+  isVisible.value = false;
+}
 
 formUtilsStore.submit = onSubmit;
 </script>

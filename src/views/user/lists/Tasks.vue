@@ -4,25 +4,11 @@
     :filterLabels="filterLabels"
     :defaultOption="filterLabels[1]"
     entity="task"
-    @new="displayNewForm"
+    @new="toggleSidebarVisibility"
   />
 
-  <button @click="toggleSidebarVisibility">Open sidebar</button>
-
   <WMSidebar :visible="isVisible" @close-sidebar="closeSidebar">
-    Content
-
-    <button @click="toggleStackedSidebarVisibility">
-      Open stacked sidebar
-    </button>
-
-    <WMSidebar
-      :visible="isStackedSidebarVisible"
-      @close-sidebar="closeStackedSidebar"
-    >
-      Stacked sidebar content
-    </WMSidebar>
-    <!-- <WMNewTaskForm :isSidebar="true" /> -->
+    <WMNewTaskForm :isSidebar="true" />
   </WMSidebar>
 
   <!-- <pre>{{ tasks }}</pre> -->
@@ -133,7 +119,6 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
 
 import WMSidebar from "@/components/WMSidebar.vue";
-import WMNewEntitySidebar from "@/components/layout/WMNewEntitySidebar.vue";
 import WMNewTaskForm from "@/components/forms/WMNewTaskForm.vue";
 
 import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
@@ -185,18 +170,6 @@ function toggleSidebarVisibility() {
 
 function closeSidebar() {
   isVisible.value = false;
-}
-
-// stacked sidebar
-const isStackedSidebarVisible = ref(false);
-
-function toggleStackedSidebarVisibility() {
-  isStackedSidebarVisible.value = !isStackedSidebarVisible.value;
-}
-
-function closeStackedSidebar() {
-  console.log("closeStackedSidebar");
-  isStackedSidebarVisible.value = false;
 }
 
 //Number of rows per page
