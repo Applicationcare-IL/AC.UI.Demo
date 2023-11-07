@@ -19,7 +19,7 @@
                 <div class="wm-form-row gap-5">
                   <div class="wm-form-row gap-4">
                     <WMInput name="due-date" type="info" :highlighted="true" :label="$t('service.due-date')"
-                             :value="useDateFormat(service.due_date, 'DD/MM/YY')" />
+                             :value="useDateFormat(service.due_date, utilsStore.dateFormat)" />
                     <WMInput name="sla" type="info" :highlighted="true" :label="$t('service.sla')" :value="service.SLA"
                              :class="slaClass(service)" class="sla" />
                     <WMInput name="priority" type="info" :highlighted="true" :label="$t('service.priority')"
@@ -29,7 +29,7 @@
                 <div class="wm-form-row gap-5">
                   <div class="wm-form-row gap-4">
                     <WMInput name="open-date" type="info" :highlighted="true" :label="$t('service.open-date')"
-                             :value="useDateFormat(service.open_date, 'DD/MM/YY')" />
+                             :value="useDateFormat(service.open_date, utilsStore.dateFormat)" />
                     <WMInput name="urgency" type="info" :highlighted="true" :label="$t('service.urgency')"
                              :value="service.urgency" />
                     <WMInput name="recurring" type="info" :highlighted="true" :label="$t('service.recurring')"
@@ -240,6 +240,7 @@ import { ref, onMounted } from 'vue';
 import WMInputSearch from '@/components/forms/WMInputSearch.vue';
 import WMInput from '@/components/forms/WMInput.vue';
 import { useForm } from 'vee-validate';
+import { useUtilsStore } from '@/stores/utils';
 import { useFormUtilsStore } from '@/stores/formUtils';
 import { useListUtilsStore } from '@/stores/listUtils';
 import { useOptionSetsStore } from '@/stores/optionSets';
@@ -253,34 +254,12 @@ import WMFilesDataView from '@/components/WMFilesDataView.vue';
 import WMJournalDataView from '@/components/WMJournalDataView.vue';
 import { date } from 'yup';
 
-// const items = ref([
-//   {
-//     label: 'שם של שלב',
-//     date: '11/11/22',
-//   },
-//   {
-//     label: 'שם של שלב',
-//     date: '11/11/22',
-//   },
-//   {
-//     label: 'שם של שלב',
-//     date: '11/11/22',
-//   },
-//   {
-//     label: 'שם של שלב',
-//     date: '11/11/22',
-//   },
-//   {
-//     label: 'שם של שלב',
-//     date: '11/11/22',
-//   },
-// ]);
-
 const stages = ref([]);
 const currentStage = ref();
 
 const tasks = ref();
 
+const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
 const OptionSetsStore = useOptionSetsStore();
 const listUtilsStore = useListUtilsStore();

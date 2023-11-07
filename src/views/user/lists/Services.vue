@@ -1,6 +1,5 @@
 <template>
-    <WMListSubHeader :filterLabels="filterLabels" :defaultOption="filterLabels[1]"
-                     @new="displayNewForm" entity="service">
+    <WMListSubHeader :filterLabels="filterLabels" :defaultOption="filterLabels[1]" @new="displayNewForm" entity="service">
     </WMListSubHeader>
     <Sidebar v-model:visible="isDetailsVisible" class="details-sidebar w-6" :showCloseIcon="false"
              :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
@@ -9,10 +8,11 @@
         <!-- <WMContactsTable :customer="serviceDetail" :columns="serviceColumns" :showControls="false" :rows="5" /> -->
     </Sidebar>
     <WMNewEntitySidebar name="newService" entity="service" />
+    <WMNewEntitySidebar name="newContact" entity="contact" />
     <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
         <DataTable v-model:selection="selectedServices" :rowClass="rowClass" :value="services" dataKey="service_number"
-                   tableStyle="min-width: 50rem" class="p-datatable-sm" scrollable scrollHeight="flex" paginator :rows="rows"
-                   :first="0" ref="dt" :totalRecords="totalRecords" :loading="loading" @page="onPage($event)"
+                   tableStyle="min-width: 50rem" class="p-datatable-sm" scrollable scrollHeight="flex" paginator
+                   :rows="rows" :first="0" ref="dt" :totalRecords="totalRecords" :loading="loading" @page="onPage($event)"
                    @update:selection="onSelectionChanged">
             <Column style="width: 35px">
                 <template #body="slotProps">
@@ -33,8 +33,18 @@
                 </template>
             </Column>
 
-            <Column field="open_date" header="נפתח"></Column>
-            <Column field="due_date" header="תאריך יעד"></Column>
+            <Column field="open_date" header="נפתח">
+                <template #body="slotProps">
+                    <span>{{ formatDate(new Date(slotProps.data.open_date), "DD/MM/YY") }}</span>
+
+                </template>
+            </Column>
+            <Column field="due_date" header="תאריך יעד">
+                <template #body="slotProps">
+                    <span>{{ formatDate(new Date(slotProps.data.due_date), "DD/MM/YY") }}</span>
+
+                </template>
+            </Column>
             <Column field="classification_1" header="תחום"></Column>
             <Column field="classification_2" header="תת-תחום"></Column>
             <Column field="classification_3" header="מהות"></Column>
@@ -59,8 +69,16 @@
                     </div>
                 </template>
             </Column>
-            <Column field="recurring" header="חוזר"></Column>
-            <Column field="urgency" header="דחיפות"></Column>
+            <Column field="recurring" header="חוזר">
+                <template #body="slotProps">
+                    {{ $t(slotProps.data.recurring) }}
+                </template>
+            </Column>
+            <Column field="urgency" header="דחיפות">
+                <template #body="slotProps">
+                    {{ $t('option-set.service_urgent.' + slotProps.data.urgency) }}
+                </template>
+            </Column>
             <Column field="last_change" header="שינוי אחרון"></Column>
             <Column field="closed" header="נסגר"></Column>
             <Column field="stage" header="שליחת נציג בטחון"></Column>
@@ -78,6 +96,7 @@ import { useFormUtilsStore } from '@/stores/formUtils';
 import { useListUtilsStore } from '@/stores/listUtils';
 import { useLayout } from '@/layout/composables/layout';
 import WMNewEntitySidebar from '@/components/layout/WMNewEntitySidebar.vue';
+import { useDateFormat, formatDate } from '@vueuse/core';
 
 const { layoutConfig } = useLayout();
 const formUtilsStore = useFormUtilsStore();
@@ -89,7 +108,6 @@ const totalRecords = ref(0);
 const lazyParams = ref({});
 
 const services = ref();
-// const selectedServices = ref([]);
 const dt = ref();
 
 onMounted(() => {
@@ -100,7 +118,7 @@ onMounted(() => {
 
 const loadLazyData = () => {
     loading.value = true;
-    ServicesService.getServicesFromApi({ page: lazyParams.value.page + 1, per_page: 30 }).then((result) => {
+    ServicesService.getServicesFromApi({ page: lazyParams.value.page + 1, per_page: listUtilsStore.rows }).then((result) => {
         console.log(result);
         services.value = result.data;
         totalRecords.value = result.totalRecords;
@@ -114,15 +132,13 @@ const onPage = (event) => {
     loadLazyData();
 };
 
-// const isAnyRowSelected = computed(() => {
-//     return selectedServices?.value.length > 0;
-// });
-
-
 const isDetailsVisible = ref(false);
 const displayNewForm = () => {
-    console.log("NEW")
     formUtilsStore.expandSidebar = 'newService';
+}
+
+const displayNewContactForm = () => {
+    formUtilsStore.expandSidebar = 'newContact';
 }
 
 //Display sidebars

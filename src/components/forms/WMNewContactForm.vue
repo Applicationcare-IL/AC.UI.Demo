@@ -142,7 +142,7 @@ const onSave = handleSubmit((values) => {
 
 const onCancel = () => {
   if (formUtilsStore.formMeta.dirty)
-    dialog.discardNewContactp();
+    dialog.discardNewContact();
   else {
     formUtilsStore.closeForm();
   }
