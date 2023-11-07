@@ -1,12 +1,12 @@
 <template>
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="service-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 class="h1 mb-0">{{ $t('new', ['service']) }}</h1>
+      <h1 class="h1 mb-0">{{ $t('new', ['service.service']) }}</h1>
       <h2 class="h2 my-0">{{ $t('general-details') }}</h2>
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
-          <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner') + ':'" value="שרוליק כהן" />
-          <WMInput name="id" type="info" :highlighted="true" :label="$t('team') + ':'" value="שיפור פני העיר" />
+          <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner') + ':'" value="Owner" />
+          <WMInput name="id" type="info" :highlighted="true" :label="$t('team') + ':'" value="Team" />
         </div>
       </div>
       <div class="wm-form-row align-items-end gap-5">
@@ -14,17 +14,17 @@
           <WMInputSearch name="contact" :required="true" :placeholder="$t('select', ['contact'])" type="input-search"
                          :label="$t('contact') + ':'" width="160" :options="contacts" :highlighted="true"
                          :searchFunction="searchContact" />
-          <WMButton class="small" name="new" icon="new" @click="">{{ $t('new') }}</WMButton>
+          <WMButton class="small" name="new" icon="new" @click="openNewContact">{{ $t('new') }}</WMButton>
         </div>
         <WMInputSearch name="customer" :required="true" :placeholder="$t('select', ['customer'])" type="input-search"
                        :label="$t('customer') + ':'" width="160" :options="customers" :highlighted="true"
                        :searchFunction="searchCustomer" />
       </div>
       <div class="wm-form-row gap-5">
-        <WMInput name="direction" type="input-select" :highlighted="true" :label="$t('direction') + ':'"
-                 width="80" :options="directions" />
-        <WMInput name="channel" type="input-select" :highlighted="true" :label="$t('channel') + ':'"
-                 :options="channels" width="104" />
+        <WMInput name="direction" type="input-select" :highlighted="true" :label="$t('direction') + ':'" width="80"
+                 :options="directions" />
+        <WMInput name="channel" type="input-select" :highlighted="true" :label="$t('channel') + ':'" :options="channels"
+                 width="104" />
         <WMInput name="priority" type="input-select" :highlighted="true" :label="$t('priority') + ':'"
                  :options="urgencies" width="104" />
       </div>
@@ -64,7 +64,7 @@
       <div class="service-description flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">{{ $t('description') }}</h2>
         <div class="wm-form-row gap-5">
-          <WMInput type="text-area" id="description" name="description"/>
+          <WMInput type="text-area" id="description" name="description" />
         </div>
 
       </div>
@@ -107,11 +107,11 @@
               <WMInputSearch name="site-contact" :required="true" :placeholder="$t('select', ['contact'])"
                              type="input-search" :label="$t('site.contact') + ':'" :multiple="true" width="152"
                              :options="customers" :highlighted="true" />
-              <WMButton class="small" name="new" icon="new" @click="">{{ $t('new') }}</WMButton>
+              <WMButton class="small" name="new" icon="new" @click="openNewContact">{{ $t('new') }}</WMButton>
             </div>
-            <WMInputSearch name="site-contact-role" :placeholder="$t('select', ['role'])" type="input-search"
-                           :label="$t('site.contact-role') + ':'" :multiple="true" width="152" :options="customers"
-                           :highlighted="true" />
+            <WMInputSearch name="site-contact-role" type="input-search" :placeholder="$t('select', ['contact'])"
+                           :label="$t('site.contact-role') + ':'" :multiple="true" width="152" :options="contacts"
+                           :highlighted="true" :searchFunction="searchSiteContact"/>
           </div>
 
         </div>
@@ -133,6 +133,7 @@ import { useOptionSetsStore } from '@/stores/optionSets';
 import { useToast } from '@/stores/toast';
 import { useDialog } from '@/stores/dialog';
 import { ServicesService } from '@/service/ServicesService';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   isSidebar: {
@@ -141,6 +142,7 @@ const props = defineProps({
   },
 });
 
+const router = useRouter();
 const customers = ref();
 const contacts = ref();
 const optionSetsStore = useOptionSetsStore();
@@ -184,13 +186,18 @@ const searchContact = (query) => {
   return ContactsService.getContactsFromApi({ search: query, customer_id: values.customer.id });
 }
 
+const searchSiteContact= (query) => {
+  return ContactsService.getContactsFromApi({ search: query});
+}
+
 const descriptionUpdated = () => {
   console.log(value);
 }
 
 const { errors, handleSubmit, setFieldError, meta, values } = useForm({
   validationSchema: formUtilsStore.getServiceFormValidationSchema,
-  initialValues: {description: '',
+  initialValues: {
+    description: '',
   },
 });
 
@@ -219,6 +226,13 @@ formUtilsStore.formEntity = "service";
 watch(() => meta.value, (value) => {
   formUtilsStore.formMeta = value;
 });
+
+const openNewContact = () => {
+  // Should open a new tab with the new contact form
+  router.push("/new-contact");
+  const routeData = router.resolve({ name: 'newContact' });
+  window.open(routeData.href, '_blank');
+}
 
 </script>
 

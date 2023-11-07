@@ -6,22 +6,20 @@ export const useUtilsStore = defineStore('utils', {
         selectedElements: {},
         debounceTimer: null,
         entity: '',
+        dateFormat: 'DD/MM/YY'
     }),
     actions: {
 
         debounceAction(callback, delay = 500) {
-            // Cancelar el temporizador anterior si existe
             if (this.debounceTimer) {
                 clearTimeout(this.debounceTimer)
             }
 
-            // Establecer un nuevo temporizador para retrasar la acción
             this.debounceTimer = setTimeout(() => {
                 callback()
             }, delay)
         },
         cancelDebounce() {
-            // Cancelar el temporizador si está en curso
             if (this.debounceTimer) {
                 clearTimeout(this.debounceTimer)
                 this.debounceTimer = null

@@ -140,8 +140,6 @@ export const useFormUtilsStore = defineStore('formUtils', {
     },
     actions: {
         closeForm() {
-            console.log("Close Form")
-            console.log(this.isSidebar)
             if (this.isSidebar)
                 this.expandSidebar = '';
             else

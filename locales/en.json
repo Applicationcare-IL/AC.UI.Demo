@@ -272,11 +272,6 @@
             "call": "Call"
         },
         "service_urgent": {
-            "low": "Low",
-            "medium": "Medium",
-            "high": "High"
-        },
-        "service_urgent": {
             "urgent": "Urgent",
             "not_urgent": "Not Urgent"
         }
