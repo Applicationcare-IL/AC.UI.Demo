@@ -4,9 +4,13 @@
     :filterLabels="filterLabels"
     :defaultOption="filterLabels[1]"
     entity="task"
-    @new="displayNewForm"
+    @new="toggleSidebarVisibility"
   />
-  <WMNewEntitySidebar name="newTask" entity="task" />
+
+  <WMSidebar :visible="isVisible" @close-sidebar="closeSidebar">
+    <WMNewTaskForm :isSidebar="true" />
+  </WMSidebar>
+
   <!-- <pre>{{ tasks }}</pre> -->
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
@@ -20,7 +24,7 @@
       scrollable
       scrollHeight="flex"
       paginator
-      :rows="10"
+      :rows="rows"
       :first="0"
       ref="dt"
       :totalRecords="totalRecords"
@@ -112,9 +116,14 @@
 import { ref, onMounted, computed } from "vue";
 import { TasksService } from "@/service/TasksService";
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useListUtilsStore } from "@/stores/listUtils";
 
-import WMNewEntitySidebar from "@/components/layout/WMNewEntitySidebar.vue";
+import WMSidebar from "@/components/WMSidebar.vue";
+import WMNewTaskForm from "@/components/forms/WMNewTaskForm.vue";
+
 import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
+
+const listUtilsStore = useListUtilsStore();
 
 onMounted(() => {
   loading.value = true;
@@ -122,32 +131,50 @@ onMounted(() => {
 });
 
 const loadLazyData = () => {
-  TasksService.getTasksFromApi({ page: lazyParams.value.page + 1 }).then(
-    (data) => {
-      console.log(data);
-      tasks.value = data.tasks;
-      totalRecords.value = data.totalRecords;
-      loading.value = false;
-    }
-  );
+  TasksService.getTasksFromApi({
+    page: lazyParams.value.page + 1,
+    per_page: 15,
+  }).then((data) => {
+    console.log(data);
+    tasks.value = data.tasks;
+    totalRecords.value = data.totalRecords;
+    loading.value = false;
+  });
 };
 
 const onPage = (event) => {
   lazyParams.value = event;
-  console.log(lazyParams);
   loadLazyData();
 };
 
 const dt = ref();
 const loading = ref(false);
 const totalRecords = ref(0);
-const lazyParams = ref({});
+const lazyParams = ref({
+  page: 1,
+});
 
 const tasks = ref();
 const selectedTasks = ref([]);
 
 const isAnyRowSelected = computed(() => {
   return selectedTasks?.value.length > 0;
+});
+
+// first sidebar
+const isVisible = ref(false);
+
+function toggleSidebarVisibility() {
+  isVisible.value = !isVisible.value;
+}
+
+function closeSidebar() {
+  isVisible.value = false;
+}
+
+//Number of rows per page
+const rows = computed(() => {
+  return listUtilsStore.rows;
 });
 
 const metaKey = ref(true);
