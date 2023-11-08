@@ -49,7 +49,9 @@
         "customers": "Customers",
         "contacts": "Contacts",
         "services": "Services",
-        "tasks": "Tasks"
+        "tasks": "Tasks",
+        "sales": "Sales",
+        "projects": "Projects"
     },
     "contact": {
         "contact": "Contact",

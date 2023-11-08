@@ -48,7 +48,9 @@
         "customers": "לקוחות",
         "contacts": "אנשי קשר",
         "services": "תהליכים",
-        "tasks": "משימות"
+        "tasks": "משימות",
+        "sales": "Sales",
+        "projects": "Projects"
     },
     "contact": {
         "contact": "איש קשר",
