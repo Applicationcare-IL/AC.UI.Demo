@@ -7,7 +7,12 @@
     @new="toggleSidebarVisibility"
   />
 
-  <WMSidebar :visible="isVisible" @close-sidebar="closeSidebar">
+  <WMSidebar
+    :visible="isVisible"
+    @close-sidebar="closeSidebar"
+    @open-sidebar="openSidebar"
+    name="newTask"
+  >
     <WMNewTaskForm :isSidebar="true" />
   </WMSidebar>
 
@@ -170,6 +175,10 @@ function toggleSidebarVisibility() {
 
 function closeSidebar() {
   isVisible.value = false;
+}
+
+function openSidebar() {
+  isVisible.value = true;
 }
 
 //Number of rows per page

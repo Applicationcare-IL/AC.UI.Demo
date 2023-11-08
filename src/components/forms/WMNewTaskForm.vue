@@ -32,17 +32,16 @@
             width="152"
             :options="customers"
             :highlighted="true"
+            :new="true"
+            related-sidebar="newContact"
           />
-          <WMButton
-            class="small"
-            name="new"
-            icon="new"
-            @click="toggleSidebarVisibility"
+          <WMSidebar
+            :visible="isVisible"
+            @close-sidebar="closeSidebar"
+            @open-sidebar="openSidebar"
+            name="newContact"
           >
-            {{ $t("new") }} / NEW
-          </WMButton>
-          <WMSidebar :visible="isVisible" @close-sidebar="closeSidebar">
-            Form to create new contact
+            <WMNewContactForm :isSidebar="true" />
           </WMSidebar>
         </div>
         <WMInputSearch
@@ -94,6 +93,7 @@ import { ref, onMounted } from "vue";
 import WMInput from "@/components/forms/WMInput.vue";
 import WMInputSearch from "@/components/forms/WMInputSearch.vue";
 import WMSidebar from "@/components/WMSidebar.vue";
+import WMNewContactForm from "@/components/forms/WMNewContactForm.vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -122,11 +122,19 @@ function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
 }
 
+function openSidebar() {
+  isVisible.value = true;
+}
+
 function closeSidebar() {
   isVisible.value = false;
 }
 
 formUtilsStore.submit = onSubmit;
+
+function doThings() {
+  console.log("do things");
+}
 </script>
 
 <style scoped lang="scss"></style>
