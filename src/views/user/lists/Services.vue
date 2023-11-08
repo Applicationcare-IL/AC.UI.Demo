@@ -49,11 +49,7 @@
             <Column field="classification_2" header="תת-תחום"></Column>
             <Column field="classification_3" header="מהות"></Column>
             <Column field="days_from_opening_date" header="משך"></Column>
-            <Column field="owner" header="אחראי">
-                <template #body="slotProps">
-                    <router-link to="/foo" class="vertical-align-middle">{{ slotProps.data.owner }}</router-link>
-                </template>
-            </Column>
+            <Column field="owner.name" header="אחראי"></Column>
             <Column field="staff" header="צוות"></Column>
             <Column field="SLA" header="SLA" class="sla">
                 <template #body="slotProps">

@@ -20,6 +20,7 @@
       v-model="value"
       @item-unselect="onRemove"
       @input="$emit('update:value', $event.target.value)"
+      @item-select="$emit('change', $event)"
       :focused="true"
     >
       <template #empty v-if="props.relatedSidebar">

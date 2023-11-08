@@ -118,7 +118,7 @@
       </Column>
       <Column field="contact_id" header="מזהה"></Column>
       <Column field="status" header="סטטוס"></Column>
-      <Column field="owner" header="אחראי"></Column>
+      <Column field="owner.name" header="אחראי"></Column>
     </DataTable>
   </div>
 </template>

@@ -106,7 +106,7 @@ export const ContactsService = {
             breached_tasks: contact.breached_tasks,
             staff: '106 מוקד',
             status: 'open',
-            owner: 'Israel Israeli',
+            owner: contact.owner,
             gender: true,//is_male ? 'male' : 'female',
             is_main: contact.is_main,
             role: contact.role?.value,
