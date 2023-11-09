@@ -148,7 +148,21 @@
         "call": "נקרא",
         "open_date": "נפתח",
         "close_date": "נסגר",
-        "service_number": "מס’ תהליך"
+        "service_number": "מס’ תהליך",
+        "notification": {
+            "created": {
+                "header": "New Task Created",
+                "message": "The new task was successfully created! \n From now on he will appear in your tasks list",
+                "detail": "View Task",
+                "list": "View List"
+            },
+            "discard": {
+                "header": "The task is not saved",
+                "message": "You have not finished creating the new task. \n You would like to exit this page without saving it",
+                "accept": "Remain on this page",
+                "cancel": "Exit without saving"
+            }
+        }
     },
     "site": {
         "details": "פרטי מיקום",

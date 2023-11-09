@@ -133,14 +133,14 @@ export const TasksService = {
 
   parseTask(task) {
     return {
-      task_type: task["task-type"].type,
-      description: description,
-      due_date: "quam",
-      customer_id: 18,
-      contact_id: 17,
-      entity_type: "amet",
-      entity_id: 18,
-      task_type_id: 10,
+      task_type: task["task-type"].id,
+      description: task.description,
+      due_date: task.due_date,
+      started_at: task.started_at,
+      customer_id: task.customer.id,
+      contact_id: task.contact.id,
+      entity_type: task.entity_type ? task.entity_type.type : null,
+      entity_id: task.entity_id ? task.entity_id.id : null,
     };
   },
 

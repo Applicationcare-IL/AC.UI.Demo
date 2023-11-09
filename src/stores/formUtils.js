@@ -196,8 +196,9 @@ export const useFormUtilsStore = defineStore("formUtils", {
       if (this.isSidebar) this.expandSidebar = "";
       else this.router.push("/" + this.formEntity + "s");
     },
-    goToDetail(id) {
-      this.router.push("/" + this.formEntity + "/" + id);
+    goToDetail(id, entity) {
+      const entityPath = entity || this.formEntity;
+      this.router.push("/" + entityPath + "/" + id);
     },
   },
 });

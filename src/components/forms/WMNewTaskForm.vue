@@ -107,6 +107,12 @@ import { useForm } from "vee-validate";
 import { CustomerService } from "@/service/CustomerService";
 import { ContactsService } from "@/service/ContactsService";
 
+import { useToast } from "@/stores/toast";
+import { useDialog } from "@/stores/dialog";
+
+const toast = useToast();
+const dialog = useDialog();
+
 const formUtilsStore = useFormUtilsStore();
 
 const { handleSubmit, values } = useForm({
@@ -143,22 +149,32 @@ const searchTaskTypes = (query) => {
 };
 
 const onSubmit = handleSubmit((values) => {
-  console.log("new task,", values);
+  const today = new Date().toISOString().slice(0, 10);
 
-  // TasksService.createTask(ContactsService.parseContact(values))
-  //   .then((data) => {
-  //     dialog.confirmNewContact(data.data.id);
-  //     toast.successAction("contact", "created");
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //     toast.error("contact", "not-created");
-  //   });
+  const task = {
+    ...values,
+    started_at: today,
+    due_date: today, // TODO: change that to the date the user selected
+  };
+
+  console.log("new task,", task);
+  const parsed = TasksService.parseTask(task);
+  console.log("parsed,", parsed);
+
+  TasksService.createTask(TasksService.parseTask(task))
+    .then((data) => {
+      dialog.confirmNewTask(data.data.id);
+      toast.successAction("contact", "created");
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("contact", "not-created");
+    });
 });
 
 const onCancel = () => {
   if (formUtilsStore.formMeta.dirty) {
-    dialog.discardNewContact();
+    dialog.discardNewTask();
   } else {
     formUtilsStore.closeForm();
   }
