@@ -13,10 +13,10 @@
     @open-sidebar="openSidebar"
     name="newTask"
   >
-    <WMNewTaskForm :isSidebar="true" />
+    <WMNewEntityFormHeader entity="task" name="newTask" />
+    <WMNewTaskForm :isSidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
 
-  <!-- <pre>{{ tasks }}</pre> -->
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
       lazy
@@ -125,8 +125,8 @@ import { useListUtilsStore } from "@/stores/listUtils";
 
 import WMSidebar from "@/components/WMSidebar.vue";
 import WMNewTaskForm from "@/components/forms/WMNewTaskForm.vue";
-
 import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
+import WMNewEntityFormHeader from "@/components/layout/WMNewEntityFormHeader.vue";
 
 const listUtilsStore = useListUtilsStore();
 
@@ -155,8 +155,9 @@ const onPage = (event) => {
 const dt = ref();
 const loading = ref(false);
 const totalRecords = ref(0);
+
 const lazyParams = ref({
-  page: 1,
+  page: 0,
 });
 
 const tasks = ref();
@@ -186,22 +187,6 @@ const rows = computed(() => {
   return listUtilsStore.rows;
 });
 
-const metaKey = ref(true);
-
-const value = ref(null);
-const options = ref([
-  { name: "כל אנשי הקשר", value: 2 },
-  { name: "אנשי הקשר שלי", value: 1 },
-]);
-
-const formUtilsStore = useFormUtilsStore();
-
-const displayNewForm = () => {
-  formUtilsStore.expandSidebar = "newTask";
-};
-
-const searchValue = ref("");
-
 const rowClass = (data) => {
   console.log(data.is_open);
   return [{ inactive_row: !data.is_open }];
@@ -218,11 +203,6 @@ const slaClass = (data) => {
     },
   ];
 };
-
-const menuItems = [
-  { label: "Whatsapp", value: "option1" },
-  { label: "SMS", value: "option2" },
-];
 
 const filterLabels = [
   { name: "כל המשימות", value: 2 },

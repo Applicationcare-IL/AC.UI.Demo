@@ -175,11 +175,16 @@
 
     <div class="contact-notes flex flex-auto flex-column gap-5 mb-5">
       <h2 class="h2 mb-0">{{ $t("contact.notes") }}</h2>
-
       <div class="wm-form-row gap-5">
         <Textarea v-model="value" autoResize rows="8" cols="100" />
       </div>
     </div>
+
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSubmit()"
+      @cancel-form="onCancel()"
+    />
   </div>
 </template>
 
@@ -189,6 +194,8 @@ import { CustomerService } from "@/service/CustomerService";
 import { ContactsService } from "@/service/ContactsService";
 import WMInputSearch from "@/components/forms/WMInputSearch.vue";
 import WMInput from "@/components/forms/WMInput.vue";
+import WMFormButtons from "@/components/layout/WMFormButtons.vue";
+
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -214,14 +221,14 @@ const { errors, handleSubmit, setFieldError, meta } = useForm({
   validationSchema: formUtilsStore.getContactNewFormValidationSchema,
 });
 
-const genders = optionSetsStore.getOptionSetValues("gender");
+const genders = optionSetsStore.getOptionSetValuesFromApi("gender");
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash;
 
 const searchCustomer = (query) => {
   return CustomerService.getCustomersFromApi({ search: query });
 };
 
-const onSave = handleSubmit((values) => {
+const onSubmit = handleSubmit((values) => {
   ContactsService.createContact(ContactsService.parseContact(values))
     .then((data) => {
       dialog.confirmNewContact(data.data.id);
@@ -240,8 +247,6 @@ const onCancel = () => {
   }
 };
 
-formUtilsStore.save = onSave;
-formUtilsStore.cancel = onCancel;
 formUtilsStore.formEntity = "contact";
 
 watch(

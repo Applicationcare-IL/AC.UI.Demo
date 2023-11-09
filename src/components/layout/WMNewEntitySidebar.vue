@@ -13,7 +13,6 @@
       </router-link>
     </div>
     <Divider />
-    <WMNewCustomerForm v-if="props.name === 'newCustomer'" :isSidebar="true" />
     <WMNewContactForm v-if="props.name === 'newContact'" :isSidebar="true" />
     <WMNewServiceForm v-if="props.name === 'newService'" :isSidebar="true" />
     <WMNewTaskForm v-if="props.name === 'newTask'" :isSidebar="true" />

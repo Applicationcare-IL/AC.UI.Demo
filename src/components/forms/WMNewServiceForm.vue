@@ -406,7 +406,6 @@ watch(
 );
 
 const openNewContact = () => {
-  // Should open a new tab with the new contact form
   router.push("/new-contact");
   const routeData = router.resolve({ name: "newContact" });
   window.open(routeData.href, "_blank");

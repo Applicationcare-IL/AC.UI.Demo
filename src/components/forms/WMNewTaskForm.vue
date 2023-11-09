@@ -86,12 +86,16 @@
         </div>
       </div>
     </div>
-    <WMFormButtons @save-form="onSubmit()" @cancel-form="onCancel()" />
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSubmit()"
+      @cancel-form="onCancel()"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, defineEmits, defineExpose } from "vue";
 import WMInput from "@/components/forms/WMInput.vue";
 import WMInputSearch from "@/components/forms/WMInputSearch.vue";
 import WMFormButtons from "@/components/layout/WMFormButtons.vue";
@@ -110,9 +114,15 @@ import { ContactsService } from "@/service/ContactsService";
 import { useToast } from "@/stores/toast";
 import { useDialog } from "@/stores/dialog";
 
+const props = defineProps({
+  isSidebar: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const toast = useToast();
 const dialog = useDialog();
-
 const formUtilsStore = useFormUtilsStore();
 
 const { handleSubmit, values } = useForm({
@@ -120,6 +130,8 @@ const { handleSubmit, values } = useForm({
 });
 
 const isVisible = ref(false);
+
+const emit = defineEmits(["closeSidebar", "cancelForm"]);
 
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
@@ -157,10 +169,6 @@ const onSubmit = handleSubmit((values) => {
     due_date: today, // TODO: change that to the date the user selected
   };
 
-  console.log("new task,", task);
-  const parsed = TasksService.parseTask(task);
-  console.log("parsed,", parsed);
-
   TasksService.createTask(TasksService.parseTask(task))
     .then((data) => {
       dialog.confirmNewTask(data.data.id);
@@ -173,12 +181,13 @@ const onSubmit = handleSubmit((values) => {
 });
 
 const onCancel = () => {
-  if (formUtilsStore.formMeta.dirty) {
-    dialog.discardNewTask();
-  } else {
-    formUtilsStore.closeForm();
-  }
+  emit("closeSidebar");
 };
+
+defineExpose({
+  onSubmit,
+  onCancel,
+});
 </script>
 
 <style scoped lang="scss"></style>
