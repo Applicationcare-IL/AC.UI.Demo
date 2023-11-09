@@ -1,27 +1,40 @@
 <template>
-    <div class="flex flex-row flex-wrap gap-4">
-        <ConfirmDialog :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"></ConfirmDialog>
-        <WMButton @click="formStore.save" name="save" icon="save" type="specialSave" iconPosition="left">שמירה
-        </WMButton>
-        <WMButton @click="formStore.cancel" name="cancel" icon="cancel" iconPosition="left">ביטול</WMButton>
-    </div>
+  <div class="flex flex-row flex-wrap gap-4">
+    <ConfirmDialog
+      :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+    ></ConfirmDialog>
+    <WMButton
+      @click="saveForm()"
+      name="save"
+      icon="save"
+      type="specialSave"
+      iconPosition="left"
+    >
+      שמירה
+    </WMButton>
+    <WMButton
+      @click="cancelForm()"
+      name="cancel"
+      icon="cancel"
+      iconPosition="left"
+    >
+      ביטול
+    </WMButton>
+  </div>
 </template>
 
-
 <script setup>
+import { defineEmits } from "vue";
+import { useLayout } from "@/layout/composables/layout";
 
-import { useFormUtilsStore } from '@/stores/formUtils';
-import { useLayout } from '@/layout/composables/layout';
-
+const emit = defineEmits(["saveForm", "cancelForm"]);
 const { layoutConfig } = useLayout();
 
-const formStore = useFormUtilsStore();
+const saveForm = () => {
+  emit("saveForm");
+};
 
-const props = defineProps({
-    activeButtons: Boolean,
-    filterLabels: Array,
-    defaultOption: Object,
-    entity: String,
-});
-
+const cancelForm = () => {
+  emit("cancelForm");
+};
 </script>
