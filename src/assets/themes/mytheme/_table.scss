@@ -120,3 +120,13 @@ td.link-col  {
     position:sticky;
     background: inherit;
 }
+
+//Row Expansion
+
+.p-datatable-row-expansion>td{
+    padding: 0px !important;
+}
+
+.p-datatable-row-expansion>td thead{
+    // display:none;
+}

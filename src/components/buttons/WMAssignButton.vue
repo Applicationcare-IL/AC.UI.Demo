@@ -12,16 +12,16 @@
             </div>
             <span>הקצה ל:</span>
             <div class="flex flex-row gap-2">
-                <WMButton @click="onAssignTo('team')" class="m-1 col-6" :class="{ 'selected': !assignToUser }"
-                          name="basic-secondary">משתמש </WMButton>
-                <WMButton @click="onAssignTo('user')" class="m-1 col-6" :class="{ 'selected': assignToUser }"
-                          name="basic-secondary">צוות </WMButton>
+                <WMButton @click="onAssignTo('employee')" class="m-1 col-6" :class="{ 'selected': assignTo == 'employee' }"
+                          name="basic-secondary"> משתמש</WMButton>
+                <WMButton @click="onAssignTo('team')" class="m-1 col-6" :class="{ 'selected': assignTo == 'team' }"
+                          name="basic-secondary"> צוות</WMButton>
             </div>
 
-            <WMInputSearch name="userOrTeam" :placeholder="$t('select', ['user'])" type="input-search" :multiple="true"
-                           width="248" :options="usersOrTeams" />
+            <WMInputSearch name="employeeOrTeam" :placeholder="$t('select', ['employee'])" type="input-search" :multiple="false" @change="ownerChanged"
+                           width="248" :options="owners" :searchFunction="searchOwner" :modelValue="selectedOwner" :selectedOption="selectedOwner"/>
 
-            <WMButton class="m-1 col-6" name="basic-secondary">הקצה </WMButton>
+            <WMButton @click="assignOwner" class="m-1 col-6" name="basic-secondary">הקצה </WMButton>
 
         </div>
     </OverlayPanel>
@@ -32,8 +32,9 @@
 import { ref, onMounted, watch } from 'vue';
 import { useUtilsStore } from '@/stores/utils';
 import { useLayout } from '@/layout/composables/layout';
-// import { UserService } from '@/service/UserService';
+import { OwnersService } from '@/service/OwnersService';
 import WMInputSearch from '@/components/forms/WMInputSearch.vue';
+import { useToast } from '@/stores/toast';
 
 const props = defineProps({
     entity: {
@@ -41,6 +42,10 @@ const props = defineProps({
         default: ''
     },
 });
+
+const ownerChanged = (event) => {
+    selectedOwner.value = event.value;
+}
 
 const utilsStore = useUtilsStore();
 const { layoutConfig } = useLayout();
@@ -50,30 +55,33 @@ const toggle = (event) => {
     isOpen.value.toggle(event);
 }
 
-const assignToUser = ref(true);
+const assignTo = ref('employee');
 
 const onAssignTo = (type) => {
-    assignToUser.value = type === 'user';
+    assignTo.value = type;
 }
 
-const usersOrTeams = ref([{}]);
+const toast = useToast();
+
+const owners = ref([{}]);
+const selectedOwner = ref();
 
 const selectedElements = ref(0);
 watch(() => utilsStore.selectedElements[props.entity], (value) => {
     selectedElements.value = value.length
 });
 
+const searchOwner = (query) => {
+  return OwnersService.getOwnersFromApi({ search: query }, assignTo.value);
+}
 
-// onMounted(() => {
-//     UsersService.getUsers().then((response) => {
-//         usersOrTeams.value = response.data.map((user) => {
-//             return {
-//                 label: user.name,
-//                 value: user.id
-//             }
-//         });
-//     });
-// });
+const assignOwner = () => {
+    console.log(selectedOwner.value);
+    OwnersService.assignTo(utilsStore.selectedElements[props.entity],props.entity, selectedOwner.value.id, assignTo.value).then((data) => {
+        isOpen.value.hide();
+        toast.successAction('owner', 'assigned');
+    })
+}
 
 </script>
 

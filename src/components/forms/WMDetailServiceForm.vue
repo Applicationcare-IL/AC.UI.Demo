@@ -13,7 +13,7 @@
                            :value="service.contact" :to="'/contact/' + service.contact_id" />
                   <WMInput name="customer" type="info-link" :highlighted="true" :label="$t('customer.customer') + ':'"
                            :value="service.customer" :to="'/customer/' + service.customer_id" />
-                  <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner')" :value="service.owner" />
+                  <WMInput name="owner" type="info" :highlighted="true" :label="$t('owner')" :value="service.owner.name" />
                   <WMInput name="team" type="info" :highlighted="true" :label="$t('team') + ':'" :value="service.team" />
                 </div>
                 <div class="wm-form-row gap-5">

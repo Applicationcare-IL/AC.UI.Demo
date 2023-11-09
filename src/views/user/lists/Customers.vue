@@ -80,7 +80,7 @@
                 </template>
             </Column>
             <Column field="number" header="מזהה"></Column>
-            <Column field="owner.type" header="אחראי"></Column>
+            <Column field="owner.name" header="אחראי"></Column>
         </DataTable>
     </div>
 </template>

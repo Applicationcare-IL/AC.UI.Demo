@@ -161,6 +161,7 @@ export const ServicesService = {
 
     mapService(service) {
         return {
+            id: service.id,
             name: service.id,
             service_number: service.id,
             contact: service.contact.name,
@@ -175,7 +176,7 @@ export const ServicesService = {
             classification_4: service.request_2?.value,
             classification_5: service.request_3?.value,
             duration: '',
-            owner: '',//'Israel Israeli',
+            owner: service.owner,//'Israel Israeli',
             staff: '', //'106 מוקד',
             SLA: service.process.sla.sla ,
             priority: '',

@@ -41,6 +41,16 @@ const model = ref([
         to: "/tasks",
         image: new URL("/icons/nav/tasks.svg", import.meta.url).href,
       },
+      {
+        label: computed(() => t("navigation.sales")),
+        to: "/projects",
+        image: new URL("/icons/nav/sales.svg", import.meta.url).href,
+      },
+      {
+        label: computed(() => t("navigation.projects")),
+        to: "/projects",
+        image: new URL("/icons/nav/projects.svg", import.meta.url).href,
+      },
     ],
   },
   {

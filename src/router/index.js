@@ -87,6 +87,21 @@ const router = createRouter({
                     name: 'taskDetail',
                     component: () => import('@/views/user/forms/detail/Task.vue'),
                 },
+                {
+                path: '/projects',
+                name: 'projects',
+                component: () => import('@/views/user/lists/Projects.vue'),
+            },
+            {
+                path: '/new-project',
+                name: 'newProject',
+                component: () => import('@/views/user/forms/new/Project.vue'),
+            },
+            {
+                path: '/project/:id',
+                name: 'projectDetail',
+                component: () => import('@/views/user/forms/detail/Project.vue'),
+            },
 
             ]
         },
