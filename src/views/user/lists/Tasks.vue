@@ -122,11 +122,6 @@ import { ref, onMounted, computed } from "vue";
 import { TasksService } from "@/service/TasksService";
 import { useListUtilsStore } from "@/stores/listUtils";
 
-import WMSidebar from "@/components/WMSidebar.vue";
-import WMNewTaskForm from "@/components/forms/WMNewTaskForm.vue";
-import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
-import WMNewEntityFormHeader from "@/components/layout/WMNewEntityFormHeader.vue";
-
 const listUtilsStore = useListUtilsStore();
 
 onMounted(() => {

@@ -284,12 +284,6 @@
 <script setup>
 import { ref, onMounted, watch, defineExpose } from "vue";
 
-import WMFormButtons from "@/components/layout/WMFormButtons.vue";
-import WMInput from "@/components/forms/WMInput.vue";
-import WMInputSearch from "@/components/forms/WMInputSearch.vue";
-import WMSidebar from "@/components/WMSidebar.vue";
-import WMNewContactForm from "@/components/forms/WMNewContactForm.vue";
-
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useForm, useField } from "vee-validate";
 import { CustomerService } from "@/service/CustomerService";

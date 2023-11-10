@@ -5,8 +5,7 @@
 
 <script setup>
 import { ref } from "vue";
-import WMNewTaskForm from "@/components/forms/WMNewTaskForm.vue";
-import WMNewFormSubHeader from "@/components/layout/WMNewFormSubHeader.vue";
+
 import { useRouter } from "vue-router";
 const router = useRouter();
 

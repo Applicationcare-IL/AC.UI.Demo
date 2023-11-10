@@ -164,12 +164,6 @@ import { TasksService } from "@/service/TasksService";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
-import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
-import WMContactsTable from "@/components/tables/WMContactsTable.vue";
-
-import WMSidebar from "@/components/WMSidebar.vue";
-import WMNewCustomerForm from "@/components/forms/WMNewCustomerForm.vue";
-import WMNewEntityFormHeader from "@/components/layout/WMNewEntityFormHeader.vue";
 
 onMounted(() => {
   utilsStore.entity = "customer";

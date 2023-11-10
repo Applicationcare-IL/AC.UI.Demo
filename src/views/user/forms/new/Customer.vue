@@ -6,9 +6,6 @@
 <script setup>
 import { ref } from "vue";
 
-import WMNewCustomerForm from "@/components/forms/WMNewCustomerForm.vue";
-import WMNewFormSubHeader from "@/components/layout/WMNewFormSubHeader.vue";
-
 import { useRouter } from "vue-router";
 const router = useRouter();
 

@@ -141,12 +141,6 @@ import { TasksService } from "@/service/TasksService";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
-import WMCustomersTable from "@/components/tables/WMCustomersTable.vue";
-import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
-
-import WMSidebar from "@/components/WMSidebar.vue";
-import WMNewContactForm from "@/components/forms/WMNewContactForm.vue";
-import WMNewEntityFormHeader from "@/components/layout/WMNewEntityFormHeader.vue";
 
 import { useLayout } from "@/layout/composables/layout";
 const { layoutConfig } = useLayout();

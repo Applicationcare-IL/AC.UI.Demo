@@ -24,8 +24,6 @@ import { ref, defineProps, watch } from "vue";
 import { useLayout } from "@/layout/composables/layout";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
-import WMNewServiceForm from "@/components/forms/WMNewServiceForm.vue";
-
 const formUtilsStore = useFormUtilsStore();
 const { layoutConfig } = useLayout();
 

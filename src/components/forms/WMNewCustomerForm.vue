@@ -143,10 +143,6 @@
 <script setup>
 import { ref, onMounted, watch, defineEmits } from "vue";
 
-import WMInput from "@/components/forms/WMInput.vue";
-import WMInputSearch from "@/components/forms/WMInputSearch.vue";
-import WMFormButtons from "@/components/layout/WMFormButtons.vue";
-
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 import { useForm } from "vee-validate";

@@ -9,8 +9,6 @@
 </template>
 
 <script setup>
-import WMFormButtons from "@/components/layout/WMFormButtons.vue";
-
 import { defineEmits } from "vue";
 
 const emit = defineEmits(["saveForm", "cancelForm"]);

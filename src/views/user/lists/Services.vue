@@ -141,11 +141,6 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
 import { useLayout } from "@/layout/composables/layout";
 
-import WMSidebar from "@/components/WMSidebar.vue";
-import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
-import WMNewServiceForm from "@/components/forms/WMNewServiceForm.vue";
-import WMNewEntityFormHeader from "@/components/layout/WMNewEntityFormHeader.vue";
-
 import { useDateFormat, formatDate } from "@vueuse/core";
 
 const { layoutConfig } = useLayout();

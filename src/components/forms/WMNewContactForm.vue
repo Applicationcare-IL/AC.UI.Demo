@@ -191,14 +191,6 @@ import { onMounted, watch, defineEmits, ref } from "vue";
 import { CustomerService } from "@/service/CustomerService";
 import { ContactsService } from "@/service/ContactsService";
 
-import WMInputSearch from "@/components/forms/WMInputSearch.vue";
-import WMInput from "@/components/forms/WMInput.vue";
-import WMFormButtons from "@/components/layout/WMFormButtons.vue";
-
-import WMSidebar from "@/components/WMSidebar.vue";
-import WMNewCustomerForm from "@/components/forms/WMNewCustomerForm.vue";
-import WMNewEntityFormHeader from "@/components/layout/WMNewEntityFormHeader.vue";
-
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
