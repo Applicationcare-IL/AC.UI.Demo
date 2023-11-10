@@ -113,17 +113,27 @@ export const useListUtilsStore = defineStore('listUtils', {
             ]
         },
 
-        getSlaConditionalStyle: (data) => {
+        getSlaConditionalStyle: (sla) => {
+            console.log(sla);
             return [
                 {
-                    'bg-teal-200 text-teal-900': data.SLA === '10 ימים',
-                    'bg-yellow-100 text-gray-900': data.SLA === '2 ימים',
-                    'bg-red-100 text-red-600 ': data.SLA === '3 ימים',
-                    'text-teal-900': data.SLA === 'עמד ביעד',
-                    'text-red-600': data.SLA === 'הסתיים בחריגה',
+                    'bg-teal-200 text-teal-900': sla === 'no_breach',
+                    'bg-yellow-100 text-gray-900': sla === 'near_breach',
+                    'bg-red-100 text-red-600 ': sla === 'breach',
+                    'text-teal-900': sla === 'עמד ביעד',
+                    'text-red-600': sla === 'הסתיים בחריגה',
                 }
             ];
         },
+        getStatusConditionalStyle: (status) => {
+            return [
+                {
+                    'bg-green-200 text-green-900': status === 'active' | status === 'open',
+                    'bg-yellow-100 text-gray-900': status === 'terminated',
+                }
+            ];
+        },
+
         getPriorityConditionalStyle: (data) => {
             return [
                 'text-blue-600',

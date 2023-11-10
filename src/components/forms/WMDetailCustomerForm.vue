@@ -105,18 +105,16 @@
                     :options="cities"
                     width="152"
                     :placeholder="$t('select', ['address.city'])"
-                    :selectedOption="selectedCity"
-                    :modelValue="selectedCity"
+                    :modelValue="customer.city"
                   />
                   <WMInputSearch
                     name="street"
                     :highlighted="true"
                     :label="$t('address.street') + ':'"
-                    :options="cities"
+                    :options="streets"
                     width="152"
                     :placeholder="$t('select', ['address.street'])"
-                    :selectedOption="selectedStreet"
-                    :modelValue="selectedStreet"
+                    :modelValue="customer.street"
                   />
                 </div>
                 <div class="wm-form-row gap-5">
@@ -366,7 +364,6 @@ import { useRoute } from "vue-router";
 import { CustomerService } from "@/service/CustomerService";
 import { ServicesService } from "@/service/ServicesService";
 import { TasksService } from "@/service/TasksService";
-import { CitiesService } from "@/service/CitiesService";
 
 import { i18n } from "@/i18n";
 import { useToast } from "@/stores/toast";
@@ -425,7 +422,6 @@ const fetchData = async () => {
   await optionSetsStore
     .getOptionSetValuesFromApi("customer_rating")
     .then((data) => (ratings.value = data));
-  await CitiesService.getCities().then((data) => (cities.value = data));
   await CustomerService.getCustomerFromApi(route.params.id).then((data) => {
     customer.value = data;
     utilsStore.selectedElements["customer"] = [customer.value];
@@ -436,14 +432,6 @@ const fetchData = async () => {
     selectedRating.value = ratings.value.find(
       (rating) => rating.id == customer.value.rating.id
     );
-    selectedCity.value =
-      customer.value.city != null
-        ? cities.value.find((city) => city.name == customer.value.city)
-        : "";
-    selectedStreet.value =
-      customer.value.street != null
-        ? cities.value.find((street) => street.name == customer.value.street)
-        : "";
 
     selectedType.value = types.value.find(
       (type) => type.id == customer.value.type.id

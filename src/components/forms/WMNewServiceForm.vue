@@ -353,19 +353,19 @@ onMounted(() => {
     .getOptionSetValuesFromApi("service_urgent")
     .then((data) => (urgencies.value = data));
   optionSetsStore
-    .getOptionSetValuesFromApi("service_area")
+    .getOptionSetValuesFromApiRaw("service_area")
     .then((data) => (areas.value = data));
   optionSetsStore
-    .getOptionSetValuesFromApi("service_type")
+    .getOptionSetValuesFromApiRaw("service_type")
     .then((data) => (types.value = data));
   optionSetsStore
-    .getOptionSetValuesFromApi("service_request_1")
+    .getOptionSetValuesFromApiRaw("service_request_1")
     .then((data) => (requests1.value = data));
   optionSetsStore
-    .getOptionSetValuesFromApi("service_request_2")
+    .getOptionSetValuesFromApiRaw("service_request_2")
     .then((data) => (requests2.value = data));
   optionSetsStore
-    .getOptionSetValuesFromApi("service_request_3")
+    .getOptionSetValuesFromApiRaw("service_request_3")
     .then((data) => (requests3.value = data));
 });
 
@@ -401,10 +401,10 @@ const { errors, handleSubmit, setFieldError, meta, values } = useForm({
   },
 });
 
-const onSubmit = handleSubmit((values) => {
+const onSave = handleSubmit((values) => {
   ServicesService.createService(ServicesService.parseService(values))
     .then((data) => {
-      dialog.confirmNewContact(data.data.id);
+      dialog.confirmNewService(data.data.id);
       toast.successAction("service", "created");
     })
     .catch((error) => {

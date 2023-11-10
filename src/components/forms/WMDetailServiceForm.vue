@@ -4,9 +4,14 @@
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
     <div class="service-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 class="h1 mb-0">
-        {{ $t("service.service") }} {{ service.service_number }}
-      </h1>
+      <div class="flex flex-row align-items-center gap-4">
+        <h1 class="h1 mb-0">
+          {{ $t("service.service") }} {{ service.service_number }}
+        </h1>
+        <div :class="statusClass(service.status)" class="status-label">
+          {{ $t("statuses." + service.status) }}
+        </div>
+      </div>
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="card-container top-info-card" style="flex: 2">
           <Card>
@@ -14,22 +19,6 @@
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="contact"
-                    type="info-link"
-                    :highlighted="true"
-                    :label="$t('contact.contact') + ':'"
-                    :value="service.contact"
-                    :to="'/contact/' + service.contact_id"
-                  />
-                  <WMInput
-                    name="customer"
-                    type="info-link"
-                    :highlighted="true"
-                    :label="$t('customer.customer') + ':'"
-                    :value="service.customer"
-                    :to="'/customer/' + service.customer_id"
-                  />
                   <WMInput
                     name="owner"
                     type="info"
@@ -44,6 +33,35 @@
                     :label="$t('team') + ':'"
                     :value="service.team"
                   />
+                  <WMInput
+                    name="priority"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('service.priority')"
+                    :value="service.priority"
+                    :class="priorityClass(service)"
+                    class="numeric"
+                  />
+                </div>
+                <div class="wm-form-row gap-5">
+                  <div class="wm-form-row gap-4">
+                    <WMInput
+                      name="contact"
+                      type="info-link"
+                      :highlighted="true"
+                      :label="$t('contact.contact') + ':'"
+                      :value="service.contact"
+                      :to="'/contact/' + service.contact_id"
+                    />
+                    <WMInput
+                      name="customer"
+                      type="info-link"
+                      :highlighted="true"
+                      :label="$t('customer.customer') + ':'"
+                      :value="service.customer"
+                      :to="'/customer/' + service.customer_id"
+                    />
+                  </div>
                 </div>
                 <div class="wm-form-row gap-5">
                   <div class="wm-form-row gap-4">
@@ -57,28 +75,6 @@
                       "
                     />
                     <WMInput
-                      name="sla"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('service.sla')"
-                      :value="service.SLA"
-                      :class="slaClass(service)"
-                      class="sla"
-                    />
-                    <WMInput
-                      name="priority"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('service.priority')"
-                      :value="service.priority"
-                      :class="priorityClass(service)"
-                      class="numeric"
-                    />
-                  </div>
-                </div>
-                <div class="wm-form-row gap-5">
-                  <div class="wm-form-row gap-4">
-                    <WMInput
                       name="open-date"
                       type="info"
                       :highlighted="true"
@@ -88,18 +84,33 @@
                       "
                     />
                     <WMInput
+                      name="sla"
+                      type="info"
+                      :highlighted="true"
+                      :label="$t('service.sla')"
+                      :value="service.days_for_closing + ' ' + $t('days')"
+                      :class="slaClass(service.SLA)"
+                      class="sla"
+                    />
+                  </div>
+                </div>
+                <div class="wm-form-row gap-5">
+                  <div class="wm-form-row gap-4">
+                    <WMInput
                       name="urgency"
                       type="info"
                       :highlighted="true"
                       :label="$t('service.urgency')"
-                      :value="service.urgency"
+                      :value="
+                        $t('option-set.service_urgent.' + service.urgency)
+                      "
                     />
                     <WMInput
                       name="recurring"
                       type="info"
                       :highlighted="true"
                       :label="$t('service.recurring')"
-                      :value="service.recurring"
+                      :value="$t(service.recurring)"
                     />
                   </div>
                 </div>
@@ -480,6 +491,10 @@ const priorityClass = (data) => {
 };
 
 formUtilsStore.submit = onSubmit;
+
+const statusClass = (data) => {
+  return listUtilsStore.getStatusConditionalStyle(data);
+};
 </script>
 
 <style scoped lang="scss"></style>

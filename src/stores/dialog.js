@@ -106,6 +106,35 @@ export function useDialog() {
     });
   };
 
+  const confirmNewService = (id) => {
+    confirm.require({
+        message: i18n.t('service.notification.created.message'),
+        header: i18n.t('service.notification.created.header'),
+        acceptLabel: i18n.t('service.notification.created.detail'),
+        rejectLabel: i18n.t('service.notification.created.list'),
+        accept: () => {
+            formUtilsStore.goToDetail(id);
+        },
+        reject: () => {
+            formUtilsStore.closeForm();
+        },
+    });
+}; 
+
+const discardNewService = () => {
+    confirm.require({
+        message: i18n.t('service.notification.discard.message'),
+        header: i18n.t('service.notification.discard.header'),
+        acceptLabel: i18n.t('service.notification.discard.accept'),
+        rejectLabel: i18n.t('service.notification.discard.cancel'),
+        accept: () => {
+            formUtilsStore.closeForm();
+        },
+        reject: () => {
+        },
+    });
+}
+
   return {
     confirmNewCustomer,
     discardNewCustomer,
@@ -113,5 +142,7 @@ export function useDialog() {
     discardNewContact,
     confirmNewTask,
     discardNewTask,
+    confirmNewService, 
+    discardNewService
   };
 }

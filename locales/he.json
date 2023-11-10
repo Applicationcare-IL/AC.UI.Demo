@@ -43,6 +43,8 @@
     "modified_by": "שינוי אחרון ע”י",
     "created_at": "נוצר ב:",
     "modified_at": "שינוי אחרון",
+    "days": "ימים",
+    "day": "יום",
     "navigation": {
         "dashboard": "דאשבורד",
         "customers": "לקוחות",
@@ -65,7 +67,25 @@
         "notes": "הערות לאיש קשר",
         "id": "ת”ז",
         "system-id": "מזהה",
-        "main": "ראשי"
+        "main": "ראשי",
+        "notification": {
+            "created": {
+                "header": "נוצר לקוח חדש",
+                "message": "הלקוח החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת הלקוחות שלך",
+                "detail": "צפייה באיש קשר",
+                "list": "חזרה לרשימה"
+            },
+            "discard": {
+                "header": "איש הקשר לא נשמר",
+                "message": "לא סיימת ליצור את האיש הקשר החדש. \n לצאת מעמוד זה מבלי לשמור אותו?",
+                "accept": "השאר בעמוד זה",
+                "cancel": "יציאה ללא שמירה"
+            }
+        },
+        "toast": {
+            "created": "נוצר לקוח חדש",
+            "error": "An error occurred"
+        }
     },
     "customer": {
         "customer": "לקוח",
@@ -129,7 +149,25 @@
         "date-closed": "נסגר בתאריך",
         "location": "מיקום",
         "description": "תיאור",
-        "classification": "סיווג"
+        "classification": "סיווג",
+        "notification": {
+            "created": {
+                "header": "נוצר שירות חדש",
+                "message": "השירות החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת השירותים שלך",
+                "detail": "צפייה בשירות",
+                "list": "חזרה לרשימה"
+            },
+            "discard": {
+                "header": "השירות לא נשמר",
+                "message": "לא סיימת ליצור את השירות החדש. \n לצאת מעמוד זה מבלי לשמור אותו?",
+                "accept": "השאר בעמוד זה",
+                "cancel": "יציאה ללא שמירה"
+            }
+        },
+        "toast": {
+            "created": "נוצר שירות חדש",
+            "error": "An error occurred"
+        }
     },
     "task": {
         "task": "משימה",

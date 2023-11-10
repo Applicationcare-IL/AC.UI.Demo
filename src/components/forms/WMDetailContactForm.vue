@@ -4,7 +4,12 @@
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
     <div class="contact-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 class="h1 mb-0">{{ $t("contact.contact") }}: {{ contact.name }}</h1>
+      <div class="flex flex-row align-items-center gap-4">
+        <h1 class="h1 mb-0">{{ $t("contact.contact") }}: {{ contact.name }}</h1>
+        <div :class="statusClass(contact.status)" class="status-label">
+          {{ $t("statuses." + contact.status) }}
+        </div>
+      </div>
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="flex-1 card-container top-info-card">
           <Card>
@@ -24,13 +29,6 @@
                     type="info"
                     :highlighted="true"
                     :label="$t('id') + ':'"
-                    :value="contact.contact_id"
-                  />
-                  <WMInput
-                    name="system-id"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('system-id') + ':'"
                     :value="contact.id"
                   />
                 </div>
@@ -54,16 +52,10 @@
                 <div class="wm-form-row gap-5">
                   <div class="wm-form-row gap-4">
                     <WMInput
-                      name="status"
+                      name="contactid"
                       :highlighted="true"
-                      type="input-select"
-                      :label="$t('status') + ':'"
-                      :options="statuses"
-                      :selectedOption="
-                        statuses.find(
-                          (status) => status.value === contact.status
-                        )
-                      "
+                      type="input-text"
+                      :label="$t('contact.identifier') + ':'"
                     />
 
                     <WMInput
@@ -113,22 +105,16 @@
                       type="input-text"
                       :label="$t('fax') + ':'"
                       width="88"
+                      :value="contact.fax"
                     />
                   </div>
                 </div>
                 <div class="wm-form-row gap-5">
                   <WMInput
-                    name="facebook"
-                    type="input-text"
-                    :label="$t('facebook') + ':'"
-                    width="88"
-                  />
-                  <WMInput
                     name="email"
                     :required="true"
                     type="input-text"
                     :label="$t('email') + ':'"
-                    width="240"
                     :value="contact.email"
                   />
                 </div>
@@ -149,6 +135,7 @@
                     :options="cities"
                     width="152"
                     :placeholder="$t('select', ['address.city'])"
+                    :modelValue="contact.city"
                   />
                   <WMInputSearch
                     name="street"
@@ -157,6 +144,7 @@
                     :options="customers"
                     width="152"
                     :placeholder="$t('select', ['address.street'])"
+                    :modelValue="contact.street"
                   />
                 </div>
                 <div class="wm-form-row gap-5">
@@ -165,6 +153,7 @@
                     type="input-text"
                     :label="$t('address.house-number') + ':'"
                     width="48"
+                    :value="contact.street_number"
                   />
                   <WMInput
                     name="apartment"
@@ -187,6 +176,7 @@
                     type="input-text"
                     :label="$t('address.zip') + ':'"
                     width="80"
+                    :value="contact.zipcode"
                   />
                 </div>
               </div>
@@ -354,7 +344,6 @@ import { ContactsService } from "@/service/ContactsService";
 import { CustomerService } from "@/service/CustomerService";
 import { ServicesService } from "@/service/ServicesService";
 import { TasksService } from "@/service/TasksService";
-import { CitiesService } from "@/service/CitiesService";
 
 import { useToast } from "@/stores/toast";
 
@@ -390,9 +379,6 @@ onMounted(() => {
   setTimeout(function () {
     TasksService.getTasksMini().then((data) => (tasks.value = data));
   }, 2000);
-  setTimeout(function () {
-    CitiesService.getCities().then((data) => (cities.value = data));
-  }, 2000);
 });
 
 const fetchData = async () => {
@@ -421,6 +407,18 @@ const onSave = handleSubmit((values) => {
       console.log(error);
       toast.error("customer", "not-updated");
     });
+  ContactsService.updateContact(
+    route.params.id,
+    ContactsService.parseContact(values)
+  )
+    .then((data) => {
+      toast.successAction("contact", "updated");
+      resetForm({ values: values });
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("customer", "not-updated");
+    });
 });
 
 formUtilsStore.$reset();
@@ -434,6 +432,10 @@ watch(
     formUtilsStore.formMeta = value;
   }
 );
+
+const statusClass = (data) => {
+  return listUtilsStore.getStatusConditionalStyle(data);
+};
 </script>
 
 <style scoped lang="scss"></style>

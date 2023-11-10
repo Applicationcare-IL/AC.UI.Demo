@@ -76,5 +76,21 @@ export const useOptionSetsStore = defineStore('optionSets', {
                     console.log(error);
                 });
         },
+        getOptionSetValuesFromApiRaw(optionSet) {
+            return axiosConfig.get('/options-set', { params: { name: optionSet } })
+            .then((response) => {
+                    const optionSetValues = response.data.data.map((option) => ({
+                        value: option.value,
+                        id: option.id,
+                        name: option.value,
+                        label: option.value,
+                    }));
+                    return optionSetValues;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+    
     }
 });

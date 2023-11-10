@@ -11,7 +11,7 @@
           type="info"
           :highlighted="true"
           :label="$t('owner') + ':'"
-          value="Israel Israeli"
+          :value="authStore.userFullName"
         ></WMInput>
       </div>
       <div class="wm-form-row gap-5">
@@ -123,15 +123,16 @@
           name="city"
           :highlighted="true"
           :label="$t('address.city') + ':'"
-          :options="customers"
+          :options="cities"
           width="152"
           :placeholder="$t('select', ['address.city'])"
+          @change="updateStreets"
         />
         <WMInputSearch
           name="street"
           :highlighted="true"
           :label="$t('address.street') + ':'"
-          :options="customers"
+          :options="streets"
           width="152"
           :placeholder="$t('select', ['address.street'])"
         />
@@ -173,6 +174,7 @@
 
     <div class="contact-notes flex flex-auto flex-column gap-5 mb-5">
       <h2 class="h2 mb-0">{{ $t("contact.notes") }}</h2>
+
       <div class="wm-form-row gap-5">
         <Textarea v-model="value" autoResize rows="8" cols="100" />
       </div>
@@ -206,13 +208,24 @@ const props = defineProps({
 
 const emit = defineEmits(["closeSidebar"]);
 
+const authStore = useAuthStore();
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 
 const toast = useToast();
 const dialog = useDialog();
 
-onMounted(() => {});
+const cities = ref();
+const selectedCity = ref(null);
+const streets = ref();
+const selectedStreet = ref(null);
+
+onMounted(() => {
+  optionSetsStore.getOptionSetValuesFromApiRaw("service_city").then((data) => {
+    console.log(data);
+    cities.value = data;
+  });
+});
 
 const { errors, handleSubmit, setFieldError, meta } = useForm({
   validationSchema: formUtilsStore.getContactNewFormValidationSchema,
@@ -235,7 +248,18 @@ const searchCustomer = (query) => {
   return CustomerService.getCustomersFromApi({ search: query });
 };
 
-const onSubmit = handleSubmit((values) => {
+const updateStreets = (city) => {
+  selectedCity.value = city;
+  if (city) {
+    optionSetsStore
+      .getOptionSetValuesFromApiRaw("service_street")
+      .then((data) => {
+        streets.value = data;
+      });
+  }
+};
+
+const onSave = handleSubmit((values) => {
   ContactsService.createContact(ContactsService.parseContact(values))
     .then((data) => {
       dialog.confirmNewContact(data.data.id);

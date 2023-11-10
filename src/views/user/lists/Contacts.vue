@@ -80,6 +80,7 @@
       <Column field="contact" header="איש קשר" class="link-col">
         <template #body="slotProps">
           <router-link
+            v-if="slotProps.data.contact_id"
             :to="{
               name: 'contactDetail',
               params: { id: slotProps.data.contact_id },
@@ -92,12 +93,13 @@
       <Column field="customer" header="לקוח" class="link-col">
         <template #body="slotProps">
           <router-link
+            v-if="slotProps.data.customer.id"
             :to="{
               name: 'customerDetail',
-              params: { id: slotProps.data.customer_id },
+              params: { id: slotProps.data.customer.id },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.customer }}</router-link
+            >{{ slotProps.data.customer.name }}</router-link
           >
         </template>
       </Column>
@@ -114,11 +116,8 @@
           </div>
         </template>
       </Column>
-      <Column
-        field="open_tasks"
-        header="תהליכים בחריגה"
-        class="numeric"
-      ></Column>
+      <Column field="open_tasks" header="תהליכים בחריגה" class="numeric">
+      </Column>
       <Column field="breached_tasks" header="משימות בחריגה" class="numeric">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.breached_tasks)">
@@ -127,8 +126,14 @@
         </template>
       </Column>
       <Column field="contact_id" header="מזהה"></Column>
-      <Column field="status" header="סטטוס"></Column>
       <Column field="owner.name" header="אחראי"></Column>
+      <Column field="status" header="סטטוס" class="numeric">
+        <template #body="slotProps">
+          <div :class="highlightStatusClass(slotProps.data.status)">
+            {{ $t("statuses." + slotProps.data.status) }}
+          </div>
+        </template>
+      </Column>
     </DataTable>
   </div>
 </template>
@@ -216,6 +221,15 @@ const displayNewForm = () => {
 //Move to Store
 const highlightCellClass = (data) => {
   return [{ "bg-red-100 text-red-600": data > 0 }];
+};
+
+const highlightStatusClass = (status) => {
+  return [
+    {
+      "bg-green-200 text-green-900": status === "active",
+      "bg-yellow-100 text-gray-900": status === "terminated",
+    },
+  ];
 };
 
 const filterLabels = [

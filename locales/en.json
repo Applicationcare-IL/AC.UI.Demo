@@ -44,6 +44,8 @@
     "modified_by": "Changed by",
     "created_at": "Created at",
     "modified_at": "Modified at",
+    "days": "days",
+    "day": "day",
     "navigation": {
         "dashboard": "Dashboard",
         "customers": "Customers",
@@ -80,6 +82,10 @@
                 "accept": "Remain on this page",
                 "cancel": "Exit without saving"
             }
+        },
+        "toast": {
+            "created": "A new contact was created",
+            "error": "An error occurred"
         }
     },
     "customer": {
@@ -145,7 +151,25 @@
         "date-closed": "Closed at",
         "location": "Location",
         "description": "Description",
-        "classification": "Classification"
+        "classification": "Classification",
+        "notification": {
+            "created": {
+                "header": "New service Created",
+                "message": "The new service was successfully created! \n From now on he will appear in your customer list",
+                "detail": "View service",
+                "list": "View List"
+            },
+            "discard": {
+                "header": "The service is not saved",
+                "message": "You have not finished creating the new service. \n You would like to exit this page without saving it",
+                "accept": "Remain on this page",
+                "cancel": "Exit without saving"
+            }
+        },
+        "toast": {
+            "created": "New service Created",
+            "error": "An error occurred"
+        }
     },
     "task": {
         "task": "Task",
