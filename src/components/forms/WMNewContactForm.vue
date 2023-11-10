@@ -61,21 +61,19 @@
           :options="customers"
           :highlighted="true"
           :searchFunction="searchCustomer"
-        >
-          <template #message>
-            <div class="mb-2">
-              <span class="vertical-align-middle"> הלקוח לא במערכת? </span>
-              <router-link
-                :to="{ name: 'newCustomer', params: { id: 1 } }"
-                class="vertical-align-middle orange-link"
-                target="_blank"
-                >לקוח חדש +</router-link
-              >
-            </div>
-          </template>
-        </WMInputSearch>
+          :new="true"
+          related-sidebar="newCustomer"
+        />
 
-        <!-- <WMButton class="small" name="new" icon="new" @click="">{{ $t('new') }}</WMButton> -->
+        <WMSidebar
+          :visible="isVisible"
+          @close-sidebar="closeSidebar"
+          @open-sidebar="openSidebar"
+          name="newCustomer"
+        >
+          <WMNewEntityFormHeader entity="customer" name="newCustomer" />
+          <WMNewCustomerForm :isSidebar="true" />
+        </WMSidebar>
       </div>
     </div>
 
@@ -189,12 +187,17 @@
 </template>
 
 <script setup>
-import { onMounted, watch } from "vue";
+import { onMounted, watch, defineEmits, ref } from "vue";
 import { CustomerService } from "@/service/CustomerService";
 import { ContactsService } from "@/service/ContactsService";
+
 import WMInputSearch from "@/components/forms/WMInputSearch.vue";
 import WMInput from "@/components/forms/WMInput.vue";
 import WMFormButtons from "@/components/layout/WMFormButtons.vue";
+
+import WMSidebar from "@/components/WMSidebar.vue";
+import WMNewCustomerForm from "@/components/forms/WMNewCustomerForm.vue";
+import WMNewEntityFormHeader from "@/components/layout/WMNewEntityFormHeader.vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -209,6 +212,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(["closeSidebar"]);
+
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 
@@ -220,6 +225,16 @@ onMounted(() => {});
 const { errors, handleSubmit, setFieldError, meta } = useForm({
   validationSchema: formUtilsStore.getContactNewFormValidationSchema,
 });
+
+const isVisible = ref(false);
+
+function openSidebar() {
+  isVisible.value = true;
+}
+
+function closeSidebar() {
+  isVisible.value = false;
+}
 
 const genders = optionSetsStore.getOptionSetValuesFromApi("gender");
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash;
@@ -241,10 +256,7 @@ const onSubmit = handleSubmit((values) => {
 });
 
 const onCancel = () => {
-  if (formUtilsStore.formMeta.dirty) dialog.discardNewContact();
-  else {
-    formUtilsStore.closeForm();
-  }
+  emit("closeSidebar");
 };
 
 formUtilsStore.formEntity = "contact";

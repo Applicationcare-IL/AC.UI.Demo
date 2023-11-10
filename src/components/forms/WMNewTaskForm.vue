@@ -41,6 +41,7 @@
             @open-sidebar="openSidebar"
             name="newContact"
           >
+            <WMNewEntityFormHeader entity="contact" name="newContact" />
             <WMNewContactForm :isSidebar="true" />
           </WMSidebar>
         </div>
@@ -96,14 +97,15 @@
 
 <script setup>
 import { ref, defineEmits, defineExpose } from "vue";
-import WMInput from "@/components/forms/WMInput.vue";
-import WMInputSearch from "@/components/forms/WMInputSearch.vue";
-import WMFormButtons from "@/components/layout/WMFormButtons.vue";
 
 import { TasksService } from "@/service/TasksService";
 
+import WMInput from "@/components/forms/WMInput.vue";
+import WMInputSearch from "@/components/forms/WMInputSearch.vue";
+import WMFormButtons from "@/components/layout/WMFormButtons.vue";
 import WMSidebar from "@/components/WMSidebar.vue";
 import WMNewContactForm from "@/components/forms/WMNewContactForm.vue";
+import WMNewEntityFormHeader from "@/components/layout/WMNewEntityFormHeader.vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -131,7 +133,7 @@ const { handleSubmit, values } = useForm({
 
 const isVisible = ref(false);
 
-const emit = defineEmits(["closeSidebar", "cancelForm"]);
+const emit = defineEmits(["closeSidebar"]);
 
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;

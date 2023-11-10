@@ -141,7 +141,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, defineEmits } from "vue";
 
 import WMInput from "@/components/forms/WMInput.vue";
 import WMInputSearch from "@/components/forms/WMInputSearch.vue";
@@ -163,6 +163,8 @@ const props = defineProps({
     default: false,
   },
 });
+
+const emit = defineEmits(["closeSidebar"]);
 
 const authStore = useAuthStore();
 const optionSetsStore = useOptionSetsStore();
@@ -207,11 +209,9 @@ const onSubmit = handleSubmit((values) => {
     });
 });
 
+// if (formUtilsStore.formMeta.dirty) dialog.discardNewCustomer();
 const onCancel = () => {
-  if (formUtilsStore.formMeta.dirty) dialog.discardNewCustomer();
-  else {
-    formUtilsStore.closeForm();
-  }
+  emit("closeSidebar");
 };
 
 const onCustomerNumberChanged = (event) => {

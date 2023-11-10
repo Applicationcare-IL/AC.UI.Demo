@@ -120,7 +120,6 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { TasksService } from "@/service/TasksService";
-import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
 
 import WMSidebar from "@/components/WMSidebar.vue";

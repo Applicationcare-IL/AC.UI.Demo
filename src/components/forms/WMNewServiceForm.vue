@@ -22,26 +22,29 @@
         </div>
       </div>
       <div class="wm-form-row align-items-end gap-5">
-        <div class="flex flex-row gap-1 align-items-end">
-          <WMInputSearch
-            name="contact"
-            :required="true"
-            :placeholder="$t('select', ['contact'])"
-            type="input-search"
-            :label="$t('contact') + ':'"
-            width="160"
-            :options="contacts"
-            :highlighted="true"
-            :searchFunction="searchContact"
-          />
-          <WMButton
-            class="small"
-            name="new"
-            icon="new"
-            @click="openNewContact"
-            >{{ $t("new") }}</WMButton
-          >
-        </div>
+        <WMInputSearch
+          name="contact"
+          :required="true"
+          :placeholder="$t('select', ['contact'])"
+          type="input-search"
+          :label="$t('contact') + ':'"
+          width="160"
+          :highlighted="true"
+          :searchFunction="searchContact"
+          :new="true"
+          related-sidebar="newContact"
+        />
+
+        <WMSidebar
+          :visible="isNewContactSidebarVisible"
+          @close-sidebar="closeNewContactSidebar"
+          @open-sidebar="openNewContactSidebar"
+          name="newContact"
+        >
+          <WMNewEntityFormHeader entity="contact" name="newContact" />
+          <WMNewContactForm :isSidebar="true" />
+        </WMSidebar>
+
         <WMInputSearch
           name="customer"
           :required="true"
@@ -49,7 +52,6 @@
           type="input-search"
           :label="$t('customer') + ':'"
           width="160"
-          :options="customers"
           :highlighted="true"
           :searchFunction="searchCustomer"
         />
@@ -271,13 +273,23 @@
         </div>
       </div>
     </div>
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSubmit()"
+      @cancel-form="onCancel()"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, defineExpose } from "vue";
+
+import WMFormButtons from "@/components/layout/WMFormButtons.vue";
 import WMInput from "@/components/forms/WMInput.vue";
 import WMInputSearch from "@/components/forms/WMInputSearch.vue";
+import WMSidebar from "@/components/WMSidebar.vue";
+import WMNewContactForm from "@/components/forms/WMNewContactForm.vue";
+
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useForm, useField } from "vee-validate";
 import { CustomerService } from "@/service/CustomerService";
@@ -349,14 +361,14 @@ const selectedCustomer = ref();
 const searchCustomer = (query) => {
   return CustomerService.getCustomersFromApi({
     search: query,
-    contact_id: values.contact.id,
+    contact_id: values.contact?.id,
   });
 };
 
 const searchContact = (query) => {
   return ContactsService.getContactsFromApi({
     search: query,
-    customer_id: values.customer.id,
+    customer_id: values.customer?.id,
   });
 };
 
@@ -375,7 +387,7 @@ const { errors, handleSubmit, setFieldError, meta, values } = useForm({
   },
 });
 
-const onSave = handleSubmit((values) => {
+const onSubmit = handleSubmit((values) => {
   ServicesService.createService(ServicesService.parseService(values))
     .then((data) => {
       dialog.confirmNewContact(data.data.id);
@@ -387,15 +399,11 @@ const onSave = handleSubmit((values) => {
     });
 });
 
+// if (formUtilsStore.formMeta.dirty) dialog.discardNewService();
 const onCancel = () => {
-  if (formUtilsStore.formMeta.dirty) dialog.discardNewService();
-  else {
-    formUtilsStore.closeForm();
-  }
+  emit("closeSidebar");
 };
 
-formUtilsStore.save = onSave;
-formUtilsStore.cancel = onCancel;
 formUtilsStore.formEntity = "service";
 
 watch(
@@ -405,11 +413,27 @@ watch(
   }
 );
 
+// new contact sidebar
+const isNewContactSidebarVisible = ref(false);
+
+function openNewContactSidebar() {
+  isNewContactSidebarVisible.value = true;
+}
+
+function closeNewContactSidebar() {
+  isNewContactSidebarVisible.value = false;
+}
+
 const openNewContact = () => {
   router.push("/new-contact");
   const routeData = router.resolve({ name: "newContact" });
   window.open(routeData.href, "_blank");
 };
+
+defineExpose({
+  onSubmit,
+  onCancel,
+});
 </script>
 
 <style scoped lang="scss"></style>
