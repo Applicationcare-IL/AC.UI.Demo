@@ -72,7 +72,7 @@
           name="newCustomer"
         >
           <WMNewEntityFormHeader entity="customer" name="newCustomer" />
-          <WMNewCustomerForm :isSidebar="true" />
+          <WMNewCustomerForm :isSidebar="true" @close-sidebar="closeSidebar" />
         </WMSidebar>
       </div>
     </div>
@@ -187,7 +187,7 @@
 </template>
 
 <script setup>
-import { onMounted, watch, defineEmits, ref } from "vue";
+import { onMounted, watch, defineEmits, defineExpose, ref } from "vue";
 import { CustomerService } from "@/service/CustomerService";
 import { ContactsService } from "@/service/ContactsService";
 
@@ -259,6 +259,11 @@ watch(
     formUtilsStore.formMeta = value;
   }
 );
+
+defineExpose({
+  onSubmit,
+  onCancel,
+});
 </script>
 
 <style scoped lang="scss"></style>

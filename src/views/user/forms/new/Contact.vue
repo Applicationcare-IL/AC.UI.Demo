@@ -1,6 +1,21 @@
 <template>
-  <WMNewFormSubHeader></WMNewFormSubHeader>
-  <WMNewContactForm></WMNewContactForm>
+  <WMNewFormSubHeader @save-form="saveForm()" @cancel-form="cancelForm()" />
+  <WMNewContactForm ref="newContactForm" />
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const newContactForm = ref(null);
+
+const saveForm = () => {
+  newContactForm.value.onSubmit();
+};
+
+const cancelForm = () => {
+  router.push({ name: "contacts" });
+};
+</script>

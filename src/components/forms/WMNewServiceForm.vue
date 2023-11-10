@@ -42,7 +42,10 @@
           name="newContact"
         >
           <WMNewEntityFormHeader entity="contact" name="newContact" />
-          <WMNewContactForm :isSidebar="true" />
+          <WMNewContactForm
+            :isSidebar="true"
+            @close-sidebar="closeNewContactSidebar"
+          />
         </WMSidebar>
 
         <WMInputSearch
@@ -54,7 +57,22 @@
           width="160"
           :highlighted="true"
           :searchFunction="searchCustomer"
+          :new="true"
+          related-sidebar="newCustomer"
         />
+
+        <WMSidebar
+          :visible="isNewCustomerSidebarVisible"
+          @close-sidebar="closeNewCustomerSidebar"
+          @open-sidebar="openNewCustomerSidebar"
+          name="newCustomer"
+        >
+          <WMNewEntityFormHeader entity="customer" name="newCustomer" />
+          <WMNewCustomerForm
+            :isSidebar="true"
+            @close-sidebar="closeNewCustomerSidebar"
+          />
+        </WMSidebar>
       </div>
       <div class="wm-form-row gap-5">
         <WMInput
@@ -282,7 +300,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, defineExpose } from "vue";
+import { ref, onMounted, watch, defineExpose, defineEmits } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useForm, useField } from "vee-validate";
@@ -300,6 +318,8 @@ const props = defineProps({
     default: false,
   },
 });
+
+const emit = defineEmits(["closeSidebar"]);
 
 const router = useRouter();
 const customers = ref();
@@ -416,6 +436,17 @@ function openNewContactSidebar() {
 
 function closeNewContactSidebar() {
   isNewContactSidebarVisible.value = false;
+}
+
+// new customer sidebar
+const isNewCustomerSidebarVisible = ref(false);
+
+function openNewCustomerSidebar() {
+  isNewCustomerSidebarVisible.value = true;
+}
+
+function closeNewCustomerSidebar() {
+  isNewCustomerSidebarVisible.value = false;
 }
 
 const openNewContact = () => {
