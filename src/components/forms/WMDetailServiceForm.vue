@@ -333,7 +333,7 @@
       </div>
 
       <div class="mt-5">
-        <Stepper
+        <WMStepper
           :steps="stages"
           :currentStep="currentStage"
           aria-label="Form Steps"
@@ -497,7 +497,6 @@ const fetchData = async () => {
     label: stage.name,
     date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
   }));
-  console.log(data.request1);
   updateDropdown("service_request_2", data.request1?.id, "requests2");
 
   currentStage.value = data.current_stage.order - 1;
