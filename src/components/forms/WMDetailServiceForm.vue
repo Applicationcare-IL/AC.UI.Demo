@@ -425,8 +425,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import WMInputSearch from "@/components/forms/WMInputSearch.vue";
-import WMInput from "@/components/forms/WMInput.vue";
+
 import { useForm } from "vee-validate";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -436,10 +435,7 @@ import { useRoute } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
 import { ServicesService } from "@/service/ServicesService";
 import { TasksService } from "@/service/TasksService";
-import WMTasksTable from "@/components/tables/WMTasksTable.vue";
-import Stepper from "@/components/WMStepper.vue";
-import WMFilesDataView from "@/components/WMFilesDataView.vue";
-import WMJournalDataView from "@/components/WMJournalDataView.vue";
+
 import { date } from "yup";
 
 const stages = ref([]);

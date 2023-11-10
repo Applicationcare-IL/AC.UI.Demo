@@ -48,6 +48,21 @@
                     :label="$t('last-name') + ':'"
                     :value="contact.lastName"
                   />
+                  <WMInput
+                    name="first-name"
+                    :required="true"
+                    type="input-text"
+                    :label="$t('first-name') + ':'"
+                    :value="contact.firstName"
+                  />
+                  <WMInput
+                    name="last-name"
+                    :required="true"
+                    validationMessage="Validation Message"
+                    type="input-text"
+                    :label="$t('last-name') + ':'"
+                    :value="contact.lastName"
+                  />
                 </div>
                 <div class="wm-form-row gap-5">
                   <div class="wm-form-row gap-4">
@@ -333,8 +348,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import WMInputSearch from "@/components/forms/WMInputSearch.vue";
-import WMInput from "@/components/forms/WMInput.vue";
+
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
@@ -345,9 +359,8 @@ import { ContactsService } from "@/service/ContactsService";
 import { CustomerService } from "@/service/CustomerService";
 import { ServicesService } from "@/service/ServicesService";
 import { TasksService } from "@/service/TasksService";
-import WMServicesTable from "@/components/tables/WMServicesTable.vue";
-import WMCustomersTable from "@/components/tables/WMCustomersTable.vue";
-import WMTasksTable from "@/components/tables/WMTasksTable.vue";
+import { CitiesService } from "@/service/CitiesService";
+
 import { useToast } from "@/stores/toast";
 
 const customers = ref();
@@ -398,6 +411,18 @@ const { errors, handleSubmit, setFieldError, meta, resetForm } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
+  ContactsService.updateContact(
+    route.params.id,
+    ContactsService.parseContact(values)
+  )
+    .then((data) => {
+      toast.successAction("contact", "updated");
+      resetForm({ values: values });
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("customer", "not-updated");
+    });
   ContactsService.updateContact(
     route.params.id,
     ContactsService.parseContact(values)

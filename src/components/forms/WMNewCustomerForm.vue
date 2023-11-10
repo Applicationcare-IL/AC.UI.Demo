@@ -132,19 +132,24 @@
         </div>
       </div>
     </div>
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSubmit()"
+      @cancel-form="onCancel()"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import WMInput from "@/components/forms/WMInput.vue";
-import WMInputSearch from "@/components/forms/WMInputSearch.vue";
+import { ref, onMounted, watch, defineEmits } from "vue";
+
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 import { useForm } from "vee-validate";
 import { useAuthStore } from "@/stores/auth";
 import { CustomerService } from "@/service/CustomerService";
 import { useOptionSetsStore } from "@/stores/optionSets";
+import { CitiesService } from "@/service/CitiesService";
 import { useToast } from "@/stores/toast";
 import { useDialog } from "@/stores/dialog";
 
@@ -154,6 +159,8 @@ const props = defineProps({
     default: false,
   },
 });
+
+const emit = defineEmits(["closeSidebar"]);
 
 const authStore = useAuthStore();
 const optionSetsStore = useOptionSetsStore();
@@ -185,7 +192,7 @@ const { errors, handleSubmit, meta, setFieldError } = useForm({
   validationSchema: formUtilsStore.getCustomerNewFormValidationSchema,
 });
 
-const onSave = handleSubmit((values) => {
+const onSubmit = handleSubmit((values) => {
   CustomerService.createCustomer(CustomerService.parseCustomer(values))
     .then((data) => {
       dialog.confirmNewCustomer(data.data.id);
@@ -197,11 +204,9 @@ const onSave = handleSubmit((values) => {
     });
 });
 
+// if (formUtilsStore.formMeta.dirty) dialog.discardNewCustomer();
 const onCancel = () => {
-  if (formUtilsStore.formMeta.dirty) dialog.discardNewCustomer();
-  else {
-    formUtilsStore.closeForm();
-  }
+  emit("closeSidebar");
 };
 
 const onCustomerNumberChanged = (event) => {
@@ -217,8 +222,6 @@ const onCustomerNumberChanged = (event) => {
   });
 };
 
-formUtilsStore.save = onSave;
-formUtilsStore.cancel = onCancel;
 formUtilsStore.formEntity = "customer";
 
 watch(
@@ -227,6 +230,11 @@ watch(
     formUtilsStore.formMeta = value;
   }
 );
+
+defineExpose({
+  onSubmit,
+  onCancel,
+});
 </script>
 
 <style scoped lang="scss"></style>

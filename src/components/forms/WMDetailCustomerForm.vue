@@ -354,8 +354,7 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { ContactsService } from "@/service/ContactsService";
-import WMInputSearch from "@/components/forms/WMInputSearch.vue";
-import WMInput from "@/components/forms/WMInput.vue";
+
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
@@ -365,9 +364,8 @@ import { useRoute } from "vue-router";
 import { CustomerService } from "@/service/CustomerService";
 import { ServicesService } from "@/service/ServicesService";
 import { TasksService } from "@/service/TasksService";
-import WMServicesTable from "@/components/tables/WMServicesTable.vue";
-import WMContactsTable from "@/components/tables/WMContactsTable.vue";
-import WMTasksTable from "@/components/tables/WMTasksTable.vue";
+import { CitiesService } from "@/service/CitiesService";
+
 import { i18n } from "@/i18n";
 import { useToast } from "@/stores/toast";
 
@@ -435,8 +433,14 @@ const fetchData = async () => {
     selectedRating.value = ratings.value.find(
       (rating) => rating.id == customer.value.rating.id
     );
-    // selectedCity.value = customer.value.city != null ? cities.value.find(city => city.name == customer.value.city) : '';
-    // selectedStreet.value = customer.value.street != null ? cities.value.find(street => street.name == customer.value.street) : '';
+    selectedCity.value =
+      customer.value.city != null
+        ? cities.value.find((city) => city.name == customer.value.city)
+        : "";
+    selectedStreet.value =
+      customer.value.street != null
+        ? cities.value.find((street) => street.name == customer.value.street)
+        : "";
 
     selectedType.value = types.value.find(
       (type) => type.id == customer.value.type.id

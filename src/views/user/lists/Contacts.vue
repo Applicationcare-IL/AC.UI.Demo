@@ -3,7 +3,7 @@
     :filterLabels="filterLabels"
     :defaultOption="filterLabels[1]"
     entity="contact"
-    @new="displayNewForm"
+    @new="toggleSidebarVisibility"
   >
   </WMListSubHeader>
   <Sidebar
@@ -36,7 +36,17 @@
       :rows="5"
     />
   </Sidebar>
-  <WMNewEntitySidebar name="newContact" entity="contact" />
+
+  <WMSidebar
+    :visible="isVisible"
+    @close-sidebar="closeSidebar"
+    @open-sidebar="openSidebar"
+    name="newContact"
+  >
+    <WMNewEntityFormHeader entity="contact" name="newContact" />
+    <WMNewContactForm :isSidebar="true" @close-sidebar="closeSidebar" />
+  </WMSidebar>
+
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
       lazy
@@ -135,9 +145,7 @@ import { TasksService } from "@/service/TasksService";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
-import WMCustomersTable from "@/components/tables/WMCustomersTable.vue";
-import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
-import WMNewEntitySidebar from "@/components/layout/WMNewEntitySidebar.vue";
+
 import { useLayout } from "@/layout/composables/layout";
 const { layoutConfig } = useLayout();
 
@@ -183,6 +191,20 @@ const onPage = (event) => {
 };
 
 //Display sidebars
+const isVisible = ref(false);
+
+function toggleSidebarVisibility() {
+  isVisible.value = !isVisible.value;
+}
+
+function closeSidebar() {
+  isVisible.value = false;
+}
+
+function openSidebar() {
+  isVisible.value = true;
+}
+
 const customerColumns = ref(listUtilsStore.getCustomerDetailColumns);
 const contactDetail = ref(null);
 const displayDetails = (data) => {

@@ -29,11 +29,11 @@
             :placeholder="$t('select', ['contact'])"
             type="input-search"
             :label="$t('contact') + ':'"
-            width="152"
-            :options="customers"
+            width="160"
             :highlighted="true"
             :new="true"
             related-sidebar="newContact"
+            :searchFunction="searchContact"
           />
           <WMSidebar
             :visible="isVisible"
@@ -41,6 +41,7 @@
             @open-sidebar="openSidebar"
             name="newContact"
           >
+            <WMNewEntityFormHeader entity="contact" name="newContact" />
             <WMNewContactForm :isSidebar="true" />
           </WMSidebar>
         </div>
@@ -50,9 +51,9 @@
           :placeholder="$t('select', ['customer'])"
           type="input-search"
           :label="$t('customer') + ':'"
-          width="200"
-          :options="customers"
+          width="160"
           :highlighted="true"
+          :searchFunction="searchCustomer"
         />
       </div>
       <div class="wm-form-row align-items-end gap-5">
@@ -63,8 +64,8 @@
           type="input-search"
           :label="$t('task.type') + ':'"
           width="200"
-          :options="customers"
           :highlighted="true"
+          :searchFunction="searchTaskTypes"
         />
         <WMInputSearch
           name="task-family"
@@ -73,50 +74,59 @@
           type="input-search"
           :label="$t('task.family') + ':'"
           width="200"
-          :options="customers"
           :highlighted="true"
+          :searchFunction="searchTaskTypes"
         />
       </div>
       <Divider class="mb-0" layout="horizontal" />
       <div class="task-description flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">{{ $t("description") }}</h2>
         <div class="wm-form-row gap-5">
-          <Textarea v-model="value" autoResize rows="8" cols="100" />
+          <!-- <Textarea v-model="value" autoResize rows="8" cols="100" /> -->
+          <WMInput type="text-area" id="description" name="description" />
         </div>
       </div>
     </div>
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSubmit()"
+      @cancel-form="onCancel()"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import WMInput from "@/components/forms/WMInput.vue";
-import WMInputSearch from "@/components/forms/WMInputSearch.vue";
-import WMSidebar from "@/components/WMSidebar.vue";
-import WMNewContactForm from "@/components/forms/WMNewContactForm.vue";
+import { ref, defineEmits, defineExpose } from "vue";
+
+import { TasksService } from "@/service/TasksService";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
 import { useForm } from "vee-validate";
 import { CustomerService } from "@/service/CustomerService";
+import { ContactsService } from "@/service/ContactsService";
 
-const customers = ref();
+import { useToast } from "@/stores/toast";
+import { useDialog } from "@/stores/dialog";
 
-onMounted(() => {
-  CustomerService.getCustomers().then((data) => (customers.value = data));
+const props = defineProps({
+  isSidebar: {
+    type: Boolean,
+    default: false,
+  },
 });
 
+const toast = useToast();
+const dialog = useDialog();
 const formUtilsStore = useFormUtilsStore();
 
-const { errors, handleSubmit } = useForm({
+const { handleSubmit, values } = useForm({
   validationSchema: formUtilsStore.getTaskFormValidationSchema,
 });
 
-const onSubmit = handleSubmit((values) => {
-  console.log(values);
-});
-
 const isVisible = ref(false);
+
+const emit = defineEmits(["closeSidebar"]);
 
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
@@ -130,11 +140,49 @@ function closeSidebar() {
   isVisible.value = false;
 }
 
-formUtilsStore.submit = onSubmit;
+// const customers = ref();
+// const contacts = ref();
 
-function doThings() {
-  console.log("do things");
-}
+const searchCustomer = (query) => {
+  return CustomerService.getCustomersFromApi({ search: query });
+};
+
+const searchContact = (query) => {
+  return ContactsService.getContactsFromApi({ search: query });
+};
+
+const searchTaskTypes = (query) => {
+  return TasksService.getTasksTypesFromApi({ search: query });
+};
+
+const onSubmit = handleSubmit((values) => {
+  const today = new Date().toISOString().slice(0, 10);
+
+  const task = {
+    ...values,
+    started_at: today,
+    due_date: today, // TODO: change that to the date the user selected
+  };
+
+  TasksService.createTask(TasksService.parseTask(task))
+    .then((data) => {
+      dialog.confirmNewTask(data.data.id);
+      toast.successAction("contact", "created");
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("contact", "not-created");
+    });
+});
+
+const onCancel = () => {
+  emit("closeSidebar");
+};
+
+defineExpose({
+  onSubmit,
+  onCancel,
+});
 </script>
 
 <style scoped lang="scss"></style>

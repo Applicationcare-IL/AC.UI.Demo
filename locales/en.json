@@ -71,14 +71,14 @@
         "main": "Main",
         "notification": {
             "created": {
-                "header": "A new contact has been created",
-                "message": "The new contact was successfully created! \n From now on it will appear in your contact list",
-                "detail": "Go to Detail",
-                "list": "Back to list"
+                "header": "New Contact Created",
+                "message": "The new contact was successfully created! \n From now on he will appear in your contacts list",
+                "detail": "View contact",
+                "list": "View List"
             },
             "discard": {
-                "header": "Contact not saved",
-                "message": "You haven't finished creating the new contact person. \n Exit this page without saving it?",
+                "header": "The contact is not saved",
+                "message": "You have not finished creating the new contact. \n You would like to exit this page without saving it",
                 "accept": "Remain on this page",
                 "cancel": "Exit without saving"
             }
@@ -188,7 +188,21 @@
         "call": "Call",
         "open_date": "Date opened",
         "close_date": "Date closed",
-        "service_number": "Service number"
+        "service_number": "Service number",
+        "notification": {
+            "created": {
+                "header": "New Task Created",
+                "message": "The new task was successfully created! \n From now on he will appear in your tasks list",
+                "detail": "View Task",
+                "list": "View List"
+            },
+            "discard": {
+                "header": "The task is not saved",
+                "message": "You have not finished creating the new task. \n You would like to exit this page without saving it",
+                "accept": "Remain on this page",
+                "cancel": "Exit without saving"
+            }
+        }
     },
     "site": {
         "details": "Site Details",

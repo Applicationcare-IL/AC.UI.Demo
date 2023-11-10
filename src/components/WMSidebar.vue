@@ -3,12 +3,11 @@
     <div
       v-if="visible"
       class="wm-sidebar-wrapper"
+      :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
       :style="{ left: leftPositon + 'px' }"
     >
       <div class="wm-sidebar" ref="target">
         <slot></slot>
-
-        <button @click="closeSidebar">Close sidebar</button>
       </div>
       <div class="wm-sidebar-overlay" @click="closeSidebar"></div>
     </div>
@@ -18,7 +17,10 @@
 <script setup>
 import { ref, toRefs, defineEmits, watch, computed } from "vue";
 import { useSidebarStore } from "@/stores/sidebar";
+import { useLayout } from "@/layout/composables/layout";
+
 const sidebarStore = useSidebarStore();
+const { layoutConfig } = useLayout();
 
 const target = ref(null);
 
@@ -109,6 +111,7 @@ watch(
   background-color: #42424275;
   position: fixed;
   z-index: -1;
+  left: 0;
 }
 
 .wm-sidebar {

@@ -95,6 +95,17 @@ export const TasksService = {
       });
   },
 
+  getTasksTypesFromApi(params) {
+    return axiosConfig
+      .get("/tasks/types", { params })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
   getTaskFromApi(id) {
     return axiosConfig
       .get("/tasks/" + id)
@@ -106,6 +117,31 @@ export const TasksService = {
       .catch((error) => {
         console.log(error);
       });
+  },
+
+  createTask(task) {
+    return axiosConfig
+      .post("/tasks", task)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        throw error;
+      });
+  },
+
+  parseTask(task) {
+    return {
+      task_type: task["task-type"].id,
+      description: task.description,
+      due_date: task.due_date,
+      started_at: task.started_at,
+      customer_id: task.customer.id,
+      contact_id: task.contact.id,
+      entity_type: task.entity_type ? task.entity_type.type : null,
+      entity_id: task.entity_id ? task.entity_id.id : null,
+    };
   },
 
   mapTask(task) {

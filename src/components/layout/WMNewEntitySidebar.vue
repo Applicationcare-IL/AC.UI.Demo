@@ -13,11 +13,9 @@
       </router-link>
     </div>
     <Divider />
-    <WMNewCustomerForm v-if="props.name === 'newCustomer'" :isSidebar="true" />
-    <WMNewContactForm v-if="props.name === 'newContact'" :isSidebar="true" />
+
     <WMNewServiceForm v-if="props.name === 'newService'" :isSidebar="true" />
     <WMNewTaskForm v-if="props.name === 'newTask'" :isSidebar="true" />
-    <WMFormButtons></WMFormButtons>
   </Sidebar>
 </template>
 
@@ -25,11 +23,6 @@
 import { ref, defineProps, watch } from "vue";
 import { useLayout } from "@/layout/composables/layout";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import WMNewCustomerForm from "@/components/forms/WMNewCustomerForm.vue";
-import WMNewContactForm from "@/components/forms/WMNewContactForm.vue";
-import WMNewServiceForm from "@/components/forms/WMNewServiceForm.vue";
-import WMNewTaskForm from "@/components/forms/WMNewTaskForm.vue";
-import WMFormButtons from "@/components/layout/WMFormButtons.vue";
 
 const formUtilsStore = useFormUtilsStore();
 const { layoutConfig } = useLayout();
