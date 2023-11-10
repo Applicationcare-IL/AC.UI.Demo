@@ -134,13 +134,13 @@ export const ServicesService = {
     parseService(service) {
         console.log(service.direction.id)
         return {
-            "contact_id": service.contact.id,
-            "customer_id": service.customer.id,
+            "contact_id": 1,//service.contact.id,
+            "customer_id": 1,//service.customer.id,
             "urgent": service.priority.id,
             "direction": service.direction.id,
             "channel": service.channel.id,
             "priority": service.priority.id,
-            "process_definition_id": 1,
+            "process_definition_id": 3,
             "description": service.description,
             "address" : "Address",
             "area_id" : service.area?.id,
@@ -192,6 +192,7 @@ export const ServicesService = {
             team: 'אגף רישוי ופיקוח (הנדסה)',
             is_active: true, //is_active,
             description: service.description,
+            status: service.status?.value,
             location: {
                 house_number: '12',
                 apartment: '42',
@@ -209,7 +210,8 @@ export const ServicesService = {
                 phone: '054-1234567',
                 email: 'mailmail@mailmail.com',
                 type: 'ציבורי',
-            }
+            },
+            
         }
     }
 };

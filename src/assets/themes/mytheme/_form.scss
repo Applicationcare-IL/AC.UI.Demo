@@ -289,3 +289,17 @@ textarea {
     font-weight: 700;
     white-space: nowrap;
 }
+
+//Status
+
+.status-label{
+    display: flex;
+    width: 72px;
+    height: 24px;
+    padding: 10px 8px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+
+}

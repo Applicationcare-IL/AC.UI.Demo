@@ -44,6 +44,8 @@
     "modified_by": "Changed by",
     "created_at": "Created at",
     "modified_at": "Modified at",
+    "days": "days",
+    "day": "day",
     "navigation": {
         "dashboard": "Dashboard",
         "customers": "Customers",
@@ -66,7 +68,25 @@
         "notes": "Contact notes",
         "id": "ID",
         "system-id": "System ID",
-        "main": "Main"
+        "main": "Main",
+        "notification": {
+            "created": {
+                "header": "A new contact has been created",
+                "message": "The new contact was successfully created! \n From now on it will appear in your contact list",
+                "detail": "Go to Detail",
+                "list": "Back to list"
+            },
+            "discard": {
+                "header": "Contact not saved",
+                "message": "You haven't finished creating the new contact person. \n Exit this page without saving it?",
+                "accept": "Remain on this page",
+                "cancel": "Exit without saving"
+            }
+        },
+        "toast": {
+            "created": "A new contact was created",
+            "error": "An error occurred"
+        }
     },
     "customer": {
         "customer": "Customer",
@@ -131,7 +151,25 @@
         "date-closed": "Closed at",
         "location": "Location",
         "description": "Description",
-        "classification": "Classification"
+        "classification": "Classification",
+        "notification": {
+            "created": {
+                "header": "New service Created",
+                "message": "The new service was successfully created! \n From now on he will appear in your customer list",
+                "detail": "View service",
+                "list": "View List"
+            },
+            "discard": {
+                "header": "The service is not saved",
+                "message": "You have not finished creating the new service. \n You would like to exit this page without saving it",
+                "accept": "Remain on this page",
+                "cancel": "Exit without saving"
+            }
+        },
+        "toast": {
+            "created": "New service Created",
+            "error": "An error occurred"
+        }
     },
     "task": {
         "task": "Task",
