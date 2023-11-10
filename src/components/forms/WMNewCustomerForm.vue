@@ -149,7 +149,6 @@ import { useForm } from "vee-validate";
 import { useAuthStore } from "@/stores/auth";
 import { CustomerService } from "@/service/CustomerService";
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { CitiesService } from "@/service/CitiesService";
 import { useToast } from "@/stores/toast";
 import { useDialog } from "@/stores/dialog";
 

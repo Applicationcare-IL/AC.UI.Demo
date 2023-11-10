@@ -48,21 +48,6 @@
                     :label="$t('last-name') + ':'"
                     :value="contact.lastName"
                   />
-                  <WMInput
-                    name="first-name"
-                    :required="true"
-                    type="input-text"
-                    :label="$t('first-name') + ':'"
-                    :value="contact.firstName"
-                  />
-                  <WMInput
-                    name="last-name"
-                    :required="true"
-                    validationMessage="Validation Message"
-                    type="input-text"
-                    :label="$t('last-name') + ':'"
-                    :value="contact.lastName"
-                  />
                 </div>
                 <div class="wm-form-row gap-5">
                   <div class="wm-form-row gap-4">
@@ -359,7 +344,6 @@ import { ContactsService } from "@/service/ContactsService";
 import { CustomerService } from "@/service/CustomerService";
 import { ServicesService } from "@/service/ServicesService";
 import { TasksService } from "@/service/TasksService";
-import { CitiesService } from "@/service/CitiesService";
 
 import { useToast } from "@/stores/toast";
 

@@ -80,6 +80,7 @@
       <Column field="contact" header="איש קשר" class="link-col">
         <template #body="slotProps">
           <router-link
+            v-if="slotProps.data.contact_id"
             :to="{
               name: 'contactDetail',
               params: { id: slotProps.data.contact_id },
@@ -92,7 +93,7 @@
       <Column field="customer" header="לקוח" class="link-col">
         <template #body="slotProps">
           <router-link
-            v-if="slotProps.data.customer"
+            v-if="slotProps.data.customer.id"
             :to="{
               name: 'customerDetail',
               params: { id: slotProps.data.customer.id },
