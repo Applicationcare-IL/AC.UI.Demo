@@ -1,6 +1,21 @@
 <template>
-  <WMNewFormSubHeader></WMNewFormSubHeader>
-  <WMNewServiceForm></WMNewServiceForm>
+  <WMNewFormSubHeader @save-form="saveForm()" @cancel-form="cancelForm()" />
+  <WMNewServiceForm ref="newServiceForm"></WMNewServiceForm>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const newServiceForm = ref(null);
+
+const saveForm = () => {
+  newServiceForm.value.onSubmit();
+};
+
+const cancelForm = () => {
+  router.push({ name: "services" });
+};
+</script>

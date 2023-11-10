@@ -114,7 +114,6 @@ export const useListUtilsStore = defineStore('listUtils', {
         },
 
         getSlaConditionalStyle: (sla) => {
-            console.log(sla);
             return [
                 {
                     'bg-teal-200 text-teal-900': sla === 'no_breach',
