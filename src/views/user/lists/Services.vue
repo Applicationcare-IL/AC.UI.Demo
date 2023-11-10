@@ -194,13 +194,6 @@ const onPage = (event) => {
 };
 
 const isDetailsVisible = ref(false);
-const displayNewForm = () => {
-  formUtilsStore.expandSidebar = "newService";
-};
-
-const displayNewContactForm = () => {
-  formUtilsStore.expandSidebar = "newContact";
-};
 
 //Display sidebars
 const serviceDetail = ref(null);
@@ -208,18 +201,6 @@ const displayDetails = (data) => {
   serviceDetail.value = data;
   isDetailsVisible.value = true;
 };
-
-const metaKey = ref(true);
-
-const value = ref(null);
-const options = ref([
-  { name: "כל אנשי הקשר", value: 2 },
-  { name: "אנשי הקשר שלי", value: 1 },
-]);
-const isFilterOpen = ref(false);
-const isFilterApplied = ref(false);
-
-const searchValue = ref("");
 
 const rowClass = (data) => {
   return [{ inactive_row: !data.is_active }];

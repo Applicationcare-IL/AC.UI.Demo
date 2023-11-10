@@ -36,13 +36,16 @@
             :searchFunction="searchContact"
           />
           <WMSidebar
-            :visible="isVisible"
-            @close-sidebar="closeSidebar"
-            @open-sidebar="openSidebar"
+            :visible="isNewContactSidebarVisible"
+            @close-sidebar="closeNewContactSidebar"
+            @open-sidebar="openNewContactSidebar"
             name="newContact"
           >
             <WMNewEntityFormHeader entity="contact" name="newContact" />
-            <WMNewContactForm :isSidebar="true" />
+            <WMNewContactForm
+              :isSidebar="true"
+              @close-sidebar="closeNewContactSidebar"
+            />
           </WMSidebar>
         </div>
         <WMInputSearch
@@ -54,7 +57,21 @@
           width="160"
           :highlighted="true"
           :searchFunction="searchCustomer"
+          :new="true"
+          related-sidebar="newCustomer"
         />
+        <WMSidebar
+          :visible="isNewCustomerSidebarVisible"
+          @close-sidebar="closeNewCustomerSidebar"
+          @open-sidebar="openNewCustomerSidebar"
+          name="newCustomer"
+        >
+          <WMNewEntityFormHeader entity="customer" name="newCustomer" />
+          <WMNewCustomerForm
+            :isSidebar="true"
+            @close-sidebar="closeNewCustomerSidebar"
+          />
+        </WMSidebar>
       </div>
       <div class="wm-form-row align-items-end gap-5">
         <WMInputSearch
@@ -124,24 +141,29 @@ const { handleSubmit, values } = useForm({
   validationSchema: formUtilsStore.getTaskFormValidationSchema,
 });
 
-const isVisible = ref(false);
-
 const emit = defineEmits(["closeSidebar"]);
 
-function toggleSidebarVisibility() {
-  isVisible.value = !isVisible.value;
+// new contact sidebar
+const isNewContactSidebarVisible = ref(false);
+
+function openNewContactSidebar() {
+  isNewContactSidebarVisible.value = true;
 }
 
-function openSidebar() {
-  isVisible.value = true;
+function closeNewContactSidebar() {
+  isNewContactSidebarVisible.value = false;
 }
 
-function closeSidebar() {
-  isVisible.value = false;
+// new customer sidebar
+const isNewCustomerSidebarVisible = ref(false);
+
+function openNewCustomerSidebar() {
+  isNewCustomerSidebarVisible.value = true;
 }
 
-// const customers = ref();
-// const contacts = ref();
+function closeNewCustomerSidebar() {
+  isNewCustomerSidebarVisible.value = false;
+}
 
 const searchCustomer = (query) => {
   return CustomerService.getCustomersFromApi({ search: query });

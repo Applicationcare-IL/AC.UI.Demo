@@ -1,6 +1,6 @@
 <template>
   <WMNewFormSubHeader @save-form="saveForm()" @cancel-form="cancelForm()" />
-  <WMNewServiceForm ref="newServiceForm"></WMNewServiceForm>
+  <WMNewServiceForm ref="newContactForm" />
 </template>
 
 <script setup>

@@ -1,6 +1,6 @@
 <template>
   <WMNewFormSubHeader @save-form="saveForm()" @cancel-form="cancelForm()" />
-  <WMNewTaskForm ref="newTaskForm"></WMNewTaskForm>
+  <WMNewTaskForm ref="newTaskForm" />
 </template>
 
 <script setup>
