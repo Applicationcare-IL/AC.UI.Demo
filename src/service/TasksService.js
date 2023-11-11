@@ -131,6 +131,18 @@ export const TasksService = {
       });
   },
 
+  completeTask(id) {
+    return axiosConfig
+      .post("/tasks/" + id + "/complete")
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        throw error;
+      });
+  },
+
   parseTask(task) {
     return {
       task_type: task["task-type"].id,
@@ -147,28 +159,29 @@ export const TasksService = {
   mapTask(task) {
     const is_open = Math.random() < 0.5;
     return {
+      name: task.id,
       task_number: task.id,
       process_number: "687984",
-      task_type: task.task_type.name,
-      family: "מוקד",
+      task_type: task.task_type?.name,
+      family: task.family?.value,
+      stage: task.stage?.name,
+      sla: task.sla?.sla,
+      days_for_closing: task.sla?.days_for_closing,
       contact: "שלומי שבת",
       contact_id: "795",
-      status: "סגור", //is_open ? 'פתוח' : 'סגור',
-      due_date: "11/12/23",
-      SLA: is_open
-        ? slas[parseInt(Math.random() * 3)]
-        : slas[parseInt(Math.random() * 2 + 3)],
-      owner: "Israel Israeli",
+      status: task.status?.value, //is_open ? 'פתוח' : 'סגור',
+      is_open: task.status?.value == "open",
+      due_date: task.sla?.due_date,
+      open_date: task.started_at,
+      owner: task.owner?.name,
       team: "אגף רישוי ופיקוח (הנדסה)",
       customer: "טיילור סוויפט",
       call: "כן",
-      open_date: "11/11/22",
       close_date: is_open ? "" : "11/12/23",
       last_change: "11/11/22 10:23",
       remarks: "תוכן של הערה שכתובה יפה מאוד",
-      stage: "קבלת בקשה",
-      is_open: is_open,
       service_number: "469879",
+      notes: task.notes,
       location: {
         house_number: "12",
         apartment: "42",

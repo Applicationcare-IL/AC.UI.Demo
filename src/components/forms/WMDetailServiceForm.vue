@@ -341,12 +341,7 @@
       </div>
 
       <div>
-        <WMTasksTable
-          :tasks="tasks"
-          :columns="taskColumns"
-          :rows="5"
-          multiselect
-        >
+        <WMTasksTable :tasks="tasks" :columns="taskColumns" multiselect>
         </WMTasksTable>
       </div>
 
@@ -484,9 +479,9 @@ const optionRefs = {
 
 onMounted(() => {
   fetchData();
-  setTimeout(function () {
-    TasksService.getTasksMini().then((data) => (tasks.value = data));
-  }, 2000);
+  // setTimeout(function () {
+  //   TasksService.getTasksMini().then((data) => (tasks.value = data));
+  // }, 2000);
 });
 
 const fetchData = async () => {
@@ -501,6 +496,12 @@ const fetchData = async () => {
 
   currentStage.value = data.current_stage.order - 1;
   utilsStore.selectedElements["service"] = [service.value];
+
+  const tasksData = await TasksService.getTasksFromApi({
+    entity_type: "service",
+    entity_id: route.params.id,
+  });
+  tasks.value = tasksData.tasks;
 };
 
 const updateDropdown = (dropdown, selectedValue, dropdownOptions) => {
