@@ -171,6 +171,7 @@ const services = ref();
 const tasks = ref();
 const loading = ref(false);
 const dt = ref();
+const searchValue = ref("");
 
 const loadLazyData = () => {
   loading.value = true;
@@ -178,6 +179,7 @@ const loadLazyData = () => {
   ContactsService.getContactsFromApi({
     page: lazyParams.value.page + 1,
     per_page: listUtilsStore.rows,
+    search: searchValue.value,
   }).then((result) => {
     console.log(result);
     contacts.value = result.data;
@@ -253,6 +255,16 @@ watch(
   () => listUtilsStore.rows,
   () => {
     loadLazyData();
+  }
+);
+
+watch(
+  () => utilsStore.searchString["contact"],
+  () => {
+    searchValue.value = utilsStore.searchString["contact"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
   }
 );
 </script>

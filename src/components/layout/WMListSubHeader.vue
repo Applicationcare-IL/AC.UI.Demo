@@ -52,14 +52,7 @@
       </div>
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row gap-3">
-          <span class="p-input-icon-left">
-            <i class="pi pi-search" />
-            <InputText
-              class="w-30rem"
-              v-model="searchValue"
-              placeholder="Search"
-            />
-          </span>
+          <WMSearchBox :entity="entity" />
 
           <WMButton
             name="filter"
@@ -101,8 +94,6 @@ const listUtilsStore = useListUtilsStore();
 const numberOfRows = ref(
   listUtilsStore.listRowsPerPage.find((x) => x.value === listUtilsStore.rows)
 );
-
-const searchValue = ref("");
 
 const props = defineProps({
   activeButtons: Boolean,

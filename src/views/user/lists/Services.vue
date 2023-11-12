@@ -175,11 +175,14 @@ onMounted(() => {
   loadLazyData();
 });
 
+const searchValue = ref("");
+
 const loadLazyData = () => {
   loading.value = true;
   ServicesService.getServicesFromApi({
     page: lazyParams.value.page + 1,
     per_page: listUtilsStore.rows,
+    search: searchValue.value,
   }).then((result) => {
     console.log(result);
     services.value = result.data;
@@ -257,6 +260,16 @@ watch(
   () => listUtilsStore.rows,
   () => {
     loadLazyData();
+  }
+);
+
+watch(
+  () => utilsStore.searchString["service"],
+  () => {
+    searchValue.value = utilsStore.searchString["service"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
   }
 );
 </script>

@@ -186,6 +186,7 @@ const services = ref();
 const tasks = ref();
 const loading = ref(false);
 const dt = ref();
+const searchValue = ref("");
 
 const loadLazyData = () => {
   loading.value = true;
@@ -193,6 +194,7 @@ const loadLazyData = () => {
   CustomerService.getCustomersFromApi({
     page: lazyParams.value.page + 1,
     per_page: listUtilsStore.rows,
+    search: searchValue.value,
   }).then((result) => {
     console.log(result);
     customers.value = result.data;
@@ -260,6 +262,16 @@ watch(
   () => listUtilsStore.rows,
   () => {
     loadLazyData();
+  }
+);
+
+watch(
+  () => utilsStore.searchString["customer"],
+  () => {
+    searchValue.value = utilsStore.searchString["customer"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
   }
 );
 </script>
