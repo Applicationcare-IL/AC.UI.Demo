@@ -122,7 +122,6 @@
 import { ref, onMounted, computed, watch } from "vue";
 import { TasksService } from "@/service/TasksService";
 
-import { useUtilsStore } from "@/stores/utils";
 import { useListUtilsStore } from "@/stores/listUtils";
 import { useUtilsStore } from "@/stores/utils";
 
