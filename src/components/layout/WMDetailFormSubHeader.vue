@@ -58,7 +58,7 @@ const selectedElements = ref(0);
 watch(
   () => utilsStore.selectedElements[utilsStore.entity],
   (value) => {
-    selectedElements.value = value.length;
+    selectedElements.value = value?.length;
   }
 );
 

@@ -265,18 +265,12 @@
         <WMServicesTable
           :services="services"
           :columns="serviceColumns"
-          :rows="5"
           multiselect
         >
         </WMServicesTable>
       </div>
       <div>
-        <WMTasksTable
-          :tasks="tasks"
-          :columns="taskColumns"
-          :rows="5"
-          multiselect
-        >
+        <WMTasksTable :tasks="tasks" :columns="taskColumns" multiselect>
         </WMTasksTable>
       </div>
       <div class="flex-1 card-container">
@@ -372,13 +366,6 @@ const toast = useToast();
 
 onMounted(() => {
   fetchData();
-
-  setTimeout(function () {
-    ServicesService.getServicesMini().then((data) => (services.value = data));
-  }, 2000);
-  setTimeout(function () {
-    TasksService.getTasksMini().then((data) => (tasks.value = data));
-  }, 2000);
 });
 
 const fetchData = async () => {
@@ -388,6 +375,14 @@ const fetchData = async () => {
     console.log(contact.value);
     loaded.value = true;
   });
+  const servicesData = await ServicesService.getServicesFromApi({
+    customer_id: route.params.id,
+  });
+  services.value = servicesData.data;
+  const tasksData = await TasksService.getTasksFromApi({
+    customer_id: route.params.id,
+  });
+  tasks.value = tasksData.tasks;
 };
 
 const { errors, handleSubmit, setFieldError, meta, resetForm } = useForm({

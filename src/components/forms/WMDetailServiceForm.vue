@@ -479,9 +479,6 @@ const optionRefs = {
 
 onMounted(() => {
   fetchData();
-  // setTimeout(function () {
-  //   TasksService.getTasksMini().then((data) => (tasks.value = data));
-  // }, 2000);
 });
 
 const fetchData = async () => {

@@ -254,18 +254,12 @@
         <WMServicesTable
           :services="services"
           :columns="serviceColumns"
-          :rows="5"
           multiselect
         >
         </WMServicesTable>
       </div>
       <div>
-        <WMTasksTable
-          :tasks="tasks"
-          :columns="taskColumns"
-          :rows="5"
-          multiselect
-        >
+        <WMTasksTable :tasks="tasks" :columns="taskColumns" multiselect>
         </WMTasksTable>
       </div>
       <div class="flex flex-row gap-5 flex-wrap mt-5">
@@ -448,8 +442,14 @@ const fetchData = async () => {
     );
   });
   loaded.value = true;
-  ServicesService.getServicesMini().then((data) => (services.value = data));
-  TasksService.getTasksMini().then((data) => (tasks.value = data));
+  const servicesData = await ServicesService.getServicesFromApi({
+    customer_id: route.params.id,
+  });
+  services.value = servicesData.data;
+  const tasksData = await TasksService.getTasksFromApi({
+    customer_id: route.params.id,
+  });
+  tasks.value = tasksData.tasks;
 };
 
 const { errors, handleSubmit, setFieldError, meta, resetForm } = useForm({
