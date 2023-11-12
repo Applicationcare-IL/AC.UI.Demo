@@ -189,6 +189,7 @@
         "open_date": "Date opened",
         "close_date": "Date closed",
         "service_number": "Service number",
+        "complete": "Complete",
         "notification": {
             "created": {
                 "header": "New Task Created",
@@ -243,7 +244,9 @@
         "open": "Open",
         "closed": "Closed",
         "active": "Active",
-        "inactive": "Not Active"
+        "inactive": "Not Active",
+        "pending": "Pending",
+        "completed": "Completed"
     },
     "classification1": {
         "urban-architect": "Urban Architect",
@@ -263,6 +266,10 @@
         "forgot_password": "Forgot password?",
         "submit": "Log in",
         "invalid_credentials": "Looks like your email or password are incorrect. Maybe try again?"
+    },
+    "sla" : {
+        "days_left" : "{0} Days left",
+        "days_passed" : "{0} Days passed"
     },
     "option-set": {
         "customer_type": {

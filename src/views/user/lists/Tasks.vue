@@ -119,14 +119,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { TasksService } from "@/service/TasksService";
 
 import { useUtilsStore } from "@/stores/utils";
 import { useListUtilsStore } from "@/stores/listUtils";
+import { useUtilsStore } from "@/stores/utils";
 
-const utilsStore = useUtilsStore();
 const listUtilsStore = useListUtilsStore();
+const utilsStore = useUtilsStore();
+const searchValue = ref("");
 
 onMounted(() => {
   utilsStore.entity = "task";
@@ -139,6 +141,7 @@ const loadLazyData = () => {
   TasksService.getTasksFromApi({
     page: lazyParams.value.page + 1,
     per_page: listUtilsStore.rows,
+    search: searchValue.value,
   }).then((data) => {
     tasks.value = data.tasks;
     totalRecords.value = data.totalRecords;
@@ -209,6 +212,16 @@ const slaClass = (data) => {
     },
   ];
 };
+
+watch(
+  () => utilsStore.searchString["task"],
+  () => {
+    searchValue.value = utilsStore.searchString["task"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  }
+);
 
 const filterLabels = [
   { name: "כל המשימות", value: 2 },

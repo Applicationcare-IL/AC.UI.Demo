@@ -9,13 +9,13 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
-const newContactForm = ref(null);
+const newServiceForm = ref(null);
 
 const saveForm = () => {
-  newContactForm.value.onSubmit();
+  newServiceForm.value.onSubmit();
 };
 
 const cancelForm = () => {
-  router.push({ name: "contacts" });
+  router.push({ name: "services" });
 };
 </script>

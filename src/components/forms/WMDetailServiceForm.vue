@@ -266,43 +266,64 @@
               <div class="flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
-                    name="service-area"
+                    name="area"
                     type="info"
                     :highlighted="true"
                     :label="$t('classification-1') + ':'"
-                    :value="service.classification_1"
+                    :value="service.area?.value"
                   />
                   <WMInput
-                    name="service-type"
+                    name="type"
                     type="info"
                     :highlighted="true"
                     :label="$t('classification-2') + ':'"
-                    :value="service.classification_2"
+                    :value="service.type?.value"
                   />
                   <WMInput
-                    name="service-request1"
+                    name="request1"
                     type="info"
                     :highlighted="true"
                     :label="$t('classification-3') + ':'"
-                    :value="service.classification_3"
+                    :value="service.request1?.value"
                   />
                 </div>
-                <div class="wm-form-row gap-5">
+                <div class="wm-form-row gap-5" v-if="service.status == 'open'">
                   <WMInputSearch
-                    name="service-request2"
+                    name="request2"
+                    :highlighted="true"
+                    :label="$t('classification-4') + ':'"
+                    :value="service.request2?.value"
+                    :options="requests2"
+                    @change="
+                      updateDropdown(
+                        'service_request_3',
+                        $event.value.id,
+                        'requests3'
+                      )
+                    "
+                  />
+                  <WMInputSearch
+                    name="request3"
+                    :highlighted="true"
+                    :label="$t('classification-5') + ':'"
+                    :value="service.request3?.value"
+                    :options="requests3"
+                  />
+                </div>
+                <div class="wm-form-row gap-5" v-if="service.status != 'open'">
+                  <WMInput
+                    name="request2"
                     type="info"
                     :highlighted="true"
                     :label="$t('classification-4') + ':'"
-                    :value="service.classification_4"
-                    :options="classification4Options"
+                    :value="service.request2?.value"
                   />
-                  <WMInputSearch
-                    name="service-request3"
+                  <WMInput
+                    name="request3"
                     type="info"
                     :highlighted="true"
                     :label="$t('classification-5') + ':'"
-                    :value="service.classification_5"
-                    :options="classification5Options"
+                    :value="service.request3?.value"
                   />
                 </div>
               </div>
@@ -312,7 +333,7 @@
       </div>
 
       <div class="mt-5">
-        <Stepper
+        <WMStepper
           :steps="stages"
           :currentStep="currentStage"
           aria-label="Form Steps"
@@ -320,12 +341,7 @@
       </div>
 
       <div>
-        <WMTasksTable
-          :tasks="tasks"
-          :columns="taskColumns"
-          :rows="5"
-          multiselect
-        >
+        <WMTasksTable :tasks="tasks" :columns="taskColumns" multiselect>
         </WMTasksTable>
       </div>
 
@@ -424,7 +440,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 import { useForm } from "vee-validate";
 import { useUtilsStore } from "@/stores/utils";
@@ -445,41 +461,72 @@ const tasks = ref();
 
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
-const OptionSetsStore = useOptionSetsStore();
+const optionSetsStore = useOptionSetsStore();
 const listUtilsStore = useListUtilsStore();
 const service = ref();
 const route = useRoute();
-
-const classification4Options =
-  OptionSetsStore.getOptionSetValues("classification4");
-const classification5Options =
-  OptionSetsStore.getOptionSetValues("classification5");
 
 const contactColumns = ref(listUtilsStore.getContactColumns);
 const serviceColumns = ref(listUtilsStore.getServiceColumns);
 const taskColumns = ref(listUtilsStore.getTaskColumns);
 
+const requests2 = ref([]);
+const requests3 = ref([]);
+const optionRefs = {
+  requests2: requests2,
+  requests3: requests3,
+};
+
 onMounted(() => {
-  ServicesService.getServiceFromApi(route.params.id).then((data) => {
-    service.value = data;
-    stages.value = data.stages.map((stage) => ({
-      label: stage.name,
-      date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
-    }));
-    currentStage.value = data.current_stage.order - 1;
+  fetchData();
+});
+
+const fetchData = async () => {
+  const data = await ServicesService.getServiceFromApi(route.params.id);
+  service.value = data;
+  console.log(data.stages);
+  stages.value = data.stages.map((stage) => ({
+    label: stage.name,
+    date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
+  }));
+  updateDropdown("service_request_2", data.request1?.id, "requests2");
+
+  currentStage.value = data.current_stage.order - 1;
+  utilsStore.selectedElements["service"] = [service.value];
+
+  const tasksData = await TasksService.getTasksFromApi({
+    entity_type: "service",
+    entity_id: route.params.id,
   });
-  setTimeout(function () {
-    TasksService.getTasksMini().then((data) => (tasks.value = data));
-  }, 2000);
+  tasks.value = tasksData.tasks;
+};
+
+const updateDropdown = (dropdown, selectedValue, dropdownOptions) => {
+  console.log(selectedValue);
+  optionSetsStore
+    .getOptionSetValuesFromApiRaw(dropdown, selectedValue)
+    .then((data) => {
+      optionRefs[dropdownOptions].value = data;
+    });
+};
+
+const { errors, handleSubmit, setFieldError, meta } = useForm({
+  validationSchema: formUtilsStore.getServiceDetailFormValidationSchema,
 });
 
-const { errors, handleSubmit, setFieldError } = useForm({
-  validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
-});
-
-const onSubmit = handleSubmit((values) => {
-  setFieldError("mobile-phone", "Customer already exists");
-  console.log(values);
+const onSave = handleSubmit((values) => {
+  ServicesService.updateService(
+    route.params.id,
+    ServicesService.parseUpdateService(values)
+  )
+    .then((data) => {
+      toast.successAction("service", "updated");
+      resetForm({ values: values });
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("service", "not-updated");
+    });
 });
 
 const slaClass = (data) => {
@@ -490,11 +537,22 @@ const priorityClass = (data) => {
   return listUtilsStore.getPriorityConditionalStyle(data);
 };
 
-formUtilsStore.submit = onSubmit;
+// formUtilsStore.submit = onSubmit;
+formUtilsStore.$reset();
+formUtilsStore.save = onSave;
+formUtilsStore.formEntity = "service";
+utilsStore.entity = "service";
 
 const statusClass = (data) => {
   return listUtilsStore.getStatusConditionalStyle(data);
 };
+
+watch(
+  () => meta.value,
+  (value) => {
+    formUtilsStore.formMeta = value;
+  }
+);
 </script>
 
 <style scoped lang="scss"></style>

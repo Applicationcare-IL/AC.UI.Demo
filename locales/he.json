@@ -187,6 +187,7 @@
         "open_date": "נפתח",
         "close_date": "נסגר",
         "service_number": "מס’ תהליך",
+        "complete": "השלמ",
         "notification": {
             "created": {
                 "header": "New Task Created",
@@ -241,7 +242,9 @@
         "open": "פתוח",
         "closed": "סגור",
         "active": "פעיל",
-        "inactive": "לא פעיל"
+        "inactive": "לא פעיל",
+        "pending": "ממתין",
+        "completed": "הושלם"
     },
     "customer-type": {
         "private": "פרטי",
@@ -269,6 +272,10 @@
         "forgot_password": "שכחת את הסיסמה?",
         "submit": "כניסה",
         "invalid_credentials": "כתובת הדוא”ל או הסיסמה אינם תקינים. אולי יש טעות באחד השדות?"
+    },
+    "sla" : {
+        "days_left" : "נותרו {0} ימים ",
+        "days_passed" : "חריגה {0} ימים"
     },
     "option-set": {
         "customer_type": {

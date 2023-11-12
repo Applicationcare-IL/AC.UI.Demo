@@ -117,7 +117,7 @@
         </div>
         <div class="wm-form-row gap-5">
           <WMInputSearch
-            name="classification-1"
+            name="service_area"
             :highlighted="true"
             :required="true"
             :label="$t('classification-1') + ':'"
@@ -125,46 +125,54 @@
             :options="areas"
             width="152"
             :placeholder="$t('select', ['classification-1'])"
+            @change="updateDropdown('service_type', $event.value.id, 'types')"
           />
 
           <WMInputSearch
-            name="classification-2"
+            name="service_type"
             :highlighted="true"
             :required="true"
             :label="$t('classification-2') + ':'"
             :options="types"
             width="152"
             :placeholder="$t('select', ['classification-2'])"
+            @change="
+              updateDropdown('service_request_1', $event.value.id, 'requests1')
+            "
           />
           <WMInputSearch
-            name="classification-3"
+            name="service_request_1"
             :highlighted="true"
             :required="true"
             :label="$t('classification-3') + ':'"
             :options="requests1"
             width="152"
             :placeholder="$t('select', ['classification-3'])"
+            @change="
+              updateDropdown('service_request_2', $event.value.id, 'requests2')
+            "
           />
         </div>
 
         <div class="wm-form-row gap-5">
           <WMInputSearch
-            name="classification-4"
+            name="service_request_2"
             :highlighted="true"
             :label="$t('classification-4') + ':'"
             :options="requests2"
             width="152"
             :placeholder="$t('select', ['classification-4'])"
-            :value="selectedCustomer"
+            @change="
+              updateDropdown('service_request_3', $event.value.id, 'requests3')
+            "
           />
           <WMInputSearch
-            name="classification-5"
+            name="service_request_3"
             :highlighted="true"
             :label="$t('classification-5') + ':'"
             :options="requests3"
             width="152"
             :placeholder="$t('select', ['classification-5'])"
-            :value="selectedContact"
           />
         </div>
       </div>
@@ -340,6 +348,13 @@ const types = ref([]);
 const requests1 = ref([]);
 const requests2 = ref([]);
 const requests3 = ref([]);
+const optionRefs = {
+  areas: areas,
+  types: types,
+  requests1: requests1,
+  requests2: requests2,
+  requests3: requests3,
+};
 const { value } = useField("description");
 
 onMounted(() => {
@@ -355,19 +370,15 @@ onMounted(() => {
   optionSetsStore
     .getOptionSetValuesFromApiRaw("service_area")
     .then((data) => (areas.value = data));
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("service_type")
-    .then((data) => (types.value = data));
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("service_request_1")
-    .then((data) => (requests1.value = data));
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("service_request_2")
-    .then((data) => (requests2.value = data));
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("service_request_3")
-    .then((data) => (requests3.value = data));
 });
+
+const updateDropdown = (dropdown, selectedId, dropdownOptions) => {
+  optionSetsStore
+    .getOptionSetValuesFromApiRaw(dropdown, selectedId)
+    .then((data) => {
+      optionRefs[dropdownOptions].value = data;
+    });
+};
 
 const selectedContact = ref();
 const selectedCustomer = ref();
@@ -401,7 +412,7 @@ const { errors, handleSubmit, setFieldError, meta, values } = useForm({
   },
 });
 
-const onSave = handleSubmit((values) => {
+const onSubmit = handleSubmit((values) => {
   ServicesService.createService(ServicesService.parseService(values))
     .then((data) => {
       dialog.confirmNewService(data.data.id);

@@ -96,9 +96,9 @@
           }}</span>
         </template>
       </Column>
-      <Column field="classification_1" header="תחום"></Column>
-      <Column field="classification_2" header="תת-תחום"></Column>
-      <Column field="classification_3" header="מהות"></Column>
+      <Column field="area.value" header="תחום"></Column>
+      <Column field="type.value" header="תת-תחום"></Column>
+      <Column field="request1.value" header="מהות"></Column>
       <Column field="days_from_opening_date" header="משך"></Column>
       <Column field="owner.name" header="אחראי"></Column>
       <Column field="staff" header="צוות"></Column>
@@ -175,11 +175,14 @@ onMounted(() => {
   loadLazyData();
 });
 
+const searchValue = ref("");
+
 const loadLazyData = () => {
   loading.value = true;
   ServicesService.getServicesFromApi({
     page: lazyParams.value.page + 1,
     per_page: listUtilsStore.rows,
+    search: searchValue.value,
   }).then((result) => {
     console.log(result);
     services.value = result.data;
@@ -257,6 +260,16 @@ watch(
   () => listUtilsStore.rows,
   () => {
     loadLazyData();
+  }
+);
+
+watch(
+  () => utilsStore.searchString["service"],
+  () => {
+    searchValue.value = utilsStore.searchString["service"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
   }
 );
 </script>
