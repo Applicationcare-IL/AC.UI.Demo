@@ -46,6 +46,8 @@
     "modified_at": "Modified at",
     "days": "days",
     "day": "day",
+    "future": "Future",
+    "now": "Now",
     "navigation": {
         "dashboard": "Dashboard",
         "customers": "Customers",
@@ -267,9 +269,9 @@
         "submit": "Log in",
         "invalid_credentials": "Looks like your email or password are incorrect. Maybe try again?"
     },
-    "sla" : {
-        "days_left" : "{0} Days left",
-        "days_passed" : "{0} Days passed"
+    "sla": {
+        "days_left": "{0} Days left",
+        "days_passed": "{0} Days passed"
     },
     "option-set": {
         "customer_type": {

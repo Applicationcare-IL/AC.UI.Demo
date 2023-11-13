@@ -91,6 +91,10 @@
       :options="options"
       optionLabel="name"
       class="form-select-button flex-nowrap flex"
+      @change="
+        $emit('update:selectedItem', $event.value);
+        handleChange($event.value);
+      "
     />
     <span
       v-if="type == 'info'"
@@ -108,6 +112,7 @@
           : $t(errorMessage.key, errorMessage.values)
       }}
     </span>
+    <Calendar unstyled v-if="type === 'date'" v-model="value" showIcon />
   </div>
 </template>
 

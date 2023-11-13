@@ -45,6 +45,8 @@
     "modified_at": "שינוי אחרון",
     "days": "ימים",
     "day": "יום",
+    "future": "Future",
+    "now": "Now",
     "navigation": {
         "dashboard": "דאשבורד",
         "customers": "לקוחות",
@@ -273,9 +275,9 @@
         "submit": "כניסה",
         "invalid_credentials": "כתובת הדוא”ל או הסיסמה אינם תקינים. אולי יש טעות באחד השדות?"
     },
-    "sla" : {
-        "days_left" : "נותרו {0} ימים ",
-        "days_passed" : "חריגה {0} ימים"
+    "sla": {
+        "days_left": "נותרו {0} ימים ",
+        "days_passed": "חריגה {0} ימים"
     },
     "option-set": {
         "customer_type": {
