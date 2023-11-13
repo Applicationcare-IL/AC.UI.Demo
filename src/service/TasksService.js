@@ -161,7 +161,7 @@ export const TasksService = {
     return {
       name: task.id,
       task_number: task.id,
-      process_number: "687984",
+      process_number: "10",
       task_type: task.task_type?.name,
       family: task.family?.value,
       stage: task.stage?.name,
@@ -181,6 +181,7 @@ export const TasksService = {
       last_change: "11/11/22 10:23",
       remarks: "תוכן של הערה שכתובה יפה מאוד",
       service_number: "469879",
+      description: task.description,
       notes: task.notes,
       location: {
         house_number: "12",

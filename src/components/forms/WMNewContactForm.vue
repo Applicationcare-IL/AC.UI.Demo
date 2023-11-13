@@ -193,6 +193,8 @@ import { onMounted, watch, defineEmits, defineExpose, ref } from "vue";
 import { CustomerService } from "@/service/CustomerService";
 import { ContactsService } from "@/service/ContactsService";
 
+import { useAuthStore } from "@/stores/auth";
+
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -259,7 +261,7 @@ const updateStreets = (city) => {
   }
 };
 
-const onSave = handleSubmit((values) => {
+const onSubmit = handleSubmit((values) => {
   ContactsService.createContact(ContactsService.parseContact(values))
     .then((data) => {
       dialog.confirmNewContact(data.data.id);

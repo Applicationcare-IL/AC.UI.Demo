@@ -35,6 +35,7 @@
       :totalRecords="totalRecords"
       :loading="loading"
       @page="onPage($event)"
+      @update:selection="onSelectionChanged"
     >
       <Column style="width: 40px" selectionMode="multiple"></Column>
       <!-- Task number -->
@@ -120,6 +121,7 @@
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
 import { TasksService } from "@/service/TasksService";
+
 import { useListUtilsStore } from "@/stores/listUtils";
 import { useUtilsStore } from "@/stores/utils";
 
@@ -128,6 +130,8 @@ const utilsStore = useUtilsStore();
 const searchValue = ref("");
 
 onMounted(() => {
+  utilsStore.entity = "task";
+
   loading.value = true;
   loadLazyData();
 });
@@ -135,10 +139,9 @@ onMounted(() => {
 const loadLazyData = () => {
   TasksService.getTasksFromApi({
     page: lazyParams.value.page + 1,
-    per_page: 15,
+    per_page: listUtilsStore.rows,
     search: searchValue.value,
   }).then((data) => {
-    console.log(data);
     tasks.value = data.tasks;
     totalRecords.value = data.totalRecords;
     loading.value = false;
@@ -161,10 +164,6 @@ const lazyParams = ref({
 const tasks = ref();
 const selectedTasks = ref([]);
 
-const isAnyRowSelected = computed(() => {
-  return selectedTasks?.value.length > 0;
-});
-
 // first sidebar
 const isVisible = ref(false);
 
@@ -180,13 +179,24 @@ function openSidebar() {
   isVisible.value = true;
 }
 
+utilsStore.resetElements();
+
+const onSelectionChanged = () => {
+  console.log(selectedTasks.value);
+  utilsStore.selectedElements["task"] = selectedTasks.value;
+};
+
+const isAnyRowSelected = computed(() => {
+  return selectedTasks?.value.length > 0;
+});
+
 //Number of rows per page
 const rows = computed(() => {
   return listUtilsStore.rows;
 });
 
 const rowClass = (data) => {
-  console.log(data.is_open);
+  // console.log(data.is_open);
   return [{ inactive_row: !data.is_open }];
 };
 

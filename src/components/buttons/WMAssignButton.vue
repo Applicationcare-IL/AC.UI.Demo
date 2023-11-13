@@ -5,7 +5,8 @@
     name="assign-white"
     icon="assign"
     :disabled="selectedElements == 0"
-    >הקצה
+  >
+    הקצה
   </WMButton>
   <OverlayPanel
     ref="isOpen"

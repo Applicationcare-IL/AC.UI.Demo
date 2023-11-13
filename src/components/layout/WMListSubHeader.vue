@@ -8,11 +8,14 @@
             name="new"
             icon="new"
             @click="$emit('new')"
-            >חדש</WMButton
           >
-          <WMButton class="m-1 col-6" name="export-white" icon="export"
-            >ייצוא נתונים</WMButton
-          >
+            חדש
+          </WMButton>
+
+          <WMButton class="m-1 col-6" name="export-white" icon="export">
+            ייצוא נתונים
+          </WMButton>
+
           <Divider layout="vertical" />
 
           <WMAssignButton :entity="utilsStore.entity" />
@@ -24,6 +27,7 @@
             :disabled="selectedElements == 0"
             >הודעה
           </WMButtonMenu>
+
           <WMButton
             class="m-1 col-6"
             name="phone-white"
@@ -31,6 +35,7 @@
             :disabled="selectedElements != 1"
             >הקצה
           </WMButton>
+
           <WMButton
             class="m-1 col-6"
             name="mail-white"

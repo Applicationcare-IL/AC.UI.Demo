@@ -3,6 +3,10 @@
     v-if="loaded"
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
+    <pre>
+    values: {{ values }}
+  </pre
+    >
     <div class="contact-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row align-items-center gap-4">
         <h1 class="h1 mb-0">{{ $t("contact.contact") }}: {{ contact.name }}</h1>
@@ -385,23 +389,11 @@ const fetchData = async () => {
   tasks.value = tasksData.tasks;
 };
 
-const { errors, handleSubmit, setFieldError, meta, resetForm } = useForm({
+const { handleSubmit, meta, resetForm, values } = useForm({
   validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {
-  ContactsService.updateContact(
-    route.params.id,
-    ContactsService.parseContact(values)
-  )
-    .then((data) => {
-      toast.successAction("contact", "updated");
-      resetForm({ values: values });
-    })
-    .catch((error) => {
-      console.log(error);
-      toast.error("customer", "not-updated");
-    });
   ContactsService.updateContact(
     route.params.id,
     ContactsService.parseContact(values)

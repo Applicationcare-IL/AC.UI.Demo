@@ -24,14 +24,18 @@
       :focused="true"
     >
       <template #empty v-if="props.relatedSidebar">
-        <WMButton
-          class="small"
-          name="new"
-          icon="new"
-          @click="openRelatedSidebar()"
+        <div
+          class="flex flex-column m-2"
+          :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
         >
-          {{ $t("new") }} / NEW
-        </WMButton>
+          <span class="vertical-align-middle"> לא נמצאו תוצאות </span>
+          <a
+            class="vertical-align-middle orange-link"
+            @click="openRelatedSidebar()"
+          >
+            + צור חדש
+          </a>
+        </div>
       </template>
     </AutoComplete>
     <div>
@@ -57,6 +61,9 @@
 import { defineProps, ref, toRef, computed, onMounted, watch } from "vue";
 import { useField } from "vee-validate";
 import { useSidebarStore } from "@/stores/sidebar";
+import { useLayout } from "@/layout/composables/layout";
+
+const { layoutConfig } = useLayout();
 
 const sidebarStore = useSidebarStore();
 
