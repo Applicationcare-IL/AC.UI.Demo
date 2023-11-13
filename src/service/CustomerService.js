@@ -149,10 +149,10 @@ export const CustomerService = {
       service_area: customer.service_area
         ? customer.service_area.map((x) => x.id)
         : "",
-      street: customer.street.name,
-      street_number: customer.street_number,
-      city: customer.city.name,
-      zipcode: customer.zipcode,
+      //   street: customer.street.name,
+      //   street_number: customer.street_number,
+      //   city: customer.city.name,
+      //   zipcode: customer.zipcode,
       // "file_folder_link": "et",
       // "account_number": "exercitationem",
       // "registration_area": "voluptatem",
