@@ -3,14 +3,85 @@
     v-if="task"
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
+    <!-- <pre>{{ task }}</pre> -->
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
       <h1 class="h1 mb-0">{{ $t("task.task") }} {{ task.task_number }}</h1>
       <div class="flex flex-row gap-5 flex-wrap">
-        <div class="card-container top-info-card" style="flex: 2">
+        <div class="card-container top-info-card flex-1">
           <Card>
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
+                <div class="wm-form-row gap-5">
+                  <WMInput
+                    name="owner"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('owner') + ':'"
+                    :value="task.owner"
+                  />
+                  <WMInput
+                    name="team"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('team') + ':'"
+                    :value="task.team"
+                  />
+                  <WMInput
+                    name="status"
+                    :highlighted="true"
+                    type="input-select"
+                    :label="$t('status') + ':'"
+                    :options="statuses"
+                    :selectedOption="
+                      statuses.find((status) => status.value === task.status)
+                    "
+                  />
+                </div>
+
+                <div class="wm-form-row gap-5">
+                  <WMInput
+                    name="due-date"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('task.due_date')"
+                    :value="task.due_date"
+                  />
+                  <WMInput
+                    name="due-date"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('task.due_date')"
+                    :value="task.due_date"
+                  />
+                  <WMInput
+                    name="sla"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('task.sla')"
+                    :value="task.SLA"
+                    :class="slaClass(task)"
+                    class="sla"
+                  />
+                </div>
+
+                <div class="wm-form-row gap-5">
+                  <WMInput
+                    name="family"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('task.family')"
+                    :value="task.family"
+                  />
+                  <WMInput
+                    name="type"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('task.type')"
+                    :value="task.task_type"
+                  />
+                </div>
+
                 <div class="wm-form-row gap-5">
                   <WMInput
                     name="contact"
@@ -28,145 +99,40 @@
                     :value="task.customer"
                     :to="'/customer/' + task.customer_id"
                   />
+                </div>
+
+                <div class="wm-form-row gap-5">
                   <WMInput
-                    name="owner"
+                    name="service_number"
+                    type="info-link"
+                    :highlighted="true"
+                    :label="$t('task.service_number')"
+                    :value="task.service_number"
+                    :to="'/service/' + task.service_number"
+                  />
+
+                  <WMInput
+                    name="recurring-task"
                     type="info"
                     :highlighted="true"
-                    :label="$t('owner') + ':'"
-                    :value="task.owner"
+                    label="Recurring task"
+                    value="No"
                   />
-                  <WMInput
-                    name="team"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('team') + ':'"
-                    :value="task.team"
-                  />
-                </div>
-                <div class="wm-form-row gap-5">
-                  <div class="wm-form-row gap-4">
-                    <WMInput
-                      name="sla"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('task.sla')"
-                      :value="task.SLA"
-                      :class="slaClass(task)"
-                      class="sla"
-                    />
-                    <WMInput
-                      name="due-date"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('task.due_date')"
-                      :value="task.due_date"
-                    />
-                    <WMInput
-                      name="status"
-                      :highlighted="true"
-                      type="input-select"
-                      :label="$t('status') + ':'"
-                      :options="statuses"
-                      :selectedOption="
-                        statuses.find((status) => status.value === task.status)
-                      "
-                    />
-                  </div>
-                </div>
-                <div class="wm-form-row gap-5">
-                  <div class="wm-form-row gap-4">
-                    <WMInput
-                      name="family"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('task.family')"
-                      :value="task.family"
-                    />
-                    <WMInput
-                      name="type"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('task.type')"
-                      :value="task.task_type"
-                    />
-                    <WMInput
-                      name="service_number"
-                      type="info-link"
-                      :highlighted="true"
-                      :label="$t('task.service_number')"
-                      :value="task.service_number"
-                      :to="'/service/' + task.service_number"
-                    />
-                  </div>
                 </div>
               </div>
             </template>
           </Card>
         </div>
-        <div class="flex-1 card-container top-info-card">
-          <Card>
-            <template #title>
-              <div class="flex flex-row justify-content-between">
-                {{ $t("address.address") }}
-                <WMButton name="location" icon="location" @click="">{{
-                  $t("location")
-                }}</WMButton>
-              </div>
-            </template>
+        <div class="card-container top-info-card flex-1">
+          <Card class="flex align-items-center justify-content-center">
             <template #content>
-              <div class="flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="city"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('address.city') + ':'"
-                    :value="task.location.city"
-                  />
-                  <WMInput
-                    name="street"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('address.street') + ':'"
-                    :value="task.location.street"
-                  />
-                </div>
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="house-number"
-                    type="info"
-                    :label="$t('address.house-number') + ':'"
-                    width="48"
-                    :value="task.location.house_number"
-                  ></WMInput>
-                  <WMInput
-                    name="apartment"
-                    type="info"
-                    :label="$t('address.apartment') + ':'"
-                    width="48"
-                    :value="task.location.apartment"
-                  />
-                  <WMInput
-                    name="entrance"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('address.entrance') + ':'"
-                    :value="task.location.entrance"
-                  />
-                  <WMInput
-                    name="zip"
-                    type="info"
-                    :label="$t('address.zip') + ':'"
-                    width="80"
-                    :value="task.location.zip"
-                  />
-                </div>
-              </div>
+              <h3>Task isn’t related to an entity</h3>
             </template>
           </Card>
         </div>
-        <div class="flex-1 card-container top-info-card">
-          <Card>
+      </div>
+
+      <!-- <Card>
             <template #title>
               {{ $t("site.details") }}
             </template>
@@ -220,9 +186,75 @@
                 </div>
               </div>
             </template>
-          </Card>
+          </Card> -->
+
+      <div class="flex flex-row gap-5 flex-wrap">
+        <div class="card-container middle-info-card flex-1">
+          <div class="flex-1 card-container top-info-card">
+            <Card>
+              <template #title>
+                <div class="flex flex-row justify-content-between">
+                  {{ $t("address.address") }}
+                  <WMButton name="location" icon="location" @click="">{{
+                    $t("location")
+                  }}</WMButton>
+                </div>
+              </template>
+              <template #content>
+                <div class="flex flex-auto flex-column gap-5">
+                  <div class="wm-form-row gap-5">
+                    <WMInput
+                      name="city"
+                      type="info"
+                      :highlighted="true"
+                      :label="$t('address.city') + ':'"
+                      :value="task.location.city"
+                    />
+                    <WMInput
+                      name="street"
+                      type="info"
+                      :highlighted="true"
+                      :label="$t('address.street') + ':'"
+                      :value="task.location.street"
+                    />
+                  </div>
+                  <div class="wm-form-row gap-5">
+                    <WMInput
+                      name="house-number"
+                      type="info"
+                      :label="$t('address.house-number') + ':'"
+                      width="48"
+                      :value="task.location.house_number"
+                    ></WMInput>
+                    <WMInput
+                      name="apartment"
+                      type="info"
+                      :label="$t('address.apartment') + ':'"
+                      width="48"
+                      :value="task.location.apartment"
+                    />
+                    <WMInput
+                      name="entrance"
+                      type="info"
+                      :highlighted="true"
+                      :label="$t('address.entrance') + ':'"
+                      :value="task.location.entrance"
+                    />
+                    <WMInput
+                      name="zip"
+                      type="info"
+                      :label="$t('address.zip') + ':'"
+                      width="80"
+                      :value="task.location.zip"
+                    />
+                  </div>
+                </div>
+              </template>
+            </Card>
+          </div>
         </div>
       </div>
+
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="card-container middle-info-card flex-1">
           <Card>
@@ -230,7 +262,12 @@
             <template #content>
               <div class="task-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <Textarea v-model="value" autoResize rows="5" disabled />
+                  <Textarea
+                    v-model="task.description"
+                    autoResize
+                    rows="5"
+                    disabled
+                  />
                 </div>
               </div>
             </template>
@@ -238,11 +275,11 @@
         </div>
         <div class="card-container middle-info-card flex-1">
           <Card>
-            <template #title> {{ $t("task.remarks") }} </template>
+            <template #title> {{ $t("task.notes") }} </template>
             <template #content>
               <div class="task-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <Textarea v-model="value" autoResize rows="5" />
+                  <Textarea v-model="task.notes" autoResize rows="5" />
                 </div>
               </div>
             </template>

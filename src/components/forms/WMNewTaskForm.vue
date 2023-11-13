@@ -92,7 +92,7 @@
           :label="$t('task.family') + ':'"
           width="200"
           :highlighted="true"
-          :searchFunction="searchTaskTypes"
+          :options="taskFamily"
         />
       </div>
       <Divider class="mb-0" layout="horizontal" />
@@ -118,6 +118,7 @@ import { ref, defineEmits, defineExpose } from "vue";
 import { TasksService } from "@/service/TasksService";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 import { useForm } from "vee-validate";
 import { CustomerService } from "@/service/CustomerService";
@@ -125,6 +126,8 @@ import { ContactsService } from "@/service/ContactsService";
 
 import { useToast } from "@/stores/toast";
 import { useDialog } from "@/stores/dialog";
+
+const optionSetsStore = useOptionSetsStore();
 
 const props = defineProps({
   isSidebar: {
@@ -139,6 +142,11 @@ const formUtilsStore = useFormUtilsStore();
 
 const { handleSubmit, values } = useForm({
   validationSchema: formUtilsStore.getTaskFormValidationSchema,
+});
+
+const taskFamily = ref("");
+optionSetsStore.getOptionSetValuesFromApi("task_family").then((data) => {
+  taskFamily.value = data;
 });
 
 const emit = defineEmits(["closeSidebar"]);
@@ -174,7 +182,10 @@ const searchContact = (query) => {
 };
 
 const searchTaskTypes = (query) => {
-  return TasksService.getTasksTypesFromApi({ search: query });
+  return TasksService.getTasksTypesFromApi({
+    search: query,
+    task_family: values["task-family"].id,
+  });
 };
 
 const onSubmit = handleSubmit((values) => {
@@ -185,6 +196,8 @@ const onSubmit = handleSubmit((values) => {
     started_at: today,
     due_date: today, // TODO: change that to the date the user selected
   };
+
+  console.log("task", task);
 
   TasksService.createTask(TasksService.parseTask(task))
     .then((data) => {

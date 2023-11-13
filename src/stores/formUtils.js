@@ -184,12 +184,12 @@ export const useFormUtilsStore = defineStore("formUtils", {
         // 'email': yup.string().trim().email('validation.email').required(),
       });
     },
-    getContactDetailFormValidationSchema: (state) => {
-      return yup.object({
-        "first-name": yup.string().required(),
-        "last-name": yup.string().required(),
-      });
-    },
+    // getContactDetailFormValidationSchema: (state) => {
+    //   return yup.object({
+    //     "first-name": yup.string().required(),
+    //     "last-name": yup.string().required(),
+    //   });
+    // },
   },
   actions: {
     closeForm() {

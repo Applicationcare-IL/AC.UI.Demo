@@ -119,11 +119,15 @@ body {
 }
 
 // Input Text
-
 .p-inputtext {
     border-radius: 8px;
     height: 32px;
+
+    &:disabled {
+        background-color: var(--gray-100);
+    }
 }
+
 
 .layout-main {
     width: 100%;

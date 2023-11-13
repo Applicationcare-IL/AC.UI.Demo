@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, watch } from "vue";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
@@ -54,17 +54,19 @@ const menuItems = [
   { label: "Whatsapp", value: "option1" },
   { label: "SMS", value: "option2" },
 ];
-const selectedElements = ref(0);
-watch(
-  () => utilsStore.selectedElements[utilsStore.entity],
-  (value) => {
-    selectedElements.value = value?.length;
-  }
-);
 
 const props = defineProps({
   activeButtons: Boolean,
   filterLabels: Array,
   defaultOption: Object,
 });
+
+const selectedElements = ref(0);
+
+watch(
+  () => utilsStore.selectedElements[utilsStore.entity],
+  (value) => {
+    selectedElements.value = value?.length;
+  }
+);
 </script>
