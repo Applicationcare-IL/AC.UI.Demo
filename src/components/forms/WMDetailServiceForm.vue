@@ -8,8 +8,8 @@
         <h1 class="h1 mb-0">
           {{ $t("service.service") }} {{ service.service_number }}
         </h1>
-        <div :class="statusClass(service.status)" class="status-label">
-          {{ $t("statuses." + service.status) }}
+        <div :class="statusClass(service.state)" class="status-label">
+          {{ $t("statuses." + service.state) }}
         </div>
       </div>
       <div class="flex flex-row gap-5 flex-wrap">
