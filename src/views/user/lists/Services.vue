@@ -101,11 +101,11 @@
       <Column field="request1.value" header="מהות"></Column>
       <Column field="days_from_opening_date" header="משך"></Column>
       <Column field="owner.name" header="אחראי"></Column>
-      <Column field="staff" header="צוות"></Column>
+      <Column field="owner.default_team" header="צוות"></Column>
       <Column field="SLA" header="SLA" class="sla">
         <template #body="slotProps">
-          <div :class="slaClass(slotProps.data)">
-            {{ slotProps.data.days_for_closing }} ימים
+          <div :class="slaClass(slotProps.data.sla)">
+            {{ $t("sla.days_left", [slotProps.data.days_for_closing]) }}
           </div>
         </template>
       </Column>
@@ -126,7 +126,7 @@
           {{ $t("option-set.service_urgent." + slotProps.data.urgency) }}
         </template>
       </Column>
-      <Column field="last_change" header="שינוי אחרון"></Column>
+      <Column field="last_activity" header="שינוי אחרון"></Column>
       <Column field="closed" header="נסגר"></Column>
       <Column field="stage" header="שליחת נציג בטחון"></Column>
     </DataTable>
@@ -221,16 +221,7 @@ const priorityClass = (data) => {
 };
 
 const slaClass = (data) => {
-  return [
-    "px-2",
-    {
-      "bg-teal-200 text-teal-900": data.SLA === "no_breach",
-      "bg-yellow-100 text-gray-900": data.SLA === "near_breach",
-      "bg-red-100 text-red-600 ": data.SLA === "breach",
-      "text-teal-900": data.SLA === "עמד ביעד",
-      "text-red-600": data.SLA === "הסתיים בחריגה",
-    },
-  ];
+  return listUtilsStore.getSlaConditionalStyle(data);
 };
 
 const menuItems = [

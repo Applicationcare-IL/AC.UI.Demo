@@ -39,10 +39,7 @@
         </div>
         <div>
           <WMButton
-            v-if="
-              utilsStore.entity == 'service' &&
-              utilsStore.selectedElements['service'][0]['state'] == 'active'
-            "
+            v-if="utilsStore.entity == 'service' && isServiceActive"
             class="m-1 col-6"
             name="cancel"
             icon="cancel"
@@ -86,6 +83,7 @@ const props = defineProps({
 });
 
 const selectedElements = ref(0);
+const isServiceActive = ref(false);
 
 const saveForm = () => {
   emit("saveForm");
@@ -95,6 +93,8 @@ watch(
   () => utilsStore.selectedElements[utilsStore.entity],
   (value) => {
     selectedElements.value = value?.length;
+    isServiceActive.value =
+      utilsStore.selectedElements[utilsStore.entity][0].state === "active";
   }
 );
 </script>

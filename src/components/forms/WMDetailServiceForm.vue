@@ -287,7 +287,7 @@
                     :value="service.request1?.value"
                   />
                 </div>
-                <div class="wm-form-row gap-5" v-if="service.status == 'open'">
+                <div class="wm-form-row gap-5" v-if="service.is_active">
                   <WMInputSearch
                     name="request2"
                     :highlighted="true"
@@ -310,7 +310,7 @@
                     :options="requests3"
                   />
                 </div>
-                <div class="wm-form-row gap-5" v-if="service.status != 'open'">
+                <div class="wm-form-row gap-5" v-if="!service.is_active">
                   <WMInput
                     name="request2"
                     type="info"
