@@ -451,9 +451,9 @@ import { useRoute } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
 import { ServicesService } from "@/service/ServicesService";
 import { TasksService } from "@/service/TasksService";
+import { useToast } from "@/stores/toast";
 
-import { date } from "yup";
-
+const toast = useToast();
 const stages = ref([]);
 const currentStage = ref();
 
@@ -542,6 +542,19 @@ formUtilsStore.$reset();
 formUtilsStore.save = onSave;
 formUtilsStore.formEntity = "service";
 utilsStore.entity = "service";
+
+const cancelService = (id) => {
+  ServicesService.cancelService(id, formUtilsStore.cancelServiceReasons)
+    .then((data) => {
+      toast.successAction("service", "canceled");
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("service", "not-canceled");
+    });
+};
+
+formUtilsStore.cancelService = cancelService;
 
 const statusClass = (data) => {
   return listUtilsStore.getStatusConditionalStyle(data);

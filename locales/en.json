@@ -245,6 +245,7 @@
         "closed": "Closed",
         "active": "Active",
         "inactive": "Not Active",
+        "not_active": "Not Active",
         "pending": "Pending",
         "completed": "Completed"
     },

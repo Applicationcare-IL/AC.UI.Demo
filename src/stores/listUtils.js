@@ -258,9 +258,10 @@ export const useListUtilsStore = defineStore("listUtils", {
     getStatusConditionalStyle: (status) => {
       return [
         {
-          "bg-green-200 text-green-900":
-            (status === "active") | (status === "open"),
-          "bg-yellow-100 text-gray-900": status === "terminated",
+          "bg-green-200 text-green-900": ["active", "open"].includes(status),
+          "bg-red-100 text-red-900": ["terminated", "not_active"].includes(
+            status
+          ),
         },
       ];
     },

@@ -139,6 +139,20 @@ export const ServicesService = {
       });
   },
 
+  cancelService(id, reasons) {
+    console.log(reasons);
+
+    return axiosConfig
+      .post("/services/" + id + "/cancel", reasons)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        throw error;
+      });
+  },
+
   parseService(service) {
     return {
       contact_id: 1, //service.contact.id,

@@ -37,16 +37,34 @@
             >הקצה</WMButton
           >
         </div>
+        <div>
+          <WMButton
+            v-if="
+              utilsStore.entity == 'service' &&
+              utilsStore.selectedElements['service'][0]['state'] == 'active'
+            "
+            class="m-1 col-6"
+            name="cancel"
+            icon="cancel"
+            @click="dialog.cancelService(route.params.id)"
+            >Cancel
+          </WMButton>
+        </div>
       </div>
     </div>
   </div>
+  <WMCancelServiceDialog />
 </template>
 
 <script setup>
 import { ref, watch } from "vue";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
+import { useDialog } from "@/stores/dialog";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
+const dialog = useDialog();
 const formStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 

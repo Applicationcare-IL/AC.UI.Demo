@@ -7,13 +7,10 @@
 
 <script setup>
 import { ref } from "vue";
-import { useUtilsStore } from "../stores/utils";
 import { useMagicKeys, whenever } from "@vueuse/core";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-
-const utilsStore = useUtilsStore();
 
 const searchValue = ref("");
 

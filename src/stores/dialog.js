@@ -108,32 +108,45 @@ export function useDialog() {
 
   const confirmNewService = (id) => {
     confirm.require({
-        message: i18n.t('service.notification.created.message'),
-        header: i18n.t('service.notification.created.header'),
-        acceptLabel: i18n.t('service.notification.created.detail'),
-        rejectLabel: i18n.t('service.notification.created.list'),
-        accept: () => {
-            formUtilsStore.goToDetail(id);
-        },
-        reject: () => {
-            formUtilsStore.closeForm();
-        },
+      message: i18n.t("service.notification.created.message"),
+      header: i18n.t("service.notification.created.header"),
+      acceptLabel: i18n.t("service.notification.created.detail"),
+      rejectLabel: i18n.t("service.notification.created.list"),
+      accept: () => {
+        formUtilsStore.goToDetail(id);
+      },
+      reject: () => {
+        formUtilsStore.closeForm();
+      },
     });
-}; 
+  };
 
-const discardNewService = () => {
+  const discardNewService = () => {
     confirm.require({
-        message: i18n.t('service.notification.discard.message'),
-        header: i18n.t('service.notification.discard.header'),
-        acceptLabel: i18n.t('service.notification.discard.accept'),
-        rejectLabel: i18n.t('service.notification.discard.cancel'),
-        accept: () => {
-            formUtilsStore.closeForm();
-        },
-        reject: () => {
-        },
+      message: i18n.t("service.notification.discard.message"),
+      header: i18n.t("service.notification.discard.header"),
+      acceptLabel: i18n.t("service.notification.discard.accept"),
+      rejectLabel: i18n.t("service.notification.discard.cancel"),
+      accept: () => {
+        formUtilsStore.closeForm();
+      },
+      reject: () => {},
     });
-}
+  };
+
+  const cancelService = (id) => {
+    console.log("cancelService " + id);
+    confirm.require({
+      group: "cancelService",
+      header: "ביטול שירות" + id,
+      acceptLabel: "ביטול תהליך",
+      rejectLabel: "חזור",
+      accept: () => {
+        formUtilsStore.cancelService(id);
+      },
+      reject: () => {},
+    });
+  };
 
   return {
     confirmNewCustomer,
@@ -142,7 +155,8 @@ const discardNewService = () => {
     discardNewContact,
     confirmNewTask,
     discardNewTask,
-    confirmNewService, 
-    discardNewService
+    confirmNewService,
+    discardNewService,
+    cancelService,
   };
 }
