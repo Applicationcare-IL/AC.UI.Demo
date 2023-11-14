@@ -118,6 +118,11 @@
             name="start_date"
           />
         </div>
+        <div class="wm-form-row gap-5">
+          <WMToggleSwitch v-model="isRecurring" label="Recurring task">
+            Content
+          </WMToggleSwitch>
+        </div>
       </div>
       <Divider class="mb-0" layout="horizontal" />
       <div class="task-description flex flex-auto flex-column gap-5">
@@ -152,6 +157,8 @@ import { useToast } from "@/stores/toast";
 import { useDialog } from "@/stores/dialog";
 
 const optionSetsStore = useOptionSetsStore();
+
+const isRecurring = ref(false);
 
 const props = defineProps({
   isSidebar: {
