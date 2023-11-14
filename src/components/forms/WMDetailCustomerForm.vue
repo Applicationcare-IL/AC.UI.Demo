@@ -4,9 +4,14 @@
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
     <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 class="h1 mb-0">
-        {{ $t("customer.customer") }}: {{ customer.name }}
-      </h1>
+      <div class="flex flex-row align-items-center gap-4">
+        <h1 class="h1 mb-0">
+          {{ $t("customer.customer") }}: {{ customer.name }}
+        </h1>
+        <div :class="statusClass(customer.state)" class="status-label">
+          {{ $t("statuses." + customer.state) }}
+        </div>
+      </div>
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="flex-1 card-container top-info-card">
           <Card>
@@ -77,15 +82,6 @@
                     :options="yesNoOptions"
                     :value="isProvider"
                     width="80"
-                  />
-                  <WMInput
-                    name="status"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('status') + ':'"
-                    :class="statusConditionalStyle"
-                    :value="$t(selectedStatus)"
-                    width="72"
                   />
                 </div>
               </div>
@@ -506,6 +502,10 @@ watch(
     formUtilsStore.formMeta = value;
   }
 );
+
+const statusClass = (data) => {
+  return listUtilsStore.getStatusConditionalStyle(data);
+};
 </script>
 
 <style scoped lang="scss"></style>

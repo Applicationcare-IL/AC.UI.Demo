@@ -97,7 +97,7 @@
       <Column field="status" header="סטטוס">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.status)">
-            {{ $t("statuses." + slotProps.data.status.value.toLowerCase()) }}
+            {{ $t("statuses." + slotProps.data.status.toLowerCase()) }}
           </div>
         </template>
       </Column>

@@ -3,10 +3,6 @@
     v-if="loaded"
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
-    <pre>
-    values: {{ values }}
-  </pre
-    >
     <div class="contact-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row align-items-center gap-4">
         <h1 class="h1 mb-0">{{ $t("contact.contact") }}: {{ contact.name }}</h1>
