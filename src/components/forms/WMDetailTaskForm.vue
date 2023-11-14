@@ -413,7 +413,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, defineExpose } from "vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -422,29 +422,9 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 import { ServicesService } from "@/service/ServicesService";
 import { TasksService } from "@/service/TasksService";
+import { useToast } from "@/stores/toast";
 
-const items = ref([
-  {
-    label: "שם של שלב",
-    date: "11/11/22",
-  },
-  {
-    label: "שם של שלב",
-    date: "11/11/22",
-  },
-  {
-    label: "שם של שלב",
-    date: "11/11/22",
-  },
-  {
-    label: "שם של שלב",
-    date: "11/11/22",
-  },
-  {
-    label: "שם של שלב",
-    date: "11/11/22",
-  },
-]);
+const toast = useToast();
 
 const tasks = ref();
 
@@ -486,13 +466,20 @@ onMounted(() => {
   });
 });
 
-const { handleSubmit, setFieldError, meta } = useForm({
-  validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
+const { handleSubmit, meta, resetForm } = useForm({
+  // validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
 });
 
-const onSubmit = handleSubmit((values) => {
-  setFieldError("mobile-phone", "Customer already exists");
-  console.log(values);
+const onSave = handleSubmit((values) => {
+  TasksService.updateTask(route.params.id, TasksService.parseUpdateTask(values))
+    .then(() => {
+      toast.successAction("task", "updated");
+      resetForm({ values: values });
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("service", "not-updated");
+    });
 });
 
 const slaClass = (data) => {
@@ -511,7 +498,9 @@ watch(
   }
 );
 
-formUtilsStore.submit = onSubmit;
+defineExpose({
+  onSave,
+});
 </script>
 
 <style scoped lang="scss"></style>

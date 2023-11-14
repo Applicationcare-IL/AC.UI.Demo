@@ -237,8 +237,6 @@ const onSubmit = handleSubmit((values) => {
     due_date: today, // TODO: change that to the date the user selected
   };
 
-  console.log("task", task);
-
   TasksService.createTask(TasksService.parseTask(task))
     .then((data) => {
       dialog.confirmNewTask(data.data.id);

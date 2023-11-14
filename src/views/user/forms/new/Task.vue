@@ -12,7 +12,7 @@ const router = useRouter();
 const newTaskForm = ref(null);
 
 const saveForm = () => {
-  newTaskForm.value.onSubmit();
+  newTaskForm.value.onSave();
 };
 
 const cancelForm = () => {

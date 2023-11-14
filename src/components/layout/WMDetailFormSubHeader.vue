@@ -4,7 +4,7 @@
       <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
         <div class="flex flex-row flex-wrap gap-2 align-items-center">
           <WMButton
-            @click="formUtilsStore.save"
+            @click="saveForm"
             name="save"
             icon="save"
             type="specialSave"
@@ -43,13 +43,15 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, defineEmits } from "vue";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 import { storeToRefs } from "pinia";
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
+
+const emit = defineEmits(["saveForm"]);
 
 const { getFormMeta } = storeToRefs(formUtilsStore);
 
@@ -66,6 +68,10 @@ const props = defineProps({
 });
 
 const selectedElements = ref(0);
+
+const saveForm = () => {
+  emit("saveForm");
+};
 
 watch(
   () => utilsStore.selectedElements[utilsStore.entity],
