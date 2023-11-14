@@ -342,8 +342,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import { ContactsService } from "@/service/ContactsService";
+import { ref, onMounted, watch, defineExpose } from "vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -357,6 +356,13 @@ import { TasksService } from "@/service/TasksService";
 
 import { i18n } from "@/i18n";
 import { useToast } from "@/stores/toast";
+
+const props = defineProps({
+  formKey: {
+    type: String,
+    required: true,
+  },
+});
 
 const services = ref();
 const tasks = ref();
@@ -500,8 +506,13 @@ watch(
   () => meta.value,
   (value) => {
     formUtilsStore.formMeta = value;
+    formUtilsStore.setFormMetas(value, props.formKey);
   }
 );
+
+defineExpose({
+  onSave,
+});
 
 const statusClass = (data) => {
   return listUtilsStore.getStatusConditionalStyle(data);

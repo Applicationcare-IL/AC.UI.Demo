@@ -179,7 +179,9 @@ export const useFormUtilsStore = defineStore("formUtils", {
     },
     getContactDetailFormValidationSchema: (state) => {
       return yup.object({
-        contactid: yup.string().min(9, "validation.contactid").required(),
+        "first-name": yup.string().required(),
+        "last-name": yup.string().required(),
+        contact_number: yup.string().min(9, "validation.contactid").required(),
         // 'mobile-phone': yup.string().trim().matches(state.israeliPhoneRegex, 'validation.phone').required(),
         // 'landline': yup.string().trim().matches(state.israeliLandlineRegex, 'validation.phone').required(),
         // 'email': yup.string().trim().email('validation.email').required(),
