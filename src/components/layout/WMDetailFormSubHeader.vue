@@ -4,15 +4,15 @@
       <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
         <div class="flex flex-row flex-wrap gap-2 align-items-center">
           <WMButton
-            @click="formStore.save"
+            @click="formUtilsStore.save"
             name="save"
             icon="save"
             type="specialSave"
             iconPosition="left"
-            :disabled="!formStore.formMeta.dirty || !formStore.formMeta.valid"
+            :disabled="!getFormMeta(formKey)?.dirty"
           >
-            {{ $t("save") }}</WMButton
-          >
+            {{ $t("save") }}
+          </WMButton>
           <Divider layout="vertical" />
           <WMAssignButton :entity="utilsStore.entity" />
           <WMButtonMenu
@@ -46,9 +46,12 @@
 import { ref, watch } from "vue";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
+import { storeToRefs } from "pinia";
 
-const formStore = useFormUtilsStore();
+const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
+
+const { getFormMeta } = storeToRefs(formUtilsStore);
 
 const menuItems = [
   { label: "Whatsapp", value: "option1" },
@@ -59,6 +62,7 @@ const props = defineProps({
   activeButtons: Boolean,
   filterLabels: Array,
   defaultOption: Object,
+  formKey: String,
 });
 
 const selectedElements = ref(0);

@@ -30,6 +30,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
     isSidebarExpanded: false,
     expandSidebar: "",
     formMeta: {},
+    formMetas: [],
   }),
   getters: {
     yesNoOptions: () => {
@@ -190,6 +191,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
     //     "last-name": yup.string().required(),
     //   });
     // },
+    getFormMeta: (state) => {
+      return (key) => {
+        return state.formMetas.find((meta) => meta.key === key);
+      };
+    },
   },
   actions: {
     closeForm() {
@@ -199,6 +205,16 @@ export const useFormUtilsStore = defineStore("formUtils", {
     goToDetail(id, entity) {
       const entityPath = entity || this.formEntity;
       this.router.push("/" + entityPath + "/" + id);
+    },
+    setFormMetas(meta, key) {
+      const index = this.formMetas.findIndex((meta) => meta.key === key);
+
+      if (index > -1) {
+        this.formMetas[index] = { ...meta, key };
+        return;
+      }
+
+      this.formMetas.push({ ...meta, key });
     },
   },
 });

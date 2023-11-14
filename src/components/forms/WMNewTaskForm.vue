@@ -128,7 +128,6 @@
       <div class="task-description flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">{{ $t("description") }}</h2>
         <div class="wm-form-row gap-5">
-          <!-- <Textarea v-model="value" autoResize rows="8" cols="100" /> -->
           <WMInput type="text-area" id="description" name="description" />
         </div>
       </div>

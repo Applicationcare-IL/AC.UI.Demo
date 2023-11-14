@@ -137,7 +137,7 @@
           <Card>
             <template #title> {{ $t("task.description") }} </template>
             <template #content>
-              <div class="task-notes flex flex-auto flex-column gap-5">
+              <div class="task-description flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <Textarea
                     v-model="task.description"
@@ -156,7 +156,12 @@
             <template #content>
               <div class="task-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <Textarea v-model="task.notes" autoResize rows="5" />
+                  <WMInput
+                    :value="task.notes"
+                    type="text-area"
+                    id="notes"
+                    name="notes"
+                  />
                 </div>
               </div>
             </template>
@@ -408,7 +413,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -460,6 +465,13 @@ const contactColumns = ref(listUtilsStore.getContactColumns);
 const serviceColumns = ref(listUtilsStore.getServiceColumns);
 const taskColumns = ref(listUtilsStore.getTaskColumns);
 
+const props = defineProps({
+  formKey: {
+    type: String,
+    required: true,
+  },
+});
+
 onMounted(() => {
   TasksService.getTaskFromApi(route.params.id).then((data) => {
     task.value = data;
@@ -474,7 +486,7 @@ onMounted(() => {
   });
 });
 
-const { errors, handleSubmit, setFieldError } = useForm({
+const { handleSubmit, setFieldError, meta } = useForm({
   validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
 });
 
@@ -490,6 +502,14 @@ const slaClass = (data) => {
 const priorityClass = (data) => {
   return listUtilsStore.getPriorityConditionalStyle(data);
 };
+
+watch(
+  () => meta.value,
+  (value) => {
+    formUtilsStore.formMeta = value;
+    formUtilsStore.setFormMetas(value, props.formKey);
+  }
+);
 
 formUtilsStore.submit = onSubmit;
 </script>

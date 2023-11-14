@@ -1,6 +1,10 @@
 <template>
-  <WMDetailFormSubHeader></WMDetailFormSubHeader>
-  <WMDetailTaskForm></WMDetailTaskForm>
+  <WMDetailFormSubHeader :form-key="formKey"></WMDetailFormSubHeader>
+  <WMDetailTaskForm :form-key="formKey"></WMDetailTaskForm>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+
+const formKey = ref("taskDetailForm");
+</script>
