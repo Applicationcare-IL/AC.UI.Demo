@@ -132,6 +132,43 @@
         </div>
       </div>
 
+      <div class="flex flex-row gap-5 flex-wrap">
+        <div class="card-container middle-info-card flex-1">
+          <Card>
+            <template #title> {{ $t("task.description") }} </template>
+            <template #content>
+              <div class="task-description flex flex-auto flex-column gap-5">
+                <div class="wm-form-row gap-5">
+                  <Textarea
+                    v-model="task.description"
+                    autoResize
+                    rows="5"
+                    disabled
+                  />
+                </div>
+              </div>
+            </template>
+          </Card>
+        </div>
+        <div class="card-container middle-info-card flex-1">
+          <Card>
+            <template #title> {{ $t("task.notes") }} </template>
+            <template #content>
+              <div class="task-notes flex flex-auto flex-column gap-5">
+                <div class="wm-form-row gap-5">
+                  <WMInput
+                    :value="task.notes"
+                    type="text-area"
+                    id="notes"
+                    name="notes"
+                  />
+                </div>
+              </div>
+            </template>
+          </Card>
+        </div>
+      </div>
+
       <!-- <Card>
             <template #title>
               {{ $t("site.details") }}
@@ -189,103 +226,76 @@
           </Card> -->
 
       <div class="flex flex-row gap-5 flex-wrap">
-        <div class="card-container middle-info-card flex-1">
-          <div class="flex-1 card-container top-info-card">
-            <Card>
-              <template #title>
-                <div class="flex flex-row justify-content-between">
-                  {{ $t("address.address") }}
-                  <WMButton name="location" icon="location" @click="">{{
-                    $t("location")
-                  }}</WMButton>
-                </div>
-              </template>
-              <template #content>
-                <div class="flex flex-auto flex-column gap-5">
-                  <div class="wm-form-row gap-5">
-                    <WMInput
-                      name="city"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('address.city') + ':'"
-                      :value="task.location.city"
-                    />
-                    <WMInput
-                      name="street"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('address.street') + ':'"
-                      :value="task.location.street"
-                    />
-                  </div>
-                  <div class="wm-form-row gap-5">
-                    <WMInput
-                      name="house-number"
-                      type="info"
-                      :label="$t('address.house-number') + ':'"
-                      width="48"
-                      :value="task.location.house_number"
-                    ></WMInput>
-                    <WMInput
-                      name="apartment"
-                      type="info"
-                      :label="$t('address.apartment') + ':'"
-                      width="48"
-                      :value="task.location.apartment"
-                    />
-                    <WMInput
-                      name="entrance"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('address.entrance') + ':'"
-                      :value="task.location.entrance"
-                    />
-                    <WMInput
-                      name="zip"
-                      type="info"
-                      :label="$t('address.zip') + ':'"
-                      width="80"
-                      :value="task.location.zip"
-                    />
-                  </div>
-                </div>
-              </template>
-            </Card>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex flex-row gap-5 flex-wrap">
-        <div class="card-container middle-info-card flex-1">
+        <div class="flex-1 card-container top-info-card">
           <Card>
-            <template #title> {{ $t("task.description") }} </template>
+            <template #title>
+              <div class="flex flex-row justify-content-between">
+                {{ $t("address.address") }}
+                <WMButton name="location" icon="location" @click="">{{
+                  $t("location")
+                }}</WMButton>
+              </div>
+            </template>
             <template #content>
-              <div class="task-notes flex flex-auto flex-column gap-5">
+              <div class="flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <Textarea
-                    v-model="task.description"
-                    autoResize
-                    rows="5"
-                    disabled
+                  <WMInput
+                    name="city"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('address.city') + ':'"
+                    :value="task.location.city"
+                  />
+                  <WMInput
+                    name="street"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('address.street') + ':'"
+                    :value="task.location.street"
+                  />
+                </div>
+                <div class="wm-form-row gap-5">
+                  <WMInput
+                    name="house-number"
+                    type="info"
+                    :label="$t('address.house-number') + ':'"
+                    width="48"
+                    :value="task.location.house_number"
+                  ></WMInput>
+                  <WMInput
+                    name="apartment"
+                    type="info"
+                    :label="$t('address.apartment') + ':'"
+                    width="48"
+                    :value="task.location.apartment"
+                  />
+                  <WMInput
+                    name="entrance"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('address.entrance') + ':'"
+                    :value="task.location.entrance"
+                  />
+                  <WMInput
+                    name="zip"
+                    type="info"
+                    :label="$t('address.zip') + ':'"
+                    width="80"
+                    :value="task.location.zip"
                   />
                 </div>
               </div>
             </template>
           </Card>
         </div>
-        <div class="card-container middle-info-card flex-1">
+        <div class="flex-1 card-container top-info-card">
           <Card>
-            <template #title> {{ $t("task.notes") }} </template>
-            <template #content>
-              <div class="task-notes flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <Textarea v-model="task.notes" autoResize rows="5" />
-                </div>
-              </div>
-            </template>
+            <template #title> Site details</template>
+            <template #content> Content </template>
           </Card>
         </div>
       </div>
+
       <div class="flex flex-row gap-5 flex-wrap mt-5">
         <div class="flex-1 card-container">
           <Card>
@@ -403,7 +413,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch, defineExpose } from "vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -412,29 +422,9 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 import { ServicesService } from "@/service/ServicesService";
 import { TasksService } from "@/service/TasksService";
+import { useToast } from "@/stores/toast";
 
-const items = ref([
-  {
-    label: "שם של שלב",
-    date: "11/11/22",
-  },
-  {
-    label: "שם של שלב",
-    date: "11/11/22",
-  },
-  {
-    label: "שם של שלב",
-    date: "11/11/22",
-  },
-  {
-    label: "שם של שלב",
-    date: "11/11/22",
-  },
-  {
-    label: "שם של שלב",
-    date: "11/11/22",
-  },
-]);
+const toast = useToast();
 
 const tasks = ref();
 
@@ -455,6 +445,13 @@ const contactColumns = ref(listUtilsStore.getContactColumns);
 const serviceColumns = ref(listUtilsStore.getServiceColumns);
 const taskColumns = ref(listUtilsStore.getTaskColumns);
 
+const props = defineProps({
+  formKey: {
+    type: String,
+    required: true,
+  },
+});
+
 onMounted(() => {
   TasksService.getTaskFromApi(route.params.id).then((data) => {
     task.value = data;
@@ -469,13 +466,20 @@ onMounted(() => {
   });
 });
 
-const { errors, handleSubmit, setFieldError } = useForm({
-  validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
+const { handleSubmit, meta, resetForm } = useForm({
+  // validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
 });
 
-const onSubmit = handleSubmit((values) => {
-  setFieldError("mobile-phone", "Customer already exists");
-  console.log(values);
+const onSave = handleSubmit((values) => {
+  TasksService.updateTask(route.params.id, TasksService.parseUpdateTask(values))
+    .then(() => {
+      toast.successAction("task", "updated");
+      resetForm({ values: values });
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("service", "not-updated");
+    });
 });
 
 const slaClass = (data) => {
@@ -486,7 +490,17 @@ const priorityClass = (data) => {
   return listUtilsStore.getPriorityConditionalStyle(data);
 };
 
-formUtilsStore.submit = onSubmit;
+watch(
+  () => meta.value,
+  (value) => {
+    formUtilsStore.formMeta = value;
+    formUtilsStore.setFormMetas(value, props.formKey);
+  }
+);
+
+defineExpose({
+  onSave,
+});
 </script>
 
 <style scoped lang="scss"></style>

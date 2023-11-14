@@ -52,9 +52,10 @@
                 <div class="wm-form-row gap-5">
                   <div class="wm-form-row gap-4">
                     <WMInput
-                      name="contactid"
+                      name="contact_number"
                       :highlighted="true"
                       type="input-text"
+                      :value="contact.contact_number"
                       :label="$t('contact.identifier') + ':'"
                     />
 
@@ -191,7 +192,12 @@
             <template #content>
               <div class="contact-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <Textarea v-model="value" autoResize rows="5" />
+                  <WMInput
+                    :value="contact.notes"
+                    type="text-area"
+                    id="notes"
+                    name="notes"
+                  />
                 </div>
               </div>
             </template>
@@ -326,7 +332,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, defineExpose } from "vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -340,6 +346,13 @@ import { ServicesService } from "@/service/ServicesService";
 import { TasksService } from "@/service/TasksService";
 
 import { useToast } from "@/stores/toast";
+
+const props = defineProps({
+  formKey: {
+    type: String,
+    required: true,
+  },
+});
 
 const customers = ref();
 const services = ref();
@@ -413,8 +426,13 @@ watch(
   () => meta.value,
   (value) => {
     formUtilsStore.formMeta = value;
+    formUtilsStore.setFormMetas(value, props.formKey);
   }
 );
+
+defineExpose({
+  onSave,
+});
 
 const statusClass = (data) => {
   return listUtilsStore.getStatusConditionalStyle(data);

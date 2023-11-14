@@ -1,6 +1,16 @@
 <template>
-  <WMDetailFormSubHeader></WMDetailFormSubHeader>
-  <WMDetailTaskForm></WMDetailTaskForm>
+  <WMDetailFormSubHeader @save-form="saveForm()" :form-key="formKey" />
+  <WMDetailTaskForm ref="detailTaskForm" :form-key="formKey" />
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+
+const formKey = ref("taskDetailForm");
+
+const detailTaskForm = ref(null);
+
+const saveForm = () => {
+  detailTaskForm.value.onSave();
+};
+</script>

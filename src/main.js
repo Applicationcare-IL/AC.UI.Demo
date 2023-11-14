@@ -41,6 +41,8 @@ import Password from "primevue/password";
 import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
 import OverlayPanel from "primevue/overlaypanel";
+import Calendar from "primevue/calendar";
+import InputSwitch from "primevue/inputswitch";
 
 import i18nInstance from "@/i18n";
 
@@ -82,7 +84,9 @@ const app = createApp(App)
   .component("Dialog", Dialog)
   .component("Password", Password)
   .component("Toast", Toast)
-  .component("OverlayPanel", OverlayPanel);
+  .component("OverlayPanel", OverlayPanel)
+  .component("Calendar", Calendar)
+  .component("InputSwitch", InputSwitch);
 
 app.config.globalProperties.$appState = reactive({
   isRTL: true,

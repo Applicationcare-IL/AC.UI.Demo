@@ -32,6 +32,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
     formMeta: {},
     cancelService: "",
     cancelServiceReasons: {},
+    formMetas: [],
   }),
   getters: {
     yesNoOptions: () => {
@@ -180,7 +181,9 @@ export const useFormUtilsStore = defineStore("formUtils", {
     },
     getContactDetailFormValidationSchema: (state) => {
       return yup.object({
-        contactid: yup.string().min(9, "validation.contactid").required(),
+        "first-name": yup.string().required(),
+        "last-name": yup.string().required(),
+        contact_number: yup.string().min(9, "validation.contactid").required(),
         // 'mobile-phone': yup.string().trim().matches(state.israeliPhoneRegex, 'validation.phone').required(),
         // 'landline': yup.string().trim().matches(state.israeliLandlineRegex, 'validation.phone').required(),
         // 'email': yup.string().trim().email('validation.email').required(),
@@ -192,6 +195,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
     //     "last-name": yup.string().required(),
     //   });
     // },
+    getFormMeta: (state) => {
+      return (key) => {
+        return state.formMetas.find((meta) => meta.key === key);
+      };
+    },
   },
   actions: {
     closeForm() {
@@ -201,6 +209,16 @@ export const useFormUtilsStore = defineStore("formUtils", {
     goToDetail(id, entity) {
       const entityPath = entity || this.formEntity;
       this.router.push("/" + entityPath + "/" + id);
+    },
+    setFormMetas(meta, key) {
+      const index = this.formMetas.findIndex((meta) => meta.key === key);
+
+      if (index > -1) {
+        this.formMetas[index] = { ...meta, key };
+        return;
+      }
+
+      this.formMetas.push({ ...meta, key });
     },
   },
 });

@@ -455,3 +455,23 @@ a {
 .p-dialog-content{
     white-space: pre-line;
 }
+
+
+// Calendar
+.p-calendar{
+    border: 1px solid var(--gray-400);
+    border-radius: 4px;
+ &.p-calendar-w-btn{
+
+        .p-inputtext{
+            border: none;
+            background-color: transparent;
+        }
+
+        .p-button{
+            background-color: transparent;
+            border: none;
+            color: var(--gray-700);
+        }
+    }
+}

@@ -96,10 +96,38 @@
         />
       </div>
       <Divider class="mb-0" layout="horizontal" />
+      <div class="task-timing flex flex-auto flex-column gap-5">
+        <h2 class="h2 mb-0">Timing</h2>
+        <div class="wm-form-row gap-5">
+          <WMInput
+            name="start_task"
+            type="input-select-button"
+            :highlighted="true"
+            :label="'Start task'"
+            :options="startTaskOptions"
+            :value="selectedStartTaskOption"
+            @update:selectedItem="onChange"
+            width="80"
+          />
+
+          <WMInput
+            v-if="selectedStartTaskOption.name === 'future'"
+            type="date"
+            :label="'Start date'"
+            id="description"
+            name="start_date"
+          />
+        </div>
+        <div class="wm-form-row gap-5">
+          <WMToggleSwitch v-model="isRecurring" label="Recurring task">
+            Content
+          </WMToggleSwitch>
+        </div>
+      </div>
+      <Divider class="mb-0" layout="horizontal" />
       <div class="task-description flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">{{ $t("description") }}</h2>
         <div class="wm-form-row gap-5">
-          <!-- <Textarea v-model="value" autoResize rows="8" cols="100" /> -->
           <WMInput type="text-area" id="description" name="description" />
         </div>
       </div>
@@ -129,12 +157,18 @@ import { useDialog } from "@/stores/dialog";
 
 const optionSetsStore = useOptionSetsStore();
 
+const isRecurring = ref(false);
+
 const props = defineProps({
   isSidebar: {
     type: Boolean,
     default: false,
   },
 });
+
+function onChange(value) {
+  selectedStartTaskOption.value = value;
+}
 
 const toast = useToast();
 const dialog = useDialog();
@@ -145,7 +179,7 @@ const { handleSubmit, values } = useForm({
 });
 
 const taskFamily = ref("");
-optionSetsStore.getOptionSetValuesFromApi("task_family").then((data) => {
+optionSetsStore.getOptionSetValuesFromApiRaw("task_family").then((data) => {
   taskFamily.value = data;
 });
 
@@ -188,6 +222,12 @@ const searchTaskTypes = (query) => {
   });
 };
 
+const selectedStartTaskOption = ref({ name: "now", value: "now" });
+const startTaskOptions = ref([
+  { name: "now", value: "now" },
+  { name: "future", value: "future" },
+]);
+
 const onSubmit = handleSubmit((values) => {
   const today = new Date().toISOString().slice(0, 10);
 
@@ -196,8 +236,6 @@ const onSubmit = handleSubmit((values) => {
     started_at: today,
     due_date: today, // TODO: change that to the date the user selected
   };
-
-  console.log("task", task);
 
   TasksService.createTask(TasksService.parseTask(task))
     .then((data) => {

@@ -440,7 +440,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, defineExpose } from "vue";
 
 import { useForm } from "vee-validate";
 import { useUtilsStore } from "@/stores/utils";
@@ -458,6 +458,13 @@ const stages = ref([]);
 const currentStage = ref();
 
 const tasks = ref();
+
+const props = defineProps({
+  formKey: {
+    type: String,
+    required: true,
+  },
+});
 
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
@@ -560,10 +567,15 @@ const statusClass = (data) => {
   return listUtilsStore.getStatusConditionalStyle(data);
 };
 
+defineExpose({
+  onSave,
+});
+
 watch(
   () => meta.value,
   (value) => {
     formUtilsStore.formMeta = value;
+    formUtilsStore.setFormMetas(value, props.formKey);
   }
 );
 </script>

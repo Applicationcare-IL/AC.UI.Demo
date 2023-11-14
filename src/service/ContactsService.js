@@ -57,7 +57,6 @@ export const ContactsService = {
     return axiosConfig
       .get("/contacts/" + id)
       .then((response) => {
-        console.log(response.data.data);
         const contact = response.data.data;
         return this.mapContact(contact);
       })
@@ -123,6 +122,8 @@ export const ContactsService = {
       gender: true, //is_male ? 'male' : 'female',
       is_main: contact.is_main,
       role: contact.role?.value,
+      notes: contact.notes,
+      contact_number: contact.contact_number,
     };
   },
   parseContact(contact) {
@@ -136,7 +137,7 @@ export const ContactsService = {
       surname: contact["last-name"],
       phone: contact["mobile-phone"],
       email: contact["email"],
-      gender: contact["gender"].value,
+      gender: contact["gender"].id,
       customers: contact["customer"]
         ? contact["customer"].map((x) => x.id)
         : "",
@@ -146,6 +147,8 @@ export const ContactsService = {
       zipcode: contact["zipcode"],
       fax: contact["fax"],
       land_line: contact["landline"],
+      notes: contact["notes"],
+      contact_number: contact["contact_number"],
     };
   },
 

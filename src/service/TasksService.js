@@ -131,6 +131,19 @@ export const TasksService = {
       });
   },
 
+  updateTask(id, task) {
+    console.log(task);
+    return axiosConfig
+      .patch("/tasks/" + id, task)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        throw error;
+      });
+  },
+
   completeTask(id) {
     return axiosConfig
       .post("/tasks/" + id + "/complete")
@@ -153,6 +166,12 @@ export const TasksService = {
       contact_id: task.contact.id,
       entity_type: task.entity_type ? task.entity_type.type : null,
       entity_id: task.entity_id ? task.entity_id.id : null,
+    };
+  },
+
+  parseUpdateTask(task) {
+    return {
+      notes: task.notes,
     };
   },
 

@@ -243,7 +243,11 @@ function closeSidebar() {
   isVisible.value = false;
 }
 
-const genders = optionSetsStore.getOptionSetValuesFromApi("gender");
+const genders = ref("");
+optionSetsStore.getOptionSetValuesFromApiRaw("gender").then((data) => {
+  genders.value = data;
+});
+
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash;
 
 const searchCustomer = (query) => {
