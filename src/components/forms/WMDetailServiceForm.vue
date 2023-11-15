@@ -4,12 +4,20 @@
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
     <div class="service-data flex flex-auto flex-column gap-5 mb-5">
-      <div class="flex flex-row align-items-center gap-4">
-        <h1 class="h1 mb-0">
-          {{ $t("service.service") }} {{ service.service_number }}
-        </h1>
-        <div :class="statusClass(service.state)" class="status-label">
-          {{ $t("statuses." + service.state) }}
+      <div class="flex flex-row justify-content-between">
+        <div class="flex flex-row align-items-center gap-4">
+          <h1 class="h1 mb-0">
+            {{ $t("service.service") }} {{ service.service_number }}
+          </h1>
+          <div :class="statusClass(service.state)" class="status-label">
+            {{ $t("statuses." + service.state) }}
+          </div>
+        </div>
+        <div>
+          <WMAnnouncementsButton
+            entity="service"
+            :id="route.params.id"
+          ></WMAnnouncementsButton>
         </div>
       </div>
       <div class="flex flex-row gap-5 flex-wrap">
@@ -450,6 +458,7 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
 import { ServicesService } from "@/service/ServicesService";
+
 import { TasksService } from "@/service/TasksService";
 import { useToast } from "@/stores/toast";
 
@@ -508,10 +517,10 @@ const fetchData = async () => {
   tasks.value = tasksData.tasks;
 };
 
-const updateDropdown = (dropdown, selectedValue, dropdownOptions) => {
+const updateDropdown = (optionSet, selectedValue, dropdownOptions) => {
   console.log(selectedValue);
   optionSetsStore
-    .getOptionSetValuesFromApiRaw(dropdown, selectedValue)
+    .getOptionSetValuesFromApiRaw(optionSet, selectedValue)
     .then((data) => {
       optionRefs[dropdownOptions].value = data;
     });

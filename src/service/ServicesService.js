@@ -163,11 +163,11 @@ export const ServicesService = {
       priority: service.priority?.id,
       process_definition_id: 3,
       description: service.description,
-      area: service.service_area?.id,
-      type: service.service_type?.id,
+      area: service.area?.id,
+      type: service.type?.id,
       request_1: service.request1?.id,
       request_2: service.request2?.id,
-      request_3: service.request2?.id,
+      request_3: service.request3?.id,
     };
   },
 

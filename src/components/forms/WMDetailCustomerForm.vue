@@ -4,12 +4,20 @@
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
     <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
-      <div class="flex flex-row align-items-center gap-4">
-        <h1 class="h1 mb-0">
-          {{ $t("customer.customer") }}: {{ customer.name }}
-        </h1>
-        <div :class="statusClass(customer.state)" class="status-label">
-          {{ $t("statuses." + customer.state) }}
+      <div class="flex flex-row justify-content-between">
+        <div class="flex flex-row align-items-center gap-4">
+          <h1 class="h1 mb-0">
+            {{ $t("customer.customer") }}: {{ customer.name }}
+          </h1>
+          <div :class="statusClass(customer.state)" class="status-label">
+            {{ $t("statuses." + customer.state) }}
+          </div>
+        </div>
+        <div>
+          <WMAnnouncementsButton
+            entity="service"
+            :id="route.params.id"
+          ></WMAnnouncementsButton>
         </div>
       </div>
       <div class="flex flex-row gap-5 flex-wrap">
