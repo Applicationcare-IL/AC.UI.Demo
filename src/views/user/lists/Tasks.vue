@@ -89,9 +89,9 @@
       <!-- SLA -->
       <Column field="SLA" header="SLA" class="sla">
         <template #body="slotProps">
-          <div :class="slaClass(slotProps.data)">
-            {{ slotProps.data.SLA }}
-          </div>
+          <WMSLATag :sla="slotProps.data.sla">
+            {{ slotProps.data.days_for_closing }} ימים
+          </WMSLATag>
         </template>
       </Column>
       <!-- Owner -->

@@ -104,9 +104,9 @@
       <Column field="staff" header="צוות"></Column>
       <Column field="SLA" header="SLA" class="sla">
         <template #body="slotProps">
-          <div :class="slaClass(slotProps.data)">
+          <WMSLATag :sla="slotProps.data.sla">
             {{ slotProps.data.days_for_closing }} ימים
-          </div>
+          </WMSLATag>
         </template>
       </Column>
       <Column field="priority" header="עדיפות" class="numeric priority">
@@ -142,6 +142,7 @@ import { useListUtilsStore } from "@/stores/listUtils";
 import { useLayout } from "@/layout/composables/layout";
 
 import { useDateFormat, formatDate } from "@vueuse/core";
+import WMSLATag from "../../../components/WMSLATag.vue";
 
 const { layoutConfig } = useLayout();
 const formUtilsStore = useFormUtilsStore();
@@ -216,19 +217,6 @@ const priorityClass = (data) => {
       "bg-blue-75": data.priority === 1 && data.is_active,
       "bg-blue-50": data.priority === 2 && data.is_active,
       "bg-blue-25": data.priority === 3 && data.is_active,
-    },
-  ];
-};
-
-const slaClass = (data) => {
-  return [
-    "px-2",
-    {
-      "bg-teal-200 text-teal-900": data.SLA === "no_breach",
-      "bg-yellow-100 text-gray-900": data.SLA === "near_breach",
-      "bg-red-100 text-red-600 ": data.SLA === "breach",
-      "text-teal-900": data.SLA === "עמד ביעד",
-      "text-red-600": data.SLA === "הסתיים בחריגה",
     },
   ];
 };
