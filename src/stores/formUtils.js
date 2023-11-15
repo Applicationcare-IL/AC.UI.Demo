@@ -30,6 +30,8 @@ export const useFormUtilsStore = defineStore("formUtils", {
     isSidebarExpanded: false,
     expandSidebar: "",
     formMeta: {},
+    cancelService: "",
+    cancelServiceReasons: {},
     formMetas: [],
   }),
   getters: {

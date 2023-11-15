@@ -244,6 +244,7 @@
         "open": "פתוח",
         "closed": "סגור",
         "active": "פעיל",
+        "not_active": "לא פעיל",
         "inactive": "לא פעיל",
         "pending": "ממתין",
         "completed": "הושלם"

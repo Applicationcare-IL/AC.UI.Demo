@@ -117,7 +117,7 @@
         </div>
         <div class="wm-form-row gap-5">
           <WMInputSearch
-            name="service_area"
+            name="area"
             :highlighted="true"
             :required="true"
             :label="$t('classification-1') + ':'"
@@ -125,49 +125,43 @@
             :options="areas"
             width="152"
             :placeholder="$t('select', ['classification-1'])"
-            @change="updateDropdown('service_type', $event.value.id, 'types')"
+            @change="updateDropdown('type', $event.value.id, 'types')"
           />
 
           <WMInputSearch
-            name="service_type"
+            name="type"
             :highlighted="true"
             :required="true"
             :label="$t('classification-2') + ':'"
             :options="types"
             width="152"
             :placeholder="$t('select', ['classification-2'])"
-            @change="
-              updateDropdown('service_request_1', $event.value.id, 'requests1')
-            "
+            @change="updateDropdown('request_1', $event.value.id, 'requests1')"
           />
           <WMInputSearch
-            name="service_request_1"
+            name="request1"
             :highlighted="true"
             :required="true"
             :label="$t('classification-3') + ':'"
             :options="requests1"
             width="152"
             :placeholder="$t('select', ['classification-3'])"
-            @change="
-              updateDropdown('service_request_2', $event.value.id, 'requests2')
-            "
+            @change="updateDropdown('request2', $event.value.id, 'requests2')"
           />
         </div>
 
         <div class="wm-form-row gap-5">
           <WMInputSearch
-            name="service_request_2"
+            name="request2"
             :highlighted="true"
             :label="$t('classification-4') + ':'"
             :options="requests2"
             width="152"
             :placeholder="$t('select', ['classification-4'])"
-            @change="
-              updateDropdown('service_request_3', $event.value.id, 'requests3')
-            "
+            @change="updateDropdown('request3', $event.value.id, 'requests3')"
           />
           <WMInputSearch
-            name="service_request_3"
+            name="request_3"
             :highlighted="true"
             :label="$t('classification-5') + ':'"
             :options="requests3"

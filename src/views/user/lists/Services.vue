@@ -101,11 +101,11 @@
       <Column field="request1.value" header="מהות"></Column>
       <Column field="days_from_opening_date" header="משך"></Column>
       <Column field="owner.name" header="אחראי"></Column>
-      <Column field="staff" header="צוות"></Column>
+      <Column field="owner.default_team" header="צוות"></Column>
       <Column field="SLA" header="SLA" class="sla">
         <template #body="slotProps">
           <WMSLATag :sla="slotProps.data.sla">
-            {{ slotProps.data.days_for_closing }} ימים
+            {{ $t("sla.days_left", [slotProps.data.days_for_closing]) }}
           </WMSLATag>
         </template>
       </Column>
@@ -126,7 +126,7 @@
           {{ $t("option-set.service_urgent." + slotProps.data.urgency) }}
         </template>
       </Column>
-      <Column field="last_change" header="שינוי אחרון"></Column>
+      <Column field="last_activity" header="שינוי אחרון"></Column>
       <Column field="closed" header="נסגר"></Column>
       <Column field="stage" header="שליחת נציג בטחון"></Column>
     </DataTable>

@@ -139,6 +139,20 @@ export const ServicesService = {
       });
   },
 
+  cancelService(id, reasons) {
+    console.log(reasons);
+
+    return axiosConfig
+      .post("/services/" + id + "/cancel", reasons)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        throw error;
+      });
+  },
+
   parseService(service) {
     return {
       contact_id: 1, //service.contact.id,
@@ -149,11 +163,11 @@ export const ServicesService = {
       priority: service.priority?.id,
       process_definition_id: 3,
       description: service.description,
-      area: service.service_area?.id,
-      type: service.service_type?.id,
+      area: service.area?.id,
+      type: service.type?.id,
       request_1: service.request1?.id,
       request_2: service.request2?.id,
-      request_3: service.request2?.id,
+      request_3: service.request3?.id,
     };
   },
 
@@ -182,21 +196,21 @@ export const ServicesService = {
       request2: service.request_2,
       request3: service.request_3,
       duration: service.process.sla.days_from_opening_date,
-      owner: service.owner, //'Israel Israeli',
-      staff: "", //'106 מוקד',
+      owner: service.owner,
+      staff: "",
       sla: service.process.sla.sla,
       priority: "1",
       recurring: service.recurring == 0 ? "no" : "yes",
       urgency: service.urgent.value,
-      last_change: "", // '11/11/22 10:23',
+      last_change: "",
       closed: service.process.closed ? service.process.closed : "--",
       days_for_closing: service.process.sla.days_for_closing,
       days_from_opening_date: service.process.sla.days_from_opening_date,
       stages: service.process.stages,
       current_stage: service.process.current_stage,
       stage: service.process.current_stage?.name,
-      team: "אגף רישוי ופיקוח (הנדסה)",
-      is_active: true, //is_active,
+      team: service.owner.default_team,
+      is_active: service.state?.value == "active" ? true : false,
       description: service.description,
       status: service.status?.value,
       state: service.state?.value,

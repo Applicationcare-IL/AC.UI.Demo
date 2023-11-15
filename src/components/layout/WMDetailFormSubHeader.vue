@@ -37,17 +37,32 @@
             >הקצה</WMButton
           >
         </div>
+        <div>
+          <WMButton
+            v-if="utilsStore.entity == 'service' && isServiceActive"
+            class="m-1 col-6"
+            name="cancel"
+            icon="cancel"
+            @click="dialog.cancelService(route.params.id)"
+            >Cancel
+          </WMButton>
+        </div>
       </div>
     </div>
   </div>
+  <WMCancelServiceDialog />
 </template>
 
 <script setup>
 import { ref, watch, defineEmits } from "vue";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
+import { useDialog } from "@/stores/dialog";
+import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 
+const route = useRoute();
+const dialog = useDialog();
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 
@@ -68,6 +83,7 @@ const props = defineProps({
 });
 
 const selectedElements = ref(0);
+const isServiceActive = ref(false);
 
 const saveForm = () => {
   emit("saveForm");
@@ -77,6 +93,8 @@ watch(
   () => utilsStore.selectedElements[utilsStore.entity],
   (value) => {
     selectedElements.value = value?.length;
+    isServiceActive.value =
+      utilsStore.selectedElements[utilsStore.entity][0].state === "active";
   }
 );
 </script>
