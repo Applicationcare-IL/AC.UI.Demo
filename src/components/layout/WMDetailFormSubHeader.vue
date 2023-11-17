@@ -36,6 +36,9 @@
             :disabled="selectedElements == 0"
             >הקצה</WMButton
           >
+          <WMCompleteTasksButton
+            v-if="utilsStore.entity == 'task' && isEntityActive"
+          ></WMCompleteTasksButton>
         </div>
         <div>
           <WMButton

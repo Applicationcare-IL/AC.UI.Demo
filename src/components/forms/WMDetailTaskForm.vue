@@ -3,9 +3,15 @@
     v-if="task"
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
-    <!-- <pre>{{ task }}</pre> -->
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 class="h1 mb-0">{{ $t("task.task") }} {{ task.task_number }}</h1>
+      <div class="flex flex-row align-items-center gap-4">
+        <h1 class="h1 mb-0">
+          <h1 class="h1 mb-0">{{ $t("task.task") }} {{ task.task_number }}</h1>
+        </h1>
+        <div :class="statusClass(task.state)" class="status-label">
+          {{ $t("statuses." + task.state) }}
+        </div>
+      </div>
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="card-container top-info-card flex-1">
           <Card>
@@ -420,6 +426,7 @@ import { ref, onMounted, watch, defineExpose } from "vue";
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
+import { useUtilsStore } from "@/stores/Utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 import { ServicesService } from "@/service/ServicesService";
@@ -433,6 +440,7 @@ const tasks = ref();
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 const listUtilsStore = useListUtilsStore();
+const utilsStore = useUtilsStore();
 const task = ref();
 const service = ref();
 const route = useRoute();
@@ -457,7 +465,7 @@ const props = defineProps({
 onMounted(() => {
   TasksService.getTaskFromApi(route.params.id).then((data) => {
     task.value = data;
-
+    utilsStore.selectedElements["task"] = [task.value];
     console.log(task.value.service_number);
     setTimeout(function () {
       ServicesService.getService(task.value.service_number).then((data) => {
@@ -484,8 +492,8 @@ const onSave = handleSubmit((values) => {
     });
 });
 
-const slaClass = (data) => {
-  return listUtilsStore.getSlaConditionalStyle(data);
+const statusClass = (data) => {
+  return listUtilsStore.getStatusConditionalStyle(data);
 };
 
 const priorityClass = (data) => {

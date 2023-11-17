@@ -205,6 +205,7 @@ export const TasksService = {
       days_for_closing: task.sla?.days_for_closing,
       contact: "שלומי שבת",
       contact_id: "795",
+      state: task.state?.value, //is_open ? 'פתוח' : 'סגור',
       status: task.status?.value, //is_open ? 'פתוח' : 'סגור',
       is_open: task.status?.value == "open",
       due_date: task.sla?.due_date,
