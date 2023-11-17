@@ -90,9 +90,14 @@
         <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
       </template>
       <template v-if="column.type === 'link'" #body="slotProps">
-        <router-link to="/foo" class="vertical-align-middle">{{
-          slotProps.data.service_number
-        }}</router-link>
+        <router-link
+          :to="{
+            name: 'serviceDetail',
+            params: { id: slotProps.data.service_number },
+          }"
+          class="vertical-align-middle"
+          >{{ slotProps.data.service_number }}</router-link
+        >
       </template>
       <template v-if="column.type === 'sla'" #body="slotProps">
         <WMSLATag :sla="slotProps.data.sla">

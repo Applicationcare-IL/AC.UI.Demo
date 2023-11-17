@@ -4,7 +4,7 @@
       <h1 v-if="!props.isSidebar" class="h1 mb-0">
         {{ $t("new", ["contact.contact"]) }}
       </h1>
-
+      <h2 class="h2 mb-0">פרטים כלליים</h2>
       <div class="wm-form-row">
         <WMInput
           name="owner"
@@ -221,10 +221,10 @@ const streets = ref();
 const selectedStreet = ref(null);
 
 onMounted(() => {
-  optionSetsStore.getOptionSetValuesFromApiRaw("service_city").then((data) => {
-    console.log(data);
-    cities.value = data;
-  });
+  // optionSetsStore.getOptionSetValuesFromApiRaw("service_city").then((data) => {
+  //   console.log(data);
+  //   cities.value = data;
+  // });
 });
 
 const { errors, handleSubmit, setFieldError, meta } = useForm({

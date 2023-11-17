@@ -213,6 +213,11 @@
               <div class="flex flex-column gap-3">
                 <div
                   class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-teal-200 text-teal-900"
+                  :class="
+                    contact.open_services - contact.breached_services > 0
+                      ? 'bg-teal-200 text-teal-900'
+                      : 'bg-gray-100 text-gray-900'
+                  "
                 >
                   <span class="font-size-20 font-weight-light">No breach</span>
                   <span class="font-size-24 font-weight-bold">{{
@@ -221,6 +226,11 @@
                 </div>
                 <div
                   class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900"
+                  :class="
+                    contact.breached_services > 0
+                      ? 'bg-red-50 text-red-600'
+                      : 'bg-gray-100 text-gray-900'
+                  "
                 >
                   <span class="font-size-20 font-weight-light">Breach</span>
                   <span class="font-size-24 font-weight-bold">{{
@@ -239,7 +249,12 @@
             <template #content>
               <div class="flex flex-column gap-3">
                 <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-teal-200 text-teal-900"
+                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm"
+                  :class="
+                    contact.open_tasks - contact.breached_tasks > 0
+                      ? 'bg-teal-200 text-teal-900'
+                      : 'bg-gray-100 text-gray-900'
+                  "
                 >
                   <span class="font-size-20 font-weight-light">No breach</span>
                   <span class="font-size-24 font-weight-bold">{{
@@ -247,7 +262,12 @@
                   }}</span>
                 </div>
                 <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-red-50 text-red-600"
+                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm"
+                  :class="
+                    contact.breached_tasks > 0
+                      ? 'bg-red-50 text-red-600'
+                      : 'bg-gray-100 text-gray-900'
+                  "
                 >
                   <span class="font-size-20 font-weight-light">Breach</span>
                   <span class="font-size-24 font-weight-bold"
@@ -385,7 +405,6 @@ const fetchData = async () => {
   ContactsService.getContactFromApi(route.params.id).then((data) => {
     contact.value = data;
     utilsStore.selectedElements["contact"] = [contact.value];
-    console.log(contact.value);
     loaded.value = true;
   });
   const servicesData = await ServicesService.getServicesFromApi({
@@ -395,7 +414,6 @@ const fetchData = async () => {
   const tasksData = await TasksService.getTasksFromApi({
     customer_id: route.params.id,
   });
-  console.log(tasksData);
   tasks.value = tasksData?.tasks;
 };
 

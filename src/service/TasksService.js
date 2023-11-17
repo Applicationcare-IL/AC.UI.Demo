@@ -78,16 +78,13 @@ export const TasksService = {
     );
   },
   getTasksFromApi(params) {
-    console.log(params);
     return axiosConfig
       .get("/tasks", { params })
       .then((response) => {
-        console.log(response);
         const tasks = response.data.data.map((service) => {
           return this.mapTask(service);
         });
         const totalRecords = response.data.meta.total;
-        console.log(tasks);
         return { tasks, totalRecords };
       })
       .catch((error) => {
@@ -110,7 +107,6 @@ export const TasksService = {
     return axiosConfig
       .get("/tasks/" + id)
       .then((response) => {
-        console.log(response);
         const service = response.data.data;
         return this.mapTask(service);
       })
@@ -132,7 +128,6 @@ export const TasksService = {
   },
 
   updateTask(id, task) {
-    console.log(task);
     return axiosConfig
       .patch("/tasks/" + id, task)
       .then((response) => {

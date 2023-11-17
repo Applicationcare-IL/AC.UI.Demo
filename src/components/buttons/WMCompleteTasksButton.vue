@@ -4,7 +4,7 @@
     name="done-white"
     icon="done"
     @click="completeTasks"
-    :disabled="disabled"
+    :disabled="selectedElements == 0 || !isEntityActive"
     >{{ t("task.complete") }}
   </WMButton>
   <WMCompleteServiceDialog />
@@ -28,11 +28,23 @@ const formUtilsStore = useFormUtilsStore();
 const dialog = useDialog();
 const toast = useToast();
 const props = defineProps({
-  disabled: {
-    type: Boolean,
-    default: false,
+  entity: {
+    type: String,
+    default: "",
   },
 });
+
+const selectedElements = ref(0);
+const isEntityActive = ref(false);
+
+watch(
+  () => utilsStore.selectedElements[props.entity],
+  (value) => {
+    selectedElements.value = value.length;
+    isEntityActive.value =
+      utilsStore.selectedElements[utilsStore.entity][0].state === "active";
+  }
+);
 
 const completeTasks = () => {
   console.log(utilsStore.selectedElements["task"].map((x) => x.task_number));

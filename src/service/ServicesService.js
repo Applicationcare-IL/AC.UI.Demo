@@ -85,16 +85,13 @@ export const ServicesService = {
   },
 
   getServicesFromApi(params) {
-    console.log(params);
     return axiosConfig
       .get("/services", { params })
       .then((response) => {
-        console.log(response);
         const data = response.data.data.map((service) => {
           return this.mapService(service);
         });
         const totalRecords = response.data.meta.total;
-        console.log(data, totalRecords);
         return { data, totalRecords };
       })
       .catch((error) => {
@@ -106,7 +103,6 @@ export const ServicesService = {
     return axiosConfig
       .get("/services/" + id)
       .then((response) => {
-        console.log(response);
         const service = response.data.data;
         return this.mapService(service);
       })
@@ -127,7 +123,6 @@ export const ServicesService = {
   },
 
   updateService(id, service) {
-    console.log(service);
     return axiosConfig
       .patch("/services/" + id, service)
       .then((response) => {
@@ -140,8 +135,6 @@ export const ServicesService = {
   },
 
   cancelService(id, reasons) {
-    console.log(reasons);
-
     return axiosConfig
       .post("/services/" + id + "/cancel", reasons)
       .then((response) => {
@@ -172,7 +165,6 @@ export const ServicesService = {
   },
 
   parseUpdateService(service) {
-    console.log(service);
     return {
       request_2: service.request1?.id,
       request_3: service.request2?.id,

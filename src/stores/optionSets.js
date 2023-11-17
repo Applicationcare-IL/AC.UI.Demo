@@ -115,7 +115,6 @@ export const useOptionSetsStore = defineStore("optionSets", {
         });
     },
     getOptionSetValuesFromApiRaw(optionSet, dependant) {
-      console.log(dependant);
       return axiosConfig
         .get("/options-set", {
           params: { name: optionSet, depends_on: dependant },
@@ -124,8 +123,8 @@ export const useOptionSetsStore = defineStore("optionSets", {
           const optionSetValues = response.data.data.map((option) => ({
             value: option.value,
             id: option.id,
-            name: i18n.t("option-set." + optionSet + "." + option.value),
-            label: i18n.t("option-set." + optionSet + "." + option.value),
+            name: option.value,
+            label: option.value,
           }));
           return optionSetValues;
         })
@@ -137,7 +136,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
     async preloadOptionSets() {
       //Iterate the option set to preload list to load them from the API
       for (const optionSet of this.optionSetsToPreload) {
-        await this.getOptionSetValuesFromApiRaw(optionSet).then((data) => {
+        await this.getOptionSetValuesFromApi(optionSet).then((data) => {
           this.optionSets[optionSet] = data;
         });
       }

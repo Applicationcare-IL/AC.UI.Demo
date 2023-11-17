@@ -37,13 +37,13 @@
             >הקצה</WMButton
           >
           <WMCompleteTasksButton
-            v-if="utilsStore.entity == 'task' && isEntityActive"
-            :disabled="selectedElements == 0"
+            v-if="utilsStore.entity == 'task'"
+            :entity="utilsStore.entity"
           ></WMCompleteTasksButton>
         </div>
         <div>
           <WMButton
-            v-if="utilsStore.entity == 'service' && isEntityActive"
+            v-if="isActiveTask"
             class="m-1 col-6"
             name="cancel"
             icon="cancel"
@@ -107,4 +107,13 @@ const isEntityActive = ref(false);
 const saveForm = () => {
   emit("saveForm");
 };
+
+watch(
+  () => utilsStore.selectedElements[utilsStore.entity],
+  (value) => {
+    selectedElements.value = value?.length;
+    isEntityActive.value =
+      utilsStore.selectedElements[utilsStore.entity][0].state === "active";
+  }
+);
 </script>

@@ -79,9 +79,14 @@
         #body="slotProps"
         class="link-col"
       >
-        <router-link to="/foo" class="vertical-align-middle">{{
-          slotProps.data[column.name]
-        }}</router-link>
+        <router-link
+          :to="{
+            name: 'customerDetail',
+            params: { id: slotProps.data.id },
+          }"
+          class="vertical-align-middle"
+          >{{ slotProps.data[column.name] }}</router-link
+        >
       </template>
       <template v-if="column.type === 'detail'">
         <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
@@ -187,7 +192,6 @@ const loadLazyData = () => {
     per_page: props.rows,
     contact_id: props.contact.id,
   }).then((result) => {
-    console.log(result);
     customers.value = result.data;
     totalRecords.value = result.totalRecords;
   });
@@ -204,7 +208,6 @@ const alertCellConditionalStyle = (data) => {
 
 const onSelectionChanged = () => {
   utilsStore.selectedElements["customer"] = selectedCustomers.value;
-  console.log(utilsStore.selectedElements);
 };
 
 const filters = ref({

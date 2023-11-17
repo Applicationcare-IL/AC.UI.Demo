@@ -345,6 +345,20 @@
       "male": "זכר",
       "female": "נקבה",
       "other": "אחר"
+    },
+    "service_status": {
+      "open": "פתוח",
+      "closed": "סגור",
+      "active": "פעיל",
+      "not_active": "לא פעיל",
+      "inactive": "לא פעיל",
+      "pending": "ממתין",
+      "completed": "הושלם",
+      "canceled": "מבוטל"
+    },
+    "state": {
+      "active": "פעיל",
+      "not_active": "לא פעיל"
     }
   },
   "toast": {
