@@ -38,6 +38,7 @@
           >
           <WMCompleteTasksButton
             v-if="utilsStore.entity == 'task' && isEntityActive"
+            :disabled="selectedElements == 0"
           ></WMCompleteTasksButton>
         </div>
         <div>
@@ -106,15 +107,4 @@ const isEntityActive = ref(false);
 const saveForm = () => {
   emit("saveForm");
 };
-
-const updateEntityState = () => {};
-
-watch(
-  () => utilsStore.selectedElements[utilsStore.entity],
-  (value) => {
-    selectedElements.value = value?.length;
-    isEntityActive.value =
-      utilsStore.selectedElements[utilsStore.entity][0].state === "active";
-  }
-);
 </script>

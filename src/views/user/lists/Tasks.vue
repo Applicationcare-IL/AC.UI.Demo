@@ -57,10 +57,10 @@
           <router-link
             :to="{
               name: 'serviceDetail',
-              params: { id: slotProps.data.process_number },
+              params: { id: slotProps.data.service_number },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.process_number }}
+            >{{ slotProps.data.service_number }}
           </router-link>
         </template>
       </Column>

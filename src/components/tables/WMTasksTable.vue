@@ -22,7 +22,9 @@
           >{{ t("new") }}</WMButton
         >
         <WMAssignButton entity="task" />
-        <WMCompleteTasksButton></WMCompleteTasksButton>
+        <WMCompleteTasksButton
+          :disabled="selectedTasks?.length == 0"
+        ></WMCompleteTasksButton>
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -152,6 +154,7 @@ const slaClass = (data) => {
 };
 
 const onSelectionChanged = () => {
+  console.log(selectedTasks.value);
   utilsStore.selectedElements["task"] = selectedTasks.value;
 };
 

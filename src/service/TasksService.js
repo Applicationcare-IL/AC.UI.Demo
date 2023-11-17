@@ -217,7 +217,7 @@ export const TasksService = {
       close_date: is_open ? "" : "11/12/23",
       last_change: "11/11/22 10:23",
       remarks: "תוכן של הערה שכתובה יפה מאוד",
-      service_number: "469879",
+      service_number: task.entity?.id,
       description: task.description,
       notes: task.notes,
       location: {

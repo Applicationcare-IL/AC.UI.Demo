@@ -426,7 +426,7 @@ import { ref, onMounted, watch, defineExpose } from "vue";
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
-import { useUtilsStore } from "@/stores/Utils";
+import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 import { ServicesService } from "@/service/ServicesService";
@@ -435,7 +435,7 @@ import { useToast } from "@/stores/toast";
 
 const toast = useToast();
 
-const tasks = ref();
+const tasks = ref([]);
 
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
@@ -465,14 +465,13 @@ const props = defineProps({
 onMounted(() => {
   TasksService.getTaskFromApi(route.params.id).then((data) => {
     task.value = data;
-    utilsStore.selectedElements["task"] = [task.value];
-    console.log(task.value.service_number);
     setTimeout(function () {
       ServicesService.getService(task.value.service_number).then((data) => {
         service.value = data;
         console.log(service.value);
       });
     }, 2000);
+    utilsStore.selectedElements["task"] = [task.value];
   });
 });
 
@@ -496,10 +495,6 @@ const statusClass = (data) => {
   return listUtilsStore.getStatusConditionalStyle(data);
 };
 
-const priorityClass = (data) => {
-  return listUtilsStore.getPriorityConditionalStyle(data);
-};
-
 watch(
   () => meta.value,
   (value) => {
@@ -507,6 +502,9 @@ watch(
     formUtilsStore.setFormMetas(value, props.formKey);
   }
 );
+
+formUtilsStore.formEntity = "task";
+utilsStore.entity = "task";
 
 defineExpose({
   onSave,

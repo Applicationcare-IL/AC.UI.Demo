@@ -4,7 +4,7 @@
     name="done-white"
     icon="done"
     @click="completeTasks"
-    :disabled="selectedElements == 0"
+    :disabled="disabled"
     >{{ t("task.complete") }}
   </WMButton>
   <WMCompleteServiceDialog />
@@ -27,6 +27,12 @@ const formUtilsStore = useFormUtilsStore();
 
 const dialog = useDialog();
 const toast = useToast();
+const props = defineProps({
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const completeTasks = () => {
   console.log(utilsStore.selectedElements["task"].map((x) => x.task_number));
@@ -61,14 +67,6 @@ const completeService = (id) => {
 };
 
 formUtilsStore.completeService = completeService;
-
-const selectedElements = ref(0);
-watch(
-  () => utilsStore.selectedElements["task"],
-  (value) => {
-    selectedElements.value = value.length;
-  }
-);
 </script>
 
 <style scoped></style>
