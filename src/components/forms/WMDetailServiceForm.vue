@@ -91,15 +91,12 @@
                         useDateFormat(service.open_date, utilsStore.dateFormat)
                       "
                     />
-                    <WMInput
-                      name="sla"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('service.sla')"
-                      :value="service.days_for_closing + ' ' + $t('days')"
-                      :class="slaClass(service.SLA)"
-                      class="sla"
-                    />
+                    <div class="wm-input flex flex-column">
+                      <label class="wm-form-label highlighted"> SLA </label>
+                      <WMSLATag :sla="service.sla">
+                        {{ service.days_for_closing }} ימים
+                      </WMSLATag>
+                    </div>
                   </div>
                 </div>
                 <div class="wm-form-row gap-5">

@@ -242,19 +242,6 @@ export const useListUtilsStore = defineStore("listUtils", {
         { name: i18n.t("my-entities", { label: entityPlural }), value: 1 },
       ];
     },
-
-    getSlaConditionalStyle: (sla) => {
-      return [
-        "px-2",
-        {
-          "bg-teal-200 text-teal-900": sla === "no_breach",
-          "bg-yellow-100 text-gray-900": sla === "near_breach",
-          "bg-red-100 text-red-600 ": sla === "breach",
-          "text-teal-900": sla === "not_breached",
-          "text-red-600": sla === "breached",
-        },
-      ];
-    },
     getStatusConditionalStyle: (status) => {
       return [
         {

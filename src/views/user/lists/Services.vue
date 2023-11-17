@@ -104,9 +104,9 @@
       <Column field="owner.default_team" header="צוות"></Column>
       <Column field="SLA" header="SLA" class="sla">
         <template #body="slotProps">
-          <div :class="slaClass(slotProps.data.sla)">
+          <WMSLATag :sla="slotProps.data.sla">
             {{ $t("sla.days_left", [slotProps.data.days_for_closing]) }}
-          </div>
+          </WMSLATag>
         </template>
       </Column>
       <Column field="priority" header="עדיפות" class="numeric priority">
@@ -142,6 +142,7 @@ import { useListUtilsStore } from "@/stores/listUtils";
 import { useLayout } from "@/layout/composables/layout";
 
 import { useDateFormat, formatDate } from "@vueuse/core";
+import WMSLATag from "../../../components/WMSLATag.vue";
 
 const { layoutConfig } = useLayout();
 const formUtilsStore = useFormUtilsStore();
@@ -218,10 +219,6 @@ const priorityClass = (data) => {
       "bg-blue-25": data.priority === 3 && data.is_active,
     },
   ];
-};
-
-const slaClass = (data) => {
-  return listUtilsStore.getSlaConditionalStyle(data);
 };
 
 const menuItems = [
