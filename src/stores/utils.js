@@ -28,10 +28,11 @@ export const useUtilsStore = defineStore("utils", {
     //Style related Actions
     getStatusConditionalStyle: (status) => {
       return [
-        "font-bold",
         {
-          "text-green-900 bg-green-200": status == "Active",
-          "text-grey-900 bg-grey-200": status != "Active",
+          "bg-green-200 text-green-900": ["active", "open"].includes(status),
+          "bg-red-100 text-red-900": ["terminated", "not_active"].includes(
+            status
+          ),
         },
       ];
     },

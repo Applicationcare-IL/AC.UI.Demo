@@ -200,18 +200,6 @@ const rowClass = (data) => {
   return [{ inactive_row: !data.is_open }];
 };
 
-const slaClass = (data) => {
-  return [
-    {
-      "bg-teal-200 text-teal-900": data.SLA === "10 ימים",
-      "bg-yellow-100 text-gray-900": data.SLA === "2 ימים",
-      "bg-red-100 text-red-600 ": data.SLA === "3 ימים",
-      "text-teal-900": data.SLA === "עמד ביעד",
-      "text-red-600": data.SLA === "הסתיים בחריגה",
-    },
-  ];
-};
-
 watch(
   () => utilsStore.searchString["task"],
   () => {

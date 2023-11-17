@@ -156,6 +156,23 @@ export const TasksService = {
       });
   },
 
+  completeTasks(ids, reasons) {
+    const params = {
+      ids: ids,
+      completion_reason_1: reasons?.completion_reason_1,
+      completion_reason_2: reasons?.completion_reason_2,
+    };
+    return axiosConfig
+      .post("/tasks/complete", params)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        throw error;
+      });
+  },
+
   parseTask(task) {
     return {
       task_type: task["task-type"].id,

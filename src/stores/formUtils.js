@@ -31,7 +31,9 @@ export const useFormUtilsStore = defineStore("formUtils", {
     expandSidebar: "",
     formMeta: {},
     cancelService: "",
+    completeService: "",
     cancelServiceReasons: {},
+    completeServiceReasons: {},
     formMetas: [],
   }),
   getters: {
@@ -124,10 +126,6 @@ export const useFormUtilsStore = defineStore("formUtils", {
           key: "validation.required-select",
           values: { label: "customer.field" },
         }),
-        // 'business': yup.object().required({ key: 'validation.required-select', values: { label: 'customer.field' } }),
-        // 'business': yup.array()
-        //      .min(1, { key: 'validation.required-select', values: { label: 'customer.field' } })
-        //     .typeError({ key: 'validation.required-select', values: { label: 'customer.field' } }),
         city: yup
           .object()
           .required({
@@ -164,7 +162,10 @@ export const useFormUtilsStore = defineStore("formUtils", {
 
     getContactNewFormValidationSchema: (state) => {
       return yup.object({
-        contactid: yup.string().min(9, "validation.contactid").required(),
+        "contact-number": yup
+          .string()
+          .min(9, "validation.contactid")
+          .required(),
         "first-name": yup.string().required(),
         "last-name": yup.string().required(),
         "mobile-phone": yup
@@ -172,18 +173,24 @@ export const useFormUtilsStore = defineStore("formUtils", {
           .trim()
           .matches(state.israeliPhoneRegex, "validation.phone")
           .required(),
-        email: yup.string().trim().email("validation.email").required(),
-        customer: yup.array().min(1, {
-          key: "validation.required-select",
-          values: { label: "customer.field" },
-        }),
+        landline: yup
+          .string()
+          .trim()
+          .matches(state.israeliPhoneRegex, "validation.phone"),
+        fax: yup
+          .string()
+          .trim()
+          .matches(state.israeliPhoneRegex, "validation.phone"),
       });
     },
     getContactDetailFormValidationSchema: (state) => {
       return yup.object({
         "first-name": yup.string().required(),
         "last-name": yup.string().required(),
-        contact_number: yup.string().min(9, "validation.contactid").required(),
+        "contact-number": yup
+          .string()
+          .min(9, "validation.contactid")
+          .required(),
         // 'mobile-phone': yup.string().trim().matches(state.israeliPhoneRegex, 'validation.phone').required(),
         // 'landline': yup.string().trim().matches(state.israeliLandlineRegex, 'validation.phone').required(),
         // 'email': yup.string().trim().email('validation.email').required(),

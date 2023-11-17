@@ -6,7 +6,7 @@ import axiosConfig from "@/service/axiosConfig";
 
 export const useOptionSetsStore = defineStore("optionSets", {
   state: () => ({
-    optionSetsToPreload: ["state", "service_status"],
+    optionSetsToPreload: ["state", "gender", "service_status"],
     optionSets: localStorage.getItem("optionSets")
       ? JSON.parse(localStorage.getItem("optionSets"))
       : {},
@@ -124,8 +124,8 @@ export const useOptionSetsStore = defineStore("optionSets", {
           const optionSetValues = response.data.data.map((option) => ({
             value: option.value,
             id: option.id,
-            name: option.value,
-            label: option.value,
+            name: i18n.t("option-set." + optionSet + "." + option.value),
+            label: i18n.t("option-set." + optionSet + "." + option.value),
           }));
           return optionSetValues;
         })

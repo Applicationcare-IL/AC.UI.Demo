@@ -148,6 +148,20 @@ export function useDialog() {
     });
   };
 
+  const completeService = (id) => {
+    console.log("completeService " + id);
+    confirm.require({
+      group: "completeService",
+      header: "ביטול שירות" + id,
+      acceptLabel: "ביטול תהליך",
+      rejectLabel: "חזור",
+      accept: () => {
+        formUtilsStore.completeService(id);
+      },
+      reject: () => {},
+    });
+  };
+
   return {
     confirmNewCustomer,
     discardNewCustomer,
@@ -158,5 +172,6 @@ export function useDialog() {
     confirmNewService,
     discardNewService,
     cancelService,
+    completeService,
   };
 }

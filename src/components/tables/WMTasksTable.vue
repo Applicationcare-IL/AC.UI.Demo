@@ -89,19 +89,9 @@
         <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
       </template>
       <template v-if="column.type === 'sla'" #body="slotProps">
-        <div
-          v-if="slotProps.data.is_open"
-          :class="slaClass(slotProps.data.sla)"
-        >
-          {{
-            slotProps.data.status == "open"
-              ? $t("sla.days_left", [slotProps.data.days_for_closing])
-              : $t("sla.days_exceeded", [slotProps.data.days_for_closing])
-          }}
-        </div>
-        <div v-else :class="slaClass('not_breached')">
-          {{ "עמד ביעד" }}
-        </div>
+        <WMSLATag :sla="slotProps.data.sla">
+          {{ slotProps.data.days_for_closing }} ימים
+        </WMSLATag>
       </template>
       <template v-if="column.type === 'translate'" #body="slotProps">
         {{ $t(column.prefix + "." + slotProps.data[column.name]) }}
@@ -158,7 +148,7 @@ const rowClass = (data) => {
 };
 
 const slaClass = (data) => {
-  return listUtilsStore.getSlaConditionalStyle(data);
+  // return listUtilsStore.getSlaConditionalStyle(data);
 };
 
 const onSelectionChanged = () => {

@@ -52,11 +52,11 @@
                 <div class="wm-form-row gap-5">
                   <div class="wm-form-row gap-4">
                     <WMInput
-                      name="contact_number"
+                      name="contact-number"
                       :highlighted="true"
                       type="input-text"
-                      :value="contact.contact_number"
-                      :label="$t('contact.identifier') + ':'"
+                      :value="contact['contact-number']"
+                      :label="$t('contact.number') + ':'"
                     />
 
                     <WMInput
@@ -65,9 +65,9 @@
                       type="input-select"
                       :label="$t('gender') + ':'"
                       :options="genders"
-                      :selectedOption="
+                      :value="
                         genders.find(
-                          (gender) => gender.value === contact.gender
+                          (gender) => gender.id === contact.gender?.id
                         )
                       "
                       :placeholder="$t('select', ['gender'])"
@@ -292,7 +292,7 @@
                   type="info"
                   :highlighted="true"
                   :label="$t('created_by') + ':'"
-                  value="Israel Israeli"
+                  :value="contact.created_by"
                   inline
                 />
                 <WMInput
@@ -300,7 +300,7 @@
                   type="info"
                   :highlighted="true"
                   :label="$t('modified_by') + ':'"
-                  value="שרוליק כהן"
+                  :value="contact.updated_by"
                   inline
                 />
               </div>
@@ -310,7 +310,7 @@
                   type="info"
                   :highlighted="true"
                   :label="$t('created_at') + ':'"
-                  value="12:38  11/11/22"
+                  :value="contact.created_at"
                   inline
                 />
                 <WMInput
@@ -318,7 +318,7 @@
                   type="info"
                   :highlighted="true"
                   :label="$t('modified_at') + ':'"
-                  value="12:38  11/11/22"
+                  :value="contact.updated_at"
                   inline
                 />
               </div>
@@ -363,11 +363,11 @@ const formUtilsStore = useFormUtilsStore();
 const listUtilsStore = useListUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 const utilsStore = useUtilsStore();
-const genders = optionSetsStore.getOptionSetValues("gender");
 const contact = ref();
 const route = useRoute();
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash;
 const statuses = optionSetsStore.getOptionSetValues("status");
+const genders = ref(optionSetsStore.optionSets["gender"]);
 
 const loaded = ref(false);
 
@@ -395,7 +395,8 @@ const fetchData = async () => {
   const tasksData = await TasksService.getTasksFromApi({
     customer_id: route.params.id,
   });
-  tasks.value = tasksData.tasks;
+  console.log(tasksData);
+  tasks.value = tasksData?.tasks;
 };
 
 const { handleSubmit, meta, resetForm, values } = useForm({

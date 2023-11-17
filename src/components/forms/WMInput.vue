@@ -113,6 +113,7 @@
       }}
     </span>
     <Calendar unstyled v-if="type === 'date'" v-model="value" showIcon />
+    <slot></slot>
   </div>
 </template>
 

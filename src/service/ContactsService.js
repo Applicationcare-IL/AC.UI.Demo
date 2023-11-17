@@ -103,6 +103,7 @@ export const ContactsService = {
       customer_id: "1",
       telephone: contact.phone,
       landline: contact.land_line,
+      fax: contact.fax,
       email: contact.email,
       address: contact.street
         ? contact.street +
@@ -121,23 +122,24 @@ export const ContactsService = {
       status: contact.status?.value,
       state: contact.state?.value,
       owner: contact.owner,
-      gender: true, //is_male ? 'male' : 'female',
+      gender: contact.gender, //is_male ? 'male' : 'female',
       is_main: contact.is_main,
       role: contact.role?.value,
       notes: contact.notes,
-      contact_number: contact.contact_number,
+      "contact-number": contact.contact_number,
+      created_by: contact.last_activity?.creator?.name,
+      created_at: contact.last_activity?.creator?.at,
+      updated_by: contact.last_activity?.updater?.name,
+      updated_at: contact.last_activity?.updater?.at,
     };
   },
   parseContact(contact) {
     console.log(contact);
     return {
-      // id: contact.id,
-      // contact_id: contact.id,
-      // name: contact.firstName,
-      // surname: contact.lastName,
       name: contact["first-name"],
       surname: contact["last-name"],
       phone: contact["mobile-phone"],
+      fax: contact["fax"],
       email: contact["email"],
       gender: contact["gender"].id,
       customers: contact["customer"]
@@ -150,7 +152,7 @@ export const ContactsService = {
       fax: contact["fax"],
       land_line: contact["landline"],
       notes: contact["notes"],
-      contact_number: contact["contact_number"],
+      contact_number: contact["contact-number"],
     };
   },
 

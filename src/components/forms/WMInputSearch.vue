@@ -1,6 +1,5 @@
 <template>
   <div class="wm-inputsearch flex flex-column relative">
-    {{ entity }}
     <label
       v-if="label != ''"
       class="wm-form-label"
@@ -158,7 +157,7 @@ const search = (event) => {
       }
     }
     //Remove the selected options from the available options
-    if (props.multiple && value.value.length > 0)
+    if (props.multiple && value.value?.length > 0)
       filteredOptions.value = filteredOptions.value.filter((option) => {
         if (value.value.length == 0) return true;
         const returnValue = !value.value.find((selectedOption) => {

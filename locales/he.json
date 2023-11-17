@@ -1,357 +1,358 @@
 {
-    "new": "חדש @.lower:{0}",
-    "save": "שמירה",
-    "discard": "ביטול",
-    "select": "בחירה @.lower:{0}",
-    "test": "בדיקה {min}",
-    "yes": "כן",
-    "no": "לא",
-    "general-details": "פרטים כלליים",
-    "entry-details": "פרטי רשומה",
-    "communication-details": "פרטי התקשרות",
-    "role": "תפקיד",
-    "actions": "פעולות",
-    "owner": "אחראי",
-    "first-name": "שם פרטי",
-    "last-name": "שם משפחה",
-    "id": "תעודת זהות",
-    "gender": "מגדר",
-    "mobilephone": "טלפון נייד",
+  "new": "חדש @.lower:{0}",
+  "save": "שמירה",
+  "discard": "ביטול",
+  "select": "בחירה @.lower:{0}",
+  "test": "בדיקה {min}",
+  "yes": "כן",
+  "no": "לא",
+  "general-details": "פרטים כלליים",
+  "entry-details": "פרטי רשומה",
+  "communication-details": "פרטי התקשרות",
+  "role": "תפקיד",
+  "actions": "פעולות",
+  "owner": "אחראי",
+  "first-name": "שם פרטי",
+  "last-name": "שם משפחה",
+  "id": "תעודת זהות",
+  "gender": "מגדר",
+  "mobilephone": "טלפון נייד",
+  "landline": "טלפון נייח",
+  "email": "דוא”ל",
+  "facebook": "פייסבוק",
+  "fax": "פקס",
+  "type": "סוג",
+  "filter": "סינון",
+  "search": "חיפוש",
+  "general-information": "מידע כללי",
+  "team": "צוות",
+  "direction": "כיוון",
+  "channel": "ערוץ",
+  "priority": "דחיפות",
+  "classification": "סיווג",
+  "short-classification": "סיווג מהיר",
+  "classification-1": "תחום",
+  "classification-2": "תת-תחום",
+  "classification-3": "תהליך מרכזי",
+  "classification-4": "נושא תהליך",
+  "classification-5": "פרט תהליך",
+  "description": "תיאור",
+  "all-entities": "כל ה@.lower:{label}",
+  "my-entities": "ה@.lower:{label} שלי",
+  "created_by": "נוצר ע”י",
+  "modified_by": "שינוי אחרון ע”י",
+  "created_at": "נוצר ב",
+  "modified_at": "שינוי אחרון",
+  "days": "ימים",
+  "day": "יום",
+  "future": "Future",
+  "now": "Now",
+  "navigation": {
+    "dashboard": "דאשבורד",
+    "customers": "לקוחות",
+    "contacts": "אנשי קשר",
+    "services": "תהליכים",
+    "tasks": "משימות",
+    "sales": "Sales",
+    "projects": "Projects"
+  },
+  "contact": {
+    "contact": "איש קשר",
+    "contacts": "אנשי קשר",
+    "name": "שם האיש קשר",
+    "telephone": "טלפון",
     "landline": "טלפון נייח",
     "email": "דוא”ל",
-    "facebook": "פייסבוק",
-    "fax": "פקס",
-    "type": "סוג",
-    "filter": "סינון",
-    "search": "חיפוש",
-    "general-information": "מידע כללי",
-    "team": "צוות",
-    "direction": "כיוון",
-    "channel": "ערוץ",
-    "priority": "דחיפות",
-    "classification": "סיווג",
-    "short-classification": "סיווג מהיר",
-    "classification-1": "תחום",
-    "classification-2": "תת-תחום",
-    "classification-3": "תהליך מרכזי",
-    "classification-4": "נושא תהליך",
-    "classification-5": "פרט תהליך",
-    "description": "תיאור",
-    "all-entities": "כל ה@.lower:{label}",
-    "my-entities": "ה@.lower:{label} שלי",
-    "created_by": "נוצר ע”י",
-    "modified_by": "שינוי אחרון ע”י",
-    "created_at": "נוצר ב:",
-    "modified_at": "שינוי אחרון",
-    "days": "ימים",
-    "day": "יום",
-    "future": "Future",
-    "now": "Now",
-    "navigation": {
-        "dashboard": "דאשבורד",
-        "customers": "לקוחות",
-        "contacts": "אנשי קשר",
-        "services": "תהליכים",
-        "tasks": "משימות",
-        "sales": "Sales",
-        "projects": "Projects"
-    },
-    "contact": {
-        "contact": "איש קשר",
-        "contacts": "אנשי קשר",
-        "name": "שם האיש קשר",
-        "telephone": "טלפון",
-        "landline": "טלפון נייח",
-        "email": "דוא”ל",
-        "address": "כתובת",
-        "open-services": "פתיחת תהליכים",
-        "open-tasks": "פתיחת תהליכים",
-        "notes": "הערות לאיש קשר",
-        "id": "ת”ז",
-        "system-id": "מזהה",
-        "main": "ראשי",
-        "notification": {
-            "created": {
-                "header": "נוצר לקוח חדש",
-                "message": "הלקוח החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת הלקוחות שלך",
-                "detail": "צפייה באיש קשר",
-                "list": "חזרה לרשימה"
-            },
-            "discard": {
-                "header": "איש הקשר לא נשמר",
-                "message": "לא סיימת ליצור את האיש הקשר החדש. \n לצאת מעמוד זה מבלי לשמור אותו?",
-                "accept": "השאר בעמוד זה",
-                "cancel": "יציאה ללא שמירה"
-            }
-        },
-        "toast": {
-            "created": "נוצר לקוח חדש",
-            "error": "An error occurred"
-        }
-    },
-    "customer": {
-        "customer": "לקוח",
-        "customers": "לקוחות",
-        "name": "שם הלקוח",
-        "number": "מספר הלקוח",
-        "number-abbreviation": "מס’ לקוח",
-        "type": "סוג",
-        "rating": "דירוג",
-        "area": "תחום",
-        "areas": "תחומים",
-        "add": "הוספת לקוח",
-        "main": "ראשי",
-        "role": "שם תפקיד",
-        "open-services": "פתיחת תהליכים",
-        "breached-services": "תהליכים שנפרצו",
-        "open-tasks": "פתיחת משימות",
-        "breached-tasks": "משימות שנפרצו",
-        "notes": "הערות ללקוח",
-        "is-provider": "ספק",
-        "system-id": "מזהה",
-        "notification": {
-            "created": {
-                "header": "נוצר לקוח חדש",
-                "message": "הלקוח החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת הלקוחות שלך",
-                "detail": "צפייה באיש קשר",
-                "list": "חזרה לרשימה"
-            },
-            "discard": {
-                "header": "הלקוח לא נשמר",
-                "message": "לא סיימת ליצור את הלקוח החדש. \n תרצה לצאת מעמוד זה מבלי לשמור אותו?",
-                "accept": "השאר בעמוד זה",
-                "cancel": "יציאה ללא שמירה"
-            }
-        },
-        "toast": {
-            "created": "נוצר לקוח חדש",
-            "error": "An error occurred"
-        }
-    },
-    "service": {
-        "service": "שירות",
-        "services": "שירותים",
-        "assign": "הקצה",
-        "open": "פתיחה תהליכים",
-        "breached": "תהליכים שנפרצו",
-        "number": "מספר תהליך",
-        "open-date": "תאריך פתיחה",
-        "due-date": "תאריך יעד",
-        "stage": "שלב",
-        "sla": "SLA",
-        "owner": "אחראי",
-        "status": "סטטוס",
-        "notes": "הערות",
-        "duration": "משך זמן",
-        "team": "צוות",
-        "priority": "דחיפות",
-        "recurring": "פניה חוזרת",
-        "urgency": "דחיפות",
-        "last-change": "שינוי אחרון",
-        "date-closed": "נסגר בתאריך",
-        "location": "מיקום",
-        "description": "תיאור",
-        "classification": "סיווג",
-        "notification": {
-            "created": {
-                "header": "נוצר שירות חדש",
-                "message": "השירות החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת השירותים שלך",
-                "detail": "צפייה בשירות",
-                "list": "חזרה לרשימה"
-            },
-            "discard": {
-                "header": "השירות לא נשמר",
-                "message": "לא סיימת ליצור את השירות החדש. \n לצאת מעמוד זה מבלי לשמור אותו?",
-                "accept": "השאר בעמוד זה",
-                "cancel": "יציאה ללא שמירה"
-            }
-        },
-        "toast": {
-            "created": "נוצר שירות חדש",
-            "error": "An error occurred"
-        }
-    },
-    "task": {
-        "task": "משימה",
-        "tasks": "משימות",
-        "family": "משפחה",
-        "type": "סוג המשימה",
-        "open": "משימות פתיחה ",
-        "number": "מספר משימה",
-        "stage": "שלב",
-        "sla": "SLA",
-        "due_date": "תאריך יעד",
-        "owner": "אחראי",
-        "status": "סטטוס",
-        "notes": "הערות",
-        "customer": "לקוח",
-        "call": "נקרא",
-        "open_date": "נפתח",
-        "close_date": "נסגר",
-        "service_number": "מס’ תהליך",
-        "complete": "השלמ",
-        "notification": {
-            "created": {
-                "header": "New Task Created",
-                "message": "The new task was successfully created! \n From now on he will appear in your tasks list",
-                "detail": "View Task",
-                "list": "View List"
-            },
-            "discard": {
-                "header": "The task is not saved",
-                "message": "You have not finished creating the new task. \n You would like to exit this page without saving it",
-                "accept": "Remain on this page",
-                "cancel": "Exit without saving"
-            }
-        }
-    },
-    "site": {
-        "details": "פרטי מיקום",
-        "site": "מיקום",
-        "name": "שם המיקום",
-        "type": "סוג המיקום",
-        "contact": "איש קשר במיקום",
-        "contact_role": "תפקיד איש הקשר",
-        "phone": "טלפון",
-        "email": "דוא”ל",
-        "street": "רחוב"
-    },
-    "address": {
-        "address": "כתובת",
-        "city": "עיר",
-        "street": "רחוב",
-        "house-number": "מספר בית",
-        "apartment": "דירה",
-        "entrance": "כניסה",
-        "zip": "מיקוד"
-    },
-    "validation": {
-        "required": "שדה חובה",
-        "required-select": "לא נבחר  @:{label}",
-        "missing-field": "חסר @:{label}",
-        "contactid": "תעודת זהות לא תקינה",
-        "phone": "מספר טלפון לא תקין",
-        "email": "כתובת דואל לא תקינה",
-        "exists": "@:{label} כבר קיים במערכת"
-    },
-    "genders": {
-        "male": "זכר",
-        "female": "נקבה",
-        "other": "אחר"
-    },
-    "status": "סטטוס",
-    "statuses": {
-        "open": "פתוח",
-        "closed": "סגור",
-        "active": "פעיל",
-        "not_active": "לא פעיל",
-        "inactive": "לא פעיל",
-        "pending": "ממתין",
-        "completed": "הושלם"
-    },
-    "customer-type": {
-        "private": "פרטי",
-        "business": "עסקי"
-    },
-    "customer-rating": {
-        "vip": "VIP",
-        "regular": "רגיל"
-    },
-    "classification1": {
-        "urban-architect": "אדריכל עירוני",
-        "sharp-internet-jokes": "חדות וצחוקי אינטרנט",
-        "people-named-robert": "אנשים שנקראים רוברט"
-    },
-    "area": {
-        "water_service": "שירותי מים",
-        "funeral_service": "שירותי קבורה",
-        "municipality": "רשות מקומית"
-    },
-    "login": {
-        "hello": "שלום!",
-        "instructions": "יש להזין דואר אלקטרוני וסיסמה על מנת להתחבר למערכת",
-        "email": "דואר אלקטרוני",
-        "password": "סיסמה",
-        "forgot_password": "שכחת את הסיסמה?",
-        "submit": "כניסה",
-        "invalid_credentials": "כתובת הדוא”ל או הסיסמה אינם תקינים. אולי יש טעות באחד השדות?"
-    },
-    "sla": {
-        "days_left": "נותרו {0} ימים ",
-        "days_passed": "חריגה {0} ימים"
-    },
-    "option-set": {
-        "customer_type": {
-            "private": "פרטי",
-            "business": "עסקי"
-        },
-        "customer_rating": {
-            "regular": "רגיל",
-            "vip": "VIP"
-        },
-        "customer_status": {
-            "potential": "פוטנציאלי",
-            "Active": "פעיל",
-            "Terminated": "הסתיים",
-            "Canceled": "מבוטל",
-            "Left": "מושאר"
-        },
-        "customer_business": {
-            "municipality": "רשות מקומית",
-            "water_service": "שירותי מים",
-            "funeral_service": "שירותי קבורה"
-        },
-        "service_area": {
-            "SPI": "SPI",
-            "TIKS": "TIKS",
-            "BIT": "BIT",
-            "ARN": "ARN",
-            "CSF": "CSF",
-            "VTR": "VTR",
-            "HSML": "HSML",
-            "CNCH": "CNCH",
-            "LISC": "LISC",
-            "HND": "HND",
-            "DAT": "DAT",
-            "PIK": "PIK",
-            "CLLI": "CLLI",
-            "RVH": "RVH",
-            "SHR": "SHR",
-            "TAGD": "TAGD",
-            "AMUDEY_TEINA": "AMUDEY_TEINA",
-            "sales": "Sales"
-        },
-        "service_direction": {
-            "inbound": "כניסה",
-            "outbound": "יציאה"
-        },
-        "service_channel": {
-            "phone": "טלפון",
-            "mail": "דוא”ל",
-            "fax": "פקס",
-            "Facebook": "פייסבוק",
-            "Twitter": "טוויטר",
-            "WhatsApp": "וואטסאפ",
-            "Instagram": "אינסטגרם",
-            "website": "אתר אינטרנט",
-            "Mobile": "אפליקציה",
-            "sms": "SMS",
-            "app": "App",
-            "form": "טופס",
-            "sales": "מכירות",
-            "call": "שיחה"
-        },
-        "service_urgent": {
-            "urgent": "דחוף",
-            "not_urgent": "לא דחוף"
-        }
+    "address": "כתובת",
+    "open-services": "פתיחת תהליכים",
+    "open-tasks": "פתיחת תהליכים",
+    "notes": "הערות לאיש קשר",
+    "id": "ת”ז",
+    "system-id": "מזהה",
+    "main": "ראשי",
+    "number": "תעודת זהות",
+    "notification": {
+      "created": {
+        "header": "נוצר לקוח חדש",
+        "message": "הלקוח החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת הלקוחות שלך",
+        "detail": "צפייה באיש קשר",
+        "list": "חזרה לרשימה"
+      },
+      "discard": {
+        "header": "איש הקשר לא נשמר",
+        "message": "לא סיימת ליצור את האיש הקשר החדש. \n לצאת מעמוד זה מבלי לשמור אותו?",
+        "accept": "השאר בעמוד זה",
+        "cancel": "יציאה ללא שמירה"
+      }
     },
     "toast": {
-        "success": "הצלחה",
-        "error": "שגיאה",
-        "warning": "אזהרה",
-        "info": "מידע",
-        "successful-action": "@:{entity} בהצלחה @:{action}"
+      "created": "נוצר לקוח חדש",
+      "error": "An error occurred"
+    }
+  },
+  "customer": {
+    "customer": "לקוח",
+    "customers": "לקוחות",
+    "name": "שם הלקוח",
+    "number": "מספר הלקוח",
+    "number-abbreviation": "מס’ לקוח",
+    "type": "סוג",
+    "rating": "דירוג",
+    "area": "תחום",
+    "areas": "תחומים",
+    "add": "הוספת לקוח",
+    "main": "ראשי",
+    "role": "שם תפקיד",
+    "open-services": "פתיחת תהליכים",
+    "breached-services": "תהליכים שנפרצו",
+    "open-tasks": "פתיחת משימות",
+    "breached-tasks": "משימות שנפרצו",
+    "notes": "הערות ללקוח",
+    "is-provider": "ספק",
+    "system-id": "מזהה",
+    "notification": {
+      "created": {
+        "header": "נוצר לקוח חדש",
+        "message": "הלקוח החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת הלקוחות שלך",
+        "detail": "צפייה באיש קשר",
+        "list": "חזרה לרשימה"
+      },
+      "discard": {
+        "header": "הלקוח לא נשמר",
+        "message": "לא סיימת ליצור את הלקוח החדש. \n תרצה לצאת מעמוד זה מבלי לשמור אותו?",
+        "accept": "השאר בעמוד זה",
+        "cancel": "יציאה ללא שמירה"
+      }
     },
-    "created": "נוצר בהצלחה"
+    "toast": {
+      "created": "נוצר לקוח חדש",
+      "error": "An error occurred"
+    }
+  },
+  "service": {
+    "service": "שירות",
+    "services": "שירותים",
+    "assign": "הקצה",
+    "open": "פתיחה תהליכים",
+    "breached": "תהליכים שנפרצו",
+    "number": "מספר תהליך",
+    "open-date": "תאריך פתיחה",
+    "due-date": "תאריך יעד",
+    "stage": "שלב",
+    "sla": "SLA",
+    "owner": "אחראי",
+    "status": "סטטוס",
+    "notes": "הערות",
+    "duration": "משך זמן",
+    "team": "צוות",
+    "priority": "דחיפות",
+    "recurring": "פניה חוזרת",
+    "urgency": "דחיפות",
+    "last-change": "שינוי אחרון",
+    "date-closed": "נסגר בתאריך",
+    "location": "מיקום",
+    "description": "תיאור",
+    "classification": "סיווג",
+    "notification": {
+      "created": {
+        "header": "נוצר שירות חדש",
+        "message": "השירות החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת השירותים שלך",
+        "detail": "צפייה בשירות",
+        "list": "חזרה לרשימה"
+      },
+      "discard": {
+        "header": "השירות לא נשמר",
+        "message": "לא סיימת ליצור את השירות החדש. \n לצאת מעמוד זה מבלי לשמור אותו?",
+        "accept": "השאר בעמוד זה",
+        "cancel": "יציאה ללא שמירה"
+      }
+    },
+    "toast": {
+      "created": "נוצר שירות חדש",
+      "error": "An error occurred"
+    }
+  },
+  "task": {
+    "task": "משימה",
+    "tasks": "משימות",
+    "family": "משפחה",
+    "type": "סוג המשימה",
+    "open": "משימות פתיחה ",
+    "number": "מספר משימה",
+    "stage": "שלב",
+    "sla": "SLA",
+    "due_date": "תאריך יעד",
+    "owner": "אחראי",
+    "status": "סטטוס",
+    "notes": "הערות",
+    "customer": "לקוח",
+    "call": "נקרא",
+    "open_date": "נפתח",
+    "close_date": "נסגר",
+    "service_number": "מס’ תהליך",
+    "complete": "השלמ",
+    "notification": {
+      "created": {
+        "header": "New Task Created",
+        "message": "The new task was successfully created! \n From now on he will appear in your tasks list",
+        "detail": "View Task",
+        "list": "View List"
+      },
+      "discard": {
+        "header": "The task is not saved",
+        "message": "You have not finished creating the new task. \n You would like to exit this page without saving it",
+        "accept": "Remain on this page",
+        "cancel": "Exit without saving"
+      }
+    }
+  },
+  "site": {
+    "details": "פרטי מיקום",
+    "site": "מיקום",
+    "name": "שם המיקום",
+    "type": "סוג המיקום",
+    "contact": "איש קשר במיקום",
+    "contact_role": "תפקיד איש הקשר",
+    "phone": "טלפון",
+    "email": "דוא”ל",
+    "street": "רחוב"
+  },
+  "address": {
+    "address": "כתובת",
+    "city": "עיר",
+    "street": "רחוב",
+    "house-number": "מספר בית",
+    "apartment": "דירה",
+    "entrance": "כניסה",
+    "zip": "מיקוד"
+  },
+  "validation": {
+    "required": "שדה חובה",
+    "required-select": "לא נבחר  @:{label}",
+    "missing-field": "חסר @:{label}",
+    "contactid": "תעודת זהות לא תקינה",
+    "phone": "מספר טלפון לא תקין",
+    "email": "כתובת דואל לא תקינה",
+    "exists": "@:{label} כבר קיים במערכת"
+  },
+  "status": "סטטוס",
+  "statuses": {
+    "open": "פתוח",
+    "closed": "סגור",
+    "active": "פעיל",
+    "not_active": "לא פעיל",
+    "inactive": "לא פעיל",
+    "pending": "ממתין",
+    "completed": "הושלם"
+  },
+  "customer-type": {
+    "private": "פרטי",
+    "business": "עסקי"
+  },
+  "customer-rating": {
+    "vip": "VIP",
+    "regular": "רגיל"
+  },
+  "classification1": {
+    "urban-architect": "אדריכל עירוני",
+    "sharp-internet-jokes": "חדות וצחוקי אינטרנט",
+    "people-named-robert": "אנשים שנקראים רוברט"
+  },
+  "area": {
+    "water_service": "שירותי מים",
+    "funeral_service": "שירותי קבורה",
+    "municipality": "רשות מקומית"
+  },
+  "login": {
+    "hello": "שלום!",
+    "instructions": "יש להזין דואר אלקטרוני וסיסמה על מנת להתחבר למערכת",
+    "email": "דואר אלקטרוני",
+    "password": "סיסמה",
+    "forgot_password": "שכחת את הסיסמה?",
+    "submit": "כניסה",
+    "invalid_credentials": "כתובת הדוא”ל או הסיסמה אינם תקינים. אולי יש טעות באחד השדות?"
+  },
+  "sla": {
+    "days_left": "נותרו {0} ימים ",
+    "days_passed": "חריגה {0} ימים"
+  },
+  "option-set": {
+    "customer_type": {
+      "private": "פרטי",
+      "business": "עסקי"
+    },
+    "customer_rating": {
+      "regular": "רגיל",
+      "vip": "VIP"
+    },
+    "customer_status": {
+      "potential": "פוטנציאלי",
+      "Active": "פעיל",
+      "Terminated": "הסתיים",
+      "Canceled": "מבוטל",
+      "Left": "מושאר"
+    },
+    "customer_business": {
+      "municipality": "רשות מקומית",
+      "water_service": "שירותי מים",
+      "funeral_service": "שירותי קבורה"
+    },
+    "service_area": {
+      "SPI": "SPI",
+      "TIKS": "TIKS",
+      "BIT": "BIT",
+      "ARN": "ARN",
+      "CSF": "CSF",
+      "VTR": "VTR",
+      "HSML": "HSML",
+      "CNCH": "CNCH",
+      "LISC": "LISC",
+      "HND": "HND",
+      "DAT": "DAT",
+      "PIK": "PIK",
+      "CLLI": "CLLI",
+      "RVH": "RVH",
+      "SHR": "SHR",
+      "TAGD": "TAGD",
+      "AMUDEY_TEINA": "AMUDEY_TEINA",
+      "sales": "Sales"
+    },
+    "service_direction": {
+      "inbound": "כניסה",
+      "outbound": "יציאה"
+    },
+    "service_channel": {
+      "phone": "טלפון",
+      "mail": "דוא”ל",
+      "fax": "פקס",
+      "Facebook": "פייסבוק",
+      "Twitter": "טוויטר",
+      "WhatsApp": "וואטסאפ",
+      "Instagram": "אינסטגרם",
+      "website": "אתר אינטרנט",
+      "Mobile": "אפליקציה",
+      "sms": "SMS",
+      "app": "App",
+      "form": "טופס",
+      "sales": "מכירות",
+      "call": "שיחה"
+    },
+    "service_urgent": {
+      "urgent": "דחוף",
+      "not_urgent": "לא דחוף"
+    },
+    "gender": {
+      "male": "זכר",
+      "female": "נקבה",
+      "other": "אחר"
+    }
+  },
+  "toast": {
+    "success": "הצלחה",
+    "error": "שגיאה",
+    "warning": "אזהרה",
+    "info": "מידע",
+    "successful-action": "@:{entity} בהצלחה @:{action}"
+  },
+  "created": "נוצר בהצלחה"
 }

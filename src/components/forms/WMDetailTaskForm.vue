@@ -59,10 +59,12 @@
                     type="info"
                     :highlighted="true"
                     :label="$t('task.sla')"
-                    :value="task.SLA"
-                    :class="slaClass(task)"
                     class="sla"
-                  />
+                  >
+                    <WMSLATag :sla="task.sla">
+                      {{ task.days_for_closing }} ימים
+                    </WMSLATag>
+                  </WMInput>
                 </div>
 
                 <div class="wm-form-row gap-5">

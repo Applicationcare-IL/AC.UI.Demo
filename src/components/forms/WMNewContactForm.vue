@@ -32,10 +32,10 @@
 
       <div class="wm-form-row gap-4">
         <WMInput
-          name="contactid"
+          name="contact-number"
           :required="true"
           type="input-text"
-          :label="$t('id') + ':'"
+          :label="$t('contact.number') + ':'"
         />
 
         <WMInput
@@ -53,12 +53,10 @@
         <WMInputSearch
           name="customer"
           :placeholder="$t('select', ['customer'])"
-          :required="true"
           type="input-search"
-          :label="$t('customer') + ':'"
+          :label="$t('customer.customer') + ':'"
           :multiple="true"
           width="248"
-          :options="customers"
           :highlighted="true"
           :searchFunction="searchCustomer"
           :new="true"
@@ -176,7 +174,7 @@
       <h2 class="h2 mb-0">{{ $t("contact.notes") }}</h2>
 
       <div class="wm-form-row gap-5">
-        <Textarea v-model="value" autoResize rows="8" cols="100" />
+        <WMInput type="text-area" id="notes" name="notes" />
       </div>
     </div>
 
@@ -242,12 +240,7 @@ function openSidebar() {
 function closeSidebar() {
   isVisible.value = false;
 }
-
-const genders = ref("");
-optionSetsStore.getOptionSetValuesFromApiRaw("gender").then((data) => {
-  genders.value = data;
-});
-
+const genders = ref(optionSetsStore.optionSets["gender"]);
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash;
 
 const searchCustomer = (query) => {
@@ -266,6 +259,7 @@ const updateStreets = (city) => {
 };
 
 const onSubmit = handleSubmit((values) => {
+  console.log("SEND");
   ContactsService.createContact(ContactsService.parseContact(values))
     .then((data) => {
       dialog.confirmNewContact(data.data.id);
