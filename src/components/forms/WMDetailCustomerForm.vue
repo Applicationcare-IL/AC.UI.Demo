@@ -15,7 +15,7 @@
         </div>
         <div>
           <WMAnnouncementsButton
-            entity="service"
+            entity="customer"
             :id="route.params.id"
           ></WMAnnouncementsButton>
         </div>

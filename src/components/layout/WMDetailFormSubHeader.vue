@@ -39,12 +39,27 @@
         </div>
         <div>
           <WMButton
-            v-if="utilsStore.entity == 'service' && isServiceActive"
+            v-if="utilsStore.entity == 'service' && isEntityActive"
             class="m-1 col-6"
             name="cancel"
             icon="cancel"
             @click="dialog.cancelService(route.params.id)"
             >Cancel
+          </WMButton>
+
+          <WMButton
+            v-if="['customer', 'contact'].includes(utilsStore.entity)"
+            class="m-1 col-6"
+            name="basic-primary"
+            @click="
+              $emit(
+                'updateEntityState',
+                route.params.id,
+                isEntityActive ? 'not_active' : 'active'
+              )
+            "
+          >
+            {{ isEntityActive ? "הפוך לפעיל" : "הפוך ללא פעיל" }}
           </WMButton>
         </div>
       </div>
@@ -66,7 +81,7 @@ const dialog = useDialog();
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 
-const emit = defineEmits(["saveForm"]);
+const emit = defineEmits(["saveForm", "updateEntityState"]);
 
 const { getFormMeta } = storeToRefs(formUtilsStore);
 
@@ -83,17 +98,19 @@ const props = defineProps({
 });
 
 const selectedElements = ref(0);
-const isServiceActive = ref(false);
+const isEntityActive = ref(false);
 
 const saveForm = () => {
   emit("saveForm");
 };
 
+const updateEntityState = () => {};
+
 watch(
   () => utilsStore.selectedElements[utilsStore.entity],
   (value) => {
     selectedElements.value = value?.length;
-    isServiceActive.value =
+    isEntityActive.value =
       utilsStore.selectedElements[utilsStore.entity][0].state === "active";
   }
 );

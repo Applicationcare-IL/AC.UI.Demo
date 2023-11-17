@@ -6,6 +6,12 @@ import axiosConfig from "@/service/axiosConfig";
 
 export const useOptionSetsStore = defineStore("optionSets", {
   state: () => ({
+    optionSetsToPreload: ["state", "service_status"],
+    optionSets: localStorage.getItem("optionSets")
+      ? JSON.parse(localStorage.getItem("optionSets"))
+      : {},
+    optionSetsPreloaded: false,
+
     gender: [
       { value: "male", translationKey: "genders.male" },
       { value: "female", translationKey: "genders.female" },
@@ -77,7 +83,13 @@ export const useOptionSetsStore = defineStore("optionSets", {
       { value: false, translationKey: "no" },
     ],
   }),
-  getters: {},
+  getters: {
+    isOptionSetsPreloaded() {
+      return this.optionSetsToPreload.every((r) =>
+        Object.keys(this.optionSets).includes(r)
+      );
+    },
+  },
   actions: {
     getOptionSetValues(optionSet) {
       return this[optionSet].map((option) => ({
@@ -120,6 +132,21 @@ export const useOptionSetsStore = defineStore("optionSets", {
         .catch((error) => {
           console.log(error);
         });
+    },
+
+    async preloadOptionSets() {
+      //Iterate the option set to preload list to load them from the API
+      for (const optionSet of this.optionSetsToPreload) {
+        await this.getOptionSetValuesFromApiRaw(optionSet).then((data) => {
+          this.optionSets[optionSet] = data;
+        });
+      }
+      return Promise.resolve();
+    },
+
+    getId(optionSet, value) {
+      return this.optionSets[optionSet].find((option) => option.value === value)
+        .id;
     },
   },
 });

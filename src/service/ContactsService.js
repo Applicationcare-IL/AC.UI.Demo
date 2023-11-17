@@ -1,4 +1,6 @@
 import axiosConfig from "@/service/axiosConfig";
+import { useOptionSetsStore } from "@/stores/optionSets";
+const optionSetsStore = useOptionSetsStore();
 
 export const ContactsService = {
   getContactsData() {
@@ -168,6 +170,21 @@ export const ContactsService = {
     console.log(contact);
     return axiosConfig
       .patch("/contacts/" + id, contact)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        throw error;
+      });
+  },
+
+  updateState(id, state) {
+    const params = {
+      state: optionSetsStore.getId("state", state),
+    };
+    return axiosConfig
+      .patch("/contacts/" + id, params)
       .then((response) => {
         return response.data;
       })

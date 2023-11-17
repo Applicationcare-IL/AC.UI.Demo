@@ -1,4 +1,6 @@
 import axiosConfig from "@/service/axiosConfig";
+import { useOptionSetsStore } from "@/stores/optionSets";
+const optionSetsStore = useOptionSetsStore();
 
 export const CustomerService = {
   getCustomersData() {
@@ -179,6 +181,21 @@ export const CustomerService = {
     console.log(customer);
     return axiosConfig
       .patch("/customers/" + id, customer)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        throw error;
+      });
+  },
+
+  updateState(id, state) {
+    const params = {
+      state: optionSetsStore.getId("state", state),
+    };
+    return axiosConfig
+      .patch("/customers/" + id, params)
       .then((response) => {
         return response.data;
       })
