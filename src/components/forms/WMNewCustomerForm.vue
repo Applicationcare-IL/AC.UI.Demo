@@ -49,7 +49,7 @@
           type="input-select"
           :highlighted="true"
           :label="$t('customer.rating') + ':'"
-          :options="rating"
+          :options="ratings"
           width="80"
         />
         <WMInput
@@ -65,13 +65,12 @@
       <div class="wm-form-row gap-5">
         <WMInputSearch
           name="service_area"
-          type="input-search"
           :placeholder="$t('select', ['customer.area'])"
           :required="true"
           :label="$t('customer.area') + ':'"
           :multiple="true"
           width="248"
-          :options="service_areas"
+          :options="serviceAreas"
           :highlighted="true"
         />
       </div>
@@ -131,6 +130,64 @@
           />
         </div>
       </div>
+      <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px" />
+      <div class="customer-address flex flex-auto flex-column gap-5">
+        <h2 class="h2 mb-0">פרטי התקשרות</h2>
+        <div class="wm-form-row gap-5">
+          <WMInput
+            name="mobile-phone"
+            :required="true"
+            type="input-text"
+            :label="$t('telephone') + ':'"
+            width="88"
+          />
+          <WMInput
+            name="fax"
+            type="input-text"
+            :label="$t('fax') + ':'"
+            width="88"
+          />
+        </div>
+
+        <div class="wm-form-row gap-5">
+          <WMInput
+            name="email"
+            :required="true"
+            type="input-text"
+            :label="$t('email') + ':'"
+            width="240"
+          />
+        </div>
+      </div>
+      <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px" />
+      <div class="customer-address flex flex-auto flex-column gap-5">
+        <h2 class="h2 mb-0">אנשי קשר</h2>
+        <div class="wm-form-row gap-5">
+          <WMInputSearch
+            name="contact"
+            :required="true"
+            :placeholder="$t('select', ['contact'])"
+            type="table"
+            :label="$t('contact') + ':'"
+            width="160"
+            :highlighted="true"
+            :searchFunction="searchContact"
+            :new="true"
+            related-sidebar="newCustomer"
+            @change="onContactselected"
+            :multiple="true"
+          />
+        </div>
+        <WMContactsTable
+          :contacts="selectedContacts"
+          :columns="listUtilsStore.getSelectedContactsForNewCustomerColumns"
+          :showControls="false"
+          @update:role="updatedRole"
+          @update:mainContact="updatedMainContact"
+          @unlink="unlinkContact"
+          :multiselect="false"
+        />
+      </div>
     </div>
     <WMFormButtons
       v-if="isSidebar"
@@ -145,9 +202,11 @@ import { ref, onMounted, watch, defineEmits } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
+import { useListUtilsStore } from "@/stores/listUtils";
 import { useForm } from "vee-validate";
 import { useAuthStore } from "@/stores/auth";
 import { CustomerService } from "@/service/CustomerService";
+import { ContactsService } from "@/service/ContactsService";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useToast } from "@/stores/toast";
 import { useDialog } from "@/stores/dialog";
@@ -164,27 +223,23 @@ const emit = defineEmits(["closeSidebar"]);
 const authStore = useAuthStore();
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
+const listUtilsStore = useListUtilsStore();
 const utilsStore = useUtilsStore();
 
 const cities = ref();
-const types = ref();
-const rating = ref();
-const service_areas = ref();
+const types = ref(optionSetsStore.optionSets["customer_type"]);
+const ratings = ref(optionSetsStore.optionSets["customer_rating"]);
+const serviceAreas = ref(optionSetsStore.optionSets["service_area"]);
 const alphabetWithDash = ref(formUtilsStore.getAlphabetWithDash);
 const toast = useToast();
 const dialog = useDialog();
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
+const selectedContacts = ref([]);
 
 onMounted(() => {
   optionSetsStore
-    .getOptionSetValuesFromApi("customer_type")
-    .then((data) => (types.value = data));
-  optionSetsStore
-    .getOptionSetValuesFromApi("customer_rating")
-    .then((data) => (rating.value = data));
-  optionSetsStore
     .getOptionSetValuesFromApi("service_area")
-    .then((data) => (service_areas.value = data));
+    .then((data) => (serviceAreas.value = data));
 });
 
 const { errors, handleSubmit, meta, setFieldError } = useForm({
@@ -192,7 +247,16 @@ const { errors, handleSubmit, meta, setFieldError } = useForm({
 });
 
 const onSubmit = handleSubmit((values) => {
-  CustomerService.createCustomer(CustomerService.parseCustomer(values))
+  const contacts = selectedContacts.value.map((contact) => {
+    return {
+      id: contact.id,
+      role: contact.role,
+      main: contact.main,
+    };
+  });
+  CustomerService.createCustomer(
+    CustomerService.parseCustomer(values, contacts)
+  )
     .then((data) => {
       dialog.confirmNewCustomer(data.data.id);
       toast.successAction("customer", "created");
@@ -219,6 +283,44 @@ const onCustomerNumberChanged = (event) => {
         : setFieldError("number", "")
     );
   });
+};
+
+const searchContact = (query) => {
+  return ContactsService.getContactsFromApi({
+    search: query,
+  });
+};
+
+const updatedRole = (role, id) => {
+  selectedContacts.value.map((contact) => {
+    if (contact.id === id) {
+      contact.role = role.id;
+    }
+  });
+};
+
+const updatedMainContact = (id) => {
+  selectedContacts.value.map((contact) => {
+    if (contact.id === id) {
+      contact.main = true;
+    } else {
+      contact.main = false;
+    }
+  });
+};
+
+const unlinkContact = (id) => {
+  console.log("UNLINK CONTACT" + id);
+  const index = selectedContacts.value.findIndex((contact) => {
+    return contact.contact_id == id;
+  });
+  selectedContacts.value.splice(index, 1);
+};
+
+const onContactselected = (event) => {
+  if (selectedContacts.value.some((contact) => contact.id === event.value.id))
+    return;
+  selectedContacts.value.push(event.value);
 };
 
 formUtilsStore.formEntity = "customer";

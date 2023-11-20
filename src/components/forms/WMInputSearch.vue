@@ -19,7 +19,7 @@
       v-model="value"
       @item-unselect="onRemove"
       @input="$emit('update:value', $event.target.value)"
-      @item-select="$emit('change', $event)"
+      @item-select="onItemSelected"
       :focused="true"
     >
       <template #empty v-if="props.relatedSidebar">
@@ -47,7 +47,10 @@
           : $t(errorMessage.key, errorMessage.values)
       }}
     </span>
-    <div v-if="props.multiple" class="selected-options flex flex-row gap-2">
+    <div
+      v-if="props.multiple && type == 'tags'"
+      class="selected-options flex flex-row gap-2"
+    >
       <Chip v-for="item in value" :label="item.name">
         <span>{{ item.name }}</span>
         <i class="pi pi-times" @click="onRemove(item)"></i>
@@ -57,7 +60,15 @@
 </template>
 
 <script setup>
-import { defineProps, ref, toRef, computed, onMounted, watch } from "vue";
+import {
+  defineProps,
+  defineEmits,
+  ref,
+  toRef,
+  computed,
+  onMounted,
+  watch,
+} from "vue";
 import { useField } from "vee-validate";
 import { useSidebarStore } from "@/stores/sidebar";
 import { useLayout } from "@/layout/composables/layout";
@@ -128,7 +139,13 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  type: {
+    type: String,
+    default: "tags",
+  },
 });
+
+const emit = defineEmits(["customChange"]);
 
 const openRelatedSidebar = () => {
   sidebarStore.openSidebar(props.relatedSidebar);
@@ -171,6 +188,10 @@ const search = (event) => {
 
 const onRemove = (item) => {
   value.value.splice(value.value.indexOf(item), 1);
+};
+
+const onItemSelected = (item) => {
+  emit("change", item);
 };
 
 const width = computed(() => {

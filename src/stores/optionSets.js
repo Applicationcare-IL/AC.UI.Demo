@@ -6,7 +6,15 @@ import axiosConfig from "@/service/axiosConfig";
 
 export const useOptionSetsStore = defineStore("optionSets", {
   state: () => ({
-    optionSetsToPreload: ["state", "gender", "service_status"],
+    optionSetsToPreload: [
+      "state",
+      "gender",
+      "service_status",
+      "customer_type",
+      "customer_rating",
+      "service_area",
+      "contact_customer_role",
+    ],
     optionSets: localStorage.getItem("optionSets")
       ? JSON.parse(localStorage.getItem("optionSets"))
       : {},

@@ -138,7 +138,7 @@ export const CustomerService = {
     };
   },
 
-  parseCustomer(customer) {
+  parseCustomer(customer, contacts) {
     return {
       name: customer.name,
       number: customer.number,
@@ -162,6 +162,7 @@ export const CustomerService = {
       // "water_meter": "in"
       // Missing: entrance, house_number, apartment
       notes: customer.notes,
+      contacts: contacts,
     };
   },
 

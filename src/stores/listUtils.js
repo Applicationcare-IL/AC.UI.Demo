@@ -51,6 +51,39 @@ export const useListUtilsStore = defineStore("listUtils", {
         },
       ];
     },
+    getSelectedContactsForNewCustomerColumns: () => {
+      return [
+        {
+          name: "star",
+          type: "star",
+          header: "contact.main",
+          class: "column-star",
+        },
+        {
+          name: "name",
+          type: "link",
+          to: "contact",
+          linkParameter: "id",
+          class: "link-col",
+        },
+        { name: "telephone", type: "text" },
+        { name: "email", type: "text" },
+        {
+          name: "role",
+          type: "dropdown",
+          header: "role",
+          optionSet: "contact_customer_role",
+          class: "p-0",
+        },
+        {
+          name: "actions",
+          type: "actions",
+          header: "actions",
+          class: "buttons",
+          buttons: ["unlink"],
+        },
+      ];
+    },
     getContactDetailColumns: () => {
       return [
         {

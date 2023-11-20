@@ -16,6 +16,7 @@
   "last-name": "Last Name",
   "id": "ID",
   "gender": "Gender",
+  "telephone": "Telephone",
   "mobilephone": "Mobile Phone",
   "landline": "Landline",
   "email": "Email",

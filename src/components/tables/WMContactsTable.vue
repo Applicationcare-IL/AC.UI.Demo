@@ -1,6 +1,6 @@
 <template>
   <WMNewEntitySidebar name="newContact" entity="contact" />
-  <h2 class="h2">{{ $t("contact.contact") }}</h2>
+  <h2 v-if="showControls" class="h2">{{ $t("contact.contact") }}</h2>
   <div v-if="showControls" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
@@ -33,27 +33,23 @@
     <div>
       <span class="p-input-icon-left">
         <i class="pi pi-search" />
-        <InputText
-          class="w-30rem"
-          v-model="filters['global'].value"
-          :placeholder="$t('search')"
-        />
+        <InputText class="w-30rem" :placeholder="$t('search')" />
       </span>
     </div>
   </div>
   <DataTable
     lazy
-    v-model:filters="filters"
     v-model:selection="selectedContacts"
     :value="contacts"
     dataKey="contact_id"
     tableStyle="min-width: 50rem"
     scrollable
-    paginator
+    :paginator="showControls"
     :rows="rows"
     @page="onPage($event)"
     :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
+    @update:rows="updatedRows($event)"
   >
     <Column
       v-if="multiselect"
@@ -75,17 +71,49 @@
         >
       </template>
       <template v-if="column.type === 'star'" #body="slotProps">
-        <img
-          v-if="props.customer.main_contact?.id == slotProps.data.id"
-          src="/icons/star.svg"
-          alt=""
-          class="vertical-align-middle"
-        />
+        <div @click="emit('update:mainContact', slotProps.data.contact_id)">
+          <img
+            v-if="
+              props.customer?.main_contact?.id == slotProps.data.id ||
+              slotProps.data.main
+            "
+            src="/icons/star.svg"
+            alt=""
+            class="vertical-align-middle"
+          />
+        </div>
+      </template>
+      <template v-if="column.type === 'dropdown'" #body="slotProps">
+        <Dropdown
+          :options="optionSetsStore.optionSets[column.optionSet]"
+          optionLabel="value"
+          optionValue="value"
+          class="w-full p-0"
+          v-model="selectedValue[slotProps.data.contact_id]"
+          @change="
+            emit(
+              'update:' + column.name,
+              $event.value,
+              slotProps.data.contact_id
+            );
+            dropDownChanged($event.value, slotProps.data.contact_id);
+          "
+        >
+        </Dropdown>
       </template>
       <template v-if="column.type === 'actions'" #body="slotProps">
         <div class="flex flex-row gap-2">
-          <WMButton name="edit" icon="edit" />
-          <WMButton name="unlink" icon="unlink" />
+          <WMButton
+            v-if="column.buttons.includes('edit')"
+            name="edit"
+            icon="edit"
+          />
+          <WMButton
+            v-if="column.buttons.includes('unlink')"
+            name="unlink"
+            icon="unlink"
+            @click="emit('unlink', slotProps.data.contact_id)"
+          />
         </div>
       </template>
       <template v-if="column.type === 'alert'" #body="slotProps">
@@ -105,6 +133,7 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
 import { useUtilsStore } from "@/stores/utils";
 import { ContactsService } from "@/service/ContactsService";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 const i18n = useI18n();
 
@@ -118,6 +147,10 @@ const listUtilsStore = useListUtilsStore();
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 const totalRecords = ref(0);
+const optionSetsStore = useOptionSetsStore();
+const selectedValue = ref([]);
+
+const emit = defineEmits(["update:role", "unlink", "update:mainContact"]);
 
 const props = defineProps({
   rows: {
@@ -140,10 +173,20 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  contacts: {
+    type: Array,
+    default: null,
+  },
 });
 
 onMounted(() => {
-  loadLazyData();
+  console.log(props.contacts);
+  if (props.contacts) {
+    contacts.value = props.contacts;
+    totalRecords.value = props.contacts.length;
+  } else {
+    loadLazyData();
+  }
 });
 
 const options = ref();
@@ -159,14 +202,14 @@ watch(locale, () => {
   );
 });
 
-const contacts = ref([]);
+const contacts = ref(props.contacts);
 const lazyParams = ref({});
 
 const loadLazyData = () => {
   ContactsService.getContactsFromApi({
     page: lazyParams.value.page + 1,
     per_page: props.rows,
-    customer_id: props.customer.id,
+    customer_id: props.customer?.id,
   }).then((result) => {
     contacts.value = result.data;
     totalRecords.value = result.totalRecords;
@@ -186,13 +229,4 @@ const onSelectionChanged = () => {
   utilsStore.selectedElements["contact"] = selectedContacts.value;
   console.log(utilsStore.selectedElements);
 };
-
-const filters = ref({
-  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  "country.name": { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  representative: { value: null, matchMode: FilterMatchMode.IN },
-  status: { value: null, matchMode: FilterMatchMode.EQUALS },
-  verified: { value: null, matchMode: FilterMatchMode.EQUALS },
-});
 </script>

@@ -12,6 +12,19 @@ td {
 .p-datatable .p-datatable-tbody .column-star {
     width: 20px;
     text-align: center;
+    padding: 0px !important;
+}
+
+.p-datatable .p-datatable-tbody .column-star > div {
+    height: $tableRowHeight;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.p-datatable .p-datatable-tbody .p-0 > tr >  td {
+    padding: 0px !important;
 }
 
 .p-datatable .p-datatable-tbody>tr.p-highlight {
