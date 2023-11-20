@@ -157,6 +157,8 @@ import { useDialog } from "@/stores/dialog";
 
 const optionSetsStore = useOptionSetsStore();
 
+const { getTasksTypesFromApi, createTask, parseTask } = useTasks();
+
 const isRecurring = ref(false);
 
 const props = defineProps({
@@ -216,7 +218,7 @@ const searchContact = (query) => {
 };
 
 const searchTaskTypes = (query) => {
-  return TasksService.getTasksTypesFromApi({
+  return getTasksTypesFromApi({
     search: query,
     task_family: values["task-family"].id,
   });
@@ -237,7 +239,7 @@ const onSubmit = handleSubmit((values) => {
     due_date: today, // TODO: change that to the date the user selected
   };
 
-  TasksService.createTask(TasksService.parseTask(task))
+  createTask(parseTask(task))
     .then((data) => {
       dialog.confirmNewTask(data.data.id);
       toast.successAction("contact", "created");

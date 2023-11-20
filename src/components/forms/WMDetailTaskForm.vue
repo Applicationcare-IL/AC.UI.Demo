@@ -456,8 +456,10 @@ const props = defineProps({
   },
 });
 
+const { getTaskFromApi } = useTasks();
+
 onMounted(() => {
-  TasksService.getTaskFromApi(route.params.id).then((data) => {
+  getTaskFromApi(route.params.id).then((data) => {
     task.value = data;
     setTimeout(function () {
       ServicesService.getService(task.value.service_number).then((data) => {

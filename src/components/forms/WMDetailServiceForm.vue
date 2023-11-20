@@ -455,9 +455,9 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
 import { ServicesService } from "@/service/ServicesService";
-
-import { TasksService } from "@/service/TasksService";
 import { useToast } from "@/stores/toast";
+
+const { getTasksFromApi } = useTasks();
 
 const toast = useToast();
 const stages = ref([]);
@@ -507,7 +507,7 @@ const fetchData = async () => {
   currentStage.value = data.current_stage.order - 1;
   utilsStore.selectedElements["service"] = [service.value];
 
-  const tasksData = await TasksService.getTasksFromApi({
+  const tasksData = await getTasksFromApi({
     entity_type: "service",
     entity_id: route.params.id,
   });
