@@ -44,6 +44,8 @@ import OverlayPanel from "primevue/overlaypanel";
 import Calendar from "primevue/calendar";
 import InputSwitch from "primevue/inputswitch";
 import ProgressSpinner from "primevue/progressspinner";
+import Accordion from "primevue/accordion";
+import AccordionTab from "primevue/accordiontab";
 
 import i18nInstance from "@/i18n";
 
@@ -88,7 +90,9 @@ const app = createApp(App)
   .component("OverlayPanel", OverlayPanel)
   .component("Calendar", Calendar)
   .component("InputSwitch", InputSwitch)
-  .component("ProgressSpinner", ProgressSpinner);
+  .component("ProgressSpinner", ProgressSpinner)
+  .component("Accordion", Accordion)
+  .component("AccordionTab", AccordionTab);
 
 app.config.globalProperties.$appState = reactive({
   isRTL: true,

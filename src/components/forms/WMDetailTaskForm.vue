@@ -297,56 +297,50 @@
           </Card>
         </div>
         <div class="flex-1 card-container top-info-card">
-          <Card>
-            <template #title> Site details</template>
-            <template #content> Content </template>
-          </Card>
+          <template v-if="service">
+            <Card>
+              <template #title>
+                {{ $t("task.service_details") }} {{ task.service_number }}
+              </template>
+              <template #content>
+                <div class="flex flex-column gap-5">
+                  <div class="flex-flex-column">
+                    <div class="h4">{{ $t("service.classification") }}</div>
+                    <div>
+                      {{ service.classification_1 }} \
+                      {{ service.classification_1 }} \
+                      {{ service.classification_1 }} \
+                      {{ service.classification_1 }} \
+                      {{ service.classification_1 }}
+                    </div>
+                  </div>
+
+                  <div class="flex flex-column">
+                    <div class="h4">{{ $t("service.description") }}</div>
+                    <div class="contact-notes flex flex-auto flex-column gap-5">
+                      <div class="wm-form-row gap-5">
+                        <Textarea v-model="value" autoResize rows="5" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </Card>
+          </template>
+          <template v-else class="flex-1 card-container">
+            <Card>
+              <template #title> Loading service </template>
+            </Card>
+          </template>
         </div>
       </div>
 
       <div class="flex flex-row gap-5 flex-wrap mt-5">
-        <div class="flex-1 card-container">
-          <Card>
-            <template #title> Files </template>
-            <template #content>
-              <div class="files-dataview">
-                <WMFilesDataView></WMFilesDataView>
-              </div>
-            </template>
-          </Card>
-        </div>
-
-        <div v-if="service" class="flex-1 card-container">
-          <Card>
-            <template #title>
-              {{ $t("task.service_details") }} {{ task.service_number }}
-            </template>
-            <template #content>
-              <div class="flex flex-column gap-5">
-                <div class="flex-flex-column">
-                  <div class="h4">{{ $t("service.classification") }}</div>
-                  <div>
-                    {{ service.classification_1 }} \
-                    {{ service.classification_1 }} \
-                    {{ service.classification_1 }} \
-                    {{ service.classification_1 }} \
-                    {{ service.classification_1 }}
-                  </div>
-                </div>
-
-                <div class="flex flex-column">
-                  <div class="h4">{{ $t("service.description") }}</div>
-                  <div class="contact-notes flex flex-auto flex-column gap-5">
-                    <div class="wm-form-row gap-5">
-                      <Textarea v-model="value" autoResize rows="5" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div>
-        <div v-else class="flex-1 card-container">Loading service</div>
+        <Accordion class="p-accordion--blue">
+          <AccordionTab header="מסמכים">
+            <WMFilesDataView></WMFilesDataView>
+          </AccordionTab>
+        </Accordion>
       </div>
 
       <div class="flex-1 tabs-container mt-5">
