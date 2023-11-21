@@ -193,14 +193,14 @@ watch(styles, (newValue) => {
   console.log("newValue", newValue);
 });
 
-// const {
-//   value: value,
-//   errorMessage,
-//   handleBlur,
-//   handleChange,
-// } = useField(name, undefined, {
-//   initialValue: props.value,
-// });
+const {
+  value: value,
+  errorMessage,
+  handleBlur,
+  handleChange,
+} = useField(name, undefined, {
+  initialValue: props.value,
+});
 </script>
 
 <style scoped lang="scss"></style>

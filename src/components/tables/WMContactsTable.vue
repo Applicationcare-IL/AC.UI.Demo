@@ -95,8 +95,7 @@
               'update:' + column.name,
               $event.value,
               slotProps.data.contact_id
-            );
-            dropDownChanged($event.value, slotProps.data.contact_id);
+            )
           "
         >
         </Dropdown>
