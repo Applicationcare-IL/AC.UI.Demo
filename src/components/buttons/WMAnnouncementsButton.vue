@@ -27,9 +27,10 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { AnnouncementsService } from "@/service/AnnouncementsService";
 import { useLayout } from "@/layout/composables/layout";
+
 const { layoutConfig } = useLayout();
+const { getAnnouncements } = useAnnouncements();
 
 const announcements = ref([]);
 
@@ -41,7 +42,7 @@ const props = defineProps({
 const visible = ref(false);
 
 onMounted(() => {
-  AnnouncementsService.getAnnouncements({
+  getAnnouncements({
     entity_type: props.entity,
     entity_id: props.id,
   }).then((result) => {
