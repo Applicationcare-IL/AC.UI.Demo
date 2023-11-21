@@ -207,11 +207,17 @@ function closeNewCustomerSidebar() {
 }
 
 const searchCustomer = (query) => {
-  return CustomerService.getCustomersFromApi({ search: query });
+  return CustomerService.getCustomersFromApi({
+    search: query,
+    contact_id: values.contact?.id,
+  });
 };
 
 const searchContact = (query) => {
-  return ContactsService.getContactsFromApi({ search: query });
+  return ContactsService.getContactsFromApi({
+    search: query,
+    customer_id: values.customer?.id,
+  });
 };
 
 const searchTaskTypes = (query) => {
