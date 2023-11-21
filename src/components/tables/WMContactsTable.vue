@@ -184,7 +184,7 @@ const isSourceExternal = computed(() => {
 });
 
 onMounted(() => {
-  if (isSourceExternal) {
+  if (isSourceExternal.value) {
     contacts.value = props.contacts;
     totalRecords.value = props.contacts?.length;
   } else {
@@ -213,7 +213,7 @@ const employeeOptionSet = optionSetsStore.optionSets[
 watch(
   props.contacts,
   (newValue) => {
-    if (!isSourceExternal || !newValue) return;
+    if (!isSourceExternal.value || !newValue) return;
     const lastAddedContact = newValue[props.contacts.length - 1];
     selectedRole.value[selectedRole.value.length] = "employee";
     emit("update:role", employeeOptionSet.id, lastAddedContact?.contact_id);
@@ -245,8 +245,7 @@ const alertCellConditionalStyle = (data) => {
 };
 
 const onStarClicked = (id) => {
-  console.log(id);
-  if (isSourceExternal) emit("update:mainContact", id);
+  if (isSourceExternal.value) emit("update:mainContact", id);
   else console.log("not external");
 };
 
