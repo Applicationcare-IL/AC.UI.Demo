@@ -71,7 +71,7 @@
         >
       </template>
       <template v-if="column.type === 'star'" #body="slotProps">
-        <div @click="emit('update:mainContact', slotProps.data.contact_id)">
+        <div @click="onStarClicked(slotProps.data.contact_id)">
           <img
             v-if="
               props.customer?.main_contact?.id == slotProps.data.id ||
@@ -83,13 +83,13 @@
           />
         </div>
       </template>
-      <template v-if="column.type === 'dropdown'" #body="slotProps">
+      <template v-if="column.type === 'roleDropdown'" #body="slotProps">
         <Dropdown
           :options="optionSetsStore.optionSets[column.optionSet]"
           optionLabel="value"
           optionValue="value"
           class="w-full p-0"
-          v-model="selectedValue[slotProps.data.contact_id]"
+          v-model="selectedRole[slotProps.index]"
           @change="
             emit(
               'update:' + column.name,
@@ -103,12 +103,12 @@
       <template v-if="column.type === 'actions'" #body="slotProps">
         <div class="flex flex-row gap-2">
           <WMButton
-            v-if="column.buttons.includes('edit')"
+            v-if="column.buttons?.includes('edit')"
             name="edit"
             icon="edit"
           />
           <WMButton
-            v-if="column.buttons.includes('unlink')"
+            v-if="column.buttons?.includes('unlink')"
             name="unlink"
             icon="unlink"
             @click="emit('unlink', slotProps.data.contact_id)"
@@ -125,9 +125,8 @@
 </template>
 
 <script setup>
-import { defineProps, ref, watch, onMounted } from "vue";
+import { defineProps, ref, watch, onMounted, computed } from "vue";
 import { useI18n } from "vue-i18n";
-import { FilterMatchMode } from "primevue/api";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
 import { useUtilsStore } from "@/stores/utils";
@@ -147,7 +146,7 @@ const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 const totalRecords = ref(0);
 const optionSetsStore = useOptionSetsStore();
-const selectedValue = ref([]);
+const selectedRole = ref([]);
 
 const emit = defineEmits(["update:role", "unlink", "update:mainContact"]);
 
@@ -178,11 +177,16 @@ const props = defineProps({
   },
 });
 
+// If the source of data is external, we don't need to load the
+// data from the API and the functions are dealt internally
+const isSourceExternal = computed(() => {
+  return props.contacts != null;
+});
+
 onMounted(() => {
-  console.log(props.contacts);
-  if (props.contacts) {
+  if (isSourceExternal) {
     contacts.value = props.contacts;
-    totalRecords.value = props.contacts.length;
+    totalRecords.value = props.contacts?.length;
   } else {
     loadLazyData();
   }
@@ -200,6 +204,22 @@ watch(locale, () => {
     i18n
   );
 });
+
+const employeeOptionSet = optionSetsStore.optionSets[
+  "contact_customer_role"
+].find((x) => x.value === "employee");
+
+//When the contacts are changed, preselect employee as the default role Value
+watch(
+  props.contacts,
+  (newValue) => {
+    if (!isSourceExternal || !newValue) return;
+    const lastAddedContact = newValue[props.contacts.length - 1];
+    selectedRole.value[selectedRole.value.length] = "employee";
+    emit("update:role", employeeOptionSet.id, lastAddedContact?.contact_id);
+  },
+  { immediate: true }
+);
 
 const contacts = ref(props.contacts);
 const lazyParams = ref({});
@@ -224,8 +244,13 @@ const alertCellConditionalStyle = (data) => {
   return listUtilsStore.getAlertCellConditionalStyle(data);
 };
 
+const onStarClicked = (id) => {
+  console.log(id);
+  if (isSourceExternal) emit("update:mainContact", id);
+  else console.log("not external");
+};
+
 const onSelectionChanged = () => {
   utilsStore.selectedElements["contact"] = selectedContacts.value;
-  console.log(utilsStore.selectedElements);
 };
 </script>

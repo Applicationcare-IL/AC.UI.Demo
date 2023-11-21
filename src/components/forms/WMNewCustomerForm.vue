@@ -292,9 +292,11 @@ const searchContact = (query) => {
 };
 
 const updatedRole = (role, id) => {
+  console.log("UPDATED ROLE" + id + " " + role);
   selectedContacts.value.map((contact) => {
     if (contact.id === id) {
-      contact.role = role.id;
+      contact.role = role;
+      console.log("UPDATED ROLE OF CONTACT " + contact.id + " " + contact.role);
     }
   });
 };
