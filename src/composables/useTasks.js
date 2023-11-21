@@ -60,6 +60,7 @@ export function useTasks() {
   const mapTask = (task) => {
     const is_open = Math.random() < 0.5;
     return {
+      id: task.id,
       name: task.id,
       task_number: task.id,
       process_number: "10",

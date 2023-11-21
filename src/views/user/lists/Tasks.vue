@@ -55,6 +55,7 @@
       <Column field="process_number" :header="$t('task.service_number')">
         <template #body="slotProps">
           <router-link
+            v-if="slotProps.data.service_number"
             :to="{
               name: 'serviceDetail',
               params: { id: slotProps.data.service_number },
@@ -143,6 +144,7 @@ const loadLazyData = () => {
     per_page: listUtilsStore.rows,
     search: searchValue.value,
   }).then((data) => {
+    console.log("data", data);
     tasks.value = data.tasks;
     totalRecords.value = data.totalRecords;
     loading.value = false;
