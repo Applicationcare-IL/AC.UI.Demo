@@ -70,7 +70,7 @@ export const useListUtilsStore = defineStore("listUtils", {
         { name: "email", type: "text" },
         {
           name: "role",
-          type: "dropdown",
+          type: "roleDropdown",
           header: "role",
           optionSet: "contact_customer_role",
           class: "p-0",

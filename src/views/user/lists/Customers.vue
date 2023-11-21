@@ -84,10 +84,10 @@
       <Column field="main_contact" header="איש קשר ראשי" class="link-col">
         <template #body="slotProps">
           <router-link
-            v-if="slotProps.data.main_contact.id != null"
+            v-if="slotProps.data.main_contact?.id != null"
             :to="{
               name: 'contactDetail',
-              params: { id: slotProps.data.main_contact.id },
+              params: { id: slotProps.data.main_contact?.id },
             }"
             class="vertical-align-middle"
             >{{ slotProps.data.main_contact.name }}</router-link

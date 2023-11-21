@@ -504,7 +504,7 @@ const fetchData = async () => {
   }));
   updateDropdown("service_request_2", data.request1?.id, "requests2");
 
-  currentStage.value = data.current_stage.order - 1;
+  currentStage.value = data.current_stage?.order - 1;
   utilsStore.selectedElements["service"] = [service.value];
 
   const tasksData = await getTasksFromApi({
