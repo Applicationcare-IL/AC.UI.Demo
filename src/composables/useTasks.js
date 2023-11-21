@@ -44,16 +44,16 @@ export function useTasks() {
     return await tasksStore.createTask(task);
   };
 
-  const updateTask = async (task) => {
-    return await tasksStore.updateTask(task);
+  const updateTask = async (id, task) => {
+    return await tasksStore.updateTask(id, task);
   };
 
   const completeTask = async (task) => {
-    return await tasksStore.updateTask(task);
+    return await tasksStore.completeTask(task);
   };
 
-  const completeTasks = async (task) => {
-    return await tasksStore.updateTask(task);
+  const completeTasks = async (task, reasons) => {
+    return await tasksStore.completeTasks(task, reasons);
   };
 
   // UTILITIES

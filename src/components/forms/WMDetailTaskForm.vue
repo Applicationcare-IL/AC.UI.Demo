@@ -428,7 +428,7 @@ import { ServicesService } from "@/service/ServicesService";
 import { useToast } from "@/stores/toast";
 
 const toast = useToast();
-const { updateTask } = useTasks();
+const { updateTask, parseUpdateTask } = useTasks();
 
 const tasks = ref([]);
 
