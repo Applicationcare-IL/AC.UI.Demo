@@ -44,6 +44,18 @@ export function useTasks() {
     return await tasksStore.createTask(task);
   };
 
+  const updateTask = async (task) => {
+    return await tasksStore.updateTask(task);
+  };
+
+  const completeTask = async (task) => {
+    return await tasksStore.updateTask(task);
+  };
+
+  const completeTasks = async (task) => {
+    return await tasksStore.updateTask(task);
+  };
+
   // UTILITIES
   const mapTask = (task) => {
     const is_open = Math.random() < 0.5;
@@ -207,5 +219,8 @@ export function useTasks() {
     getTasksTypesFromApi,
     getTaskFromApi,
     createTask,
+    updateTask,
+    completeTask,
+    completeTasks,
   };
 }

@@ -3,7 +3,7 @@
     class="m-1 col-6"
     name="done-white"
     icon="done"
-    @click="completeTasks"
+    @click="handleCompleteTasks"
     :disabled="selectedElements == 0 || !isEntityActive"
     >{{ t("task.complete") }}
   </WMButton>
@@ -14,13 +14,14 @@
 import { ref, watch } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { TasksService } from "@/service/TasksService";
 
 import { useToast } from "@/stores/toast";
 import { useI18n } from "vue-i18n";
 import { useDialog } from "@/stores/dialog";
 
 const { t, locale } = useI18n();
+
+const { completeTasks } = useTasks();
 
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
@@ -46,11 +47,9 @@ watch(
   }
 );
 
-const completeTasks = () => {
+const handleCompleteTasks = () => {
   console.log(utilsStore.selectedElements["task"].map((x) => x.task_number));
-  TasksService.completeTasks(
-    utilsStore.selectedElements["task"].map((x) => x.task_number)
-  )
+  completeTasks(utilsStore.selectedElements["task"].map((x) => x.task_number))
     .then(() => {
       toast.successAction("task", "completed");
     })
@@ -65,7 +64,7 @@ const completeTasks = () => {
 };
 
 const completeService = (id) => {
-  TasksService.completeTasks(
+  completeTasks(
     utilsStore.selectedElements["task"].map((x) => x.task_number),
     formUtilsStore.completeServiceReasons
   )

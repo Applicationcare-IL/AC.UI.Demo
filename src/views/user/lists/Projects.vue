@@ -129,12 +129,14 @@ import { ref, onMounted, computed, watch } from "vue";
 import { ProjectsService } from "@/service/ProjectsService";
 import { ContactsService } from "@/service/ContactsService";
 import { ServicesService } from "@/service/ServicesService";
-import { TasksService } from "@/service/TasksService";
+
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
 import { useLayout } from "@/layout/composables/layout";
+
 const { layoutConfig } = useLayout();
+// const { getTasksMini } = useTasks();
 
 onMounted(() => {
   utilsStore.entity = "project";
@@ -142,7 +144,7 @@ onMounted(() => {
   loadLazyData();
 
   // ServicesService.getServicesMini().then((data) => (services.value = data));
-  // TasksService.getTasksMini().then((data) => (tasks.value = data));
+  // getTasksMini().then((data) => (tasks.value = data));
 });
 
 const formUtilsStore = useFormUtilsStore();
