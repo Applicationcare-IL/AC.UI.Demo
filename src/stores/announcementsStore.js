@@ -1,7 +1,7 @@
 import axiosConfig from "@/service/axiosConfig";
 import { defineStore } from "pinia";
 
-export const useTasksStore = defineStore("tasks", {
+export const useAnnouncementsStore = defineStore("announcements", {
   actions: {
     getAnnouncements(params) {
       return axiosConfig
