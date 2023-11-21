@@ -1,6 +1,6 @@
 import { useAnnouncementsStore } from "@/stores/announcementsStore";
 
-export function useSidebar() {
+export function useAnnouncements() {
   const announcementsStore = useAnnouncementsStore();
 
   return {
