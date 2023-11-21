@@ -121,10 +121,11 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
-import { TasksService } from "@/service/TasksService";
 
 import { useListUtilsStore } from "@/stores/listUtils";
 import { useUtilsStore } from "@/stores/utils";
+
+const { getTasksFromApi } = useTasks();
 
 const listUtilsStore = useListUtilsStore();
 const utilsStore = useUtilsStore();
@@ -138,7 +139,7 @@ onMounted(() => {
 });
 
 const loadLazyData = () => {
-  TasksService.getTasksFromApi({
+  getTasksFromApi({
     page: lazyParams.value.page + 1,
     per_page: listUtilsStore.rows,
     search: searchValue.value,

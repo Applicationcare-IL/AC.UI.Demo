@@ -360,7 +360,6 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 import { CustomerService } from "@/service/CustomerService";
 import { ServicesService } from "@/service/ServicesService";
-import { TasksService } from "@/service/TasksService";
 
 import { i18n } from "@/i18n";
 import { useToast } from "@/stores/toast";
@@ -372,6 +371,8 @@ const props = defineProps({
   },
 });
 
+const { getTasksFromApi } = useTasks();
+
 const services = ref();
 const tasks = ref();
 const cities = ref();
@@ -380,6 +381,7 @@ const route = useRoute();
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 const listUtilsStore = useListUtilsStore();
+
 const utilsStore = useUtilsStore();
 const toast = useToast();
 
@@ -456,7 +458,7 @@ const fetchData = async () => {
     customer_id: route.params.id,
   });
   services.value = servicesData.data;
-  const tasksData = await TasksService.getTasksFromApi({
+  const tasksData = await getTasksFromApi({
     customer_id: route.params.id,
   });
   tasks.value = tasksData.tasks;

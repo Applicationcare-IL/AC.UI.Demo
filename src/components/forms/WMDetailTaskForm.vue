@@ -424,10 +424,11 @@ import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 import { ServicesService } from "@/service/ServicesService";
-import { TasksService } from "@/service/TasksService";
+
 import { useToast } from "@/stores/toast";
 
 const toast = useToast();
+const { updateTask, parseUpdateTask } = useTasks();
 
 const tasks = ref([]);
 
@@ -456,8 +457,10 @@ const props = defineProps({
   },
 });
 
+const { getTaskFromApi } = useTasks();
+
 onMounted(() => {
-  TasksService.getTaskFromApi(route.params.id).then((data) => {
+  getTaskFromApi(route.params.id).then((data) => {
     task.value = data;
     setTimeout(function () {
       ServicesService.getService(task.value.service_number).then((data) => {
@@ -474,7 +477,7 @@ const { handleSubmit, meta, resetForm } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  TasksService.updateTask(route.params.id, TasksService.parseUpdateTask(values))
+  updateTask(route.params.id, parseUpdateTask(values))
     .then(() => {
       toast.successAction("task", "updated");
       resetForm({ values: values });

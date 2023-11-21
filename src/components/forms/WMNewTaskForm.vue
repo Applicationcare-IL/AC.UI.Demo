@@ -143,8 +143,6 @@
 <script setup>
 import { ref, defineEmits, defineExpose } from "vue";
 
-import { TasksService } from "@/service/TasksService";
-
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -156,6 +154,8 @@ import { useToast } from "@/stores/toast";
 import { useDialog } from "@/stores/dialog";
 
 const optionSetsStore = useOptionSetsStore();
+
+const { getTasksTypesFromApi, createTask, parseTask } = useTasks();
 
 const isRecurring = ref(false);
 
@@ -216,7 +216,7 @@ const searchContact = (query) => {
 };
 
 const searchTaskTypes = (query) => {
-  return TasksService.getTasksTypesFromApi({
+  return getTasksTypesFromApi({
     search: query,
     task_family: values["task-family"].id,
   });
@@ -237,7 +237,7 @@ const onSubmit = handleSubmit((values) => {
     due_date: today, // TODO: change that to the date the user selected
   };
 
-  TasksService.createTask(TasksService.parseTask(task))
+  createTask(parseTask(task))
     .then((data) => {
       dialog.confirmNewTask(data.data.id);
       toast.successAction("contact", "created");
