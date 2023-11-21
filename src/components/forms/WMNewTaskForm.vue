@@ -151,7 +151,6 @@ import { CustomerService } from "@/service/CustomerService";
 import { ContactsService } from "@/service/ContactsService";
 
 import { useToast } from "@/stores/toast";
-import { useDialog } from "@/stores/dialog";
 
 const optionSetsStore = useOptionSetsStore();
 

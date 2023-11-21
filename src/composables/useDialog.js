@@ -6,7 +6,9 @@ export function useDialog() {
   const confirm = useConfirm();
   const formUtilsStore = useFormUtilsStore();
   const i18n = useI18n();
-  const { activeSidebar } = useSidebar();
+
+  // TODO: manage close sidebar with the composable
+  // const { closeSidebar } = useSidebar();
 
   const confirmNewCustomer = (id) => {
     confirm.require({
