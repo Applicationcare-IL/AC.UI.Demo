@@ -475,3 +475,29 @@ a {
         }
     }
 }
+
+// Accordion
+.p-accordion {
+    width: 100%;
+
+    &--blue{
+
+        .p-accordion-header .p-accordion-header-action{
+            border-radius: 16px !important;
+            padding: 16px !important;
+            gap: 8px;
+            color: var(--gray-1000);
+            font-family: 'Futurism';
+            font-size: 24px;
+            border: none;
+        }
+
+        .p-accordion-content{
+            border: none;
+        }
+
+        .p-accordion-tab-active .p-accordion-header .p-accordion-header-action{
+            background-color: var(--blue-50);
+        }
+    }
+}

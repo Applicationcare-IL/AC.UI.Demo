@@ -542,10 +542,6 @@ const onSave = handleSubmit((values) => {
     });
 });
 
-const slaClass = (data) => {
-  return listUtilsStore.getSlaConditionalStyle(data);
-};
-
 const priorityClass = (data) => {
   return listUtilsStore.getPriorityConditionalStyle(data);
 };
