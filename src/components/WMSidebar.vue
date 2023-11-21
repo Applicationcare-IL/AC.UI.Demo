@@ -9,17 +9,17 @@
       <div class="wm-sidebar" ref="target">
         <slot></slot>
       </div>
-      <div class="wm-sidebar-overlay" @click="closeSidebar"></div>
+      <div class="wm-sidebar-overlay" @click="handleCloseSidebar"></div>
     </div>
   </Teleport>
 </template>
 
 <script setup>
 import { ref, toRefs, defineEmits, watch, computed } from "vue";
-import { useSidebarStore } from "@/stores/sidebar";
 import { useLayout } from "@/layout/composables/layout";
 
-const sidebarStore = useSidebarStore();
+const { activeSidebar, openSidebar, closeSidebar } = useSidebar();
+
 const { layoutConfig } = useLayout();
 
 const target = ref(null);
@@ -39,11 +39,11 @@ const { visible } = toRefs(props);
 
 const emit = defineEmits(["closeSidebar"]);
 
-const closeSidebar = () => {
+const handleCloseSidebar = () => {
   emit("closeSidebar");
 };
 
-const openSidebar = () => {
+const handleOpenSidebar = () => {
   emit("openSidebar");
   // hide all the active dropdowns
   document.querySelectorAll(".p-autocomplete-panel").forEach((dropdown) => {
@@ -54,11 +54,10 @@ const openSidebar = () => {
 /* Used to calculate the margin left of the sidebar
    based on the number of active (and stacked) sidebars */
 const leftPositon = computed(() => {
-  const totalActiveSidebars = sidebarStore.activeSidebar.length - 1; // the first sidebar should not have margin
+  const totalActiveSidebars = activeSidebar.length - 1; // the first sidebar should not have margin
 
   const space = 20;
-  const sidebarPositionInActiveSidebarArray =
-    sidebarStore.activeSidebar.indexOf(props.name);
+  const sidebarPositionInActiveSidebarArray = activeSidebar.indexOf(props.name);
   const totalMargin = totalActiveSidebars * space;
 
   return totalMargin - sidebarPositionInActiveSidebarArray * space;
@@ -66,22 +65,20 @@ const leftPositon = computed(() => {
 
 watch(visible, (value) => {
   if (value) {
-    sidebarStore.openSidebar(props.name);
+    openSidebar(props.name);
   } else {
-    sidebarStore.closeSidebar(props.name);
+    closeSidebar(props.name);
   }
 });
 
 watch(
-  () => sidebarStore.activeSidebar,
+  () => activeSidebar,
   (value) => {
-    console.log("changes", value);
+    console.log(value);
     if (value.includes(props.name)) {
-      console.log("open");
-      openSidebar();
+      handleOpenSidebar();
     } else {
-      console.log("close");
-      closeSidebar();
+      handleCloseSidebar();
     }
   },
   { deep: true }

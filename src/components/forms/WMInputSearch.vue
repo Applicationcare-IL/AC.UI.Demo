@@ -70,12 +70,10 @@ import {
   watch,
 } from "vue";
 import { useField } from "vee-validate";
-import { useSidebarStore } from "@/stores/sidebar";
 import { useLayout } from "@/layout/composables/layout";
 
 const { layoutConfig } = useLayout();
-
-const sidebarStore = useSidebarStore();
+const { openSidebar } = useSidebar();
 
 const filteredOptions = ref();
 
@@ -148,7 +146,7 @@ const props = defineProps({
 const emit = defineEmits(["customChange"]);
 
 const openRelatedSidebar = () => {
-  sidebarStore.openSidebar(props.relatedSidebar);
+  openSidebar(props.relatedSidebar);
 };
 
 const search = (event) => {
