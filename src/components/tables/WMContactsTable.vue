@@ -71,13 +71,20 @@
         >
       </template>
       <template v-if="column.type === 'star'" #body="slotProps">
-        <div @click="onStarClicked(slotProps.data.contact_id)">
+        <div
+          @click="onStarClicked(slotProps.data.contact_id)"
+          @mouseover="starHover[slotProps.index] = true"
+          @mouseleave="starHover[slotProps.index] = false"
+        >
           <img
-            v-if="
-              props.customer?.main_contact?.id == slotProps.data.id ||
-              slotProps.data.main
-            "
+            v-if="isMainContact(slotProps.data)"
             src="/icons/star.svg"
+            alt=""
+            class="vertical-align-middle"
+          />
+          <img
+            v-if="starHover[slotProps.index] && !isMainContact(slotProps.data)"
+            src="/icons/star_grey.svg"
             alt=""
             class="vertical-align-middle"
           />
@@ -183,6 +190,8 @@ const isSourceExternal = computed(() => {
   return props.contacts != null;
 });
 
+const starHover = ref([]);
+
 onMounted(() => {
   if (isSourceExternal.value) {
     contacts.value = props.contacts;
@@ -205,11 +214,10 @@ watch(locale, () => {
   );
 });
 
+//When the contacts are changed, preselect employee as the default role Value
 const employeeOptionSet = optionSetsStore.optionSets[
   "contact_customer_role"
 ].find((x) => x.value === "employee");
-
-//When the contacts are changed, preselect employee as the default role Value
 watch(
   props.contacts,
   (newValue) => {
@@ -240,13 +248,21 @@ const onPage = (event) => {
   loadLazyData();
 };
 
+const isMainContact = (contact) => {
+  return (
+    props.customer?.main_contact?.id == contact.id || contact.main === true
+  );
+};
+
 const alertCellConditionalStyle = (data) => {
   return listUtilsStore.getAlertCellConditionalStyle(data);
 };
 
 const onStarClicked = (id) => {
   if (isSourceExternal.value) emit("update:mainContact", id);
-  else console.log("not external");
+  else {
+    console.log("onStarClicked");
+  }
 };
 
 const onSelectionChanged = () => {

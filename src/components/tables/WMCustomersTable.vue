@@ -104,7 +104,7 @@
           <Tag
             v-for="item in slotProps.data[column.name]"
             class="vertical-align-middle"
-            >{{ item }}</Tag
+            >{{ item.value }}</Tag
           >
         </div>
       </template>
