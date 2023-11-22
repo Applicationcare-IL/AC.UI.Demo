@@ -148,7 +148,6 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 
 import { useForm } from "vee-validate";
 import { CustomerService } from "@/service/CustomerService";
-import { ContactsService } from "@/service/ContactsService";
 
 const optionSetsStore = useOptionSetsStore();
 
@@ -211,8 +210,10 @@ const searchCustomer = (query) => {
   });
 };
 
+const { getContactsFromApi } = useContacts();
+
 const searchContact = (query) => {
-  return ContactsService.getContactsFromApi({
+  return getContactsFromApi({
     search: query,
     customer_id: values.customer?.id,
   });

@@ -140,7 +140,6 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
-import { ContactsService } from "@/service/ContactsService";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
@@ -174,10 +173,12 @@ const loading = ref(false);
 const dt = ref();
 const searchValue = ref("");
 
+const { getContactsFromApi } = useContacts();
+
 const loadLazyData = () => {
   loading.value = true;
 
-  ContactsService.getContactsFromApi({
+  getContactsFromApi({
     page: lazyParams.value.page + 1,
     per_page: listUtilsStore.rows,
     search: searchValue.value,
