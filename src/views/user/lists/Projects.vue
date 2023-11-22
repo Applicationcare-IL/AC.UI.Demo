@@ -41,14 +41,14 @@
       <Column style="width: 40px" selectionMode="multiple"></Column>
       <Column field="project_number" header="מס’ פרויקט" class="link-col">
         <template #body="slotProps">
-          <router-link
+          <!-- <router-link
             :to="{
               name: 'projectDetail',
               params: { id: slotProps.data.project_id },
             }"
             class="vertical-align-middle"
             >{{ slotProps.data.project_number }}</router-link
-          >
+          > -->
         </template>
       </Column>
       <Column field="project_name" header="שם פרויקט" />
@@ -60,75 +60,60 @@
       <Column field="open_tasks" header="משימות פתוחות" />
       <Column field="breached_tasks" header="משימות בחריגה" />
       <Column field="stage" header="שלב" />
-      <Column field="status" header="סטטוס" />
+      <Column field="status" header="סטטוס">
+        <template #body="slotProps">
+          <div
+            :class="statusClass(slotProps.data.status)"
+            class="status-label w-full"
+          >
+            {{ slotProps.data.status }}
+          </div>
+        </template>
+      </Column>
+
       <template #expansion="slotProps">
-        <DataTable :value="subProjects">
+        <DataTable :value="slotProps.data.subProjects" class="subtable">
           <Column style="width: 45px"></Column>
           <Column style="width: 40px" selectionMode="multiple"></Column>
-          <Column field="project_number" class="link-col">
+          <Column field="project_number" header="מס’ פרויקט" class="link-col">
             <template #body="slotProps">
-              <router-link
-                :to="{
-                  name: 'projectDetail',
-                  params: { id: slotProps.data.project_id },
-                }"
-                class="vertical-align-middle"
-                >{{ slotProps.data.project_number }}</router-link
-              >
+              <!-- <router-link
+            :to="{
+              name: 'projectDetail',
+              params: { id: slotProps.data.project_id },
+            }"
+            class="vertical-align-middle"
+            >{{ slotProps.data.project_number }}</router-link
+          > -->
             </template>
           </Column>
-          <Column field="project_name" />
-          <Column field="city_data" />
-          <Column field="address" />
-          <Column field="project_type" />
-          <Column field="project_area" />
-          <Column field="project_detail" />
-          <Column field="open_tasks" />
-          <Column field="breached_tasks" />
-          <Column field="stage" />
-          <Column field="status" />
+          <Column field="project_name" header="שם פרויקט" />
+          <Column field="city_data" header="מידע עירוני" />
+          <Column field="address" header="כתובת" />
+          <Column field="project_type" header="סוג פרויקט" />
+          <Column field="project_area" header="תחום" />
+          <Column field="project_detail" header="תת-תחום" />
+          <Column field="open_tasks" header="משימות פתוחות" />
+          <Column field="breached_tasks" header="משימות בחריגה" />
+          <Column field="stage" header="שלב" />
+          <Column field="status" header="סטטוס">
+            <template #body="slotProps">
+              <div
+                :class="statusClass(slotProps.data.status)"
+                class="status-label w-full"
+              >
+                {{ slotProps.data.status }}
+              </div>
+            </template>
+          </Column>
         </DataTable>
       </template>
-
-      <!--<Column field="customer" header="לקוח" class="link-col">
-                <template #body="slotProps">
-                    <router-link :to="{ name: 'customerDetail', params: { 'id': slotProps.data.customer_id } }"
-                                 class="vertical-align-middle">{{ slotProps.data.customer }}</router-link>
-                </template>
-            </Column>
-            <Column field="telephone" header="טלפון נייד"></Column>
-            <Column field="landline" header="טלפון נייח"></Column>
-            <Column field="email" header="דוא”ל"></Column>
-            <Column field="address" header="כתובת"></Column>
-            <Column field="open_services" header="תהליכים פתוחים" class="numeric">
-            </Column>
-            <Column field="breached_services" header="תהליכים בחריגה" class="numeric">
-                <template #body="slotProps">
-                    <div :class="highlightCellClass(slotProps.data.breached_services)">
-                        {{ slotProps.data.breached_services }}
-                    </div>
-                </template>
-            </Column>
-            <Column field="open_tasks" header="תהליכים בחריגה" class="numeric"></Column>
-            <Column field="breached_tasks" header="משימות בחריגה" class="numeric">
-                <template #body="slotProps">
-                    <div :class="highlightCellClass(slotProps.data.breached_tasks)">
-                        {{ slotProps.data.breached_tasks }}
-                    </div>
-                </template>
-            </Column>
-            <Column field="contact_id" header="מזהה"></Column>
-            <Column field="status" header="סטטוס"></Column>
-            <Column field="owner" header="אחראי"></Column> -->
     </DataTable>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
-import { ProjectsService } from "@/service/ProjectsService";
-import { ContactsService } from "@/service/ContactsService";
-import { ServicesService } from "@/service/ServicesService";
 
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -136,15 +121,12 @@ import { useListUtilsStore } from "@/stores/listUtils";
 import { useLayout } from "@/layout/composables/layout";
 
 const { layoutConfig } = useLayout();
-// const { getTasksMini } = useTasks();
+const { getProjectsFromApi } = useProjects();
 
 onMounted(() => {
   utilsStore.entity = "project";
 
   loadLazyData();
-
-  // ServicesService.getServicesMini().then((data) => (services.value = data));
-  // getTasksMini().then((data) => (tasks.value = data));
 });
 
 const formUtilsStore = useFormUtilsStore();
@@ -157,25 +139,22 @@ const lazyParams = ref({});
 const projects = ref();
 const subProjects = ref();
 const expandedRows = ref([]);
-const services = ref();
-const tasks = ref();
 const loading = ref(false);
 const dt = ref();
 
 const loadLazyData = () => {
   loading.value = true;
 
-  ProjectsService
-    .getProjectList
-    // { page: lazyParams.value.page + 1, per_page: listUtilsStore.rows }
-    ()
-    .then((result) => {
-      console.log(result);
-      projects.value = result.data;
-      subProjects.value = result.data.slice(0, 5);
-      totalRecords.value = result.totalRecords;
-      loading.value = false;
-    });
+  getProjectsFromApi({
+    page: lazyParams.value.page + 1,
+    per_page: listUtilsStore.rows,
+    // search: searchValue.value,
+  }).then((data) => {
+    console.log("projects", data);
+    projects.value = data.data;
+    totalRecords.value = data.totalRecords;
+    loading.value = false;
+  });
 };
 
 const onPage = (event) => {
@@ -224,6 +203,20 @@ watch(
     loadLazyData();
   }
 );
+
+const statusClass = (data) => {
+  return listUtilsStore.getStatusConditionalStyle(data);
+};
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.subtable :deep(.p-datatable-thead th) {
+  padding: 0 0.5rem !important;
+  .p-column-header-content {
+    overflow: hidden;
+    height: 0;
+    margin: 0;
+    padding: 0;
+  }
+}
+</style>

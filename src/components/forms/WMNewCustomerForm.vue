@@ -206,9 +206,8 @@ import { useListUtilsStore } from "@/stores/listUtils";
 import { useForm } from "vee-validate";
 import { useAuthStore } from "@/stores/auth";
 import { CustomerService } from "@/service/CustomerService";
-import { ContactsService } from "@/service/ContactsService";
+
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { useToast } from "@/stores/toast";
 
 const props = defineProps({
   isSidebar: {
@@ -284,8 +283,10 @@ const onCustomerNumberChanged = (event) => {
   });
 };
 
+const { getContactsFromApi } = useContacts();
+
 const searchContact = (query) => {
-  return ContactsService.getContactsFromApi({
+  return getContactsFromApi({
     search: query,
   });
 };

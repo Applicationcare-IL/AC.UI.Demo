@@ -360,10 +360,6 @@ import { useListUtilsStore } from "@/stores/listUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 import { useRoute } from "vue-router";
-import { ContactsService } from "@/service/ContactsService";
-import { ServicesService } from "@/service/ServicesService";
-
-import { useToast } from "@/stores/toast";
 
 const props = defineProps({
   formKey: {
@@ -373,6 +369,7 @@ const props = defineProps({
 });
 
 const { getTasksFromApi } = useTasks();
+const { getServicesFromApi } = useServices();
 
 const customers = ref();
 const services = ref();
@@ -401,20 +398,22 @@ onMounted(() => {
   fetchData();
 });
 
+const { getContactFromApi, updateContact, parseContact } = useContacts();
+
 const fetchData = async () => {
-  ContactsService.getContactFromApi(route.params.id).then((data) => {
+  getContactFromApi(route.params.id).then((data) => {
     contact.value = data;
     utilsStore.selectedElements["contact"] = [contact.value];
     loaded.value = true;
   });
-  const servicesData = await ServicesService.getServicesFromApi({
+  const servicesData = await getServicesFromApi({
     customer_id: route.params.id,
   });
   services.value = servicesData.data;
   const tasksData = await getTasksFromApi({
     customer_id: route.params.id,
   });
-  tasks.value = tasksData?.tasks;
+  tasks.value = tasksData?.data;
 };
 
 const { handleSubmit, meta, resetForm, values } = useForm({
@@ -422,10 +421,7 @@ const { handleSubmit, meta, resetForm, values } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  ContactsService.updateContact(
-    route.params.id,
-    ContactsService.parseContact(values)
-  )
+  updateContact(route.params.id, parseContact(values))
     .then((data) => {
       toast.successAction("contact", "updated");
       resetForm({ values: values });

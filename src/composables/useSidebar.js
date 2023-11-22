@@ -1,4 +1,4 @@
-import { useSidebarStore } from "@/stores/sidebar";
+import { useSidebarStore } from "@/stores/sidebarStore";
 
 export function useSidebar() {
   const sidebarStore = useSidebarStore();

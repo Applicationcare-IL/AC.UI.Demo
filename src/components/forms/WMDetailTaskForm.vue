@@ -423,9 +423,6 @@ import { useListUtilsStore } from "@/stores/listUtils";
 import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
-import { ServicesService } from "@/service/ServicesService";
-
-import { useToast } from "@/stores/toast";
 
 const toast = useToast();
 const { updateTask, parseUpdateTask } = useTasks();
@@ -458,12 +455,13 @@ const props = defineProps({
 });
 
 const { getTaskFromApi } = useTasks();
+const { getService } = useServices();
 
 onMounted(() => {
   getTaskFromApi(route.params.id).then((data) => {
     task.value = data;
     setTimeout(function () {
-      ServicesService.getService(task.value.service_number).then((data) => {
+      getService(task.value.service_number).then((data) => {
         service.value = data;
         console.log(service.value);
       });

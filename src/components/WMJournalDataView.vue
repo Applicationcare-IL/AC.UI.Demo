@@ -1,53 +1,77 @@
 <template>
-    <DataView :value="entries">
-        <template #header>
-            <div class="flex flex-row justify-content-between align-items-center gap-4">
-                <div class="flex justify-content-start gap-2">
-                    <div>
-                        <span class="p-input-icon-left">
-                            <i class="pi pi-search" />
-                            <InputText class="" :placeholder="$t('search')" />
-                        </span>
-                    </div>
-                    <WMButtonSort sortUpLabel="Sort Up" sortDownLabel="Sort Down" >Sort</WMButtonSort>
-                    <WMButton  name="filter" icon="filter" @click="onAttachClick">Attach</WMButton>
-                </div>
+  <DataView :value="entries">
+    <template #header>
+      <div
+        class="flex flex-row justify-content-between align-items-center gap-4"
+      >
+        <div class="flex justify-content-start gap-2">
+          <div>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <InputText class="" :placeholder="$t('search')" />
+            </span>
+          </div>
+          <WMButtonSort sortUpLabel="Sort Up" sortDownLabel="Sort Down"
+            >Sort</WMButtonSort
+          >
+          <WMButton name="filter" icon="filter" @click="onAttachClick"
+            >Attach</WMButton
+          >
+        </div>
+      </div>
+    </template>
+    <template #list="slotProps">
+      <div class="col-12">
+        <div
+          class="flex flex-row align-items-center justify-content-between"
+          style="height: 40px"
+        >
+          <div
+            class="px-2 flex flex-row justify-items-start align-items-center gap-2"
+          >
+            <div
+              class="border-circle bg-gray-50 flex flex-column align-items-center justify-content-center"
+              style="width: 28px; height: 28px"
+            >
+              <img
+                class="mx-2 border-round-sm"
+                :src="`icons/journal/${slotProps.data.type}.svg`"
+                :alt="slotProps.data.name"
+                style="width: 16px; height: 16px"
+              />
             </div>
-        </template>
-        <template #list="slotProps">
-            <div class="col-12">
-                <div class="flex flex-row align-items-center  justify-content-between" style="height: 40px;">
-                    <div class="px-2 flex flex-row justify-items-start align-items-center gap-2">
-                        <div class="border-circle bg-gray-50 flex flex-column align-items-center justify-content-center"
-                             style="width: 28px; height: 28px;">
-                            <img class="mx-2 border-round-sm " :src="`icons/journal/${slotProps.data.type}.svg`"
-                                 :alt="slotProps.data.name" style="width: 16px; height: 16px;" />
-                        </div>
-                        <div>{{ slotProps.data.date }}</div>
-                        <div>{{ slotProps.data.hour }}</div>
-                        <div>{{ slotProps.data.content }}</div>
-                    </div>
-                    <div class="flex flex-row justify-items-end align-items-center gap-2">
-                    <WMButton @click="toggle" aria-haspopup="true" name="kebab" aria-controls="overlay_menu" icon="kebab" />
-                    <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
-                        <template #item="slotProps">
-                            <button @click="profileClick"
-                                    class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2">
-                                <img :src="slotProps.item.image">
-                                <div class="flex flex-column align">
-                                    {{ slotProps.item.label }}
-                                </div>
-                            </button>
-                        </template>
-                    </Menu>
-                </div>
-                </div>
-                
-            </div>
-        </template>
-    </DataView>
-    <!-- <WMButton class="my-3" name="attach" icon="attach" @click="onAttachClick">Attach</WMButton> -->
-    <!-- <div v-if='uploadedFiles.length > 0'>
+            <div>{{ slotProps.data.date }}</div>
+            <div>{{ slotProps.data.hour }}</div>
+            <div>{{ slotProps.data.content }}</div>
+          </div>
+          <div class="flex flex-row justify-items-end align-items-center gap-2">
+            <WMButton
+              @click="toggle"
+              aria-haspopup="true"
+              name="kebab"
+              aria-controls="overlay_menu"
+              icon="kebab"
+            />
+            <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
+              <template #item="slotProps">
+                <button
+                  @click="profileClick"
+                  class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2"
+                >
+                  <img :src="slotProps.item.image" />
+                  <div class="flex flex-column align">
+                    {{ slotProps.item.label }}
+                  </div>
+                </button>
+              </template>
+            </Menu>
+          </div>
+        </div>
+      </div>
+    </template>
+  </DataView>
+  <!-- <WMButton class="my-3" name="attach" icon="attach" @click="onAttachClick">Attach</WMButton> -->
+  <!-- <div v-if='uploadedFiles.length > 0'>
         <span>Uploaded Files</span>
         <div v-for="(file, index) of uploadedFiles" class="flex flex-row justify-content-between align-items-center gap-4">
             {{ file.name }}
@@ -57,46 +81,55 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { JournalService } from '@/service/JournalService';
+
+const { getJournalSmall } = useJournal();
 
 onMounted(() => {
-    setTimeout(function () {
-        JournalService.getJournalSmall().then((data) => (entries.value = data.slice(0, 10)));
-    }, 1000);
+  setTimeout(function () {
+    getJournalSmall().then((data) => (entries.value = data.slice(0, 10)));
+  }, 1000);
 });
 
 const onAttachClick = () => {
-    document.querySelector('.p-fileupload-choose').click();
+  document.querySelector(".p-fileupload-choose").click();
 };
 
 const entries = ref();
-console.log(entries)
+console.log(entries);
 
 const menu = ref();
 const menu2 = ref();
 const items = ref([
-    { label: 'View', image: new URL('/icons/menu/view.svg', import.meta.url).href },
-    { label: 'Share', image: new URL('/icons/menu/share.svg', import.meta.url).href },
-    { label: 'Download', image: new URL('/icons/menu/download.svg', import.meta.url).href },
+  {
+    label: "View",
+    image: new URL("/icons/menu/view.svg", import.meta.url).href,
+  },
+  {
+    label: "Share",
+    image: new URL("/icons/menu/share.svg", import.meta.url).href,
+  },
+  {
+    label: "Download",
+    image: new URL("/icons/menu/download.svg", import.meta.url).href,
+  },
 ]);
 
 const onGridRightClick = (event) => {
-    menu2.value.show(event);
+  menu2.value.show(event);
 };
 
 const toggle = (event) => {
-    menu.value.toggle(event);
+  menu.value.toggle(event);
 };
-
 </script>
 
 <style scoped>
 :deep(.p-fileupload-buttonbar) {
-    display: none;
+  display: none;
 }
 
 :deep(.p-fileupload-content) {
-    padding: 0px;
+  padding: 0px;
 }
 </style>
 ```

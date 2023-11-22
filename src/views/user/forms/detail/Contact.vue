@@ -9,7 +9,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { ContactsService } from "@/service/ContactsService";
 
 const formKey = ref("contactDetailForm");
 const detailContactForm = ref(null);
@@ -18,8 +17,9 @@ const saveForm = () => {
   detailContactForm.value.onSave();
 };
 
+const { updateState } = useContacts();
+
 const updateEntityState = (id, state) => {
-  console.log("updateEntityState", state);
-  ContactsService.updateState(id, state);
+  updateState(id, state);
 };
 </script>

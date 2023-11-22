@@ -137,7 +137,6 @@ import { useI18n } from "vue-i18n";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
 import { useUtilsStore } from "@/stores/utils";
-import { ContactsService } from "@/service/ContactsService";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const i18n = useI18n();
@@ -232,8 +231,10 @@ watch(
 const contacts = ref(props.contacts);
 const lazyParams = ref({});
 
+const { getContactsFromApi } = useContacts();
+
 const loadLazyData = () => {
-  ContactsService.getContactsFromApi({
+  getContactsFromApi({
     page: lazyParams.value.page + 1,
     per_page: props.rows,
     customer_id: props.customer?.id,

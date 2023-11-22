@@ -135,13 +135,12 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
-import { ServicesService } from "@/service/ServicesService";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
 import { useLayout } from "@/layout/composables/layout";
 
-import { useDateFormat, formatDate } from "@vueuse/core";
+import { formatDate } from "@vueuse/core";
 import WMSLATag from "../../../components/WMSLATag.vue";
 
 const { layoutConfig } = useLayout();
@@ -178,14 +177,15 @@ onMounted(() => {
 
 const searchValue = ref("");
 
+const { getServicesFromApi } = useServices();
+
 const loadLazyData = () => {
   loading.value = true;
-  ServicesService.getServicesFromApi({
+  getServicesFromApi({
     page: lazyParams.value.page + 1,
     per_page: listUtilsStore.rows,
     search: searchValue.value,
   }).then((result) => {
-    console.log(result);
     services.value = result.data;
     totalRecords.value = result.totalRecords;
     loading.value = false;

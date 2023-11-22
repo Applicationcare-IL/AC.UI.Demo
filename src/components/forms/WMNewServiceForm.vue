@@ -307,10 +307,7 @@ import { ref, onMounted, watch, defineExpose, defineEmits } from "vue";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useForm, useField } from "vee-validate";
 import { CustomerService } from "@/service/CustomerService";
-import { ContactsService } from "@/service/ContactsService";
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { useToast } from "@/stores/toast";
-import { ServicesService } from "@/service/ServicesService";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -383,15 +380,17 @@ const searchCustomer = (query) => {
   });
 };
 
+const { getContactsFromApi } = useContacts();
+
 const searchContact = (query) => {
-  return ContactsService.getContactsFromApi({
+  return getContactsFromApi({
     search: query,
     customer_id: values.customer?.id,
   });
 };
 
 const searchSiteContact = (query) => {
-  return ContactsService.getContactsFromApi({ search: query });
+  return getContactsFromApi({ search: query });
 };
 
 const descriptionUpdated = () => {
@@ -405,8 +404,10 @@ const { errors, handleSubmit, setFieldError, meta, values } = useForm({
   },
 });
 
+const { createService, parseService } = useServices();
+
 const onSubmit = handleSubmit((values) => {
-  ServicesService.createService(ServicesService.parseService(values))
+  createService(parseService(values))
     .then((data) => {
       dialog.confirmNewService(data.data.id);
       toast.successAction("service", "created");

@@ -189,14 +189,12 @@
 <script setup>
 import { onMounted, watch, defineEmits, defineExpose, ref } from "vue";
 import { CustomerService } from "@/service/CustomerService";
-import { ContactsService } from "@/service/ContactsService";
 
 import { useAuthStore } from "@/stores/auth";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { useToast } from "@/stores/toast";
 
 const props = defineProps({
   isSidebar: {
@@ -257,9 +255,11 @@ const updateStreets = (city) => {
   }
 };
 
+const { createContact, parseContact } = useContacts();
+
 const onSubmit = handleSubmit((values) => {
   console.log("SEND");
-  ContactsService.createContact(ContactsService.parseContact(values))
+  createContact(parseContact(values))
     .then((data) => {
       dialog.confirmNewContact(data.data.id);
       toast.successAction("contact", "created");
