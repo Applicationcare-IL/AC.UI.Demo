@@ -20,7 +20,7 @@ export function useTasks() {
 
     const totalRecords = response.meta.total;
 
-    return { tasks, totalRecords };
+    return { data: tasks, totalRecords };
   };
 
   /**

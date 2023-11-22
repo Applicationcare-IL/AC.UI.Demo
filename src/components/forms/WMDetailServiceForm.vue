@@ -511,7 +511,7 @@ const fetchData = async () => {
     entity_type: "service",
     entity_id: route.params.id,
   });
-  tasks.value = tasksData.tasks;
+  tasks.value = tasksData.data;
 };
 
 const updateDropdown = (optionSet, selectedValue, dropdownOptions) => {

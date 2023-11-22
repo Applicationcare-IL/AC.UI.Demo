@@ -186,8 +186,7 @@ const loadLazyData = () => {
     per_page: listUtilsStore.rows,
     search: searchValue.value,
   }).then((result) => {
-    console.log("cargo", result);
-    services.value = result.services;
+    services.value = result.data;
     totalRecords.value = result.totalRecords;
     loading.value = false;
   });

@@ -14,7 +14,7 @@ export function useServices() {
 
     const totalRecords = response.meta.total;
 
-    return { services, totalRecords };
+    return { data: services, totalRecords };
   };
 
   const getServiceFromApi = async (id) => {

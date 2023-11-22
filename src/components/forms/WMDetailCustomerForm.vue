@@ -458,11 +458,11 @@ const fetchData = async () => {
   const servicesData = await getServicesFromApi({
     customer_id: route.params.id,
   });
-  services.value = servicesData.services;
+  services.value = servicesData.data;
   const tasksData = await getTasksFromApi({
     customer_id: route.params.id,
   });
-  tasks.value = tasksData.tasks;
+  tasks.value = tasksData.data;
 };
 
 const { errors, handleSubmit, setFieldError, meta, resetForm } = useForm({
