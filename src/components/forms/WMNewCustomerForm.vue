@@ -208,7 +208,6 @@ import { useAuthStore } from "@/stores/auth";
 import { CustomerService } from "@/service/CustomerService";
 import { ContactsService } from "@/service/ContactsService";
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { useToast } from "@/stores/toast";
 
 const props = defineProps({
   isSidebar: {

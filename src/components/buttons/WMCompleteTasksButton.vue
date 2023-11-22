@@ -15,7 +15,6 @@ import { ref, watch } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
-import { useToast } from "@/stores/toast";
 import { useI18n } from "vue-i18n";
 
 const { t, locale } = useI18n();

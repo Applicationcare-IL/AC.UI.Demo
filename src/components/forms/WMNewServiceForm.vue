@@ -309,7 +309,6 @@ import { useForm, useField } from "vee-validate";
 import { CustomerService } from "@/service/CustomerService";
 import { ContactsService } from "@/service/ContactsService";
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { useToast } from "@/stores/toast";
 import { useRouter } from "vue-router";
 
 const props = defineProps({

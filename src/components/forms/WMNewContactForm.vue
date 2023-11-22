@@ -196,7 +196,6 @@ import { useAuthStore } from "@/stores/auth";
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { useToast } from "@/stores/toast";
 
 const props = defineProps({
   isSidebar: {

@@ -424,8 +424,6 @@ import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 
-import { useToast } from "@/stores/toast";
-
 const toast = useToast();
 const { updateTask, parseUpdateTask } = useTasks();
 

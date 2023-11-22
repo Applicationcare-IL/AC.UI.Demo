@@ -150,8 +150,6 @@ import { useForm } from "vee-validate";
 import { CustomerService } from "@/service/CustomerService";
 import { ContactsService } from "@/service/ContactsService";
 
-import { useToast } from "@/stores/toast";
-
 const optionSetsStore = useOptionSetsStore();
 
 const { getTasksTypesFromApi, createTask, parseTask } = useTasks();

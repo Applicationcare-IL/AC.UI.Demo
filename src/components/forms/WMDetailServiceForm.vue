@@ -454,7 +454,6 @@ import { useListUtilsStore } from "@/stores/listUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
-import { useToast } from "@/stores/toast";
 
 const { getTasksFromApi } = useTasks();
 const { updateService, parseUpdateService, getServiceFromApi, cancelService } =
