@@ -454,10 +454,11 @@ import { useListUtilsStore } from "@/stores/listUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
-import { ServicesService } from "@/service/ServicesService";
 import { useToast } from "@/stores/toast";
 
 const { getTasksFromApi } = useTasks();
+const { updateService, parseUpdateService, getServiceFromApi, cancelService } =
+  useServices();
 
 const toast = useToast();
 const stages = ref([]);
@@ -495,7 +496,7 @@ onMounted(() => {
 });
 
 const fetchData = async () => {
-  const data = await ServicesService.getServiceFromApi(route.params.id);
+  const data = await getServiceFromApi(route.params.id);
   service.value = data;
   console.log(data.stages);
   stages.value = data.stages.map((stage) => ({
@@ -528,10 +529,7 @@ const { errors, handleSubmit, setFieldError, meta } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  ServicesService.updateService(
-    route.params.id,
-    ServicesService.parseUpdateService(values)
-  )
+  updateService(route.params.id, parseUpdateService(values))
     .then((data) => {
       toast.successAction("service", "updated");
       resetForm({ values: values });
@@ -552,8 +550,8 @@ formUtilsStore.save = onSave;
 formUtilsStore.formEntity = "service";
 utilsStore.entity = "service";
 
-const cancelService = (id) => {
-  ServicesService.cancelService(id, formUtilsStore.cancelServiceReasons)
+const handleCancelService = (id) => {
+  cancelService(id, formUtilsStore.cancelServiceReasons)
     .then((data) => {
       toast.successAction("service", "canceled");
     })
@@ -563,7 +561,7 @@ const cancelService = (id) => {
     });
 };
 
-formUtilsStore.cancelService = cancelService;
+formUtilsStore.cancelService = handleCancelService;
 
 const statusClass = (data) => {
   return listUtilsStore.getStatusConditionalStyle(data);

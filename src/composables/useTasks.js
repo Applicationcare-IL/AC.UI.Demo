@@ -4,6 +4,8 @@ import { SLAS } from "@/constants";
 export function useTasks() {
   const tasksStore = useTasksStore();
 
+  // ACTIONS
+
   /**
    * This function is used to get tasks from the API and maps the response to the required format.
    * @param {*} params
@@ -22,15 +24,6 @@ export function useTasks() {
   };
 
   /**
-   * This function is used to get tasks types from the API.
-   * @param {*} params
-   * @returns {Promise<{tasks: any[]}>}
-   */
-  const getTasksTypesFromApi = async (params) => {
-    return await tasksStore.getTasksTypesFromApi(params);
-  };
-
-  /**
    * This function is used to get task from the API and maps the response to the required format.
    * @param {*} id
    * @returns {Promise<{tasks: any[]}>}
@@ -38,6 +31,15 @@ export function useTasks() {
   const getTaskFromApi = async (id) => {
     const response = await tasksStore.getTaskFromApi(id);
     return mapTask(response.data);
+  };
+
+  /**
+   * This function is used to get tasks types from the API.
+   * @param {*} params
+   * @returns {Promise<{tasks: any[]}>}
+   */
+  const getTasksTypesFromApi = async (params) => {
+    return await tasksStore.getTasksTypesFromApi(params);
   };
 
   const createTask = async (task) => {
@@ -206,22 +208,24 @@ export function useTasks() {
   };
 
   return {
+    // API
     getTasksFromApi,
-    getTasksData,
-    getTasksMini,
-    getTasksSmall,
-    getTasks,
-    getTasksWithOrdersSmall,
-    getTasksWithOrders,
-    getTask,
-    mapTask,
-    parseTask,
-    parseUpdateTask,
     getTasksTypesFromApi,
     getTaskFromApi,
     createTask,
     updateTask,
     completeTask,
     completeTasks,
+    // UTILITIES
+    mapTask,
+    parseTask,
+    parseUpdateTask,
+    // MOCKED DATA
+    getTasksMini,
+    getTasksSmall,
+    getTasks,
+    getTasksWithOrdersSmall,
+    getTasksWithOrders,
+    getTask,
   };
 }

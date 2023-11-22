@@ -310,7 +310,6 @@ import { CustomerService } from "@/service/CustomerService";
 import { ContactsService } from "@/service/ContactsService";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useToast } from "@/stores/toast";
-import { ServicesService } from "@/service/ServicesService";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -405,8 +404,10 @@ const { errors, handleSubmit, setFieldError, meta, values } = useForm({
   },
 });
 
+const { createService, parseService } = useServices();
+
 const onSubmit = handleSubmit((values) => {
-  ServicesService.createService(ServicesService.parseService(values))
+  createService(parseService(values))
     .then((data) => {
       dialog.confirmNewService(data.data.id);
       toast.successAction("service", "created");

@@ -361,7 +361,6 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 import { useRoute } from "vue-router";
 import { ContactsService } from "@/service/ContactsService";
-import { ServicesService } from "@/service/ServicesService";
 
 import { useToast } from "@/stores/toast";
 
@@ -373,6 +372,7 @@ const props = defineProps({
 });
 
 const { getTasksFromApi } = useTasks();
+const { getServicesFromApi } = useServices();
 
 const customers = ref();
 const services = ref();
@@ -407,10 +407,10 @@ const fetchData = async () => {
     utilsStore.selectedElements["contact"] = [contact.value];
     loaded.value = true;
   });
-  const servicesData = await ServicesService.getServicesFromApi({
+  const servicesData = await getServicesFromApi({
     customer_id: route.params.id,
   });
-  services.value = servicesData.data;
+  services.value = servicesData.services;
   const tasksData = await getTasksFromApi({
     customer_id: route.params.id,
   });

@@ -159,19 +159,19 @@
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
 import { CustomerService } from "@/service/CustomerService";
-import { ServicesService } from "@/service/ServicesService";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
 
 const { getTasksMini } = useTasks();
+const { getServicesMini } = useServices();
 
 onMounted(() => {
   utilsStore.entity = "customer";
 
   loadLazyData();
 
-  ServicesService.getServicesMini().then((data) => (services.value = data));
+  getServicesMini().then((data) => (services.value = data));
   getTasksMini().then((data) => (tasks.value = data));
 });
 
