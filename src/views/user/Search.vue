@@ -93,14 +93,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { SearchService } from "@/service/SearchService";
 
 const route = useRoute();
+const { globalSearch } = useSearch();
 
 const searchResults = ref([]);
 
 onMounted(() => {
-  SearchService.globalSearch({ search: route.params.query }).then((result) => {
+  globalSearch({ search: route.params.query }).then((result) => {
     console.log(result);
     searchResults.value = result;
   });
