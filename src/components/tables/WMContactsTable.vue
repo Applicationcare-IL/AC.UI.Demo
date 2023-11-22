@@ -72,7 +72,7 @@
       </template>
       <template v-if="column.type === 'star'" #body="slotProps">
         <div
-          @click="onStarClicked(slotProps.data.contact_id)"
+          @click="onStarClicked(slotProps.data)"
           @mouseover="starHover[slotProps.index] = true"
           @mouseleave="starHover[slotProps.index] = false"
         >
@@ -90,13 +90,14 @@
           />
         </div>
       </template>
-      <template v-if="column.type === 'roleDropdown'" #body="slotProps">
+      <template v-if="column.type === 'role'" #body="slotProps">
         <Dropdown
+          v-if="editMode[slotProps.index]"
           :options="optionSetsStore.optionSets[column.optionSet]"
           optionLabel="value"
-          optionValue="value"
+          optionValue="id"
           class="w-full p-0"
-          v-model="selectedRole[slotProps.index]"
+          v-model="slotProps.data[column.name].id"
           @change="
             emit(
               'update:' + column.name,
@@ -106,19 +107,35 @@
           "
         >
         </Dropdown>
+        <div v-else>
+          {{ slotProps.data[column.name].value }}
+        </div>
       </template>
       <template v-if="column.type === 'actions'" #body="slotProps">
         <div class="flex flex-row gap-2">
           <WMButton
-            v-if="column.buttons?.includes('edit')"
+            v-if="
+              column.buttons?.includes('edit') && !editMode[slotProps.index]
+            "
             name="edit"
             icon="edit"
+            @click="editMode[slotProps.index] = true"
+          />
+          <WMButton
+            v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
+            name="save"
+            icon="save"
+            class="in_table"
+            @click="
+              saveRow(slotProps.data);
+              editMode[slotProps.index] = false;
+            "
           />
           <WMButton
             v-if="column.buttons?.includes('unlink')"
             name="unlink"
             icon="unlink"
-            @click="emit('unlink', slotProps.data.contact_id)"
+            @click="unlinkContact(slotProps.data.contact_id)"
           />
         </div>
       </template>
@@ -138,6 +155,8 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useListUtilsStore } from "@/stores/listUtils";
 import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
+// import { ToastSeverity } from "primevue/api";
+import { CustomerService } from "@/service/CustomerService";
 
 const i18n = useI18n();
 
@@ -183,6 +202,8 @@ const props = defineProps({
   },
 });
 
+const editMode = ref([]);
+
 // If the source of data is external, we don't need to load the
 // data from the API and the functions are dealt internally
 const isSourceExternal = computed(() => {
@@ -213,17 +234,11 @@ watch(locale, () => {
   );
 });
 
-//When the contacts are changed, preselect employee as the default role Value
-const employeeOptionSet = optionSetsStore.optionSets[
-  "contact_customer_role"
-].find((x) => x.value === "employee");
 watch(
   props.contacts,
   (newValue) => {
     if (!isSourceExternal.value || !newValue) return;
-    const lastAddedContact = newValue[props.contacts.length - 1];
-    selectedRole.value[selectedRole.value.length] = "employee";
-    emit("update:role", employeeOptionSet.id, lastAddedContact?.contact_id);
+    editMode.value[props.contacts.length - 1] = true;
   },
   { immediate: true }
 );
@@ -259,14 +274,42 @@ const alertCellConditionalStyle = (data) => {
   return listUtilsStore.getAlertCellConditionalStyle(data);
 };
 
-const onStarClicked = (id) => {
-  if (isSourceExternal.value) emit("update:mainContact", id);
+const onStarClicked = (contact) => {
+  emit("update:mainContact", contact.id);
+  if (!isSourceExternal.value) {
+    const contactParams = { id: contact.id, main: true, role: contact.role };
+    CustomerService.assignContactToCustomer(props.customer.id, contactParams)
+      .then(() => {
+        loadLazyData();
+      })
+      .catch(() => {});
+  }
+};
+
+const unlinkContact = (contactId) => {
+  if (isSourceExternal.value) emit("unlink", contactId);
   else {
-    console.log("onStarClicked");
+    CustomerService.unassignContactFromCustomer(props.customer.id, contactId)
+      .then(() => {
+        loadLazyData();
+      })
+      .catch(() => {});
   }
 };
 
 const onSelectionChanged = () => {
   utilsStore.selectedElements["contact"] = selectedContacts.value;
+};
+
+const saveRow = (contact) => {
+  const contactParams = {
+    id: contact.contact_id,
+    role: contact.role.id,
+  };
+  CustomerService.assignContactToCustomer(props.customer.id, contactParams)
+    .then(() => {
+      loadLazyData();
+    })
+    .catch(() => {});
 };
 </script>

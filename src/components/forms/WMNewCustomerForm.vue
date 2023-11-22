@@ -291,16 +291,6 @@ const searchContact = (query) => {
   });
 };
 
-const updatedRole = (role, id) => {
-  console.log("UPDATED ROLE" + id + " " + role);
-  selectedContacts.value.map((contact) => {
-    if (contact.id === id) {
-      contact.role = role;
-      console.log("UPDATED ROLE OF CONTACT " + contact.id + " " + contact.role);
-    }
-  });
-};
-
 const updatedMainContact = (id) => {
   selectedContacts.value.map((contact) => {
     if (contact.id === id) {
@@ -319,10 +309,19 @@ const unlinkContact = (id) => {
   selectedContacts.value.splice(index, 1);
 };
 
-const onContactselected = (event) => {
-  if (selectedContacts.value.some((contact) => contact.id === event.value.id))
+const defaultRole = optionSetsStore.optionSets["contact_customer_role"].find(
+  (role) => role.value === "employee"
+);
+
+const onContactselected = (newContact) => {
+  if (
+    selectedContacts.value.some((contact) => contact.id === newContact.value.id)
+  )
     return;
-  selectedContacts.value.push(event.value);
+
+  //Select the default role for the new contact and add it to the list of selected contacts
+  newContact.value.role = defaultRole;
+  selectedContacts.value.push(newContact.value);
 };
 
 formUtilsStore.formEntity = "customer";

@@ -66,7 +66,7 @@ export function useContacts() {
       owner: contact.owner,
       gender: contact.gender, //is_male ? 'male' : 'female',
       is_main: contact.is_main,
-      role: contact.role?.value,
+      role: contact.role,
       notes: contact.notes,
       "contact-number": contact.contact_number,
       created_by: contact.last_activity?.creator?.name,

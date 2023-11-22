@@ -69,9 +69,39 @@ export const CustomerService = {
     return axiosConfig
       .get("/customers?search=" + value)
       .then((response) => {
-        // console.log(response)
-        // const customers = response.data.data;
         return response.data.data.length > 0;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  assignContactToCustomer(customerId, contact) {
+    const params = {
+      contact_id: contact.id,
+      customer_id: customerId,
+      main: contact.main,
+      role: contact.role,
+    };
+    return axiosConfig
+      .post("/customers/contacts/", params)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  unassignContactFromCustomer(customerId, contactId) {
+    const params = {
+      contact_id: contactId,
+      customer_id: customerId,
+    };
+    return axiosConfig
+      .delete("/customers/contacts/", params)
+      .then((response) => {
+        return response.data;
       })
       .catch((error) => {
         console.log(error);

@@ -42,12 +42,19 @@ export const useListUtilsStore = defineStore("listUtils", {
           header: "contact.open-tasks",
           class: "numeric",
         },
-        { name: "role", type: "text", header: "role" },
+        {
+          name: "role",
+          type: "role",
+          header: "role",
+          optionSet: "contact_customer_role",
+          class: "p-0",
+        },
         {
           name: "actions",
           type: "actions",
           header: "actions",
           class: "buttons",
+          buttons: ["unlink", "edit"],
         },
       ];
     },
@@ -70,7 +77,7 @@ export const useListUtilsStore = defineStore("listUtils", {
         { name: "email", type: "text" },
         {
           name: "role",
-          type: "roleDropdown",
+          type: "role",
           header: "role",
           optionSet: "contact_customer_role",
           class: "p-0",
@@ -101,7 +108,13 @@ export const useListUtilsStore = defineStore("listUtils", {
         },
         { name: "telephone", type: "text" },
         { name: "email", type: "text" },
-        { name: "role", type: "text", header: "role" },
+        {
+          name: "role",
+          type: "role",
+          header: "role",
+          optionSet: "contact_customer_role",
+          class: "p-0",
+        },
       ];
     },
     getCustomerColumns: () => {
