@@ -20,7 +20,7 @@
           @click="toggleSidebarVisibility"
           >{{ t("new") }}</WMButton
         >
-        <WMAssignButton entity="service" />
+        <WMAssignOwnerButton entity="service" />
         <WMButton class="m-1 col-6" name="export-white" icon="export"
           >ייצוא נתונים</WMButton
         >

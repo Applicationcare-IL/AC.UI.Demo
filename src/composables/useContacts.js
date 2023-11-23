@@ -12,7 +12,7 @@ export function useContacts() {
     });
 
     const totalRecords = response.meta.total;
-
+    console.log(contacts);
     return { data: contacts, totalRecords };
   };
 
