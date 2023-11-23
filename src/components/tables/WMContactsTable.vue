@@ -152,7 +152,7 @@
 import { defineProps, ref, watch, onMounted, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useListUtilsStore } from "@/stores/listUtils";
+
 import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 // import { ToastSeverity } from "primevue/api";
@@ -166,7 +166,7 @@ const selectedContacts = ref(null);
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
-const listUtilsStore = useListUtilsStore();
+
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 const totalRecords = ref(0);
@@ -221,17 +221,14 @@ onMounted(() => {
   }
 });
 
+const { getSelectFilterButtonValues, getAlertCellConditionalStyle } =
+  useListUtils();
+
 const options = ref();
-options.value = listUtilsStore.getSelectFilterButtonValues(
-  "contact.contacts",
-  i18n
-);
+options.value = getSelectFilterButtonValues("contact.contacts", i18n);
 
 watch(locale, () => {
-  options.value = listUtilsStore.getSelectFilterButtonValues(
-    "contact.contacts",
-    i18n
-  );
+  options.value = getSelectFilterButtonValues("contact.contacts", i18n);
 });
 
 watch(
@@ -271,7 +268,7 @@ const isMainContact = (contact) => {
 };
 
 const alertCellConditionalStyle = (data) => {
-  return listUtilsStore.getAlertCellConditionalStyle(data);
+  return getAlertCellConditionalStyle(data);
 };
 
 const onStarClicked = (contact) => {

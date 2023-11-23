@@ -137,7 +137,7 @@
 import { ref, onMounted, computed, watch } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useListUtilsStore } from "@/stores/listUtils";
+
 import { useLayout } from "@/layout/composables/layout";
 
 import { formatDate } from "@vueuse/core";
@@ -145,8 +145,10 @@ import WMSLATag from "../../../components/WMSLATag.vue";
 
 const { layoutConfig } = useLayout();
 const formUtilsStore = useFormUtilsStore();
-const listUtilsStore = useListUtilsStore();
+
 const utilsStore = useUtilsStore();
+
+const { defaultRowsPerPage } = useListUtils();
 
 const loading = ref(false);
 const totalRecords = ref(0);
@@ -183,7 +185,7 @@ const loadLazyData = () => {
   loading.value = true;
   getServicesFromApi({
     page: lazyParams.value.page + 1,
-    per_page: listUtilsStore.rows,
+    per_page: defaultRowsPerPage,
     search: searchValue.value,
   }).then((result) => {
     services.value = result.data;
@@ -241,11 +243,11 @@ const onSelectionChanged = () => {
 
 //Number of rows per page
 const rows = computed(() => {
-  return listUtilsStore.rows;
+  return defaultRowsPerPage;
 });
 
 watch(
-  () => listUtilsStore.rows,
+  () => defaultRowsPerPage,
   () => {
     loadLazyData();
   }

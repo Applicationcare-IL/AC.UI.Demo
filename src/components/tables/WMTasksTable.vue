@@ -104,7 +104,7 @@
 import { defineProps, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { FilterMatchMode } from "primevue/api";
-import { useListUtilsStore } from "@/stores/listUtils";
+
 import { useUtilsStore } from "@/stores/utils";
 
 const { t, locale } = useI18n();
@@ -113,7 +113,7 @@ const selectedTasks = ref([]);
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
-const listUtilsStore = useListUtilsStore();
+
 const utilsStore = useUtilsStore();
 const i18n = useI18n();
 
@@ -133,23 +133,22 @@ const props = defineProps({
   },
 });
 
+const { getSelectFilterButtonValues } = useListUtils();
+
 const options = ref();
-options.value = listUtilsStore.getSelectFilterButtonValues("task.tasks", i18n);
+options.value = getSelectFilterButtonValues("task.tasks", i18n);
 
 watch(locale, () => {
-  options.value = listUtilsStore.getSelectFilterButtonValues(
-    "task.tasks",
-    i18n
-  );
+  options.value = getSelectFilterButtonValues("task.tasks", i18n);
 });
 
 const rowClass = (data) => {
   return [{ inactive_row: !data.is_open }];
 };
 
-const slaClass = (data) => {
-  // return listUtilsStore.getSlaConditionalStyle(data);
-};
+// const slaClass = (data) => {
+// return getSlaConditionalStyle(data);
+// };
 
 const onSelectionChanged = () => {
   console.log(selectedTasks.value);

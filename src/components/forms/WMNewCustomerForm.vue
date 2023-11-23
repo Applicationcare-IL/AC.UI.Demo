@@ -180,7 +180,7 @@
         </div>
         <WMContactsTable
           :contacts="selectedContacts"
-          :columns="listUtilsStore.getSelectedContactsForNewCustomerColumns"
+          :columns="getSelectedContactsForNewCustomerColumns()"
           :showControls="false"
           @update:role="updatedRole"
           @update:mainContact="updatedMainContact"
@@ -202,7 +202,7 @@ import { ref, onMounted, watch, defineEmits } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
-import { useListUtilsStore } from "@/stores/listUtils";
+
 import { useForm } from "vee-validate";
 import { useAuthStore } from "@/stores/auth";
 import { CustomerService } from "@/service/CustomerService";
@@ -221,8 +221,9 @@ const emit = defineEmits(["closeSidebar"]);
 const authStore = useAuthStore();
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
-const listUtilsStore = useListUtilsStore();
 const utilsStore = useUtilsStore();
+
+const { getSelectedContactsForNewCustomerColumns } = useListUtils();
 
 const cities = ref();
 const types = ref(optionSetsStore.optionSets["customer_type"]);
