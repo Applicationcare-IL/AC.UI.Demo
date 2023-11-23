@@ -18,6 +18,14 @@
         :new="true"
         related-sidebar="newContact"
       />
+      <WMButton
+        @click="emit('contactSelected', selectedContact)"
+        class="m-1 col-6"
+        name="basic-secondary"
+        >הקצה
+      </WMButton>
+    </div>
+  </OverlayPanel>
 
       <WMButton
         @click="emit('contactSelected', selectedContact)"

@@ -207,6 +207,19 @@
       }
     }
   },
+  "project": {
+    "status": "Status",
+    "stage": "Stage",
+    "breached_tasks": "Breached Tasks",
+    "open_tasks": "Open Tasks",
+    "project_detail": "Project Detail",
+    "project_area": "Project Area",
+    "project_type": "Project Type",
+    "address": "Address",
+    "city_data": "City Data",
+    "project_name": "Project Name",
+    "project_number": "Project no."
+  },
   "site": {
     "details": "פרטי מיקום",
     "site": "מיקום",

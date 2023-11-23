@@ -3,7 +3,7 @@
     :filterLabels="filterLabels"
     :defaultOption="filterLabels[1]"
     entity="project"
-    @new="displayNewForm"
+    @new="toggleSidebarVisibility"
   >
   </WMListSubHeader>
   <Sidebar
@@ -25,7 +25,7 @@
       dataKey="project_id"
       v-model:expandedRows="expandedRows"
       tableStyle="min-width: 50rem"
-      class="p-datatable-sm"
+      class="p-datatable-sm projects-table"
       paginator
       scrollable
       scrollHeight="flex"
@@ -39,28 +39,33 @@
     >
       <Column expander style="width: 45px" />
       <Column style="width: 40px" selectionMode="multiple"></Column>
-      <Column field="project_number" header="מס’ פרויקט" class="link-col">
+      <Column
+        field="project_number"
+        :header="$t('project.project_number')"
+        class="link-col"
+      >
         <template #body="slotProps">
-          <!-- <router-link
+          <router-link
             :to="{
               name: 'projectDetail',
               params: { id: slotProps.data.project_id },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.project_number }}</router-link
-          > -->
+          >
+            {{ slotProps.data.project_number }}
+          </router-link>
         </template>
       </Column>
-      <Column field="project_name" header="שם פרויקט" />
-      <Column field="city_data" header="מידע עירוני" />
-      <Column field="address" header="כתובת" />
-      <Column field="project_type" header="סוג פרויקט" />
-      <Column field="project_area" header="תחום" />
-      <Column field="project_detail" header="תת-תחום" />
-      <Column field="open_tasks" header="משימות פתוחות" />
-      <Column field="breached_tasks" header="משימות בחריגה" />
-      <Column field="stage" header="שלב" />
-      <Column field="status" header="סטטוס">
+      <Column field="project_name" :header="$t('project.project_name')" />
+      <Column field="city_data" :header="$t('project.city_data')" />
+      <Column field="address" :header="$t('project.address')" />
+      <Column field="project_type" :header="$t('project.project_type')" />
+      <Column field="project_area" :header="$t('project.project_area')" />
+      <Column field="project_detail" :header="$t('project.project_detail')" />
+      <Column field="open_tasks" :header="$t('project.open_tasks')" />
+      <Column field="breached_tasks" :header="$t('project.breached_tasks')" />
+      <Column field="stage" :header="$t('project.stage')" />
+      <Column field="status" :header="$t('project.status')">
         <template #body="slotProps">
           <div
             :class="statusClass(slotProps.data.status)"
@@ -75,28 +80,28 @@
         <DataTable :value="slotProps.data.subProjects" class="subtable">
           <Column style="width: 45px"></Column>
           <Column style="width: 40px" selectionMode="multiple"></Column>
-          <Column field="project_number" header="מס’ פרויקט" class="link-col">
+          <Column field="project_number" class="link-col">
             <template #body="slotProps">
-              <!-- <router-link
-            :to="{
-              name: 'projectDetail',
-              params: { id: slotProps.data.project_id },
-            }"
-            class="vertical-align-middle"
-            >{{ slotProps.data.project_number }}</router-link
-          > -->
+              <router-link
+                :to="{
+                  name: 'projectDetail',
+                  params: { id: slotProps.data.project_id },
+                }"
+                class="vertical-align-middle"
+                >{{ slotProps.data.project_number }}</router-link
+              >
             </template>
           </Column>
-          <Column field="project_name" header="שם פרויקט" />
-          <Column field="city_data" header="מידע עירוני" />
-          <Column field="address" header="כתובת" />
-          <Column field="project_type" header="סוג פרויקט" />
-          <Column field="project_area" header="תחום" />
-          <Column field="project_detail" header="תת-תחום" />
-          <Column field="open_tasks" header="משימות פתוחות" />
-          <Column field="breached_tasks" header="משימות בחריגה" />
-          <Column field="stage" header="שלב" />
-          <Column field="status" header="סטטוס">
+          <Column field="project_name" />
+          <Column field="city_data" />
+          <Column field="address" />
+          <Column field="project_type" />
+          <Column field="project_area" />
+          <Column field="project_detail" />
+          <Column field="open_tasks" />
+          <Column field="breached_tasks" />
+          <Column field="stage" />
+          <Column field="status">
             <template #body="slotProps">
               <div
                 :class="statusClass(slotProps.data.status)"
@@ -114,6 +119,8 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
+
+import { useRouter } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -164,23 +171,11 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-//Display sidebars
-// const customerColumns = ref(getCustomerDetailColumns);
-// const contactDetail = ref(null);
-// const displayDetails = (data) => {
-//     contactDetail.value = data;
-//     isDetailsVisible.value = true;
-// }
-
-// const isDetailsVisible = ref(false);
-// const displayNewForm = () => {
-//     formUtilsStore.expandSidebar = 'newContact';
-// }
-
-//Move to Store
-// const highlightCellClass = (data) => {
-//     return [{ 'bg-red-100 text-red-600': data > 0 }];
-// };
+const router = useRouter();
+const toggleSidebarVisibility = () => {
+  router.push({ name: "newProject" });
+  // formUtilsStore.expandSidebar = "newContact";
+};
 
 const filterLabels = [
   { name: "כל הלקוחות", value: 2 },
@@ -212,13 +207,23 @@ const statusClass = (data) => {
 </script>
 
 <style scoped lang="scss">
-.subtable :deep(.p-datatable-thead th) {
-  padding: 0 0.5rem !important;
-  .p-column-header-content {
-    overflow: hidden;
-    height: 0;
-    margin: 0;
-    padding: 0;
+.projects-table :deep(td) {
+  background: var(--gray-100);
+}
+
+.subtable {
+  :deep(.p-datatable-thead th) {
+    padding: 0 0.5rem !important;
+    .p-column-header-content {
+      overflow: hidden;
+      height: 0;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  :deep(td) {
+    background: var(--gray-50);
   }
 }
 </style>
