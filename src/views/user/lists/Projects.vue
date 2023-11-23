@@ -3,7 +3,7 @@
     :filterLabels="filterLabels"
     :defaultOption="filterLabels[1]"
     entity="project"
-    @new="displayNewForm"
+    @new="toggleSidebarVisibility"
   >
   </WMListSubHeader>
   <Sidebar
@@ -51,8 +51,9 @@
               params: { id: slotProps.data.project_id },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.project_number }}</router-link
           >
+            {{ slotProps.data.project_number }}
+          </router-link>
         </template>
       </Column>
       <Column field="project_name" :header="$t('project.project_name')" />
@@ -119,6 +120,8 @@
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
 
+import { useRouter } from "vue-router";
+
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -168,23 +171,11 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-//Display sidebars
-// const customerColumns = ref(getCustomerDetailColumns);
-// const contactDetail = ref(null);
-// const displayDetails = (data) => {
-//     contactDetail.value = data;
-//     isDetailsVisible.value = true;
-// }
-
-// const isDetailsVisible = ref(false);
-// const displayNewForm = () => {
-//     formUtilsStore.expandSidebar = 'newContact';
-// }
-
-//Move to Store
-// const highlightCellClass = (data) => {
-//     return [{ 'bg-red-100 text-red-600': data > 0 }];
-// };
+const router = useRouter();
+const toggleSidebarVisibility = () => {
+  router.push({ name: "newProject" });
+  // formUtilsStore.expandSidebar = "newContact";
+};
 
 const filterLabels = [
   { name: "כל הלקוחות", value: 2 },

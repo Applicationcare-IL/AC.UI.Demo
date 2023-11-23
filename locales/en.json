@@ -210,6 +210,7 @@
     }
   },
   "project": {
+    "project": "Project",
     "status": "Status",
     "stage": "Stage",
     "breached_tasks": "Breached Tasks",
@@ -220,7 +221,8 @@
     "address": "Address",
     "city_data": "City Data",
     "project_name": "Project Name",
-    "project_number": "Project no."
+    "project_number": "Project no.",
+    "project_description": "Project Description"
   },
   "site": {
     "details": "Site Details",
