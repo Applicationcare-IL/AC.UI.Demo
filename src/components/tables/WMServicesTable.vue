@@ -123,7 +123,7 @@
 import { defineProps, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { FilterMatchMode } from "primevue/api";
-import { useListUtilsStore } from "@/stores/listUtils";
+
 import { useUtilsStore } from "@/stores/utils";
 
 const { t, locale } = useI18n();
@@ -133,7 +133,7 @@ const selectedServices = ref(null);
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
-const listUtilsStore = useListUtilsStore();
+
 const utilsStore = useUtilsStore();
 
 const props = defineProps({
@@ -152,29 +152,26 @@ const props = defineProps({
   },
 });
 
+const { getSelectFilterButtonValues, getPriorityConditionalStyle } =
+  useListUtils();
+
 const options = ref();
-options.value = listUtilsStore.getSelectFilterButtonValues(
-  "service.services",
-  i18n
-);
+options.value = getSelectFilterButtonValues("service.services", i18n);
 
 watch(locale, () => {
-  options.value = listUtilsStore.getSelectFilterButtonValues(
-    "service.services",
-    i18n
-  );
+  options.value = getSelectFilterButtonValues("service.services", i18n);
 });
 
 const rowClass = (data) => {
   return [{ inactive_row: !data.is_active }];
 };
 
-const slaClass = (data) => {
-  // return listUtilsStore.getSlaConditionalStyle(data);
-};
+// const slaClass = (data) => {
+// return getSlaConditionalStyle(data);
+// };
 
 const priorityClass = (data) => {
-  return listUtilsStore.getPriorityConditionalStyle(data);
+  return getPriorityConditionalStyle(data);
 };
 
 const onSelectionChanged = () => {

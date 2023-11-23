@@ -75,7 +75,7 @@
             name="status"
             :highlighted="true"
             type="input-select"
-            :options="listUtilsStore.listRowsPerPage"
+            :options="listRowsPerPage"
             :value="numberOfRows"
           />
         </div>
@@ -86,18 +86,18 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { useListUtilsStore } from "@/stores/listUtils";
 import { useUtilsStore } from "@/stores/utils";
-
 const utilsStore = useUtilsStore();
+
+const { listRowsPerPage, defaultRowsPerPage } = useListUtils();
+
 const menuItems = [
   { label: "Whatsapp", value: "option1" },
   { label: "SMS", value: "option2" },
 ];
 
-const listUtilsStore = useListUtilsStore();
 const numberOfRows = ref(
-  listUtilsStore.listRowsPerPage.find((x) => x.value === listUtilsStore.rows)
+  listRowsPerPage.find((x) => x.value === defaultRowsPerPage)
 );
 
 const props = defineProps({
@@ -114,7 +114,7 @@ const isFilterApplied = ref(false);
 const selectedOption = props.defaultOption;
 
 const onChange = (event) => {
-  listUtilsStore.rows = event.value;
+  defaultRowsPerPage = event.value;
 };
 
 const selectedElements = ref(0);

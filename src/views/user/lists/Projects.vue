@@ -117,7 +117,7 @@ import { ref, onMounted, computed, watch } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useListUtilsStore } from "@/stores/listUtils";
+
 import { useLayout } from "@/layout/composables/layout";
 
 const { layoutConfig } = useLayout();
@@ -130,7 +130,7 @@ onMounted(() => {
 });
 
 const formUtilsStore = useFormUtilsStore();
-const listUtilsStore = useListUtilsStore();
+
 const utilsStore = useUtilsStore();
 
 //Pagination and table content
@@ -142,12 +142,14 @@ const expandedRows = ref([]);
 const loading = ref(false);
 const dt = ref();
 
+const { defaultRowsPerPage, getStatusConditionalStyle } = useListUtils();
+
 const loadLazyData = () => {
   loading.value = true;
 
   getProjectsFromApi({
     page: lazyParams.value.page + 1,
-    per_page: listUtilsStore.rows,
+    per_page: defaultRowsPerPage,
     // search: searchValue.value,
   }).then((data) => {
     console.log("projects", data);
@@ -163,7 +165,7 @@ const onPage = (event) => {
 };
 
 //Display sidebars
-// const customerColumns = ref(listUtilsStore.getCustomerDetailColumns);
+// const customerColumns = ref(getCustomerDetailColumns);
 // const contactDetail = ref(null);
 // const displayDetails = (data) => {
 //     contactDetail.value = data;
@@ -194,18 +196,18 @@ const onSelectionChanged = () => {
 
 //Number of rows per page
 const rows = computed(() => {
-  return listUtilsStore.rows;
+  return defaultRowsPerPage;
 });
 
 watch(
-  () => listUtilsStore.rows,
+  () => defaultRowsPerPage,
   () => {
     loadLazyData();
   }
 );
 
 const statusClass = (data) => {
-  return listUtilsStore.getStatusConditionalStyle(data);
+  return getStatusConditionalStyle(data);
 };
 </script>
 

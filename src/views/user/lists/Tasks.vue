@@ -122,12 +122,10 @@
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
 
-import { useListUtilsStore } from "@/stores/listUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 const { getTasksFromApi } = useTasks();
 
-const listUtilsStore = useListUtilsStore();
 const utilsStore = useUtilsStore();
 const searchValue = ref("");
 
@@ -138,10 +136,12 @@ onMounted(() => {
   loadLazyData();
 });
 
+const { defaultRowsPerPage } = useListUtils();
+
 const loadLazyData = () => {
   getTasksFromApi({
     page: lazyParams.value.page + 1,
-    per_page: listUtilsStore.rows,
+    per_page: defaultRowsPerPage,
     search: searchValue.value,
   }).then((data) => {
     tasks.value = data.data;
@@ -194,7 +194,7 @@ const isAnyRowSelected = computed(() => {
 
 //Number of rows per page
 const rows = computed(() => {
-  return listUtilsStore.rows;
+  return defaultRowsPerPage;
 });
 
 const rowClass = (data) => {

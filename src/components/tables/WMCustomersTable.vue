@@ -126,7 +126,7 @@ import { defineProps, ref, watch, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { FilterMatchMode } from "primevue/api";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useListUtilsStore } from "@/stores/listUtils";
+
 import { useUtilsStore } from "@/stores/utils";
 import { CustomerService } from "@/service/CustomerService";
 
@@ -138,7 +138,7 @@ const selectedCustomers = ref(null);
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
-const listUtilsStore = useListUtilsStore();
+
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 const totalRecords = ref(0);
@@ -170,17 +170,14 @@ onMounted(() => {
   loadLazyData();
 });
 
+const { getSelectFilterButtonValues, getAlertCellConditionalStyle } =
+  useListUtils();
+
 const options = ref();
-options.value = listUtilsStore.getSelectFilterButtonValues(
-  "contact.contacts",
-  i18n
-);
+options.value = getSelectFilterButtonValues("contact.contacts", i18n);
 
 watch(locale, () => {
-  options.value = listUtilsStore.getSelectFilterButtonValues(
-    "contact.contacts",
-    i18n
-  );
+  options.value = getSelectFilterButtonValues("contact.contacts", i18n);
 });
 
 const customers = ref([]);
@@ -203,7 +200,7 @@ const onPage = (event) => {
 };
 
 const alertCellConditionalStyle = (data) => {
-  return listUtilsStore.getAlertCellConditionalStyle(data);
+  return getAlertCellConditionalStyle(data);
 };
 
 const onSelectionChanged = () => {

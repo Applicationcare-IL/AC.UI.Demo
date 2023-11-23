@@ -450,7 +450,7 @@ import { ref, onMounted, watch, defineExpose } from "vue";
 import { useForm } from "vee-validate";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useListUtilsStore } from "@/stores/listUtils";
+
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
@@ -475,13 +475,17 @@ const props = defineProps({
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
-const listUtilsStore = useListUtilsStore();
+
 const service = ref();
 const route = useRoute();
 
-const contactColumns = ref(listUtilsStore.getContactColumns);
-const serviceColumns = ref(listUtilsStore.getServiceColumns);
-const taskColumns = ref(listUtilsStore.getTaskColumns);
+const {
+  getTaskColumns,
+  getStatusConditionalStyle,
+  getPriorityConditionalStyle,
+} = useListUtils();
+
+const taskColumns = ref(getTaskColumns());
 
 const requests2 = ref([]);
 const requests3 = ref([]);
@@ -540,7 +544,7 @@ const onSave = handleSubmit((values) => {
 });
 
 const priorityClass = (data) => {
-  return listUtilsStore.getPriorityConditionalStyle(data);
+  return getPriorityConditionalStyle(data);
 };
 
 // formUtilsStore.submit = onSubmit;
@@ -563,7 +567,7 @@ const handleCancelService = (id) => {
 formUtilsStore.cancelService = handleCancelService;
 
 const statusClass = (data) => {
-  return listUtilsStore.getStatusConditionalStyle(data);
+  return getStatusConditionalStyle(data);
 };
 
 defineExpose({

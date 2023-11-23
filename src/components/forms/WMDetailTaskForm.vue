@@ -419,7 +419,7 @@ import { ref, onMounted, watch, defineExpose } from "vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useListUtilsStore } from "@/stores/listUtils";
+
 import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
@@ -431,7 +431,7 @@ const tasks = ref([]);
 
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
-const listUtilsStore = useListUtilsStore();
+
 const utilsStore = useUtilsStore();
 const task = ref();
 const service = ref();
@@ -442,10 +442,6 @@ const classification4Options =
 const classification5Options =
   optionSetsStore.getOptionSetValues("classification5");
 const statuses = optionSetsStore.getOptionSetValues("status");
-
-const contactColumns = ref(listUtilsStore.getContactColumns);
-const serviceColumns = ref(listUtilsStore.getServiceColumns);
-const taskColumns = ref(listUtilsStore.getTaskColumns);
 
 const props = defineProps({
   formKey: {
@@ -486,8 +482,10 @@ const onSave = handleSubmit((values) => {
     });
 });
 
+const { getStatusConditionalStyle } = useListUtils();
+
 const statusClass = (data) => {
-  return listUtilsStore.getStatusConditionalStyle(data);
+  return getStatusConditionalStyle(data);
 };
 
 watch(

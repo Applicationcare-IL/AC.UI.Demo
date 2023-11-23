@@ -161,7 +161,6 @@ import { ref, onMounted, computed, watch } from "vue";
 import { CustomerService } from "@/service/CustomerService";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useListUtilsStore } from "@/stores/listUtils";
 
 const { getTasksMini } = useTasks();
 const { getServicesMini } = useServices();
@@ -176,8 +175,9 @@ onMounted(() => {
 });
 
 const formUtilsStore = useFormUtilsStore();
-const listUtilsStore = useListUtilsStore();
 const utilsStore = useUtilsStore();
+
+const { defaultRowsPerPage, getContactDetailColumns } = useListUtils();
 
 //Pagination and table content
 const totalRecords = ref(0);
@@ -194,7 +194,7 @@ const loadLazyData = () => {
 
   CustomerService.getCustomersFromApi({
     page: lazyParams.value.page + 1,
-    per_page: listUtilsStore.rows,
+    per_page: defaultRowsPerPage,
     search: searchValue.value,
   }).then((result) => {
     console.log(result);
@@ -224,7 +224,7 @@ function openSidebar() {
 }
 
 //Display sidebars
-const contactColumns = ref(listUtilsStore.getContactDetailColumns);
+const contactColumns = ref(getContactDetailColumns());
 const customerDetail = ref(null);
 const displayDetails = (data) => {
   customerDetail.value = data;
@@ -256,11 +256,11 @@ const onSelectionChanged = () => {
 
 //Number of rows per page
 const rows = computed(() => {
-  return listUtilsStore.rows;
+  return defaultRowsPerPage;
 });
 
 watch(
-  () => listUtilsStore.rows,
+  () => defaultRowsPerPage,
   () => {
     loadLazyData();
   }

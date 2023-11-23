@@ -142,7 +142,6 @@
 import { ref, onMounted, computed, watch } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useListUtilsStore } from "@/stores/listUtils";
 
 import { useLayout } from "@/layout/composables/layout";
 
@@ -160,7 +159,6 @@ onMounted(() => {
 });
 
 const formUtilsStore = useFormUtilsStore();
-const listUtilsStore = useListUtilsStore();
 const utilsStore = useUtilsStore();
 
 //Pagination and table content
@@ -174,13 +172,14 @@ const dt = ref();
 const searchValue = ref("");
 
 const { getContactsFromApi } = useContacts();
+const { getCustomerDetailColumns, defaultRowsPerPage } = useListUtils();
 
 const loadLazyData = () => {
   loading.value = true;
 
   getContactsFromApi({
     page: lazyParams.value.page + 1,
-    per_page: listUtilsStore.rows,
+    per_page: defaultRowsPerPage,
     search: searchValue.value,
   }).then((result) => {
     console.log(result);
@@ -210,7 +209,7 @@ function openSidebar() {
   isVisible.value = true;
 }
 
-const customerColumns = ref(listUtilsStore.getCustomerDetailColumns);
+const customerColumns = ref(getCustomerDetailColumns());
 const contactDetail = ref(null);
 const displayDetails = (data) => {
   contactDetail.value = data;
@@ -250,11 +249,11 @@ const onSelectionChanged = () => {
 
 //Number of rows per page
 const rows = computed(() => {
-  return listUtilsStore.rows;
+  return defaultRowsPerPage;
 });
 
 watch(
-  () => listUtilsStore.rows,
+  () => defaultRowsPerPage,
   () => {
     loadLazyData();
   }

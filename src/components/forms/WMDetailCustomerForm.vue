@@ -354,7 +354,7 @@ import { ref, onMounted, watch, defineExpose } from "vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useListUtilsStore } from "@/stores/listUtils";
+
 import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
@@ -379,7 +379,6 @@ const cities = ref();
 const route = useRoute();
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
-const listUtilsStore = useListUtilsStore();
 
 const utilsStore = useUtilsStore();
 const toast = useToast();
@@ -397,9 +396,16 @@ const statusConditionalStyle = ref("");
 
 const alphabetWithDash = formUtilsStore.getAlphabetWithDash;
 
-const contactColumns = ref(listUtilsStore.getContactColumns);
-const serviceColumns = ref(listUtilsStore.getServiceColumns);
-const taskColumns = ref(listUtilsStore.getTaskColumns);
+const {
+  getContactColumns,
+  getServiceColumns,
+  getTaskColumns,
+  getStatusConditionalStyle,
+} = useListUtils();
+
+const contactColumns = ref(getContactColumns());
+const serviceColumns = ref(getServiceColumns());
+const taskColumns = ref(getTaskColumns());
 
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
 const isProvider = ref("");
@@ -445,7 +451,7 @@ const fetchData = async () => {
       "option-set.customer_status." + customer.value.status.value
     );
 
-    statusConditionalStyle.value = utilsStore.getStatusConditionalStyle(
+    statusConditionalStyle.value = getStatusConditionalStyle(
       customer.value.status.value
     );
     isProvider.value = yesNoOptions.find(
@@ -526,7 +532,7 @@ defineExpose({
 });
 
 const statusClass = (data) => {
-  return listUtilsStore.getStatusConditionalStyle(data);
+  return getStatusConditionalStyle(data);
 };
 </script>
 

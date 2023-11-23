@@ -356,7 +356,7 @@ import { ref, onMounted, watch, defineExpose } from "vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useListUtilsStore } from "@/stores/listUtils";
+
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 import { useRoute } from "vue-router";
@@ -371,13 +371,20 @@ const props = defineProps({
 const { getTasksFromApi } = useTasks();
 const { getServicesFromApi } = useServices();
 
+const {
+  getCustomerColumns,
+  getServiceColumns,
+  getTaskColumns,
+  getStatusConditionalStyle,
+} = useListUtils();
+
 const customers = ref();
 const services = ref();
 const tasks = ref();
 const cities = ref();
 
 const formUtilsStore = useFormUtilsStore();
-const listUtilsStore = useListUtilsStore();
+
 const optionSetsStore = useOptionSetsStore();
 const utilsStore = useUtilsStore();
 const contact = ref();
@@ -388,9 +395,9 @@ const genders = ref(optionSetsStore.optionSets["gender"]);
 
 const loaded = ref(false);
 
-const customerColumns = ref(listUtilsStore.getCustomerColumns);
-const serviceColumns = ref(listUtilsStore.getServiceColumns);
-const taskColumns = ref(listUtilsStore.getTaskColumns);
+const customerColumns = ref(getCustomerColumns());
+const serviceColumns = ref(getServiceColumns());
+const taskColumns = ref(getTaskColumns());
 
 const toast = useToast();
 
@@ -450,7 +457,7 @@ defineExpose({
 });
 
 const statusClass = (data) => {
-  return listUtilsStore.getStatusConditionalStyle(data);
+  return getStatusConditionalStyle(data);
 };
 </script>
 
