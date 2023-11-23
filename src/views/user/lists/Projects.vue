@@ -39,28 +39,32 @@
     >
       <Column expander style="width: 45px" />
       <Column style="width: 40px" selectionMode="multiple"></Column>
-      <Column field="project_number" header="מס’ פרויקט" class="link-col">
+      <Column
+        field="project_number"
+        :header="$t('project.project_number')"
+        class="link-col"
+      >
         <template #body="slotProps">
-          <!-- <router-link
+          <router-link
             :to="{
               name: 'projectDetail',
               params: { id: slotProps.data.project_id },
             }"
             class="vertical-align-middle"
             >{{ slotProps.data.project_number }}</router-link
-          > -->
+          >
         </template>
       </Column>
-      <Column field="project_name" header="שם פרויקט" />
-      <Column field="city_data" header="מידע עירוני" />
-      <Column field="address" header="כתובת" />
-      <Column field="project_type" header="סוג פרויקט" />
-      <Column field="project_area" header="תחום" />
-      <Column field="project_detail" header="תת-תחום" />
-      <Column field="open_tasks" header="משימות פתוחות" />
-      <Column field="breached_tasks" header="משימות בחריגה" />
-      <Column field="stage" header="שלב" />
-      <Column field="status" header="סטטוס">
+      <Column field="project_name" :header="$t('project.project_name')" />
+      <Column field="city_data" :header="$t('project.city_data')" />
+      <Column field="address" :header="$t('project.address')" />
+      <Column field="project_type" :header="$t('project.project_type')" />
+      <Column field="project_area" :header="$t('project.project_area')" />
+      <Column field="project_detail" :header="$t('project.project_detail')" />
+      <Column field="open_tasks" :header="$t('project.open_tasks')" />
+      <Column field="breached_tasks" :header="$t('project.breached_tasks')" />
+      <Column field="stage" :header="$t('project.stage')" />
+      <Column field="status" :header="$t('project.status')">
         <template #body="slotProps">
           <div
             :class="statusClass(slotProps.data.status)"
@@ -75,28 +79,28 @@
         <DataTable :value="slotProps.data.subProjects" class="subtable">
           <Column style="width: 45px"></Column>
           <Column style="width: 40px" selectionMode="multiple"></Column>
-          <Column field="project_number" header="מס’ פרויקט" class="link-col">
+          <Column field="project_number" class="link-col">
             <template #body="slotProps">
-              <!-- <router-link
-            :to="{
-              name: 'projectDetail',
-              params: { id: slotProps.data.project_id },
-            }"
-            class="vertical-align-middle"
-            >{{ slotProps.data.project_number }}</router-link
-          > -->
+              <router-link
+                :to="{
+                  name: 'projectDetail',
+                  params: { id: slotProps.data.project_id },
+                }"
+                class="vertical-align-middle"
+                >{{ slotProps.data.project_number }}</router-link
+              >
             </template>
           </Column>
-          <Column field="project_name" header="שם פרויקט" />
-          <Column field="city_data" header="מידע עירוני" />
-          <Column field="address" header="כתובת" />
-          <Column field="project_type" header="סוג פרויקט" />
-          <Column field="project_area" header="תחום" />
-          <Column field="project_detail" header="תת-תחום" />
-          <Column field="open_tasks" header="משימות פתוחות" />
-          <Column field="breached_tasks" header="משימות בחריגה" />
-          <Column field="stage" header="שלב" />
-          <Column field="status" header="סטטוס">
+          <Column field="project_name" />
+          <Column field="city_data" />
+          <Column field="address" />
+          <Column field="project_type" />
+          <Column field="project_area" />
+          <Column field="project_detail" />
+          <Column field="open_tasks" />
+          <Column field="breached_tasks" />
+          <Column field="stage" />
+          <Column field="status">
             <template #body="slotProps">
               <div
                 :class="statusClass(slotProps.data.status)"
