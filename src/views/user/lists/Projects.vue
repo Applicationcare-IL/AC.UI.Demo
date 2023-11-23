@@ -25,7 +25,7 @@
       dataKey="project_id"
       v-model:expandedRows="expandedRows"
       tableStyle="min-width: 50rem"
-      class="p-datatable-sm"
+      class="p-datatable-sm projects-table"
       paginator
       scrollable
       scrollHeight="flex"
@@ -212,13 +212,23 @@ const statusClass = (data) => {
 </script>
 
 <style scoped lang="scss">
-.subtable :deep(.p-datatable-thead th) {
-  padding: 0 0.5rem !important;
-  .p-column-header-content {
-    overflow: hidden;
-    height: 0;
-    margin: 0;
-    padding: 0;
+.projects-table :deep(td) {
+  background: var(--gray-100);
+}
+
+.subtable {
+  :deep(.p-datatable-thead th) {
+    padding: 0 0.5rem !important;
+    .p-column-header-content {
+      overflow: hidden;
+      height: 0;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  :deep(td) {
+    background: var(--gray-50);
   }
 }
 </style>
