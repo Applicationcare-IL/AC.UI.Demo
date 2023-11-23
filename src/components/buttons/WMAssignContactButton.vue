@@ -27,26 +27,24 @@
     </div>
   </OverlayPanel>
 
-      <WMButton
-        @click="emit('contactSelected', selectedContact)"
-        class="m-1 col-6"
-        name="basic-secondary"
-        >הקצה
-      </WMButton>
-      <WMSidebar
-        :visible="isNewContactSidebarVisible"
-        @close-sidebar="closeNewContactSidebar"
-        @open-sidebar="openNewContactSidebar"
-        name="newContact"
-      >
-        <WMNewEntityFormHeader entity="contact" name="newContact" />
-        <WMNewContactForm
-          :isSidebar="true"
-          @close-sidebar="closeNewContactSidebar"
-        />
-      </WMSidebar>
-    </div>
-  </OverlayPanel>
+  <WMButton
+    @click="emit('contactSelected', selectedContact)"
+    class="m-1 col-6"
+    name="basic-secondary"
+    >הקצה
+  </WMButton>
+  <WMSidebar
+    :visible="isNewContactSidebarVisible"
+    @close-sidebar="closeNewContactSidebar"
+    @open-sidebar="openNewContactSidebar"
+    name="newContact"
+  >
+    <WMNewEntityFormHeader entity="contact" name="newContact" />
+    <WMNewContactForm
+      :isSidebar="true"
+      @close-sidebar="closeNewContactSidebar"
+    />
+  </WMSidebar>
 </template>
 
 <script setup>
