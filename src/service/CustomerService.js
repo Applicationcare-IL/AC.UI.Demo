@@ -84,7 +84,7 @@ export const CustomerService = {
       role: contact.role,
     };
     return axiosConfig
-      .post("/customers/contacts/", params)
+      .post("/customers/contacts", params)
       .then((response) => {
         return response.data;
       })
@@ -99,7 +99,7 @@ export const CustomerService = {
       customer_id: customerId,
     };
     return axiosConfig
-      .delete("/customers/contacts/", params)
+      .delete("/customers/contacts", params)
       .then((response) => {
         return response.data;
       })

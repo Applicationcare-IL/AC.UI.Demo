@@ -1,18 +1,13 @@
 <template>
-  <WMNewEntitySidebar name="newContact" entity="contact" />
+  <!-- <WMNewEntitySidebar name="newContact" entity="contact" /> -->
   <h2 v-if="showControls" class="h2">{{ $t("contact.contact") }}</h2>
   <div v-if="showControls" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMButton
-          @click="formUtilsStore.expandSidebar = 'newContact'"
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          icon-position="right"
-          >{{ t("new") }}</WMButton
-        >
-        <WMAssignButton entity="contact" />
+        <WMAssignContactButton @contactSelected="onContactSelected" />
+        <WMButton class="m-1 col-6" name="export-white" icon="export">
+          ייצוא נתונים
+        </WMButton>
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -45,11 +40,10 @@
     tableStyle="min-width: 50rem"
     scrollable
     :paginator="showControls"
-    :rows="rows"
+    :rows="10"
     @page="onPage($event)"
     :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
-    @update:rows="updatedRows($event)"
   >
     <Column
       v-if="multiselect"
@@ -178,7 +172,7 @@ const emit = defineEmits(["update:role", "unlink", "update:mainContact"]);
 const props = defineProps({
   rows: {
     type: Number,
-    default: 5,
+    default: 10,
   },
   columns: {
     type: Array,
@@ -243,7 +237,9 @@ watch(
   { immediate: true }
 );
 
-const contacts = ref(props.contacts);
+// const contacts = ref(props.contacts);
+const contacts = ref([]);
+
 const lazyParams = ref({});
 
 const { getContactsFromApi } = useContacts();
@@ -264,6 +260,18 @@ const onPage = (event) => {
   loadLazyData();
 };
 
+const defaultRole = optionSetsStore.optionSets["contact_customer_role"].find(
+  (role) => role.value === "employee"
+);
+
+const onContactSelected = (contact) => {
+  console.log("Contact Selected");
+  contact.role = defaultRole;
+  contacts.value.push(contact);
+  editMode.value[contacts.value.length - 1] = true;
+  console.log(contacts.value);
+};
+
 const isMainContact = (contact) => {
   return (
     props.customer?.main_contact?.id == contact.id || contact.main === true
@@ -277,7 +285,7 @@ const alertCellConditionalStyle = (data) => {
 const onStarClicked = (contact) => {
   emit("update:mainContact", contact.id);
   if (!isSourceExternal.value) {
-    const contactParams = { id: contact.id, main: true, role: contact.role };
+    const contactParams = { id: contact.id, main: true, role: contact.role.id };
     CustomerService.assignContactToCustomer(props.customer.id, contactParams)
       .then(() => {
         loadLazyData();

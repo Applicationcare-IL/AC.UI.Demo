@@ -18,7 +18,7 @@
 
           <Divider layout="vertical" />
 
-          <WMAssignButton :entity="utilsStore.entity" />
+          <WMAssignOwnerButton :entity="utilsStore.entity" />
 
           <WMButtonMenu
             class="m-1"

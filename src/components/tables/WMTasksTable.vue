@@ -21,7 +21,7 @@
           @click="toggleSidebarVisibility"
           >{{ t("new") }}</WMButton
         >
-        <WMAssignButton entity="task" />
+        <WMAssignOwnerButton entity="task" />
         <WMCompleteTasksButton entity="task"></WMCompleteTasksButton>
       </div>
       <div class="flex flex-row align-items-center gap-3">

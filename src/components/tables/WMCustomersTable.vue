@@ -12,7 +12,7 @@
           icon-position="right"
           >{{ t("new") }}</WMButton
         >
-        <WMAssignButton entity="customer" />
+        <WMAssignOwnerButton entity="customer" />
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMButton
