@@ -99,7 +99,7 @@ export const CustomerService = {
       customer_id: customerId,
     };
     return axiosConfig
-      .delete("/customers/contacts", params)
+      .delete("/customers/contacts", { data: params })
       .then((response) => {
         return response.data;
       })

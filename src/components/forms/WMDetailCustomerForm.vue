@@ -249,8 +249,7 @@
       <div>
         <WMContactsTable
           :columns="contactColumns"
-          :rows="5"
-          :customer="customer"
+          :customerId="route.params.id"
         >
         </WMContactsTable>
       </div>

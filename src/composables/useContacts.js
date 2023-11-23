@@ -34,15 +34,13 @@ export function useContacts() {
   };
   // UTILITIES
   const mapContact = (contact) => {
+    console.log(contact);
     return {
       id: contact.id,
       contact_id: contact.id,
       name: contact.name + " " + contact.surname,
       firstName: contact.name,
       lastName: contact.surname,
-      contact: "שלומי שבת",
-      customer: "אלעד וילנר",
-      customer_id: "1",
       telephone: contact.phone,
       landline: contact.land_line,
       fax: contact.fax,
@@ -60,12 +58,11 @@ export function useContacts() {
       breached_services: contact.breached_services,
       open_tasks: contact.open_tasks,
       breached_tasks: contact.breached_tasks,
-      staff: "106 מוקד",
       status: contact.status?.value,
       state: contact.state?.value,
       owner: contact.owner,
       gender: contact.gender, //is_male ? 'male' : 'female',
-      is_main: contact.is_main,
+      is_main: contact.main_contact_for,
       role: contact.role,
       notes: contact.notes,
       "contact-number": contact.contact_number,

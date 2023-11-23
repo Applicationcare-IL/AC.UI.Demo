@@ -19,6 +19,12 @@
         related-sidebar="newContact"
       />
 
+      <WMButton
+        @click="emit('contactSelected', selectedContact)"
+        class="m-1 col-6"
+        name="basic-secondary"
+        >הקצה
+      </WMButton>
       <WMSidebar
         :visible="isNewContactSidebarVisible"
         @close-sidebar="closeNewContactSidebar"
@@ -31,13 +37,6 @@
           @close-sidebar="closeNewContactSidebar"
         />
       </WMSidebar>
-
-      <WMButton
-        @click="emit('contactSelected', selectedContact)"
-        class="m-1 col-6"
-        name="basic-secondary"
-        >הקצה
-      </WMButton>
     </div>
   </OverlayPanel>
 </template>
@@ -62,7 +61,6 @@ const { layoutConfig } = useLayout();
 
 const isOpen = ref();
 const toggle = (event) => {
-  console.log("toggle");
   isOpen.value.toggle(event);
 };
 

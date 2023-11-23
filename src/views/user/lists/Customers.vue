@@ -15,7 +15,7 @@
     <h2>{{ customerDetail.name }}</h2>
     <Divider />
     <WMContactsTable
-      :customer="customerDetail"
+      :customerId="customerDetail?.id"
       :columns="contactColumns"
       :showControls="false"
       :rows="5"
