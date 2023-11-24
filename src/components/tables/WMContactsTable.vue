@@ -3,7 +3,7 @@
   <div v-if="showControls" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMAssignContactButton @contactSelected="onContactSelected" />
+        <WMAssignContactButton @addContacts="addContacts" />
         <WMButton class="m-1 col-6" name="export-white" icon="export">
           ייצוא נתונים
         </WMButton>
@@ -265,12 +265,14 @@ const defaultRole = optionSetsStore.optionSets["contact_customer_role"].find(
   (role) => role.value === "employee"
 );
 
-const onContactSelected = (contact) => {
-  console.log("Contact Selected");
-  contact.role = defaultRole;
-  contacts.value.push(contact);
-  editMode.value[contacts.value.length - 1] = true;
-  console.log(contacts.value);
+const addContacts = (addedContacts) => {
+  addedContacts.forEach((contact) => {
+    if (contacts.value.find((c) => c.contact_id === contact.id)) return;
+    contact.role = defaultRole;
+    contact.main = false;
+    contacts.value.push(contact);
+    editMode.value[contacts.value.length - 1] = true;
+  });
 };
 
 const isMainContact = (contact) => {
@@ -294,17 +296,19 @@ const onStarClicked = (contact) => {
       .catch(() => {});
   }
 };
+const toast = useToast();
 
 const unlinkContact = (contactId) => {
   if (isSourceExternal.value) emit("unlink", contactId);
   else {
-    console.log(contactId);
-    console.log(customer.value.id);
     CustomerService.unassignContactFromCustomer(customer.value.id, contactId)
       .then(() => {
         loadLazyData();
+        toast.success("Contact Successfully unlinked");
       })
-      .catch(() => {});
+      .catch(() => {
+        toast.error("Contact unlink Failed");
+      });
   }
 };
 
@@ -320,7 +324,10 @@ const saveRow = (contact) => {
   CustomerService.assignContactToCustomer(customer.value.id, contactParams)
     .then(() => {
       loadLazyData();
+      toast.success("Contact Successfully updated");
     })
-    .catch(() => {});
+    .catch(() => {
+      toast.error("Contact assign Failed");
+    });
 };
 </script>

@@ -34,7 +34,6 @@ export function useContacts() {
   };
   // UTILITIES
   const mapContact = (contact) => {
-    console.log(contact);
     return {
       id: contact.id,
       contact_id: contact.id,

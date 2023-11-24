@@ -8,7 +8,7 @@ export function useToast() {
     toast.add({
       severity: "success",
       summary: i18n.t("toast.success"),
-      detail: i18n.t(message),
+      detail: message,
       life: 3000,
     });
   };

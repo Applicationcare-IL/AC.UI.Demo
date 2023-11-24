@@ -10,29 +10,25 @@
       <WMInputSearch
         name="employeeOrTeam"
         :placeholder="$t('select', ['contact'])"
-        type="input-search"
-        :multiple="false"
+        :multiple="true"
         width="248"
         :searchFunction="searchContact"
-        @change="onContactselected"
+        @update:modelValue="onContactselected"
         :new="true"
         related-sidebar="newContact"
+        :modelValue="selectedContacts"
       />
       <WMButton
-        @click="emit('contactSelected', selectedContact)"
+        @click="
+          emit('addContacts', selectedContacts);
+          closeOverlay();
+        "
         class="m-1 col-6"
         name="basic-secondary"
         >הקצה
       </WMButton>
     </div>
   </OverlayPanel>
-
-  <WMButton
-    @click="emit('contactSelected', selectedContact)"
-    class="m-1 col-6"
-    name="basic-secondary"
-    >הקצה
-  </WMButton>
   <WMSidebar
     :visible="isNewContactSidebarVisible"
     @close-sidebar="closeNewContactSidebar"
@@ -70,15 +66,18 @@ const toggle = (event) => {
   isOpen.value.toggle(event);
 };
 
-const selectedContact = ref();
+const selectedContacts = ref([]);
 
 const searchContact = (query) => {
   return getContactsFromApi({ search: query });
 };
 
-const onContactselected = (contact) => {
-  console.log(contact);
-  selectedContact.value = contact.value;
+const onContactselected = (contacts) => {
+  selectedContacts.value = contacts;
+};
+
+const closeOverlay = () => {
+  isOpen.value.toggle();
 };
 
 // new contact sidebar
