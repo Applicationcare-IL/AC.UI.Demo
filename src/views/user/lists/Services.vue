@@ -126,7 +126,7 @@
           {{ $t("option-set.service_urgent." + slotProps.data.urgency) }}
         </template>
       </Column>
-      <Column field="last_activity" header="שינוי אחרון"></Column>
+      <Column field="last_change" header="שינוי אחרון"></Column>
       <Column field="closed" header="נסגר"></Column>
       <Column field="stage" header="שליחת נציג בטחון"></Column>
     </DataTable>
