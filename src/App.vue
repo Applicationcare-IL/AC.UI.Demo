@@ -4,22 +4,41 @@
     class="flex flex-column justify-content-center h-screen align-items-center"
   >
     <ProgressSpinner />
-    <p class="ml-2">Preloading option sets</p>
+    <p v-if="loadingOptionSets" class="ml-2">Preloading option sets</p>
+    <p v-if="loadingPermissions" class="ml-2">Preloading permissions</p>
   </div>
   <router-view v-else />
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
+import { usePermissionsStore } from "@/stores/PermissionsStore";
 
 const optionSetsStore = useOptionSetsStore();
-const loading = ref(true);
+const permissionsStore = usePermissionsStore();
+const loadingOptionSets = ref(true);
+const loadingPermissions = ref(true);
+
+const loading = computed(
+  () => loadingOptionSets.value || loadingPermissions.value
+);
 
 onMounted(() => {
-  if (!optionSetsStore.isOptionSetsPreloaded)
-    optionSetsStore.preloadOptionSets().then(() => (loading.value = false));
-  else loading.value = false;
+  if (!optionSetsStore.isOptionSetsPreloaded) {
+    optionSetsStore
+      .preloadOptionSets()
+      .then(() => (loadingOptionSets.value = false));
+  } else {
+    loadingOptionSets.value = false;
+  }
+  if (!permissionsStore.isPermissionsLoaded) {
+    permissionsStore
+      .getPermissions()
+      .then(() => (loadingPermissions.value = false));
+  } else {
+    loadingPermissions.value = false;
+  }
 });
 </script>
 

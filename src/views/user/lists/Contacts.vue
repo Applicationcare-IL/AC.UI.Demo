@@ -1,5 +1,6 @@
 <template>
   <WMListSubHeader
+    v-if="permissions.contacts.read"
     :filterLabels="filterLabels"
     :defaultOption="filterLabels[1]"
     entity="contact"
@@ -46,9 +47,9 @@
     <WMNewEntityFormHeader entity="contact" name="newContact" />
     <WMNewContactForm :isSidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
-
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
+      v-if="permissions.contacts.read"
       lazy
       v-model:selection="selectedContacts"
       :value="contacts"
@@ -146,12 +147,15 @@
 import { ref, onMounted, computed, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { usePermissionsStore } from "@/stores/permissionsStore";
 
 import { useLayout } from "@/layout/composables/layout";
 
 const { getTasksMini } = useTasks();
 const { layoutConfig } = useLayout();
 const { getServicesMini } = useServices();
+const permissionsStore = usePermissionsStore();
+const permissions = permissionsStore.permissions;
 
 onMounted(() => {
   utilsStore.entity = "contact";

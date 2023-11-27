@@ -15,9 +15,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
       "service_area",
       "contact_customer_role",
     ],
-    optionSets: localStorage.getItem("optionSets")
-      ? JSON.parse(localStorage.getItem("optionSets"))
-      : {},
+    optionSets: {},
     optionSetsPreloaded: false,
 
     gender: [
