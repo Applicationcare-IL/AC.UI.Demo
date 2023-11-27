@@ -125,7 +125,7 @@
             :options="areas"
             width="152"
             :placeholder="$t('select', ['classification-1'])"
-            @change="updateDropdown('type', $event.value.id, 'types')"
+            @change="updateDropdown('service_type', $event.value.id, 'types')"
           />
 
           <WMInputSearch
@@ -136,7 +136,9 @@
             :options="types"
             width="152"
             :placeholder="$t('select', ['classification-2'])"
-            @change="updateDropdown('request_1', $event.value.id, 'requests1')"
+            @change="
+              updateDropdown('service_request_1', $event.value.id, 'requests1')
+            "
           />
           <WMInputSearch
             name="request1"
@@ -146,7 +148,9 @@
             :options="requests1"
             width="152"
             :placeholder="$t('select', ['classification-3'])"
-            @change="updateDropdown('request2', $event.value.id, 'requests2')"
+            @change="
+              updateDropdown('service_request_2', $event.value.id, 'requests2')
+            "
           />
         </div>
 
@@ -158,7 +162,9 @@
             :options="requests2"
             width="152"
             :placeholder="$t('select', ['classification-4'])"
-            @change="updateDropdown('request3', $event.value.id, 'requests3')"
+            @change="
+              updateDropdown('service_request_3', $event.value.id, 'requests3')
+            "
           />
           <WMInputSearch
             name="request_3"

@@ -37,8 +37,8 @@ export function useServices() {
   // UTILITIES
   const parseService = (service) => {
     return {
-      contact_id: 1, //service.contact.id,
-      customer_id: 1, //service.customer.id,
+      contact_id: service.contact.id,
+      customer_id: service.customer.id,
       urgent: service.priority?.id,
       direction: service.direction?.id,
       channel: service.channel?.id,
@@ -61,6 +61,7 @@ export function useServices() {
   };
 
   const mapService = (service) => {
+    console.log(service.last_activity?.updater.at);
     return {
       id: service.id,
       name: service.id,
@@ -83,7 +84,7 @@ export function useServices() {
       priority: "1",
       recurring: service.recurring == 0 ? "no" : "yes",
       urgency: service.urgent.value,
-      last_change: "",
+      last_change: service.last_activity?.updater.at,
       closed: service.process.closed ? service.process.closed : "--",
       days_for_closing: service.process.sla.days_for_closing,
       days_from_opening_date: service.process.sla.days_from_opening_date,
