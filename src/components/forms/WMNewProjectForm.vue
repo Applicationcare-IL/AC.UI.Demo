@@ -82,7 +82,14 @@
       <Divider class="mb-0" layout="horizontal" />
       <div class="flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">LOCATION</h2>
-        <div class="wm-form-row gap-5"></div>
+        <div class="wm-form-row gap-4">
+          <WMSelectableButton label="city" v-model="showCityDataOptions" />
+          <WMSelectableButton label="address" v-model="showAddressOptions" />
+        </div>
+        <div class="wm-form-row gap-5">
+          <span v-if="showCityDataOptions"> CITY FIELDS </span>
+          <span v-if="showAddressOptions"> ADDRESS FIELDS </span>
+        </div>
       </div>
 
       <Divider class="mb-0" layout="horizontal" />
@@ -148,6 +155,9 @@ const props = defineProps({
 const toast = useToast();
 const dialog = useDialog();
 const formUtilsStore = useFormUtilsStore();
+
+const showCityDataOptions = ref(false);
+const showAddressOptions = ref(false);
 
 const { handleSubmit, values } = useForm({
   // validationSchema: formUtilsStore.getTaskFormValidationSchema,
