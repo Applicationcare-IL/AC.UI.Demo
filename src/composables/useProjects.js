@@ -19,21 +19,24 @@ export function useProjects() {
     return { services, totalRecords };
   };
 
+  const createProject = async (service) => {
+    return await projectsStore.createProject(service);
+  };
+
   // UTILITIES
   const parseProject = (project) => {
-    console.log(project.direction.id);
+    console.log(project);
     return {
-      contact_id: project.contact.id,
-      customer_id: project.customer.id,
-      urgent: project.priority.id,
-      direction: project.direction.id,
-      channel: project.channel.id,
-      priority: project.priority.id,
-      process_definition_id: 1,
-      description: project.description,
-      address: "Address",
-      area_id: project.area?.id,
-      type_id: project.type?.id,
+      project_number: "",
+      project_name: "nobis",
+      city: 2,
+      street: 13,
+      project_type: 19,
+      project_area: 7,
+      project_detail: 1,
+      customer_id: 13,
+      contact_id: 10,
+      process_definition_id: 11,
     };
   };
 
@@ -88,6 +91,7 @@ export function useProjects() {
   return {
     // ACTIONS
     getProjectsFromApi,
+    createProject,
 
     // UTILITIES
     parseProject,

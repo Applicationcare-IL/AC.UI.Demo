@@ -37,121 +37,126 @@
             type="text-area"
             :label="$t('project.project_description') + ':'"
             id="description"
-            name="description"
+            name="project-description"
           />
         </div>
       </div>
+
       <Divider layout="horizontal" />
       <h2 class="h2 my-0">{{ $t("classification") }}</h2>
 
       <div class="wm-form-row align-items-end gap-5">
-        <div class="flex flex-row gap-2 align-items-end">
+        <div class="wm-form-row gap-5">
           <WMInputSearch
-            name="contact"
-            :required="true"
-            :placeholder="$t('select', ['contact'])"
-            type="input-search"
-            :label="$t('contact') + ':'"
-            width="160"
+            name="project_type"
             :highlighted="true"
-            :new="true"
-            related-sidebar="newContact"
-            :searchFunction="searchContact"
+            :required="true"
+            :label="'project type' + ':'"
+            type="input-search"
+            :options="projectTypes"
+            width="152"
+            :placeholder="$t('select', ['classification-1'])"
           />
-          <WMSidebar
-            :visible="isNewContactSidebarVisible"
-            @close-sidebar="closeNewContactSidebar"
-            @open-sidebar="openNewContactSidebar"
-            name="newContact"
-          >
-            <WMNewEntityFormHeader entity="contact" name="newContact" />
-            <WMNewContactForm
-              :isSidebar="true"
-              @close-sidebar="closeNewContactSidebar"
-            />
-          </WMSidebar>
+
+          <WMInputSearch
+            name="project_area"
+            :highlighted="true"
+            :required="true"
+            :label="'project area' + ':'"
+            :options="projectAreas"
+            width="152"
+            :placeholder="$t('select', ['classification-2'])"
+          />
+
+          <WMInputSearch
+            name="project_detail"
+            :highlighted="true"
+            :required="true"
+            :label="'project details' + ':'"
+            :options="projectDetails"
+            width="152"
+            :placeholder="$t('select', ['classification-3'])"
+          />
         </div>
-        <WMInputSearch
-          name="customer"
-          :required="true"
-          :placeholder="$t('select', ['customer'])"
-          type="input-search"
-          :label="$t('customer') + ':'"
-          width="160"
-          :highlighted="true"
-          :searchFunction="searchCustomer"
-          :new="true"
-          related-sidebar="newCustomer"
-        />
-        <WMSidebar
-          :visible="isNewCustomerSidebarVisible"
-          @close-sidebar="closeNewCustomerSidebar"
-          @open-sidebar="openNewCustomerSidebar"
-          name="newCustomer"
-        >
-          <WMNewEntityFormHeader entity="customer" name="newCustomer" />
-          <WMNewCustomerForm
-            :isSidebar="true"
-            @close-sidebar="closeNewCustomerSidebar"
-          />
-        </WMSidebar>
       </div>
-      <div class="wm-form-row align-items-end gap-5">
-        <WMInputSearch
-          name="task-type"
-          :required="true"
-          :placeholder="$t('select', ['task.type'])"
-          type="input-search"
-          :label="$t('task.type') + ':'"
-          width="200"
-          :highlighted="true"
-          :searchFunction="searchTaskTypes"
-        />
-        <WMInputSearch
-          name="task-family"
-          :required="true"
-          :placeholder="$t('select', ['task.family'])"
-          type="input-search"
-          :label="$t('task.family') + ':'"
-          width="200"
-          :highlighted="true"
-          :options="taskFamily"
-        />
-      </div>
-      <Divider class="mb-0" layout="horizontal" />
-      <div class="task-timing flex flex-auto flex-column gap-5">
-        <h2 class="h2 mb-0">Timing</h2>
+
+      <div class="flex flex-auto flex-column gap-5">
+        <h2 class="h2 mb-0">TENDER INFORMATION</h2>
         <div class="wm-form-row gap-5">
           <WMInput
-            name="start_task"
+            name="quality-committee-required"
             type="input-select-button"
             :highlighted="true"
-            :label="'Start task'"
-            :options="startTaskOptions"
-            :value="selectedStartTaskOption"
-            @update:selectedItem="onChange"
+            :label="'quality committee required' + ':'"
+            :options="yesNoOptions"
+            :selectedOption="yesNoOptions[1]"
             width="80"
           />
 
           <WMInput
-            v-if="selectedStartTaskOption.name === 'future'"
+            name="site-tour-needed"
+            type="input-select-button"
+            :highlighted="true"
+            :label="'site tour needed' + ':'"
+            :options="yesNoOptions"
+            :value="isSiteTourNeeded"
+            @update:selectedItem="handleSiteTourNeededOptionsChange"
+            width="80"
+          />
+
+          <WMInput
             type="date"
-            :label="'Start date'"
-            id="description"
-            name="start_date"
+            :label="'Site tour date'"
+            id="site-tour-date"
+            name="site-tour-date"
+            :disabled="!isSiteTourNeeded.value"
+          />
+        </div>
+      </div>
+
+      <Divider class="mb-0" layout="horizontal" />
+      <div class="flex flex-auto flex-column gap-5">
+        <h2 class="h2 mb-0">LOCATION</h2>
+        <div class="wm-form-row gap-4">
+          <WMSelectableButton label="city" v-model="showCityDataOptions" />
+          <WMSelectableButton label="address" v-model="showAddressOptions" />
+        </div>
+        <div class="wm-form-row gap-5">
+          <span v-if="showCityDataOptions"> CITY FIELDS </span>
+          <span v-if="showAddressOptions"> ADDRESS FIELDS </span>
+        </div>
+      </div>
+
+      <Divider class="mb-0" layout="horizontal" />
+
+      <div class="flex flex-auto flex-column gap-5">
+        <h2 class="h2 mb-0">TEAM</h2>
+        <div class="wm-form-row gap-5">
+          <WMInputSearch
+            name="contact"
+            :required="true"
+            :placeholder="$t('select', ['contact'])"
+            type="table"
+            :label="$t('contact') + ':'"
+            width="160"
+            :highlighted="true"
+            :searchFunction="searchContact"
+            :new="true"
+            related-sidebar="newCustomer"
+            @change="onContactselected"
+            :multiple="true"
           />
         </div>
         <div class="wm-form-row gap-5">
-          <WMToggleSwitch v-model="isRecurring" label="Recurring task">
-            Content
-          </WMToggleSwitch>
-        </div>
-      </div>
-      <Divider class="mb-0" layout="horizontal" />
-      <div class="task-description flex flex-auto flex-column gap-5">
-        <h2 class="h2 mb-0">{{ $t("description") }}</h2>
-        <div class="wm-form-row gap-5">
-          <WMInput type="text-area" id="description" name="description" />
+          <WMContactsTable
+            :contacts="selectedContacts"
+            :columns="getSelectedContactsForNewCustomerColumns()"
+            :showControls="false"
+            @update:role="updatedRole"
+            @update:mainContact="updatedMainContact"
+            @unlink="unlinkContact"
+            :multiselect="false"
+          />
         </div>
       </div>
     </div>
@@ -164,19 +169,16 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, defineExpose } from "vue";
+import { ref, defineEmits, defineExpose, onMounted } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 import { useForm } from "vee-validate";
-import { CustomerService } from "@/service/CustomerService";
 
 const optionSetsStore = useOptionSetsStore();
 
-const { getTasksTypesFromApi, createTask, parseTask } = useTasks();
-
-const isRecurring = ref(false);
+const { createProject, parseProject } = useProjects();
 
 const props = defineProps({
   isSidebar: {
@@ -185,16 +187,15 @@ const props = defineProps({
   },
 });
 
-function onChange(value) {
-  selectedStartTaskOption.value = value;
-}
-
 const toast = useToast();
 const dialog = useDialog();
 const formUtilsStore = useFormUtilsStore();
 
+const showCityDataOptions = ref(false);
+const showAddressOptions = ref(false);
+
 const { handleSubmit, values } = useForm({
-  validationSchema: formUtilsStore.getTaskFormValidationSchema,
+  validationSchema: formUtilsStore.getNewProjectFormValidationSchema,
 });
 
 const taskFamily = ref("");
@@ -204,74 +205,95 @@ optionSetsStore.getOptionSetValuesFromApiRaw("task_family").then((data) => {
 
 const emit = defineEmits(["closeSidebar"]);
 
-// new contact sidebar
-const isNewContactSidebarVisible = ref(false);
+const projectTypes = ref([]);
+const projectAreas = ref([]);
+const projectDetails = ref([]);
 
-function openNewContactSidebar() {
-  isNewContactSidebarVisible.value = true;
-}
+const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
+const isSiteTourNeeded = ref(yesNoOptions[1]);
 
-function closeNewContactSidebar() {
-  isNewContactSidebarVisible.value = false;
-}
-
-// new customer sidebar
-const isNewCustomerSidebarVisible = ref(false);
-
-function openNewCustomerSidebar() {
-  isNewCustomerSidebarVisible.value = true;
-}
-
-function closeNewCustomerSidebar() {
-  isNewCustomerSidebarVisible.value = false;
-}
-
-const searchCustomer = (query) => {
-  return CustomerService.getCustomersFromApi({
-    search: query,
-    contact_id: values.contact?.id,
-  });
+const handleSiteTourNeededOptionsChange = (option) => {
+  isSiteTourNeeded.value = option;
 };
 
+onMounted(() => {
+  optionSetsStore
+    .getOptionSetValuesFromApi("project_type")
+    .then((data) => (projectTypes.value = data));
+  optionSetsStore
+    .getOptionSetValuesFromApi("project_area")
+    .then((data) => (projectAreas.value = data));
+  optionSetsStore
+    .getOptionSetValuesFromApiRaw("project_detail")
+    .then((data) => (projectDetails.value = data));
+});
+
+// const updateDropdown = (dropdown, selectedId, dropdownOptions) => {
+//   optionSetsStore
+//     .getOptionSetValuesFromApiRaw(dropdown, selectedId)
+//     .then((data) => {
+//       optionRefs[dropdownOptions].value = data;
+//     });
+// };
+
+// TEAM SECTION
 const { getContactsFromApi } = useContacts();
 
 const searchContact = (query) => {
   return getContactsFromApi({
     search: query,
-    customer_id: values.customer?.id,
   });
 };
 
-const searchTaskTypes = (query) => {
-  return getTasksTypesFromApi({
-    search: query,
-    task_family: values["task-family"].id,
+const defaultRole = optionSetsStore.optionSets["contact_customer_role"].find(
+  (role) => role.value === "employee"
+);
+
+const { getSelectedContactsForNewCustomerColumns } = useListUtils();
+
+const selectedContacts = ref([]);
+const updatedMainContact = (id) => {
+  selectedContacts.value.map((contact) => {
+    if (contact.id === id) {
+      contact.main = true;
+    } else {
+      contact.main = false;
+    }
   });
 };
 
-const selectedStartTaskOption = ref({ name: "now", value: "now" });
-const startTaskOptions = ref([
-  { name: "now", value: "now" },
-  { name: "future", value: "future" },
-]);
+const unlinkContact = (id) => {
+  console.log("UNLINK CONTACT" + id);
+  const index = selectedContacts.value.findIndex((contact) => {
+    return contact.contact_id == id;
+  });
+  selectedContacts.value.splice(index, 1);
+};
+
+const onContactselected = (newContact) => {
+  if (
+    selectedContacts.value.some((contact) => contact.id === newContact.value.id)
+  )
+    return;
+
+  //Select the default role for the new contact and add it to the list of selected contacts
+  newContact.value.role = defaultRole;
+  selectedContacts.value.push(newContact.value);
+};
 
 const onSubmit = handleSubmit((values) => {
-  const today = new Date().toISOString().slice(0, 10);
+  const parsedProject = parseProject(values);
 
-  const task = {
-    ...values,
-    started_at: today,
-    due_date: today, // TODO: change that to the date the user selected
-  };
+  console.log(parsedProject);
 
-  createTask(parseTask(task))
+  createProject(parsedProject)
     .then((data) => {
-      dialog.confirmNewTask(data.data.id);
-      toast.successAction("contact", "created");
+      dialog.confirmNewService(data.data.id);
+      toast.successAction("service", "created");
     })
     .catch((error) => {
       console.log(error);
-      toast.error("contact", "not-created");
+      toast.error("service", "not-created");
     });
 });
 
