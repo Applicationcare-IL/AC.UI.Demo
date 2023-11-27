@@ -38,7 +38,7 @@
       scrollable
       scrollHeight="flex"
       paginator
-      :rows="rows"
+      :rows="selectedRowsPerPage"
       :first="0"
       ref="dt"
       :totalRecords="totalRecords"
@@ -134,7 +134,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, computed, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -148,7 +148,7 @@ const formUtilsStore = useFormUtilsStore();
 
 const utilsStore = useUtilsStore();
 
-const { defaultRowsPerPage } = useListUtils();
+const { selectedRowsPerPage } = useListUtils();
 
 const loading = ref(false);
 const totalRecords = ref(0);
@@ -185,7 +185,7 @@ const loadLazyData = () => {
   loading.value = true;
   getServicesFromApi({
     page: lazyParams.value.page + 1,
-    per_page: defaultRowsPerPage,
+    per_page: selectedRowsPerPage.value,
     search: searchValue.value,
   }).then((result) => {
     services.value = result.data;
@@ -241,17 +241,9 @@ const onSelectionChanged = () => {
   utilsStore.selectedElements["service"] = selectedServices.value;
 };
 
-//Number of rows per page
-const rows = computed(() => {
-  return defaultRowsPerPage;
+watchEffect(() => {
+  loadLazyData();
 });
-
-watch(
-  () => defaultRowsPerPage,
-  () => {
-    loadLazyData();
-  }
-);
 
 watch(
   () => utilsStore.searchString["service"],
