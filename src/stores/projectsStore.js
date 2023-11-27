@@ -33,7 +33,7 @@ export const useProjectsStore = defineStore("projects", {
           console.log(error);
         });
     },
-    createService(project) {
+    createProject(project) {
       return axiosConfig
         .post("/projects", project)
         .then((response) => {

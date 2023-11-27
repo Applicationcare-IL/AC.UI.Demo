@@ -12,7 +12,7 @@ const router = useRouter();
 const newProjectForm = ref(null);
 
 const saveForm = () => {
-  newProjectForm.value.onSave();
+  newProjectForm.value.onSubmit();
 };
 
 const cancelForm = () => {
