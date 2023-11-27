@@ -89,7 +89,7 @@ import { ref, watch } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 const utilsStore = useUtilsStore();
 
-const { listRowsPerPage, defaultRowsPerPage } = useListUtils();
+const { listRowsPerPage, selectedRowsPerPage } = useListUtils();
 
 const menuItems = [
   { label: "Whatsapp", value: "option1" },
@@ -97,7 +97,7 @@ const menuItems = [
 ];
 
 const numberOfRows = ref(
-  listRowsPerPage.find((x) => x.value === defaultRowsPerPage)
+  listRowsPerPage.find((x) => x.value === selectedRowsPerPage.value)
 );
 
 const props = defineProps({
@@ -114,7 +114,7 @@ const isFilterApplied = ref(false);
 const selectedOption = props.defaultOption;
 
 const onChange = (event) => {
-  defaultRowsPerPage = event.value;
+  selectedRowsPerPage.value = event.value;
 };
 
 const selectedElements = ref(0);

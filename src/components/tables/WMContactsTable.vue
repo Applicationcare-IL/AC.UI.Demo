@@ -1,10 +1,9 @@
 <template>
-  <!-- <WMNewEntitySidebar name="newContact" entity="contact" /> -->
   <h2 v-if="showControls" class="h2">{{ $t("contact.contact") }}</h2>
   <div v-if="showControls" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMAssignContactButton @contactSelected="onContactSelected" />
+        <WMAssignContactButton @addContacts="addContacts" />
         <WMButton class="m-1 col-6" name="export-white" icon="export">
           ייצוא נתונים
         </WMButton>
@@ -40,7 +39,7 @@
     tableStyle="min-width: 50rem"
     scrollable
     :paginator="showControls"
-    :rows="10"
+    :rows="props.rows"
     @page="onPage($event)"
     :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
@@ -66,9 +65,11 @@
       </template>
       <template v-if="column.type === 'star'" #body="slotProps">
         <div
-          @click="onStarClicked(slotProps.data)"
-          @mouseover="starHover[slotProps.index] = true"
-          @mouseleave="starHover[slotProps.index] = false"
+          @click="
+            editMode[slotProps.index] &&
+              !isMainContact(slotProps.data) &&
+              onStarClicked(slotProps.data)
+          "
         >
           <img
             v-if="isMainContact(slotProps.data)"
@@ -77,7 +78,7 @@
             class="vertical-align-middle"
           />
           <img
-            v-if="starHover[slotProps.index] && !isMainContact(slotProps.data)"
+            v-if="editMode[slotProps.index] && !isMainContact(slotProps.data)"
             src="/icons/star_grey.svg"
             alt=""
             class="vertical-align-middle"
@@ -149,7 +150,6 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 
 import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
-// import { ToastSeverity } from "primevue/api";
 import { CustomerService } from "@/service/CustomerService";
 
 const i18n = useI18n();
@@ -186,8 +186,8 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  customer: {
-    type: Object,
+  customerId: {
+    type: String,
     default: null,
   },
   contacts: {
@@ -236,16 +236,20 @@ watch(
 
 // const contacts = ref(props.contacts);
 const contacts = ref([]);
+const customer = ref();
 
 const lazyParams = ref({});
 
 const { getContactsFromApi } = useContacts();
 
-const loadLazyData = () => {
+const loadLazyData = async () => {
+  await CustomerService.getCustomerFromApi(props.customerId).then((data) => {
+    customer.value = data;
+  });
   getContactsFromApi({
     page: lazyParams.value.page + 1,
     per_page: props.rows,
-    customer_id: props.customer?.id,
+    customer_id: customer.value.id,
   }).then((result) => {
     contacts.value = result.data;
     totalRecords.value = result.totalRecords;
@@ -261,17 +265,19 @@ const defaultRole = optionSetsStore.optionSets["contact_customer_role"].find(
   (role) => role.value === "employee"
 );
 
-const onContactSelected = (contact) => {
-  console.log("Contact Selected");
-  contact.role = defaultRole;
-  contacts.value.push(contact);
-  editMode.value[contacts.value.length - 1] = true;
-  console.log(contacts.value);
+const addContacts = (addedContacts) => {
+  addedContacts.forEach((contact) => {
+    if (contacts.value.find((c) => c.contact_id === contact.id)) return;
+    contact.role = defaultRole;
+    contact.main = false;
+    contacts.value.push(contact);
+    editMode.value[contacts.value.length - 1] = true;
+  });
 };
 
 const isMainContact = (contact) => {
   return (
-    props.customer?.main_contact?.id == contact.id || contact.main === true
+    customer.value?.main_contact?.id == contact.id || contact.main === true
   );
 };
 
@@ -283,22 +289,26 @@ const onStarClicked = (contact) => {
   emit("update:mainContact", contact.id);
   if (!isSourceExternal.value) {
     const contactParams = { id: contact.id, main: true, role: contact.role.id };
-    CustomerService.assignContactToCustomer(props.customer.id, contactParams)
+    CustomerService.assignContactToCustomer(customer.value.id, contactParams)
       .then(() => {
         loadLazyData();
       })
       .catch(() => {});
   }
 };
+const toast = useToast();
 
 const unlinkContact = (contactId) => {
   if (isSourceExternal.value) emit("unlink", contactId);
   else {
-    CustomerService.unassignContactFromCustomer(props.customer.id, contactId)
+    CustomerService.unassignContactFromCustomer(customer.value.id, contactId)
       .then(() => {
         loadLazyData();
+        toast.success("Contact Successfully unlinked");
       })
-      .catch(() => {});
+      .catch(() => {
+        toast.error("Contact unlink Failed");
+      });
   }
 };
 
@@ -311,10 +321,13 @@ const saveRow = (contact) => {
     id: contact.contact_id,
     role: contact.role.id,
   };
-  CustomerService.assignContactToCustomer(props.customer.id, contactParams)
+  CustomerService.assignContactToCustomer(customer.value.id, contactParams)
     .then(() => {
       loadLazyData();
+      toast.success("Contact Successfully updated");
     })
-    .catch(() => {});
+    .catch(() => {
+      toast.error("Contact assign Failed");
+    });
 };
 </script>

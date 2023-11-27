@@ -1,5 +1,7 @@
 import { ref } from "vue";
 
+const selectedRowsPerPage = ref(15);
+
 export function useListUtils() {
   const listRowsPerPage = [
     { label: "15", value: 15 },
@@ -7,8 +9,6 @@ export function useListUtils() {
     { label: "50", value: 50 },
     { label: "100", value: 100 },
   ];
-
-  const defaultRowsPerPage = ref(15);
 
   // LIST TABLE COLUMNS
   const getContactColumns = () => {
@@ -317,7 +317,7 @@ export function useListUtils() {
 
   return {
     listRowsPerPage,
-    defaultRowsPerPage,
+    selectedRowsPerPage,
     // LIST TABLE COLUMNS
     getContactColumns,
     getSelectedContactsForNewCustomerColumns,

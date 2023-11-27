@@ -58,7 +58,7 @@
       paginator
       scrollable
       scrollHeight="flex"
-      :rows="rows"
+      :rows="selectedRowsPerPage"
       :first="0"
       ref="dt"
       :totalRecords="totalRecords"
@@ -93,13 +93,17 @@
       <Column field="customer" header="לקוח" class="link-col">
         <template #body="slotProps">
           <router-link
-            v-if="slotProps.data.customer.id"
+            v-if="slotProps.data.customer?.id"
             :to="{
               name: 'customerDetail',
-              params: { id: slotProps.data.customer.id },
+              params: { id: slotProps.data.customer?.id },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.customer.name }}</router-link
+            >{{
+              slotProps.data.customer.name +
+              " " +
+              slotProps.data.customer.surname
+            }}</router-link
           >
         </template>
       </Column>
@@ -139,7 +143,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, computed, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -172,14 +176,14 @@ const dt = ref();
 const searchValue = ref("");
 
 const { getContactsFromApi } = useContacts();
-const { getCustomerDetailColumns, defaultRowsPerPage } = useListUtils();
+const { getCustomerDetailColumns, selectedRowsPerPage } = useListUtils();
 
 const loadLazyData = () => {
   loading.value = true;
 
   getContactsFromApi({
     page: lazyParams.value.page + 1,
-    per_page: defaultRowsPerPage,
+    per_page: selectedRowsPerPage.value,
     search: searchValue.value,
   }).then((result) => {
     console.log(result);
@@ -247,17 +251,9 @@ const onSelectionChanged = () => {
   utilsStore.selectedElements["contact"] = selectedContacts.value;
 };
 
-//Number of rows per page
-const rows = computed(() => {
-  return defaultRowsPerPage;
+watchEffect(() => {
+  loadLazyData();
 });
-
-watch(
-  () => defaultRowsPerPage,
-  () => {
-    loadLazyData();
-  }
-);
 
 watch(
   () => utilsStore.searchString["contact"],

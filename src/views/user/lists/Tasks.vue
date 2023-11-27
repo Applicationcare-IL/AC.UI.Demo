@@ -29,7 +29,7 @@
       scrollable
       scrollHeight="flex"
       paginator
-      :rows="rows"
+      :rows="selectedRowsPerPage"
       :first="0"
       ref="dt"
       :totalRecords="totalRecords"
@@ -120,7 +120,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, computed, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
@@ -136,12 +136,12 @@ onMounted(() => {
   loadLazyData();
 });
 
-const { defaultRowsPerPage } = useListUtils();
+const { selectedRowsPerPage } = useListUtils();
 
 const loadLazyData = () => {
   getTasksFromApi({
     page: lazyParams.value.page + 1,
-    per_page: defaultRowsPerPage,
+    per_page: selectedRowsPerPage.value,
     search: searchValue.value,
   }).then((data) => {
     tasks.value = data.data;
@@ -192,9 +192,8 @@ const isAnyRowSelected = computed(() => {
   return selectedTasks?.value.length > 0;
 });
 
-//Number of rows per page
-const rows = computed(() => {
-  return defaultRowsPerPage;
+watchEffect(() => {
+  loadLazyData();
 });
 
 const rowClass = (data) => {
