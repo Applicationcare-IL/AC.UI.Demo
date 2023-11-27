@@ -186,6 +186,12 @@ export const useFormUtilsStore = defineStore("formUtils", {
         return state.formMetas.find((meta) => meta.key === key);
       };
     },
+    getNewProjectFormValidationSchema: (state) => {
+      return yup.object({
+        "project-name": yup.string().required(),
+        "project-description": yup.string().required(),
+      });
+    },
   },
   actions: {
     closeForm() {

@@ -149,14 +149,14 @@ const expandedRows = ref([]);
 const loading = ref(false);
 const dt = ref();
 
-const { defaultRowsPerPage, getStatusConditionalStyle } = useListUtils();
+const { selectedRowsPerPage, getStatusConditionalStyle } = useListUtils();
 
 const loadLazyData = () => {
   loading.value = true;
 
   getProjectsFromApi({
     page: lazyParams.value.page + 1,
-    per_page: defaultRowsPerPage,
+    per_page: selectedRowsPerPage,
     // search: searchValue.value,
   }).then((data) => {
     console.log("projects", data);
@@ -191,11 +191,11 @@ const onSelectionChanged = () => {
 
 //Number of rows per page
 const rows = computed(() => {
-  return defaultRowsPerPage;
+  return selectedRowsPerPage;
 });
 
 watch(
-  () => defaultRowsPerPage,
+  () => selectedRowsPerPage,
   () => {
     loadLazyData();
   }

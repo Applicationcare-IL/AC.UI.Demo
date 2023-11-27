@@ -37,7 +37,7 @@
             type="text-area"
             :label="$t('project.project_description') + ':'"
             id="description"
-            name="description"
+            name="project-description"
           />
         </div>
       </div>
@@ -160,7 +160,7 @@ const showCityDataOptions = ref(false);
 const showAddressOptions = ref(false);
 
 const { handleSubmit, values } = useForm({
-  // validationSchema: formUtilsStore.getTaskFormValidationSchema,
+  validationSchema: formUtilsStore.getNewProjectFormValidationSchema,
 });
 
 const taskFamily = ref("");
