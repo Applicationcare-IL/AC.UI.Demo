@@ -249,7 +249,7 @@ const onSubmit = handleSubmit((values) => {
   const contacts = selectedContacts.value.map((contact) => {
     return {
       id: contact.id,
-      role: contact.role,
+      role: contact.role.id,
       main: contact.main,
     };
   });
@@ -321,7 +321,7 @@ const onContactselected = (newContact) => {
     return;
 
   //Select the default role for the new contact and add it to the list of selected contacts
-  newContact.value.role = defaultRole;
+  newContact.value.role = { ...defaultRole };
   selectedContacts.value.push(newContact.value);
 };
 

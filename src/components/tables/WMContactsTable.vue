@@ -92,7 +92,7 @@
           optionLabel="value"
           optionValue="id"
           class="w-full p-0"
-          v-model="slotProps.data[column.name].id"
+          v-model="slotProps.data.role.id"
           @change="
             emit(
               'update:' + column.name,
@@ -203,8 +203,6 @@ const editMode = ref([]);
 const isSourceExternal = computed(() => {
   return props.contacts != null;
 });
-
-const starHover = ref([]);
 
 onMounted(() => {
   if (isSourceExternal.value) {
