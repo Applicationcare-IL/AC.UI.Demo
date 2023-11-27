@@ -112,7 +112,12 @@
           : $t(errorMessage.key, errorMessage.values)
       }}
     </span>
-    <Calendar unstyled v-if="type === 'date'" v-model="value" showIcon />
+    <Calendar
+      v-if="type === 'date'"
+      v-model="value"
+      showIcon
+      :disabled="props.disabled"
+    />
     <slot></slot>
   </div>
 </template>
@@ -203,4 +208,12 @@ const {
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+// disabled calendar
+:deep(.p-calendar) {
+  &.p-calendar-disabled {
+    background: var(--gray-500);
+    cursor: not-allowed;
+  }
+}
+</style>
