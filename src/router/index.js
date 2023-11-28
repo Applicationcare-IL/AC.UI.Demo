@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import AppLayout from "@/layout/AppLayout.vue";
 import { useAuthStore } from "@/stores/auth";
+import { usePermissionsStore } from "@/stores/permissionsStore";
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -34,6 +35,9 @@ const router = createRouter({
         {
           path: "/contacts",
           name: "contacts",
+          meta: {
+            permissions: "contacts.read",
+          },
           component: () => import("@/views/user/lists/Contacts.vue"),
         },
         {
@@ -113,6 +117,13 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
+  const permissionsStore = usePermissionsStore();
+
+  if (to.meta.permissions) {
+    if (!permissionsStore.can(to.meta.permissions)) {
+      next("/dashboard");
+    }
+  }
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next("/login");
