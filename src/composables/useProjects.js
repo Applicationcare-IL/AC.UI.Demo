@@ -157,7 +157,36 @@ export function useProjects() {
           sla: "no_breach",
         },
         current_stage: null,
-        stages: [],
+        stages: [
+          {
+            id: 7388,
+            name: "stage",
+            order: 0,
+            completed_at: null,
+            sla: {
+              due_date: "2023-12-05",
+              days_from_opening_date: null,
+              days_for_closing: null,
+              sla_date: "2023-12-04",
+              sla: "no_breach",
+            },
+            is_current: 0,
+          },
+          {
+            id: 7389,
+            name: "stage",
+            order: 1,
+            completed_at: null,
+            sla: {
+              due_date: "2023-12-11",
+              days_from_opening_date: null,
+              days_for_closing: null,
+              sla_date: "2023-12-07",
+              sla: "no_breach",
+            },
+            is_current: 0,
+          },
+        ],
       },
     };
   };

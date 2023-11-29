@@ -15,70 +15,15 @@
           <WMAnnouncementsButton entity="projects" :id="route.params.id" />
         </div>
       </div>
-      <div class="flex flex-row gap-5 flex-wrap"></div>
+
+      <div class="flex-1 card-container top-info-card">
+        <Card>
+          <template #title> Budget </template>
+          <template #content> Budget </template>
+        </Card>
+      </div>
+
       <!-- <div class="flex-1 card-container top-info-card">
-          <Card>
-            <template #title>
-              <div class="flex flex-row justify-content-between">
-                {{ $t("address.address") }}
-                <WMButton name="location" icon="location" @click="">{{
-                  $t("location")
-                }}</WMButton>
-              </div>
-            </template>
-            <template #content>
-              <div class="flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="city"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('address.city') + ':'"
-                    :value="service.location.city"
-                  />
-                  <WMInput
-                    name="street"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('address.street') + ':'"
-                    :value="service.location.street"
-                  />
-                </div>
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="house-number"
-                    type="info"
-                    :label="$t('address.house-number') + ':'"
-                    width="48"
-                    :value="service.location.house_number"
-                  ></WMInput>
-                  <WMInput
-                    name="apartment"
-                    type="info"
-                    :label="$t('address.apartment') + ':'"
-                    width="48"
-                    :value="service.location.apartment"
-                  />
-                  <WMInput
-                    name="entrance"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('address.entrance') + ':'"
-                    :value="service.location.entrance"
-                  />
-                  <WMInput
-                    name="zip"
-                    type="info"
-                    :label="$t('address.zip') + ':'"
-                    width="80"
-                    :value="service.location.zip"
-                  />
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div>
-        <div class="flex-1 card-container top-info-card">
           <Card>
             <template #title>
               {{ $t("site.details") }}
@@ -134,8 +79,8 @@
               </div>
             </template>
           </Card>
-        </div>
-      </div> -->
+        </div> -->
+
       <!-- <div class="flex flex-row gap-5 flex-wrap">
         <div class="card-container middle-info-card flex-1">
           <Card>
@@ -230,18 +175,33 @@
         </div>
       </div> -->
 
-      <!-- <div class="mt-5">
+      <div class="mt-5">
         <WMStepper
           :steps="stages"
           :currentStep="currentStage"
           aria-label="Form Steps"
         />
-      </div> -->
+      </div>
 
-      <!-- <div>
-        <WMTasksTable :tasks="tasks" :columns="taskColumns" multiselect>
-        </WMTasksTable>
-      </div> -->
+      <Accordion>
+        <AccordionTab header="Journal"> Journal </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="Tasks"> Tasks </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="Gantt"> Gantt </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="Team"> Team </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="Documents"> Documents </AccordionTab>
+      </Accordion>
 
       <div class="flex-1 tabs-container mt-5">
         <TabView>
@@ -375,12 +335,12 @@ const fetchData = async () => {
   const data = await getProjectFromApi(route.params.id);
   project.value = data;
 
-  // stages.value = data.stages.map((stage) => ({
-  //   label: stage.name,
-  //   date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
-  // }));
+  stages.value = data.process.stages.map((stage) => ({
+    label: stage.name,
+    date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
+  }));
 
-  // currentStage.value = data.current_stage?.order - 1;
+  currentStage.value = data.current_stage?.order - 1;
 
   // const tasksData = await getTasksFromApi({
   //   entity_type: "service",
