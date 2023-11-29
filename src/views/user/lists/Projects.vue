@@ -6,16 +6,17 @@
     @new="toggleSidebarVisibility"
   >
   </WMListSubHeader>
-  <Sidebar
-    v-model:visible="isDetailsVisible"
-    class="details-sidebar w-6"
-    :showCloseIcon="false"
-    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+
+  <WMSidebar
+    :visible="isVisible"
+    @close-sidebar="closeSidebar"
+    @open-sidebar="openSidebar"
+    name="newTask"
   >
-    <h2>{{ projectDetail.name }}</h2>
-    <Divider />
-    <!-- <WMCustomersTable :contact="projectDetail" :columns="customerColumns" :showControls="false" :rows="5" /> -->
-  </Sidebar>
+    <WMNewEntityFormHeader entity="project" name="newProject" />
+    <WMNewProjectForm :isSidebar="true" @close-sidebar="closeSidebar" />
+  </WMSidebar>
+
   <WMNewEntitySidebar name="newProject" entity="project" />
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
@@ -63,13 +64,35 @@
       <Column field="project_area" :header="$t('project.project_area')" />
       <Column field="project_detail" :header="$t('project.project_detail')" />
       <Column field="open_tasks" :header="$t('project.open_tasks')" />
-      <Column field="breached_tasks" :header="$t('project.breached_tasks')" />
+      <Column
+        field="breached_tasks"
+        :header="$t('project.breached_tasks')"
+        class="filled-td"
+      >
+        <template #body="slotProps">
+          <div
+            :class="
+              slotProps.data.breached_tasks >= 0
+                ? 'bg-red-100 text-red-900'
+                : ''
+            "
+            class="breached-tasks h-full w-full text-center"
+          >
+            {{ slotProps.data.breached_tasks }}
+          </div>
+        </template>
+      </Column>
+
       <Column field="stage" :header="$t('project.stage')" />
-      <Column field="status" :header="$t('project.status')">
+      <Column
+        field="status"
+        :header="$t('project.status')"
+        class="p-0 filled-td"
+      >
         <template #body="slotProps">
           <div
             :class="statusClass(slotProps.data.status)"
-            class="status-label w-full"
+            class="status-label h-full w-full"
           >
             {{ slotProps.data.status }}
           </div>
@@ -171,12 +194,6 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const router = useRouter();
-const toggleSidebarVisibility = () => {
-  router.push({ name: "newProject" });
-  // formUtilsStore.expandSidebar = "newContact";
-};
-
 const filterLabels = [
   { name: "כל הלקוחות", value: 2 },
   { name: "הלקוחות שלי", value: 1 },
@@ -193,6 +210,21 @@ const onSelectionChanged = () => {
 const rows = computed(() => {
   return selectedRowsPerPage;
 });
+
+// new project sidebar
+const isVisible = ref(false);
+
+function toggleSidebarVisibility() {
+  isVisible.value = !isVisible.value;
+}
+
+function closeSidebar() {
+  isVisible.value = false;
+}
+
+function openSidebar() {
+  isVisible.value = true;
+}
 
 watch(
   () => selectedRowsPerPage,
@@ -211,6 +243,17 @@ const statusClass = (data) => {
   background: var(--gray-100);
 }
 
+.breached-tasks {
+  display: flex;
+  width: 72px;
+  height: 24px;
+  padding: 10px 8px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
 .subtable {
   :deep(.p-datatable-thead th) {
     padding: 0 0.5rem !important;
@@ -225,5 +268,12 @@ const statusClass = (data) => {
   :deep(td) {
     background: var(--gray-50);
   }
+}
+
+:deep(.filled-td) {
+  text-align: center !important;
+  padding: 0px !important;
+  line-height: 24px;
+  font-weight: 700;
 }
 </style>

@@ -461,6 +461,7 @@ a {
 .p-calendar{
     border: 1px solid var(--gray-400);
     border-radius: 4px;
+
  &.p-calendar-w-btn{
 
         .p-inputtext{
@@ -473,6 +474,11 @@ a {
             border: none;
             color: var(--gray-700);
         }
+    }
+
+    &.p-calendar-disabled{
+        background: var(--gray-100);
+        cursor: not-allowed;
     }
 }
 
