@@ -9,18 +9,25 @@ export function useProjects() {
 
     const response = await projectsStore.getProjectsFromApi(params);
 
-    const services = response.data.map((project) => {
-      //   return mapService(service);
+    const projects = response.data.map((project) => {
+      //   return mapProject(project);
       return project;
     });
 
     const totalRecords = response.meta.total;
 
-    return { services, totalRecords };
+    return { projects, totalRecords };
   };
 
-  const createProject = async (service) => {
-    return await projectsStore.createProject(service);
+  const getProjectFromApi = async (id) => {
+    return getMockedProjectResponse();
+
+    const response = await projectsStore.getProjectFromApi(id);
+    return mapProject(response.data);
+  };
+
+  const createProject = async (project) => {
+    return await projectsStore.createProject(project);
   };
 
   // UTILITIES
@@ -88,10 +95,78 @@ export function useProjects() {
     return { data: projects, totalRecords: 1000 };
   };
 
+  const getMockedProjectResponse = () => {
+    return {
+      id: 1,
+      project_number: "003-02-2022",
+      project_name: "Project Name",
+      state: "active",
+      city: {
+        id: 1822,
+        value: "tel-aviv-yafo",
+      },
+      street: {
+        id: 1823,
+        value: "yehuda-hehasid-street",
+      },
+      project_type: {
+        id: 1892,
+        value: "project_type_1",
+      },
+      project_area: {
+        id: 1893,
+        value: "project_area_1",
+      },
+      project_detail: {
+        id: 1894,
+        value: "project_detail_1",
+      },
+      open_tasks: "",
+      breached_tasks: "",
+      process: {
+        id: 62,
+        owner: {
+          id: 1,
+          type: "employee",
+        },
+        customer: {
+          id: 4,
+          name: "Bernat",
+          surname: "Magraner",
+        },
+        contact: {
+          id: 3,
+          name: "Bernat",
+          surname: "Magraner",
+        },
+        status: {
+          id: 294,
+          value: "canceled",
+        },
+        state: {
+          id: 292,
+          value: "not_active",
+        },
+        opened: "2023-07-02T00:00:00.000000Z",
+        closed: null,
+        sla: {
+          due_date: "2023-07-04",
+          days_from_opening_date: null,
+          days_for_closing: null,
+          sla_date: "2023-07-03",
+          sla: "no_breach",
+        },
+        current_stage: null,
+        stages: [],
+      },
+    };
+  };
+
   return {
     // ACTIONS
     getProjectsFromApi,
     createProject,
+    getProjectFromApi,
 
     // UTILITIES
     parseProject,
