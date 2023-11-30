@@ -208,12 +208,4 @@ const {
 });
 </script>
 
-<style scoped lang="scss">
-// disabled calendar
-:deep(.p-calendar) {
-  &.p-calendar-disabled {
-    background: var(--gray-500);
-    cursor: not-allowed;
-  }
-}
-</style>
+<style scoped lang="scss"></style>

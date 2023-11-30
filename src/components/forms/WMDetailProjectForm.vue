@@ -1,191 +1,29 @@
 <template>
   <div
-    v-if="service"
+    v-if="project"
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
     <div class="service-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row align-items-center gap-4">
-          <h1 class="h1 mb-0">
-            {{ $t("service.service") }} {{ service.service_number }}
-          </h1>
-          <div :class="statusClass(service.state)" class="status-label">
-            {{ $t("statuses." + service.state) }}
+          <h1 class="h1 mb-0">Project: {{ project.project_name }}</h1>
+          <div :class="statusClass(project.state)" class="status-label">
+            {{ $t("statuses." + project.state) }}
           </div>
         </div>
         <div>
-          <WMAnnouncementsButton
-            entity="service"
-            :id="route.params.id"
-          ></WMAnnouncementsButton>
+          <WMAnnouncementsButton entity="projects" :id="route.params.id" />
         </div>
       </div>
-      <div class="flex flex-row gap-5 flex-wrap">
-        <div class="card-container top-info-card" style="flex: 2">
-          <Card>
-            <template #title> {{ $t("general-details") }} </template>
-            <template #content>
-              <div class="flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="owner"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('owner')"
-                    :value="service.owner.name"
-                  />
-                  <WMInput
-                    name="team"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('team') + ':'"
-                    :value="service.team"
-                  />
-                  <WMInput
-                    name="priority"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('service.priority')"
-                    :value="service.priority"
-                    :class="priorityClass(service)"
-                    class="numeric"
-                  />
-                </div>
-                <div class="wm-form-row gap-5">
-                  <div class="wm-form-row gap-4">
-                    <WMInput
-                      name="contact"
-                      type="info-link"
-                      :highlighted="true"
-                      :label="$t('contact.contact') + ':'"
-                      :value="service.contact"
-                      :to="'/contact/' + service.contact_id"
-                    />
-                    <WMInput
-                      name="customer"
-                      type="info-link"
-                      :highlighted="true"
-                      :label="$t('customer.customer') + ':'"
-                      :value="service.customer"
-                      :to="'/customer/' + service.customer_id"
-                    />
-                  </div>
-                </div>
-                <div class="wm-form-row gap-5">
-                  <div class="wm-form-row gap-4">
-                    <WMInput
-                      name="due-date"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('service.due-date')"
-                      :value="
-                        useDateFormat(service.due_date, utilsStore.dateFormat)
-                      "
-                    />
-                    <WMInput
-                      name="open-date"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('service.open-date')"
-                      :value="
-                        useDateFormat(service.open_date, utilsStore.dateFormat)
-                      "
-                    />
-                    <div class="wm-input flex flex-column">
-                      <label class="wm-form-label highlighted"> SLA </label>
-                      <WMSLATag :sla="service.sla">
-                        {{ service.days_for_closing }} ימים
-                      </WMSLATag>
-                    </div>
-                  </div>
-                </div>
-                <div class="wm-form-row gap-5">
-                  <div class="wm-form-row gap-4">
-                    <WMInput
-                      name="urgency"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('service.urgency')"
-                      :value="
-                        $t('option-set.service_urgent.' + service.urgency)
-                      "
-                    />
-                    <WMInput
-                      name="recurring"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('service.recurring')"
-                      :value="$t(service.recurring)"
-                    />
-                  </div>
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div>
-        <div class="flex-1 card-container top-info-card">
-          <Card>
-            <template #title>
-              <div class="flex flex-row justify-content-between">
-                {{ $t("address.address") }}
-                <WMButton name="location" icon="location" @click="">{{
-                  $t("location")
-                }}</WMButton>
-              </div>
-            </template>
-            <template #content>
-              <div class="flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="city"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('address.city') + ':'"
-                    :value="service.location.city"
-                  />
-                  <WMInput
-                    name="street"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('address.street') + ':'"
-                    :value="service.location.street"
-                  />
-                </div>
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="house-number"
-                    type="info"
-                    :label="$t('address.house-number') + ':'"
-                    width="48"
-                    :value="service.location.house_number"
-                  ></WMInput>
-                  <WMInput
-                    name="apartment"
-                    type="info"
-                    :label="$t('address.apartment') + ':'"
-                    width="48"
-                    :value="service.location.apartment"
-                  />
-                  <WMInput
-                    name="entrance"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('address.entrance') + ':'"
-                    :value="service.location.entrance"
-                  />
-                  <WMInput
-                    name="zip"
-                    type="info"
-                    :label="$t('address.zip') + ':'"
-                    width="80"
-                    :value="service.location.zip"
-                  />
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div>
-        <div class="flex-1 card-container top-info-card">
+
+      <div class="flex-1 card-container top-info-card">
+        <Card>
+          <template #title> Budget </template>
+          <template #content> Budget </template>
+        </Card>
+      </div>
+
+      <!-- <div class="flex-1 card-container top-info-card">
           <Card>
             <template #title>
               {{ $t("site.details") }}
@@ -241,9 +79,9 @@
               </div>
             </template>
           </Card>
-        </div>
-      </div>
-      <div class="flex flex-row gap-5 flex-wrap">
+        </div> -->
+
+      <!-- <div class="flex flex-row gap-5 flex-wrap">
         <div class="card-container middle-info-card flex-1">
           <Card>
             <template #title> {{ $t("service.description") }} </template>
@@ -335,7 +173,7 @@
             </template>
           </Card>
         </div>
-      </div>
+      </div> -->
 
       <div class="mt-5">
         <WMStepper
@@ -345,33 +183,25 @@
         />
       </div>
 
-      <div>
-        <WMTasksTable :tasks="tasks" :columns="taskColumns" multiselect>
-        </WMTasksTable>
-      </div>
+      <Accordion>
+        <AccordionTab header="Journal"> Journal </AccordionTab>
+      </Accordion>
 
-      <div class="flex flex-row gap-5 flex-wrap mt-5">
-        <div class="flex-1 card-container">
-          <Card>
-            <template #title> Files </template>
-            <template #content>
-              <div class="files-dataview">
-                <WMFilesDataView></WMFilesDataView>
-              </div>
-            </template>
-          </Card>
-        </div>
-        <div class="flex-1 card-container">
-          <Card>
-            <template #title> Journal </template>
-            <template #content>
-              <div class="journal-dataview">
-                <WMJournalDataView></WMJournalDataView>
-              </div>
-            </template>
-          </Card>
-        </div>
-      </div>
+      <Accordion>
+        <AccordionTab header="Tasks"> Tasks </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="Gantt"> Gantt </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="Team"> Team </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="Documents"> Documents </AccordionTab>
+      </Accordion>
 
       <div class="flex-1 tabs-container mt-5">
         <TabView>
@@ -459,11 +289,14 @@ const { getTasksFromApi } = useTasks();
 const { updateService, parseUpdateService, getServiceFromApi, cancelService } =
   useServices();
 
+const { getProjectFromApi } = useProjects();
+
 const toast = useToast();
 const stages = ref([]);
 const currentStage = ref();
 
 const tasks = ref();
+const project = ref();
 
 const props = defineProps({
   formKey: {
@@ -499,32 +332,22 @@ onMounted(() => {
 });
 
 const fetchData = async () => {
-  const data = await getServiceFromApi(route.params.id);
-  service.value = data;
-  console.log(data.stages);
-  stages.value = data.stages.map((stage) => ({
+  const data = await getProjectFromApi(route.params.id);
+  project.value = data;
+
+  stages.value = data.process.stages.map((stage) => ({
     label: stage.name,
     date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
   }));
-  updateDropdown("service_request_2", data.request1?.id, "requests2");
 
   currentStage.value = data.current_stage?.order - 1;
-  utilsStore.selectedElements["service"] = [service.value];
 
-  const tasksData = await getTasksFromApi({
-    entity_type: "service",
-    entity_id: route.params.id,
-  });
-  tasks.value = tasksData.data;
-};
+  // const tasksData = await getTasksFromApi({
+  //   entity_type: "service",
+  //   entity_id: route.params.id,
+  // });
 
-const updateDropdown = (optionSet, selectedValue, dropdownOptions) => {
-  console.log(selectedValue);
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw(optionSet, selectedValue)
-    .then((data) => {
-      optionRefs[dropdownOptions].value = data;
-    });
+  // tasks.value = tasksData.data;
 };
 
 const { errors, handleSubmit, setFieldError, meta } = useForm({
