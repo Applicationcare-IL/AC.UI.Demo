@@ -266,7 +266,6 @@ const onSubmit = handleSubmit((values) => {
     });
 });
 
-// if (formUtilsStore.formMeta.dirty) dialog.discardNewCustomer();
 const onCancel = () => {
   emit("closeSidebar");
 };

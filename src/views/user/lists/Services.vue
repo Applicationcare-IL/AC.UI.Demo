@@ -187,6 +187,7 @@ const loadLazyData = () => {
     page: lazyParams.value.page + 1,
     per_page: selectedRowsPerPage.value,
     search: searchValue.value,
+    filters: JSON.stringify(utilsStore.filters["service"]),
   }).then((result) => {
     services.value = result.data;
     totalRecords.value = result.totalRecords;
@@ -249,6 +250,16 @@ watch(
   () => utilsStore.searchString["service"],
   () => {
     searchValue.value = utilsStore.searchString["service"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  }
+);
+
+watch(
+  () => utilsStore.filters["service"],
+  () => {
+    console.log(JSON.stringify(utilsStore.filters["service"]));
     utilsStore.debounceAction(() => {
       loadLazyData();
     });

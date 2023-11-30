@@ -34,7 +34,7 @@ export const usePermissionsStore = defineStore("permissions", {
           my_team: true,
           my: true,
           related: true,
-          read: false,
+          read: true,
           create: true,
           update: true,
           delete: true,

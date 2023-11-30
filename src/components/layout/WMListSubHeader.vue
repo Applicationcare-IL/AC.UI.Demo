@@ -62,8 +62,9 @@
           <WMButton
             name="filter"
             icon="filter"
-            :open="isFilterOpen"
+            :open="isFilterVisible"
             :applied="isFilterApplied"
+            @click="openFilterSidebar"
             >הקצה
           </WMButton>
         </div>
@@ -82,6 +83,14 @@
       </div>
     </div>
   </div>
+  <WMSidebar
+    :visible="isFilterVisible"
+    @close-sidebar="closeFilterSidebar"
+    @open-sidebar="openFilterSidebar"
+    name="filter"
+  >
+    <WMFilterForm :entity="props.entity" :filterFormName="props.entity" />
+  </WMSidebar>
 </template>
 
 <script setup>
@@ -109,7 +118,7 @@ const props = defineProps({
 
 const emits = defineEmits(["new"]);
 
-const isFilterOpen = ref(false);
+const isFilterVisible = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = props.defaultOption;
 
@@ -124,6 +133,14 @@ watch(
     selectedElements.value = value.length;
   }
 );
+
+function closeFilterSidebar() {
+  isFilterVisible.value = false;
+}
+
+function openFilterSidebar() {
+  isFilterVisible.value = true;
+}
 
 // const selectedElements = computed(() => {
 //     utilsStore.selectedElements[props.entity] != undefined ? utilsStore.selectedElements[props.entity].length : 0;
