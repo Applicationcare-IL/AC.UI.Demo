@@ -74,7 +74,6 @@ watch(visible, (value) => {
 watch(
   () => activeSidebar,
   (value) => {
-    console.log(value);
     if (value.includes(props.name)) {
       handleOpenSidebar();
     } else {

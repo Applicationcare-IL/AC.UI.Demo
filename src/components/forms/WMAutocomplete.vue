@@ -61,7 +61,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref, computed } from "vue";
+import { defineProps, defineEmits, ref, computed, watch } from "vue";
 import { useLayout } from "@/layout/composables/layout";
 
 const { layoutConfig } = useLayout();
@@ -132,8 +132,15 @@ const props = defineProps({
 });
 
 const value = ref(props.modelValue);
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    console.log(newValue);
+    value.value = newValue;
+  }
+);
 
-const emit = defineEmits(["customChange"]);
+const emit = defineEmits(["update:modelValue"]);
 
 const openRelatedSidebar = () => {
   openSidebar(props.relatedSidebar);

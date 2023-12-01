@@ -3,17 +3,17 @@ export function useFilters() {
     service: [
       {
         type: "dropdown",
-        filterName: "area",
+        name: "area",
         optionSet: "service_area",
       },
       {
         type: "buttons",
-        filterName: "status",
+        name: "status",
         optionSet: "service_status",
       },
       {
         type: "date",
-        filterName: "open",
+        name: "open",
       },
     ],
   };

@@ -3,10 +3,16 @@ import { SLAS } from "@/constants";
 
 export function useServices() {
   const servicesStore = useServicesStore();
+  const toast = useToast();
 
   // ACTIONS
   const getServicesFromApi = async (params) => {
     const response = await servicesStore.getServicesFromApi(params);
+
+    if (!response) {
+      toast.error("Error getting services from API");
+      return { data: [], totalRecords: 0 };
+    }
 
     const services = response.data.map((service) => {
       return mapService(service);
