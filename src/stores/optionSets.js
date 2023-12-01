@@ -10,6 +10,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
       "state",
       "gender",
       "service_status",
+      "service_street",
       "customer_type",
       "customer_rating",
       "service_area",

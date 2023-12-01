@@ -5,6 +5,7 @@ export const useUtilsStore = defineStore("utils", {
   state: () => ({
     selectedElements: {},
     searchString: {},
+    filters: {},
     debounceTimer: null,
     entity: "",
     dateFormat: "DD/MM/YY",
