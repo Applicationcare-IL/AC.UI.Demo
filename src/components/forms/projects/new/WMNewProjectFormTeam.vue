@@ -16,17 +16,15 @@
       :multiple="true"
     />
   </div>
-  <div class="wm-form-row gap-5">
-    <WMContactsTable
-      :contacts="selectedContacts"
-      :columns="getSelectedContactsForNewCustomerColumns()"
-      :showControls="false"
-      @update:role="updatedRole"
-      @update:mainContact="updatedMainContact"
-      @unlink="unlinkContact"
-      :multiselect="false"
-    />
-  </div>
+  <WMContactsTable
+    :contacts="selectedContacts"
+    :columns="getSelectedContactsForNewProjectColumns()"
+    :showControls="false"
+    @update:role="updatedRole"
+    @update:mainContact="updatedMainContact"
+    @unlink="unlinkContact"
+    :multiselect="false"
+  />
 </template>
 
 <script setup>
@@ -47,9 +45,10 @@ const defaultRole = optionSetsStore.optionSets["contact_customer_role"].find(
   (role) => role.value === "employee"
 );
 
-const { getSelectedContactsForNewCustomerColumns } = useListUtils();
+const { getSelectedContactsForNewProjectColumns } = useListUtils();
 
 const selectedContacts = ref([]);
+
 const updatedMainContact = (id) => {
   selectedContacts.value.map((contact) => {
     if (contact.id === id) {
@@ -75,7 +74,7 @@ const onContactselected = (newContact) => {
     return;
 
   //Select the default role for the new contact and add it to the list of selected contacts
-  newContact.value.role = defaultRole;
+  newContact.value.role = { ...defaultRole };
   selectedContacts.value.push(newContact.value);
 };
 </script>
