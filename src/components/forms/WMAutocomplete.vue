@@ -9,7 +9,7 @@
     </label>
     <AutoComplete
       :suggestions="filteredOptions"
-      optionLabel="name"
+      optionLabel="value"
       :placeholder="placeholder"
       :multiple="props.multiple"
       :disabled="props.disabled"
@@ -135,7 +135,6 @@ const value = ref(props.modelValue);
 watch(
   () => props.modelValue,
   (newValue) => {
-    console.log(newValue);
     value.value = newValue;
   }
 );
@@ -152,7 +151,7 @@ const search = (event) => {
     if (props.searchFunction) {
       props.searchFunction(event.query.toLowerCase()).then((result) => {
         return (filteredOptions.value = result.data.filter((option) => {
-          return option.name;
+          return option.value;
         }));
       });
       //Otherwise we will filter the static list
@@ -161,7 +160,7 @@ const search = (event) => {
         filteredOptions.value = [...props.options];
       } else {
         filteredOptions.value = props.options.filter((option) => {
-          return option.name
+          return option.value
             .toLowerCase()
             .startsWith(event.query.toLowerCase());
         });
@@ -175,7 +174,7 @@ const search = (event) => {
           return selectedOption.id == option.id;
         });
 
-        if (returnValue) return option.name;
+        if (returnValue) return option.value;
       });
   }, 250);
 };

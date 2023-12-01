@@ -2,17 +2,19 @@
   <div class="filter-header flex flex-row justify-content-between p-4">
     <Button @click="applyFilter"> החל סינון </Button>
     <div class="flex flex-column align-items-center">
-      <h3>סינון אנשי קשר</h3>
+      <div class="h3">סינון אנשי קשר</div>
       <span v-if="appliedFilters == 0">לא הופעלו סננים</span>
-      <span>{{ appliedFilters }}</span>
+      <span v-else>הופעלו {{ appliedFilters }} סננים </span>
     </div>
-    <Button @click="clear">נקה הכל</Button>
+    <Button @click="clear" link>נקה הכל</Button>
   </div>
   <Divider></Divider>
   <div class="filter-body p-4">
     <div>
       <WMFilterElement
         v-for="filter in filterElements"
+        :placeholder="filter.placeholder"
+        :label="filter.label"
         ref="filterElementRefs"
         :type="filter.type"
         :entity="entity"

@@ -1,4 +1,7 @@
 <template>
+  <label v-if="label != ''" class="wm-form-label">
+    {{ label }}
+  </label>
   <div class="flex flex-row justify-content-between">
     <!-- DROPDOWN -->
     <WMAutocomplete
@@ -22,19 +25,25 @@
     </div>
     <!-- DATES -->
     <div class="flex flex-row gap-2 p-2" v-if="type == 'date'">
-      <Calendar
-        v-model="fromDate"
-        showIcon
-        @update:modelValue="onDateChanged($event, 'from')"
-      />
-      <Calendar
-        v-model="toDate"
-        showIcon
-        @update:modelValue="onDateChanged($event, 'to')"
-      />
+      <div class="flex flex-column">
+        <label v-if="label != ''" class="wm-form-label"> מ: </label>
+        <Calendar
+          v-model="fromDate"
+          showIcon
+          @update:modelValue="onDateChanged($event, 'from')"
+        />
+      </div>
+      <div class="flex flex-column">
+        <label v-if="label != ''" class="wm-form-label"> עד: </label>
+        <Calendar
+          v-model="toDate"
+          showIcon
+          @update:modelValue="onDateChanged($event, 'to')"
+        />
+      </div>
     </div>
 
-    <Button @click="clear">נקה</Button>
+    <Button @click="clear" link>נקה</Button>
   </div>
   <Divider></Divider>
 </template>
@@ -47,13 +56,16 @@ import { useUtilsStore } from "@/stores/utils";
 
 const emits = defineEmits(["update:filter"]);
 
-const { entity, type, optionSet, placeholder, filterName } = defineProps({
-  entity: String,
-  type: String,
-  optionSet: String,
-  placeholder: String,
-  filterName: String,
-});
+const { entity, type, optionSet, placeholder, filterName, label } = defineProps(
+  {
+    entity: String,
+    type: String,
+    optionSet: String,
+    placeholder: String,
+    filterName: String,
+    label: String,
+  }
+);
 
 const utilsStore = useUtilsStore();
 
