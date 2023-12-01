@@ -3,18 +3,20 @@
     <!-- DROPDOWN -->
     <WMAutocomplete
       v-if="type == 'dropdown'"
-      :placeholder="props.placeholder"
+      :placeholder="placeholder"
       :multiple="true"
       width="248"
       :options="options"
+      v-model="selectedOptions"
       @update:modelValue="onDropdownChanged"
     />
     <!-- BUTTONS -->
     <div class="flex flex-row gap-2 p-2" v-if="type == 'buttons'">
       <WMSelectableButton
-        v-for="option in options"
+        v-for="(option, index) in options"
+        :key="componentKey + index"
         :label="option.value"
-        v-model="isSelected"
+        v-model="isButtonSelected[componentKey]"
         @update:modelValue="onButtonChanged($event, option)"
       />
     </div>
@@ -32,19 +34,20 @@
       />
     </div>
 
-    <Button>נקה</Button>
+    <Button @click="clear">נקה</Button>
   </div>
+  <Divider></Divider>
 </template>
 
 <script setup>
-import { ref, defineEmits } from "vue";
+import { ref, defineEmits, defineExpose } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useDateFormat } from "@vueuse/core";
 import { useUtilsStore } from "@/stores/utils";
 
 const emits = defineEmits(["update:filter"]);
 
-const props = defineProps({
+const { entity, type, optionSet, placeholder, filterName } = defineProps({
   entity: String,
   type: String,
   optionSet: String,
@@ -55,19 +58,24 @@ const props = defineProps({
 const utilsStore = useUtilsStore();
 
 const optionSetsStore = useOptionSetsStore();
-const options = ref(optionSetsStore.optionSets[props.optionSet]);
+const options = ref(optionSetsStore.optionSets[optionSet]);
 
 const selectedButtons = ref([]);
+const isButtonSelected = ref([]);
+const componentKey = ref(0);
+const selectedOptions = ref([]);
+
+const forceRerender = () => {
+  componentKey.value += options.value.length;
+};
 
 const fromDate = ref(null);
 const toDate = ref(null);
 
-const isSelected = ref(false);
-
 const onDropdownChanged = (value) => {
   console.log("value", value);
   emits("update:filter", {
-    name: props.filterName,
+    name: filterName,
     value: value.map((x) => x.id),
   });
 };
@@ -78,7 +86,7 @@ const onButtonChanged = (value, option) => {
     selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
 
   emits("update:filter", {
-    name: props.filterName,
+    name: filterName,
     value: selectedButtons.value,
   });
 };
@@ -88,7 +96,7 @@ const onDateChanged = (value, type) => {
   else toDate.value = value;
 
   emits("update:filter", {
-    name: props.filterName,
+    name: filterName,
     value: [
       fromDate.value
         ? useDateFormat(fromDate.value, utilsStore.dateFormat).value
@@ -99,4 +107,28 @@ const onDateChanged = (value, type) => {
     ],
   });
 };
+
+const clear = () => {
+  if (type == "date") {
+    fromDate.value = null;
+    toDate.value = null;
+  }
+  if (type == "dropdown") {
+    console.log("selectedOptions", selectedOptions.value);
+    selectedOptions.value = [];
+    console.log("selectedOptions", selectedOptions.value);
+  }
+  if (type == "buttons") {
+    selectedButtons.value = [];
+    isButtonSelected.value = [];
+    forceRerender();
+  }
+
+  emits("update:filter", {
+    name: filterName,
+    value: null,
+  });
+};
+
+defineExpose({ clear });
 </script>

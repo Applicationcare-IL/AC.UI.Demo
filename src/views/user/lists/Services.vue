@@ -255,16 +255,6 @@ watch(
     });
   }
 );
-
-watch(
-  () => utilsStore.filters["service"],
-  () => {
-    console.log(JSON.stringify(utilsStore.filters["service"]));
-    utilsStore.debounceAction(() => {
-      loadLazyData();
-    });
-  }
-);
 </script>
 
 <style scoped lang="scss"></style>
