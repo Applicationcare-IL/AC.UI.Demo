@@ -12,7 +12,8 @@
           :options="projectTypes"
           width="152"
           :placeholder="'project-types'"
-          @change="filterProjectAreasDropdown($event.value.id)"
+          @change="handleProjectTypeInputChange($event.value)"
+          class="is-mocked"
         />
 
         <WMInputSearch
@@ -36,19 +37,58 @@
           :placeholder="$t('select', ['classification-3'])"
         />
       </div>
+
+      <WMDetailProjectFormTenderInformation
+        v-if="selectedProjectType === 'tender'"
+      />
     </template>
   </Card>
 </template>
-
 <script setup>
 import { ref, onMounted } from "vue";
+
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
 
+const selectedProjectType = ref(false);
+
 const projectTypes = ref([]);
 const projectAreas = ref([]);
 const projectDetails = ref([]);
+
+onMounted(() => {
+  optionSetsStore.getOptionSetValuesFromApi("project_type").then((data) => {
+    // TODO: Remove this mocked data when the API is ready
+    const mockedTenderType = {
+      value: "tender",
+      id: 1,
+      name: "tender",
+      label: "tender",
+    };
+
+    data = [mockedTenderType, ...data];
+
+    projectTypes.value = data;
+  });
+  optionSetsStore
+    .getOptionSetValuesFromApi("project_area")
+    .then((data) => (projectAreas.value = data));
+  optionSetsStore
+    .getOptionSetValuesFromApiRaw("project_detail")
+    .then((data) => (projectDetails.value = data));
+});
+
+const handleProjectTypeInputChange = (value) => {
+  if (!value) {
+    selectedProjectType.value = false;
+
+    return;
+  }
+
+  selectedProjectType.value = value.value;
+  filterProjectAreasDropdown(value.id);
+};
 
 const filterProjectAreasDropdown = (value) => {
   optionSetsStore
@@ -65,18 +105,6 @@ const filterProjectDetailsDropdown = (value) => {
       projectDetails.value = data;
     });
 };
-
-onMounted(() => {
-  optionSetsStore
-    .getOptionSetValuesFromApi("project_type")
-    .then((data) => (projectTypes.value = data));
-  optionSetsStore
-    .getOptionSetValuesFromApi("project_area")
-    .then((data) => (projectAreas.value = data));
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("project_detail")
-    .then((data) => (projectDetails.value = data));
-});
 </script>
 
 <style scoped lang="scss"></style>

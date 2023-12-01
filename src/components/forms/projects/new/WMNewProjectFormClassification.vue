@@ -38,15 +38,17 @@
       />
     </div>
   </div>
+  <WMNewProjectFormTenderInformation v-if="selectedProjectType === 'tender'" />
 </template>
 
 <script setup>
-import { ref, onMounted, defineEmits } from "vue";
+import { ref, onMounted } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
-const emit = defineEmits(["changeProjectType"]);
 const optionSetsStore = useOptionSetsStore();
+
+const selectedProjectType = ref(false);
 
 const projectTypes = ref([]);
 const projectAreas = ref([]);
@@ -75,10 +77,14 @@ onMounted(() => {
 });
 
 const handleProjectTypeInputChange = (value) => {
-  if (!value) return;
+  if (!value) {
+    selectedProjectType.value = false;
 
+    return;
+  }
+
+  selectedProjectType.value = value.value;
   filterProjectAreasDropdown(value.id);
-  emit("changeProjectType", value.value);
 };
 
 const filterProjectAreasDropdown = (value) => {

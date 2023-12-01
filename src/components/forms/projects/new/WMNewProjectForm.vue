@@ -5,13 +5,7 @@
 
       <Divider layout="horizontal" />
 
-      <WMNewProjectFormClassification
-        @change-project-type="selectedProjectType = $event"
-      />
-
-      <WMNewProjectFormTenderInformation
-        v-if="selectedProjectType === 'tender'"
-      />
+      <WMNewProjectFormClassification />
 
       <Divider class="mb-0" layout="horizontal" />
 

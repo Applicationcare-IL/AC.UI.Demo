@@ -27,10 +27,7 @@
       </div>
 
       <div class="flex-1 card-container">
-        <Card>
-          <template #title> Location information </template>
-          <template #content> City / Address </template>
-        </Card>
+        <WMDetailProjectFormLocation />
       </div>
 
       <div class="flex-1 card-container">
