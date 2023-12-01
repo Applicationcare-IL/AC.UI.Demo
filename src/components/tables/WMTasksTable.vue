@@ -9,7 +9,7 @@
     <WMNewTaskForm :isSidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
 
-  <h2 class="h2">{{ $t("task.tasks") }}</h2>
+  <h2 v-if="!hideTitle" class="h2">{{ $t("task.tasks") }}</h2>
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
@@ -130,6 +130,10 @@ const props = defineProps({
   multiselect: {
     type: Boolean,
     default: true,
+  },
+  hideTitle: {
+    type: Boolean,
+    default: false,
   },
 });
 

@@ -93,6 +93,33 @@ export function useListUtils() {
     ];
   };
 
+  const getSelectedContactsForNewProjectColumns = () => {
+    return [
+      {
+        name: "name",
+        type: "link",
+        to: "contact",
+        linkParameter: "id",
+        class: "link-col",
+      },
+      { name: "email", type: "text" },
+      {
+        name: "role",
+        type: "role",
+        header: "role",
+        optionSet: "contact_customer_role",
+        class: "p-0",
+      },
+      {
+        name: "actions",
+        type: "actions",
+        header: "actions",
+        class: "buttons",
+        buttons: ["unlink"],
+      },
+    ];
+  };
+
   const getContactDetailColumns = () => {
     return [
       {
@@ -321,6 +348,7 @@ export function useListUtils() {
     // LIST TABLE COLUMNS
     getContactColumns,
     getSelectedContactsForNewCustomerColumns,
+    getSelectedContactsForNewProjectColumns,
     getContactDetailColumns,
     getCustomerColumns,
     getCustomerDetailColumns,

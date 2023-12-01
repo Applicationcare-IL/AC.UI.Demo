@@ -27,10 +27,7 @@
       </div>
 
       <div class="flex-1 card-container">
-        <Card>
-          <template #title> Location information </template>
-          <template #content> City / Address </template>
-        </Card>
+        <WMDetailProjectFormLocation />
       </div>
 
       <div class="flex-1 card-container">
@@ -39,158 +36,6 @@
           <template #content> Budget </template>
         </Card>
       </div>
-
-      <!-- <div class="flex-1 card-container">
-          <Card>
-            <template #title>
-              {{ $t("site.details") }}
-            </template>
-            <template #content>
-              <div class="flex flex-auto flex-row gap-6">
-                <div class="wm-form-column gap-5">
-                  <WMInput
-                    name="site-name"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('site.name') + ':'"
-                    :value="service.site.name"
-                  />
-                  <WMInput
-                    name="site-contact"
-                    type="info-link"
-                    :highlighted="true"
-                    :label="$t('site.contact') + ':'"
-                    :value="service.site.contact"
-                    :to="'/contact/' + service.site.contact_id"
-                  />
-                  <WMInput
-                    name="site-phone"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('site.phone') + ':'"
-                    :value="service.site.phone"
-                  />
-                </div>
-                <div class="wm-form-column gap-5">
-                  <WMInput
-                    name="site-type"
-                    type="info"
-                    :label="$t('site.type') + ':'"
-                    :value="service.site.type"
-                  >
-                  </WMInput>
-                  <WMInput
-                    name="site-contact-role"
-                    type="info"
-                    :label="$t('site.contact_role') + ':'"
-                    :value="service.site.contact_role"
-                  />
-                  <WMInput
-                    name="site-email"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('site.email') + ':'"
-                    :value="service.site.email"
-                  />
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div> -->
-
-      <!-- <div class="flex flex-row gap-5 flex-wrap">
-        <div class="card-container middle-info-card flex-1">
-          <Card>
-            <template #title> {{ $t("service.description") }} </template>
-            <template #content>
-              <div class="contact-notes flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    type="text-area"
-                    id="description"
-                    name="description"
-                    :value="service.description"
-                    disabled
-                  />
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div>
-        <div class="card-container middle-info-card flex-1">
-          <Card>
-            <template #title>
-              {{ $t("service.classification") }}
-            </template>
-            <template #content>
-              <div class="flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="area"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('classification-1') + ':'"
-                    :value="service.area?.value"
-                  />
-                  <WMInput
-                    name="type"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('classification-2') + ':'"
-                    :value="service.type?.value"
-                  />
-                  <WMInput
-                    name="request1"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('classification-3') + ':'"
-                    :value="service.request1?.value"
-                  />
-                </div>
-                <div class="wm-form-row gap-5" v-if="service.is_active">
-                  <WMInputSearch
-                    name="request2"
-                    :highlighted="true"
-                    :label="$t('classification-4') + ':'"
-                    :value="service.request2?.value"
-                    :options="requests2"
-                    @change="
-                      updateDropdown(
-                        'service_request_3',
-                        $event.value.id,
-                        'requests3'
-                      )
-                    "
-                  />
-                  <WMInputSearch
-                    name="request3"
-                    :highlighted="true"
-                    :label="$t('classification-5') + ':'"
-                    :value="service.request3?.value"
-                    :options="requests3"
-                  />
-                </div>
-                <div class="wm-form-row gap-5" v-if="!service.is_active">
-                  <WMInput
-                    name="request2"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('classification-4') + ':'"
-                    :value="service.request2?.value"
-                  />
-                  <WMInput
-                    name="request3"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('classification-5') + ':'"
-                    :value="service.request3?.value"
-                  />
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div>
-      </div> -->
 
       <div class="mt-5">
         <WMStepper
@@ -205,7 +50,9 @@
       </Accordion>
 
       <Accordion>
-        <AccordionTab header="Tasks"> Tasks </AccordionTab>
+        <AccordionTab header="Tasks">
+          <WMDetailProjectFormTasksTab />
+        </AccordionTab>
       </Accordion>
 
       <Accordion>
@@ -213,7 +60,9 @@
       </Accordion>
 
       <Accordion>
-        <AccordionTab header="Team"> Team </AccordionTab>
+        <AccordionTab header="Team">
+          <WMDetailProjectFormTeamTab />
+        </AccordionTab>
       </Accordion>
 
       <Accordion>
