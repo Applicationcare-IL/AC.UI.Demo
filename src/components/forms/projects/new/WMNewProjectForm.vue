@@ -55,7 +55,8 @@
             type="input-search"
             :options="projectTypes"
             width="152"
-            :placeholder="$t('select', ['classification-1'])"
+            :placeholder="'project-types'"
+            @change="filterProjectAreasDropdown($event.value.id)"
           />
 
           <WMInputSearch
@@ -66,6 +67,7 @@
             :options="projectAreas"
             width="152"
             :placeholder="$t('select', ['classification-2'])"
+            @change="filterProjectDetailsDropdown($event.value.id)"
           />
 
           <WMInputSearch
@@ -205,16 +207,16 @@ optionSetsStore.getOptionSetValuesFromApiRaw("task_family").then((data) => {
 
 const emit = defineEmits(["closeSidebar"]);
 
-const projectTypes = ref([]);
-const projectAreas = ref([]);
-const projectDetails = ref([]);
-
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
 const isSiteTourNeeded = ref(yesNoOptions[1]);
 
 const handleSiteTourNeededOptionsChange = (option) => {
   isSiteTourNeeded.value = option;
 };
+
+const projectTypes = ref([]);
+const projectAreas = ref([]);
+const projectDetails = ref([]);
 
 onMounted(() => {
   optionSetsStore
@@ -228,13 +230,21 @@ onMounted(() => {
     .then((data) => (projectDetails.value = data));
 });
 
-// const updateDropdown = (dropdown, selectedId, dropdownOptions) => {
-//   optionSetsStore
-//     .getOptionSetValuesFromApiRaw(dropdown, selectedId)
-//     .then((data) => {
-//       optionRefs[dropdownOptions].value = data;
-//     });
-// };
+const filterProjectAreasDropdown = (value) => {
+  optionSetsStore
+    .getOptionSetValuesFromApiRaw("project_area", value)
+    .then((data) => {
+      projectAreas.value = data;
+    });
+};
+
+const filterProjectDetailsDropdown = (value) => {
+  optionSetsStore
+    .getOptionSetValuesFromApiRaw("project_detail", value)
+    .then((data) => {
+      projectDetails.value = data;
+    });
+};
 
 // TEAM SECTION
 const { getContactsFromApi } = useContacts();
