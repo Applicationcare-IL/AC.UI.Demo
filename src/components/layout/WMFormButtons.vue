@@ -24,7 +24,6 @@
 </template>
 
 <script setup>
-import { defineEmits } from "vue";
 import { useLayout } from "@/layout/composables/layout";
 
 const emit = defineEmits(["saveForm", "cancelForm"]);

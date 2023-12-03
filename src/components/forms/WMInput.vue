@@ -123,7 +123,7 @@
 </template>
 
 <script setup>
-import { defineProps, watch } from "vue";
+import { watch } from "vue";
 import { toRef } from "vue";
 import { useField } from "vee-validate";
 

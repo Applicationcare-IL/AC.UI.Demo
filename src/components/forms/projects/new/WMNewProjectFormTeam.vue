@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineEmits } from "vue";
+import { ref } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 

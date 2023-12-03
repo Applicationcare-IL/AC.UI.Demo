@@ -187,7 +187,7 @@
 </template>
 
 <script setup>
-import { onMounted, watch, defineEmits, defineExpose, ref } from "vue";
+import { onMounted, watch, defineExpose, ref } from "vue";
 import { CustomerService } from "@/service/CustomerService";
 
 import { useAuthStore } from "@/stores/auth";

@@ -198,7 +198,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, defineEmits } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
