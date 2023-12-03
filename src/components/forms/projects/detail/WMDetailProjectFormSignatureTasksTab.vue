@@ -1,5 +1,5 @@
 <template>
-  <WMTasksTable
+  <WMSignatureTasksTable
     :tasks="tasks"
     :columns="taskColumns"
     multiselect
@@ -11,11 +11,11 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
 const { getTasksFromApi, getTasks } = useTasks();
-const { getTaskColumns } = useListUtils();
+const { getSignatureTaskColumns } = useListUtils();
 const route = useRoute();
 
 const tasks = ref();
-const taskColumns = ref(getTaskColumns());
+const taskColumns = ref(getSignatureTaskColumns());
 
 const fetchData = async () => {
   tasks.value = await getTasks();

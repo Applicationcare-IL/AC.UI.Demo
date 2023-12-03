@@ -308,6 +308,31 @@ export function useListUtils() {
     ];
   };
 
+  const getSignatureTaskColumns = () => {
+    return [
+      {
+        name: "task_number",
+        type: "link",
+        header: "task.number",
+        class: "link-col",
+      },
+      { name: "family", type: "text" },
+      { name: "task_type", type: "text", header: "task.type" },
+      { name: "stage", type: "text" },
+      { name: "sla", type: "sla", class: "sla" },
+      { name: "open_date", type: "text" },
+      { name: "due_date", type: "text" },
+      { name: "owner", type: "text" },
+      { name: "status", type: "translate", prefix: "statuses" },
+      {
+        name: "sign_button",
+        type: "sign_button",
+        header: "",
+        class: "sign-button",
+      },
+    ];
+  };
+
   // METHODS
   const getAlertCellConditionalStyle = (data) => {
     return [{ "bg-red-100 text-red-600": data > 0 }];
@@ -354,6 +379,7 @@ export function useListUtils() {
     getCustomerDetailColumns,
     getServiceColumns,
     getTaskColumns,
+    getSignatureTaskColumns,
     // METHODS
     getAlertCellConditionalStyle,
     getSelectFilterButtonValues,
