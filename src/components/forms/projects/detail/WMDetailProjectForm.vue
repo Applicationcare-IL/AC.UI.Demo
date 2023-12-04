@@ -21,7 +21,9 @@
           <WMDetailProjectFormGeneralInformation />
         </div>
         <div class="flex flex-1 gap-5 flex-column card-container">
-          <WMDetailProjectFormClassification />
+          <WMDetailProjectFormClassification
+            @project-type-update="handleProjectTypeUpdate"
+          />
           <WMDetailProjectFormExecutionInformation />
         </div>
       </div>
@@ -35,6 +37,12 @@
           <template #title> Budget </template>
           <template #content> Budget </template>
         </Card>
+      </div>
+
+      <div class="flex-1 card-container">
+        <WMDetailProjectFormTenderInformation
+          v-if="selectedProjectType === 'tender'"
+        />
       </div>
 
       <div class="mt-5">
@@ -58,6 +66,12 @@
       <Accordion>
         <AccordionTab header="Round of signatures tasks">
           <WMDetailProjectFormSignatureTasksTab />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="Tender organizations tab">
+          Tender organizations table
         </AccordionTab>
       </Accordion>
 
@@ -103,6 +117,7 @@ const { getProjectFromApi } = useProjects();
 const toast = useToast();
 const stages = ref([]);
 const currentStage = ref();
+const selectedProjectType = ref(false);
 
 const tasks = ref();
 const project = ref();
@@ -172,6 +187,11 @@ const onSave = handleSubmit((values) => {
 
 const priorityClass = (data) => {
   return getPriorityConditionalStyle(data);
+};
+
+const handleProjectTypeUpdate = (value) => {
+  console.log("enro al handle");
+  selectedProjectType.value = value;
 };
 
 // formUtilsStore.submit = onSubmit;
