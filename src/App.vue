@@ -13,7 +13,7 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { usePermissionsStore } from "@/stores/PermissionsStore";
+import { usePermissionsStore } from "@/stores/permissionsStore";
 
 const optionSetsStore = useOptionSetsStore();
 const permissionsStore = usePermissionsStore();
