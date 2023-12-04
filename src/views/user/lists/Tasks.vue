@@ -39,7 +39,7 @@
     >
       <Column style="width: 40px" selectionMode="multiple"></Column>
       <!-- Task number -->
-      <Column field="task_number" :header="$t('task.number')">
+      <Column field="task_number" :header="$t('task.number')" class="link-col">
         <template #body="slotProps">
           <router-link
             :to="{
@@ -52,7 +52,11 @@
         </template>
       </Column>
       <!-- Service number -->
-      <Column field="process_number" :header="$t('task.service_number')">
+      <Column
+        field="process_number"
+        :header="$t('task.service_number')"
+        class="link-col"
+      >
         <template #body="slotProps">
           <router-link
             v-if="slotProps.data.service_number"
@@ -68,9 +72,13 @@
       <!-- Task type -->
       <Column field="task_type" :header="$t('task.type')"></Column>
       <!-- Task family -->
-      <Column field="family" :header="$t('task.family')"></Column>
+      <Column field="task_family " :header="$t('task.family')">
+        <template #body="slotProps">
+          {{ slotProps.data.task_family }}
+        </template>
+      </Column>
       <!-- Task contact -->
-      <Column field="contact" :header="$t('contact.contact')">
+      <Column field="contact" :header="$t('contact.contact')" class="link-col">
         <template #body="slotProps">
           <router-link
             :to="{
@@ -98,15 +106,21 @@
       <!-- Owner -->
       <Column field="owner" :header="$t('task.owner')"> </Column>
       <!-- Customer -->
-      <Column field="customer" :header="$t('task.customer')">
+      <Column field="customer" :header="$t('task.customer')" class="link-col">
         <template #body="slotProps">
-          <router-link to="/foo" class="vertical-align-middle">{{
-            slotProps.data.customer
-          }}</router-link>
+          <router-link
+            :to="{
+              name: 'customerDetail',
+              params: { id: slotProps.data.customer_id },
+            }"
+            class="vertical-align-middle"
+          >
+            {{ slotProps.data.customer }}
+          </router-link>
         </template>
       </Column>
       <!-- Read -->
-      <Column field="call" :header="$t('task.call')"></Column>
+      <Column field="call" :header="$t('task.call')" class="is-mocked"></Column>
       <!-- Date opened -->
       <Column field="open_date" :header="$t('task.open_date')"></Column>
       <!-- Date closed -->
@@ -114,7 +128,7 @@
       <!-- Last changed -->
       <Column field="last_change" :header="$t('modified_at')"></Column>
       <!-- Notes -->
-      <Column field="remarks" :header="$t('task.notes')"></Column>
+      <Column field="notes" :header="$t('task.notes')"></Column>
     </DataTable>
   </div>
 </template>
@@ -197,7 +211,6 @@ watchEffect(() => {
 });
 
 const rowClass = (data) => {
-  // console.log(data.is_open);
   return [{ inactive_row: !data.is_open }];
 };
 
