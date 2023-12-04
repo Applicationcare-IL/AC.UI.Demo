@@ -23,6 +23,12 @@ const router = createRouter({
           component: () => import("@/views/user/Dashboard.vue"),
         },
         {
+          path: "/buttons",
+          name: "buttons",
+          exact: true,
+          component: () => import("@/views/Buttons.vue"),
+        },
+        {
           path: "/search/:query",
           name: "search",
           component: () => import("@/views/user/Search.vue"),

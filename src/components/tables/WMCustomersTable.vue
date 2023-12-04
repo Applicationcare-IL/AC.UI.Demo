@@ -122,7 +122,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { FilterMatchMode } from "primevue/api";
 import { useFormUtilsStore } from "@/stores/formUtils";

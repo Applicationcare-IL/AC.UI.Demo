@@ -51,6 +51,7 @@
       </span>
     </div>
   </div>
+
   <DataTable
     v-model:filters="filters"
     v-model:selection="selectedTasks"
@@ -68,6 +69,7 @@
       style="width: 40px"
       selectionMode="multiple"
     ></Column>
+
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -95,6 +97,12 @@
       </template>
       <template v-if="column.type === 'translate'" #body="slotProps">
         {{ $t(column.prefix + "." + slotProps.data[column.name]) }}
+      </template>
+    </Column>
+
+    <Column style="width: 35px">
+      <template #body="slotProps">
+        <WMButton v-if="true" name="edit" icon="edit" />
       </template>
     </Column>
   </DataTable>

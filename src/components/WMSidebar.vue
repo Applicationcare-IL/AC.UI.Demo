@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, toRefs, defineEmits, watch, computed } from "vue";
+import { ref, toRefs, watch, computed } from "vue";
 import { useLayout } from "@/layout/composables/layout";
 
 const { activeSidebar, openSidebar, closeSidebar } = useSidebar();

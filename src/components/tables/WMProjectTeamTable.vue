@@ -144,7 +144,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref, watch, onMounted, computed } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useFormUtilsStore } from "@/stores/formUtils";
 

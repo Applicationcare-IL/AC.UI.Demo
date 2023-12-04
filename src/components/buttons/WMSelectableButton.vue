@@ -9,7 +9,7 @@
   </Button>
 </template>
 <script setup>
-import { ref, defineProps, defineEmits, computed } from "vue";
+import { ref, computed } from "vue";
 
 const { label, modelValue } = defineProps(["label", "modelValue"]);
 const emit = defineEmits();

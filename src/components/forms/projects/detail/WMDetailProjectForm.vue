@@ -56,6 +56,12 @@
       </Accordion>
 
       <Accordion>
+        <AccordionTab header="Round of signatures tasks">
+          <WMDetailProjectFormSignatureTasksTab />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion>
         <AccordionTab header="Gantt"> Gantt </AccordionTab>
       </Accordion>
 
