@@ -167,7 +167,7 @@
                     type="input-select"
                     :highlighted="true"
                     :label="$t('address.entrance') + ':'"
-                    :options="alphabetWithDash"
+                    :options="alphabet"
                     width="48"
                   />
                 </div>
@@ -389,7 +389,7 @@ const optionSetsStore = useOptionSetsStore();
 const utilsStore = useUtilsStore();
 const contact = ref();
 const route = useRoute();
-const alphabetWithDash = formUtilsStore.getAlphabetWithDash;
+const alphabet = formUtilsStore.getAlphabet;
 const statuses = optionSetsStore.getOptionSetValues("status");
 const genders = ref(optionSetsStore.optionSets["gender"]);
 

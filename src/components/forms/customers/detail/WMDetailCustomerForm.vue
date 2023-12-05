@@ -140,7 +140,7 @@
                     type="input-select"
                     :highlighted="true"
                     :label="$t('address.entrance') + ':'"
-                    :options="alphabetWithDash"
+                    :options="alphabet"
                     width="48"
                     :value="selectedEntrance"
                   />
@@ -393,7 +393,7 @@ const selectedStatus = ref();
 const selectedEntrance = ref("");
 const statusConditionalStyle = ref("");
 
-const alphabetWithDash = formUtilsStore.getAlphabetWithDash;
+const alphabet = formUtilsStore.getAlphabet;
 
 const {
   getContactColumns,

@@ -43,11 +43,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
         { value: false, name: "no" },
       ];
     },
-    getAlphabetWithDash: () => {
+    getAlphabet: () => {
       const alphabet = "אבגדהוזחטיכךלמםנןסעפףצץקרשת".split("");
       return alphabet.map((letter) => ({
-        label: "-" + letter,
-        value: "-" + letter,
+        label: letter,
+        value: letter,
       }));
     },
 

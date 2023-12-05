@@ -7,6 +7,7 @@ export function useServices() {
 
   // ACTIONS
   const getServicesFromApi = async (params) => {
+    console.log("params", params);
     const response = await servicesStore.getServicesFromApi(params);
 
     if (!response) {
@@ -42,6 +43,7 @@ export function useServices() {
 
   // UTILITIES
   const parseService = (service) => {
+    console.log("service", service);
     return {
       contact_id: service.contact.id,
       customer_id: service.customer.id,
@@ -56,6 +58,18 @@ export function useServices() {
       request_1: service.request1?.id,
       request_2: service.request2?.id,
       request_3: service.request3?.id,
+      location: {
+        site: service["site-name"]?.id,
+        site_type: service["site-type"]?.id,
+        site_contact_relationship_role: service["site-contact-role"]?.id,
+        site_contact: service["site-contact-id"]?.id,
+        city: service["city"]?.id,
+        street: service["street"]?.id,
+        house_number: parseInt(service["house-number"]),
+        apartment: service["apartment"],
+        entrance: service["entrance"]?.value,
+        zip: service["zip"],
+      },
     };
   };
 
