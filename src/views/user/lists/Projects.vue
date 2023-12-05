@@ -100,7 +100,12 @@
       </Column>
 
       <template #expansion="slotProps">
-        <DataTable :value="slotProps.data.subProjects" class="subtable">
+        <DataTable
+          :value="slotProps.data.subProjects"
+          v-model:selection="selectedProjects"
+          @update:selection="onSelectionChanged"
+          class="subtable"
+        >
           <Column style="width: 45px"></Column>
           <Column style="width: 40px" selectionMode="multiple"></Column>
           <Column field="project_number" class="link-col">
@@ -203,7 +208,8 @@ const filterLabels = [
 const selectedProjects = ref([]);
 utilsStore.resetElements();
 const onSelectionChanged = () => {
-  utilsStore.selectedElements["contact"] = selectedProjects.value;
+  console.log(selectedProjects.value);
+  utilsStore.selectedElements["project"] = selectedProjects.value;
 };
 
 //Number of rows per page
