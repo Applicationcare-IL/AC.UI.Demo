@@ -52,16 +52,35 @@
           aria-label="Form Steps"
         />
       </div>
-
       <Accordion>
-        <AccordionTab header="Journal"> Journal </AccordionTab>
-      </Accordion>
-
-      <Accordion>
-        <AccordionTab header="Tasks">
+        <AccordionTab header="משימות (Tasks)">
           <WMDetailProjectFormTasksTab />
         </AccordionTab>
       </Accordion>
+
+      <Accordion>
+        <AccordionTab header="יומן (Journal)">
+          <WMJournalDataView />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="גאנט (Gantt)"> NOT DEFINED YET </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="צוות (Team)">
+          <WMDetailProjectFormTeamTab />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="מסמכים (Documents)">
+          <WMDetailProjectFormDocumentsTab />
+        </AccordionTab>
+      </Accordion>
+
+      <h2>Others tabs</h2>
 
       <Accordion>
         <AccordionTab header="Round of signatures tasks">
@@ -73,20 +92,6 @@
         <AccordionTab header="Tender organizations tab">
           Tender organizations table
         </AccordionTab>
-      </Accordion>
-
-      <Accordion>
-        <AccordionTab header="Gantt"> Gantt </AccordionTab>
-      </Accordion>
-
-      <Accordion>
-        <AccordionTab header="Team">
-          <WMDetailProjectFormTeamTab />
-        </AccordionTab>
-      </Accordion>
-
-      <Accordion>
-        <AccordionTab header="Documents"> Documents </AccordionTab>
       </Accordion>
 
       <div class="flex-1 tabs-container mt-5">

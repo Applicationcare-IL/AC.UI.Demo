@@ -308,6 +308,23 @@ export function useListUtils() {
     ];
   };
 
+  const getDocumentColumns = () => {
+    return [
+      {
+        name: "id",
+        type: "link",
+        class: "link-col",
+      },
+      { name: "type", type: "text" },
+      { name: "detail", type: "text" },
+      { name: "name", type: "text" },
+      { name: "uploaded_from", type: "text" },
+      { name: "task_id", type: "link" },
+      { name: "uploaded_on", type: "text" },
+      { name: "file", type: "file" },
+    ];
+  };
+
   const getSignatureTaskColumns = () => {
     return [
       {
@@ -379,6 +396,7 @@ export function useListUtils() {
     getCustomerDetailColumns,
     getServiceColumns,
     getTaskColumns,
+    getDocumentColumns,
     getSignatureTaskColumns,
     // METHODS
     getAlertCellConditionalStyle,

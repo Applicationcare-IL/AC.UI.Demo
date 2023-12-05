@@ -24,6 +24,9 @@
   "fax": "פקס",
   "type": "סוג",
   "filter": "סינון",
+  "no-file": "ללא קובץ",
+  "with-file": "עם קובץ",
+  "all-documents": "כל המסמכים",
   "search": "חיפוש",
   "general-information": "מידע כללי",
   "team": "צוות",
@@ -219,6 +222,9 @@
     "city_data": "City Data",
     "project_name": "Project Name",
     "project_number": "Project no."
+  },
+  "documents": {
+    "file": "File"
   },
   "site": {
     "details": "פרטי מיקום",

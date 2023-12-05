@@ -24,6 +24,9 @@
   "fax": "Fax",
   "type": "Type",
   "filter": "Filter",
+  "no-file": "Without files",
+  "with-file": "With files",
+  "all-documents": "All documents",
   "search": "Search",
   "rating": "Rating",
   "general-information": "General information",
@@ -223,6 +226,9 @@
     "project_name": "Project Name",
     "project_number": "Project no.",
     "project_description": "Project Description"
+  },
+  "documents": {
+    "file": "File"
   },
   "site": {
     "details": "Site Details",
