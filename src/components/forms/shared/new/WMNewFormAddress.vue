@@ -13,15 +13,17 @@
         :placeholder="$t('select', ['addres.city'])"
         @change="updateStreets"
       />
-      <WMInputSearch
-        name="street"
-        :required="true"
-        :highlighted="true"
-        :label="$t('address.street') + ':'"
-        :options="streets"
-        width="152"
-        :placeholder="$t('select', ['address.street'])"
-      />
+      <div class="flex flex-row">
+        <WMInputSearch
+          name="street"
+          :required="true"
+          :highlighted="true"
+          :label="$t('address.street') + ':'"
+          :options="streets"
+          width="152"
+          :placeholder="$t('select', ['address.street'])"
+        />
+      </div>
     </div>
     <div class="wm-form-row gap-5">
       <WMInput

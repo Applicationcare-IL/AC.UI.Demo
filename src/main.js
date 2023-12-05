@@ -47,6 +47,8 @@ import ProgressSpinner from "primevue/progressspinner";
 import Accordion from "primevue/accordion";
 import AccordionTab from "primevue/accordiontab";
 
+import VueGoogleMaps from "@fawmi/vue-google-maps";
+
 import i18nInstance from "@/i18n";
 
 import "@/assets/styles.scss";
@@ -57,6 +59,11 @@ const app = createApp(App)
   .use(mazeComponents)
   .use(ConfirmationService)
   .use(ToastService)
+  .use(VueGoogleMaps, {
+    load: {
+      key: "",
+    },
+  })
   .component("Column", Column)
   .component("DataTable", DataTable)
   .component("AutoComplete", AutoComplete)
