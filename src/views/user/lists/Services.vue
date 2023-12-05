@@ -129,7 +129,7 @@
       </Column>
       <Column field="last_change" header="שינוי אחרון"></Column>
       <Column field="closed" header="נסגר"></Column>
-      <Column field="stage" header="שליחת נציג בטחון"></Column> -->
+      <Column field="stage" header="שליחת נציג בטחון"></Column>
     </DataTable>
   </div>
 </template>
