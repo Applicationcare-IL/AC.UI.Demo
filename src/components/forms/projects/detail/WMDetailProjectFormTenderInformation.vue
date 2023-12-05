@@ -1,36 +1,39 @@
 <template>
-  <p class="p-card-title mt-5">Tender information</p>
+  <Card>
+    <template #title> Tender information </template>
+    <template #content>
+      <div class="wm-form-row gap-5">
+        <WMInput
+          name="quality-committee-required"
+          type="input-select-button"
+          :highlighted="true"
+          :label="'quality committee required' + ':'"
+          :options="yesNoOptions"
+          :selectedOption="yesNoOptions[1]"
+          width="80"
+        />
 
-  <div class="wm-form-row gap-5">
-    <WMInput
-      name="quality-committee-required"
-      type="input-select-button"
-      :highlighted="true"
-      :label="'quality committee required' + ':'"
-      :options="yesNoOptions"
-      :selectedOption="yesNoOptions[1]"
-      width="80"
-    />
+        <WMInput
+          name="site-tour-needed"
+          type="input-select-button"
+          :highlighted="true"
+          :label="'site tour needed' + ':'"
+          :options="yesNoOptions"
+          :value="isSiteTourNeeded"
+          @update:selectedItem="handleSiteTourNeededOptionsChange"
+          width="80"
+        />
 
-    <WMInput
-      name="site-tour-needed"
-      type="input-select-button"
-      :highlighted="true"
-      :label="'site tour needed' + ':'"
-      :options="yesNoOptions"
-      :value="isSiteTourNeeded"
-      @update:selectedItem="handleSiteTourNeededOptionsChange"
-      width="80"
-    />
-
-    <WMInput
-      type="date"
-      :label="'Site tour date'"
-      id="site-tour-date"
-      name="site-tour-date"
-      :disabled="!isSiteTourNeeded.value"
-    />
-  </div>
+        <WMInput
+          type="date"
+          :label="'Site tour date'"
+          id="site-tour-date"
+          name="site-tour-date"
+          :disabled="!isSiteTourNeeded.value"
+        />
+      </div>
+    </template>
+  </Card>
 </template>
 
 <script setup>

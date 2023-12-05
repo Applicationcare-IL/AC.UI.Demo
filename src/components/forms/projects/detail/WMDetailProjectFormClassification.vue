@@ -37,10 +37,6 @@
           :placeholder="$t('select', ['classification-3'])"
         />
       </div>
-
-      <WMDetailProjectFormTenderInformation
-        v-if="selectedProjectType === 'tender'"
-      />
     </template>
   </Card>
 </template>
@@ -50,8 +46,6 @@ import { ref, onMounted } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
-
-const selectedProjectType = ref(false);
 
 const projectTypes = ref([]);
 const projectAreas = ref([]);
@@ -79,14 +73,16 @@ onMounted(() => {
     .then((data) => (projectDetails.value = data));
 });
 
+const emit = defineEmits(["projectTypeUpdate"]);
+
 const handleProjectTypeInputChange = (value) => {
   if (!value) {
-    selectedProjectType.value = false;
+    emit("projectTypeUpdate", false);
 
     return;
   }
 
-  selectedProjectType.value = value.value;
+  emit("projectTypeUpdate", value.value);
   filterProjectAreasDropdown(value.id);
 };
 

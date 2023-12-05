@@ -1,5 +1,5 @@
 <template>
-  <!-- <WMContactsTable :columns="contactColumns" :customerId="route.params.id" /> -->
+  <WMProjectTeamTable :columns="contactColumns" :customerId="route.params.id" />
 </template>
 <script setup>
 import { ref } from "vue";

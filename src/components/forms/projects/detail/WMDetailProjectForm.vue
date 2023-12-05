@@ -21,7 +21,9 @@
           <WMDetailProjectFormGeneralInformation />
         </div>
         <div class="flex flex-1 gap-5 flex-column card-container">
-          <WMDetailProjectFormClassification />
+          <WMDetailProjectFormClassification
+            @project-type-update="handleProjectTypeUpdate"
+          />
           <WMDetailProjectFormExecutionInformation />
         </div>
       </div>
@@ -37,6 +39,12 @@
         </Card>
       </div>
 
+      <div class="flex-1 card-container">
+        <WMDetailProjectFormTenderInformation
+          v-if="selectedProjectType === 'tender'"
+        />
+      </div>
+
       <div class="mt-5">
         <WMStepper
           :steps="stages"
@@ -44,16 +52,35 @@
           aria-label="Form Steps"
         />
       </div>
-
       <Accordion>
-        <AccordionTab header="Journal"> Journal </AccordionTab>
-      </Accordion>
-
-      <Accordion>
-        <AccordionTab header="Tasks">
+        <AccordionTab header="משימות (Tasks)">
           <WMDetailProjectFormTasksTab />
         </AccordionTab>
       </Accordion>
+
+      <Accordion>
+        <AccordionTab header="יומן (Journal)">
+          <WMJournalDataView />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="גאנט (Gantt)"> NOT DEFINED YET </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="צוות (Team)">
+          <WMDetailProjectFormTeamTab />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab header="מסמכים (Documents)">
+          <WMDetailProjectFormDocumentsTab />
+        </AccordionTab>
+      </Accordion>
+
+      <h2>Others tabs</h2>
 
       <Accordion>
         <AccordionTab header="Round of signatures tasks">
@@ -62,17 +89,9 @@
       </Accordion>
 
       <Accordion>
-        <AccordionTab header="Gantt"> Gantt </AccordionTab>
-      </Accordion>
-
-      <Accordion>
-        <AccordionTab header="Team">
-          <WMDetailProjectFormTeamTab />
+        <AccordionTab header="Tender organizations tab">
+          Tender organizations table
         </AccordionTab>
-      </Accordion>
-
-      <Accordion>
-        <AccordionTab header="Documents"> Documents </AccordionTab>
       </Accordion>
 
       <div class="flex-1 tabs-container mt-5">
@@ -103,6 +122,7 @@ const { getProjectFromApi } = useProjects();
 const toast = useToast();
 const stages = ref([]);
 const currentStage = ref();
+const selectedProjectType = ref(false);
 
 const tasks = ref();
 const project = ref();
@@ -172,6 +192,11 @@ const onSave = handleSubmit((values) => {
 
 const priorityClass = (data) => {
   return getPriorityConditionalStyle(data);
+};
+
+const handleProjectTypeUpdate = (value) => {
+  console.log("enro al handle");
+  selectedProjectType.value = value;
 };
 
 // formUtilsStore.submit = onSubmit;
