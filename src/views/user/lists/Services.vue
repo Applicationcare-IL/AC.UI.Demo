@@ -29,6 +29,7 @@
 
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
+      lazy
       v-model:selection="selectedServices"
       :rowClass="rowClass"
       :value="services"
@@ -128,7 +129,7 @@
       </Column>
       <Column field="last_change" header="שינוי אחרון"></Column>
       <Column field="closed" header="נסגר"></Column>
-      <Column field="stage" header="שליחת נציג בטחון"></Column>
+      <Column field="stage" header="שליחת נציג בטחון"></Column> -->
     </DataTable>
   </div>
 </template>
@@ -141,7 +142,6 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useLayout } from "@/layout/composables/layout";
 
 import { formatDate } from "@vueuse/core";
-import WMSLATag from "../../../components/WMSLATag.vue";
 
 const { layoutConfig } = useLayout();
 const formUtilsStore = useFormUtilsStore();
