@@ -31,6 +31,7 @@
       </span>
     </div>
   </div>
+  editmode {{ editMode }}
   <DataTable
     lazy
     v-model:selection="selectedContacts"
@@ -251,6 +252,7 @@ const loadLazyData = async () => {
   }).then((result) => {
     contacts.value = result.data;
     totalRecords.value = result.totalRecords;
+    console.log("contacts", contacts.value);
   });
 };
 

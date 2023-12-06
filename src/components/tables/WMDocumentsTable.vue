@@ -57,10 +57,11 @@
       </span>
     </div>
   </div>
+
   <DataTable
     v-model:filters="filters"
     v-model:selection="selectedDocuments"
-    :value="documentList"
+    :value="documents"
     :rowClass="rowClass"
     dataKey="id"
     tableStyle="min-width: 50rem"
@@ -68,6 +69,8 @@
     paginator
     :rows="rows"
     @update:selection="onSelectionChanged"
+    sortField="id"
+    :sortOrder="-1"
   >
     <Column
       v-if="multiselect"
@@ -91,6 +94,17 @@
           class="vertical-align-middle"
           >{{ slotProps.data.id }}</router-link
         >
+      </template>
+
+      <template v-if="column.type === 'name'" #body="slotProps">
+        <WMInput
+          v-if="editMode[slotProps.data.id]"
+          name="first-name"
+          type="input-text"
+        />
+        <div v-else>
+          {{ slotProps.data[column.name].value }}
+        </div>
       </template>
     </Column>
 
@@ -144,7 +158,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, toRefs, onMounted } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { FilterMatchMode } from "primevue/api";
 
@@ -160,20 +174,12 @@ const selectedElements = ref(0);
 
 const utilsStore = useUtilsStore();
 const i18n = useI18n();
+const { getDocuments } = useDocuments();
 
 const props = defineProps({
-  documents: Array,
-  rows: {
-    type: Number,
-    default: 10,
-  },
   columns: {
     type: Array,
     required: true,
-  },
-  multiselect: {
-    type: Boolean,
-    default: true,
   },
   hideTitle: {
     type: Boolean,
@@ -181,35 +187,39 @@ const props = defineProps({
   },
 });
 
-const newDocument = ref({
-  detail: "כיבוי אש",
-  file_url: "https://www.google.com",
-  has_file: false,
-  id: 1,
-  name: "",
-  owner: "",
-  task_id: "",
-  type: "",
-  uploaded_from: "שם של פרויקט",
-  uploaded_on: "",
-  mode: "new",
-});
+const multiselect = ref(true);
+const rows = ref(10);
 
 const newDocumentList = ref([]);
 
-const documentList = computed(() => {
-  if (!props.documents) return [];
-
-  if (newDocumentList.value.length === 0) return props.documents;
-
-  return [...newDocumentList.value, ...props.documents];
-});
-
 const editMode = ref([]);
 
+const randomId = () => {
+  return Math.floor(Math.random() * 1000000);
+};
+
+const createNewDocument = (id) => {
+  return {
+    detail: "כיבוי אש",
+    file_url: "https://www.google.com",
+    has_file: false,
+    id: id,
+    name: "",
+    owner: "",
+    task_id: "",
+    type: "",
+    uploaded_from: "שם של פרויקט",
+    uploaded_on: "",
+    mode: "new",
+  };
+};
+
 const handleNewDocument = () => {
-  newDocumentList.value.push(newDocument.value);
-  // editMode.value[contacts.value.length - 1] = true;
+  const id = randomId();
+  const newDocument = createNewDocument(id);
+
+  documents.value.push(newDocument);
+  editMode.value[id] = true;
 };
 
 const getColumnHeaderText = (column) => {
@@ -222,6 +232,24 @@ const rowClass = (data) => {
   console.log("rowClass", data);
   return [{ "bg-new-row": data.mode === "new" }];
 };
+
+const documents = ref([]);
+
+const loadLazyData = async () => {
+  const result = await getDocuments();
+  documents.value = result;
+
+  console.log("documents", documents.value);
+};
+
+const onPage = (event) => {
+  lazyParams.value = event;
+  loadLazyData();
+};
+
+onMounted(() => {
+  loadLazyData();
+});
 
 // dots menu
 const menu = ref();
