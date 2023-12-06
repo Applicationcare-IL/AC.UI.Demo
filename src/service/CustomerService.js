@@ -194,12 +194,12 @@ export const CustomerService = {
       notes: customer.notes,
       contacts: contacts,
       location: {
-        city: service["city"]?.id,
-        street: service["street"]?.id,
-        house_number: parseInt(service["house-number"]),
-        apartment: service["apartment"],
-        entrance: service["entrance"]?.value,
-        zip: service["zip"],
+        city: customer["city"]?.id,
+        street: customer["street"]?.id,
+        house_number: parseInt(customer["house-number"]),
+        apartment: customer["apartment"],
+        entrance: customer["entrance"]?.value,
+        zip: customer["zip"],
       },
     };
   },
