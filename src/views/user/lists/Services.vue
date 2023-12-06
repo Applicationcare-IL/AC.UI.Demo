@@ -29,6 +29,7 @@
 
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
+      lazy
       v-model:selection="selectedServices"
       :rowClass="rowClass"
       :value="services"
@@ -141,7 +142,6 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useLayout } from "@/layout/composables/layout";
 
 import { formatDate } from "@vueuse/core";
-import WMSLATag from "../../../components/WMSLATag.vue";
 
 const { layoutConfig } = useLayout();
 const formUtilsStore = useFormUtilsStore();

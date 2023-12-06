@@ -93,6 +93,14 @@ export function useContacts() {
       land_line: contact["landline"],
       notes: contact["notes"],
       contact_number: contact["contact-number"],
+      location: {
+        city: service["city"]?.id,
+        street: service["street"]?.id,
+        house_number: parseInt(service["house-number"]),
+        apartment: service["apartment"],
+        entrance: service["entrance"]?.value,
+        zip: service["zip"],
+      },
     };
   };
 

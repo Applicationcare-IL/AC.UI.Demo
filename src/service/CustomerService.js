@@ -193,6 +193,14 @@ export const CustomerService = {
       // Missing: entrance, house_number, apartment
       notes: customer.notes,
       contacts: contacts,
+      location: {
+        city: customer["city"]?.id,
+        street: customer["street"]?.id,
+        house_number: parseInt(customer["house-number"]),
+        apartment: customer["apartment"],
+        entrance: customer["entrance"]?.value,
+        zip: customer["zip"],
+      },
     };
   },
 

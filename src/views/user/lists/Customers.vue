@@ -197,7 +197,6 @@ const loadLazyData = () => {
     per_page: selectedRowsPerPage.value,
     search: searchValue.value,
   }).then((result) => {
-    console.log(result);
     customers.value = result.data;
     totalRecords.value = result.totalRecords;
     loading.value = false;

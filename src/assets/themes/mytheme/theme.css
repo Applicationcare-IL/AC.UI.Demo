@@ -4489,7 +4489,7 @@
   padding: 1rem 0;
 }
 .p-divider.p-divider-vertical:before {
-  border-left: 1px #dee2e6;
+  border-left: solid 1px #dee2e6;
 }
 .p-divider.p-divider-vertical .p-divider-content {
   padding: 0.5rem 0;

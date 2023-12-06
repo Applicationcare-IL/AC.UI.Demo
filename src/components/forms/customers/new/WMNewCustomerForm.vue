@@ -75,61 +75,7 @@
         />
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px" />
-      <div class="customer-address flex flex-auto flex-column gap-5">
-        <h2 class="h2 mb-0">{{ $t("address.address") }}</h2>
-
-        <div class="wm-form-row gap-5">
-          <WMInputSearch
-            name="city"
-            :highlighted="true"
-            :required="true"
-            :label="$t('address.city') + ':'"
-            :options="cities"
-            width="152"
-            :placeholder="$t('select', ['address.street'])"
-          />
-          <WMInputSearch
-            name="street"
-            :required="true"
-            :highlighted="true"
-            :label="$t('address.street') + ':'"
-            :options="cities"
-            width="152"
-            :placeholder="$t('select', ['address.street'])"
-          />
-        </div>
-        <div class="wm-form-row gap-5">
-          <WMInput
-            name="house-number"
-            type="input-text"
-            :required="true"
-            :label="$t('address.house-number') + ':'"
-            width="48"
-          />
-          <WMInput
-            name="apartment"
-            type="input-text"
-            :label="$t('address.apartment') + ':'"
-            width="48"
-          />
-          <WMInput
-            name="entrance"
-            type="input-select"
-            :highlighted="true"
-            :label="$t('address.entrance') + ':'"
-            :options="alphabetWithDash"
-            width="60"
-          />
-        </div>
-        <div class="wm-form-row gap-5">
-          <WMInput
-            name="zip"
-            type="input-text"
-            :label="$t('address.zip') + ':'"
-            width="80"
-          />
-        </div>
-      </div>
+      <WMNewFormAddress />
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px" />
       <div class="customer-address flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">פרטי התקשרות</h2>
@@ -229,7 +175,7 @@ const cities = ref();
 const types = ref(optionSetsStore.optionSets["customer_type"]);
 const ratings = ref(optionSetsStore.optionSets["customer_rating"]);
 const serviceAreas = ref(optionSetsStore.optionSets["service_area"]);
-const alphabetWithDash = ref(formUtilsStore.getAlphabetWithDash);
+const alphabet = ref(formUtilsStore.getAlphabet);
 const toast = useToast();
 const dialog = useDialog();
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");

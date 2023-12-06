@@ -113,60 +113,7 @@
 
     <Divider class="my-5" layout="horizontal" style="height: 4px" />
 
-    <div class="contact-address flex flex-auto flex-column gap-5 mb-5">
-      <h2 class="h2 mb-0">{{ $t("address.address") }}</h2>
-
-      <div class="wm-form-row gap-5">
-        <WMInputSearch
-          name="city"
-          :highlighted="true"
-          :label="$t('address.city') + ':'"
-          :options="cities"
-          width="152"
-          :placeholder="$t('select', ['address.city'])"
-          @change="updateStreets"
-        />
-        <WMInputSearch
-          name="street"
-          :highlighted="true"
-          :label="$t('address.street') + ':'"
-          :options="streets"
-          width="152"
-          :placeholder="$t('select', ['address.street'])"
-        />
-      </div>
-      <div class="wm-form-row gap-5">
-        <WMInput
-          name="house-number"
-          type="input-text"
-          :label="$t('address.house-number') + ':'"
-          width="48"
-        />
-        <WMInput
-          name="apartment"
-          type="input-text"
-          :label="$t('address.apartment') + ':'"
-          width="48"
-        />
-        <WMInput
-          name="entrance"
-          type="input-select"
-          :highlighted="true"
-          :label="$t('address.entrance') + ':'"
-          :options="alphabetWithDash"
-          width="48"
-        />
-      </div>
-
-      <div class="wm-form-row gap-5">
-        <WMInput
-          name="zip"
-          type="input-text"
-          :label="$t('address.zip') + ':'"
-          width="80"
-        />
-      </div>
-    </div>
+    <WMNewFormAddress />
 
     <Divider class="my-5" layout="horizontal" style="height: 4px" />
 
@@ -212,18 +159,6 @@ const optionSetsStore = useOptionSetsStore();
 const toast = useToast();
 const dialog = useDialog();
 
-const cities = ref();
-const selectedCity = ref(null);
-const streets = ref();
-const selectedStreet = ref(null);
-
-onMounted(() => {
-  // optionSetsStore.getOptionSetValuesFromApiRaw("service_city").then((data) => {
-  //   console.log(data);
-  //   cities.value = data;
-  // });
-});
-
 const { errors, handleSubmit, setFieldError, meta } = useForm({
   validationSchema: formUtilsStore.getContactNewFormValidationSchema,
 });
@@ -238,23 +173,11 @@ function closeSidebar() {
   isVisible.value = false;
 }
 const genders = ref(optionSetsStore.optionSets["gender"]);
-const alphabetWithDash = formUtilsStore.getAlphabetWithDash;
+const alphabet = formUtilsStore.getAlphabet;
 
 const searchCustomer = (query) => {
   return CustomerService.getCustomersFromApi({ search: query });
 };
-
-const updateStreets = (city) => {
-  selectedCity.value = city;
-  if (city) {
-    optionSetsStore
-      .getOptionSetValuesFromApiRaw("service_street")
-      .then((data) => {
-        streets.value = data;
-      });
-  }
-};
-
 const { createContact, parseContact } = useContacts();
 
 const onSubmit = handleSubmit((values) => {

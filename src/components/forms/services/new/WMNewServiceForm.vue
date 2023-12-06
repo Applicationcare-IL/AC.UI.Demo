@@ -184,120 +184,9 @@
         </div>
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" />
-      <div class="service-address flex flex-auto flex-column gap-5">
-        <h2 class="h2 mb-0">{{ $t("address.address") }}</h2>
-
-        <div class="wm-form-row gap-5">
-          <WMInputSearch
-            name="city"
-            :highlighted="true"
-            :required="true"
-            :label="$t('address.city') + ':'"
-            :options="customers"
-            width="152"
-            :placeholder="$t('select', ['addres.city'])"
-          />
-          <WMInputSearch
-            name="street"
-            :required="true"
-            :highlighted="true"
-            :label="$t('address.street') + ':'"
-            :options="customers"
-            width="152"
-            :placeholder="$t('select', ['address.street'])"
-          />
-        </div>
-        <div class="wm-form-row gap-5">
-          <WMInput
-            name="house-number"
-            type="input-text"
-            :highlighted="true"
-            :label="$t('address.house-number') + ':'"
-            width="48"
-          />
-          <WMInput
-            name="apartment"
-            type="input-text"
-            :highlighted="true"
-            :label="$t('address.apartment') + ':'"
-            width="48"
-          />
-          <WMInput
-            name="entrance"
-            type="input-select"
-            :highlighted="true"
-            :label="$t('address.entrance') + ':'"
-            :options="alphabetWithDash"
-            width="48"
-          />
-        </div>
-        <div class="wm-form-row gap-5">
-          <WMInput
-            name="zip"
-            :highlighted="true"
-            type="input-text"
-            :label="$t('address.zip') + ':'"
-            width="80"
-          />
-        </div>
-      </div>
+      <WMNewFormAddress />
       <Divider class="mt-5 mb-0" layout="horizontal" />
-      <div class="service-site-details flex flex-auto flex-column gap-5">
-        <h2 class="h2 mb-0">{{ $t("site.site") }}</h2>
-        <div class="wm-form-row gap-5">
-          <WMInput
-            name="site-name"
-            :required="true"
-            :highlighted="true"
-            type="input-text"
-            :label="$t('site.name') + ':'"
-            width="152"
-          />
-          <WMInput
-            name="site-type"
-            type="input-select"
-            :highlighted="true"
-            :label="$t('site.type') + ':'"
-            :options="alphabetWithDash"
-            width="88"
-          />
-        </div>
-        <div class="wm-form-row gap-5">
-          <div class="wm-form-row align-items-end gap-5">
-            <div class="flex flex-row gap-1 align-items-end">
-              <WMInputSearch
-                name="site-contact"
-                :required="true"
-                :placeholder="$t('select', ['contact'])"
-                type="input-search"
-                :label="$t('site.contact') + ':'"
-                :multiple="true"
-                width="152"
-                :options="customers"
-                :highlighted="true"
-              />
-              <WMButton
-                class="small"
-                name="new"
-                icon="new"
-                @click="openNewContact"
-                >{{ $t("new") }}</WMButton
-              >
-            </div>
-            <WMInputSearch
-              name="site-contact-role"
-              type="input-search"
-              :placeholder="$t('select', ['contact'])"
-              :label="$t('site.contact-role') + ':'"
-              :multiple="true"
-              width="152"
-              :options="contacts"
-              :highlighted="true"
-              :searchFunction="searchSiteContact"
-            />
-          </div>
-        </div>
-      </div>
+      <WMNewServiceFormSite />
     </div>
     <WMFormButtons
       v-if="isSidebar"
@@ -393,14 +282,6 @@ const searchContact = (query) => {
     search: query,
     customer_id: values.customer?.id,
   });
-};
-
-const searchSiteContact = (query) => {
-  return getContactsFromApi({ search: query });
-};
-
-const descriptionUpdated = () => {
-  console.log(value);
 };
 
 const { errors, handleSubmit, setFieldError, meta, values } = useForm({
