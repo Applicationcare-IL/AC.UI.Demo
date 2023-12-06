@@ -13,6 +13,22 @@
           מסמך חדש
         </WMButton>
         <WMAssignOwnerButton entity="document" />
+        <WMButton
+          class="m-1 col-6"
+          name="phone-white"
+          icon="phone"
+          :disabled="selectedElements == 0"
+        >
+          הקצה
+        </WMButton>
+        <WMButton
+          class="m-1 col-6"
+          name="mail-white"
+          icon="mail"
+          :disabled="selectedElements == 0"
+        >
+          הקצה
+        </WMButton>
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -41,12 +57,12 @@
       </span>
     </div>
   </div>
-  <!-- <pre>{{ documents }}</pre> -->
   <DataTable
     v-model:filters="filters"
     v-model:selection="selectedDocuments"
-    :value="documents"
-    dataKey="document_id"
+    :value="documentList"
+    :rowClass="rowClass"
+    dataKey="id"
     tableStyle="min-width: 50rem"
     scrollable
     paginator
@@ -76,42 +92,38 @@
           >{{ slotProps.data.id }}</router-link
         >
       </template>
+    </Column>
 
-      <template v-if="column.type === 'file'" #body="slotProps">
-        <WMButton v-if="true" name="edit" icon="edit" />
-      </template>
-
-      <template v-if="column.type === 'actions'" #body="slotProps">
+    <Column style="width: 40px" :header="'File'">
+      <template #body="slotProps">
         <WMButton
-          @click="toggle"
-          aria-haspopup="true"
-          name="kebab"
-          aria-controls="overlay_menu"
-          icon="kebab"
+          v-if="slotProps.data.has_file"
+          name="edit"
+          class="small"
+          icon="attach"
         />
-        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
-          <template #item="slotProps">
-            <button
-              @click="profileClick"
-              class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2"
-            >
-              <img :src="slotProps.item.image" />
-              <div class="flex flex-column align">
-                {{ slotProps.item.label }}
-              </div>
-            </button>
-          </template>
-        </Menu>
+        <WMButton v-else name="new" class="small" icon="new" />
       </template>
     </Column>
+
     <Column>
       <template #body="slotProps">
         <WMButton
           @click="toggle"
           aria-haspopup="true"
+          name="save"
+          class="small"
+          aria-controls="overlay_menu"
+          icon="save"
+          v-if="slotProps.data.mode === 'new'"
+        />
+        <WMButton
+          @click="toggle"
+          aria-haspopup="true"
           name="kebab"
           aria-controls="overlay_menu"
           icon="kebab"
+          v-else
         />
         <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
           <template #item="slotProps">
@@ -132,7 +144,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, computed, toRefs, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { FilterMatchMode } from "primevue/api";
 
@@ -144,6 +156,7 @@ const selectedDocuments = ref([]);
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
+const selectedElements = ref(0);
 
 const utilsStore = useUtilsStore();
 const i18n = useI18n();
@@ -168,10 +181,46 @@ const props = defineProps({
   },
 });
 
+const newDocument = ref({
+  detail: "כיבוי אש",
+  file_url: "https://www.google.com",
+  has_file: false,
+  id: 1,
+  name: "",
+  owner: "",
+  task_id: "",
+  type: "",
+  uploaded_from: "שם של פרויקט",
+  uploaded_on: "",
+  mode: "new",
+});
+
+const newDocumentList = ref([]);
+
+const documentList = computed(() => {
+  if (!props.documents) return [];
+
+  if (newDocumentList.value.length === 0) return props.documents;
+
+  return [...newDocumentList.value, ...props.documents];
+});
+
+const editMode = ref([]);
+
+const handleNewDocument = () => {
+  newDocumentList.value.push(newDocument.value);
+  // editMode.value[contacts.value.length - 1] = true;
+};
+
 const getColumnHeaderText = (column) => {
   if (column.header === false) return "";
 
   return column.header ? t(column.header) : t(`documents.${column.name}`);
+};
+
+const rowClass = (data) => {
+  console.log("rowClass", data);
+  return [{ "bg-new-row": data.mode === "new" }];
 };
 
 // dots menu
@@ -232,4 +281,11 @@ const filters = ref({
   status: { value: null, matchMode: FilterMatchMode.EQUALS },
   verified: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
+
+watch(
+  () => utilsStore.selectedElements["document"],
+  (value) => {
+    selectedElements.value = value.length;
+  }
+);
 </script>

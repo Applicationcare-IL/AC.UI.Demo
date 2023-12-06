@@ -321,7 +321,6 @@ export function useListUtils() {
       { name: "uploaded_from", type: "text" },
       { name: "task_id", type: "link" },
       { name: "uploaded_on", type: "text" },
-      { name: "file", type: "file" },
     ];
   };
 
