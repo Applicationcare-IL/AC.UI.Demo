@@ -91,8 +91,12 @@
         <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
       </template>
       <template v-if="column.type === 'sla'" #body="slotProps">
-        <WMSLATag :sla="slotProps.data.sla">
-          {{ slotProps.data.days_for_closing }} ימים
+        <WMSLATag
+          v-if="slotProps.data.sla"
+          :sla="slotProps.data.sla"
+          :daysForClosing="slotProps.data.days_for_closing"
+          :state="slotProps.data.state"
+        >
         </WMSLATag>
       </template>
       <template v-if="column.type === 'translate'" #body="slotProps">

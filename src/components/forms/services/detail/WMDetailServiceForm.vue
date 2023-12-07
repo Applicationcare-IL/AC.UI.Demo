@@ -93,8 +93,12 @@
                     />
                     <div class="wm-input flex flex-column">
                       <label class="wm-form-label highlighted"> SLA </label>
-                      <WMSLATag :sla="service.sla">
-                        {{ service.days_for_closing }} ימים
+                      <WMSLATag
+                        v-if="service.sla"
+                        :sla="service.sla"
+                        :daysForClosing="service.days_for_closing"
+                        :state="service.state"
+                      >
                       </WMSLATag>
                     </div>
                   </div>

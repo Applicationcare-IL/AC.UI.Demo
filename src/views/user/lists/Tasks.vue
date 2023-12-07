@@ -98,8 +98,12 @@
       <!-- SLA -->
       <Column field="SLA" header="SLA" class="sla">
         <template #body="slotProps">
-          <WMSLATag :sla="slotProps.data.sla">
-            {{ slotProps.data.days_for_closing }} ימים
+          <WMSLATag
+            v-if="slotProps.data.sla"
+            :sla="slotProps.data.sla"
+            :daysForClosing="slotProps.data.days_for_closing"
+            :state="slotProps.data.state"
+          >
           </WMSLATag>
         </template>
       </Column>

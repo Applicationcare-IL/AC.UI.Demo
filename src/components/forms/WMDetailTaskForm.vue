@@ -39,7 +39,7 @@
                     type="input-select"
                     :label="$t('status') + ':'"
                     :options="statuses"
-                    :selectedOption="
+                    :value="
                       statuses.find((status) => status.value === task.status)
                     "
                   />
@@ -67,8 +67,12 @@
                     :label="$t('task.sla')"
                     class="sla"
                   >
-                    <WMSLATag :sla="task.sla">
-                      {{ task.days_for_closing }} ימים
+                    <WMSLATag
+                      v-if="task.sla"
+                      :sla="task.sla"
+                      :daysForClosing="task.days_for_closing"
+                      :state="task.state"
+                    >
                     </WMSLATag>
                   </WMInput>
                 </div>

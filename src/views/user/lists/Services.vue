@@ -105,8 +105,12 @@
       <Column field="owner.default_team" header="צוות"></Column>
       <Column field="SLA" header="SLA" class="sla">
         <template #body="slotProps">
-          <WMSLATag :sla="slotProps.data.sla">
-            {{ $t("sla.days_left", [slotProps.data.days_for_closing]) }}
+          <WMSLATag
+            v-if="slotProps.data.sla"
+            :sla="slotProps.data.sla"
+            :daysForClosing="slotProps.data.days_for_closing"
+            :state="slotProps.data.state"
+          >
           </WMSLATag>
         </template>
       </Column>

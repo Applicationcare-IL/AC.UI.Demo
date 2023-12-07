@@ -100,8 +100,12 @@
         >
       </template>
       <template v-if="column.type === 'sla'" #body="slotProps">
-        <WMSLATag :sla="slotProps.data.sla">
-          {{ slotProps.data.days_for_closing }} ימים
+        <WMSLATag
+          v-if="slotProps.data.sla"
+          :sla="slotProps.data.sla"
+          :daysForClosing="slotProps.data.days_for_closing"
+          :state="slotProps.data.state"
+        >
         </WMSLATag>
       </template>
       <template v-if="column.type === 'priority'" #body="slotProps">
