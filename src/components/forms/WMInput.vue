@@ -20,6 +20,7 @@
       :disabled="props.disabled"
       :placeholder="placeholder"
       :value="value"
+      v-model="value"
       @input="
         $emit('update:value', $event.target.value);
         handleChange($event.target.value);

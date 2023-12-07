@@ -399,7 +399,6 @@ a {
 }
 
 //Buttons
-
 .p-selectbutton.p-buttonset.p-component>div {
     padding: 10px 10px 10px 10px;
 }
@@ -414,6 +413,12 @@ a {
 }
 
 .p-selectbutton.p-buttonset.p-component.form-select-button {
+    height: 24px;
+}
+
+.p-button-only-icon{
+    padding: 0px;
+    width: 24px;
     height: 24px;
 }
 

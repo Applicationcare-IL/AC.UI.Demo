@@ -94,13 +94,6 @@
           optionValue="id"
           class="w-full p-0"
           v-model="slotProps.data.role.id"
-          @change="
-            emit(
-              'update:' + column.name,
-              $event.value,
-              slotProps.data.contact_id
-            )
-          "
         >
         </Dropdown>
         <div v-else>
@@ -317,10 +310,14 @@ const onSelectionChanged = () => {
 };
 
 const saveRow = (contact) => {
+  console.log("saveRow", contact);
   const contactParams = {
     id: contact.contact_id,
     role: contact.role.id,
   };
+
+  console.log("contactParams", contactParams);
+
   CustomerService.assignContactToCustomer(customer.value.id, contactParams)
     .then(() => {
       loadLazyData();

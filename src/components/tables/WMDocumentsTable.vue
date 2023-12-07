@@ -96,20 +96,52 @@
         >
       </template>
 
-      <template v-if="column.type === 'name'" #body="slotProps">
-        <WMInput
+      <template v-if="column.type === 'detail'" #body="slotProps">
+        <Dropdown
           v-if="editMode[slotProps.data.id]"
-          name="first-name"
-          type="input-text"
+          :options="optionSetsStore.optionSets[column.optionSet]"
+          optionLabel="value"
+          optionValue="id"
+          class="w-full p-0"
+          v-model="slotProps.data.detail"
+        >
+        </Dropdown>
+        <div v-else>
+          {{ slotProps.data.detail }}
+        </div>
+      </template>
+
+      <template v-if="column.type === 'type'" #body="slotProps">
+        <Dropdown
+          v-if="editMode[slotProps.data.id]"
+          :options="optionSetsStore.optionSets[column.optionSet]"
+          optionLabel="value"
+          optionValue="id"
+          class="w-full p-0"
+          v-model="slotProps.data.detail"
+        >
+        </Dropdown>
+        <div v-else>
+          {{ slotProps.data.type }}
+        </div>
+      </template>
+
+      <template v-if="column.type === 'name'" #body="slotProps">
+        <input
+          v-if="editMode[slotProps.data.id]"
+          v-model="slotProps.data.name"
         />
         <div v-else>
-          {{ slotProps.data[column.name].value }}
+          {{ slotProps.data.name }}
         </div>
       </template>
     </Column>
 
     <Column style="width: 40px" :header="'File'">
       <template #body="slotProps">
+        <Button class="p-button-only-icon">
+          <img src="@/icons/eye.svg" alt="" class="vertical-align-middle" />
+        </Button>
         <WMButton
           v-if="slotProps.data.has_file"
           name="edit"
@@ -123,13 +155,14 @@
     <Column>
       <template #body="slotProps">
         <WMButton
-          @click="toggle"
-          aria-haspopup="true"
           name="save"
           class="small"
-          aria-controls="overlay_menu"
           icon="save"
           v-if="slotProps.data.mode === 'new'"
+          @click="
+            saveRow(slotProps.data);
+            editMode[slotProps.index] = false;
+          "
         />
         <WMButton
           @click="toggle"
@@ -161,6 +194,7 @@
 import { ref, watch, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { FilterMatchMode } from "primevue/api";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 import { useUtilsStore } from "@/stores/utils";
 
@@ -171,6 +205,8 @@ const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
 const selectedElements = ref(0);
+
+const optionSetsStore = useOptionSetsStore();
 
 const utilsStore = useUtilsStore();
 const i18n = useI18n();
@@ -199,26 +235,26 @@ const randomId = () => {
 };
 
 const createNewDocument = (id) => {
-  return {
+  return ref({
     detail: "כיבוי אש",
     file_url: "https://www.google.com",
     has_file: false,
     id: id,
-    name: "",
+    name: "nuevo",
     owner: "",
     task_id: "",
     type: "",
     uploaded_from: "שם של פרויקט",
     uploaded_on: "",
     mode: "new",
-  };
+  });
 };
 
 const handleNewDocument = () => {
   const id = randomId();
   const newDocument = createNewDocument(id);
 
-  documents.value.push(newDocument);
+  documents.value.push(newDocument.value);
   editMode.value[id] = true;
 };
 
@@ -229,7 +265,6 @@ const getColumnHeaderText = (column) => {
 };
 
 const rowClass = (data) => {
-  console.log("rowClass", data);
   return [{ "bg-new-row": data.mode === "new" }];
 };
 
@@ -238,8 +273,6 @@ const documents = ref([]);
 const loadLazyData = async () => {
   const result = await getDocuments();
   documents.value = result;
-
-  console.log("documents", documents.value);
 };
 
 const onPage = (event) => {
@@ -297,7 +330,6 @@ watch(locale, () => {
 });
 
 const onSelectionChanged = () => {
-  console.log(selectedDocuments.value);
   utilsStore.selectedElements["document"] = selectedDocuments.value;
 };
 
@@ -309,6 +341,22 @@ const filters = ref({
   status: { value: null, matchMode: FilterMatchMode.EQUALS },
   verified: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
+
+const saveRow = (document) => {
+  console.log("save new document", document);
+  // const contactParams = {
+  //   id: contact.contact_id,
+  //   role: contact.role.id,
+  // };
+  // CustomerService.assignContactToCustomer(customer.value.id, contactParams)
+  //   .then(() => {
+  //     loadLazyData();
+  //     toast.success("Contact Successfully updated");
+  //   })
+  //   .catch(() => {
+  //     toast.error("Contact assign Failed");
+  //   });
+};
 
 watch(
   () => utilsStore.selectedElements["document"],
