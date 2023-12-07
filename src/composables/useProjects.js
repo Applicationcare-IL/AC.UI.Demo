@@ -30,6 +30,21 @@ export function useProjects() {
     return await projectsStore.createProject(project);
   };
 
+  // TEAM MEMBERS
+  const getTeamMembersFromApi = async (params) => {
+    return getTeamMembersData();
+
+    // const response = await projectsStore.getTeamMembersFromApi(params);
+
+    // const teamMembers = response.data.map((teamMember) => {
+    //   return mapTeamMember(teamMember);
+    // });
+
+    // const totalRecords = response.meta.total;
+
+    // return { teamMembers, totalRecords };
+  };
+
   // UTILITIES
   const parseProject = (project) => {
     console.log(project);
@@ -59,7 +74,7 @@ export function useProjects() {
     return status[Math.floor(Math.random() * status.length)];
   };
 
-  const generateMockProject = (i) => {
+  const generateFakeProject = (i) => {
     const is_active = Math.random() < 0.5;
 
     return {
@@ -83,16 +98,39 @@ export function useProjects() {
 
     for (let i = 0; i < 1000; i++) {
       projects.push({
-        ...generateMockProject(i),
+        ...generateFakeProject(i),
         subProjects: [
-          generateMockProject(i + "-" + 1),
-          generateMockProject(i + "-" + 2),
-          generateMockProject(i + "-" + 3),
+          generateFakeProject(i + "-" + 1),
+          generateFakeProject(i + "-" + 2),
+          generateFakeProject(i + "-" + 3),
         ],
       });
     }
 
     return { data: projects, totalRecords: 1000 };
+  };
+
+  const generateFakeTeamMember = (i) => {
+    return {
+      id: i,
+      name: "שם מלא",
+      mobile_phone: "050-1234567",
+      landline: "02-1234567",
+      email: "example@example.com",
+      address: "רחובות, רחוב יהודה החסיד 15",
+      organization: "שם של ארגון",
+      role: "שם של תפקיד",
+    };
+  };
+
+  const getTeamMembersData = () => {
+    const teamMembers = [];
+
+    for (let i = 0; i < 100; i++) {
+      teamMembers.push(generateFakeTeamMember(i));
+    }
+
+    return { data: teamMembers, totalRecords: 100 };
   };
 
   const getMockedProjectResponse = () => {
@@ -196,12 +234,14 @@ export function useProjects() {
     getProjectsFromApi,
     createProject,
     getProjectFromApi,
+    getTeamMembersFromApi,
 
     // UTILITIES
     parseProject,
     mapProject,
 
     // MOCKED DATA
-    getProjectsData,
+
+    getTeamMembersData,
   };
 }
