@@ -139,16 +139,15 @@
 
     <Column style="width: 40px" :header="'File'">
       <template #body="slotProps">
-        <Button class="p-button-only-icon">
-          <img src="@/icons/eye.svg" alt="" class="vertical-align-middle" />
-        </Button>
-        <WMButton
+        <Button
           v-if="slotProps.data.has_file"
-          name="edit"
-          class="small"
-          icon="attach"
-        />
-        <WMButton v-else name="new" class="small" icon="new" />
+          class="p-button-only-icon p-lightblue-button"
+        >
+          <div class="p-button-svg" v-html="FileIcon" />
+        </Button>
+        <Button v-else class="p-button-only-icon p-orange-button">
+          <div class="p-button-svg" v-html="AddFileIcon" />
+        </Button>
       </template>
     </Column>
 
@@ -197,6 +196,9 @@ import { FilterMatchMode } from "primevue/api";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 import { useUtilsStore } from "@/stores/utils";
+
+import FileIcon from "/icons/menu/file.svg?raw";
+import AddFileIcon from "/icons/menu/add_file.svg?raw";
 
 const { t, locale } = useI18n();
 
