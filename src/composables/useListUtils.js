@@ -315,13 +315,12 @@ export function useListUtils() {
         type: "link",
         class: "link-col",
       },
-      { name: "type", type: "text" },
-      { name: "detail", type: "text" },
-      { name: "name", type: "text" },
+      { name: "type", type: "type" },
+      { name: "detail", type: "detail", optionSet: "contact_customer_role" },
+      { name: "name", type: "name", optionSet: "contact_customer_role" },
       { name: "uploaded_from", type: "text" },
       { name: "task_id", type: "link" },
       { name: "uploaded_on", type: "text" },
-      { name: "file", type: "file" },
     ];
   };
 

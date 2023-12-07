@@ -172,10 +172,6 @@ const props = defineProps({
     type: Number,
     default: 10,
   },
-  columns: {
-    type: Array,
-    required: true,
-  },
   multiselect: {
     type: Boolean,
     default: true,
@@ -211,6 +207,9 @@ onMounted(() => {
   }
 });
 
+const { getContactColumns } = useListUtils();
+const columns = ref(getContactColumns());
+
 const { getSelectFilterButtonValues, getAlertCellConditionalStyle } =
   useListUtils();
 
@@ -242,20 +241,22 @@ const customer = ref();
 
 const lazyParams = ref({});
 
-const { getContactsFromApi } = useContacts();
+const { getTeamMembersFromApi } = useProjects();
 
 const loadLazyData = async () => {
-  await getCustomerFromApi(props.customerId).then((data) => {
-    customer.value = data;
-  });
-  getContactsFromApi({
-    page: lazyParams.value.page + 1,
-    per_page: props.rows,
-    customer_id: customer.value.id,
-  }).then((result) => {
-    contacts.value = result.data;
-    totalRecords.value = result.totalRecords;
-  });
+  const teamMembers = await getTeamMembersFromApi();
+  contacts.value = teamMembers.data;
+  // await CustomerService.getCustomerFromApi(props.customerId).then((data) => {
+  //   customer.value = data;
+  // });
+  // getContactsFromApi({
+  //   page: lazyParams.value.page + 1,
+  //   per_page: props.rows,
+  //   customer_id: customer.value.id,
+  // }).then((result) => {
+  //   contacts.value = result.data;
+  //   totalRecords.value = result.totalRecords;
+  // });
 };
 
 const onPage = (event) => {

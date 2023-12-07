@@ -7,7 +7,7 @@ export function useDocuments() {
 
     for (let i = 0; i < 100; i++) {
       Documents.push({
-        has_file: randomBoolean,
+        has_file: randomBoolean(),
         file_url: "https://www.google.com",
         uploaded_on: "11-11-22",
         owner: "Israel Israeli",
@@ -17,6 +17,7 @@ export function useDocuments() {
         detail: "כיבוי אש",
         type: "אישור",
         id: id + i,
+        mode: "saved",
       });
     }
 

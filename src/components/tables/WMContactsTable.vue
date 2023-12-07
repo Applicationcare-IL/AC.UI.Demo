@@ -31,6 +31,7 @@
       </span>
     </div>
   </div>
+  editmode {{ editMode }}
   <DataTable
     lazy
     v-model:selection="selectedContacts"
@@ -93,13 +94,6 @@
           optionValue="id"
           class="w-full p-0"
           v-model="slotProps.data.role.id"
-          @change="
-            emit(
-              'update:' + column.name,
-              $event.value,
-              slotProps.data.contact_id
-            )
-          "
         >
         </Dropdown>
         <div v-else>
@@ -254,6 +248,7 @@ const loadLazyData = async () => {
   }).then((result) => {
     contacts.value = result.data;
     totalRecords.value = result.totalRecords;
+    console.log("contacts", contacts.value);
   });
 };
 
@@ -318,6 +313,7 @@ const onSelectionChanged = () => {
 };
 
 const saveRow = (contact) => {
+  console.log("saveRow", contact);
   const contactParams = {
     id: contact.contact_id,
     role: contact.role.id,

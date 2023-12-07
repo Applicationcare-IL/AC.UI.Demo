@@ -13,6 +13,22 @@
           מסמך חדש
         </WMButton>
         <WMAssignOwnerButton entity="document" />
+        <WMButton
+          class="m-1 col-6"
+          name="phone-white"
+          icon="phone"
+          :disabled="selectedElements == 0"
+        >
+          הקצה
+        </WMButton>
+        <WMButton
+          class="m-1 col-6"
+          name="mail-white"
+          icon="mail"
+          :disabled="selectedElements == 0"
+        >
+          הקצה
+        </WMButton>
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -41,17 +57,21 @@
       </span>
     </div>
   </div>
-  <!-- <pre>{{ documents }}</pre> -->
+
   <DataTable
     v-model:filters="filters"
     v-model:selection="selectedDocuments"
     :value="documents"
-    dataKey="document_id"
+    :rowClass="rowClass"
+    dataKey="id"
     tableStyle="min-width: 50rem"
     scrollable
     paginator
     :rows="rows"
     @update:selection="onSelectionChanged"
+    sortField="id"
+    :sortOrder="-1"
+    :loading="loading"
   >
     <Column
       v-if="multiselect"
@@ -77,66 +97,106 @@
         >
       </template>
 
-      <template v-if="column.type === 'file'" #body="slotProps">
-        <WMButton v-if="true" name="edit" icon="edit" />
+      <template v-if="column.type === 'detail'" #body="slotProps">
+        <Dropdown
+          v-if="editMode[slotProps.data.id]"
+          :options="optionSetsStore.optionSets[column.optionSet]"
+          optionLabel="value"
+          optionValue="id"
+          class="w-full p-0"
+          v-model="slotProps.data.detail"
+        >
+        </Dropdown>
+        <div v-else>
+          {{ slotProps.data.detail }}
+        </div>
       </template>
 
-      <template v-if="column.type === 'actions'" #body="slotProps">
-        <WMButton
-          @click="toggle"
-          aria-haspopup="true"
-          name="kebab"
-          aria-controls="overlay_menu"
-          icon="kebab"
+      <template v-if="column.type === 'type'" #body="slotProps">
+        <Dropdown
+          v-if="editMode[slotProps.data.id]"
+          :options="optionSetsStore.optionSets[column.optionSet]"
+          optionLabel="value"
+          optionValue="id"
+          class="w-full p-0"
+          v-model="slotProps.data.detail"
+        >
+        </Dropdown>
+        <div v-else>
+          {{ slotProps.data.type }}
+        </div>
+      </template>
+
+      <template v-if="column.type === 'name'" #body="slotProps">
+        <input
+          v-if="editMode[slotProps.data.id]"
+          v-model="slotProps.data.name"
         />
-        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
-          <template #item="slotProps">
-            <button
-              @click="profileClick"
-              class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2"
-            >
-              <img :src="slotProps.item.image" />
-              <div class="flex flex-column align">
-                {{ slotProps.item.label }}
-              </div>
-            </button>
-          </template>
-        </Menu>
+        <div v-else>
+          {{ slotProps.data.name }}
+        </div>
       </template>
     </Column>
+
+    <Column style="width: 40px" :header="'File'">
+      <template #body="slotProps">
+        <Button
+          v-if="slotProps.data.has_file"
+          class="p-button-only-icon p-lightblue-button"
+        >
+          <div class="p-button-svg" v-html="FileIcon" />
+        </Button>
+        <Button
+          v-else
+          class="p-button-only-icon p-orange-button"
+          @click="toggleAddFileOverlay"
+        >
+          <div class="p-button-svg" v-html="AddFileIcon" />
+        </Button>
+        <OverlayPanel ref="addFileOverlay">
+          <div class="flex gap-3">
+            <Button label="New file" />
+            <Button label="File folder" />
+          </div>
+        </OverlayPanel>
+      </template>
+    </Column>
+
     <Column>
       <template #body="slotProps">
-        <WMButton
-          @click="toggle"
-          aria-haspopup="true"
-          name="kebab"
-          aria-controls="overlay_menu"
-          icon="kebab"
+        <Button
+          v-if="slotProps.data.mode === 'new' || editMode[slotProps.data.id]"
+          class="p-button-only-icon p-teal-button"
+          @click="
+            saveRow(slotProps.data);
+            slotProps.data.mode = 'view';
+            editMode[slotProps.data.id] = false;
+          "
+        >
+          <div class="p-button-svg" v-html="SaveIcon" />
+        </Button>
+
+        <WMDocumentsTableItemOverlayMenu
+          v-else
+          :item-id="slotProps.data.id"
+          @edit-row="handleEditRow"
         />
-        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
-          <template #item="slotProps">
-            <button
-              @click="profileClick"
-              class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2"
-            >
-              <img :src="slotProps.item.image" />
-              <div class="flex flex-column align">
-                {{ slotProps.item.label }}
-              </div>
-            </button>
-          </template>
-        </Menu>
       </template>
     </Column>
   </DataTable>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { FilterMatchMode } from "primevue/api";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 import { useUtilsStore } from "@/stores/utils";
+
+import FileIcon from "/icons/menu/file.svg?raw";
+import AddFileIcon from "/icons/menu/add_file.svg?raw";
+import SaveIcon from "/icons/save_default.svg?raw";
 
 const { t, locale } = useI18n();
 
@@ -144,23 +204,18 @@ const selectedDocuments = ref([]);
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
+const selectedElements = ref(0);
+
+const optionSetsStore = useOptionSetsStore();
 
 const utilsStore = useUtilsStore();
 const i18n = useI18n();
+const { getDocuments } = useDocuments();
 
 const props = defineProps({
-  documents: Array,
-  rows: {
-    type: Number,
-    default: 10,
-  },
   columns: {
     type: Array,
     required: true,
-  },
-  multiselect: {
-    type: Boolean,
-    default: true,
   },
   hideTitle: {
     type: Boolean,
@@ -168,41 +223,79 @@ const props = defineProps({
   },
 });
 
+const multiselect = ref(true);
+const rows = ref(10);
+
+const editMode = ref([]);
+
+const handleEditRow = (id) => {
+  editMode.value[id] = true;
+};
+
+const randomId = () => {
+  return Math.floor(Math.random() * 1000000);
+};
+
+const createNewDocument = (id) => {
+  return ref({
+    detail: "כיבוי אש",
+    file_url: "https://www.google.com",
+    has_file: false,
+    id: id,
+    name: "",
+    owner: "",
+    task_id: "",
+    type: "",
+    uploaded_from: "שם של פרויקט",
+    uploaded_on: "",
+    mode: "new",
+  });
+};
+
+const loading = ref(false);
+
+const handleNewDocument = () => {
+  loading.value = true;
+  const id = randomId();
+  const newDocument = createNewDocument(id);
+
+  documents.value.push(newDocument.value);
+  editMode.value[id] = true;
+
+  loading.value = false;
+};
+
 const getColumnHeaderText = (column) => {
   if (column.header === false) return "";
 
   return column.header ? t(column.header) : t(`documents.${column.name}`);
 };
 
-// dots menu
-const menu = ref();
-
-const toggle = (event) => {
-  menu.value.toggle(event);
+const rowClass = (data) => {
+  return [{ "bg-new-row": data.mode === "new" }];
 };
 
-const items = ref([
-  {
-    label: "View",
-    image: new URL("/icons/menu/view.svg", import.meta.url).href,
-  },
-  {
-    label: "Edit",
-    image: new URL("/icons/menu/rename.svg", import.meta.url).href,
-  },
-  {
-    label: "Share",
-    image: new URL("/icons/menu/share.svg", import.meta.url).href,
-  },
-  {
-    label: "Download",
-    image: new URL("/icons/menu/download.svg", import.meta.url).href,
-  },
-  {
-    label: "Delete",
-    image: new URL("/icons/menu/delete.svg", import.meta.url).href,
-  },
-]);
+const documents = ref([]);
+
+const loadLazyData = async () => {
+  const result = await getDocuments();
+  documents.value = result;
+};
+
+const onPage = (event) => {
+  lazyParams.value = event;
+  loadLazyData();
+};
+
+onMounted(() => {
+  loadLazyData();
+});
+
+const addFileOverlay = ref();
+
+const toggleAddFileOverlay = (event) => {
+  addFileOverlay.value.toggle(event);
+};
 
 const getFilterOptions = () => {
   return [
@@ -220,7 +313,6 @@ watch(locale, () => {
 });
 
 const onSelectionChanged = () => {
-  console.log(selectedDocuments.value);
   utilsStore.selectedElements["document"] = selectedDocuments.value;
 };
 
@@ -232,4 +324,27 @@ const filters = ref({
   status: { value: null, matchMode: FilterMatchMode.EQUALS },
   verified: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
+
+const saveRow = (document) => {
+  console.log("save new document", document);
+  // const contactParams = {
+  //   id: contact.contact_id,
+  //   role: contact.role.id,
+  // };
+  // CustomerService.assignContactToCustomer(customer.value.id, contactParams)
+  //   .then(() => {
+  //     loadLazyData();
+  //     toast.success("Contact Successfully updated");
+  //   })
+  //   .catch(() => {
+  //     toast.error("Contact assign Failed");
+  //   });
+};
+
+watch(
+  () => utilsStore.selectedElements["document"],
+  (value) => {
+    selectedElements.value = value.length;
+  }
+);
 </script>
