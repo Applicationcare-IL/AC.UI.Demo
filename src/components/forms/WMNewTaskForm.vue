@@ -147,11 +147,11 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 import { useForm } from "vee-validate";
-import { CustomerService } from "@/service/CustomerService";
 
 const optionSetsStore = useOptionSetsStore();
 
 const { getTasksTypesFromApi, createTask, parseTask } = useTasks();
+const { getCustomersFromApi } = useCustomers();
 
 const isRecurring = ref(false);
 
@@ -204,7 +204,7 @@ function closeNewCustomerSidebar() {
 }
 
 const searchCustomer = (query) => {
-  return CustomerService.getCustomersFromApi({
+  return getCustomersFromApi({
     search: query,
     contact_id: values.contact?.id,
   });

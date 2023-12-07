@@ -147,10 +147,8 @@
 import { ref, watch, onMounted, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useFormUtilsStore } from "@/stores/formUtils";
-
 import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { CustomerService } from "@/service/CustomerService";
 
 const i18n = useI18n();
 
@@ -239,9 +237,14 @@ const customer = ref();
 const lazyParams = ref({});
 
 const { getContactsFromApi } = useContacts();
+const {
+  getCustomerFromApi,
+  assignContactToCustomer,
+  unassignContactFromCustomer,
+} = useCustomers();
 
 const loadLazyData = async () => {
-  await CustomerService.getCustomerFromApi(props.customerId).then((data) => {
+  await getCustomerFromApi(props.customerId).then((data) => {
     customer.value = data;
   });
   getContactsFromApi({
@@ -287,7 +290,7 @@ const onStarClicked = (contact) => {
   emit("update:mainContact", contact.id);
   if (!isSourceExternal.value) {
     const contactParams = { id: contact.id, main: true, role: contact.role.id };
-    CustomerService.assignContactToCustomer(customer.value.id, contactParams)
+    assignContactToCustomer(customer.value.id, contactParams)
       .then(() => {
         loadLazyData();
       })
@@ -299,7 +302,7 @@ const toast = useToast();
 const unlinkContact = (contactId) => {
   if (isSourceExternal.value) emit("unlink", contactId);
   else {
-    CustomerService.unassignContactFromCustomer(customer.value.id, contactId)
+    unassignContactFromCustomer(customer.value.id, contactId)
       .then(() => {
         loadLazyData();
         toast.success("Contact Successfully unlinked");
@@ -319,7 +322,7 @@ const saveRow = (contact) => {
     id: contact.contact_id,
     role: contact.role.id,
   };
-  CustomerService.assignContactToCustomer(customer.value.id, contactParams)
+  assignContactToCustomer(customer.value.id, contactParams)
     .then(() => {
       loadLazyData();
       toast.success("Contact Successfully updated");

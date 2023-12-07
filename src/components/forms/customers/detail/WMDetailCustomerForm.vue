@@ -163,7 +163,6 @@
               <div class="flex flex-auto flex-column gap-5">
                 <WMInputSearch
                   name="service_area"
-                  type="input-search"
                   :placeholder="$t('select', ['customer.area'])"
                   :required="true"
                   :multiple="true"
@@ -357,7 +356,6 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
-import { CustomerService } from "@/service/CustomerService";
 
 import { i18n } from "@/i18n";
 
@@ -421,6 +419,9 @@ onMounted(() => {
   fetchData();
 });
 
+const { getCustomerFromApi, updateCustomer, parseCustomer, existsCustomer } =
+  useCustomers();
+
 const fetchData = async () => {
   await optionSetsStore
     .getOptionSetValuesFromApi("service_area")
@@ -432,7 +433,7 @@ const fetchData = async () => {
   await optionSetsStore
     .getOptionSetValuesFromApi("customer_rating")
     .then((data) => (ratings.value = data));
-  await CustomerService.getCustomerFromApi(route.params.id).then((data) => {
+  await getCustomerFromApi(route.params.id).then((data) => {
     customer.value = data;
     utilsStore.selectedElements["customer"] = [customer.value];
 
@@ -482,10 +483,7 @@ const onSave = handleSubmit((values) => {
     });
     return;
   }
-  CustomerService.updateCustomer(
-    route.params.id,
-    CustomerService.parseCustomer(values)
-  )
+  updateCustomer(route.params.id, parseCustomer(values))
     .then((data) => {
       toast.successAction("customer", "updated");
       resetForm({ values: values });
@@ -499,7 +497,7 @@ const onSave = handleSubmit((values) => {
 const customerNumberExists = ref(false);
 const onCustomerNumberChanged = (event) => {
   utilsStore.debounceAction(() => {
-    CustomerService.existsCustomer("id", event.target.value).then(
+    existsCustomer("id", event.target.value).then(
       (exists) => (
         (customerNumberExists.value = exists),
         exists

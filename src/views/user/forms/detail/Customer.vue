@@ -9,7 +9,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { CustomerService } from "@/service/CustomerService";
 
 const formKey = ref("customerDetailForm");
 
@@ -19,8 +18,10 @@ const saveForm = () => {
   detailCustomerForm.value.onSave();
 };
 
+const { updateState } = useCustomers();
+
 const updateEntityState = (id, state) => {
   console.log("updateEntityState", state);
-  CustomerService.updateState(id, state);
+  updateState(id, state);
 };
 </script>

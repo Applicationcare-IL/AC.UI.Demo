@@ -151,7 +151,6 @@ import { useUtilsStore } from "@/stores/utils";
 
 import { useForm } from "vee-validate";
 import { useAuthStore } from "@/stores/auth";
-import { CustomerService } from "@/service/CustomerService";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -170,6 +169,7 @@ const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 
 const { getSelectedContactsForNewCustomerColumns } = useListUtils();
+const { createCustomer, parseCustomer, existsCustomer } = useCustomers();
 
 const cities = ref();
 const types = ref(optionSetsStore.optionSets["customer_type"]);
@@ -199,9 +199,7 @@ const onSubmit = handleSubmit((values) => {
       main: contact.main,
     };
   });
-  CustomerService.createCustomer(
-    CustomerService.parseCustomer(values, contacts)
-  )
+  createCustomer(parseCustomer(values, contacts))
     .then((data) => {
       dialog.confirmNewCustomer(data.data.id);
       toast.successAction("customer", "created");
@@ -218,7 +216,7 @@ const onCancel = () => {
 
 const onCustomerNumberChanged = (event) => {
   utilsStore.debounceAction(() => {
-    CustomerService.existsCustomer("id", event.target.value).then((exists) =>
+    existsCustomer("id", event.target.value).then((exists) =>
       exists
         ? setFieldError("number", {
             key: "validation.exists",

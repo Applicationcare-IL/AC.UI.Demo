@@ -201,7 +201,6 @@ import { ref, onMounted, watch, defineExpose } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useForm, useField } from "vee-validate";
-import { CustomerService } from "@/service/CustomerService";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRouter } from "vue-router";
 
@@ -241,6 +240,7 @@ const optionRefs = {
   requests3: requests3,
 };
 const { value } = useField("description");
+const { getCustomersFromApi } = useCustomers();
 
 onMounted(() => {
   optionSetsStore
@@ -269,7 +269,7 @@ const selectedContact = ref();
 const selectedCustomer = ref();
 
 const searchCustomer = (query) => {
-  return CustomerService.getCustomersFromApi({
+  return getCustomersFromApi({
     search: query,
     contact_id: values.contact?.id,
   });

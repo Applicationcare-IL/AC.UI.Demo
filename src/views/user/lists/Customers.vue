@@ -158,7 +158,6 @@
 
 <script setup>
 import { ref, onMounted, computed, watch, watchEffect } from "vue";
-import { CustomerService } from "@/service/CustomerService";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -189,10 +188,12 @@ const loading = ref(false);
 const dt = ref();
 const searchValue = ref("");
 
+const { getCustomersFromApi } = useCustomers();
+
 const loadLazyData = () => {
   loading.value = true;
 
-  CustomerService.getCustomersFromApi({
+  getCustomersFromApi({
     page: lazyParams.value.page + 1,
     per_page: selectedRowsPerPage.value,
     search: searchValue.value,

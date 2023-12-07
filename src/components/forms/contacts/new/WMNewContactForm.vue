@@ -53,7 +53,6 @@
         <WMInputSearch
           name="customer"
           :placeholder="$t('select', ['customer'])"
-          type="input-search"
           :label="$t('customer.customer') + ':'"
           :multiple="true"
           width="248"
@@ -135,10 +134,7 @@
 
 <script setup>
 import { onMounted, watch, defineExpose, ref } from "vue";
-import { CustomerService } from "@/service/CustomerService";
-
 import { useAuthStore } from "@/stores/auth";
-
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -175,8 +171,10 @@ function closeSidebar() {
 const genders = ref(optionSetsStore.optionSets["gender"]);
 const alphabet = formUtilsStore.getAlphabet;
 
+const { getCustomersFromApi } = useCustomers();
+
 const searchCustomer = (query) => {
-  return CustomerService.getCustomersFromApi({ search: query });
+  return getCustomersFromApi({ search: query });
 };
 const { createContact, parseContact } = useContacts();
 

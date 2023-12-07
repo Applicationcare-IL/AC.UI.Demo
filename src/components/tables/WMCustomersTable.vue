@@ -128,7 +128,6 @@ import { FilterMatchMode } from "primevue/api";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
 import { useUtilsStore } from "@/stores/utils";
-import { CustomerService } from "@/service/CustomerService";
 
 const i18n = useI18n();
 
@@ -142,6 +141,8 @@ const selectedOption = ref(1);
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 const totalRecords = ref(0);
+
+const { getCustomersFromApi } = useCustomers();
 
 const props = defineProps({
   rows: {
@@ -184,7 +185,7 @@ const customers = ref([]);
 const lazyParams = ref({});
 
 const loadLazyData = () => {
-  CustomerService.getCustomersFromApi({
+  getCustomersFromApi({
     page: lazyParams.value.page + 1,
     per_page: props.rows,
     contact_id: props.contact.id,
