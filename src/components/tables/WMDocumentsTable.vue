@@ -71,6 +71,7 @@
     @update:selection="onSelectionChanged"
     sortField="id"
     :sortOrder="-1"
+    :loading="loading"
   >
     <Column
       v-if="multiselect"
@@ -145,45 +146,41 @@
         >
           <div class="p-button-svg" v-html="FileIcon" />
         </Button>
-        <Button v-else class="p-button-only-icon p-orange-button">
+        <Button
+          v-else
+          class="p-button-only-icon p-orange-button"
+          @click="toggleAddFileOverlay"
+        >
           <div class="p-button-svg" v-html="AddFileIcon" />
         </Button>
+        <OverlayPanel ref="addFileOverlay">
+          <div class="flex gap-3">
+            <Button label="New file" />
+            <Button label="File folder" />
+          </div>
+        </OverlayPanel>
       </template>
     </Column>
 
     <Column>
       <template #body="slotProps">
-        <WMButton
-          name="save"
-          class="small"
-          icon="save"
-          v-if="slotProps.data.mode === 'new'"
+        <Button
+          v-if="slotProps.data.mode === 'new' || editMode[slotProps.data.id]"
+          class="p-button-only-icon p-teal-button"
           @click="
             saveRow(slotProps.data);
-            editMode[slotProps.index] = false;
+            slotProps.data.mode = 'view';
+            editMode[slotProps.data.id] = false;
           "
-        />
-        <WMButton
-          @click="toggle"
-          aria-haspopup="true"
-          name="kebab"
-          aria-controls="overlay_menu"
-          icon="kebab"
+        >
+          <div class="p-button-svg" v-html="SaveIcon" />
+        </Button>
+
+        <WMDocumentsTableItemOverlayMenu
           v-else
+          :item-id="slotProps.data.id"
+          @edit-row="handleEditRow"
         />
-        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
-          <template #item="slotProps">
-            <button
-              @click="profileClick"
-              class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2"
-            >
-              <img :src="slotProps.item.image" />
-              <div class="flex flex-column align">
-                {{ slotProps.item.label }}
-              </div>
-            </button>
-          </template>
-        </Menu>
       </template>
     </Column>
   </DataTable>
@@ -199,6 +196,7 @@ import { useUtilsStore } from "@/stores/utils";
 
 import FileIcon from "/icons/menu/file.svg?raw";
 import AddFileIcon from "/icons/menu/add_file.svg?raw";
+import SaveIcon from "/icons/save_default.svg?raw";
 
 const { t, locale } = useI18n();
 
@@ -228,9 +226,11 @@ const props = defineProps({
 const multiselect = ref(true);
 const rows = ref(10);
 
-const newDocumentList = ref([]);
-
 const editMode = ref([]);
+
+const handleEditRow = (id) => {
+  editMode.value[id] = true;
+};
 
 const randomId = () => {
   return Math.floor(Math.random() * 1000000);
@@ -242,7 +242,7 @@ const createNewDocument = (id) => {
     file_url: "https://www.google.com",
     has_file: false,
     id: id,
-    name: "nuevo",
+    name: "",
     owner: "",
     task_id: "",
     type: "",
@@ -252,12 +252,17 @@ const createNewDocument = (id) => {
   });
 };
 
+const loading = ref(false);
+
 const handleNewDocument = () => {
+  loading.value = true;
   const id = randomId();
   const newDocument = createNewDocument(id);
 
   documents.value.push(newDocument.value);
   editMode.value[id] = true;
+
+  loading.value = false;
 };
 
 const getColumnHeaderText = (column) => {
@@ -286,35 +291,11 @@ onMounted(() => {
   loadLazyData();
 });
 
-// dots menu
-const menu = ref();
+const addFileOverlay = ref();
 
-const toggle = (event) => {
-  menu.value.toggle(event);
+const toggleAddFileOverlay = (event) => {
+  addFileOverlay.value.toggle(event);
 };
-
-const items = ref([
-  {
-    label: "View",
-    image: new URL("/icons/menu/view.svg", import.meta.url).href,
-  },
-  {
-    label: "Edit",
-    image: new URL("/icons/menu/rename.svg", import.meta.url).href,
-  },
-  {
-    label: "Share",
-    image: new URL("/icons/menu/share.svg", import.meta.url).href,
-  },
-  {
-    label: "Download",
-    image: new URL("/icons/menu/download.svg", import.meta.url).href,
-  },
-  {
-    label: "Delete",
-    image: new URL("/icons/menu/delete.svg", import.meta.url).href,
-  },
-]);
 
 const getFilterOptions = () => {
   return [

@@ -440,6 +440,20 @@ a {
 }
 
 // colors
+.p-teal-button{
+    background-color: var(--teal-700);
+    color: white;
+
+    .p-button-svg{
+        fill: white;
+    }
+
+    &:enabled:hover,
+    &:hover{
+        background-color: var(--teal-600);
+    }
+}
+
 .p-orange-button{
     background-color: var(--orange-500);
     color: white;
