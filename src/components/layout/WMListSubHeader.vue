@@ -20,13 +20,33 @@
 
           <WMAssignOwnerButton :entity="utilsStore.entity" />
 
-          <WMButtonMenu
-            class="m-1"
-            mode="light"
-            :menuItems="menuItems"
+          <Button
+            label="הודעה"
+            icon="pi pi-chevron-down"
+            aria-haspopup="true"
+            @click="toggleCommunicationsMenu"
+            aria-controls="overlay_menu"
+            class="m-1 p-button-default"
             :disabled="selectedElements == 0"
-            >הודעה
-          </WMButtonMenu>
+          />
+
+          <Menu
+            ref="menu"
+            id="overlay_menu"
+            :model="communicationsMenuItems"
+            :popup="true"
+          >
+            <template #item="slotProps">
+              <button
+                @click="handleOverlayMenuClick(slotProps.item.action)"
+                class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2"
+              >
+                <div class="flex flex-column align">
+                  {{ slotProps.item.label }}
+                </div>
+              </button>
+            </template>
+          </Menu>
 
           <WMButton
             class="m-1 col-6"
@@ -100,10 +120,22 @@ const utilsStore = useUtilsStore();
 
 const { listRowsPerPage, selectedRowsPerPage } = useListUtils();
 
-const menuItems = [
-  { label: "Whatsapp", value: "option1" },
-  { label: "SMS", value: "option2" },
-];
+const menu = ref();
+
+const toggleCommunicationsMenu = (event) => {
+  menu.value.toggle(event);
+};
+
+const communicationsMenuItems = ref([
+  {
+    label: "SMS",
+    action: "sms",
+  },
+  {
+    label: "Whatsapp",
+    action: "whatsapp",
+  },
+]);
 
 const numberOfRows = ref(
   listRowsPerPage.find((x) => x.value === selectedRowsPerPage.value)

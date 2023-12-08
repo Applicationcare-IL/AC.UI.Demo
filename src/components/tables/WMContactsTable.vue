@@ -31,7 +31,6 @@
       </span>
     </div>
   </div>
-  editmode {{ editMode }}
   <DataTable
     lazy
     v-model:selection="selectedContacts"
