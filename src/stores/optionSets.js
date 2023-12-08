@@ -29,6 +29,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
       "project_area",
       "project_detail",
       "task_sla",
+      "task_status",
     ],
     optionSets: {},
     optionSetsPreloaded: false,

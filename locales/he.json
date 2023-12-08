@@ -376,6 +376,16 @@
       "completed": "הושלם",
       "canceled": "מבוטל"
     },
+    "task_status": {
+      "open": "פתוח",
+      "closed": "סגור",
+      "active": "פעיל",
+      "not_active": "לא פעיל",
+      "inactive": "לא פעיל",
+      "pending": "ממתין",
+      "completed": "הושלם",
+      "canceled": "מבוטל"
+    },
     "state": {
       "active": "פעיל",
       "not_active": "לא פעיל"

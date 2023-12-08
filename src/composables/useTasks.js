@@ -85,27 +85,9 @@ export function useTasks() {
       close_date: task.completed_at,
       last_change: task.last_activity.updater.at,
       remarks: task.remarks,
-      service_number: task.entity?.id,
+      related_entity: task.entity,
       description: task.description,
       notes: task.notes,
-      location: {
-        house_number: "12",
-        apartment: "42",
-        entrance: "ב",
-        street: "שמעון פרס",
-        city: "כוכב יאיר",
-        country: "ישראל",
-        zip: "1234567",
-      },
-      site: {
-        name: "מועצה דתית בית הכנסת",
-        contact: "שלומי שבת",
-        contact_id: "795",
-        contact_role: "אחראי תברואה",
-        phone: "054-1234567",
-        email: "mailmail@mailmail.com",
-        type: "ציבורי",
-      },
     };
   };
 

@@ -83,7 +83,7 @@
                     type="info"
                     :highlighted="true"
                     :label="$t('task.family')"
-                    :value="task.family"
+                    :value="task.task_family"
                   />
                   <WMInput
                     name="type"
@@ -135,7 +135,17 @@
             </template>
           </Card>
         </div>
-        <div class="card-container top-info-card flex-1">
+        <!-- RELATED ENTITY -->
+        <WMDetailTaskRelatedService
+          v-if="task.related_entity?.type == 'service'"
+        />
+        <WMDetailTaskRelatedProject
+          v-if="task.related_entity?.type == 'project'"
+        />
+        <div
+          v-if="task.related_entity == null"
+          class="card-container top-info-card flex-1"
+        >
           <Card class="flex align-items-center justify-content-center">
             <template #content>
               <h3>Task isn’t related to an entity</h3>
@@ -180,169 +190,19 @@
           </Card>
         </div>
       </div>
+      <div
+        class="flex flex-row gap-5 flex-wrap mt-5"
+        v-if="task.related_entity.type == 'service' && service"
+      >
+        <WMDetailFormLocation :location="service.location" />
 
-      <!-- <Card>
-            <template #title>
-              {{ $t("site.details") }}
-            </template>
-            <template #content>
-              <div class="flex flex-auto flex-row gap-6">
-                <div class="wm-form-column gap-5">
-                  <WMInput
-                    name="site-name"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('site.name') + ':'"
-                    :value="task.site.name"
-                  />
-                  <WMInput
-                    name="site-contact"
-                    type="info-link"
-                    :highlighted="true"
-                    :label="$t('site.contact') + ':'"
-                    :value="task.site.contact"
-                    :to="'/contact/' + task.site.contact_id"
-                  />
-                  <WMInput
-                    name="site-phone"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('site.phone') + ':'"
-                    :value="task.site.phone"
-                  />
-                </div>
-                <div class="wm-form-column gap-5">
-                  <WMInput
-                    name="site-type"
-                    type="info"
-                    :label="$t('site.type') + ':'"
-                    :value="task.site.type"
-                  >
-                  </WMInput>
-                  <WMInput
-                    name="site-contact-role"
-                    type="info"
-                    :label="$t('site.contact_role') + ':'"
-                    :value="task.site.contact_role"
-                  />
-                  <WMInput
-                    name="site-email"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('site.email') + ':'"
-                    :value="task.site.email"
-                  />
-                </div>
-              </div>
-            </template>
-          </Card> -->
-
-      <div class="flex flex-row gap-5 flex-wrap">
-        <div class="flex-1 card-container top-info-card">
-          <Card>
-            <template #title>
-              <div class="flex flex-row justify-content-between">
-                {{ $t("address.address") }}
-                <WMButton name="location" icon="location" @click="">{{
-                  $t("location")
-                }}</WMButton>
-              </div>
-            </template>
-            <template #content>
-              <div class="flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="city"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('address.city') + ':'"
-                    :value="task.location.city"
-                  />
-                  <WMInput
-                    name="street"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('address.street') + ':'"
-                    :value="task.location.street"
-                  />
-                </div>
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="house-number"
-                    type="info"
-                    :label="$t('address.house-number') + ':'"
-                    width="48"
-                    :value="task.location.house_number"
-                  ></WMInput>
-                  <WMInput
-                    name="apartment"
-                    type="info"
-                    :label="$t('address.apartment') + ':'"
-                    width="48"
-                    :value="task.location.apartment"
-                  />
-                  <WMInput
-                    name="entrance"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('address.entrance') + ':'"
-                    :value="task.location.entrance"
-                  />
-                  <WMInput
-                    name="zip"
-                    type="info"
-                    :label="$t('address.zip') + ':'"
-                    width="80"
-                    :value="task.location.zip"
-                  />
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div>
-        <div class="flex-1 card-container top-info-card">
-          <template v-if="service">
-            <Card>
-              <template #title>
-                {{ $t("task.service_details") }} {{ task.service_number }}
-              </template>
-              <template #content>
-                <div class="flex flex-column gap-5">
-                  <div class="flex-flex-column">
-                    <div class="h4">{{ $t("service.classification") }}</div>
-                    <div>
-                      {{ service.classification_1 }} \
-                      {{ service.classification_1 }} \
-                      {{ service.classification_1 }} \
-                      {{ service.classification_1 }} \
-                      {{ service.classification_1 }}
-                    </div>
-                  </div>
-
-                  <div class="flex flex-column">
-                    <div class="h4">{{ $t("service.description") }}</div>
-                    <div class="contact-notes flex flex-auto flex-column gap-5">
-                      <div class="wm-form-row gap-5">
-                        <Textarea v-model="value" autoResize rows="5" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </template>
-            </Card>
-          </template>
-          <template v-else class="flex-1 card-container">
-            <Card>
-              <template #title> Loading service </template>
-            </Card>
-          </template>
-        </div>
+        <WMDetailFormSite :site="service.site" />
       </div>
 
       <div class="flex flex-row gap-5 flex-wrap mt-5">
         <Accordion class="p-accordion--blue">
           <AccordionTab header="מסמכים">
-            <WMFilesDataView></WMFilesDataView>
+            <!-- <WMFilesDataView></WMFilesDataView> -->
           </AccordionTab>
         </Accordion>
       </div>
@@ -441,11 +301,7 @@ const task = ref();
 const service = ref();
 const route = useRoute();
 
-const classification4Options =
-  optionSetsStore.getOptionSetValues("classification4");
-const classification5Options =
-  optionSetsStore.getOptionSetValues("classification5");
-const statuses = optionSetsStore.getOptionSetValues("status");
+const statuses = optionSetsStore.optionSets["task_status"];
 
 const props = defineProps({
   formKey: {
@@ -455,17 +311,15 @@ const props = defineProps({
 });
 
 const { getTaskFromApi } = useTasks();
-const { getService } = useServices();
+const { getServiceFromApi } = useServices();
 
 onMounted(() => {
   getTaskFromApi(route.params.id).then((data) => {
     task.value = data;
-    setTimeout(function () {
-      getService(task.value.service_number).then((data) => {
-        service.value = data;
-        console.log(service.value);
-      });
-    }, 2000);
+    getServiceFromApi(task.value.related_entity.id).then((data) => {
+      service.value = data;
+    });
+
     utilsStore.selectedElements["task"] = [task.value];
   });
 });

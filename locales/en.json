@@ -372,6 +372,16 @@
       "completed": "Completed",
       "canceled": "Canceled"
     },
+    "task_status": {
+      "open": "Open",
+      "closed": "Closed",
+      "active": "Active",
+      "inactive": "Not Active",
+      "not_active": "Not Active",
+      "pending": "Pending",
+      "completed": "Completed",
+      "canceled": "Canceled"
+    },
     "state": {
       "active": "Active",
       "inactive": "Not Active"
