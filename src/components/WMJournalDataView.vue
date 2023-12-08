@@ -21,51 +21,50 @@
       </div>
     </template>
     <template #list="slotProps">
-      <div class="col-12">
+      <div
+        v-for="item in slotProps.items"
+        class="flex flex-row align-items-center justify-content-between"
+        style="height: 40px"
+      >
         <div
-          class="flex flex-row align-items-center justify-content-between"
-          style="height: 40px"
+          class="px-2 flex flex-row justify-items-start align-items-center gap-2"
         >
           <div
-            class="px-2 flex flex-row justify-items-start align-items-center gap-2"
+            class="border-circle bg-gray-50 flex flex-column align-items-center justify-content-center"
+            style="width: 28px; height: 28px"
           >
-            <div
-              class="border-circle bg-gray-50 flex flex-column align-items-center justify-content-center"
-              style="width: 28px; height: 28px"
-            >
-              <img
-                class="mx-2 border-round-sm"
-                :src="`icons/journal/${slotProps.data.type}.svg`"
-                :alt="slotProps.data.name"
-                style="width: 16px; height: 16px"
-              />
-            </div>
-            <div>{{ slotProps.data.date }}</div>
-            <div>{{ slotProps.data.hour }}</div>
-            <div>{{ slotProps.data.content }}</div>
-          </div>
-          <div class="flex flex-row justify-items-end align-items-center gap-2">
-            <WMButton
-              @click="toggle"
-              aria-haspopup="true"
-              name="kebab"
-              aria-controls="overlay_menu"
-              icon="kebab"
+            <img
+              class="mx-2 border-round-sm"
+              :src="`icons/journal/${item.type}.svg`"
+              :alt="item.name"
+              style="width: 16px; height: 16px"
             />
-            <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
-              <template #item="slotProps">
-                <button
-                  @click="profileClick"
-                  class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2"
-                >
-                  <img :src="slotProps.item.image" />
-                  <div class="flex flex-column align">
-                    {{ slotProps.item.label }}
-                  </div>
-                </button>
-              </template>
-            </Menu>
           </div>
+          <div>{{ item.date }}</div>
+          <div>{{ item.hour }}</div>
+          <div>{{ item.content }}</div>
+        </div>
+        <div class="flex flex-row justify-items-end align-items-center gap-2">
+          <WMButton
+            @click="toggle"
+            aria-haspopup="true"
+            name="kebab"
+            aria-controls="overlay_menu"
+            icon="kebab"
+          />
+          <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
+            <template #item="slotProps">
+              <button
+                @click="profileClick"
+                class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2"
+              >
+                <img :src="slotProps.item.image" />
+                <div class="flex flex-column align">
+                  {{ slotProps.item.label }}
+                </div>
+              </button>
+            </template>
+          </Menu>
         </div>
       </div>
     </template>
