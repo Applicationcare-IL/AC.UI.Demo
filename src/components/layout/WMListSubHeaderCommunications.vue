@@ -38,7 +38,12 @@
     </template>
 
     <div class="flex flex-column gap-2 my-5">
-      <div class="custom-input-search">
+      <div v-if="!multiple" class="flex flex-row gap-3">
+        <span class="h6">From:</span>
+        contact
+      </div>
+
+      <div v-if="multiple" class="custom-input-search mb-3">
         <span class="h6 custom-input-search__to">To:</span>
         <WMInputSearch
           name="contacts"
@@ -60,6 +65,22 @@
           Clear all
         </Button>
       </div>
+
+      <div class="flex flex-row align-items-baseline gap-3">
+        <span class="h6">Channel:</span>
+        <Dropdown
+          optionLabel="name"
+          v-model="selectedChannel"
+          :options="channels"
+          placeholder="Select a channel"
+          class="w-full md:w-14rem"
+        />
+      </div>
+      <Divider />
+
+      <!-- <WMCommunicationsEditor :hide-toolbar="true" /> -->
+
+      <WMCommunicationsEditor />
 
       <Divider />
     </div>
@@ -88,6 +109,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  multiple: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const inputSearch = ref();
@@ -109,6 +134,11 @@ const communicationsMenuItems = ref([
   },
 ]);
 
+const channels = ref([
+  { name: "SMS", code: "sms" },
+  { name: "Other", code: "other" },
+]);
+
 const { getContactsFromApi } = useContacts();
 
 const searchContact = (query) => {
@@ -116,6 +146,7 @@ const searchContact = (query) => {
 };
 
 const selectedContacts = ref(0);
+const selectedChannel = ref("sms");
 
 const onContactselected = (contacts) => {
   selectedContacts.value = contacts;

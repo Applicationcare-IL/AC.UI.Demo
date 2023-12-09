@@ -20,7 +20,10 @@
 
           <WMAssignOwnerButton :entity="utilsStore.entity" />
 
-          <WMListSubHeaderCommunications :selectedElements="selectedElements" />
+          <WMListSubHeaderCommunications
+            :selectedElements="selectedElements"
+            :multiple="true"
+          />
 
           <WMButton
             class="m-1 col-6"
