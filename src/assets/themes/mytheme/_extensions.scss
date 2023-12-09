@@ -399,6 +399,49 @@ a {
 }
 
 //Buttons
+.p-button{
+    cursor: pointer;
+    width: -moz-fit-content;
+    width: fit-content;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 8px;
+    height: 32px;
+    border-radius: 8px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    line-height: initial;
+    font-family: Assistant;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    transition: none;
+}
+
+.p-button-default{
+    background-color: var(--gray-50);
+    color: var(--blue-500);
+    border: none;
+
+    &:disabled{
+        background-color: var(--gray-200);
+        color: var(--gray-500);
+        border: 1px solid var(--gray-500);
+        cursor: not-allowed;
+    }
+
+    &:hover{
+        background-color: var(--gray-100) !important;
+        color: inherit !important;
+    }
+}
+
 .p-selectbutton.p-buttonset.p-component>div {
     padding: 10px 10px 10px 10px;
 }
