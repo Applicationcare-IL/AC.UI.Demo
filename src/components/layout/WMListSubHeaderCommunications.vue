@@ -27,12 +27,42 @@
     </template>
   </Menu>
 
-  <Dialog v-model:visible="SMSDialogVisible" modal header="Header">
+  <Dialog
+    v-model:visible="SMSDialogVisible"
+    modal
+    header="Header"
+    :style="{ minWidth: '640px' }"
+  >
     <template #header>
-      <span>Send message to contacts</span>
+      <span class="h4">Send message to contacts</span>
     </template>
 
-    <!-- Content -->
+    <div class="flex flex-column gap-2 my-5">
+      <div class="custom-input-search">
+        <span class="h6 custom-input-search__to">To:</span>
+        <WMInputSearch
+          name="contacts"
+          :placeholder="$t('select', ['contact'])"
+          :multiple="true"
+          :searchFunction="searchContact"
+          @update:modelValue="onContactselected"
+          :modelValue="selectedContacts"
+          theme="purple"
+          class="custom-input-search__input"
+          ref="inputSearch"
+        />
+        <Button
+          @click="handleClearAllSelectedContacts"
+          :disabled="selectedContacts == 0"
+          link
+          class="custom-input-search__clear"
+        >
+          Clear all
+        </Button>
+      </div>
+
+      <Divider />
+    </div>
 
     <template #footer>
       <div class="flex flex-row gap-3">
@@ -60,6 +90,8 @@ const props = defineProps({
   },
 });
 
+const inputSearch = ref();
+
 const menu = ref();
 
 const toggleCommunicationsMenu = (event) => {
@@ -77,6 +109,18 @@ const communicationsMenuItems = ref([
   },
 ]);
 
+const { getContactsFromApi } = useContacts();
+
+const searchContact = (query) => {
+  return getContactsFromApi({ search: query });
+};
+
+const selectedContacts = ref(0);
+
+const onContactselected = (contacts) => {
+  selectedContacts.value = contacts;
+};
+
 const handleOverlayMenuClick = (action) => {
   switch (action) {
     case "sms":
@@ -89,4 +133,36 @@ const handleOverlayMenuClick = (action) => {
       break;
   }
 };
+
+const handleClearAllSelectedContacts = () => {
+  selectedContacts.value = [];
+  inputSearch.value.clear();
+};
 </script>
+
+<style scoped lang="scss">
+.custom-input-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  &__to {
+    top: 6px;
+    position: absolute;
+  }
+
+  &__input {
+    top: 0px;
+    position: absolute;
+    left: 30px;
+  }
+
+  &__clear {
+    top: 0px;
+    position: absolute;
+    left: 150px;
+    font-weight: 700;
+  }
+}
+</style>

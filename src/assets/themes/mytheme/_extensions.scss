@@ -324,9 +324,10 @@ body {
 }
 
 .h4 {
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 26.16px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
 
 .h5 {
@@ -336,8 +337,10 @@ body {
 }
 
 .h6 {
-    font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
     line-height: 18.31px;
 }
 
@@ -352,7 +355,6 @@ a {
 }
 
 // Tags & chips
-
 .p-tag,
 .p-chip {
     font-size: 14px;
@@ -396,6 +398,16 @@ a {
     background-color: var(--teal-700);
     color: white;
     white-space: nowrap;
+
+    &.p-chip--purple{
+        background-color: var(--purple-100);
+        color: var(--purple-800);
+        font-family: Futurism;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
 }
 
 //Buttons
