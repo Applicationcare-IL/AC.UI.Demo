@@ -96,66 +96,7 @@
             </template>
           </Card>
         </div>
-        <div class="flex-1 card-container top-info-card">
-          <Card>
-            <template #title> {{ $t("address.address") }} </template>
-            <template #content>
-              <div class="flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <WMInputSearch
-                    name="city"
-                    :highlighted="true"
-                    :label="$t('address.city') + ':'"
-                    :options="cities"
-                    width="152"
-                    :placeholder="$t('select', ['address.city'])"
-                    :modelValue="customer.city"
-                  />
-                  <WMInputSearch
-                    name="street"
-                    :highlighted="true"
-                    :label="$t('address.street') + ':'"
-                    :options="streets"
-                    width="152"
-                    :placeholder="$t('select', ['address.street'])"
-                    :modelValue="customer.street"
-                  />
-                </div>
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="house-number"
-                    type="input-text"
-                    :label="$t('address.house-number') + ':'"
-                    width="48"
-                    :value="customer.street_number"
-                  />
-                  <WMInput
-                    name="apartment"
-                    type="input-text"
-                    :label="$t('address.apartment') + ':'"
-                    width="48"
-                  />
-                  <WMInput
-                    name="entrance"
-                    type="input-select"
-                    :highlighted="true"
-                    :label="$t('address.entrance') + ':'"
-                    :options="alphabet"
-                    width="48"
-                    :value="selectedEntrance"
-                  />
-                  <WMInput
-                    name="zip"
-                    type="input-text"
-                    :label="$t('address.zip') + ':'"
-                    width="80"
-                    :value="customer.zipcode"
-                  />
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div>
+        <WMDetailFormLocation :location="customer.location" editable />
         <div class="flex-1 card-container top-info-card">
           <Card>
             <template #title> {{ $t("customer.areas") }} </template>
@@ -371,7 +312,6 @@ const { getServicesFromApi } = useServices();
 
 const services = ref();
 const tasks = ref();
-const cities = ref();
 
 const route = useRoute();
 const formUtilsStore = useFormUtilsStore();
@@ -409,9 +349,6 @@ const isProvider = ref("");
 
 const service_areas = ref();
 const selectedServiceAreas = ref("");
-
-const selectedCity = ref("");
-const selectedStreet = ref("");
 
 utilsStore.resetElements();
 

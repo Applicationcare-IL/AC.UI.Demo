@@ -3,9 +3,7 @@
     <template #title>
       <div class="flex flex-row justify-content-between">
         <div>נתוני מיקום</div>
-        <WMButton class="m-1 col-6" name="location" icon="location"
-          >צפיה במפה</WMButton
-        >
+        <WMLocationButton></WMLocationButton>
       </div>
     </template>
     <template #content>

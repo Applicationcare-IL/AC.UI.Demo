@@ -70,6 +70,17 @@ export function useContacts() {
       created_at: contact.last_activity?.creator?.at,
       updated_by: contact.last_activity?.updater?.name,
       updated_at: contact.last_activity?.updater?.at,
+      location: {
+        city: contact["city"]?.id,
+        street: contact["street"]?.id,
+        house_number:
+          contact["house-number"] != null
+            ? parseInt(contact["house-number"])
+            : null,
+        apartment: contact["apartment"],
+        entrance: contact["entrance"]?.value,
+        zip: contact["zip"],
+      },
     };
   };
 

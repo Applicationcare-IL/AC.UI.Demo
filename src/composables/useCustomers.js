@@ -81,6 +81,17 @@ export function useCustomers() {
       main_contact: customer.main_contact,
       service_areas: customer.service_areas,
       is_provider: customer.is_provider,
+      location: {
+        city: customer["city"]?.id,
+        street: customer["street"]?.id,
+        house_number:
+          customer["house-number"] != null
+            ? parseInt(customer["house-number"])
+            : null,
+        apartment: customer["apartment"],
+        entrance: customer["entrance"]?.value,
+        zip: customer["zip"],
+      },
     };
   };
 
