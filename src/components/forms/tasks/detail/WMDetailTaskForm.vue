@@ -141,6 +141,7 @@
           v-if="task.related_entity?.type == 'service'"
         />
         <WMDetailTaskRelatedProject
+          :project="service"
           v-if="task.related_entity?.type == 'project'"
         />
         <div
