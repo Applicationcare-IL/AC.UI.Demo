@@ -137,9 +137,11 @@
         </div>
         <!-- RELATED ENTITY -->
         <WMDetailTaskRelatedService
+          :service="service"
           v-if="task.related_entity?.type == 'service'"
         />
         <WMDetailTaskRelatedProject
+          :project="service"
           v-if="task.related_entity?.type == 'project'"
         />
         <div
@@ -192,7 +194,7 @@
       </div>
       <div
         class="flex flex-row gap-5 flex-wrap mt-5"
-        v-if="task.related_entity.type == 'service' && service"
+        v-if="task?.related_entity?.type == 'service' && service"
       >
         <WMDetailFormLocation :location="service.location" />
 
@@ -319,7 +321,6 @@ onMounted(() => {
     getServiceFromApi(task.value.related_entity.id).then((data) => {
       service.value = data;
     });
-
     utilsStore.selectedElements["task"] = [task.value];
   });
 });

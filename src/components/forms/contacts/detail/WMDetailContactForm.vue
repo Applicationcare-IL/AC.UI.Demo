@@ -123,67 +123,7 @@
             </template>
           </Card>
         </div>
-        <div class="flex-1 card-container top-info-card">
-          <Card>
-            <template #title> {{ $t("address.address") }} </template>
-            <template #content>
-              <div class="flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <WMInputSearch
-                    name="city"
-                    :highlighted="true"
-                    :label="$t('address.city') + ':'"
-                    :options="cities"
-                    width="152"
-                    :placeholder="$t('select', ['address.city'])"
-                    :modelValue="contact.city"
-                  />
-                  <WMInputSearch
-                    name="street"
-                    :highlighted="true"
-                    :label="$t('address.street') + ':'"
-                    :options="customers"
-                    width="152"
-                    :placeholder="$t('select', ['address.street'])"
-                    :modelValue="contact.street"
-                  />
-                </div>
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="house-number"
-                    type="input-text"
-                    :label="$t('address.house-number') + ':'"
-                    width="48"
-                    :value="contact.street_number"
-                  />
-                  <WMInput
-                    name="apartment"
-                    type="input-text"
-                    :label="$t('address.apartment') + ':'"
-                    width="48"
-                  />
-                  <WMInput
-                    name="entrance"
-                    type="input-select"
-                    :highlighted="true"
-                    :label="$t('address.entrance') + ':'"
-                    :options="alphabet"
-                    width="48"
-                  />
-                </div>
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="zip"
-                    type="input-text"
-                    :label="$t('address.zip') + ':'"
-                    width="80"
-                    :value="contact.zipcode"
-                  />
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div>
+        <WMDetailFormLocation :location="contact.location" editable />
       </div>
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="card-container middle-info-card" style="flex: 2">
