@@ -61,7 +61,7 @@ const app = createApp(App)
   .use(ToastService)
   .use(VueGoogleMaps, {
     load: {
-      key: "",
+      key: import.meta.env.VITE_GMAPS_API_KEY,
     },
   })
   .component("Column", Column)

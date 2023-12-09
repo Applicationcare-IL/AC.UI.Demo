@@ -6,16 +6,11 @@
     entity="service"
   >
   </WMListSubHeader>
-  <Sidebar
+
+  <WMServicePreviewSidebar
+    :service="serviceDetail"
     v-model:visible="isDetailsVisible"
-    class="details-sidebar w-6"
-    :showCloseIcon="false"
-    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-  >
-    <h2>{{ $t("service.service") }} {{ serviceDetail.service_number }}</h2>
-    <Divider />
-    <!-- <WMContactsTable :customer="serviceDetail" :columns="serviceColumns" :showControls="false" :rows="5" /> -->
-  </Sidebar>
+  />
 
   <WMSidebar
     :visible="isVisible"

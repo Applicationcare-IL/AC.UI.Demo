@@ -137,6 +137,7 @@
         </div>
         <!-- RELATED ENTITY -->
         <WMDetailTaskRelatedService
+          :service="service"
           v-if="task.related_entity?.type == 'service'"
         />
         <WMDetailTaskRelatedProject
