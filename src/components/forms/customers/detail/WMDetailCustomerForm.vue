@@ -289,7 +289,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, defineExpose } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";

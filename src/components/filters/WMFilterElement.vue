@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { ref, defineExpose } from "vue";
+import { ref } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useDateFormat } from "@vueuse/core";
 import { useUtilsStore } from "@/stores/utils";

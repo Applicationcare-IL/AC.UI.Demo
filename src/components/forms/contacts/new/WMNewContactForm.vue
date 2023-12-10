@@ -133,7 +133,7 @@
 </template>
 
 <script setup>
-import { onMounted, watch, defineExpose, ref } from "vue";
+import { onMounted, watch, ref } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";

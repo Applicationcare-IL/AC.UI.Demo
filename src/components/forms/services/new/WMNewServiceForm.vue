@@ -197,7 +197,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, defineExpose } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useForm, useField } from "vee-validate";

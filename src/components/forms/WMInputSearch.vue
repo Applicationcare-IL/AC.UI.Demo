@@ -61,7 +61,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref, toRef, computed, onMounted, watch } from "vue";
+import { ref, toRef, computed, onMounted, watch } from "vue";
 import { useField } from "vee-validate";
 import { useLayout } from "@/layout/composables/layout";
 
