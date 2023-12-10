@@ -193,11 +193,20 @@ const { getCustomersFromApi } = useCustomers();
 const loadLazyData = () => {
   loading.value = true;
 
-  getCustomersFromApi({
-    page: lazyParams.value.page + 1,
-    per_page: selectedRowsPerPage.value,
-    search: searchValue.value,
-  }).then((result) => {
+  const filters = utilsStore.filters["customer"];
+  const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
+  const selectedRowsPerPageParam = selectedRowsPerPage.value;
+
+  // Create a new URLSearchParams object by combining base filters and additional parameters
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage,
+    per_page: selectedRowsPerPageParam,
+    search: searchValueParam,
+  });
+
+  getCustomersFromApi(params).then((result) => {
     customers.value = result.data;
     totalRecords.value = result.totalRecords;
     loading.value = false;

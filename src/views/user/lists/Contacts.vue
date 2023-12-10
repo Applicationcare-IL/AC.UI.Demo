@@ -16,7 +16,7 @@
     <h2>{{ contactDetail.name }}</h2>
     <Divider />
     <WMCustomersTable
-      :contact="contactDetail"
+      :contactId="contactDetail.id"
       :columns="customerColumns"
       :showControls="false"
       :rows="5"
@@ -31,7 +31,7 @@
     <h2>{{ contactDetail.name }}</h2>
     <Divider />
     <WMCustomersTable
-      :contact="contactDetail"
+      :contactId="contactDetail.id"
       :columns="customerColumns"
       :showControls="false"
       :rows="5"
@@ -185,11 +185,20 @@ const { getCustomerDetailColumns, selectedRowsPerPage } = useListUtils();
 const loadLazyData = () => {
   loading.value = true;
 
-  getContactsFromApi({
-    page: lazyParams.value.page + 1,
-    per_page: selectedRowsPerPage.value,
-    search: searchValue.value,
-  }).then((result) => {
+  const filters = utilsStore.filters["contact"];
+  const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
+  const selectedRowsPerPageParam = selectedRowsPerPage.value;
+
+  // Create a new URLSearchParams object by combining base filters and additional parameters
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage,
+    per_page: selectedRowsPerPageParam,
+    search: searchValueParam,
+  });
+
+  getContactsFromApi(params).then((result) => {
     console.log(result);
     contacts.value = result.data;
     totalRecords.value = result.totalRecords;
