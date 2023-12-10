@@ -393,5 +393,9 @@
     "warning": "Warning",
     "info": "Info",
     "successful-action": "{0} successfully {1}"
+  },
+  "communication-channels": {
+    "sms": "SMS",
+    "whatsapp": "Whatsapp"
   }
 }

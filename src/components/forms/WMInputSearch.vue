@@ -209,6 +209,12 @@ const { value, errorMessage, resetField } = useField(name, undefined, {
   value: props.modelValue,
 });
 
+onMounted(() => {
+  if (props.modelValue) {
+    value.value = props.modelValue;
+  }
+});
+
 function clear() {
   resetField();
 }

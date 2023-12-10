@@ -119,6 +119,7 @@ const onChange = (event) => {
 };
 
 const selectedElements = ref(0);
+
 watch(
   () => utilsStore.selectedElements[props.entity],
   (value) => {

@@ -398,5 +398,9 @@
     "info": "מידע",
     "successful-action": "@:{entity} בהצלחה @:{action}"
   },
-  "created": "נוצר בהצלחה"
+  "created": "נוצר בהצלחה",
+  "communication-channels": {
+    "sms": "SMS",
+    "whatsapp": "Whatsapp"
+  }
 }

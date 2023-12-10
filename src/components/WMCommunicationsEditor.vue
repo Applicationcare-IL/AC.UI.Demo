@@ -22,8 +22,7 @@
     :class="editorClasses"
   >
     <template #toolbar>
-      <div id="my-toolbar">
-        <!-- Add buttons as you would before -->
+      <div id="my-toolbar" :class="toolbarClass">
         <button class="ql-bold"></button>
         <button class="ql-italic"></button>
         <button class="ql-attach" @click="attachDocument()">attach</button>
@@ -41,24 +40,13 @@ const attachDocument = () => {
 };
 
 const addVariableToEditor = (selectedOption) => {
-  let toolbar = myQuillEditor.value.getToolbar();
-  console.log(toolbar);
-
-  const myButton = new QuillToolbarButton({
-    icon: `<svg viewBox="0 0 18 18"> <path class="ql-stroke" d="M5,3V9a4.012,4.012,0,0,0,4,4H9a4.012,4.012,0,0,0,4-4V3"></path></svg>`,
-  });
-  myButton.onClick = function (quill) {
-    alert("You just clicked the button!");
-  };
-  myButton.attach(myQuillEditor.value); // Add the custom button to the quill editor
-
-  // myQuillEditor.value.getQuill().getModule("mention").insertItem(
-  //   {
-  //     denotationChar: "+",
-  //     value: selectedOption.value.value,
-  //   },
-  //   true
-  // );
+  myQuillEditor.value.getQuill().getModule("mention").insertItem(
+    {
+      denotationChar: "+",
+      value: selectedOption.value.value,
+    },
+    true
+  );
 };
 
 const props = defineProps({

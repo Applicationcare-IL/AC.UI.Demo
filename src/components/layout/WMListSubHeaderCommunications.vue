@@ -12,16 +12,16 @@
   <Menu
     ref="menu"
     id="overlay_menu"
-    :model="communicationsMenuItems"
+    :model="communicationChannels"
     :popup="true"
   >
     <template #item="slotProps">
       <button
-        @click="handleOverlayMenuClick(slotProps.item.action)"
+        @click="handleOverlayMenuClick(slotProps.item.value)"
         class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2 w-full"
       >
         <div class="flex flex-column align">
-          {{ slotProps.item.label }}
+          {{ $t(slotProps.item.label) }}
         </div>
       </button>
     </template>
@@ -51,13 +51,13 @@
           :multiple="true"
           :searchFunction="searchContact"
           @update:modelValue="onContactselected"
-          :modelValue="selectedContacts"
+          :modelValue="selectedDropdownContacts"
           theme="purple"
           class="custom-input-search__input"
           ref="inputSearch"
         />
         <Button
-          @click="handleClearAllSelectedContacts"
+          @click="handleClearAllSelectedDropdownContacts"
           :disabled="selectedContacts == 0"
           link
           class="custom-input-search__clear"
@@ -71,16 +71,14 @@
         <Dropdown
           optionLabel="name"
           v-model="selectedChannel"
-          :options="channels"
+          :options="communicationChannels"
           placeholder="Select a channel"
           class="w-full md:w-14rem"
         />
       </div>
       <Divider />
 
-      <!-- <WMCommunicationsEditor :hide-toolbar="true" /> -->
-
-      <WMCommunicationsEditor />
+      <WMCommunicationsEditor :hide-toolbar="true" />
 
       <Divider />
     </div>
@@ -100,7 +98,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 const SMSDialogVisible = ref(false);
 
@@ -123,52 +122,56 @@ const toggleCommunicationsMenu = (event) => {
   menu.value.toggle(event);
 };
 
-const communicationsMenuItems = ref([
-  {
-    label: "SMS",
-    action: "sms",
-  },
-  {
-    label: "Whatsapp",
-    action: "whatsapp",
-  },
-]);
+const optionSetsStore = useOptionSetsStore();
 
-const channels = ref([
-  { name: "SMS", code: "sms" },
-  { name: "Other", code: "other" },
-]);
+const communicationChannels = optionSetsStore.getOptionSetValues(
+  "communicationChannels"
+);
 
-const { getContactsFromApi } = useContacts();
+const { getContactsFromApi, selectedContacts } = useContacts();
 
 const searchContact = (query) => {
   return getContactsFromApi({ search: query });
 };
 
-const selectedContacts = ref(0);
-const selectedChannel = ref("sms");
+const selectedDropdownContacts = ref(0);
+const selectedChannel = ref();
 
 const onContactselected = (contacts) => {
-  selectedContacts.value = contacts;
+  selectedDropdownContacts.value = contacts;
 };
 
 const handleOverlayMenuClick = (action) => {
   switch (action) {
     case "sms":
       SMSDialogVisible.value = true;
+      selectedChannel.value = communicationChannels[0];
       break;
     case "whatsapp":
-      console.log("whatsapp");
+      SMSDialogVisible.value = true;
+      selectedChannel.value = communicationChannels[1];
       break;
     default:
       break;
   }
 };
 
-const handleClearAllSelectedContacts = () => {
-  selectedContacts.value = [];
+const handleClearAllSelectedDropdownContacts = () => {
+  selectedDropdownContacts.value = [];
   inputSearch.value.clear();
 };
+
+watch(
+  () => selectedContacts.value,
+  (value) => {
+    selectedDropdownContacts.value = value;
+    // check if the input search is undefined
+    console.log(typeof inputSearch);
+    if (inputSearch.value) {
+      inputSearch.value.clear();
+    }
+  }
+);
 </script>
 
 <style scoped lang="scss">
