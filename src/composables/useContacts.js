@@ -1,7 +1,9 @@
 import { useContactsStore } from "@/stores/contactsStore";
+import { storeToRefs } from "pinia";
 
 export function useContacts() {
   const contactsStore = useContactsStore();
+  const { selectedContacts } = storeToRefs(contactsStore);
 
   // ACTIONS
   const getContactsFromApi = async (params) => {
@@ -184,6 +186,13 @@ export function useContacts() {
     createContact,
     updateContact,
     updateState,
+
+    // SELECTED CONTACTS
+    selectedContacts,
+    setSelectedContacts: contactsStore.setSelectedContacts,
+    addSelectedContact: contactsStore.addSelectedContact,
+    removeSelectedContact: contactsStore.removeSelectedContact,
+    resetSelectedContacts: contactsStore.resetSelectedContacts,
 
     // UTILITIES
     mapContact,

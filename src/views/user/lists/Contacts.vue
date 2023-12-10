@@ -157,10 +157,15 @@ const { getServicesMini } = useServices();
 const permissionsStore = usePermissionsStore();
 const permissions = permissionsStore.permissions;
 
+const { getContactsFromApi, setSelectedContacts, resetSelectedContacts } =
+  useContacts();
+const { getCustomerDetailColumns, selectedRowsPerPage } = useListUtils();
+
 onMounted(() => {
   utilsStore.entity = "contact";
 
   loadLazyData();
+  resetSelectedContacts();
 
   getServicesMini().then((data) => (services.value = data));
   getTasksMini().then((data) => (tasks.value = data));
@@ -178,9 +183,6 @@ const tasks = ref();
 const loading = ref(false);
 const dt = ref();
 const searchValue = ref("");
-
-const { getContactsFromApi } = useContacts();
-const { getCustomerDetailColumns, selectedRowsPerPage } = useListUtils();
 
 const loadLazyData = () => {
   loading.value = true;
@@ -260,7 +262,10 @@ const filterLabels = [
 //Manage selected rows
 const selectedContacts = ref([]);
 utilsStore.resetElements();
+
 const onSelectionChanged = () => {
+  setSelectedContacts(selectedContacts.value);
+
   utilsStore.selectedElements["contact"] = selectedContacts.value;
 };
 

@@ -51,6 +51,9 @@ import VueGoogleMaps from "@fawmi/vue-google-maps";
 
 import i18nInstance from "@/i18n";
 
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
+
 import "@/assets/styles.scss";
 import "@/assets/themes/mytheme/theme.scss";
 
@@ -64,6 +67,7 @@ const app = createApp(App)
       key: import.meta.env.VITE_GMAPS_API_KEY,
     },
   })
+  .component("QuillEditor", QuillEditor)
   .component("Column", Column)
   .component("DataTable", DataTable)
   .component("AutoComplete", AutoComplete)

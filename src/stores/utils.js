@@ -37,7 +37,6 @@ export const useUtilsStore = defineStore("utils", {
         },
       ];
     },
-
     resetElements() {
       this.selectedElements = {};
     },

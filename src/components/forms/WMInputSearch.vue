@@ -52,24 +52,16 @@
       v-if="props.multiple && type == 'tags'"
       class="selected-options flex flex-row gap-2"
     >
-      <Chip v-for="item in value" :label="item.name">
+      <Chip v-for="item in value" :label="item.name" :class="chipThemeClass">
         <span>{{ item.name }}</span>
-        <i class="pi pi-times" @click="onRemove(item)"></i>
+        <i class="pi pi-times cursor-pointer" @click="onRemove(item)"></i>
       </Chip>
     </div>
   </div>
 </template>
 
 <script setup>
-import {
-  defineProps,
-  defineEmits,
-  ref,
-  toRef,
-  computed,
-  onMounted,
-  watch,
-} from "vue";
+import { defineProps, ref, toRef, computed, onMounted, watch } from "vue";
 import { useField } from "vee-validate";
 import { useLayout } from "@/layout/composables/layout";
 
@@ -142,6 +134,16 @@ const props = defineProps({
     type: String,
     default: "tags",
   },
+  theme: {
+    type: String,
+    default: "default",
+  },
+});
+
+const chipThemeClass = computed(() => {
+  return props.theme == "default"
+    ? "p-chip--default"
+    : `p-chip--${props.theme}`;
 });
 
 const emit = defineEmits(["customChange"]);
@@ -199,13 +201,25 @@ const width = computed(() => {
 
 const name = toRef(props, "name");
 
-const { value, errorMessage } = useField(name, undefined, {
+const { value, errorMessage, resetField } = useField(name, undefined, {
   validateOnValueUpdate: true,
   validateOnMount: false,
   validateOnBlur: true,
   validateOnChange: true,
   value: props.modelValue,
 });
+
+onMounted(() => {
+  if (props.modelValue) {
+    value.value = props.modelValue;
+  }
+});
+
+function clear() {
+  resetField();
+}
+
+defineExpose({ clear });
 </script>
 
 <style scoped lang="scss">
@@ -227,5 +241,6 @@ const { value, errorMessage } = useField(name, undefined, {
 
 .selected-options {
   top: 54px;
+  flex-wrap: wrap;
 }
 </style>

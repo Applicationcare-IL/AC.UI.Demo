@@ -6,6 +6,9 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 const optionSetsStore = useOptionSetsStore();
 
 export const useContactsStore = defineStore("contacts", {
+  state: () => ({
+    selectedContacts: [],
+  }),
   actions: {
     getContactFromApi(id) {
       return axiosConfig
@@ -68,6 +71,21 @@ export const useContactsStore = defineStore("contacts", {
           console.log(error);
           throw error;
         });
+    },
+    // SELECTED CONTACTS
+    setSelectedContacts(contacts) {
+      this.selectedContacts = contacts;
+    },
+    addSelectedContact(contact) {
+      this.selectedContacts.push(contact);
+    },
+    removeSelectedContact(contact) {
+      this.selectedContacts = this.selectedContacts.filter(
+        (item) => item.id !== contact.id
+      );
+    },
+    resetSelectedContacts() {
+      this.selectedContacts = [];
     },
   },
 });

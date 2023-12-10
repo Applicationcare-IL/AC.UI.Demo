@@ -104,6 +104,10 @@ export const useOptionSetsStore = defineStore("optionSets", {
       { value: true, translationKey: "yes" },
       { value: false, translationKey: "no" },
     ],
+    communicationChannels: [
+      { value: "sms", translationKey: "communication-channels.sms" },
+      { value: "whatsapp", translationKey: "communication-channels.whatsapp" },
+    ],
   }),
   getters: {
     isOptionSetsPreloaded() {
