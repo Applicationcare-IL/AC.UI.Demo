@@ -40,7 +40,10 @@
     <div class="flex flex-column gap-2 my-5">
       <div v-if="!multiple" class="flex flex-row gap-3">
         <span class="h6">From:</span>
-        contact
+
+        <Chip class="p-chip--purple">
+          <span>{{ selectedContacts.name }}</span>
+        </Chip>
       </div>
 
       <div v-if="multiple" class="custom-input-search mb-3">

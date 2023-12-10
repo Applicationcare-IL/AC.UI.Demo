@@ -15,13 +15,12 @@
           </WMButton>
           <Divider layout="vertical" />
           <WMAssignOwnerButton :entity="utilsStore.entity" />
-          <WMButtonMenu
-            class="m-1"
-            mode="light"
-            :menuItems="menuItems"
-            :disabled="selectedElements == 0"
-            >הודעה
-          </WMButtonMenu>
+
+          <WMSubHeaderCommunications
+            :selectedElements="selectedElements"
+            :multiple="false"
+          />
+
           <WMButton
             class="m-1 col-6"
             name="phone-white"

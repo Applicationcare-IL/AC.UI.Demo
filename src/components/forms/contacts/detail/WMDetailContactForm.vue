@@ -341,11 +341,14 @@ const taskColumns = ref(getTaskColumns());
 
 const toast = useToast();
 
-onMounted(() => {
-  fetchData();
-});
+const { getContactFromApi, updateContact, parseContact, setSelectedContacts } =
+  useContacts();
 
-const { getContactFromApi, updateContact, parseContact } = useContacts();
+onMounted(async () => {
+  await fetchData();
+
+  setSelectedContacts(contact.value);
+});
 
 const fetchData = async () => {
   getContactFromApi(route.params.id).then((data) => {
