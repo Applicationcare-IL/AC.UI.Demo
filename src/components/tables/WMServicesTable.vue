@@ -41,8 +41,17 @@
           icon="filter"
           :open="isFilterOpen"
           :applied="isFilterApplied"
+          @click="openFilterSidebar"
           >{{ t("filter") }}
         </WMButton>
+        <WMSidebar
+          :visible="isFilterVisible"
+          @close-sidebar="closeFilterSidebar"
+          @open-sidebar="openFilterSidebar"
+          name="filterService"
+        >
+          <WMFilterForm entity="service" filterFormName="service" />
+        </WMSidebar>
         <SelectButton
           v-model="selectedOption"
           :options="options"
@@ -51,19 +60,12 @@
         />
       </div>
     </div>
-    <div>
-      <span class="p-input-icon-left">
-        <i class="pi pi-search" />
-        <InputText
-          class="w-30rem"
-          v-model="filters['global'].value"
-          :placeholder="$t('search')"
-        />
-      </span>
+    <div class="flex flex-row gap-3">
+      <WMSearchBox entity="service" />
     </div>
   </div>
   <DataTable
-    v-model:filters="filters"
+    lazy
     v-model:selection="selectedServices"
     :rowClass="rowClass"
     :value="services"
@@ -71,7 +73,9 @@
     tableStyle="min-width: 50rem"
     scrollable
     paginator
-    :rows="rows"
+    :rows="props.rows"
+    @page="onPage($event)"
+    :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
   >
     <Column
@@ -124,7 +128,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, watchEffect, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { FilterMatchMode } from "primevue/api";
 
@@ -133,15 +137,19 @@ import { useUtilsStore } from "@/stores/utils";
 const { t, locale } = useI18n();
 const i18n = useI18n();
 
+const services = ref([]);
 const selectedServices = ref(null);
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
+const searchValue = ref("");
+const lazyParams = ref({});
+const totalRecords = ref(0);
 
 const utilsStore = useUtilsStore();
 
 const props = defineProps({
-  services: Array,
+  // services: Array,
   rows: {
     type: Number,
     default: 10,
@@ -154,7 +162,53 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  relatedEntity: {
+    type: String,
+    default: null,
+  },
+  relatedEntityId: {
+    type: String,
+    default: null,
+  },
 });
+
+onMounted(() => {
+  loadLazyData();
+});
+
+const { getServicesFromApi } = useServices();
+
+const loadLazyData = async () => {
+  const filters = utilsStore.filters["service"];
+  const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
+  const selectedRowsPerPageParam = props.rows;
+
+  // Create a new URLSearchParams object by combining base filters and additional parameters
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage,
+    per_page: selectedRowsPerPageParam,
+    search: searchValueParam,
+  });
+
+  if (props.relatedEntity == "customer") {
+    params.append("customer_id", props.relatedEntityId);
+  }
+  if (props.relatedEntity == "contact") {
+    params.append("contact_id", props.relatedEntityId);
+  }
+
+  getServicesFromApi(params).then((result) => {
+    services.value = result.data;
+    totalRecords.value = result.totalRecords;
+  });
+};
+
+const onPage = (event) => {
+  lazyParams.value = event;
+  loadLazyData();
+};
 
 const { getSelectFilterButtonValues, getPriorityConditionalStyle } =
   useListUtils();
@@ -210,4 +264,27 @@ const menuItems = [
   { label: "Whatsapp", value: "option1" },
   { label: "SMS", value: "option2" },
 ];
+
+const isFilterVisible = ref(false);
+
+function closeFilterSidebar() {
+  isFilterVisible.value = false;
+}
+
+function openFilterSidebar() {
+  isFilterVisible.value = true;
+}
+watchEffect(() => {
+  loadLazyData();
+});
+
+watch(
+  () => utilsStore.searchString["service"],
+  () => {
+    searchValue.value = utilsStore.searchString["service"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  }
+);
 </script>

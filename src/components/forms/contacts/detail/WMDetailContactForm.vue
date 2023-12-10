@@ -220,16 +220,13 @@
         </div>
       </div>
       <div>
-        <WMCustomersTable
-          :contactId="contact.id"
-          :columns="customerColumns"
-          :rows="5"
-        >
+        <WMCustomersTable :contactId="contact.id" :columns="customerColumns">
         </WMCustomersTable>
       </div>
       <div>
         <WMServicesTable
-          :services="services"
+          relatedEntity="contact"
+          :relatedEntityId="contact.id"
           :columns="serviceColumns"
           multiselect
         >
@@ -353,10 +350,10 @@ const fetchData = async () => {
     utilsStore.selectedElements["contact"] = [contact.value];
     loaded.value = true;
   });
-  const servicesData = await getServicesFromApi({
-    customer_id: route.params.id,
-  });
-  services.value = servicesData.data;
+  // const servicesData = await getServicesFromApi({
+  //   customer_id: route.params.id,
+  // });
+  // services.value = servicesData.data;
   const tasksData = await getTasksFromApi({
     customer_id: route.params.id,
   });

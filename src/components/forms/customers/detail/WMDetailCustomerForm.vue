@@ -195,7 +195,8 @@
       </div>
       <div>
         <WMServicesTable
-          :services="services"
+          relatedEntity="customer"
+          :relatedEntityId="customer.id"
           :columns="serviceColumns"
           multiselect
         >

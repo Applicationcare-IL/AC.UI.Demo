@@ -27,7 +27,7 @@
           :visible="isFilterVisible"
           @close-sidebar="closeFilterSidebar"
           @open-sidebar="openFilterSidebar"
-          name="filter"
+          name="filterCustomer"
         >
           <WMFilterForm entity="customer" filterFormName="customer" />
         </WMSidebar>
