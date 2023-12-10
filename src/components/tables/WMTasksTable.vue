@@ -30,8 +30,17 @@
           icon="filter"
           :open="isFilterOpen"
           :applied="isFilterApplied"
+          @click="openFilterSidebar"
           >{{ t("filter") }}
         </WMButton>
+        <WMSidebar
+          :visible="isFilterVisible"
+          @close-sidebar="closeFilterSidebar"
+          @open-sidebar="openFilterSidebar"
+          name="filterTask"
+        >
+          <WMFilterForm entity="task" filterFormName="task" />
+        </WMSidebar>
         <SelectButton
           v-model="selectedOption"
           :options="options"
@@ -40,19 +49,12 @@
         />
       </div>
     </div>
-    <div>
-      <span class="p-input-icon-left">
-        <i class="pi pi-search" />
-        <InputText
-          class="w-30rem"
-          v-model="filters['global'].value"
-          :placeholder="$t('search')"
-        />
-      </span>
+    <div class="flex flex-row gap-3">
+      <WMSearchBox entity="task" />
     </div>
   </div>
   <DataTable
-    v-model:filters="filters"
+    lazyParams
     v-model:selection="selectedTasks"
     :rowClass="rowClass"
     :value="tasks"
@@ -60,7 +62,9 @@
     tableStyle="min-width: 50rem"
     scrollable
     paginator
-    :rows="rows"
+    :rows="props.rows"
+    @page="onPage($event)"
+    :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
   >
     <Column
@@ -105,9 +109,8 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, watchEffect, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import { FilterMatchMode } from "primevue/api";
 
 import { useUtilsStore } from "@/stores/utils";
 
@@ -117,6 +120,10 @@ const selectedTasks = ref([]);
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
+const tasks = ref([]);
+const totalRecords = ref(0);
+const lazyParams = ref({});
+const searchValue = ref("");
 
 const utilsStore = useUtilsStore();
 const i18n = useI18n();
@@ -139,9 +146,50 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  relatedEntity: {
+    type: String,
+    default: null,
+  },
+  relatedEntityId: {
+    type: String,
+    default: null,
+  },
 });
 
 const { getSelectFilterButtonValues } = useListUtils();
+
+onMounted(() => {
+  loadLazyData();
+});
+
+const { getTasksFromApi } = useTasks();
+
+const loadLazyData = async () => {
+  const filters = utilsStore.filters["task"];
+  const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
+  const selectedRowsPerPageParam = props.rows;
+
+  // Create a new URLSearchParams object by combining base filters and additional parameters
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage,
+    per_page: selectedRowsPerPageParam,
+    search: searchValueParam,
+    entity_type: props.relatedEntity,
+    entity_id: props.relatedEntityId,
+  });
+
+  getTasksFromApi(params).then((result) => {
+    tasks.value = result.data;
+    totalRecords.value = result.totalRecords;
+  });
+};
+
+const onPage = (event) => {
+  lazyParams.value = event;
+  loadLazyData();
+};
 
 const options = ref();
 options.value = getSelectFilterButtonValues("task.tasks", i18n);
@@ -178,12 +226,26 @@ function openSidebar() {
   isVisible.value = true;
 }
 
-const filters = ref({
-  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  "country.name": { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  representative: { value: null, matchMode: FilterMatchMode.IN },
-  status: { value: null, matchMode: FilterMatchMode.EQUALS },
-  verified: { value: null, matchMode: FilterMatchMode.EQUALS },
+const isFilterVisible = ref(false);
+
+function closeFilterSidebar() {
+  isFilterVisible.value = false;
+}
+
+function openFilterSidebar() {
+  isFilterVisible.value = true;
+}
+watchEffect(() => {
+  loadLazyData();
 });
+
+watch(
+  () => utilsStore.searchString["task"],
+  () => {
+    searchValue.value = utilsStore.searchString["task"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  }
+);
 </script>

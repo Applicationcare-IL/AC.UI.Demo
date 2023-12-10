@@ -233,7 +233,12 @@
         </WMServicesTable>
       </div>
       <div>
-        <WMTasksTable :tasks="tasks" :columns="taskColumns" multiselect>
+        <WMTasksTable
+          relatedEntity="contact"
+          :relatedEntityId="contact.id"
+          :columns="taskColumns"
+          multiselect
+        >
         </WMTasksTable>
       </div>
       <div class="flex-1 card-container">

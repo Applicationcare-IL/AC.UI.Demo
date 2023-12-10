@@ -130,7 +130,6 @@
 <script setup>
 import { ref, watch, watchEffect, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import { FilterMatchMode } from "primevue/api";
 
 import { useUtilsStore } from "@/stores/utils";
 
@@ -224,10 +223,6 @@ const rowClass = (data) => {
   return [{ inactive_row: !data.is_active }];
 };
 
-// const slaClass = (data) => {
-// return getSlaConditionalStyle(data);
-// };
-
 const priorityClass = (data) => {
   return getPriorityConditionalStyle(data);
 };
@@ -250,15 +245,6 @@ function closeSidebar() {
 function openSidebar() {
   isVisible.value = true;
 }
-
-const filters = ref({
-  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  "country.name": { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  representative: { value: null, matchMode: FilterMatchMode.IN },
-  status: { value: null, matchMode: FilterMatchMode.EQUALS },
-  verified: { value: null, matchMode: FilterMatchMode.EQUALS },
-});
 
 const menuItems = [
   { label: "Whatsapp", value: "option1" },
