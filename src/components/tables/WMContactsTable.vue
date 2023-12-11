@@ -25,12 +25,7 @@
         >
           <WMFilterForm entity="contact" filterFormName="contact" />
         </WMSidebar>
-        <SelectButton
-          v-model="selectedOption"
-          :options="options"
-          optionLabel="name"
-          class="flex flex-nowrap"
-        />
+        <WMOwnerToggle entity="contact" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
@@ -149,9 +144,7 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
-const i18n = useI18n();
-
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const selectedContacts = ref(null);
 const isFilterOpen = ref(false);
@@ -210,15 +203,7 @@ onMounted(() => {
   }
 });
 
-const { getSelectFilterButtonValues, getAlertCellConditionalStyle } =
-  useListUtils();
-
-const options = ref();
-options.value = getSelectFilterButtonValues("contact.contacts", i18n);
-
-watch(locale, () => {
-  options.value = getSelectFilterButtonValues("contact.contacts", i18n);
-});
+const { getAlertCellConditionalStyle } = useListUtils();
 
 watch(
   props.contacts,
@@ -243,8 +228,8 @@ const {
   unassignContactFromCustomer,
 } = useCustomers();
 
-const loadLazyData = async () => {
-  await getCustomerFromApi(props.customerId).then((data) => {
+const loadLazyData = () => {
+  getCustomerFromApi(props.customerId).then((data) => {
     customer.value = data;
   });
 
@@ -252,7 +237,7 @@ const loadLazyData = async () => {
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = props.rows;
-  const customerParam = customer.value.id;
+  const customerParam = props.customerId;
 
   // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams({

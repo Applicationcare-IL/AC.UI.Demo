@@ -31,12 +31,7 @@
         >
           <WMFilterForm entity="customer" filterFormName="customer" />
         </WMSidebar>
-        <SelectButton
-          v-model="selectedOption"
-          :options="options"
-          optionLabel="name"
-          class="flex flex-nowrap"
-        />
+        <WMOwnerToggle entity="customer" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
@@ -174,15 +169,7 @@ onMounted(() => {
   loadLazyData();
 });
 
-const { getSelectFilterButtonValues, getAlertCellConditionalStyle } =
-  useListUtils();
-
-const options = ref();
-options.value = getSelectFilterButtonValues("contact.contacts", i18n);
-
-watch(locale, () => {
-  options.value = getSelectFilterButtonValues("contact.contacts", i18n);
-});
+const { getAlertCellConditionalStyle } = useListUtils();
 
 const customers = ref([]);
 const lazyParams = ref({});

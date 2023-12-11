@@ -1,8 +1,6 @@
 <template>
   <WMListSubHeader
     :activeButtons="isAnyRowSelected"
-    :filterLabels="filterLabels"
-    :defaultOption="filterLabels[1]"
     entity="task"
     @new="toggleSidebarVisibility"
   />
@@ -236,11 +234,6 @@ watch(
     });
   }
 );
-
-const filterLabels = [
-  { name: "כל המשימות", value: 2 },
-  { name: "המשימות שלי", value: 1 },
-];
 </script>
 
 <style scoped lang="scss"></style>

@@ -1,10 +1,5 @@
 <template>
-  <WMListSubHeader
-    :filterLabels="filterLabels"
-    :defaultOption="filterLabels[1]"
-    entity="customer"
-    @new="toggleSidebarVisibility"
-  >
+  <WMListSubHeader entity="customer" @new="toggleSidebarVisibility">
   </WMListSubHeader>
 
   <Sidebar
@@ -250,11 +245,6 @@ const displayNewForm = () => {
 const highlightCellClass = (data) => {
   return [{ "bg-red-100 text-red-600": data > 0 }];
 };
-
-const filterLabels = [
-  { name: "כל הלקוחות", value: 2 },
-  { name: "הלקוחות שלי", value: 1 },
-];
 
 //Manage selected rows
 const selectedCustomers = ref([]);

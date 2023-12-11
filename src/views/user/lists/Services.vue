@@ -1,10 +1,5 @@
 <template>
-  <WMListSubHeader
-    :filterLabels="filterLabels"
-    :defaultOption="filterLabels[1]"
-    @new="toggleSidebarVisibility"
-    entity="service"
-  >
+  <WMListSubHeader @new="toggleSidebarVisibility" entity="service">
   </WMListSubHeader>
 
   <WMServicePreviewSidebar
@@ -235,11 +230,6 @@ const priorityClass = (data) => {
 const menuItems = [
   { label: "Whatsapp", value: "option1" },
   { label: "SMS", value: "option2" },
-];
-
-const filterLabels = [
-  { name: "כל התהליכים", value: 2 },
-  { name: "התהליכים שלי", value: 1 },
 ];
 
 //Manage selected rows

@@ -41,12 +41,7 @@
         >
           <WMFilterForm entity="task" filterFormName="task" />
         </WMSidebar>
-        <SelectButton
-          v-model="selectedOption"
-          :options="options"
-          optionLabel="name"
-          class="flex flex-nowrap"
-        />
+        <WMOwnerToggle entity="task" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
@@ -113,6 +108,7 @@ import { ref, watch, watchEffect, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
+import WMOwnerToggle from "../forms/shared/WMOwnerToggle.vue";
 
 const { t, locale } = useI18n();
 
@@ -156,15 +152,13 @@ const props = defineProps({
   },
 });
 
-const { getSelectFilterButtonValues } = useListUtils();
-
 onMounted(() => {
   loadLazyData();
 });
 
 const { getTasksFromApi } = useTasks();
 
-const loadLazyData = async () => {
+const loadLazyData = () => {
   const filters = utilsStore.filters["task"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
@@ -176,9 +170,17 @@ const loadLazyData = async () => {
     page: nextPage,
     per_page: selectedRowsPerPageParam,
     search: searchValueParam,
-    entity_type: props.relatedEntity,
-    entity_id: props.relatedEntityId,
   });
+
+  if (props.relatedEntity == "contact") {
+    params.append("contact_id", props.relatedEntityId);
+  }
+  if (props.relatedEntity == "customer") {
+    params.append("customer_id", props.relatedEntityId);
+  } else {
+    params.append("related_entity", props.relatedEntity);
+    params.append("related_entity_id", props.relatedEntityId);
+  }
 
   getTasksFromApi(params).then((result) => {
     tasks.value = result.data;
@@ -191,20 +193,9 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const options = ref();
-options.value = getSelectFilterButtonValues("task.tasks", i18n);
-
-watch(locale, () => {
-  options.value = getSelectFilterButtonValues("task.tasks", i18n);
-});
-
 const rowClass = (data) => {
   return [{ inactive_row: !data.is_open }];
 };
-
-// const slaClass = (data) => {
-// return getSlaConditionalStyle(data);
-// };
 
 const onSelectionChanged = () => {
   console.log(selectedTasks.value);

@@ -95,7 +95,6 @@ const menuItems = [
 
 const props = defineProps({
   activeButtons: Boolean,
-  filterLabels: Array,
   defaultOption: Object,
   formKey: String,
 });

@@ -1,8 +1,6 @@
 <template>
   <WMListSubHeader
     v-if="permissions.contacts.read"
-    :filterLabels="filterLabels"
-    :defaultOption="filterLabels[1]"
     entity="contact"
     @new="toggleSidebarVisibility"
   >
@@ -253,11 +251,6 @@ const highlightStatusClass = (status) => {
     },
   ];
 };
-
-const filterLabels = [
-  { name: "כל הלקוחות", value: 2 },
-  { name: "הלקוחות שלי", value: 1 },
-];
 
 //Manage selected rows
 const selectedContacts = ref([]);

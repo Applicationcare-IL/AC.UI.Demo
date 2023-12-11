@@ -1,10 +1,5 @@
 <template>
-  <WMListSubHeader
-    :filterLabels="filterLabels"
-    :defaultOption="filterLabels[1]"
-    entity="project"
-    @new="toggleSidebarVisibility"
-  >
+  <WMListSubHeader entity="project" @new="toggleSidebarVisibility">
   </WMListSubHeader>
 
   <WMSidebar
@@ -207,11 +202,6 @@ const onPage = (event) => {
   lazyParams.value = event;
   loadLazyData();
 };
-
-const filterLabels = [
-  { name: "כל הלקוחות", value: 2 },
-  { name: "הלקוחות שלי", value: 1 },
-];
 
 //Manage selected rows
 const selectedProjects = ref([]);

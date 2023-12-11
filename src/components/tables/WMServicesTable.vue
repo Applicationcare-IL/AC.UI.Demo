@@ -52,12 +52,7 @@
         >
           <WMFilterForm entity="service" filterFormName="service" />
         </WMSidebar>
-        <SelectButton
-          v-model="selectedOption"
-          :options="options"
-          optionLabel="name"
-          class="flex flex-nowrap"
-        />
+        <WMOwnerToggle entity="service" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
@@ -209,15 +204,7 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const { getSelectFilterButtonValues, getPriorityConditionalStyle } =
-  useListUtils();
-
-const options = ref();
-options.value = getSelectFilterButtonValues("service.services", i18n);
-
-watch(locale, () => {
-  options.value = getSelectFilterButtonValues("service.services", i18n);
-});
+const { getPriorityConditionalStyle } = useListUtils();
 
 const rowClass = (data) => {
   return [{ inactive_row: !data.is_active }];
