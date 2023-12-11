@@ -44,12 +44,7 @@
           <!-- <WMButton class="m-1 col-6 " name="basic-secondary">כפתור </WMButton> -->
         </div>
         <div class="flex flex-row align-items-center gap-3">
-          <SelectButton
-            v-model="selectedOption"
-            :options="filterLabels"
-            optionLabel="name"
-            class="flex flex-nowrap"
-          />
+          <WMOwnerToggle :entity="entity" />
         </div>
       </div>
       <div class="flex flex-row justify-content-between">
@@ -103,7 +98,6 @@ const numberOfRows = ref(
 
 const props = defineProps({
   activeButtons: Boolean,
-  filterLabels: Array,
   defaultOption: Object,
   entity: String,
 });
@@ -112,7 +106,6 @@ const emits = defineEmits(["new"]);
 
 const isFilterVisible = ref(false);
 const isFilterApplied = ref(false);
-const selectedOption = props.defaultOption;
 
 const onChange = (event) => {
   selectedRowsPerPage.value = event.value;
@@ -135,8 +128,7 @@ function openFilterSidebar() {
   isFilterVisible.value = true;
 }
 
-// const selectedElements = computed(() => {
-//     utilsStore.selectedElements[props.entity] != undefined ? utilsStore.selectedElements[props.entity].length : 0;
-//     console.log(utilsStore.selectedElements[props.entity] != undefined ? utilsStore.selectedElements[props.entity].length : 0)
-// });
+function onChangeOwnerFilter(event) {
+  console.log(event.value);
+}
 </script>

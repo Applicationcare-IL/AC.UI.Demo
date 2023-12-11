@@ -16,12 +16,7 @@
           :applied="isFilterApplied"
           >{{ t("filter") }}
         </WMButton>
-        <SelectButton
-          v-model="selectedOption"
-          :options="options"
-          optionLabel="name"
-          class="flex flex-nowrap"
-        />
+        <WMOwnerToggle entity="contact" />
       </div>
     </div>
     <div>
@@ -210,21 +205,9 @@ onMounted(() => {
 const { getContactColumns } = useListUtils();
 const columns = ref(getContactColumns());
 
-const { getSelectFilterButtonValues, getAlertCellConditionalStyle } =
-  useListUtils();
+const { getAlertCellConditionalStyle } = useListUtils();
 
-const {
-  getCustomerFromApi,
-  assignContactToCustomer,
-  unassignContactFromCustomer,
-} = useCustomers();
-
-const options = ref();
-options.value = getSelectFilterButtonValues("contact.contacts", i18n);
-
-watch(locale, () => {
-  options.value = getSelectFilterButtonValues("contact.contacts", i18n);
-});
+const { assignContactToCustomer, unassignContactFromCustomer } = useCustomers();
 
 watch(
   props.contacts,

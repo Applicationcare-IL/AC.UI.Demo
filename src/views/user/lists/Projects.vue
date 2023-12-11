@@ -1,10 +1,5 @@
 <template>
-  <WMListSubHeader
-    :filterLabels="filterLabels"
-    :defaultOption="filterLabels[1]"
-    entity="project"
-    @new="toggleSidebarVisibility"
-  >
+  <WMListSubHeader entity="project" @new="toggleSidebarVisibility">
   </WMListSubHeader>
 
   <WMSidebar
@@ -146,7 +141,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, computed, watch, watchEffect } from "vue";
 
 import { useRouter } from "vue-router";
 
@@ -182,11 +177,20 @@ const { selectedRowsPerPage, getStatusConditionalStyle } = useListUtils();
 const loadLazyData = () => {
   loading.value = true;
 
-  getProjectsFromApi({
-    page: lazyParams.value.page + 1,
-    per_page: selectedRowsPerPage,
-    // search: searchValue.value,
-  }).then((data) => {
+  const filters = utilsStore.filters["project"];
+  const nextPage = lazyParams.value.page + 1;
+  // const searchValueParam = searchValue.value;
+  const selectedRowsPerPageParam = selectedRowsPerPage.value;
+
+  // Create a new URLSearchParams object by combining base filters and additional parameters
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage,
+    per_page: selectedRowsPerPageParam,
+    // search: searchValueParam,
+  });
+
+  getProjectsFromApi(params).then((data) => {
     console.log("projects", data);
     projects.value = data.data;
     totalRecords.value = data.totalRecords;
@@ -198,11 +202,6 @@ const onPage = (event) => {
   lazyParams.value = event;
   loadLazyData();
 };
-
-const filterLabels = [
-  { name: "כל הלקוחות", value: 2 },
-  { name: "הלקוחות שלי", value: 1 },
-];
 
 //Manage selected rows
 const selectedProjects = ref([]);
@@ -231,6 +230,10 @@ function closeSidebar() {
 function openSidebar() {
   isVisible.value = true;
 }
+
+watchEffect(() => {
+  loadLazyData();
+});
 
 watch(
   () => selectedRowsPerPage,

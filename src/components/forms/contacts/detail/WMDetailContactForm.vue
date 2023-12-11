@@ -220,23 +220,25 @@
         </div>
       </div>
       <div>
-        <WMCustomersTable
-          :contact="contact"
-          :columns="customerColumns"
-          :rows="5"
-        >
+        <WMCustomersTable :contactId="contact.id" :columns="customerColumns">
         </WMCustomersTable>
       </div>
       <div>
         <WMServicesTable
-          :services="services"
+          relatedEntity="contact"
+          :relatedEntityId="contact.id"
           :columns="serviceColumns"
           multiselect
         >
         </WMServicesTable>
       </div>
       <div>
-        <WMTasksTable :tasks="tasks" :columns="taskColumns" multiselect>
+        <WMTasksTable
+          relatedEntity="contact"
+          :relatedEntityId="contact.id"
+          :columns="taskColumns"
+          multiselect
+        >
         </WMTasksTable>
       </div>
       <div class="flex-1 card-container">
@@ -356,10 +358,10 @@ const fetchData = async () => {
     utilsStore.selectedElements["contact"] = [contact.value];
     loaded.value = true;
   });
-  const servicesData = await getServicesFromApi({
-    customer_id: route.params.id,
-  });
-  services.value = servicesData.data;
+  // const servicesData = await getServicesFromApi({
+  //   customer_id: route.params.id,
+  // });
+  // services.value = servicesData.data;
   const tasksData = await getTasksFromApi({
     customer_id: route.params.id,
   });

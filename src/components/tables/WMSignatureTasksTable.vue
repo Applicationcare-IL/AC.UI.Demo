@@ -32,12 +32,7 @@
           :applied="isFilterApplied"
           >{{ t("filter") }}
         </WMButton>
-        <SelectButton
-          v-model="selectedOption"
-          :options="options"
-          optionLabel="name"
-          class="flex flex-nowrap"
-        />
+        <WMOwnerToggle entity="task" />
       </div>
     </div>
     <div>
@@ -149,22 +144,9 @@ const props = defineProps({
   },
 });
 
-const { getSelectFilterButtonValues } = useListUtils();
-
-const options = ref();
-options.value = getSelectFilterButtonValues("task.tasks", i18n);
-
-watch(locale, () => {
-  options.value = getSelectFilterButtonValues("task.tasks", i18n);
-});
-
 const rowClass = (data) => {
   return [{ inactive_row: !data.is_open }];
 };
-
-// const slaClass = (data) => {
-// return getSlaConditionalStyle(data);
-// };
 
 const onSelectionChanged = () => {
   console.log(selectedTasks.value);

@@ -195,14 +195,20 @@
       </div>
       <div>
         <WMServicesTable
-          :services="services"
+          relatedEntity="customer"
+          :relatedEntityId="customer.id"
           :columns="serviceColumns"
           multiselect
         >
         </WMServicesTable>
       </div>
       <div>
-        <WMTasksTable :tasks="tasks" :columns="taskColumns" multiselect>
+        <WMTasksTable
+          relatedEntity="customer"
+          :relatedEntityId="customer.id"
+          :columns="taskColumns"
+          multiselect
+        >
         </WMTasksTable>
       </div>
       <div class="flex flex-row gap-5 flex-wrap mt-5">

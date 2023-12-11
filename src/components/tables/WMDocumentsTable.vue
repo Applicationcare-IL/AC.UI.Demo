@@ -38,12 +38,7 @@
           :applied="isFilterApplied"
           >{{ t("filter") }}
         </WMButton>
-        <SelectButton
-          v-model="selectedOption"
-          :options="options"
-          optionLabel="name"
-          class="flex flex-nowrap"
-        />
+        <WMOwnerToggle entity="document" />
       </div>
     </div>
     <div>

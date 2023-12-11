@@ -1,8 +1,6 @@
 <template>
   <WMListSubHeader
     v-if="permissions.contacts.read"
-    :filterLabels="filterLabels"
-    :defaultOption="filterLabels[1]"
     entity="contact"
     @new="toggleSidebarVisibility"
   >
@@ -16,7 +14,7 @@
     <h2>{{ contactDetail.name }}</h2>
     <Divider />
     <WMCustomersTable
-      :contact="contactDetail"
+      :contactId="contactDetail.id"
       :columns="customerColumns"
       :showControls="false"
       :rows="5"
@@ -31,7 +29,7 @@
     <h2>{{ contactDetail.name }}</h2>
     <Divider />
     <WMCustomersTable
-      :contact="contactDetail"
+      :contactId="contactDetail.id"
       :columns="customerColumns"
       :showControls="false"
       :rows="5"
@@ -187,11 +185,20 @@ const searchValue = ref("");
 const loadLazyData = () => {
   loading.value = true;
 
-  getContactsFromApi({
-    page: lazyParams.value.page + 1,
-    per_page: selectedRowsPerPage.value,
-    search: searchValue.value,
-  }).then((result) => {
+  const filters = utilsStore.filters["contact"];
+  const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
+  const selectedRowsPerPageParam = selectedRowsPerPage.value;
+
+  // Create a new URLSearchParams object by combining base filters and additional parameters
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage,
+    per_page: selectedRowsPerPageParam,
+    search: searchValueParam,
+  });
+
+  getContactsFromApi(params).then((result) => {
     console.log(result);
     contacts.value = result.data;
     totalRecords.value = result.totalRecords;
@@ -244,11 +251,6 @@ const highlightStatusClass = (status) => {
     },
   ];
 };
-
-const filterLabels = [
-  { name: "כל הלקוחות", value: 2 },
-  { name: "הלקוחות שלי", value: 1 },
-];
 
 //Manage selected rows
 const selectedContacts = ref([]);

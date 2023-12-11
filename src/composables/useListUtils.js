@@ -354,13 +354,6 @@ export function useListUtils() {
     return [{ "bg-red-100 text-red-600": data > 0 }];
   };
 
-  const getSelectFilterButtonValues = (entityPlural, i18n) => {
-    return [
-      { name: i18n.t("all-entities", { label: entityPlural }), value: 2 },
-      { name: i18n.t("my-entities", { label: entityPlural }), value: 1 },
-    ];
-  };
-
   const getStatusConditionalStyle = (status) => {
     return [
       {
@@ -399,7 +392,6 @@ export function useListUtils() {
     getSignatureTaskColumns,
     // METHODS
     getAlertCellConditionalStyle,
-    getSelectFilterButtonValues,
     getStatusConditionalStyle,
     getPriorityConditionalStyle,
   };

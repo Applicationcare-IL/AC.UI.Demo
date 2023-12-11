@@ -1,10 +1,5 @@
 <template>
-  <WMListSubHeader
-    :filterLabels="filterLabels"
-    :defaultOption="filterLabels[1]"
-    @new="toggleSidebarVisibility"
-    entity="service"
-  >
+  <WMListSubHeader @new="toggleSidebarVisibility" entity="service">
   </WMListSubHeader>
 
   <WMServicePreviewSidebar
@@ -182,12 +177,21 @@ const { getServicesFromApi } = useServices();
 
 const loadLazyData = () => {
   loading.value = true;
-  getServicesFromApi({
-    page: lazyParams.value.page + 1,
-    per_page: selectedRowsPerPage.value,
-    search: searchValue.value,
-    filters: JSON.stringify(utilsStore.filters["service"]),
-  }).then((result) => {
+
+  const filters = utilsStore.filters["service"];
+  const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
+  const selectedRowsPerPageParam = selectedRowsPerPage.value;
+
+  // Create a new URLSearchParams object by combining base filters and additional parameters
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage,
+    per_page: selectedRowsPerPageParam,
+    search: searchValueParam,
+  });
+
+  getServicesFromApi(params).then((result) => {
     services.value = result.data;
     totalRecords.value = result.totalRecords;
     loading.value = false;
@@ -226,11 +230,6 @@ const priorityClass = (data) => {
 const menuItems = [
   { label: "Whatsapp", value: "option1" },
   { label: "SMS", value: "option2" },
-];
-
-const filterLabels = [
-  { name: "כל התהליכים", value: 2 },
-  { name: "התהליכים שלי", value: 1 },
 ];
 
 //Manage selected rows

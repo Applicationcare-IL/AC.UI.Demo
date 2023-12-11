@@ -14,21 +14,22 @@
           icon="filter"
           :open="isFilterOpen"
           :applied="isFilterApplied"
+          @click="openFilterSidebar"
           >{{ t("filter") }}
         </WMButton>
-        <SelectButton
-          v-model="selectedOption"
-          :options="options"
-          optionLabel="name"
-          class="flex flex-nowrap"
-        />
+        <WMSidebar
+          :visible="isFilterVisible"
+          @close-sidebar="closeFilterSidebar"
+          @open-sidebar="openFilterSidebar"
+          name="filterContact"
+        >
+          <WMFilterForm entity="contact" filterFormName="contact" />
+        </WMSidebar>
+        <WMOwnerToggle entity="contact" />
       </div>
     </div>
-    <div>
-      <span class="p-input-icon-left">
-        <i class="pi pi-search" />
-        <InputText class="w-30rem" :placeholder="$t('search')" />
-      </span>
+    <div class="flex flex-row gap-3">
+      <WMSearchBox entity="contact" />
     </div>
   </div>
   <DataTable
@@ -137,15 +138,13 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, computed } from "vue";
+import { ref, watch, onMounted, computed, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
-const i18n = useI18n();
-
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const selectedContacts = ref(null);
 const isFilterOpen = ref(false);
@@ -204,15 +203,7 @@ onMounted(() => {
   }
 });
 
-const { getSelectFilterButtonValues, getAlertCellConditionalStyle } =
-  useListUtils();
-
-const options = ref();
-options.value = getSelectFilterButtonValues("contact.contacts", i18n);
-
-watch(locale, () => {
-  options.value = getSelectFilterButtonValues("contact.contacts", i18n);
-});
+const { getAlertCellConditionalStyle } = useListUtils();
 
 watch(
   props.contacts,
@@ -226,6 +217,7 @@ watch(
 // const contacts = ref(props.contacts);
 const contacts = ref([]);
 const customer = ref();
+const searchValue = ref("");
 
 const lazyParams = ref({});
 
@@ -236,15 +228,27 @@ const {
   unassignContactFromCustomer,
 } = useCustomers();
 
-const loadLazyData = async () => {
-  await getCustomerFromApi(props.customerId).then((data) => {
+const loadLazyData = () => {
+  getCustomerFromApi(props.customerId).then((data) => {
     customer.value = data;
   });
-  getContactsFromApi({
-    page: lazyParams.value.page + 1,
-    per_page: props.rows,
-    customer_id: customer.value.id,
-  }).then((result) => {
+
+  const filters = utilsStore.filters["contact"];
+  const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
+  const selectedRowsPerPageParam = props.rows;
+  const customerParam = props.customerId;
+
+  // Create a new URLSearchParams object by combining base filters and additional parameters
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage,
+    per_page: selectedRowsPerPageParam,
+    search: searchValueParam,
+    customer_id: customerParam,
+  });
+
+  getContactsFromApi(params).then((result) => {
     contacts.value = result.data;
     totalRecords.value = result.totalRecords;
     console.log("contacts", contacts.value);
@@ -326,4 +330,27 @@ const saveRow = (contact) => {
       toast.error("Contact assign Failed");
     });
 };
+
+const isFilterVisible = ref(false);
+
+function closeFilterSidebar() {
+  isFilterVisible.value = false;
+}
+
+function openFilterSidebar() {
+  isFilterVisible.value = true;
+}
+watchEffect(() => {
+  loadLazyData();
+});
+
+watch(
+  () => utilsStore.searchString["contact"],
+  () => {
+    searchValue.value = utilsStore.searchString["contact"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  }
+);
 </script>

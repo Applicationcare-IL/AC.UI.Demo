@@ -20,25 +20,22 @@
           icon="filter"
           :open="isFilterOpen"
           :applied="isFilterApplied"
+          @click="openFilterSidebar"
           >{{ t("filter") }}
         </WMButton>
-        <SelectButton
-          v-model="selectedOption"
-          :options="options"
-          optionLabel="name"
-          class="flex flex-nowrap"
-        />
+        <WMSidebar
+          :visible="isFilterVisible"
+          @close-sidebar="closeFilterSidebar"
+          @open-sidebar="openFilterSidebar"
+          name="filterCustomer"
+        >
+          <WMFilterForm entity="customer" filterFormName="customer" />
+        </WMSidebar>
+        <WMOwnerToggle entity="customer" />
       </div>
     </div>
-    <div>
-      <span class="p-input-icon-left">
-        <i class="pi pi-search" />
-        <InputText
-          class="w-30rem"
-          v-model="filters['global'].value"
-          :placeholder="$t('search')"
-        />
-      </span>
+    <div class="flex flex-row gap-3">
+      <WMSearchBox entity="customer" />
     </div>
   </div>
   <DataTable
@@ -93,7 +90,7 @@
       </template>
       <template v-if="column.type === 'star'" #body="slotProps">
         <img
-          v-if="slotProps.data['main_contact']['id'] == contact.id"
+          v-if="slotProps.data['main_contact']['id'] == contactId"
           src="/icons/star.svg"
           alt=""
           class="vertical-align-middle"
@@ -122,7 +119,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, watchEffect, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { FilterMatchMode } from "primevue/api";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -141,6 +138,7 @@ const selectedOption = ref(1);
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 const totalRecords = ref(0);
+const searchValue = ref("");
 
 const { getCustomersFromApi } = useCustomers();
 
@@ -161,7 +159,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  contact: {
+  contactId: {
     type: Object,
     default: null,
   },
@@ -171,25 +169,28 @@ onMounted(() => {
   loadLazyData();
 });
 
-const { getSelectFilterButtonValues, getAlertCellConditionalStyle } =
-  useListUtils();
-
-const options = ref();
-options.value = getSelectFilterButtonValues("contact.contacts", i18n);
-
-watch(locale, () => {
-  options.value = getSelectFilterButtonValues("contact.contacts", i18n);
-});
+const { getAlertCellConditionalStyle } = useListUtils();
 
 const customers = ref([]);
 const lazyParams = ref({});
 
 const loadLazyData = () => {
-  getCustomersFromApi({
-    page: lazyParams.value.page + 1,
-    per_page: props.rows,
-    contact_id: props.contact.id,
-  }).then((result) => {
+  const filters = utilsStore.filters["customer"];
+  const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
+  const selectedRowsPerPageParam = props.rows;
+  const contactParam = props.contactId;
+
+  // Create a new URLSearchParams object by combining base filters and additional parameters
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage,
+    per_page: selectedRowsPerPageParam,
+    search: searchValueParam,
+    contact_id: contactParam,
+  });
+
+  getCustomersFromApi(params).then((result) => {
     customers.value = result.data;
     totalRecords.value = result.totalRecords;
   });
@@ -208,12 +209,26 @@ const onSelectionChanged = () => {
   utilsStore.selectedElements["customer"] = selectedCustomers.value;
 };
 
-const filters = ref({
-  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  "country.name": { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  representative: { value: null, matchMode: FilterMatchMode.IN },
-  status: { value: null, matchMode: FilterMatchMode.EQUALS },
-  verified: { value: null, matchMode: FilterMatchMode.EQUALS },
+const isFilterVisible = ref(false);
+
+function closeFilterSidebar() {
+  isFilterVisible.value = false;
+}
+
+function openFilterSidebar() {
+  isFilterVisible.value = true;
+}
+watchEffect(() => {
+  loadLazyData();
 });
+
+watch(
+  () => utilsStore.searchString["customer"],
+  () => {
+    searchValue.value = utilsStore.searchString["customer"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  }
+);
 </script>

@@ -233,7 +233,12 @@
       </div>
 
       <div>
-        <WMTasksTable :tasks="tasks" :columns="taskColumns" multiselect>
+        <WMTasksTable
+          relatedEntity="service"
+          :relatedEntityId="service.id"
+          :columns="taskColumns"
+          multiselect
+        >
         </WMTasksTable>
       </div>
 
