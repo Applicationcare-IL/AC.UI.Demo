@@ -32,12 +32,14 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import QuillMention from "quill-mention";
 
 const attachDocument = () => {
   console.log("attachDocument");
 };
+
+const emit = defineEmits();
 
 const addVariableToEditor = (selectedOption) => {
   myQuillEditor.value.getQuill().getModule("mention").insertItem(
@@ -54,7 +56,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  modelValue: {
+    type: String,
+    default: "",
+  },
 });
+
+const content = ref(props.modelValue);
 
 const editorClasses = computed(() => {
   return props.hideToolbar ? "toolbar-hidden" : "";
@@ -113,7 +121,12 @@ const logContent = () => {
   console.log(myQuillEditor.value.getContents());
 };
 
-const content = ref("");
+watch(
+  () => content.value,
+  () => {
+    emit("update:modelValue", myQuillEditor.value.getText());
+  }
+);
 </script>
 
 <style>

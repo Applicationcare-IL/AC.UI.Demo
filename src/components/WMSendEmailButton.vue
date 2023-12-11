@@ -52,14 +52,14 @@
 
       <Divider />
 
-      <WMCommunicationsEditor />
+      <WMCommunicationsEditor v-model="message" />
 
       <Divider />
     </div>
 
     <template #footer>
       <div class="flex flex-row gap-3">
-        <Button label="Send" @click="sendEmailDialogVisible = false" />
+        <Button label="Send" @click="handleSendEmail()" />
 
         <Button
           label="Cancel"
@@ -73,7 +73,6 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { useOptionSetsStore } from "@/stores/optionSets";
 
 const sendEmailDialogVisible = ref(false);
 
@@ -97,7 +96,6 @@ const searchContact = (query) => {
 };
 
 const selectedDropdownContacts = ref(0);
-const selectedChannel = ref();
 
 const onContactselected = (contacts) => {
   selectedDropdownContacts.value = contacts;
@@ -108,17 +106,36 @@ const handleClearAllSelectedDropdownContacts = () => {
   inputSearch.value.clear();
 };
 
+const message = ref("");
+
 watch(
   () => selectedContacts.value,
   (value) => {
     selectedDropdownContacts.value = value;
-    // check if the input search is undefined
 
     if (inputSearch.value) {
       inputSearch.value.clear();
     }
   }
 );
+
+const getContactsIds = (contacts) => {
+  return contacts.map((contact) => contact.id);
+};
+
+const { sendEmail } = useCommunications();
+
+const handleSendEmail = () => {
+  const params = {
+    ids: getContactsIds(selectedDropdownContacts.value),
+    subject: "subject",
+    body: message.value,
+  };
+
+  sendEmail(params);
+
+  sendEmailDialogVisible.value = false;
+};
 </script>
 
 <style scoped lang="scss">

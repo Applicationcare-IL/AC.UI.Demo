@@ -81,14 +81,14 @@
       </div>
       <Divider />
 
-      <WMCommunicationsEditor :hide-toolbar="true" />
+      <WMCommunicationsEditor v-model="message" :hide-toolbar="true" />
 
       <Divider />
     </div>
 
     <template #footer>
       <div class="flex flex-row gap-3">
-        <Button label="Send" @click="sendMessageDialogVisible = false" />
+        <Button label="Send" @click="handleSendMessage()" />
 
         <Button
           label="Cancel"
@@ -103,6 +103,8 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
+
+const message = ref("");
 
 const sendMessageDialogVisible = ref(false);
 
@@ -157,6 +159,31 @@ const handleOverlayMenuClick = (action) => {
     default:
       break;
   }
+};
+
+const { sendSMS } = useCommunications();
+
+const handleSendMessage = () => {
+  switch (selectedChannel.value.value) {
+    case "sms":
+      const params = {
+        ids: getContactsIds(selectedDropdownContacts.value),
+        body: message.value,
+      };
+
+      sendSMS(params);
+      break;
+    case "whatsapp":
+      break;
+    default:
+      break;
+  }
+
+  sendMessageDialogVisible.value = false;
+};
+
+const getContactsIds = (contacts) => {
+  return contacts.map((contact) => contact.id);
 };
 
 const handleClearAllSelectedDropdownContacts = () => {
