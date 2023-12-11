@@ -5,21 +5,7 @@
     @new="toggleSidebarVisibility"
   >
   </WMListSubHeader>
-  <Sidebar
-    v-model:visible="isDetailsVisible"
-    class="details-sidebar w-6"
-    :showCloseIcon="false"
-    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-  >
-    <h2>{{ contactDetail.name }}</h2>
-    <Divider />
-    <WMCustomersTable
-      :contactId="contactDetail.id"
-      :columns="customerColumns"
-      :showControls="false"
-      :rows="5"
-    />
-  </Sidebar>
+
   <Sidebar
     v-model:visible="isDetailsVisible"
     class="details-sidebar w-6"
