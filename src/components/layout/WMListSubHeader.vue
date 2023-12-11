@@ -20,7 +20,7 @@
 
           <WMAssignOwnerButton :entity="utilsStore.entity" />
 
-          <WMSubHeaderCommunications
+          <WMSendMessageButton
             :selectedElements="selectedElements"
             :multiple="true"
           />
@@ -33,13 +33,11 @@
             >הקצה
           </WMButton>
 
-          <WMButton
-            class="m-1 col-6"
-            name="mail-white"
-            icon="mail"
-            :disabled="selectedElements == 0"
-            >הקצה
-          </WMButton>
+          <WMSendEmailButton
+            :selectedElements="selectedElements"
+            :multiple="true"
+          />
+
           <!-- <Divider layout="vertical" /> -->
           <!-- <WMButton class="m-1 col-6 " name="basic-secondary">כפתור </WMButton> -->
         </div>

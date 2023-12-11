@@ -358,9 +358,13 @@ const selectedServiceAreas = ref("");
 
 utilsStore.resetElements();
 
-onMounted(() => {
-  fetchData();
+onMounted(async () => {
+  await fetchData();
+
+  setSelectedContacts(customer.value.main_contact);
 });
+
+const { setSelectedContacts } = useContacts();
 
 const { getCustomerFromApi, updateCustomer, parseCustomer, existsCustomer } =
   useCustomers();

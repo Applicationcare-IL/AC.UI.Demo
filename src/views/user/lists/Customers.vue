@@ -158,11 +158,13 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 
 const { getTasksMini } = useTasks();
 const { getServicesMini } = useServices();
+const { setSelectedContacts, resetSelectedContacts } = useContacts();
 
 onMounted(() => {
   utilsStore.entity = "customer";
 
   loadLazyData();
+  resetSelectedContacts();
 
   getServicesMini().then((data) => (services.value = data));
   getTasksMini().then((data) => (tasks.value = data));
@@ -241,16 +243,38 @@ const displayNewForm = () => {
   formUtilsStore.expandSidebar = "newCustomer";
 };
 
-//Move to Store
+// TODO:Move to Store
 const highlightCellClass = (data) => {
   return [{ "bg-red-100 text-red-600": data > 0 }];
 };
 
-//Manage selected rows
+// Manage selected rows
 const selectedCustomers = ref([]);
+
 utilsStore.resetElements();
 const onSelectionChanged = () => {
+  setSelectedContacsFromCustomers(selectedCustomers.value);
   utilsStore.selectedElements["customer"] = selectedCustomers.value;
+};
+
+/**
+ * This function is used to set the selected contacts from the selected customers in the table
+ *
+ * It's used for SMS and Email communications
+ * @param {*} selectedCustomers
+ */
+const setSelectedContacsFromCustomers = (selectedCustomers) => {
+  const selectedContacts = selectedCustomers.map((customer) => {
+    return customer.main_contact;
+  });
+
+  // filter duplicated selected contacts based on ids
+  const uniqueSelectedContacts = selectedContacts.filter(
+    (contact, index, self) =>
+      index === self.findIndex((t) => t.id === contact.id)
+  );
+
+  setSelectedContacts(uniqueSelectedContacts);
 };
 
 watch(

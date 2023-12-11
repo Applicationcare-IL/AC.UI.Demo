@@ -17,7 +17,7 @@ const route = useRoute();
 const taskColumns = ref(getTaskColumns());
 
 onMounted(() => {
-  fetchData();
+  // fetchData();
 });
 </script>
 

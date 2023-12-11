@@ -16,7 +16,7 @@
           <Divider layout="vertical" />
           <WMAssignOwnerButton :entity="utilsStore.entity" />
 
-          <WMSubHeaderCommunications
+          <WMSendMessageButton
             :selectedElements="selectedElements"
             :multiple="false"
           />
@@ -26,15 +26,15 @@
             name="phone-white"
             icon="phone"
             :disabled="selectedElements == 0"
-            >הקצה
-          </WMButton>
-          <WMButton
-            class="m-1 col-6"
-            name="mail-white"
-            icon="mail"
-            :disabled="selectedElements == 0"
-            >הקצה</WMButton
           >
+            שיחה
+          </WMButton>
+
+          <WMSendEmailButton
+            :selectedElements="selectedElements"
+            :multiple="false"
+          />
+
           <WMCompleteTasksButton
             v-if="utilsStore.entity == 'task'"
             :entity="utilsStore.entity"

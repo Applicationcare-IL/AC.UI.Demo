@@ -28,7 +28,7 @@
   </Menu>
 
   <Dialog
-    v-model:visible="SMSDialogVisible"
+    v-model:visible="sendMessageDialogVisible"
     modal
     header="Header"
     :style="{ minWidth: '640px' }"
@@ -88,11 +88,11 @@
 
     <template #footer>
       <div class="flex flex-row gap-3">
-        <Button label="Send" @click="SMSDialogVisible = false" />
+        <Button label="Send" @click="sendMessageDialogVisible = false" />
 
         <Button
           label="Cancel"
-          @click="SMSDialogVisible = false"
+          @click="sendMessageDialogVisible = false"
           severity="secondary"
         />
       </div>
@@ -104,7 +104,7 @@
 import { ref, watch } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
-const SMSDialogVisible = ref(false);
+const sendMessageDialogVisible = ref(false);
 
 const props = defineProps({
   selectedElements: {
@@ -145,13 +145,15 @@ const onContactselected = (contacts) => {
 };
 
 const handleOverlayMenuClick = (action) => {
+  console.log("handleOverlayMenuClick", action);
+
   switch (action) {
     case "sms":
-      SMSDialogVisible.value = true;
+      sendMessageDialogVisible.value = true;
       selectedChannel.value = communicationChannels[0];
       break;
     case "whatsapp":
-      SMSDialogVisible.value = true;
+      sendMessageDialogVisible.value = true;
       selectedChannel.value = communicationChannels[1];
       break;
     default:
@@ -169,7 +171,7 @@ watch(
   (value) => {
     selectedDropdownContacts.value = value;
     // check if the input search is undefined
-    console.log(typeof inputSearch);
+
     if (inputSearch.value) {
       inputSearch.value.clear();
     }

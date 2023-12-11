@@ -54,7 +54,7 @@
       </div>
       <Accordion>
         <AccordionTab header="משימות (Tasks)">
-          <WMDetailProjectFormTasksTab />
+          <!-- <WMDetailProjectFormTasksTab /> -->
         </AccordionTab>
       </Accordion>
 

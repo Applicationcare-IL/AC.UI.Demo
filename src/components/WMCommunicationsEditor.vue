@@ -25,7 +25,7 @@
       <div id="my-toolbar" :class="toolbarClass">
         <button class="ql-bold"></button>
         <button class="ql-italic"></button>
-        <button class="ql-attach" @click="attachDocument()">attach</button>
+        <!-- <button class="ql-attach" @click="attachDocument()">attach</button> -->
       </div>
     </template>
   </QuillEditor>
