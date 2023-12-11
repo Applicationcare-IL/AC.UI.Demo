@@ -348,8 +348,14 @@ import { useRoute } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
 
 const { getTasksFromApi } = useTasks();
-const { updateService, parseUpdateService, getServiceFromApi, cancelService } =
-  useServices();
+const { setSelectedContacts } = useContacts();
+const {
+  updateService,
+  parseUpdateService,
+  getServiceFromApi,
+  cancelService,
+  mapContactsFromServices,
+} = useServices();
 
 const toast = useToast();
 const stages = ref([]);
@@ -386,8 +392,13 @@ const optionRefs = {
   requests3: requests3,
 };
 
-onMounted(() => {
-  fetchData();
+onMounted(async () => {
+  await fetchData();
+
+  const contact = mapContactsFromServices(service.value);
+
+  console.log("contact", service.value);
+  setSelectedContacts(contact);
 });
 
 const fetchData = async () => {

@@ -165,15 +165,18 @@ function openSidebar() {
   isVisible.value = true;
 }
 
+const { setSelectedContacts, resetSelectedContacts } = useContacts();
+
 onMounted(() => {
   utilsStore.entity = "service";
 
   loadLazyData();
+  resetSelectedContacts();
 });
 
 const searchValue = ref("");
 
-const { getServicesFromApi } = useServices();
+const { getServicesFromApi, mapContactsFromServices } = useServices();
 
 const loadLazyData = () => {
   loading.value = true;
@@ -232,11 +235,13 @@ const menuItems = [
   { label: "SMS", value: "option2" },
 ];
 
-//Manage selected rows
+// Manage selected rows
 const selectedServices = ref([]);
+
 utilsStore.resetElements();
+
 const onSelectionChanged = () => {
-  console.log(selectedServices.value);
+  setSelectedContacts(mapContactsFromServices(selectedServices.value));
   utilsStore.selectedElements["service"] = selectedServices.value;
 };
 

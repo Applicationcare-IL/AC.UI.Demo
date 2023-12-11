@@ -137,6 +137,38 @@ export function useServices() {
     };
   };
 
+  /**
+   * This function maps contacts from services array (or single service) to array of unique contacts
+   * @param {*} services
+   * @returns array of mapped unique contacts or single mapped contact
+   */
+  const mapContactsFromServices = (services) => {
+    let contacts = [];
+
+    if (Array.isArray(services)) {
+      contacts = services.map((service) => {
+        return {
+          id: service.contact_id,
+          contact_id: service.contact_id,
+          name: service.contact,
+        };
+      });
+    } else {
+      return {
+        id: services.contact_id,
+        contact_id: services.contact_id,
+        name: services.contact,
+      };
+    }
+
+    const uniqueContacts = contacts.filter(
+      (contact, index, self) =>
+        index === self.findIndex((t) => t.id === contact.id)
+    );
+
+    return uniqueContacts;
+  };
+
   // MOCKED DATA
   const getServicesData = () => {
     const services = [];
@@ -233,6 +265,7 @@ export function useServices() {
     parseService,
     parseUpdateService,
     mapService,
+    mapContactsFromServices,
     // MOCKED DATA
     getService,
     getServices,
