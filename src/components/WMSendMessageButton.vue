@@ -145,8 +145,6 @@ const onContactselected = (contacts) => {
 };
 
 const handleOverlayMenuClick = (action) => {
-  console.log("handleOverlayMenuClick", action);
-
   switch (action) {
     case "sms":
       sendMessageDialogVisible.value = true;

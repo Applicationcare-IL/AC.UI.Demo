@@ -394,11 +394,7 @@ const optionRefs = {
 
 onMounted(async () => {
   await fetchData();
-
-  const contact = mapContactsFromServices(service.value);
-
-  console.log("contact", service.value);
-  setSelectedContacts(contact);
+  setSelectedContacts(mapContactsFromServices(service.value));
 });
 
 const fetchData = async () => {

@@ -110,6 +110,38 @@ export function useTasks() {
     };
   };
 
+  /**
+   * This function maps contacts from tasks array (or single task) to array of unique contacts
+   * @param {*} tasks
+   * @returns array of mapped unique contacts or single mapped contact
+   */
+  const mapContactsFromTasks = (tasks) => {
+    let contacts = [];
+
+    if (Array.isArray(tasks)) {
+      contacts = tasks.map((task) => {
+        return {
+          id: task.contact_id,
+          contact_id: task.contact_id,
+          name: task.contact,
+        };
+      });
+    } else {
+      return {
+        id: tasks.contact_id,
+        contact_id: tasks.contact_id,
+        name: tasks.contact,
+      };
+    }
+
+    const uniqueContacts = contacts.filter(
+      (contact, index, self) =>
+        index === self.findIndex((t) => t.id === contact.id)
+    );
+
+    return uniqueContacts;
+  };
+
   // MOCKED DATA
   const getTasksData = () => {
     const tasks = [];
@@ -202,6 +234,7 @@ export function useTasks() {
     mapTask,
     parseTask,
     parseUpdateTask,
+    mapContactsFromTasks,
     // MOCKED DATA
     getTasksMini,
     getTasksSmall,

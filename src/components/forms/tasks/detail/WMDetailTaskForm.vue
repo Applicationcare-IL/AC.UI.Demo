@@ -312,17 +312,20 @@ const props = defineProps({
   },
 });
 
-const { getTaskFromApi } = useTasks();
+const { getTaskFromApi, mapContactsFromTasks } = useTasks();
 const { getServiceFromApi } = useServices();
+const { setSelectedContacts } = useContacts();
 
-onMounted(() => {
-  getTaskFromApi(route.params.id).then((data) => {
+onMounted(async () => {
+  await getTaskFromApi(route.params.id).then((data) => {
     task.value = data;
     getServiceFromApi(task.value.related_entity.id).then((data) => {
       service.value = data;
     });
     utilsStore.selectedElements["task"] = [task.value];
   });
+
+  setSelectedContacts(mapContactsFromTasks(task.value));
 });
 
 const { handleSubmit, meta, resetForm } = useForm({

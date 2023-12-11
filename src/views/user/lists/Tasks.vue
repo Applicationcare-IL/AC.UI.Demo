@@ -140,16 +140,19 @@ import { ref, onMounted, computed, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
-const { getTasksFromApi } = useTasks();
+const { getTasksFromApi, mapContactsFromTasks } = useTasks();
 
 const utilsStore = useUtilsStore();
 const searchValue = ref("");
+const { setSelectedContacts, resetSelectedContacts } = useContacts();
 
 onMounted(() => {
   utilsStore.entity = "task";
 
   loading.value = true;
   loadLazyData();
+
+  resetSelectedContacts();
 });
 
 const { selectedRowsPerPage } = useListUtils();
@@ -209,7 +212,7 @@ function openSidebar() {
 utilsStore.resetElements();
 
 const onSelectionChanged = () => {
-  console.log(selectedTasks.value);
+  setSelectedContacts(mapContactsFromTasks(selectedTasks.value));
   utilsStore.selectedElements["task"] = selectedTasks.value;
 };
 
