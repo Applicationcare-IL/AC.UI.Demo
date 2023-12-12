@@ -4,18 +4,10 @@ import { defineStore } from "pinia";
 export const useProjectsStore = defineStore("projects", {
   actions: {
     getProjectsFromApi(params) {
-      console.log(params);
       return axiosConfig
-        .get("/projects")
+        .get("/projects", { params })
         .then((response) => {
-          console.log(response);
-          const data = response.data.data.map((project) => {
-            // return this.mapProject(project);
-            return project;
-          });
-          const totalRecords = response.data.meta.total;
-          console.log(data, totalRecords);
-          return { data, totalRecords };
+          return response.data;
         })
         .catch((error) => {
           console.log(error);

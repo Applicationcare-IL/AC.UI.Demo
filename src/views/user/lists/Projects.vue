@@ -191,8 +191,7 @@ const loadLazyData = () => {
   });
 
   getProjectsFromApi(params).then((data) => {
-    console.log("projects", data);
-    projects.value = data.data;
+    projects.value = data.projects;
     totalRecords.value = data.totalRecords;
     loading.value = false;
   });
@@ -207,7 +206,6 @@ const onPage = (event) => {
 const selectedProjects = ref([]);
 utilsStore.resetElements();
 const onSelectionChanged = () => {
-  console.log(selectedProjects.value);
   utilsStore.selectedElements["project"] = selectedProjects.value;
 };
 

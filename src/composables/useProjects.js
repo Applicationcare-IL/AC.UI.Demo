@@ -5,13 +5,10 @@ export function useProjects() {
 
   // ACTIONS
   const getProjectsFromApi = async (params) => {
-    return getProjectsData();
-
     const response = await projectsStore.getProjectsFromApi(params);
 
     const projects = response.data.map((project) => {
-      //   return mapProject(project);
-      return project;
+      return mapProject(project);
     });
 
     const totalRecords = response.meta.total;
@@ -47,7 +44,6 @@ export function useProjects() {
 
   // UTILITIES
   const parseProject = (project) => {
-    console.log(project);
     return {
       project_number: "",
       project_name: "nobis",
@@ -63,8 +59,21 @@ export function useProjects() {
   };
 
   const mapProject = (project) => {
+    console.log("mapProject", project);
+
     return {
-      name: project.id,
+      project_id: project.id,
+      project_number: project.number,
+      project_name: project.name,
+      city_data: project.location?.city?.value,
+      address: project.location?.street?.value,
+      project_type: project.project_type.value,
+      project_area: project.project_area.value,
+      project_detail: project.project_detail.value,
+      open_tasks: project.open_tasks,
+      breached_tasks: project.breached_tasks,
+      stage: project.process.current_stage?.name,
+      status: randomStatus(),
     };
   };
 
@@ -93,7 +102,7 @@ export function useProjects() {
     };
   };
 
-  const getProjectsData = () => {
+  const getProjectsFakeData = () => {
     const projects = [];
 
     for (let i = 0; i < 1000; i++) {
