@@ -6,15 +6,9 @@
     v-model:visible="isDetailsVisible"
     class="details-sidebar w-6"
     :showCloseIcon="false"
+    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
   >
-    <h2>{{ customerDetail.name }}</h2>
-    <Divider />
-    <WMContactsTable
-      :customerId="customerDetail?.id"
-      :columns="contactColumns"
-      :showControls="false"
-      :rows="5"
-    />
+    <WMPreviewCustomer :customer="customerDetail" />
   </Sidebar>
 
   <WMSidebar
@@ -155,6 +149,7 @@
 import { ref, onMounted, computed, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useLayout } from "@/layout/composables/layout";
 
 const { getTasksMini } = useTasks();
 const { getServicesMini } = useServices();
@@ -172,6 +167,7 @@ onMounted(() => {
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
+const { layoutConfig } = useLayout();
 
 const { selectedRowsPerPage, getContactDetailColumns } = useListUtils();
 

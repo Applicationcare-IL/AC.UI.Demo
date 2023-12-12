@@ -10,7 +10,7 @@
   </WMSidebar>
 
   <h2 v-if="!hideTitle" class="h2">{{ $t("task.tasks") }}</h2>
-  <div class="flex flex-column gap-3 mb-3">
+  <div class="flex flex-column gap-3 mb-3" v-if="showHeaderOptions">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMButton
@@ -61,6 +61,7 @@
     @page="onPage($event)"
     :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
+    :class="`p-datatable-${tableClass}`"
   >
     <Column
       v-if="multiselect"
@@ -87,15 +88,7 @@
       <template v-if="column.type === 'detail'">
         <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
       </template>
-      <template v-if="column.type === 'sla'" #body="slotProps">
-        <WMSLATag
-          v-if="slotProps.data.sla"
-          :sla="slotProps.data.sla"
-          :daysForClosing="slotProps.data.days_for_closing"
-          :state="slotProps.data.state"
-        >
-        </WMSLATag>
-      </template>
+      <template v-if="column.type === 'sla'" #body="slotProps"> sla </template>
       <template v-if="column.type === 'translate'" #body="slotProps">
         {{ $t(column.prefix + "." + slotProps.data[column.name]) }}
       </template>
@@ -149,6 +142,14 @@ const props = defineProps({
   relatedEntityId: {
     type: String,
     default: null,
+  },
+  showHeaderOptions: {
+    type: Boolean,
+    default: true,
+  },
+  tableClass: {
+    type: String,
+    default: "",
   },
 });
 

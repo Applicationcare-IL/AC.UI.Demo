@@ -51,6 +51,7 @@
     @page="onPage($event)"
     :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
+    :class="`p-datatable-${tableClass}`"
   >
     <Column
       v-if="multiselect"
@@ -162,6 +163,10 @@ const props = defineProps({
   contactId: {
     type: Object,
     default: null,
+  },
+  tableClass: {
+    type: String,
+    default: "",
   },
 });
 

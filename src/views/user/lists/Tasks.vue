@@ -96,6 +96,7 @@
       <!-- SLA -->
       <Column field="SLA" header="SLA" class="sla">
         <template #body="slotProps">
+          sla {{ slotProps.data.sla }}
           <WMSLATag
             v-if="slotProps.data.sla"
             :sla="slotProps.data.sla"

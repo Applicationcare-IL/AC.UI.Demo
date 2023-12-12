@@ -9,7 +9,7 @@
     <WMNewTaskForm :isSidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
   <h2 class="h2">{{ $t("service.services") }}</h2>
-  <div class="flex flex-column gap-3 mb-3">
+  <div class="flex flex-column gap-3 mb-3" v-if="showHeaderOptions">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMButton
@@ -72,6 +72,7 @@
     @page="onPage($event)"
     :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
+    :class="`p-datatable-${tableClass}`"
   >
     <Column
       v-if="multiselect"
@@ -163,6 +164,14 @@ const props = defineProps({
   relatedEntityId: {
     type: String,
     default: null,
+  },
+  showHeaderOptions: {
+    type: Boolean,
+    default: true,
+  },
+  tableClass: {
+    type: String,
+    default: "",
   },
 });
 

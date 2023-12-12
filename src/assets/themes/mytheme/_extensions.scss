@@ -634,4 +634,9 @@ a {
     .bg-new-row{
         background-color: var(--orange-50) !important;
     }
+
+    &.p-datatable-compact .p-datatable-tbody > tr > td{
+        line-height: 2em;
+        padding: 0;
+    }
 }

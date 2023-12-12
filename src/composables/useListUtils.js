@@ -59,6 +59,33 @@ export function useListUtils() {
     ];
   };
 
+  const getContactPreviewColumns = () => {
+    return [
+      {
+        name: "star",
+        type: "star",
+        header: "contact.main",
+        class: "column-star",
+      },
+      {
+        name: "name",
+        type: "link",
+        to: "contact",
+        linkParameter: "id",
+        class: "link-col",
+      },
+      { name: "telephone", type: "text" },
+      { name: "email", type: "text" },
+      {
+        name: "role",
+        type: "role",
+        header: "role",
+        optionSet: "contact_customer_role",
+        class: "p-0",
+      },
+    ];
+  };
+
   const getSelectedContactsForNewCustomerColumns = () => {
     return [
       {
@@ -203,7 +230,7 @@ export function useListUtils() {
     ];
   };
 
-  const getCustomerDetailColumns = () => {
+  const getCustomerPreviewColumns = () => {
     return [
       {
         name: "star",
@@ -219,43 +246,9 @@ export function useListUtils() {
       },
       { name: "name", type: "text" },
       { name: "type", type: "option-set", header: "customer.type" },
-      {
-        name: "open_services",
-        type: "text",
-        header: "customer.open-services",
-        class: "numeric",
-      },
-      {
-        name: "breached_services",
-        type: "alert",
-        header: "customer.breached-services",
-        class: "numeric",
-      },
-      {
-        name: "open_tasks",
-        type: "text",
-        header: "customer.open-tasks",
-        class: "numeric",
-      },
-      {
-        name: "breached_tasks",
-        type: "alert",
-        header: "customer.breached-tasks",
-        class: "numeric",
-      },
-      {
-        name: "service_areas",
-        type: "tags",
-        header: "service_areas",
-        class: "tags buttons",
-      },
+      { name: "owner.name", type: "text", header: "owner" },
+
       { name: "role", type: "text", header: "role" },
-      {
-        name: "actions",
-        type: "actions",
-        header: "actions",
-        class: "buttons",
-      },
     ];
   };
 
@@ -288,6 +281,29 @@ export function useListUtils() {
     ];
   };
 
+  const getServicePreviewColumns = () => {
+    return [
+      {
+        name: "service_number",
+        type: "link",
+        header: "service.number",
+        class: "link-col",
+      },
+      { name: "area.value", type: "text", header: "classification-1" },
+      { name: "type.value", type: "text", header: "classification-2" },
+      { name: "request1.value", type: "text", header: "classification-3" },
+      { name: "owner.name", header: "service.owner" },
+      { name: "sla", type: "sla", header: "service.sla", class: "sla" },
+      {
+        name: "priority",
+        type: "priority",
+        header: "service.priority",
+        class: "numeric",
+      },
+      { name: "stage", type: "text", header: "service.stage" },
+    ];
+  };
+
   const getTaskColumns = () => {
     return [
       {
@@ -305,6 +321,23 @@ export function useListUtils() {
       { name: "owner", type: "text" },
       { name: "status", type: "translate", prefix: "statuses" },
       { name: "notes", type: "text" },
+    ];
+  };
+
+  const getTaskPreviewColumns = () => {
+    return [
+      {
+        name: "task_number",
+        type: "link",
+        header: "task.number",
+        class: "link-col",
+      },
+      { name: "owner", type: "text" },
+      { name: "family", type: "text" },
+      { name: "task_type", type: "text", header: "task.type" },
+      { name: "sla", type: "sla", class: "sla" },
+      { name: "due_date", type: "text" },
+      { name: "status", type: "translate", prefix: "statuses" },
     ];
   };
 
@@ -381,13 +414,16 @@ export function useListUtils() {
     selectedRowsPerPage,
     // LIST TABLE COLUMNS
     getContactColumns,
+    getContactPreviewColumns,
     getSelectedContactsForNewCustomerColumns,
     getSelectedContactsForNewProjectColumns,
     getContactDetailColumns,
     getCustomerColumns,
-    getCustomerDetailColumns,
+    getCustomerPreviewColumns,
     getServiceColumns,
+    getServicePreviewColumns,
     getTaskColumns,
+    getTaskPreviewColumns,
     getDocumentColumns,
     getSignatureTaskColumns,
     // METHODS

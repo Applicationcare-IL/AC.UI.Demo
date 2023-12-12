@@ -12,14 +12,7 @@
     :showCloseIcon="false"
     :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
   >
-    <h2>{{ contactDetail.name }}</h2>
-    <Divider />
-    <WMCustomersTable
-      :contactId="contactDetail.id"
-      :columns="customerColumns"
-      :showControls="false"
-      :rows="5"
-    />
+    <WMPreviewContact :contact="contactDetail" />
   </Sidebar>
 
   <WMSidebar
@@ -144,7 +137,7 @@ const permissions = permissionsStore.permissions;
 
 const { getContactsFromApi, setSelectedContacts, resetSelectedContacts } =
   useContacts();
-const { getCustomerDetailColumns, selectedRowsPerPage } = useListUtils();
+const { selectedRowsPerPage } = useListUtils();
 
 onMounted(() => {
   utilsStore.entity = "contact";
@@ -213,7 +206,6 @@ function openSidebar() {
   isVisible.value = true;
 }
 
-const customerColumns = ref(getCustomerDetailColumns());
 const contactDetail = ref(null);
 const displayDetails = (data) => {
   contactDetail.value = data;

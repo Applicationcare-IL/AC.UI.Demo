@@ -1,6 +1,9 @@
 <template>
   <h2 v-if="showControls" class="h2">{{ $t("contact.contact") }}</h2>
-  <div v-if="showControls" class="flex flex-column gap-3 mb-3">
+  <div
+    v-if="showControls && showHeaderOptions"
+    class="flex flex-column gap-3 mb-3"
+  >
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMAssignContactButton @addContacts="addContacts" />
@@ -183,6 +186,14 @@ const props = defineProps({
   contacts: {
     type: Array,
     default: null,
+  },
+  showHeaderOptions: {
+    type: Boolean,
+    default: true,
+  },
+  tableClass: {
+    type: String,
+    default: "",
   },
 });
 
