@@ -152,14 +152,14 @@ export const useFormUtilsStore = defineStore("formUtils", {
           .trim()
           .matches(state.israeliPhoneRegex, "validation.phone")
           .required(),
-        landline: yup
-          .string()
-          .trim()
-          .matches(state.israeliPhoneRegex, "validation.phone"),
-        fax: yup
-          .string()
-          .trim()
-          .matches(state.israeliPhoneRegex, "validation.phone"),
+        // landline: yup
+        //   .string()
+        //   .trim()
+        //   .matches(state.israeliPhoneRegex, "validation.phone"),
+        // fax: yup
+        //   .string()
+        //   .trim()
+        //   .matches(state.israeliPhoneRegex, "validation.phone"),
       });
     },
     getContactDetailFormValidationSchema: (state) => {

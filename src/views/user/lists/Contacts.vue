@@ -31,6 +31,7 @@
     <WMNewEntityFormHeader entity="contact" name="newContact" />
     <WMNewContactForm :isSidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
+
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
       v-if="permissions.contacts.read"

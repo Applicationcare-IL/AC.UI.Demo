@@ -133,7 +133,7 @@
 </template>
 
 <script setup>
-import { onMounted, watch, ref } from "vue";
+import { watch, ref } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -179,7 +179,6 @@ const searchCustomer = (query) => {
 const { createContact, parseContact } = useContacts();
 
 const onSubmit = handleSubmit((values) => {
-  console.log("SEND");
   createContact(parseContact(values))
     .then((data) => {
       dialog.confirmNewContact(data.data.id);

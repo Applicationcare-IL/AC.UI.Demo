@@ -98,21 +98,21 @@ export function useContacts() {
       customers: contact["customer"]
         ? contact["customer"].map((x) => x.id)
         : "",
-      street: contact["street"],
+      street: contact["street"]?.id,
       street_number: contact["house-number"],
-      city: contact["city"],
+      city: contact["city"]?.id,
       zipcode: contact["zipcode"],
       fax: contact["fax"],
       land_line: contact["landline"],
       notes: contact["notes"],
       contact_number: contact["contact-number"],
       location: {
-        city: service["city"]?.id,
-        street: service["street"]?.id,
-        house_number: parseInt(service["house-number"]),
-        apartment: service["apartment"],
-        entrance: service["entrance"]?.value,
-        zip: service["zip"],
+        city: contact["city"]?.id,
+        street: contact["street"]?.id,
+        house_number: parseInt(contact["house-number"]),
+        apartment: contact["apartment"],
+        entrance: contact["entrance"]?.value,
+        zip: contact["zip"],
       },
     };
   };
