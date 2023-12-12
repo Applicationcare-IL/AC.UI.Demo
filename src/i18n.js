@@ -48,7 +48,7 @@ export async function loadLocaleMessages(i18n, locale) {
 
   // load locale messages with dynamic import
   const messages = await import(
-    /* webpackChunkName: "locale-[request]" */ `/locales/${locale}.json`
+    /* @vite-ignore */ /* webpackChunkName: "locale-[request]" */ `/locales/${locale}.json`
   );
 
   // set locale and locale message
