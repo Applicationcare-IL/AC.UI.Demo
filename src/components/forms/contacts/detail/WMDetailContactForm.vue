@@ -5,7 +5,7 @@
   >
     <div class="contact-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row align-items-center gap-4">
-        <h1 class="h1 mb-0">{{ $t("create") }}: {{ contact.name }}</h1>
+        <h1 class="h1 mb-0">{{ $t("contact.contact") }}: {{ contact.name }}</h1>
         <div :class="statusClass(contact.status)" class="status-label">
           {{ $t("statuses." + contact.status) }}
         </div>
