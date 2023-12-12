@@ -64,6 +64,4 @@ export const i18n = setupI18n({
   globalInjection: true,
 });
 
-console.log("i18n.js", i18n);
-
 export default i18n;
