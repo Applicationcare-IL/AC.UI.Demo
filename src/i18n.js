@@ -2,6 +2,7 @@
 
 import { nextTick } from "vue";
 import { createI18n } from "vue-i18n";
+import axiosConfig from "@/service/axiosConfig";
 
 export const SUPPORT_LOCALES = ["en", "he"];
 
@@ -32,14 +33,26 @@ export function setI18nLanguage(i18n, locale) {
 }
 
 export async function loadLocaleMessages(i18n, locale) {
-  console.log("loadLocaleMessages", i18n, locale);
   // load locale messages with dynamic import
-  const messages = await import(
-    /* webpackChunkName: "locale-[request]" */ `/locales/${locale}.json`
-  );
+  // const messages = await import(
+  //   /* webpackChunkName: "locale-[request]" */ `/locales/${locale}.json`
+  // );
+
+  return axiosConfig
+    .get(
+      `https://admin.dev-easymaze.mazemateapp.com/storage/translations/${locale}/contacts.json`
+    )
+    .then((response) => {
+      console.log("loadLocaleMessages", response.data);
+      i18n.setLocaleMessage(locale, messages);
+
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   // set locale and locale message
-  i18n.setLocaleMessage(locale, messages.default);
 
   return nextTick();
 }
