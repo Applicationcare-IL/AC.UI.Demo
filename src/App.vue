@@ -15,6 +15,9 @@ import { ref, onMounted, computed } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { usePermissionsStore } from "@/stores/permissionsStore";
 
+import { useI18n } from "vue-i18n";
+const i18n = useI18n();
+
 const optionSetsStore = useOptionSetsStore();
 const permissionsStore = usePermissionsStore();
 const loadingOptionSets = ref(true);

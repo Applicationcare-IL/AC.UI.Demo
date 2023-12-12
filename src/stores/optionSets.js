@@ -120,8 +120,8 @@ export const useOptionSetsStore = defineStore("optionSets", {
     getOptionSetValues(optionSet) {
       return this[optionSet].map((option) => ({
         value: option.value,
-        name: i18n.t(option.translationKey),
-        label: i18n.t(option.translationKey),
+        name: i18n.global.t(option.translationKey),
+        label: i18n.global.t(option.translationKey),
       }));
     },
     getOptionSetValuesFromApi(optionSet) {
@@ -131,8 +131,10 @@ export const useOptionSetsStore = defineStore("optionSets", {
           const optionSetValues = response.data.data.map((option) => ({
             value: option.value,
             id: option.id,
-            name: i18n.t("option-set." + optionSet + "." + option.value),
-            label: i18n.t("option-set." + optionSet + "." + option.value),
+            name: i18n.global.t("option-set." + optionSet + "." + option.value),
+            label: i18n.global.t(
+              "option-set." + optionSet + "." + option.value
+            ),
           }));
           return optionSetValues;
         })

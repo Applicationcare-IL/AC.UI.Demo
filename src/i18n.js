@@ -1,29 +1,56 @@
-import { createI18n } from 'vue-i18n'
-import en from '/locales/en.json';
-import he from '/locales/he.json';
-import { setLocale } from 'yup';
+// DOCUMENTATION: https://kazupon.github.io/vue-i18n/guide/lazy-loading.html
 
-const messages = {
-  en,
-  he
+import { nextTick } from "vue";
+import { createI18n } from "vue-i18n";
+
+export const SUPPORT_LOCALES = ["en", "he"];
+
+export function setupI18n(options = { locale: "he" }) {
+  // console.log("setupI18n", options);
+  const i18n = createI18n(options);
+
+  loadLocaleMessages(i18n.global, options.locale);
+  // console.log("i18n", i18n);
+  setI18nLanguage(i18n.global, options.locale);
+  return i18n;
 }
 
-const instance  = createI18n({
-  legacy: false, 
-  locale: 'he', // set the default locale
-  fallbackLocale: 'he', // set the fallback locale
-  messages, // set the messages
-  globalInjection: true,
-})
+export function setI18nLanguage(i18n, locale) {
+  if (i18n.mode === "legacy") {
+    i18n.locale = locale;
+  } else {
+    i18n.locale.value = locale;
+  }
+  /**
+   * NOTE:
+   * If you need to specify the language setting for headers, such as the `fetch` API, set it here.
+   * The following is an example for axios.
+   *
+   * axios.defaults.headers.common['Accept-Language'] = locale
+   */
+  document.querySelector("html").setAttribute("lang", locale);
+}
 
-setLocale({
-  mixed: {
-    required: 'validation.required',
-  },
-  string: {
-    min: ({ min }) => ({ key: 'test', values: { min } }),
-  },
+export async function loadLocaleMessages(i18n, locale) {
+  console.log("loadLocaleMessages", i18n, locale);
+  // load locale messages with dynamic import
+  const messages = await import(
+    /* webpackChunkName: "locale-[request]" */ `/locales/${locale}.json`
+  );
+
+  // set locale and locale message
+  i18n.setLocaleMessage(locale, messages.default);
+
+  return nextTick();
+}
+
+export const i18n = setupI18n({
+  legacy: false,
+  locale: "he", // set the default locale
+  fallbackLocale: "he", // set the fallback locale
+  globalInjection: true,
 });
 
-export default instance 
-export const i18n = instance.global
+console.log("i18n.js", i18n);
+
+export default i18n;
