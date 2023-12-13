@@ -20,6 +20,7 @@
       :value="projects"
       dataKey="project_id"
       v-model:expandedRows="expandedRows"
+      :rowClass="showExpander"
       tableStyle="min-width: 50rem"
       class="p-datatable-sm projects-table"
       paginator
@@ -33,7 +34,7 @@
       @page="onPage($event)"
       @update:selection="onSelectionChanged"
     >
-      <Column expander style="width: 45px" />
+      <Column expander style="width: 45px"> </Column>
       <Column style="width: 40px" selectionMode="multiple"></Column>
       <Column
         field="project_number"
@@ -240,6 +241,10 @@ watch(
   }
 );
 
+function showExpander(data) {
+  return data.subProjects && data.subProjects.length ? "" : "no-expander";
+}
+
 const statusClass = (data) => {
   return getStatusConditionalStyle(data);
 };
@@ -282,5 +287,10 @@ const statusClass = (data) => {
   padding: 0px !important;
   line-height: 24px;
   font-weight: 700;
+}
+
+:deep(.no-expander .p-row-toggler) {
+  opacity: 0;
+  pointer-events: none;
 }
 </style>
