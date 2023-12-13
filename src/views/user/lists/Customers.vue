@@ -2,14 +2,10 @@
   <WMListSubHeader entity="customer" @new="toggleSidebarVisibility">
   </WMListSubHeader>
 
-  <Sidebar
+  <WMCustomerPreviewSidebar
+    :customer="customerDetail"
     v-model:visible="isDetailsVisible"
-    class="details-sidebar w-6"
-    :showCloseIcon="false"
-    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-  >
-    <WMPreviewCustomer :customer="customerDetail" />
-  </Sidebar>
+  />
 
   <WMSidebar
     :visible="isVisible"

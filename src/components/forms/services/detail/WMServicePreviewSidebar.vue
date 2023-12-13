@@ -6,7 +6,21 @@
     :showCloseIcon="false"
     :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
   >
-    <h2>{{ $t("service.service") }} {{ service.service_number }}</h2>
+    <div class="flex justify-content-between">
+      <h2 class="h2">
+        {{ $t("service.service") }} {{ service.service_number }}
+      </h2>
+      <router-link
+        :to="{
+          name: 'serviceDetail',
+          params: { id: service.id },
+        }"
+        class="p-2"
+      >
+        <Button> פתח לקוח</Button>
+      </router-link>
+    </div>
+
     <Divider />
   </Sidebar>
 </template>

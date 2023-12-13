@@ -6,14 +6,10 @@
   >
   </WMListSubHeader>
 
-  <Sidebar
+  <WMContactPreviewSidebar
+    :contact="contactDetail"
     v-model:visible="isDetailsVisible"
-    class="details-sidebar w-6"
-    :showCloseIcon="false"
-    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-  >
-    <WMPreviewContact :contact="contactDetail" />
-  </Sidebar>
+  />
 
   <WMSidebar
     :visible="isVisible"
