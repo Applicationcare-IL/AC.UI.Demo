@@ -19,11 +19,9 @@
   <WMContactsTable
     :contacts="selectedContacts"
     :columns="getSelectedContactsForNewProjectColumns()"
-    :showControls="false"
-    @update:role="updatedRole"
-    @update:mainContact="updatedMainContact"
-    @unlink="unlinkContact"
+    :showControls="true"
     :multiselect="false"
+    @change:selected-contacts="handleChangeSelectedContacts"
   />
 </template>
 
@@ -49,14 +47,12 @@ const { getSelectedContactsForNewProjectColumns } = useListUtils();
 
 const selectedContacts = ref([]);
 
-const updatedMainContact = (id) => {
-  selectedContacts.value.map((contact) => {
-    if (contact.id === id) {
-      contact.main = true;
-    } else {
-      contact.main = false;
-    }
-  });
+const emit = defineEmits(["change:selectedContacts"]);
+
+const handleChangeSelectedContacts = (contacts) => {
+  selectedContacts.value = contacts;
+
+  emit("change:selectedContacts", contacts.value);
 };
 
 const unlinkContact = (id) => {

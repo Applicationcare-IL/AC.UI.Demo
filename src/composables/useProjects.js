@@ -44,6 +44,7 @@ export function useProjects() {
 
   // UTILITIES
   const parseProject = (project) => {
+    console.log("project", project);
     return {
       name: project["project-name"],
       description: project["project-description"],
@@ -51,7 +52,12 @@ export function useProjects() {
       project_area: project.project_area?.id,
       project_detail: project.project_detail?.id,
       customer_id: "",
-      contact_id: "",
+      contacts: project.teamMembers.map((teamMember) => {
+        return {
+          contact_id: teamMember.id,
+          role: teamMember.role?.id,
+        };
+      }),
       location: {
         city: "",
         street: "",

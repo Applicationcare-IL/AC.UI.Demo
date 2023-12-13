@@ -1,7 +1,10 @@
 <template>
   <h2 v-if="showControls" class="h2">{{ $t("contact.contact") }}</h2>
+
+  <WMAssignContactButton v-if="showAddContact" @addContacts="addContacts" />
+
   <div
-    v-if="showControls && showHeaderOptions"
+    v-if="showControls && showHeaderOptions && !showAddContact"
     class="flex flex-column gap-3 mb-3"
   >
     <div class="flex flex-row justify-content-between">
@@ -160,7 +163,12 @@ const totalRecords = ref(0);
 const optionSetsStore = useOptionSetsStore();
 const selectedRole = ref([]);
 
-const emit = defineEmits(["update:role", "unlink", "update:mainContact"]);
+const emit = defineEmits([
+  "update:role",
+  "unlink",
+  "update:mainContact",
+  "change:selectedContacts",
+]);
 
 const props = defineProps({
   rows: {
@@ -191,6 +199,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  showAddContact: {
+    type: Boolean,
+    default: false,
+  },
   tableClass: {
     type: String,
     default: "",
@@ -206,7 +218,12 @@ const isSourceExternal = computed(() => {
 });
 
 onMounted(() => {
+  console.log("mounted", isSourceExternal.value);
+  console.log("props.contacts", props.contacts);
+
   if (isSourceExternal.value) {
+    console.log("props.contacts en mounted", props.contacts);
+
     contacts.value = props.contacts;
     totalRecords.value = props.contacts?.length;
   } else {
@@ -219,6 +236,7 @@ const { getAlertCellConditionalStyle } = useListUtils();
 watch(
   props.contacts,
   (newValue) => {
+    console.log("watch props.contacts", newValue);
     if (!isSourceExternal.value || !newValue) return;
     editMode.value[props.contacts.length - 1] = true;
   },
@@ -362,6 +380,13 @@ watch(
     utilsStore.debounceAction(() => {
       loadLazyData();
     });
+  }
+);
+
+watch(
+  () => contacts.value,
+  () => {
+    emit("change:selectedContacts", contacts.value);
   }
 );
 </script>

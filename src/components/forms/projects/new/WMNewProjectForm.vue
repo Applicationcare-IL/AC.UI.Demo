@@ -13,13 +13,22 @@
 
       <Divider class="mb-0" layout="horizontal" />
 
-      <WMNewProjectFormTeam />
+      <h2 class="h2 mb-0">TEAM</h2>
+      <WMContactsTable
+        :contacts="selectedContacts"
+        :columns="getSelectedContactsForNewProjectColumns()"
+        :showControls="false"
+        :showAddContact="true"
+        :multiselect="false"
+        @change:selected-contacts="handleChangeSelectedContacts"
+      />
+
+      <WMFormButtons
+        v-if="isSidebar"
+        @save-form="onSubmit()"
+        @cancel-form="onCancel()"
+      />
     </div>
-    <WMFormButtons
-      v-if="isSidebar"
-      @save-form="onSubmit()"
-      @cancel-form="onCancel()"
-    />
   </div>
 </template>
 
@@ -29,6 +38,13 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useForm } from "vee-validate";
 
 const { createProject, parseProject } = useProjects();
+const { getSelectedContactsForNewProjectColumns } = useListUtils();
+
+const teamMembers = ref([]);
+
+const handleChangeSelectedContacts = (contacts) => {
+  teamMembers.value = contacts;
+};
 
 const props = defineProps({
   isSidebar: {
@@ -50,11 +66,14 @@ const { handleSubmit } = useForm({
 const emit = defineEmits(["closeSidebar"]);
 
 const onSubmit = handleSubmit((values) => {
-  // console.log("handleSubmit", values);
+  const newFormValues = {
+    ...values,
+    teamMembers: teamMembers.value,
+  };
 
-  const parsedProject = parseProject(values);
+  const parsedProject = parseProject(newFormValues);
 
-  // console.log(parsedProject);
+  console.log("parsedProject", parsedProject);
 
   createProject(parsedProject)
     .then((data) => {
