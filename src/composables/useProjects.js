@@ -82,7 +82,7 @@ export function useProjects() {
       open_tasks: project.open_tasks,
       breached_tasks: project.breached_tasks,
       stage: project.process.current_stage?.name,
-      status: randomStatus(),
+      status: project.state.value,
     };
   };
 
