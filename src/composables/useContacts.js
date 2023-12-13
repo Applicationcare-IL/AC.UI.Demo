@@ -14,7 +14,7 @@ export function useContacts() {
     });
 
     const totalRecords = response.meta.total;
-    console.log(contacts);
+
     return { data: contacts, totalRecords };
   };
 
@@ -87,7 +87,6 @@ export function useContacts() {
   };
 
   const parseContact = (contact) => {
-    console.log(contact);
     return {
       name: contact["first-name"],
       surname: contact["last-name"],

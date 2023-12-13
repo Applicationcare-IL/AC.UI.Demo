@@ -50,9 +50,11 @@ const { handleSubmit } = useForm({
 const emit = defineEmits(["closeSidebar"]);
 
 const onSubmit = handleSubmit((values) => {
+  // console.log("handleSubmit", values);
+
   const parsedProject = parseProject(values);
 
-  console.log(parsedProject);
+  // console.log(parsedProject);
 
   createProject(parsedProject)
     .then((data) => {

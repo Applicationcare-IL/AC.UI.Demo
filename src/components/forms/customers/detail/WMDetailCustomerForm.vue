@@ -296,6 +296,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -304,7 +305,7 @@ import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 
-import { i18n } from "@/i18n";
+const { t } = useI18n();
 
 const props = defineProps({
   formKey: {
@@ -394,7 +395,7 @@ const fetchData = async () => {
     selectedType.value = types.value.find(
       (type) => type.id == customer.value.type.id
     );
-    selectedStatus.value = i18n.t(
+    selectedStatus.value = t(
       "option-set.customer_status." + customer.value.status.value
     );
 

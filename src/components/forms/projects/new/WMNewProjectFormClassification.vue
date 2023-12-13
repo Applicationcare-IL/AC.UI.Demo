@@ -13,7 +13,6 @@
         width="152"
         :placeholder="'project-types'"
         @change="handleProjectTypeInputChange($event.value)"
-        class="is-mocked"
       />
 
       <WMInputSearch

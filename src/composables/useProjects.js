@@ -45,22 +45,25 @@ export function useProjects() {
   // UTILITIES
   const parseProject = (project) => {
     return {
-      project_number: "",
-      project_name: "nobis",
-      city: 2,
-      street: 13,
-      project_type: 19,
-      project_area: 7,
-      project_detail: 1,
-      customer_id: 13,
-      contact_id: 10,
-      process_definition_id: 11,
+      name: project["project-name"],
+      description: project["project-description"],
+      project_type: project.project_type?.id,
+      project_area: project.project_area?.id,
+      project_detail: project.project_detail?.id,
+      customer_id: "",
+      contact_id: "",
+      location: {
+        city: "",
+        street: "",
+        house_number: "",
+        apartment: "",
+        entrance: "",
+        zip: "",
+      },
     };
   };
 
   const mapProject = (project) => {
-    console.log("mapProject", project);
-
     return {
       project_id: project.id,
       project_number: project.number,
