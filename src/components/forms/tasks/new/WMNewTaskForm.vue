@@ -160,6 +160,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  relatedEntity: {
+    type: String,
+    default: "",
+  },
+  relatedEntityId: {
+    type: Number,
+    default: null,
+  },
 });
 
 function onChange(value) {
@@ -240,6 +248,11 @@ const onSubmit = handleSubmit((values) => {
     started_at: today,
     due_date: today, // TODO: change that to the date the user selected
   };
+
+  if (props.relatedEntity) {
+    task.entity_type = props.relatedEntity;
+    task.entity_id = props.relatedEntityId;
+  }
 
   createTask(parseTask(task))
     .then((data) => {

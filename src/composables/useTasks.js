@@ -70,8 +70,8 @@ export function useTasks() {
       stage: task.stage?.name,
       sla: task.sla?.sla,
       days_for_closing: task.sla?.days_for_closing,
-      contact: task.contact.name,
-      contact_id: task.contact.id,
+      contact: task.contact?.name,
+      contact_id: task.contact?.id,
       state: task.state?.value,
       status: task.status?.value,
       is_open: task.status?.value == "open",
@@ -92,6 +92,8 @@ export function useTasks() {
   };
 
   const parseTask = (task) => {
+    console.log("task to parse", task);
+
     return {
       task_type: task["task-type"].id,
       description: task.description,
@@ -99,8 +101,8 @@ export function useTasks() {
       started_at: task.started_at,
       customer_id: task.customer.id,
       contact_id: task.contact.id,
-      entity_type: task.entity_type ? task.entity_type.type : null,
-      entity_id: task.entity_id ? task.entity_id.id : null,
+      entity_type: task.entity_type ? task.entity_type : null,
+      entity_id: task.entity_id ? task.entity_id : null,
     };
   };
 

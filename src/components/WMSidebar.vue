@@ -7,7 +7,7 @@
       :style="{ left: leftPositon + 'px' }"
     >
       <div class="wm-sidebar" ref="target">
-        <slot></slot>
+        <slot v-bind:props="props"></slot>
       </div>
       <div class="wm-sidebar-overlay" @click="handleCloseSidebar"></div>
     </div>
@@ -32,6 +32,10 @@ const props = defineProps({
   visible: {
     type: Boolean,
     default: false,
+  },
+  data: {
+    type: Object,
+    default: () => ({}),
   },
 });
 

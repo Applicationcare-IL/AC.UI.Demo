@@ -1,23 +1,24 @@
 <template>
   <WMTasksTable
     relatedEntity="project"
-    :relatedEntityId="project.id"
+    :relatedEntityId="project.project_id"
     :columns="taskColumns"
     multiselect
     :hide-title="true"
   />
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { ref } from "vue";
 
 const { getTaskColumns } = useListUtils();
-const route = useRoute();
 
 const taskColumns = ref(getTaskColumns());
 
-onMounted(() => {
-  // fetchData();
+const props = defineProps({
+  project: {
+    type: Object,
+    required: true,
+  },
 });
 </script>
 

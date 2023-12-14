@@ -12,7 +12,6 @@
     <WMNewProjectForm :isSidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
 
-  <WMNewEntitySidebar name="newProject" entity="project" />
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
       lazy

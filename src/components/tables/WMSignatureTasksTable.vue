@@ -3,7 +3,7 @@
     :visible="isVisible"
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
-    name="newTask"
+    name="newSignatureTask"
   >
     <WMNewEntityFormHeader entity="task" name="newTask" />
     <WMNewTaskForm :isSidebar="true" @close-sidebar="closeSidebar" />

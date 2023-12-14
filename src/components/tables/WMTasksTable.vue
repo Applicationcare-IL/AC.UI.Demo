@@ -4,9 +4,16 @@
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
     name="newTask"
+    :data="{ relatedEntity: relatedEntity, relatedEntityId: relatedEntityId }"
   >
-    <WMNewEntityFormHeader entity="task" name="newTask" />
-    <WMNewTaskForm :isSidebar="true" @close-sidebar="closeSidebar" />
+    <template v-slot:default="slotProps">
+      <WMNewTaskForm
+        :isSidebar="true"
+        @close-sidebar="closeSidebar"
+        :relatedEntity="slotProps.props.data.relatedEntity"
+        :relatedEntityId="slotProps.props.data.relatedEntityId"
+      />
+    </template>
   </WMSidebar>
 
   <h2 v-if="!hideTitle" class="h2">{{ $t("task.tasks") }}</h2>
@@ -179,8 +186,8 @@ const loadLazyData = () => {
   if (props.relatedEntity == "customer") {
     params.append("customer_id", props.relatedEntityId);
   } else {
-    params.append("related_entity", props.relatedEntity);
-    params.append("related_entity_id", props.relatedEntityId);
+    params.append("entity_type", props.relatedEntity);
+    params.append("entity_id", props.relatedEntityId);
   }
 
   getTasksFromApi(params).then((result) => {
