@@ -17,9 +17,8 @@ export function useProjects() {
   };
 
   const getProjectFromApi = async (id) => {
-    return getMockedProjectResponse();
-
     const response = await projectsStore.getProjectFromApi(id);
+
     return mapProject(response.data);
   };
 
@@ -44,7 +43,6 @@ export function useProjects() {
 
   // UTILITIES
   const parseProject = (project) => {
-    console.log("project", project);
     return {
       name: project["project-name"],
       description: project["project-description"],
@@ -54,7 +52,7 @@ export function useProjects() {
       customer_id: "",
       contacts: project.teamMembers.map((teamMember) => {
         return {
-          contact_id: teamMember.id,
+          id: teamMember.id,
           role: teamMember.role?.id,
         };
       }),

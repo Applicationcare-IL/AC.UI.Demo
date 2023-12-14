@@ -25,6 +25,7 @@
             :required="true"
             type="input-text"
             :label="$t('project.project_name') + ':'"
+            :value="project.project_name"
           />
         </div>
         <div class="wm-form-row gap-5">
@@ -33,6 +34,7 @@
             :label="$t('project.project_description') + ':'"
             id="description"
             name="project-description"
+            :value="project.project_description"
           />
         </div>
       </div>
@@ -40,6 +42,13 @@
   </Card>
 </template>
 
-<script setup></script>
+<script setup>
+const props = defineProps({
+  project: {
+    type: Object,
+    required: true,
+  },
+});
+</script>
 
 <style scoped lang="scss"></style>

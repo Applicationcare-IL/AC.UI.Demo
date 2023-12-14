@@ -1,4 +1,5 @@
 <template>
+  <!-- <pre>{{ project }}</pre> -->
   <div
     v-if="project"
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
@@ -7,8 +8,8 @@
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row align-items-center gap-4">
           <h1 class="h1 mb-0">Project: {{ project.project_name }}</h1>
-          <div :class="statusClass(project.state)" class="status-label">
-            {{ $t("statuses." + project.state) }}
+          <div :class="statusClass(project.status)" class="status-label">
+            {{ $t("statuses." + project.status) }}
           </div>
         </div>
         <div>
@@ -18,7 +19,7 @@
 
       <div class="flex gap-5">
         <div class="flex-1 card-container">
-          <WMDetailProjectFormGeneralInformation />
+          <WMDetailProjectFormGeneralInformation :project="project" />
         </div>
         <div class="flex flex-1 gap-5 flex-column card-container">
           <WMDetailProjectFormClassification

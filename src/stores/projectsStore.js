@@ -17,9 +17,7 @@ export const useProjectsStore = defineStore("projects", {
       return axiosConfig
         .get("/projects/" + id)
         .then((response) => {
-          console.log(response);
-          const project = response.data.data;
-          return this.mapService(project);
+          return response.data;
         })
         .catch((error) => {
           console.log(error);

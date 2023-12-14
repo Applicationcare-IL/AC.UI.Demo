@@ -49,7 +49,7 @@
             }"
             class="vertical-align-middle"
           >
-            {{ slotProps.data.project_number }}
+            {{ slotProps.data.project_id }}
           </router-link>
         </template>
       </Column>
@@ -109,7 +109,7 @@
               <router-link
                 :to="{
                   name: 'projectDetail',
-                  params: { id: slotProps.data.project_id },
+                  params: { id: slotProps.data.project_number },
                 }"
                 class="vertical-align-middle"
                 >{{ slotProps.data.project_number }}</router-link
