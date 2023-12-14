@@ -81,6 +81,7 @@ export function useProjects() {
       breached_tasks: project.breached_tasks,
       stage: project.process.current_stage?.name,
       status: project.state.value,
+      process: project.process,
     };
   };
 

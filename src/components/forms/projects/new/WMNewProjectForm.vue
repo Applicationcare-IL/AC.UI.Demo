@@ -71,7 +71,12 @@ const onSubmit = handleSubmit((values) => {
     teamMembers: teamMembers.value,
   };
 
-  const parsedProject = parseProject(newFormValues);
+  let parsedProject = parseProject(newFormValues);
+
+  parsedProject = {
+    ...parsedProject,
+    number: Math.floor(Math.random() * 1000) + 1,
+  };
 
   console.log("parsedProject", parsedProject);
 

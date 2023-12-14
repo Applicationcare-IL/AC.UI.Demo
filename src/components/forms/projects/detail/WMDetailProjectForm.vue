@@ -1,5 +1,6 @@
 <template>
   <!-- <pre>{{ project }}</pre> -->
+
   <div
     v-if="project"
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
@@ -24,6 +25,7 @@
         <div class="flex flex-1 gap-5 flex-column card-container">
           <WMDetailProjectFormClassification
             @project-type-update="handleProjectTypeUpdate"
+            :project="project"
           />
           <WMDetailProjectFormExecutionInformation />
         </div>
@@ -100,7 +102,14 @@
       </div>
     </div>
   </div>
-  <div v-else>Loading...</div>
+  <div v-else>
+    <div
+      v-if="loading"
+      class="flex flex-column justify-content-center h-screen align-items-center"
+    >
+      <ProgressSpinner />
+    </div>
+  </div>
 </template>
 
 <script setup>

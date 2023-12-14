@@ -55,16 +55,6 @@ const projectDetails = ref([]);
 
 onMounted(() => {
   optionSetsStore.getOptionSetValuesFromApi("project_type").then((data) => {
-    // TODO: Remove this mocked data when the API is ready
-    const mockedTenderType = {
-      value: "tender",
-      id: 1,
-      name: "tender",
-      label: "tender",
-    };
-
-    data = [mockedTenderType, ...data];
-
     projectTypes.value = data;
   });
   optionSetsStore

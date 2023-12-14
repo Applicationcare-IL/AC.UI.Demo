@@ -13,7 +13,7 @@
           width="152"
           :placeholder="'project-types'"
           @change="handleProjectTypeInputChange($event.value)"
-          class="is-mocked"
+          :modelValue="project.project_type"
         />
 
         <WMInputSearch
@@ -25,6 +25,7 @@
           width="152"
           :placeholder="$t('select', ['classification-2'])"
           @change="filterProjectDetailsDropdown($event.value.id)"
+          :modelValue="project.project_area"
         />
 
         <WMInputSearch
@@ -35,6 +36,7 @@
           :options="projectDetails"
           width="152"
           :placeholder="$t('select', ['classification-3'])"
+          :modelValue="project.project_detail"
         />
       </div>
     </template>
@@ -45,6 +47,13 @@ import { ref, onMounted } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
+const props = defineProps({
+  project: {
+    type: Object,
+    required: true,
+  },
+});
+
 const optionSetsStore = useOptionSetsStore();
 
 const projectTypes = ref([]);
@@ -53,16 +62,6 @@ const projectDetails = ref([]);
 
 onMounted(() => {
   optionSetsStore.getOptionSetValuesFromApi("project_type").then((data) => {
-    // TODO: Remove this mocked data when the API is ready
-    const mockedTenderType = {
-      value: "tender",
-      id: 1,
-      name: "tender",
-      label: "tender",
-    };
-
-    data = [mockedTenderType, ...data];
-
     projectTypes.value = data;
   });
   optionSetsStore
