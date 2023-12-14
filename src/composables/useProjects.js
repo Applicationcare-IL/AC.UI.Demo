@@ -26,19 +26,12 @@ export function useProjects() {
     return await projectsStore.createProject(project);
   };
 
-  // TEAM MEMBERS
-  const getTeamMembersFromApi = async (params) => {
-    return getTeamMembersData();
+  const assignContactToProject = async (projectId, contact) => {
+    return await projectsStore.assignContactToProject(projectId, contact);
+  };
 
-    // const response = await projectsStore.getTeamMembersFromApi(params);
-
-    // const teamMembers = response.data.map((teamMember) => {
-    //   return mapTeamMember(teamMember);
-    // });
-
-    // const totalRecords = response.meta.total;
-
-    // return { teamMembers, totalRecords };
+  const unassignContactFromProject = async (projectId, contactId) => {
+    return await projectsStore.unassignContactFromProject(projectId, contactId);
   };
 
   // UTILITIES
@@ -110,155 +103,16 @@ export function useProjects() {
     };
   };
 
-  const getProjectsFakeData = () => {
-    const projects = [];
-
-    for (let i = 0; i < 1000; i++) {
-      projects.push({
-        ...generateFakeProject(i),
-        subProjects: [
-          generateFakeProject(i + "-" + 1),
-          generateFakeProject(i + "-" + 2),
-          generateFakeProject(i + "-" + 3),
-        ],
-      });
-    }
-
-    return { data: projects, totalRecords: 1000 };
-  };
-
-  const generateFakeTeamMember = (i) => {
-    return {
-      id: i,
-      name: "שם מלא",
-      mobile_phone: "050-1234567",
-      landline: "02-1234567",
-      email: "example@example.com",
-      address: "רחובות, רחוב יהודה החסיד 15",
-      organization: "שם של ארגון",
-      role: "שם של תפקיד",
-    };
-  };
-
-  const getTeamMembersData = () => {
-    const teamMembers = [];
-
-    for (let i = 0; i < 100; i++) {
-      teamMembers.push(generateFakeTeamMember(i));
-    }
-
-    return { data: teamMembers, totalRecords: 100 };
-  };
-
-  const getMockedProjectResponse = () => {
-    return {
-      id: 1,
-      project_number: "003-02-2022",
-      project_name: "Project Name",
-      state: "active",
-      city: {
-        id: 1822,
-        value: "tel-aviv-yafo",
-      },
-      street: {
-        id: 1823,
-        value: "yehuda-hehasid-street",
-      },
-      project_type: {
-        id: 1892,
-        value: "project_type_1",
-      },
-      project_area: {
-        id: 1893,
-        value: "project_area_1",
-      },
-      project_detail: {
-        id: 1894,
-        value: "project_detail_1",
-      },
-      open_tasks: "",
-      breached_tasks: "",
-      process: {
-        id: 62,
-        owner: {
-          id: 1,
-          type: "employee",
-        },
-        customer: {
-          id: 4,
-          name: "Bernat",
-          surname: "Magraner",
-        },
-        contact: {
-          id: 3,
-          name: "Bernat",
-          surname: "Magraner",
-        },
-        status: {
-          id: 294,
-          value: "canceled",
-        },
-        state: {
-          id: 292,
-          value: "not_active",
-        },
-        opened: "2023-07-02T00:00:00.000000Z",
-        closed: null,
-        sla: {
-          due_date: "2023-07-04",
-          days_from_opening_date: null,
-          days_for_closing: null,
-          sla_date: "2023-07-03",
-          sla: "no_breach",
-        },
-        current_stage: null,
-        stages: [
-          {
-            id: 7388,
-            name: "stage",
-            order: 0,
-            completed_at: null,
-            sla: {
-              due_date: "2023-12-05",
-              days_from_opening_date: null,
-              days_for_closing: null,
-              sla_date: "2023-12-04",
-              sla: "no_breach",
-            },
-            is_current: 0,
-          },
-          {
-            id: 7389,
-            name: "stage",
-            order: 1,
-            completed_at: null,
-            sla: {
-              due_date: "2023-12-11",
-              days_from_opening_date: null,
-              days_for_closing: null,
-              sla_date: "2023-12-07",
-              sla: "no_breach",
-            },
-            is_current: 0,
-          },
-        ],
-      },
-    };
-  };
-
   return {
     // ACTIONS
     getProjectsFromApi,
     createProject,
     getProjectFromApi,
-    getTeamMembersFromApi,
+    assignContactToProject,
+    unassignContactFromProject,
 
     // UTILITIES
     parseProject,
     mapProject,
-
-    // MOCKED DATA
-
-    getTeamMembersData,
   };
 }

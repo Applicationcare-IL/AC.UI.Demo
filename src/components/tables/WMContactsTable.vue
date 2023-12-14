@@ -191,6 +191,10 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  projectId: {
+    type: String,
+    default: null,
+  },
   contacts: {
     type: Array,
     default: null,
@@ -217,13 +221,16 @@ const isSourceExternal = computed(() => {
   return props.contacts != null;
 });
 
+const isRelatedToCustomers = computed(() => {
+  return props.customerId != null;
+});
+
+const isRelatedToProjects = computed(() => {
+  return props.projectId != null;
+});
+
 onMounted(() => {
-  console.log("mounted", isSourceExternal.value);
-  console.log("props.contacts", props.contacts);
-
   if (isSourceExternal.value) {
-    console.log("props.contacts en mounted", props.contacts);
-
     contacts.value = props.contacts;
     totalRecords.value = props.contacts?.length;
   } else {
@@ -236,14 +243,12 @@ const { getAlertCellConditionalStyle } = useListUtils();
 watch(
   props.contacts,
   (newValue) => {
-    console.log("watch props.contacts", newValue);
     if (!isSourceExternal.value || !newValue) return;
     editMode.value[props.contacts.length - 1] = true;
   },
   { immediate: true }
 );
 
-// const contacts = ref(props.contacts);
 const contacts = ref([]);
 const customer = ref();
 const searchValue = ref("");
@@ -258,30 +263,37 @@ const {
 } = useCustomers();
 
 const loadLazyData = () => {
-  getCustomerFromApi(props.customerId).then((data) => {
-    customer.value = data;
-  });
-
   const filters = utilsStore.filters["contact"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = props.rows;
   const customerParam = props.customerId;
+  const projectIdParam = props.projectId;
 
-  // Create a new URLSearchParams object by combining base filters and additional parameters
-  const params = new URLSearchParams({
+  const paramOptions = {
     ...filters,
     page: nextPage,
     per_page: selectedRowsPerPageParam,
     search: searchValueParam,
-    customer_id: customerParam,
-  });
+  };
+
+  if (customerParam) paramOptions.customer_id = customerParam;
+  if (projectIdParam) paramOptions.project_id = projectIdParam;
+
+  // Create a new URLSearchParams object by combining base filters and additional parameters
+  const params = new URLSearchParams(paramOptions);
 
   getContactsFromApi(params).then((result) => {
     contacts.value = result.data;
     totalRecords.value = result.totalRecords;
     console.log("contacts", contacts.value);
   });
+
+  if (customerParam) {
+    getCustomerFromApi(props.customerId).then((data) => {
+      customer.value = data;
+    });
+  }
 };
 
 const onPage = (event) => {
@@ -315,8 +327,14 @@ const alertCellConditionalStyle = (data) => {
 
 const onStarClicked = (contact) => {
   emit("update:mainContact", contact.id);
+
   if (!isSourceExternal.value) {
-    const contactParams = { id: contact.id, main: true, role: contact.role.id };
+    const contactParams = {
+      contact_id: contact.id,
+      main: true,
+      role: contact.role.id,
+    };
+
     assignContactToCustomer(customer.value.id, contactParams)
       .then(() => {
         loadLazyData();
@@ -345,11 +363,11 @@ const onSelectionChanged = () => {
 };
 
 const saveRow = (contact) => {
-  console.log("saveRow", contact);
   const contactParams = {
-    id: contact.contact_id,
+    contact_id: contact.contact_id,
     role: contact.role.id,
   };
+
   assignContactToCustomer(customer.value.id, contactParams)
     .then(() => {
       loadLazyData();

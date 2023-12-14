@@ -70,5 +70,38 @@ export const useCustomersStore = defineStore("customers", {
           throw error;
         });
     },
+
+    assignContactToCustomer(customerId, contact) {
+      const params = {
+        customer_id: customerId,
+        ...contact,
+      };
+
+      return axiosConfig
+        .post("/customers/contacts", params)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+          throw error;
+        });
+    },
+    unassignContactFromCustomer(customerId, contactId) {
+      const params = {
+        customer_id: customerId,
+        contact_id: contactId,
+      };
+
+      return axiosConfig
+        .delete("/customers/contacts", { data: params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+          throw error;
+        });
+    },
   },
 });

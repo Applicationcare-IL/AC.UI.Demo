@@ -118,11 +118,11 @@
             name="start_date"
           />
         </div>
-        <div class="wm-form-row gap-5">
+        <!-- <div class="wm-form-row gap-5">
           <WMToggleSwitch v-model="isRecurring" label="Recurring task">
             Content
           </WMToggleSwitch>
-        </div>
+        </div> -->
       </div>
       <Divider class="mb-0" layout="horizontal" />
       <div class="task-description flex flex-auto flex-column gap-5">

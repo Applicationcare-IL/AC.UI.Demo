@@ -34,18 +34,5 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
-
-    updateService(id, project) {
-      console.log(project);
-      return axiosConfig
-        .patch("/projects/" + id, project)
-        .then((response) => {
-          return response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-          throw error;
-        });
-    },
   },
 });

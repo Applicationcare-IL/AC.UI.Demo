@@ -1,6 +1,12 @@
 <template>
   <h2 v-if="showControls" class="h2">{{ $t("contact.contact") }}</h2>
-  <div v-if="showControls" class="flex flex-column gap-3 mb-3">
+
+  <WMAssignContactButton v-if="showAddContact" @addContacts="addContacts" />
+
+  <div
+    v-if="showControls && showHeaderOptions && !showAddContact"
+    class="flex flex-column gap-3 mb-3"
+  >
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMAssignContactButton @addContacts="addContacts" />
@@ -14,16 +20,22 @@
           icon="filter"
           :open="isFilterOpen"
           :applied="isFilterApplied"
+          @click="openFilterSidebar"
           >{{ t("filter") }}
         </WMButton>
+        <WMSidebar
+          :visible="isFilterVisible"
+          @close-sidebar="closeFilterSidebar"
+          @open-sidebar="openFilterSidebar"
+          name="filterContact"
+        >
+          <WMFilterForm entity="contact" filterFormName="contact" />
+        </WMSidebar>
         <WMOwnerToggle entity="contact" />
       </div>
     </div>
-    <div>
-      <span class="p-input-icon-left">
-        <i class="pi pi-search" />
-        <InputText class="w-30rem" :placeholder="$t('search')" />
-      </span>
+    <div class="flex flex-row gap-3">
+      <WMSearchBox entity="contact" />
     </div>
   </div>
   <DataTable
@@ -88,13 +100,6 @@
           optionValue="id"
           class="w-full p-0"
           v-model="slotProps.data.role.id"
-          @change="
-            emit(
-              'update:' + column.name,
-              $event.value,
-              slotProps.data.contact_id
-            )
-          "
         >
         </Dropdown>
         <div v-else>
@@ -139,15 +144,13 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, computed } from "vue";
+import { ref, watch, onMounted, computed, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
-const i18n = useI18n();
-
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const selectedContacts = ref(null);
 const isFilterOpen = ref(false);
@@ -160,12 +163,21 @@ const totalRecords = ref(0);
 const optionSetsStore = useOptionSetsStore();
 const selectedRole = ref([]);
 
-const emit = defineEmits(["update:role", "unlink", "update:mainContact"]);
+const emit = defineEmits([
+  "update:role",
+  "unlink",
+  "update:mainContact",
+  "change:selectedContacts",
+]);
 
 const props = defineProps({
   rows: {
     type: Number,
     default: 10,
+  },
+  columns: {
+    type: Array,
+    required: true,
   },
   multiselect: {
     type: Boolean,
@@ -183,6 +195,18 @@ const props = defineProps({
     type: Array,
     default: null,
   },
+  showHeaderOptions: {
+    type: Boolean,
+    default: true,
+  },
+  showAddContact: {
+    type: Boolean,
+    default: false,
+  },
+  tableClass: {
+    type: String,
+    default: "",
+  },
 });
 
 const editMode = ref([]);
@@ -194,7 +218,12 @@ const isSourceExternal = computed(() => {
 });
 
 onMounted(() => {
+  console.log("mounted", isSourceExternal.value);
+  console.log("props.contacts", props.contacts);
+
   if (isSourceExternal.value) {
+    console.log("props.contacts en mounted", props.contacts);
+
     contacts.value = props.contacts;
     totalRecords.value = props.contacts?.length;
   } else {
@@ -202,16 +231,12 @@ onMounted(() => {
   }
 });
 
-const { getContactColumns } = useListUtils();
-const columns = ref(getContactColumns());
-
 const { getAlertCellConditionalStyle } = useListUtils();
-
-const { assignContactToCustomer, unassignContactFromCustomer } = useCustomers();
 
 watch(
   props.contacts,
   (newValue) => {
+    console.log("watch props.contacts", newValue);
     if (!isSourceExternal.value || !newValue) return;
     editMode.value[props.contacts.length - 1] = true;
   },
@@ -221,25 +246,42 @@ watch(
 // const contacts = ref(props.contacts);
 const contacts = ref([]);
 const customer = ref();
+const searchValue = ref("");
 
 const lazyParams = ref({});
 
-const { getTeamMembersFromApi } = useProjects();
+const { getContactsFromApi } = useContacts();
+const {
+  getCustomerFromApi,
+  assignContactToCustomer,
+  unassignContactFromCustomer,
+} = useCustomers();
 
-const loadLazyData = async () => {
-  const teamMembers = await getTeamMembersFromApi();
-  contacts.value = teamMembers.data;
-  // await CustomerService.getCustomerFromApi(props.customerId).then((data) => {
-  //   customer.value = data;
-  // });
-  // getContactsFromApi({
-  //   page: lazyParams.value.page + 1,
-  //   per_page: props.rows,
-  //   customer_id: customer.value.id,
-  // }).then((result) => {
-  //   contacts.value = result.data;
-  //   totalRecords.value = result.totalRecords;
-  // });
+const loadLazyData = () => {
+  getCustomerFromApi(props.customerId).then((data) => {
+    customer.value = data;
+  });
+
+  const filters = utilsStore.filters["contact"];
+  const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
+  const selectedRowsPerPageParam = props.rows;
+  const customerParam = props.customerId;
+
+  // Create a new URLSearchParams object by combining base filters and additional parameters
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage,
+    per_page: selectedRowsPerPageParam,
+    search: searchValueParam,
+    customer_id: customerParam,
+  });
+
+  getContactsFromApi(params).then((result) => {
+    contacts.value = result.data;
+    totalRecords.value = result.totalRecords;
+    console.log("contacts", contacts.value);
+  });
 };
 
 const onPage = (event) => {
@@ -303,6 +345,7 @@ const onSelectionChanged = () => {
 };
 
 const saveRow = (contact) => {
+  console.log("saveRow", contact);
   const contactParams = {
     id: contact.contact_id,
     role: contact.role.id,
@@ -316,4 +359,34 @@ const saveRow = (contact) => {
       toast.error("Contact assign Failed");
     });
 };
+
+const isFilterVisible = ref(false);
+
+function closeFilterSidebar() {
+  isFilterVisible.value = false;
+}
+
+function openFilterSidebar() {
+  isFilterVisible.value = true;
+}
+watchEffect(() => {
+  loadLazyData();
+});
+
+watch(
+  () => utilsStore.searchString["contact"],
+  () => {
+    searchValue.value = utilsStore.searchString["contact"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  }
+);
+
+watch(
+  () => contacts.value,
+  () => {
+    emit("change:selectedContacts", contacts.value);
+  }
+);
 </script>
