@@ -40,6 +40,8 @@ export function useProjects() {
 
   // UTILITIES
   const parseProject = (project) => {
+    console.log("parseProject", project);
+
     return {
       name: project["project-name"],
       description: project["project-description"],
@@ -54,12 +56,12 @@ export function useProjects() {
         };
       }),
       location: {
-        city: "",
-        street: "",
-        house_number: "",
-        apartment: "",
+        city_id: project.city?.id,
+        street_id: project.street?.id,
+        house_number: project["house-number"],
+        apartment_number: "",
         entrance: "",
-        zip: "",
+        zip_id: "",
       },
     };
   };
@@ -96,6 +98,7 @@ export function useProjects() {
       stage: project.process.current_stage?.name,
       status: project.state.value,
       process: project.process,
+      location: project.location,
     };
   };
 

@@ -30,15 +30,15 @@
       </div>
 
       <div class="flex-1 card-container">
-        <WMDetailProjectFormLocation />
+        <WMDetailProjectFormLocation :project="project" />
       </div>
 
-      <div class="flex-1 card-container">
+      <!-- <div class="flex-1 card-container">
         <Card>
           <template #title> Budget </template>
           <template #content> Budget </template>
         </Card>
-      </div>
+      </div> -->
 
       <div class="flex-1 card-container">
         <WMDetailProjectFormTenderInformation
@@ -165,13 +165,6 @@ const fetchData = async () => {
   }));
 
   currentStage.value = data.current_stage?.order - 1;
-
-  // const tasksData = await getTasksFromApi({
-  //   entity_type: "service",
-  //   entity_id: route.params.id,
-  // });
-
-  // tasks.value = tasksData.data;
 };
 
 const { errors, handleSubmit, setFieldError, meta } = useForm({

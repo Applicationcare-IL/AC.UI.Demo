@@ -18,6 +18,7 @@
                 :required="true"
                 :label="$t('address.city') + ':'"
                 :options="cities"
+                :modelValue="selectedCity"
                 width="152"
                 :placeholder="$t('select', ['addres.city'])"
                 @change="updateStreets"
@@ -29,6 +30,7 @@
                   :highlighted="true"
                   :label="$t('address.street') + ':'"
                   :options="streets"
+                  :modelValue="selectedSteet"
                   width="152"
                   :placeholder="$t('select', ['address.street'])"
                 />
@@ -87,18 +89,40 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { useFormUtilsStore } from "@/stores/formUtils";
+
+const props = defineProps({
+  project: {
+    type: Object,
+    required: true,
+  },
+});
 
 const optionSetsStore = useOptionSetsStore();
-const formUtilsStore = useFormUtilsStore();
 
 const showCityDataOptions = ref(false);
 const showAddressOptions = ref(false);
 
+const selectedCity = ref();
+const selectedSteet = ref();
+
 const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
+
+onMounted(() => {
+  if (props.project.location.street && props.project.location.city) {
+    showAddressOptions.value = true;
+  }
+
+  selectedCity.value = cities.value.find(
+    (city) => city.id === props.project.location.city.id
+  );
+
+  selectedSteet.value = streets.value.find(
+    (street) => street.id === props.project.location.street.id
+  );
+});
 
 const updateStreets = (city) => {
   if (city) {

@@ -80,16 +80,14 @@ const onSubmit = handleSubmit((values) => {
     number: Math.floor(Math.random() * 1000) + 1,
   };
 
-  console.log("parsedProject", parsedProject);
-
   createProject(parsedProject)
     .then((data) => {
-      dialog.confirmNewService(data.data.id);
-      toast.successAction("service", "created");
+      dialog.confirmNewProject(data.data.id);
+      toast.successAction("project", "created");
     })
     .catch((error) => {
       console.log(error);
-      toast.error("service", "not-created");
+      toast.error("project", "not-created");
     });
 });
 

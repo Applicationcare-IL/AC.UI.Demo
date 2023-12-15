@@ -165,6 +165,23 @@ export function useDialog() {
     });
   };
 
+  const confirmNewProject = (id) => {
+    confirm.require({
+      message: i18n.t(
+        "הפרויקט החדש נוצר בהצלחה! מעתה הוא יופיע ברשימת הפרויקטים."
+      ),
+      header: i18n.t("נוצר פרויקט חדש"),
+      acceptLabel: i18n.t("חזרה לרשימה"),
+      rejectLabel: i18n.t("צפייה בפרויקט"),
+      accept: () => {
+        formUtilsStore.goToDetail(id, "project");
+      },
+      reject: () => {
+        formUtilsStore.closeForm();
+      },
+    });
+  };
+
   return {
     confirmNewCustomer,
     discardNewCustomer,
@@ -176,6 +193,7 @@ export function useDialog() {
     discardNewService,
     cancelService,
     completeService,
+    confirmNewProject,
   };
 }
 
