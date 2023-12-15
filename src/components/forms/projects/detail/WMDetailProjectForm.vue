@@ -1,6 +1,4 @@
 <template>
-  <!-- <pre>{{ project }}</pre> -->
-
   <div
     v-if="project"
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
@@ -124,17 +122,15 @@ import { useRoute } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
 
 const { getTasksFromApi } = useTasks();
-const { updateService, parseUpdateService, getServiceFromApi, cancelService } =
-  useServices();
+const { cancelService } = useServices();
 
-const { getProjectFromApi } = useProjects();
+const { getProjectFromApi, updateProject, parseUpdateProject } = useProjects();
 
 const toast = useToast();
 const stages = ref([]);
 const currentStage = ref();
 const selectedProjectType = ref(false);
 
-const tasks = ref();
 const project = ref();
 
 const props = defineProps({
@@ -147,7 +143,6 @@ const props = defineProps({
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
 
-const service = ref();
 const route = useRoute();
 
 const {
@@ -155,11 +150,6 @@ const {
   getStatusConditionalStyle,
   getPriorityConditionalStyle,
 } = useListUtils();
-
-const taskColumns = ref(getTaskColumns());
-
-const requests2 = ref([]);
-const requests3 = ref([]);
 
 onMounted(() => {
   fetchData();
@@ -189,14 +179,16 @@ const { errors, handleSubmit, setFieldError, meta } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  updateService(route.params.id, parseUpdateService(values))
+  console.log("onsave", values);
+
+  updateProject(route.params.id, parseUpdateProject(values))
     .then((data) => {
-      toast.successAction("service", "updated");
+      toast.successAction("project", "updated");
       resetForm({ values: values });
     })
     .catch((error) => {
       console.log(error);
-      toast.error("service", "not-updated");
+      toast.error("project", "not-updated");
     });
 });
 

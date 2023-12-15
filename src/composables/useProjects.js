@@ -26,6 +26,10 @@ export function useProjects() {
     return await projectsStore.createProject(project);
   };
 
+  const updateProject = async (id, project) => {
+    return await projectsStore.updateProject(id, project);
+  };
+
   const assignContactToProject = async (projectId, contact) => {
     return await projectsStore.assignContactToProject(projectId, contact);
   };
@@ -49,6 +53,23 @@ export function useProjects() {
           role: teamMember.role?.id,
         };
       }),
+      location: {
+        city: "",
+        street: "",
+        house_number: "",
+        apartment: "",
+        entrance: "",
+        zip: "",
+      },
+    };
+  };
+
+  const parseUpdateProject = (project) => {
+    return {
+      name: project["project-name"],
+      project_type: project.project_type?.id,
+      project_area: project.project_area?.id,
+      project_detail: project.project_detail?.id,
       location: {
         city: "",
         street: "",
@@ -108,11 +129,13 @@ export function useProjects() {
     getProjectsFromApi,
     createProject,
     getProjectFromApi,
+    updateProject,
     assignContactToProject,
     unassignContactFromProject,
 
     // UTILITIES
     parseProject,
+    parseUpdateProject,
     mapProject,
   };
 }

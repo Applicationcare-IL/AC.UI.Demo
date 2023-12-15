@@ -211,9 +211,17 @@ const { value, errorMessage, resetField } = useField(name, undefined, {
 
 onMounted(() => {
   if (props.modelValue) {
+    console.log("asigno props.modelValue", props.modelValue);
     value.value = props.modelValue;
   }
 });
+
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    value.value = newValue;
+  }
+);
 
 function clear() {
   resetField();

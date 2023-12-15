@@ -13,7 +13,7 @@
           width="152"
           :placeholder="'project-types'"
           @change="handleProjectTypeInputChange($event.value)"
-          :modelValue="project.project_type"
+          :modelValue="selectedProjectType"
         />
 
         <WMInputSearch
@@ -25,7 +25,7 @@
           width="152"
           :placeholder="$t('select', ['classification-2'])"
           @change="filterProjectDetailsDropdown($event.value.id)"
-          :modelValue="project.project_area"
+          :modelValue="selectedProjectArea"
         />
 
         <WMInputSearch
@@ -36,14 +36,14 @@
           :options="projectDetails"
           width="152"
           :placeholder="$t('select', ['classification-3'])"
-          :modelValue="project.project_detail"
+          :modelValue="selectedProjectDetail"
         />
       </div>
     </template>
   </Card>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -60,16 +60,33 @@ const projectTypes = ref([]);
 const projectAreas = ref([]);
 const projectDetails = ref([]);
 
+const selectedProjectType = ref();
+const selectedProjectArea = ref();
+const selectedProjectDetail = ref();
+
 onMounted(() => {
   optionSetsStore.getOptionSetValuesFromApi("project_type").then((data) => {
     projectTypes.value = data;
+    selectedProjectType.value = data.find((item) => {
+      return item.value === props.project.project_type;
+    });
+  });
+  optionSetsStore.getOptionSetValuesFromApi("project_area").then((data) => {
+    projectAreas.value = data;
+
+    selectedProjectArea.value = data.find((item) => {
+      return item.value === props.project.project_area;
+    });
   });
   optionSetsStore
-    .getOptionSetValuesFromApi("project_area")
-    .then((data) => (projectAreas.value = data));
-  optionSetsStore
     .getOptionSetValuesFromApiRaw("project_detail")
-    .then((data) => (projectDetails.value = data));
+    .then((data) => {
+      projectDetails.value = data;
+
+      selectedProjectDetail.value = data.find((item) => {
+        return item.value === props.project.project_detail;
+      });
+    });
 });
 
 const emit = defineEmits(["projectTypeUpdate"]);
