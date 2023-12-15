@@ -368,9 +368,24 @@ const onStarClicked = (contact) => {
 const toast = useToast();
 
 const unlinkContact = (contactId) => {
-  if (isSourceExternal.value) emit("unlink", contactId);
-  else {
+  if (isSourceExternal.value) {
+    emit("unlink", contactId);
+    return;
+  }
+
+  if (props.relatedEntity === "customer") {
     unassignContactFromCustomer(customer.value.id, contactId)
+      .then(() => {
+        loadLazyData();
+        toast.success("Contact Successfully unlinked");
+      })
+      .catch(() => {
+        toast.error("Contact unlink Failed");
+      });
+  }
+
+  if (props.relatedEntity === "project") {
+    unassignContactFromProject(props.projectId, contactId)
       .then(() => {
         loadLazyData();
         toast.success("Contact Successfully unlinked");
