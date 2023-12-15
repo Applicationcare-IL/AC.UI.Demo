@@ -141,7 +141,7 @@
           v-if="task.related_entity?.type == 'service'"
         />
         <WMDetailTaskRelatedProject
-          :project="service"
+          :project="project"
           v-if="task.related_entity?.type == 'project'"
         />
         <div
@@ -301,6 +301,7 @@ const optionSetsStore = useOptionSetsStore();
 const utilsStore = useUtilsStore();
 const task = ref();
 const service = ref();
+const project = ref();
 const route = useRoute();
 
 const statuses = optionSetsStore.optionSets["task_status"];
@@ -315,15 +316,26 @@ const props = defineProps({
 const { getTaskFromApi, mapContactsFromTasks } = useTasks();
 const { getServiceFromApi } = useServices();
 const { setSelectedContacts } = useContacts();
+const { getProjectFromApi } = useProjects();
 
 onMounted(async () => {
   await getTaskFromApi(route.params.id).then((data) => {
     task.value = data;
+    utilsStore.selectedElements["task"] = [task.value];
+  });
+
+  if (task.value.related_entity?.type === "service") {
     getServiceFromApi(task.value.related_entity.id).then((data) => {
       service.value = data;
     });
-    utilsStore.selectedElements["task"] = [task.value];
-  });
+  }
+
+  if (task.value.related_entity?.type === "project") {
+    getProjectFromApi(task.value.related_entity.id).then((data) => {
+      console.log("getProjectFromApi", data);
+      project.value = data;
+    });
+  }
 
   setSelectedContacts(mapContactsFromTasks(task.value));
 });

@@ -1,14 +1,18 @@
 <template>
   <div class="card-container top-info-card flex-1">
-    <!-- <WMProjectPreviewSidebar
-      :project="project"
-      v-model:visible="isProjectPreviewVisible"
-    /> -->
     <Card v-if="project">
       <template #title>
         <div class="flex flex-row justify-content-between">
-          פרויקט: {{ project.name }}
-          <Button @click="isProjectPreviewVisible = true">פתח פרויקט</Button>
+          פרויקט: {{ project.project_name }}
+          <router-link
+            :to="{
+              name: 'projectDetail',
+              params: { id: project.project_id },
+            }"
+            target="_blank"
+          >
+            <Button>פתח פרויקט</Button>
+          </router-link>
         </div>
       </template>
       <template #content>
@@ -19,14 +23,14 @@
               type="info"
               :highlighted="true"
               :label="$t('id')"
-              value="0000501"
+              :value="project.project_id"
             />
             <WMInput
               name="owner"
               type="info"
               :highlighted="true"
               :label="$t('owner')"
-              :value="project.owner.name"
+              :value="project.owner?.name"
             />
           </div>
           <div class="wm-form-row gap-5">
@@ -89,14 +93,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-
 const { project } = defineProps({
   project: {
     type: Object,
     required: true,
   },
 });
-
-const isProjectPreviewVisible = ref(false);
 </script>
