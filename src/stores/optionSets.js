@@ -15,6 +15,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
       "customer_rating",
       "customer_status",
       "contact_customer_role",
+      "contact_project_role",
       "service_area",
       "service_type",
       "service_sla",

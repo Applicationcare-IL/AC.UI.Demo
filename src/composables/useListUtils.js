@@ -134,7 +134,7 @@ export function useListUtils() {
         name: "role",
         type: "role",
         header: "role",
-        optionSet: "contact_customer_role",
+        optionSet: "contact_project_role",
         class: "p-0",
       },
       {
@@ -382,6 +382,38 @@ export function useListUtils() {
     ];
   };
 
+  const getProjectTeamColumns = () => {
+    return [
+      {
+        name: "name",
+        type: "link",
+        to: "contact",
+        linkParameter: "id",
+        class: "link-col",
+      },
+      { name: "telephone", type: "text" },
+      { name: "landline", type: "text" },
+      { name: "email", type: "text" },
+      { name: "address", type: "text" },
+      { name: "customer.name", type: "text", header: "organization" },
+
+      // {
+      //   name: "role",
+      //   type: "role",
+      //   header: "role-in-project",
+      //   optionSet: "contact_project_role",
+      //   class: "p-0",
+      // },
+      {
+        name: "actions",
+        type: "actions",
+        header: "actions",
+        class: "buttons",
+        buttons: ["unlink", "edit"],
+      },
+    ];
+  };
+
   // METHODS
   const getAlertCellConditionalStyle = (data) => {
     return [{ "bg-red-100 text-red-600": data > 0 }];
@@ -426,6 +458,7 @@ export function useListUtils() {
     getTaskPreviewColumns,
     getDocumentColumns,
     getSignatureTaskColumns,
+    getProjectTeamColumns,
     // METHODS
     getAlertCellConditionalStyle,
     getStatusConditionalStyle,

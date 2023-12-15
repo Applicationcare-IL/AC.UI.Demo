@@ -61,15 +61,15 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion>
+      <!-- <Accordion>
         <AccordionTab header="יומן (Journal)">
           <WMJournalDataView />
         </AccordionTab>
-      </Accordion>
+      </Accordion> -->
 
-      <Accordion>
+      <!-- <Accordion>
         <AccordionTab header="גאנט (Gantt)"> NOT DEFINED YET </AccordionTab>
-      </Accordion>
+      </Accordion> -->
 
       <Accordion>
         <AccordionTab header="צוות (Team)">
@@ -77,25 +77,25 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion>
+      <!-- <Accordion>
         <AccordionTab header="מסמכים (Documents)">
           <WMDetailProjectFormDocumentsTab />
         </AccordionTab>
-      </Accordion>
+      </Accordion> -->
 
-      <h2>Others tabs</h2>
+      <!-- <h2>Others tabs</h2> -->
 
-      <Accordion>
+      <!-- <Accordion>
         <AccordionTab header="Round of signatures tasks">
           <WMDetailProjectFormSignatureTasksTab />
         </AccordionTab>
-      </Accordion>
+      </Accordion> -->
 
-      <Accordion>
+      <!-- <Accordion>
         <AccordionTab header="Tender organizations tab">
           Tender organizations table
         </AccordionTab>
-      </Accordion>
+      </Accordion> -->
 
       <div class="flex-1 tabs-container mt-5">
         <WMDetailProjectFormAdditionalInformation />

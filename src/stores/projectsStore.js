@@ -34,5 +34,37 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
+    assignContactToProject(projectId, contact) {
+      const params = {
+        project_id: projectId,
+        ...contact,
+      };
+
+      return axiosConfig
+        .post("/projects/contacts", params)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+          throw error;
+        });
+    },
+    unassignContactFromProject(projectId, contactId) {
+      const params = {
+        project_id: projectId,
+        contact_id: contactId,
+      };
+
+      return axiosConfig
+        .delete("/projects/contacts", { data: params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+          throw error;
+        });
+    },
   },
 });

@@ -29,7 +29,7 @@
           >{{ t("new") }}</WMButton
         >
         <WMAssignOwnerButton entity="task" />
-        <WMCompleteTasksButton entity="task"></WMCompleteTasksButton>
+        <WMCompleteTasksButton entity="task" />
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -206,7 +206,6 @@ const rowClass = (data) => {
 };
 
 const onSelectionChanged = () => {
-  console.log(selectedTasks.value);
   utilsStore.selectedElements["task"] = selectedTasks.value;
 };
 

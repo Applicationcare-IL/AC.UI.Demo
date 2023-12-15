@@ -211,6 +211,10 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  relatedEntity: {
+    type: String,
+    default: "customer",
+  },
 });
 
 const editMode = ref([]);
@@ -219,14 +223,6 @@ const editMode = ref([]);
 // data from the API and the functions are dealt internally
 const isSourceExternal = computed(() => {
   return props.contacts != null;
-});
-
-const isRelatedToCustomers = computed(() => {
-  return props.customerId != null;
-});
-
-const isRelatedToProjects = computed(() => {
-  return props.projectId != null;
 });
 
 onMounted(() => {
@@ -256,11 +252,14 @@ const searchValue = ref("");
 const lazyParams = ref({});
 
 const { getContactsFromApi } = useContacts();
+
 const {
   getCustomerFromApi,
   assignContactToCustomer,
   unassignContactFromCustomer,
 } = useCustomers();
+
+const { assignContactToProject, unassignContactFromProject } = useProjects();
 
 const loadLazyData = () => {
   const filters = utilsStore.filters["contact"];
@@ -277,19 +276,23 @@ const loadLazyData = () => {
     search: searchValueParam,
   };
 
+  // paramOptions.customer_id = 1075;
   if (customerParam) paramOptions.customer_id = customerParam;
   if (projectIdParam) paramOptions.project_id = projectIdParam;
+
+  console.log("paramOptions", paramOptions);
 
   // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams(paramOptions);
 
   getContactsFromApi(params).then((result) => {
+    // console.log("result", result);
     contacts.value = result.data;
     totalRecords.value = result.totalRecords;
-    console.log("contacts", contacts.value);
   });
 
   if (customerParam) {
+    console.log("entro aquí");
     getCustomerFromApi(props.customerId).then((data) => {
       customer.value = data;
     });
@@ -301,14 +304,24 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const defaultRole = optionSetsStore.optionSets["contact_customer_role"].find(
-  (role) => role.value === "employee"
-);
+const defaultRole = computed(() => {
+  if (props.relatedEntity === "customer") {
+    return optionSetsStore.optionSets["contact_customer_role"].find(
+      (role) => role.value === "employee"
+    );
+  }
+
+  if (props.relatedEntity === "project") {
+    return optionSetsStore.optionSets["contact_project_role"].find(
+      (role) => role.value === "role_1"
+    );
+  }
+});
 
 const addContacts = (addedContacts) => {
   addedContacts.forEach((contact) => {
     if (contacts.value.find((c) => c.contact_id === contact.id)) return;
-    contact.role = defaultRole;
+    contact.role = defaultRole.value;
     contact.main = false;
     contacts.value.push(contact);
     editMode.value[contacts.value.length - 1] = true;
@@ -335,11 +348,21 @@ const onStarClicked = (contact) => {
       role: contact.role.id,
     };
 
-    assignContactToCustomer(customer.value.id, contactParams)
-      .then(() => {
-        loadLazyData();
-      })
-      .catch(() => {});
+    if (props.relatedEntity === "customer") {
+      assignContactToCustomer(customer.value.id, contactParams)
+        .then(() => {
+          loadLazyData();
+        })
+        .catch(() => {});
+    }
+
+    if (props.relatedEntity === "project") {
+      assignContactToProject(props.projectId, contactParams)
+        .then(() => {
+          loadLazyData();
+        })
+        .catch(() => {});
+    }
   }
 };
 const toast = useToast();
@@ -368,14 +391,27 @@ const saveRow = (contact) => {
     role: contact.role.id,
   };
 
-  assignContactToCustomer(customer.value.id, contactParams)
-    .then(() => {
-      loadLazyData();
-      toast.success("Contact Successfully updated");
-    })
-    .catch(() => {
-      toast.error("Contact assign Failed");
-    });
+  if (props.relatedEntity === "customer") {
+    assignContactToCustomer(customer.value.id, contactParams)
+      .then(() => {
+        loadLazyData();
+        toast.success("Contact Successfully updated");
+      })
+      .catch(() => {
+        toast.error("Contact assign Failed");
+      });
+  }
+
+  if (props.relatedEntity === "project") {
+    assignContactToProject(props.projectId, contactParams)
+      .then(() => {
+        loadLazyData();
+        toast.success("Contact Successfully updated");
+      })
+      .catch(() => {
+        toast.error("Contact assign Failed");
+      });
+  }
 };
 
 const isFilterVisible = ref(false);
@@ -387,9 +423,9 @@ function closeFilterSidebar() {
 function openFilterSidebar() {
   isFilterVisible.value = true;
 }
-watchEffect(() => {
-  loadLazyData();
-});
+// watchEffect(() => {
+//   loadLazyData();
+// });
 
 watch(
   () => utilsStore.searchString["contact"],

@@ -70,7 +70,6 @@ export const useCustomersStore = defineStore("customers", {
           throw error;
         });
     },
-
     assignContactToCustomer(customerId, contact) {
       const params = {
         customer_id: customerId,

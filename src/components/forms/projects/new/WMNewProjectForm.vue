@@ -20,6 +20,7 @@
         :showControls="false"
         :showAddContact="true"
         :multiselect="false"
+        related-entity="project"
         @change:selected-contacts="handleChangeSelectedContacts"
       />
 
@@ -41,6 +42,7 @@ const { createProject, parseProject } = useProjects();
 const { getSelectedContactsForNewProjectColumns } = useListUtils();
 
 const teamMembers = ref([]);
+const selectedContacts = ref([]);
 
 const handleChangeSelectedContacts = (contacts) => {
   teamMembers.value = contacts;
