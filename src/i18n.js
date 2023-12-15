@@ -41,6 +41,8 @@ export async function loadLocaleMessages(i18n, locale) {
     )
     .then((response) => {
       console.log("loadLocaleMessages", response.data);
+      const messages = response.data;
+
       i18n.setLocaleMessage(locale, messages);
 
       return response.data;
