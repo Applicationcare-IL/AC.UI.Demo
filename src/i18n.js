@@ -34,30 +34,30 @@ export function setI18nLanguage(i18n, locale) {
 }
 
 export async function loadLocaleMessages(i18n, locale) {
-  return axiosConfig
-    .get(
-      // `https://admin.dev-easymaze.mazemateapp.com/storage/translations/${locale}/contacts.json`
-      `https://heler.mazemateapp.com/locales/${locale}.json`
-    )
-    .then((response) => {
-      console.log("loadLocaleMessages", response.data);
-      const messages = response.data;
+  // return axiosConfig
+  //   .get(
+  //     // `https://admin.dev-easymaze.mazemateapp.com/storage/translations/${locale}/contacts.json`
+  //     `https://heler.mazemateapp.com/locales/${locale}.json`
+  //   )
+  //   .then((response) => {
+  //     console.log("loadLocaleMessages", response.data);
+  //     const messages = response.data;
 
-      i18n.setLocaleMessage(locale, messages);
+  //     i18n.setLocaleMessage(locale, messages);
 
-      return response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  //     return response.data;
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
 
   // load locale messages with dynamic import
-  // const messages = await import(
-  //   /* @vite-ignore */ /* webpackChunkName: "locale-[request]" */ `/locales/${locale}.json`
-  // );
+  const messages = await import(
+    /* @vite-ignore */ /* webpackChunkName: "locale-[request]" */ `/locales/${locale}.json`
+  );
 
   // set locale and locale message
-  // i18n.setLocaleMessage(locale, messages.default);
+  i18n.setLocaleMessage(locale, messages.default);
 
   return nextTick();
 }
