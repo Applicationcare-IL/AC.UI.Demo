@@ -106,6 +106,20 @@
           {{ slotProps.data[column.name].value }}
         </div>
       </template>
+      <template v-if="column.type === 'role_project'" #body="slotProps">
+        <Dropdown
+          v-if="editMode[slotProps.index]"
+          :options="optionSetsStore.optionSets[column.optionSet]"
+          optionLabel="value"
+          optionValue="id"
+          class="w-full p-0"
+          v-model="slotProps.data.role_project.id"
+        >
+        </Dropdown>
+        <div v-else>
+          {{ slotProps.data[column.name].value }}
+        </div>
+      </template>
       <template v-if="column.type === 'actions'" #body="slotProps">
         <div class="flex flex-row gap-2">
           <WMButton
@@ -401,9 +415,14 @@ const onSelectionChanged = () => {
 };
 
 const saveRow = (contact) => {
+  const roleValue =
+    props.relatedEntity === "customer"
+      ? contact.role?.id
+      : contact.role_project?.id;
+
   const contactParams = {
     contact_id: contact.contact_id,
-    role: contact.role.id,
+    role: roleValue,
   };
 
   if (props.relatedEntity === "customer") {

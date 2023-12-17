@@ -66,6 +66,7 @@ export function useContacts() {
       is_main: contact.main_contact_for != null,
       customer: contact.main_contact_for,
       role: contact.role,
+      role_project: contact.role_project,
       notes: contact.notes,
       "contact-number": contact.contact_number,
       created_by: contact.last_activity?.creator?.name,

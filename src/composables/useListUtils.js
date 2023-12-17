@@ -397,13 +397,13 @@ export function useListUtils() {
       { name: "address", type: "text" },
       { name: "customer.name", type: "text", header: "organization" },
 
-      // {
-      //   name: "role",
-      //   type: "role",
-      //   header: "role-in-project",
-      //   optionSet: "contact_project_role",
-      //   class: "p-0",
-      // },
+      {
+        name: "role_project",
+        type: "role_project",
+        header: "role-in-project",
+        optionSet: "contact_project_role",
+        class: "p-0",
+      },
       {
         name: "actions",
         type: "actions",
