@@ -1,6 +1,5 @@
 <template>
-  <WMListSubHeader entity="project" @new="toggleSidebarVisibility">
-  </WMListSubHeader>
+  <WMListSubHeader entity="project" @new="toggleSidebarVisibility" />
 
   <WMSidebar
     :visible="isVisible"
@@ -143,20 +142,17 @@
 <script setup>
 import { ref, onMounted, computed, watch, watchEffect } from "vue";
 
-import { useRouter } from "vue-router";
-
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
-import { useLayout } from "@/layout/composables/layout";
-
-const { layoutConfig } = useLayout();
 const { getProjectsFromApi } = useProjects();
+const { setSelectedContacts, resetSelectedContacts } = useContacts();
 
 onMounted(() => {
   utilsStore.entity = "project";
 
   loadLazyData();
+  resetSelectedContacts();
 });
 
 const formUtilsStore = useFormUtilsStore();
@@ -205,7 +201,9 @@ const onPage = (event) => {
 //Manage selected rows
 const selectedProjects = ref([]);
 utilsStore.resetElements();
+
 const onSelectionChanged = () => {
+  setSelectedContacsFromProjects(selectedProjects.value);
   utilsStore.selectedElements["project"] = selectedProjects.value;
 };
 
@@ -246,6 +244,29 @@ function showExpander(data) {
 
 const statusClass = (data) => {
   return getStatusConditionalStyle(data);
+};
+
+/**
+ * This function is used to set the selected contacts from the selected projects in the table
+ * In the project case, we need to get all the team members as contacts
+ *
+ * It's used for SMS and Email communications
+ * @param {*} selectedProjects
+ */
+const setSelectedContacsFromProjects = (selectedRows) => {
+  const selectedProjects = selectedRows.map((selectedProject) => {
+    return selectedProject;
+  });
+
+  const selectedContacts = selectedProjects.reduce((acc, project) => {
+    const projectContacts = project.contacts.map((contact) => {
+      return contact;
+    });
+
+    return [...acc, ...projectContacts];
+  }, []);
+
+  setSelectedContacts(selectedContacts);
 };
 </script>
 

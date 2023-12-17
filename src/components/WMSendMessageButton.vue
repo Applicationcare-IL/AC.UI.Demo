@@ -42,7 +42,7 @@
         <span class="h6">To:</span>
 
         <Chip class="p-chip--purple">
-          <span>{{ selectedContacts.name }}</span>
+          <span>{{ getNames(selectedContacts) }}</span>
         </Chip>
       </div>
 
@@ -58,6 +58,7 @@
           theme="purple"
           class="custom-input-search__input"
           ref="inputSearch"
+          :options="contactOptions"
         />
         <Button
           @click="handleClearAllSelectedDropdownContacts"
@@ -101,7 +102,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const message = ref("");
@@ -135,8 +136,22 @@ const communicationChannels = optionSetsStore.getOptionSetValues(
 
 const { getContactsFromApi, selectedContacts } = useContacts();
 
+const contactOptions = ref([]);
+
+const getContactsFromApiParams = ref({
+  per_page: 100,
+});
+
+onMounted(async () => {
+  const response = await getContactsFromApi(getContactsFromApiParams.value);
+  contactOptions.value = response.data;
+});
+
 const searchContact = (query) => {
-  return getContactsFromApi({ search: query });
+  return getContactsFromApi({
+    search: query,
+    ...getContactsFromApiParams.value,
+  });
 };
 
 const selectedDropdownContacts = ref(0);
@@ -182,10 +197,6 @@ const handleSendMessage = () => {
   sendMessageDialogVisible.value = false;
 };
 
-const getContactsIds = (contacts) => {
-  return contacts.map((contact) => contact.id);
-};
-
 const handleClearAllSelectedDropdownContacts = () => {
   selectedDropdownContacts.value = [];
   inputSearch.value.clear();
@@ -193,15 +204,47 @@ const handleClearAllSelectedDropdownContacts = () => {
 
 watch(
   () => selectedContacts.value,
-  (value) => {
-    selectedDropdownContacts.value = value;
-    // check if the input search is undefined
-
-    if (inputSearch.value) {
-      inputSearch.value.clear();
-    }
+  (newSelectedContacts) => {
+    fillSelectedContactDropdownWithSelectedContacts(newSelectedContacts);
   }
 );
+
+const fillSelectedContactDropdownWithSelectedContacts = (
+  newSelectedContacts
+) => {
+  if (newSelectedContacts.length == 0 || !contactOptions.value) {
+    return;
+  }
+
+  const newSelectedContactsIds = getContactsIds(newSelectedContacts);
+
+  const filteredContactOptions = contactOptions.value?.filter((contact) => {
+    return newSelectedContactsIds.includes(contact.id);
+  });
+
+  selectedDropdownContacts.value = filteredContactOptions;
+
+  if (inputSearch.value) {
+    inputSearch.value.clear();
+  }
+};
+
+const getContactsIds = (contacts) => {
+  if (!Array.isArray(contacts)) {
+    return [contacts.id];
+  }
+
+  return contacts.map((contact) => contact.id);
+};
+
+// TODO: move to utils
+const getNames = (contacts) => {
+  if (!Array.isArray(contacts)) {
+    return contacts.name;
+  }
+
+  return contacts.map((contact) => contact.name).join(", ");
+};
 </script>
 
 <style scoped lang="scss">

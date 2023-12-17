@@ -3,7 +3,7 @@
     v-if="project"
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
-    <div class="service-data flex flex-auto flex-column gap-5 mb-5">
+    <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row align-items-center gap-4">
           <h1 class="h1 mb-0">Project: {{ project.project_name }}</h1>
@@ -117,14 +117,16 @@ import { useForm } from "vee-validate";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
-import { useOptionSetsStore } from "@/stores/optionSets";
 import { useRoute } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
 
-const { getTasksFromApi } = useTasks();
-const { cancelService } = useServices();
-
-const { getProjectFromApi, updateProject, parseUpdateProject } = useProjects();
+const { setSelectedContacts } = useContacts();
+const {
+  getProjectFromApi,
+  updateProject,
+  parseUpdateProject,
+  mapContactsFromProjects,
+} = useProjects();
 
 const toast = useToast();
 const stages = ref([]);
@@ -145,19 +147,20 @@ const formUtilsStore = useFormUtilsStore();
 
 const route = useRoute();
 
-const {
-  getTaskColumns,
-  getStatusConditionalStyle,
-  getPriorityConditionalStyle,
-} = useListUtils();
+const { getStatusConditionalStyle, getPriorityConditionalStyle } =
+  useListUtils();
 
-onMounted(() => {
-  fetchData();
+onMounted(async () => {
+  await fetchData();
+  const mappedContacts = mapContactsFromProjects(project.value);
+  setSelectedContacts(mappedContacts);
 });
 
 const fetchData = async () => {
   const data = await getProjectFromApi(route.params.id);
   project.value = data;
+
+  utilsStore.selectedElements["project"] = [project.value];
 
   stages.value = data.process.stages.map((stage) => ({
     label: stage.name,
@@ -167,13 +170,11 @@ const fetchData = async () => {
   currentStage.value = data.current_stage?.order - 1;
 };
 
-const { errors, handleSubmit, setFieldError, meta } = useForm({
-  validationSchema: formUtilsStore.getServiceDetailFormValidationSchema,
+const { handleSubmit, meta } = useForm({
+  // validationSchema: formUtilsStore.getServiceDetailFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {
-  console.log("onsave", values);
-
   updateProject(route.params.id, parseUpdateProject(values))
     .then((data) => {
       toast.successAction("project", "updated");
@@ -194,24 +195,10 @@ const handleProjectTypeUpdate = (value) => {
   selectedProjectType.value = value;
 };
 
-// formUtilsStore.submit = onSubmit;
 formUtilsStore.$reset();
 formUtilsStore.save = onSave;
-formUtilsStore.formEntity = "service";
-utilsStore.entity = "service";
-
-const handleCancelService = (id) => {
-  cancelService(id, formUtilsStore.cancelServiceReasons)
-    .then((data) => {
-      toast.successAction("service", "canceled");
-    })
-    .catch((error) => {
-      console.log(error);
-      toast.error("service", "not-canceled");
-    });
-};
-
-formUtilsStore.cancelService = handleCancelService;
+formUtilsStore.formEntity = "project";
+utilsStore.entity = "project";
 
 const statusClass = (data) => {
   return getStatusConditionalStyle(data);

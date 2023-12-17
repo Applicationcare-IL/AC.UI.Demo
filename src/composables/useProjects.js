@@ -99,6 +99,8 @@ export function useProjects() {
       status: project.state.value,
       process: project.process,
       location: project.location,
+      contacts: project.contacts,
+      subprojects: project.subprojects,
     };
   };
 
@@ -127,6 +129,44 @@ export function useProjects() {
     };
   };
 
+  /**
+   * This function maps contacts from projects array (or single project) to array of unique contacts
+   * @param {*} projects
+   * @returns array of mapped unique contacts or single mapped contact
+   */
+  const mapContactsFromProjects = (projects) => {
+    let contacts = [];
+
+    // console.log(
+    //   "mapContactsFromProjects",
+    //   projects.contacts,
+    //   Array.isArray(projects.contacts)
+    // );
+
+    if (Array.isArray(projects.contacts)) {
+      contacts = projects.contacts.map((project) => {
+        return {
+          id: project.id,
+          contact_id: project.id,
+          name: project.name,
+        };
+      });
+    } else {
+      return {
+        id: projects.contacts[0].id,
+        contact_id: projects.contacts[0].id,
+        name: projects.contacts[0].name,
+      };
+    }
+
+    const uniqueContacts = contacts.filter(
+      (contact, index, self) =>
+        index === self.findIndex((t) => t.id === contact.id)
+    );
+
+    return uniqueContacts;
+  };
+
   return {
     // ACTIONS
     getProjectsFromApi,
@@ -140,5 +180,6 @@ export function useProjects() {
     parseProject,
     parseUpdateProject,
     mapProject,
+    mapContactsFromProjects,
   };
 }

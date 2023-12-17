@@ -23,7 +23,7 @@
       <div v-if="!multiple" class="flex flex-row gap-3">
         <span class="h6">To:</span>
         <Chip class="p-chip--purple">
-          <span>{{ selectedContacts.name }}</span>
+          <span>{{ getNames(selectedContacts) }}</span>
         </Chip>
       </div>
 
@@ -39,6 +39,7 @@
           theme="purple"
           class="custom-input-search__input"
           ref="inputSearch"
+          :options="contactOptions"
         />
         <Button
           @click="handleClearAllSelectedDropdownContacts"
@@ -72,7 +73,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 
 const sendEmailDialogVisible = ref(false);
 
@@ -87,12 +88,21 @@ const props = defineProps({
   },
 });
 
+const getContactsFromApiParams = ref({
+  per_page: 100,
+});
+
 const inputSearch = ref();
 
 const { getContactsFromApi, selectedContacts } = useContacts();
 
+const contactOptions = ref([]);
+
 const searchContact = (query) => {
-  return getContactsFromApi({ search: query });
+  return getContactsFromApi({
+    search: query,
+    ...getContactsFromApiParams.value,
+  });
 };
 
 const selectedDropdownContacts = ref(0);
@@ -108,18 +118,56 @@ const handleClearAllSelectedDropdownContacts = () => {
 
 const message = ref("");
 
+onMounted(async () => {
+  await getContactsFromApi(getContactsFromApiParams.value).then((response) => {
+    contactOptions.value = response;
+    fillSelectedContactDropdownWithSelectedContacts(selectedContacts.value);
+  });
+});
+
+// TODO: move to utils
+const getNames = (contacts) => {
+  if (!Array.isArray(contacts)) {
+    return contacts.name;
+  }
+
+  return contacts.map((contact) => contact.name).join(", ");
+};
+
 watch(
   () => selectedContacts.value,
-  (value) => {
-    selectedDropdownContacts.value = value;
-
-    if (inputSearch.value) {
-      inputSearch.value.clear();
-    }
+  (newSelectedContacts) => {
+    fillSelectedContactDropdownWithSelectedContacts(newSelectedContacts);
   }
 );
 
+const fillSelectedContactDropdownWithSelectedContacts = (
+  newSelectedContacts
+) => {
+  if (newSelectedContacts.length == 0 || !contactOptions.value?.data) {
+    return;
+  }
+
+  const newSelectedContactsIds = getContactsIds(newSelectedContacts);
+
+  const filteredContactOptions = contactOptions.value?.data.filter(
+    (contact) => {
+      return newSelectedContactsIds.includes(contact.id);
+    }
+  );
+
+  selectedDropdownContacts.value = filteredContactOptions;
+
+  if (inputSearch.value) {
+    inputSearch.value.clear();
+  }
+};
+
 const getContactsIds = (contacts) => {
+  if (!Array.isArray(contacts)) {
+    return [contacts.id];
+  }
+
   return contacts.map((contact) => contact.id);
 };
 

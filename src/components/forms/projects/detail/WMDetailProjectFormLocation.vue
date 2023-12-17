@@ -111,17 +111,17 @@ const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
 
 onMounted(() => {
-  if (props.project.location.street && props.project.location.city) {
+  if (props.project.location?.street && props.project.location?.city) {
     showAddressOptions.value = true;
+
+    selectedCity.value = cities.value.find(
+      (city) => city.id === props.project.location.city.id
+    );
+
+    selectedSteet.value = streets.value.find(
+      (street) => street.id === props.project.location.street.id
+    );
   }
-
-  selectedCity.value = cities.value.find(
-    (city) => city.id === props.project.location.city.id
-  );
-
-  selectedSteet.value = streets.value.find(
-    (street) => street.id === props.project.location.street.id
-  );
 });
 
 const updateStreets = (city) => {
