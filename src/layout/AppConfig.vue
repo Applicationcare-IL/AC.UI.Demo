@@ -7,7 +7,7 @@ import Sidebar from "primevue/sidebar";
 import { ref } from "vue";
 import { useLayout } from "@/layout/composables/layout";
 
-import { i18n, loadLocaleMessages } from "@/i18n";
+import { i18n, loadLocaleMessages, setI18nLanguage } from "@/i18n";
 
 defineProps({
   simple: {
@@ -75,7 +75,7 @@ const applyScale = () => {
       <i-button
         @click="
           loadLocaleMessages(i18n.global, 'en');
-          $i18n.locale = 'en';
+          setI18nLanguage(i18n.global, 'en');
           layoutConfig.isRTL.value = false;
         "
       >
@@ -84,7 +84,7 @@ const applyScale = () => {
       <i-button
         @click="
           loadLocaleMessages(i18n.global, 'he');
-          $i18n.locale = 'he';
+          setI18nLanguage(i18n.global, 'he');
           layoutConfig.isRTL.value = true;
         "
       >
