@@ -84,7 +84,6 @@ export function useProjects() {
   };
 
   const mapProject = (project) => {
-    console.log("mapProject", project);
     return {
       project_id: project.id,
       project_number: project.number,
