@@ -84,24 +84,33 @@ export function useProjects() {
   };
 
   const mapProject = (project) => {
+    console.log("mapProject", project);
     return {
       project_id: project.id,
       project_number: project.number,
       project_name: project.name,
       city_data: project.location?.city?.value,
       address: project.location?.street?.value,
-      project_type: project.project_type.value,
-      project_area: project.project_area.value,
-      project_detail: project.project_detail.value,
+      project_type: project.project_type?.value,
+      project_area: project.project_area?.value,
+      project_detail: project.project_detail?.value,
       open_tasks: project.open_tasks,
       breached_tasks: project.breached_tasks,
-      stage: project.process.current_stage?.name,
-      status: project.state.value,
+      stage: project.process?.current_stage?.name,
+      status: project.state?.value,
       process: project.process,
       location: project.location,
       contacts: project.contacts,
-      subprojects: project.subprojects,
+      subprojects: mapSubprojects(project.subprojects),
     };
+  };
+
+  const mapSubprojects = (subprojects) => {
+    if (!subprojects || subprojects.length === 0) {
+      return [];
+    }
+
+    return subprojects.map(mapProject);
   };
 
   // MOCKED DATA

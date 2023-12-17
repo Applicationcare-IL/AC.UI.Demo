@@ -95,39 +95,69 @@
 
       <template #expansion="slotProps">
         <DataTable
-          :value="slotProps.data.subProjects"
+          :value="slotProps.data.subprojects"
           v-model:selection="selectedProjects"
           @update:selection="onSelectionChanged"
           class="subtable"
         >
           <Column style="width: 45px"></Column>
           <Column style="width: 40px" selectionMode="multiple"></Column>
-          <Column field="project_number" class="link-col">
+          <Column
+            field="project_number"
+            :header="$t('project.project_number')"
+            class="link-col"
+          >
             <template #body="slotProps">
               <router-link
                 :to="{
                   name: 'projectDetail',
-                  params: { id: slotProps.data.project_number },
+                  params: { id: slotProps.data.project_id },
                 }"
                 class="vertical-align-middle"
-                >{{ slotProps.data.project_number }}</router-link
               >
+                {{ slotProps.data.project_id }}
+              </router-link>
             </template>
           </Column>
-          <Column field="project_name" />
-          <Column field="city_data" />
-          <Column field="address" />
-          <Column field="project_type" />
-          <Column field="project_area" />
-          <Column field="project_detail" />
-          <Column field="open_tasks" />
-          <Column field="breached_tasks" />
-          <Column field="stage" />
-          <Column field="status">
+          <Column field="project_name" :header="$t('project.project_name')" />
+          <Column field="city_data" :header="$t('project.city_data')" />
+          <Column field="address" :header="$t('project.address')" />
+          <Column field="project_type" :header="$t('project.project_type')" />
+          <Column field="project_area" :header="$t('project.project_area')" />
+          <Column
+            field="project_detail"
+            :header="$t('project.project_detail')"
+          />
+          <Column field="open_tasks" :header="$t('project.open_tasks')" />
+          <Column
+            field="breached_tasks"
+            :header="$t('project.breached_tasks')"
+            class="filled-td"
+          >
+            <template #body="slotProps">
+              <div
+                :class="
+                  slotProps.data.breached_tasks >= 0
+                    ? 'bg-red-100 text-red-900'
+                    : ''
+                "
+                class="breached-tasks h-full w-full text-center"
+              >
+                {{ slotProps.data.breached_tasks }}
+              </div>
+            </template>
+          </Column>
+
+          <Column field="stage" :header="$t('project.stage')" />
+          <Column
+            field="status"
+            :header="$t('project.status')"
+            class="p-0 filled-td"
+          >
             <template #body="slotProps">
               <div
                 :class="statusClass(slotProps.data.status)"
-                class="status-label w-full"
+                class="status-label h-full w-full"
               >
                 {{ slotProps.data.status }}
               </div>
@@ -163,7 +193,7 @@ const utilsStore = useUtilsStore();
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const projects = ref();
-const subProjects = ref();
+const subprojects = ref();
 const expandedRows = ref([]);
 const loading = ref(false);
 const dt = ref();
@@ -239,7 +269,7 @@ watch(
 );
 
 function showExpander(data) {
-  return data.subProjects && data.subProjects.length ? "" : "no-expander";
+  return data.subprojects && data.subprojects.length ? "" : "no-expander";
 }
 
 const statusClass = (data) => {
