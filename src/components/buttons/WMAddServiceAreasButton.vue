@@ -12,6 +12,7 @@
       :modelValue="selectedServiceAreas"
       @update:modelValue="updateSelectedServiceAreas"
       theme="purple"
+      width="248"
       class="custom-input-search__input"
       ref="inputSearch"
       :options="serviceAreas"
@@ -19,7 +20,10 @@
     <Button
       :disabled="selectedServiceAreas == 0"
       class="custom-input-search__clear mt-4"
-      @click="emit('addServiceAreas', selectedServiceAreas)"
+      @click="
+        emit('addServiceAreas', selectedServiceAreas);
+        resetSelectedServiceAreas();
+      "
     >
       הוספה
     </Button>
@@ -41,6 +45,10 @@ const serviceAreas = ref({});
 
 const updateSelectedServiceAreas = (event) => {
   selectedServiceAreas.value = event;
+};
+
+const resetSelectedServiceAreas = () => {
+  selectedServiceAreas.value = [];
 };
 
 const isOpen = ref();

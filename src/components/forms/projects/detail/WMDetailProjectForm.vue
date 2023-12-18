@@ -41,17 +41,11 @@
       </div> -->
 
       <div class="flex-1 card-container">
-        <WMDetailProjectFormTenderInformation
-          v-if="selectedProjectType === 'tender'"
-        />
+        <WMDetailProjectFormTenderInformation v-if="selectedProjectType === 'tender'" />
       </div>
 
       <div class="mt-5">
-        <WMStepper
-          :steps="stages"
-          :currentStep="currentStage"
-          aria-label="Form Steps"
-        />
+        <WMStepper :steps="stages" :currentStep="currentStage" aria-label="Form Steps" />
       </div>
 
       <Accordion>
@@ -90,11 +84,11 @@
         </AccordionTab>
       </Accordion> -->
 
-      <!-- <Accordion>
+      <Accordion>
         <AccordionTab header="תהליך תיחור (Competition process)">
           <WMDetailProjectFormCompetitionProcessTab />
         </AccordionTab>
-      </Accordion> -->
+      </Accordion>
 
       <div class="flex-1 tabs-container mt-5">
         <WMDetailProjectFormAdditionalInformation />
@@ -148,8 +142,7 @@ const formUtilsStore = useFormUtilsStore();
 
 const route = useRoute();
 
-const { getStatusConditionalStyle, getPriorityConditionalStyle } =
-  useListUtils();
+const { getStatusConditionalStyle, getPriorityConditionalStyle } = useListUtils();
 
 onMounted(async () => {
   await fetchData();

@@ -1,7 +1,5 @@
 <template>
-  <WMDetailProjectFormAddServiceAreasButton
-    @addServiceAreas="addServiceAreas"
-  />
+  <WMAddServiceAreasButton @addServiceAreas="addServiceAreas" />
 
   <div class="my-5" v-for="serviceArea in serviceAreas" :key="serviceArea.id">
     <Accordion class="p-accordion--compact">
@@ -20,6 +18,8 @@
             />
           </span>
         </template>
+
+        <WMCompetitionProcessTable />
       </AccordionTab>
     </Accordion>
   </div>
