@@ -41,11 +41,17 @@
       </div> -->
 
       <div class="flex-1 card-container">
-        <WMDetailProjectFormTenderInformation v-if="selectedProjectType === 'tender'" />
+        <WMDetailProjectFormTenderInformation
+          v-if="selectedProjectType === 'tender'"
+        />
       </div>
 
       <div class="mt-5">
-        <WMStepper :steps="stages" :currentStep="currentStage" aria-label="Form Steps" />
+        <WMStepper
+          :steps="stages"
+          :currentStep="currentStage"
+          aria-label="Form Steps"
+        />
       </div>
 
       <Accordion>
@@ -142,7 +148,8 @@ const formUtilsStore = useFormUtilsStore();
 
 const route = useRoute();
 
-const { getStatusConditionalStyle, getPriorityConditionalStyle } = useListUtils();
+const { getStatusConditionalStyle, getPriorityConditionalStyle } =
+  useListUtils();
 
 onMounted(async () => {
   await fetchData();
@@ -164,7 +171,7 @@ const fetchData = async () => {
   currentStage.value = data.current_stage?.order - 1;
 };
 
-const { handleSubmit, meta } = useForm({
+const { handleSubmit, resetForm, meta } = useForm({
   // validationSchema: formUtilsStore.getServiceDetailFormValidationSchema,
 });
 
@@ -185,7 +192,6 @@ const priorityClass = (data) => {
 };
 
 const handleProjectTypeUpdate = (value) => {
-  console.log("enro al handle");
   selectedProjectType.value = value;
 };
 

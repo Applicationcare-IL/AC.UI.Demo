@@ -19,14 +19,14 @@
         @click="openFilterSidebar"
         >{{ t("filter") }}
       </WMButton>
-      <!-- <WMSidebar
+      <WMSidebar
         :visible="isFilterVisible"
         @close-sidebar="closeFilterSidebar"
         @open-sidebar="openFilterSidebar"
         name="filterCustomer"
       >
         <WMFilterForm entity="customer" filterFormName="customer" />
-      </WMSidebar> -->
+      </WMSidebar>
     </div>
   </div>
   <DataTable
@@ -113,14 +113,12 @@
 <script setup>
 import { ref, watch, watchEffect, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import { FilterMatchMode } from "primevue/api";
+
 import { useFormUtilsStore } from "@/stores/formUtils";
 
 import { useUtilsStore } from "@/stores/utils";
 
-const i18n = useI18n();
-
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const selectedCustomers = ref(null);
 const isFilterOpen = ref(false);

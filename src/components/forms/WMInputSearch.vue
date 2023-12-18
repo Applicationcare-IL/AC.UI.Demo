@@ -22,6 +22,7 @@
       @item-select="onItemSelected"
       @change="emit('update:modelValue', value)"
       :focused="true"
+      @blur="emit('blur')"
     >
       <template #empty v-if="props.relatedSidebar">
         <div
@@ -146,7 +147,7 @@ const chipThemeClass = computed(() => {
     : `p-chip--${props.theme}`;
 });
 
-const emit = defineEmits(["customChange"]);
+const emit = defineEmits(["customChange", "update:modelValue"]);
 
 const openRelatedSidebar = () => {
   openSidebar(props.relatedSidebar);
@@ -193,6 +194,10 @@ const onRemove = (item) => {
 
 const onItemSelected = (item) => {
   emit("change", item);
+};
+
+const onItemUnselect = (item) => {
+  emit("onItemUnselect", item);
 };
 
 const width = computed(() => {

@@ -12,8 +12,7 @@
           :options="projectTypes"
           width="152"
           :placeholder="'project-types'"
-          @change="handleProjectTypeInputChange($event.value)"
-          :modelValue="selectedProjectType"
+          v-model="selectedProjectType"
         />
 
         <WMInputSearch
@@ -25,7 +24,7 @@
           width="152"
           :placeholder="$t('select', ['classification-2'])"
           @change="filterProjectDetailsDropdown($event.value.id)"
-          :modelValue="selectedProjectArea"
+          v-model="selectedProjectArea"
         />
 
         <WMInputSearch
@@ -36,14 +35,14 @@
           :options="projectDetails"
           width="152"
           :placeholder="$t('select', ['classification-3'])"
-          :modelValue="selectedProjectDetail"
+          v-model="selectedProjectDetail"
         />
       </div>
     </template>
   </Card>
 </template>
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -78,39 +77,73 @@ onMounted(() => {
       return item.value === props.project.project_area;
     });
   });
-  optionSetsStore.getOptionSetValuesFromApiRaw("project_detail").then((data) => {
-    projectDetails.value = data;
+  optionSetsStore
+    .getOptionSetValuesFromApiRaw("project_detail")
+    .then((data) => {
+      projectDetails.value = data;
 
-    selectedProjectDetail.value = data.find((item) => {
-      return item.value === props.project.project_detail;
+      selectedProjectDetail.value = data.find((item) => {
+        return item.value === props.project.project_detail;
+      });
     });
-  });
 });
 
 const emit = defineEmits(["projectTypeUpdate"]);
 
-const handleProjectTypeInputChange = (value) => {
-  if (!value) {
-    emit("projectTypeUpdate", false);
-
-    return;
-  }
-
-  emit("projectTypeUpdate", value.value);
-  filterProjectAreasDropdown(value.id);
-};
-
 const filterProjectAreasDropdown = (value) => {
-  optionSetsStore.getOptionSetValuesFromApiRaw("project_area", value).then((data) => {
-    projectAreas.value = data;
-  });
+  optionSetsStore
+    .getOptionSetValuesFromApiRaw("project_area", value)
+    .then((data) => {
+      projectAreas.value = data;
+    });
 };
 
 const filterProjectDetailsDropdown = (value) => {
-  optionSetsStore.getOptionSetValuesFromApiRaw("project_detail", value).then((data) => {
-    projectDetails.value = data;
-  });
+  console.log("filterProjectDetailsDropdown");
+
+  optionSetsStore
+    .getOptionSetValuesFromApiRaw("project_detail", value)
+    .then((data) => {
+      projectDetails.value = data;
+    });
 };
+
+const clearProjectDetailsDropdown = () => {
+  console.log("clearProjectDetailsDropdown");
+  selectedProjectDetail.value = [];
+};
+
+const clearProjectAreasDropdown = () => {
+  console.log("clearProjectAreasDropdown");
+  selectedProjectArea.value = [];
+};
+
+watch(
+  () => selectedProjectType.value,
+  (newValue) => {
+    if (!newValue) {
+      clearProjectAreasDropdown();
+      clearProjectDetailsDropdown();
+      emit("projectTypeUpdate", false);
+      return;
+    }
+
+    emit("projectTypeUpdate", newValue.value);
+    filterProjectAreasDropdown(newValue.id);
+  }
+);
+
+watch(
+  () => selectedProjectArea.value,
+  (newValue) => {
+    if (!newValue) {
+      clearProjectDetailsDropdown();
+      return;
+    }
+
+    filterProjectDetailsDropdown(newValue.id);
+  }
+);
 </script>
 
 <style scoped lang="scss"></style>

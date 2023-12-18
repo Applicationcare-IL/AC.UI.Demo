@@ -38,6 +38,22 @@ export function useProjects() {
     return await projectsStore.unassignContactFromProject(projectId, contactId);
   };
 
+  const getCompetitionOrganizations = async () => {
+    return Array(10).fill(fakeOrganization);
+  };
+
+  const fakeOrganization = {
+    name: "א.א. בוני הדרום",
+    offer_requested: "11/12/23",
+    offer_recieved: "11/12/23",
+    offer_amount: "30000",
+    status: "התקבלה הצעה",
+    qualified_first: true,
+    quealified_second: false,
+    notes: "משהו חשוב שכולל מילים שכתבו על הארגון ",
+    file: "",
+  };
+
   // UTILITIES
   const parseProject = (project) => {
     return {
