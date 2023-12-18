@@ -294,8 +294,6 @@ const loadLazyData = () => {
   if (customerParam) paramOptions.customer_id = customerParam;
   if (projectIdParam) paramOptions.project_id = projectIdParam;
 
-  console.log("paramOptions", paramOptions);
-
   // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams(paramOptions);
 
@@ -306,7 +304,6 @@ const loadLazyData = () => {
   });
 
   if (customerParam) {
-    console.log("entro aquí");
     getCustomerFromApi(props.customerId).then((data) => {
       customer.value = data;
     });
@@ -335,7 +332,15 @@ const defaultRole = computed(() => {
 const addContacts = (addedContacts) => {
   addedContacts.forEach((contact) => {
     if (contacts.value.find((c) => c.contact_id === contact.id)) return;
-    contact.role = defaultRole.value;
+
+    if (props.relatedEntity === "customer") {
+      contact.role = defaultRole.value;
+    }
+
+    if (props.relatedEntity === "project") {
+      contact.role_project = defaultRole.value;
+    }
+
     contact.main = false;
     contacts.value.push(contact);
     editMode.value[contacts.value.length - 1] = true;

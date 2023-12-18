@@ -22,10 +22,12 @@
         @click="
           emit('addContacts', selectedContacts);
           closeOverlay();
+          clearSelectedContacts();
         "
         class="m-1 col-6"
         name="basic-secondary"
-        >הקצה
+      >
+        הקצה
       </WMButton>
     </div>
   </OverlayPanel>
@@ -78,6 +80,10 @@ const onContactselected = (contacts) => {
 
 const closeOverlay = () => {
   isOpen.value.toggle();
+};
+
+const clearSelectedContacts = () => {
+  selectedContacts.value = [];
 };
 
 // new contact sidebar
