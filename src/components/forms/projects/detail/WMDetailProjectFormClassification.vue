@@ -78,15 +78,13 @@ onMounted(() => {
       return item.value === props.project.project_area;
     });
   });
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("project_detail")
-    .then((data) => {
-      projectDetails.value = data;
+  optionSetsStore.getOptionSetValuesFromApiRaw("project_detail").then((data) => {
+    projectDetails.value = data;
 
-      selectedProjectDetail.value = data.find((item) => {
-        return item.value === props.project.project_detail;
-      });
+    selectedProjectDetail.value = data.find((item) => {
+      return item.value === props.project.project_detail;
     });
+  });
 });
 
 const emit = defineEmits(["projectTypeUpdate"]);
@@ -103,19 +101,15 @@ const handleProjectTypeInputChange = (value) => {
 };
 
 const filterProjectAreasDropdown = (value) => {
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("project_area", value)
-    .then((data) => {
-      projectAreas.value = data;
-    });
+  optionSetsStore.getOptionSetValuesFromApiRaw("project_area", value).then((data) => {
+    projectAreas.value = data;
+  });
 };
 
 const filterProjectDetailsDropdown = (value) => {
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("project_detail", value)
-    .then((data) => {
-      projectDetails.value = data;
-    });
+  optionSetsStore.getOptionSetValuesFromApiRaw("project_detail", value).then((data) => {
+    projectDetails.value = data;
+  });
 };
 </script>
 

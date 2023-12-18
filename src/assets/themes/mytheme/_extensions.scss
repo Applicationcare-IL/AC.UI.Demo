@@ -623,6 +623,15 @@ a {
     }
 }
 
+.p-accordion.p-accordion--compact{
+    .p-accordion-header {
+        .p-accordion-header-link{
+            padding: 7px !important;
+            background-color: var(--gray-200) !important;
+        }
+    }
+}
+
 // Datatable
 .p-datatable{
 

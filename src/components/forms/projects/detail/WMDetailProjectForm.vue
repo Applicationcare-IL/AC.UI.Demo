@@ -53,6 +53,7 @@
           aria-label="Form Steps"
         />
       </div>
+
       <Accordion>
         <AccordionTab header="משימות (Tasks)">
           <WMDetailProjectFormTasksTab :project="project" />
@@ -90,8 +91,8 @@
       </Accordion> -->
 
       <!-- <Accordion>
-        <AccordionTab header="Tender organizations tab">
-          Tender organizations table
+        <AccordionTab header="תהליך תיחור (Competition process)">
+          <WMDetailProjectFormCompetitionProcessTab />
         </AccordionTab>
       </Accordion> -->
 
