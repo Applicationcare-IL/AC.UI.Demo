@@ -23,6 +23,7 @@
         related-entity="project"
         @change:selected-contacts="handleChangeSelectedContacts"
       />
+      teamMembers {{ teamMembers }}
 
       <WMFormButtons
         v-if="isSidebar"
@@ -70,7 +71,7 @@ const emit = defineEmits(["closeSidebar"]);
 const onSubmit = handleSubmit((values) => {
   const newFormValues = {
     ...values,
-    teamMembers: teamMembers.value,
+    team_members: teamMembers.value,
   };
 
   let parsedProject = parseProject(newFormValues);

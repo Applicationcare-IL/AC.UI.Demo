@@ -131,9 +131,9 @@ export function useListUtils() {
       },
       { name: "email", type: "text" },
       {
-        name: "role",
-        type: "role",
-        header: "role",
+        name: "role_project",
+        type: "role_project",
+        header: "role-in-project",
         optionSet: "contact_project_role",
         class: "p-0",
       },
@@ -396,7 +396,6 @@ export function useListUtils() {
       { name: "email", type: "text" },
       { name: "address", type: "text" },
       { name: "customer.name", type: "text", header: "organization" },
-
       {
         name: "role_project",
         type: "role_project",
