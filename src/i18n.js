@@ -8,11 +8,10 @@ import axiosConfig from "@/service/axiosConfig";
 export const SUPPORT_LOCALES = ["en", "he"];
 
 export function setupI18n(options = { locale: "he" }) {
-  // console.log("setupI18n", options);
   const i18n = createI18n(options);
 
   loadLocaleMessages(i18n.global, options.locale);
-  // console.log("i18n", i18n);
+
   setI18nLanguage(i18n.global, options.locale);
   return i18n;
 }
@@ -23,6 +22,7 @@ export function setI18nLanguage(i18n, locale) {
   } else {
     i18n.locale.value = locale;
   }
+
   /**
    * NOTE:
    * If you need to specify the language setting for headers, such as the `fetch` API, set it here.
@@ -38,7 +38,7 @@ export async function loadLocaleMessages(i18n, locale) {
   return axiosConfig
     .get(
       // `https://admin.dev-easymaze.mazemateapp.com/storage/translations/${locale}/contacts.json`
-      `https://heler.mazemateapp.com/locales/${locale}.json`
+      import.meta.env.VITE_BASE_URL + `/locales/${locale}.json`
     )
     .then((response) => {
       console.log("loadLocaleMessages", response.data);
@@ -46,7 +46,7 @@ export async function loadLocaleMessages(i18n, locale) {
 
       i18n.setLocaleMessage(locale, messages);
 
-      return response.data;
+      return nextTick();
     })
     .catch((error) => {
       console.log(error);
