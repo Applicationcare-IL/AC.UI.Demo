@@ -7,13 +7,12 @@
 
       <WMNewProjectFormClassification />
 
+      <!-- <Divider class="mb-0" layout="horizontal" /> -->
+      <!-- <WMNewProjectFormLocation /> -->
+
       <Divider class="mb-0" layout="horizontal" />
 
-      <WMNewProjectFormLocation />
-
-      <Divider class="mb-0" layout="horizontal" />
-
-      <h2 class="h2 mb-0">TEAM</h2>
+      <h2 class="h2 mb-0">{{ $t("team") }}</h2>
       <WMContactsTable
         :contacts="selectedContacts"
         :columns="getSelectedContactsForNewProjectColumns()"
@@ -23,7 +22,6 @@
         related-entity="project"
         @change:selected-contacts="handleChangeSelectedContacts"
       />
-      teamMembers {{ teamMembers }}
 
       <WMFormButtons
         v-if="isSidebar"
@@ -83,6 +81,7 @@ const onSubmit = handleSubmit((values) => {
 
   createProject(parsedProject)
     .then((data) => {
+      console.log("created project", data);
       dialog.confirmNewProject(data.data.id);
       toast.successAction("project", "created");
     })

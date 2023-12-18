@@ -1,5 +1,5 @@
 <template>
-  <h2 class="h2 my-0">{{ $t("classification") }}</h2>
+  <h2 class="h2 my-0">{{ $t("project.classification") }}</h2>
 
   <div class="wm-form-row align-items-end gap-5">
     <div class="wm-form-row gap-5">
@@ -7,19 +7,18 @@
         name="project_type"
         :highlighted="true"
         :required="true"
-        :label="'project type' + ':'"
+        :label="$t('project.project_type') + ':'"
         type="input-search"
         :options="projectTypes"
         width="152"
-        :placeholder="'project-types'"
+        :placeholder="$t('project.project_types_placeholder')"
         v-model="selectedProjectType"
       />
 
       <WMInputSearch
         name="project_area"
         :highlighted="true"
-        :required="true"
-        :label="'project area' + ':'"
+        :label="$t('project.project_area') + ':'"
         :options="projectAreas"
         width="152"
         :placeholder="$t('select', ['classification-2'])"
@@ -29,8 +28,7 @@
       <WMInputSearch
         name="project_detail"
         :highlighted="true"
-        :required="true"
-        :label="'project details' + ':'"
+        :label="$t('project.project_detail') + ':'"
         :options="projectDetails"
         width="152"
         :placeholder="$t('select', ['classification-3'])"
@@ -57,11 +55,11 @@ const projectAreas = ref([]);
 const projectDetails = ref([]);
 
 onMounted(() => {
-  optionSetsStore.getOptionSetValuesFromApi("project_type").then((data) => {
+  optionSetsStore.getOptionSetValuesFromApiRaw("project_type").then((data) => {
     projectTypes.value = data;
   });
   optionSetsStore
-    .getOptionSetValuesFromApi("project_area")
+    .getOptionSetValuesFromApiRaw("project_area")
     .then((data) => (projectAreas.value = data));
   optionSetsStore
     .getOptionSetValuesFromApiRaw("project_detail")

@@ -224,8 +224,11 @@
     "address": "Address",
     "city_data": "City Data",
     "project_name": "Project Name",
-    "project_number": "Project no.",
-    "project_description": "Project Description"
+    "project_number": "Project Number",
+    "project_description": "Project Description",
+    "classification": "Classification",
+    "project_types_placeholder": "Select Project Type",
+    "role_in_project": "Role in Project"
   },
   "documents": {
     "file": "File"

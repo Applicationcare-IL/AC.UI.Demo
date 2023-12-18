@@ -6,7 +6,9 @@
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row align-items-center gap-4">
-          <h1 class="h1 mb-0">Project: {{ project.project_name }}</h1>
+          <h1 class="h1 mb-0">
+            {{ $t("project.project") }}: {{ project.project_name }}
+          </h1>
           <div :class="statusClass(project.status)" class="status-label">
             {{ $t("statuses." + project.status) }}
           </div>
@@ -172,7 +174,7 @@ const fetchData = async () => {
 };
 
 const { handleSubmit, resetForm, meta } = useForm({
-  // validationSchema: formUtilsStore.getServiceDetailFormValidationSchema,
+  validationSchema: formUtilsStore.getServiceDetailFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {

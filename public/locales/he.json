@@ -211,17 +211,22 @@
     }
   },
   "project": {
+    "project": "פרויקט",
     "status": "Status",
     "stage": "Stage",
     "breached_tasks": "Breached Tasks",
     "open_tasks": "Open Tasks",
-    "project_detail": "Project Detail",
-    "project_area": "Project Area",
-    "project_type": "Project Type",
+    "project_detail": "תת-תחום",
+    "project_area": "תחום",
+    "project_type": "סוג פרויקט",
     "address": "Address",
     "city_data": "City Data",
-    "project_name": "Project Name",
-    "project_number": "Project no."
+    "project_name": "שם פרויקט",
+    "project_number": "תיאור פרויקט",
+    "project_description": "תיאור פרויקט",
+    "classification": "סיווג",
+    "project_types_placeholder": "בנייה עירונית",
+    "role_in_project": "תפקיד בפרויקט"
   },
   "documents": {
     "file": "File"

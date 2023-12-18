@@ -133,7 +133,7 @@ export function useListUtils() {
       {
         name: "role_project",
         type: "role_project",
-        header: "role-in-project",
+        header: "project.role_in_project",
         optionSet: "contact_project_role",
         class: "p-0",
       },
@@ -399,7 +399,7 @@ export function useListUtils() {
       {
         name: "role_project",
         type: "role_project",
-        header: "role-in-project",
+        header: "project.role_in_project",
         optionSet: "contact_project_role",
         class: "p-0",
       },

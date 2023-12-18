@@ -1,25 +1,24 @@
 <template>
   <Card>
-    <template #title> Classification </template>
+    <template #title> {{ $t("project.classification") }} </template>
     <template #content>
       <div class="wm-form-row gap-5">
         <WMInputSearch
           name="project_type"
           :highlighted="true"
           :required="true"
-          :label="'project type' + ':'"
+          :label="$t('project.project_type') + ':'"
           type="input-search"
           :options="projectTypes"
           width="152"
-          :placeholder="'project-types'"
+          :placeholder="$t('project.project_types_placeholder')"
           v-model="selectedProjectType"
         />
 
         <WMInputSearch
           name="project_area"
           :highlighted="true"
-          :required="true"
-          :label="'project area' + ':'"
+          :label="$t('project.project_area') + ':'"
           :options="projectAreas"
           width="152"
           :placeholder="$t('select', ['classification-2'])"
@@ -30,8 +29,7 @@
         <WMInputSearch
           name="project_detail"
           :highlighted="true"
-          :required="true"
-          :label="'project details' + ':'"
+          :label="$t('project.project_detail') + ':'"
           :options="projectDetails"
           width="152"
           :placeholder="$t('select', ['classification-3'])"
@@ -64,13 +62,13 @@ const selectedProjectArea = ref();
 const selectedProjectDetail = ref();
 
 onMounted(() => {
-  optionSetsStore.getOptionSetValuesFromApi("project_type").then((data) => {
+  optionSetsStore.getOptionSetValuesFromApiRaw("project_type").then((data) => {
     projectTypes.value = data;
     selectedProjectType.value = data.find((item) => {
       return item.value === props.project.project_type;
     });
   });
-  optionSetsStore.getOptionSetValuesFromApi("project_area").then((data) => {
+  optionSetsStore.getOptionSetValuesFromApiRaw("project_area").then((data) => {
     projectAreas.value = data;
 
     selectedProjectArea.value = data.find((item) => {
