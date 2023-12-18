@@ -3,8 +3,8 @@ import { useAuthStore } from "@/stores/auth";
 
 const instance = axios.create({
   // baseURL: "http://127.0.0.1:8000/api",
-  // baseURL: import.meta.env.VITE_API_URL,
-  baseURL: "https://dev-easymaze.mazemateapp.com/api",
+  baseURL: import.meta.env.VITE_API_URL,
+  // baseURL: "https://dev-easymaze.mazemateapp.com/api",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
