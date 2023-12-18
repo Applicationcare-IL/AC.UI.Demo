@@ -12,7 +12,7 @@
         :options="projectTypes"
         width="152"
         :placeholder="'project-types'"
-        @change="handleProjectTypeInputChange($event.value)"
+        v-model="selectedProjectType"
       />
 
       <WMInputSearch
@@ -23,7 +23,7 @@
         :options="projectAreas"
         width="152"
         :placeholder="$t('select', ['classification-2'])"
-        @change="filterProjectDetailsDropdown($event.value.id)"
+        v-model="selectedProjectArea"
       />
 
       <WMInputSearch
@@ -34,6 +34,7 @@
         :options="projectDetails"
         width="152"
         :placeholder="$t('select', ['classification-3'])"
+        v-model="selectedProjectDetail"
       />
     </div>
   </div>
@@ -41,13 +42,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
 
 const selectedProjectType = ref(false);
+const selectedProjectArea = ref();
+const selectedProjectDetail = ref();
 
 const projectTypes = ref([]);
 const projectAreas = ref([]);
@@ -84,6 +87,14 @@ const filterProjectAreasDropdown = (value) => {
     });
 };
 
+const clearProjectDetailsDropdown = () => {
+  selectedProjectDetail.value = [];
+};
+
+const clearProjectAreasDropdown = () => {
+  selectedProjectArea.value = [];
+};
+
 const filterProjectDetailsDropdown = (value) => {
   optionSetsStore
     .getOptionSetValuesFromApiRaw("project_detail", value)
@@ -91,6 +102,31 @@ const filterProjectDetailsDropdown = (value) => {
       projectDetails.value = data;
     });
 };
+
+watch(
+  () => selectedProjectType.value,
+  (newValue) => {
+    if (!newValue) {
+      clearProjectAreasDropdown();
+      clearProjectDetailsDropdown();
+      return;
+    }
+
+    filterProjectAreasDropdown(newValue.id);
+  }
+);
+
+watch(
+  () => selectedProjectArea.value,
+  (newValue) => {
+    if (!newValue) {
+      clearProjectDetailsDropdown();
+      return;
+    }
+
+    filterProjectDetailsDropdown(newValue.id);
+  }
+);
 </script>
 
 <style scoped lang="scss"></style>

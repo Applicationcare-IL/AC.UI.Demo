@@ -109,12 +109,10 @@ const filterProjectDetailsDropdown = (value) => {
 };
 
 const clearProjectDetailsDropdown = () => {
-  console.log("clearProjectDetailsDropdown");
   selectedProjectDetail.value = [];
 };
 
 const clearProjectAreasDropdown = () => {
-  console.log("clearProjectAreasDropdown");
   selectedProjectArea.value = [];
 };
 
