@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { i18n } from "@/i18n";
 import axiosConfig from "@/service/axiosConfig";
 
+import { LANGUAGES } from "@/constants";
+
 // const i18n = useI18n();
 
 export const useOptionSetsStore = defineStore("optionSets", {
@@ -149,12 +151,24 @@ export const useOptionSetsStore = defineStore("optionSets", {
           params: { name: optionSet, depends_on: dependant },
         })
         .then((response) => {
-          const optionSetValues = response.data.data.map((option) => ({
-            value: option.value,
-            id: option.id,
-            name: option.value,
-            label: option.value,
-          }));
+          const optionSetValues = response.data.data.map((option) => {
+            let returnOption = {
+              value: option.value,
+              id: option.id,
+              name: option.value,
+              label: option.value,
+            };
+
+            for (const lang of LANGUAGES) {
+              returnOption["value_" + lang.value] =
+                option["value_" + lang.value];
+            }
+
+            console.log("returnOption", returnOption);
+
+            return returnOption;
+          });
+
           return optionSetValues;
         })
         .catch((error) => {

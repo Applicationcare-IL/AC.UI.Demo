@@ -5,3 +5,5 @@ export const SLAS = [
   "עמד ביעד",
   "הסתיים בחריגה",
 ];
+
+export const LANGUAGES = [{ value: "he" }, { value: "en" }];

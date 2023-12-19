@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <template #title> General information </template>
+    <template #title> {{ $t("project.general_information") }} </template>
     <template #content>
       <div class="flex flex-auto flex-column gap-5">
         <div class="wm-form-row gap-5">

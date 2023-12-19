@@ -228,7 +228,14 @@
     "project_description": "Project Description",
     "classification": "Classification",
     "project_types_placeholder": "Select Project Type",
-    "role_in_project": "Role in Project"
+    "role_in_project": "Role in Project",
+    "execution_information": "Execution Information",
+    "general_information": "General Information",
+    "request_no": "Request No.",
+    "tbr_no": "TBR No.",
+    "architect": "Architect",
+    "contractor": "Contractor",
+    "supervisor": "Supervisor"
   },
   "documents": {
     "file": "File"

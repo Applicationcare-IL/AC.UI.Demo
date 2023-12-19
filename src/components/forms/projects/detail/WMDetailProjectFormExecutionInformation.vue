@@ -1,20 +1,20 @@
 <template>
   <Card>
-    <template #title> Execution information </template>
+    <template #title> {{ $t("project.execution_information") }} </template>
     <template #content>
       <div class="flex flex-auto flex-column gap-5">
         <div class="wm-form-row gap-5">
           <WMInput
             name="tbr-number"
             type="input-text"
-            :label="'TBR no.'"
+            :label="$t('project.tbr_no') + ':'"
             :value="project?.firstName"
           />
           <WMInput
             name="request-number"
             validationMessage="Validation Message"
             type="input-text"
-            :label="'Request no.'"
+            :label="$t('project.request_no') + ':'"
             :value="project?.lastName"
           />
         </div>
@@ -23,7 +23,7 @@
             name="architect"
             type="info-link"
             :highlighted="true"
-            :label="'Architect:'"
+            :label="$t('project.architect') + ':'"
             :value="`נופר דוד אדריכלים ומתכנני ערים בע`"
             :to="'/contact/' + 'test'"
           />
@@ -31,7 +31,7 @@
             name="contractor"
             type="info-link"
             :highlighted="true"
-            :label="'Contractor:'"
+            :label="$t('project.contractor') + ':'"
             :value="'אשל הנדסה הבע”מ'"
             :to="'/contact/' + 'test'"
           />
@@ -39,7 +39,7 @@
             name="supervisor"
             type="info-link"
             :highlighted="true"
-            :label="'Supervisor:'"
+            :label="$t('project.supervisor') + ':'"
             :value="'אנך הנדסה הבע”מ'"
             :to="'/contact/' + 'test'"
           />

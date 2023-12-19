@@ -57,8 +57,8 @@
     "contacts": "אנשי קשר",
     "services": "תהליכים",
     "tasks": "משימות",
-    "sales": "Sales",
-    "projects": "Projects"
+    "sales": "מכירות",
+    "projects": "פרויקטים"
   },
   "contact": {
     "contact": "איש קשר",
@@ -212,21 +212,28 @@
   },
   "project": {
     "project": "פרויקט",
-    "status": "Status",
-    "stage": "Stage",
-    "breached_tasks": "Breached Tasks",
-    "open_tasks": "Open Tasks",
+    "status": "סטטוס",
+    "stage": "שלב",
+    "breached_tasks": "משימות בחריגה",
+    "open_tasks": "משימות פתוחות",
     "project_detail": "תת-תחום",
     "project_area": "תחום",
     "project_type": "סוג פרויקט",
-    "address": "Address",
-    "city_data": "City Data",
+    "address": "כתובת",
+    "city_data": "מידע עירוני",
     "project_name": "שם פרויקט",
     "project_number": "תיאור פרויקט",
     "project_description": "תיאור פרויקט",
     "classification": "סיווג",
     "project_types_placeholder": "בנייה עירונית",
-    "role_in_project": "תפקיד בפרויקט"
+    "role_in_project": "תפקיד בפרויקט",
+    "execution_information": "נתוני ביצוע",
+    "general_information": "פרטים כלליים",
+    "request_no": "מס’ תב”ר",
+    "tbr_no": "מס’ בקשה",
+    "architect": "אדריכל",
+    "contractor": "קבלן",
+    "supervisor": "מפקח"
   },
   "documents": {
     "file": "File"
