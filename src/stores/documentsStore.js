@@ -47,5 +47,16 @@ export const useDocumentsStore = defineStore("documents", {
           throw error;
         });
     },
+    uploadDocument(id, document) {
+      return axiosConfig
+        .post("/documents/" + id + "/upload", document)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });

@@ -105,7 +105,7 @@
         >
         </Dropdown>
         <div v-else>
-          {{ slotProps.data.document_detail }}
+          <WMOptionSetValue :optionSet="slotProps.data.document_detail" />
         </div>
       </template>
 
@@ -152,8 +152,14 @@
         </Button>
         <OverlayPanel ref="addFileOverlay">
           <div class="flex gap-3">
-            <Button label="New file" />
-            <Button label="File folder" />
+            <FileUpload
+              mode="basic"
+              name="demo[]"
+              accept="image/*"
+              customUpload
+              @uploader="customBase64Uploader($event, slotProps.data.id)"
+            />
+            <!-- <Button label="File folder" /> -->
           </div>
         </OverlayPanel>
       </template>
@@ -229,6 +235,7 @@ const {
   parseUpdateDocument,
   createDocument,
   parseCreateDocument,
+  uploadDocument,
 } = useDocuments();
 
 const props = defineProps({
@@ -413,6 +420,40 @@ const createDocumentRow = (document) => {
       console.error(error);
       // toast.error("customer", "not-updated");
     });
+};
+
+const customBase64Uploader = async (event, id) => {
+  const file = event.files[0];
+  const reader = new FileReader();
+  let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
+
+  // get the file extension
+  const fileExtension = file.name.split(".").pop();
+
+  reader.readAsDataURL(blob);
+
+  reader.onloadend = function () {
+    const base64data = reader.result;
+
+    const cleanBase64 = base64data.split(",")[1];
+
+    const params = {
+      extension: fileExtension,
+      file: cleanBase64,
+    };
+
+    console.log("params", params);
+    console.log("id", id);
+
+    uploadDocument(id, params)
+      .then((data) => {
+        console.log("document uploaded");
+        loadLazyData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 };
 
 watch(

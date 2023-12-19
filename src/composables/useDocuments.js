@@ -28,6 +28,10 @@ export function useDocuments() {
     return await documentsStore.deleteDocument(id);
   };
 
+  const uploadDocument = async (id, document) => {
+    return await documentsStore.uploadDocument(id, document);
+  };
+
   // UTILITIES
   const parseUpdateDocument = (document) => {
     return {
@@ -49,13 +53,13 @@ export function useDocuments() {
       id: document.id,
       name: document.name,
       document_type: document.document_type,
-      document_detail: document.detail_type,
+      document_detail: document.document_detail,
       uploaded_from: document.uploaded_from,
       upload_date: document.upload_date,
       owner: document.owner,
       task_id: document.task_id,
-      file_path: document.file_path,
-      has_file: document.file_path ? true : false,
+      file_name: document.file_name,
+      has_file: document.file_name ? true : false,
       mode: "saved",
     };
   };
@@ -95,6 +99,7 @@ export function useDocuments() {
     createDocument,
     updateDocument,
     deleteDocument,
+    uploadDocument,
 
     // UTILITIES
     mapDocument,
