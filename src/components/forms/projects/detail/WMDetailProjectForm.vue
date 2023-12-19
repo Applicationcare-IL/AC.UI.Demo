@@ -92,11 +92,11 @@
         </AccordionTab>
       </Accordion> -->
 
-      <Accordion>
+      <!-- <Accordion>
         <AccordionTab header="תהליך תיחור (Competition process)">
           <WMDetailProjectFormCompetitionProcessTab />
         </AccordionTab>
-      </Accordion>
+      </Accordion> -->
 
       <div class="flex-1 tabs-container mt-5">
         <WMDetailProjectFormAdditionalInformation />
