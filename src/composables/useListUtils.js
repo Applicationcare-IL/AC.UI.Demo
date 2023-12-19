@@ -353,7 +353,7 @@ export function useListUtils() {
       { name: "name", type: "name", optionSet: "contact_customer_role" },
       { name: "uploaded_from", type: "text" },
       { name: "task_id", type: "link" },
-      { name: "uploaded_on", type: "text" },
+      { name: "upload_date", type: "text" },
     ];
   };
 

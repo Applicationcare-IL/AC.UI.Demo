@@ -1,8 +1,15 @@
 <template>
-  <WMDocumentsTable :columns="documentsColumns" :hide-title="true" />
+  <WMDocumentsTable
+    :columns="documentsColumns"
+    :projectId="route.params.id"
+    :hide-title="true"
+  />
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { ref } from "vue";
+
+const route = useRoute();
 
 const { getDocumentColumns } = useListUtils();
 

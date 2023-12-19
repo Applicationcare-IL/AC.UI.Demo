@@ -1,4 +1,38 @@
+import { useDocumentsStore } from "@/stores/documentsStore";
+
 export function useDocuments() {
+  const documentsStore = useDocumentsStore();
+
+  // ACTIONS
+  const getDocumentsFromApi = async (params) => {
+    const response = await documentsStore.getDocumentsFromApi(params);
+
+    const documents = response.data.map((document) => {
+      return mapDocument(document);
+    });
+
+    const totalRecords = response.meta.total;
+
+    return { data: documents, totalRecords };
+  };
+
+  // UTILITIES
+  const mapDocument = (document) => {
+    return {
+      id: document.id,
+      name: document.name,
+      document_type: document.document_type,
+      document_detail: document.detail_type,
+      uploaded_from: document.uploaded_from,
+      upload_date: document.upload_date,
+      owner: document.owner,
+      task_id: document.task_id,
+      file_path: document.file_path,
+      has_file: document.file_path ? true : false,
+      mode: "saved",
+    };
+  };
+
   // MOCKED DATA
   const getDocumentsFakeData = () => {
     const Documents = [];
@@ -29,6 +63,8 @@ export function useDocuments() {
   };
 
   return {
+    // ACTIONS
+    getDocumentsFromApi,
     // MOCKED DATA
     getDocuments,
   };

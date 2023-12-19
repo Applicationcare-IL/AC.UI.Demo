@@ -78,11 +78,11 @@
         </AccordionTab>
       </Accordion>
 
-      <!-- <Accordion>
+      <Accordion>
         <AccordionTab header="מסמכים (Documents)">
           <WMDetailProjectFormDocumentsTab />
         </AccordionTab>
-      </Accordion> -->
+      </Accordion>
 
       <!-- <h2>Others tabs</h2> -->
 
@@ -97,6 +97,8 @@
           <WMDetailProjectFormCompetitionProcessTab />
         </AccordionTab>
       </Accordion> -->
+
+      <Divider />
 
       <div class="flex-1 tabs-container mt-5">
         <WMDetailProjectFormAdditionalInformation />

@@ -12,23 +12,23 @@
         >
           מסמך חדש
         </WMButton>
-        <WMAssignOwnerButton entity="document" />
-        <WMButton
+        <!-- <WMAssignOwnerButton entity="document" /> -->
+        <!-- <WMButton
           class="m-1 col-6"
           name="phone-white"
           icon="phone"
           :disabled="selectedElements == 0"
         >
           הקצה
-        </WMButton>
-        <WMButton
+        </WMButton> -->
+        <!-- <WMButton
           class="m-1 col-6"
           name="mail-white"
           icon="mail"
           :disabled="selectedElements == 0"
         >
           הקצה
-        </WMButton>
+        </WMButton> -->
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -67,6 +67,7 @@
     sortField="id"
     :sortOrder="-1"
     :loading="loading"
+    @page="onPage($event)"
   >
     <Column
       v-if="multiselect"
@@ -205,9 +206,13 @@ const optionSetsStore = useOptionSetsStore();
 
 const utilsStore = useUtilsStore();
 const i18n = useI18n();
-const { getDocuments } = useDocuments();
+const { getDocumentsFromApi } = useDocuments();
 
 const props = defineProps({
+  rows: {
+    type: Number,
+    default: 10,
+  },
   columns: {
     type: Array,
     required: true,
@@ -215,6 +220,14 @@ const props = defineProps({
   hideTitle: {
     type: Boolean,
     default: false,
+  },
+  projectId: {
+    type: Number,
+    default: null,
+  },
+  taskId: {
+    type: Number,
+    default: null,
   },
 });
 
@@ -271,10 +284,28 @@ const rowClass = (data) => {
 };
 
 const documents = ref([]);
+const lazyParams = ref({});
+const totalRecords = ref(0);
 
-const loadLazyData = async () => {
-  const result = await getDocuments();
-  documents.value = result;
+const loadLazyData = () => {
+  const nextPage = lazyParams.value.page + 1;
+  // const filters = utilsStore.filters["documents"];
+  // const searchValueParam = searchValue.value;
+
+  const params = new URLSearchParams({
+    page: nextPage,
+    per_page: props.rows,
+    // search: searchValueParam,
+    // ...filters,
+  });
+
+  if (props.projectId) params.append("project_id", props.projectId);
+  if (props.taskId) params.append("task_id", props.taskId);
+
+  getDocumentsFromApi(params).then((result) => {
+    documents.value = result.data;
+    totalRecords.value = result.totalRecords;
+  });
 };
 
 const onPage = (event) => {
