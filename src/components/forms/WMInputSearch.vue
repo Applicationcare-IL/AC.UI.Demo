@@ -66,16 +66,9 @@ import { ref, toRef, computed, onMounted, watch } from "vue";
 import { useField } from "vee-validate";
 import { useLayout } from "@/layout/composables/layout";
 
-// get i18n current locale
-import { useI18n } from "vue-i18n";
-const { locale } = useI18n();
-
 const { layoutConfig } = useLayout();
 const { openSidebar } = useSidebar();
-
-const optionLabelWithLang = computed(() => {
-  return `value_${locale.value}`;
-});
+const { optionLabelWithLang } = useLanguages();
 
 const filteredOptions = ref();
 

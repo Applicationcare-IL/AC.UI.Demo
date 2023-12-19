@@ -33,6 +33,8 @@ export const useOptionSetsStore = defineStore("optionSets", {
       "project_detail",
       "task_sla",
       "task_status",
+      "document_detail",
+      "document_type",
     ],
     optionSets: {},
     optionSetsPreloaded: false,
@@ -131,14 +133,25 @@ export const useOptionSetsStore = defineStore("optionSets", {
       return axiosConfig
         .get("/options-set", { params: { name: optionSet } })
         .then((response) => {
-          const optionSetValues = response.data.data.map((option) => ({
-            value: option.value,
-            id: option.id,
-            name: i18n.global.t("option-set." + optionSet + "." + option.value),
-            label: i18n.global.t(
-              "option-set." + optionSet + "." + option.value
-            ),
-          }));
+          const optionSetValues = response.data.data.map((option) => {
+            const returnOption = {
+              value: option.value,
+              id: option.id,
+              name: i18n.global.t(
+                "option-set." + optionSet + "." + option.value
+              ),
+              label: i18n.global.t(
+                "option-set." + optionSet + "." + option.value
+              ),
+            };
+
+            for (const lang of LANGUAGES) {
+              returnOption["value_" + lang.value] =
+                option["value_" + lang.value];
+            }
+
+            return returnOption;
+          });
           return optionSetValues;
         })
         .catch((error) => {

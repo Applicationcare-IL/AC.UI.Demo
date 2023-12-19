@@ -84,6 +84,7 @@
     >
       <template v-if="column.type === 'link'" #body="slotProps">
         <router-link
+          v-if="!createMode[slotProps.data.id]"
           :to="{
             name: 'taskDetail',
             params: { id: slotProps.data.id },
@@ -95,12 +96,12 @@
 
       <template v-if="column.type === 'detail'" #body="slotProps">
         <Dropdown
-          v-if="editMode[slotProps.data.id]"
+          v-if="createMode[slotProps.data.id]"
           :options="optionSetsStore.optionSets[column.optionSet]"
-          optionLabel="value"
+          :optionLabel="optionLabelWithLang"
           optionValue="id"
           class="w-full p-0"
-          v-model="slotProps.data.detail"
+          v-model="slotProps.data.document_detail"
         >
         </Dropdown>
         <div v-else>
@@ -110,12 +111,12 @@
 
       <template v-if="column.type === 'type'" #body="slotProps">
         <Dropdown
-          v-if="editMode[slotProps.data.id]"
+          v-if="createMode[slotProps.data.id]"
           :options="optionSetsStore.optionSets[column.optionSet]"
-          optionLabel="value"
+          :optionLabel="optionLabelWithLang"
           optionValue="id"
           class="w-full p-0"
-          v-model="slotProps.data.detail"
+          v-model="slotProps.data.document_type"
         >
         </Dropdown>
         <div v-else>
@@ -125,7 +126,7 @@
 
       <template v-if="column.type === 'name'" #body="slotProps">
         <input
-          v-if="editMode[slotProps.data.id]"
+          v-if="editMode[slotProps.data.id] || createMode[slotProps.data.id]"
           v-model="slotProps.data.name"
         />
         <div v-else>
@@ -161,12 +162,11 @@
     <Column>
       <template #body="slotProps">
         <Button
-          v-if="slotProps.data.mode === 'new' || editMode[slotProps.data.id]"
+          v-if="editMode[slotProps.data.id]"
           class="p-button-only-icon p-teal-button"
           @click="
-            saveRow(slotProps.data);
+            updateDocumentRow(slotProps.data.id, slotProps.data);
             slotProps.data.mode = 'view';
-            editMode[slotProps.data.id] = false;
           "
         >
           <div class="p-button-svg" v-html="SaveIcon" />
@@ -187,6 +187,7 @@ import { ref, watch, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { FilterMatchMode } from "primevue/api";
 import { useOptionSetsStore } from "@/stores/optionSets";
+import { useRoute } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
 
@@ -195,6 +196,9 @@ import AddFileIcon from "/icons/menu/add_file.svg?raw";
 import SaveIcon from "/icons/save_default.svg?raw";
 
 const { t, locale } = useI18n();
+
+const { optionLabelWithLang } = useLanguages();
+const route = useRoute();
 
 const selectedDocuments = ref([]);
 const isFilterOpen = ref(false);
@@ -206,7 +210,8 @@ const optionSetsStore = useOptionSetsStore();
 
 const utilsStore = useUtilsStore();
 const i18n = useI18n();
-const { getDocumentsFromApi } = useDocuments();
+const { getDocumentsFromApi, updateDocument, parseUpdateDocument } =
+  useDocuments();
 
 const props = defineProps({
   rows: {
@@ -235,6 +240,7 @@ const multiselect = ref(true);
 const rows = ref(10);
 
 const editMode = ref([]);
+const createMode = ref([]);
 
 const handleEditRow = (id) => {
   editMode.value[id] = true;
@@ -268,7 +274,7 @@ const handleNewDocument = () => {
   const newDocument = createNewDocument(id);
 
   documents.value.push(newDocument.value);
-  editMode.value[id] = true;
+  createMode.value[id] = true;
 
   loading.value = false;
 };
@@ -351,19 +357,17 @@ const filters = ref({
   verified: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
-const saveRow = (document) => {
-  // const contactParams = {
-  //   id: contact.contact_id,
-  //   role: contact.role.id,
-  // };
-  // CustomerService.assignContactToCustomer(customer.value.id, contactParams)
-  //   .then(() => {
-  //     loadLazyData();
-  //     toast.success("Contact Successfully updated");
-  //   })
-  //   .catch(() => {
-  //     toast.error("Contact assign Failed");
-  //   });
+const updateDocumentRow = (id, document) => {
+  updateDocument(route.params.id, parseUpdateDocument(document))
+    .then((data) => {
+      editMode.value[id] = false;
+      alert("document updated", id);
+      // toast.successAction("customer", "updated");
+    })
+    .catch((error) => {
+      console.error(error);
+      // toast.error("customer", "not-updated");
+    });
 };
 
 watch(

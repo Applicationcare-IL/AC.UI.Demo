@@ -16,6 +16,16 @@ export function useDocuments() {
     return { data: documents, totalRecords };
   };
 
+  const updateDocument = async (id, document) => {
+    return await documentsStore.updateDocument(id, document);
+  };
+
+  const parseUpdateDocument = (document) => {
+    return {
+      name: document.name,
+    };
+  };
+
   // UTILITIES
   const mapDocument = (document) => {
     return {
@@ -65,6 +75,12 @@ export function useDocuments() {
   return {
     // ACTIONS
     getDocumentsFromApi,
+    updateDocument,
+
+    // UTILITIES
+    mapDocument,
+    parseUpdateDocument,
+
     // MOCKED DATA
     getDocuments,
   };
