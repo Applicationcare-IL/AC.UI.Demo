@@ -172,6 +172,17 @@
           <div class="p-button-svg" v-html="SaveIcon" />
         </Button>
 
+        <Button
+          v-if="createMode[slotProps.data.id]"
+          class="p-button-only-icon p-teal-button"
+          @click="
+            createDocumentRow(slotProps.data);
+            slotProps.data.mode = 'view';
+          "
+        >
+          <div class="p-button-svg" v-html="SaveIcon" />
+        </Button>
+
         <WMDocumentsTableItemOverlayMenu
           v-else
           :item-id="slotProps.data.id"
@@ -210,8 +221,13 @@ const optionSetsStore = useOptionSetsStore();
 
 const utilsStore = useUtilsStore();
 const i18n = useI18n();
-const { getDocumentsFromApi, updateDocument, parseUpdateDocument } =
-  useDocuments();
+const {
+  getDocumentsFromApi,
+  updateDocument,
+  parseUpdateDocument,
+  createDocument,
+  parseCreateDocument,
+} = useDocuments();
 
 const props = defineProps({
   rows: {
@@ -225,6 +241,10 @@ const props = defineProps({
   hideTitle: {
     type: Boolean,
     default: false,
+  },
+  relatedEntity: {
+    type: String,
+    default: "project",
   },
   projectId: {
     type: Number,
@@ -252,8 +272,7 @@ const randomId = () => {
 
 const createNewDocument = (id) => {
   return ref({
-    detail: "כיבוי אש",
-    file_url: "https://www.google.com",
+    detail: "",
     has_file: false,
     id: id,
     name: "",
@@ -270,6 +289,8 @@ const loading = ref(false);
 
 const handleNewDocument = () => {
   loading.value = true;
+
+  // we need a random id to manage the new document table states
   const id = randomId();
   const newDocument = createNewDocument(id);
 
@@ -362,6 +383,28 @@ const updateDocumentRow = (id, document) => {
     .then((data) => {
       editMode.value[id] = false;
       alert("document updated", id);
+      // toast.successAction("customer", "updated");
+    })
+    .catch((error) => {
+      console.error(error);
+      // toast.error("customer", "not-updated");
+    });
+};
+
+const createDocumentRow = (document) => {
+  if (props.relatedEntity === "project") {
+    document.project_id = props.projectId;
+  }
+
+  if (props.relatedEntity === "task") {
+    document.task_id = props.taskId;
+  }
+
+  createDocument(parseCreateDocument(document))
+    .then((data) => {
+      createMode.value[document.id] = false;
+      alert("document created", document.id);
+      loadLazyData();
       // toast.successAction("customer", "updated");
     })
     .catch((error) => {

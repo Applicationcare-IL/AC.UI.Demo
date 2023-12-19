@@ -16,17 +16,30 @@ export function useDocuments() {
     return { data: documents, totalRecords };
   };
 
+  const createDocument = async (document) => {
+    return await documentsStore.createDocument(document);
+  };
+
   const updateDocument = async (id, document) => {
     return await documentsStore.updateDocument(id, document);
   };
 
+  // UTILITIES
   const parseUpdateDocument = (document) => {
     return {
       name: document.name,
     };
   };
 
-  // UTILITIES
+  const parseCreateDocument = (document) => {
+    return {
+      name: document.name,
+      project_id: document.project_id,
+      document_type_id: document.document_detail,
+      document_detail_id: document.document_type,
+    };
+  };
+
   const mapDocument = (document) => {
     return {
       id: document.id,
@@ -75,11 +88,13 @@ export function useDocuments() {
   return {
     // ACTIONS
     getDocumentsFromApi,
+    createDocument,
     updateDocument,
 
     // UTILITIES
     mapDocument,
     parseUpdateDocument,
+    parseCreateDocument,
 
     // MOCKED DATA
     getDocuments,

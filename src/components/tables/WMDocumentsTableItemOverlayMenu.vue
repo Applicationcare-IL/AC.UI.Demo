@@ -57,21 +57,21 @@ const handleOverlayMenuClick = (action) => {
 };
 
 const items = ref([
-  {
-    label: "View",
-    image: new URL("/icons/menu/view.svg", import.meta.url).href,
-    action: "view",
-  },
+  // {
+  //   label: "View",
+  //   image: new URL("/icons/menu/view.svg", import.meta.url).href,
+  //   action: "view",
+  // },
   {
     label: "Edit",
     image: new URL("/icons/menu/rename.svg", import.meta.url).href,
     action: "edit",
   },
-  {
-    label: "Share",
-    image: new URL("/icons/menu/share.svg", import.meta.url).href,
-    action: "share",
-  },
+  // {
+  //   label: "Share",
+  //   image: new URL("/icons/menu/share.svg", import.meta.url).href,
+  //   action: "share",
+  // },
   {
     label: "Download",
     image: new URL("/icons/menu/download.svg", import.meta.url).href,
