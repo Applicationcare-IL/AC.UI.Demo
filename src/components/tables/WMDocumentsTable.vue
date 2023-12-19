@@ -105,7 +105,7 @@
         >
         </Dropdown>
         <div v-else>
-          {{ slotProps.data.detail }}
+          {{ slotProps.data.document_detail }}
         </div>
       </template>
 
@@ -120,7 +120,7 @@
         >
         </Dropdown>
         <div v-else>
-          {{ slotProps.data.type }}
+          <WMOptionSetValue :optionSet="slotProps.data.document_type" />
         </div>
       </template>
 
@@ -135,7 +135,7 @@
       </template>
     </Column>
 
-    <Column style="width: 40px" :header="'File'">
+    <Column style="width: 40px" :header="$t('documents.file')">
       <template #body="slotProps">
         <Button
           v-if="slotProps.data.has_file"
@@ -173,7 +173,7 @@
         </Button>
 
         <Button
-          v-if="createMode[slotProps.data.id]"
+          v-else-if="createMode[slotProps.data.id]"
           class="p-button-only-icon p-teal-button"
           @click="
             createDocumentRow(slotProps.data);
@@ -187,6 +187,7 @@
           v-else
           :item-id="slotProps.data.id"
           @edit-row="handleEditRow"
+          @refresh-table="loadLazyData"
         />
       </template>
     </Column>
@@ -205,6 +206,7 @@ import { useUtilsStore } from "@/stores/utils";
 import FileIcon from "/icons/menu/file.svg?raw";
 import AddFileIcon from "/icons/menu/add_file.svg?raw";
 import SaveIcon from "/icons/save_default.svg?raw";
+import WMOptionSetValue from "../WMOptionSetValue.vue";
 
 const { t, locale } = useI18n();
 
@@ -379,10 +381,10 @@ const filters = ref({
 });
 
 const updateDocumentRow = (id, document) => {
-  updateDocument(route.params.id, parseUpdateDocument(document))
+  updateDocument(document.id, parseUpdateDocument(document))
     .then((data) => {
       editMode.value[id] = false;
-      alert("document updated", id);
+      // alert("document updated", id);
       // toast.successAction("customer", "updated");
     })
     .catch((error) => {

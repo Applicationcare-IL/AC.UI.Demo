@@ -24,6 +24,10 @@ export function useDocuments() {
     return await documentsStore.updateDocument(id, document);
   };
 
+  const deleteDocument = async (id) => {
+    return await documentsStore.deleteDocument(id);
+  };
+
   // UTILITIES
   const parseUpdateDocument = (document) => {
     return {
@@ -90,6 +94,7 @@ export function useDocuments() {
     getDocumentsFromApi,
     createDocument,
     updateDocument,
+    deleteDocument,
 
     // UTILITIES
     mapDocument,

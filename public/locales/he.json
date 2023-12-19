@@ -236,7 +236,14 @@
     "supervisor": "מפקח"
   },
   "documents": {
-    "file": "File"
+    "file": "קובץ",
+    "upload_date": "תאריך העלאה",
+    "task_id": "משימה",
+    "uploaded_from": "הועלה מ-",
+    "detail": "פירוט מסמך",
+    "type": "סוג מסמך",
+    "name": "תיאור מסמך",
+    "id": "מזהה"
   },
   "site": {
     "details": "פרטי מיקום",

@@ -238,7 +238,14 @@
     "supervisor": "Supervisor"
   },
   "documents": {
-    "file": "File"
+    "file": "File",
+    "upload_date": "Upload Date",
+    "task_id": "Task ID",
+    "uploaded_from": "Uploaded From",
+    "detail": "Detail",
+    "type": "Type",
+    "name": "Name",
+    "id": "ID"
   },
   "site": {
     "details": "Site Details",

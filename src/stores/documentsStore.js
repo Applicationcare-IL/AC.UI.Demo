@@ -36,5 +36,16 @@ export const useDocumentsStore = defineStore("documents", {
           throw error;
         });
     },
+    deleteDocument(id) {
+      return axiosConfig
+        .delete("/documents/" + id)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });

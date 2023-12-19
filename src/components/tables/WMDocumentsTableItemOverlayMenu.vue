@@ -23,6 +23,8 @@
 <script setup>
 import { ref } from "vue";
 
+const { deleteDocument } = useDocuments();
+
 const props = defineProps({
   itemId: {
     type: String,
@@ -36,7 +38,7 @@ const toggle = (event) => {
   menu.value.toggle(event);
 };
 
-const emit = defineEmits(["editRow"]);
+const emit = defineEmits(["editRow", "refreshTable"]);
 
 const handleOverlayMenuClick = (action) => {
   switch (action) {
@@ -50,6 +52,8 @@ const handleOverlayMenuClick = (action) => {
     case "download":
       break;
     case "delete":
+      deleteDocument(props.itemId);
+      emit("refreshTable");
       break;
     default:
       break;
