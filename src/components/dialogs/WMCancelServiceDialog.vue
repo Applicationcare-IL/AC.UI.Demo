@@ -61,6 +61,5 @@ const onCancelReason1Change = (value) => {
 
 const onCancelReason2Change = (value) => {
   formUtilsStore.cancelServiceReasons["cancelation_reason_2"] = value.id;
-  console.log(formUtilsStore.cancelServiceReasons);
 };
 </script>

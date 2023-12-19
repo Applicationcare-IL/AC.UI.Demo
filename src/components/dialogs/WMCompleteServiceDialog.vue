@@ -61,6 +61,5 @@ const onCompleteReason1Change = (value) => {
 
 const onCompleteReason2Change = (value) => {
   formUtilsStore.completeServiceReasons["completion_reason_2"] = value.id;
-  console.log(formUtilsStore.completeServiceReasons);
 };
 </script>

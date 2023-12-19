@@ -81,12 +81,11 @@ const onSubmit = handleSubmit((values) => {
 
   createProject(parsedProject)
     .then((data) => {
-      console.log("created project", data);
       dialog.confirmNewProject(data.data.id);
       toast.successAction("project", "created");
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       toast.error("project", "not-created");
     });
 });

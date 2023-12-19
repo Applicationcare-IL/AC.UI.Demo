@@ -41,7 +41,6 @@ export async function loadLocaleMessages(i18n, locale) {
       import.meta.env.VITE_BASE_URL + `/locales/${locale}.json`
     )
     .then((response) => {
-      console.log("loadLocaleMessages", response.data);
       const messages = response.data;
 
       i18n.setLocaleMessage(locale, messages);
@@ -49,7 +48,7 @@ export async function loadLocaleMessages(i18n, locale) {
       return nextTick();
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     });
 
   // FROM LOCAL JSON FILE

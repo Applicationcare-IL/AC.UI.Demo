@@ -12,7 +12,7 @@ export function useCustomers() {
     });
 
     const totalRecords = response.meta.total;
-    console.log(customers);
+
     return { data: customers, totalRecords };
   };
 

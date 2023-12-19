@@ -17,7 +17,7 @@ export const useContactsStore = defineStore("contacts", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
 
@@ -28,7 +28,7 @@ export const useContactsStore = defineStore("contacts", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
 
@@ -39,20 +39,19 @@ export const useContactsStore = defineStore("contacts", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
 
     updateContact(id, contact) {
-      console.log(contact);
       return axiosConfig
         .patch("/contacts/" + id, contact)
         .then((response) => {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
@@ -68,7 +67,7 @@ export const useContactsStore = defineStore("contacts", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },

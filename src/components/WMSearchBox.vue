@@ -23,7 +23,6 @@ const props = defineProps({
 });
 
 const input = (event) => {
-  console.log(event);
   utilsStore.searchString[props.entity] = event.target.value;
 };
 </script>

@@ -46,13 +46,11 @@ watch(
 );
 
 const handleCompleteTasks = () => {
-  console.log(utilsStore.selectedElements["task"].map((x) => x.task_number));
   completeTasks(utilsStore.selectedElements["task"].map((x) => x.task_number))
     .then(() => {
       toast.successAction("task", "completed");
     })
     .catch((error) => {
-      console.log(error.response.status);
       if (error.response.status == 422) {
         dialog.completeService(1);
       } else {
@@ -70,7 +68,7 @@ const completeService = (id) => {
       toast.successAction("service", "completed");
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       toast.error("service", "not-completed");
     });
 };

@@ -172,7 +172,6 @@ const search = (event) => {
       });
       //Otherwise we will filter the static list
     } else {
-      // console.log(props.options)
       if (!event.query?.trim().length) {
         filteredOptions.value = [...props.options];
       } else {
@@ -224,7 +223,6 @@ const { value, errorMessage, resetField } = useField(name, undefined, {
 
 onMounted(() => {
   if (props.modelValue) {
-    console.log("asigno props.modelValue", props.modelValue);
     value.value = props.modelValue;
   }
 });

@@ -332,7 +332,6 @@ onMounted(async () => {
 
   if (task.value.related_entity?.type === "project") {
     getProjectFromApi(task.value.related_entity.id).then((data) => {
-      console.log("getProjectFromApi", data);
       project.value = data;
     });
   }
@@ -351,7 +350,7 @@ const onSave = handleSubmit((values) => {
       resetForm({ values: values });
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       toast.error("service", "not-updated");
     });
 });

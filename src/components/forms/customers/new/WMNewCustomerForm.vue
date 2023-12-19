@@ -205,7 +205,7 @@ const onSubmit = handleSubmit((values) => {
       toast.successAction("customer", "created");
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       toast.error("customer", "not-created");
     });
 });
@@ -246,7 +246,6 @@ const updatedMainContact = (id) => {
 };
 
 const unlinkContact = (id) => {
-  console.log("UNLINK CONTACT" + id);
   const index = selectedContacts.value.findIndex((contact) => {
     return contact.contact_id == id;
   });

@@ -195,10 +195,6 @@ const props = defineProps({
 const styles = toRef(props, "class");
 const name = toRef(props, "name");
 
-watch(styles, (newValue) => {
-  console.log("newValue", newValue);
-});
-
 const {
   value: value,
   errorMessage,

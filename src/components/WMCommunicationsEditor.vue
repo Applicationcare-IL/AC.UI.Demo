@@ -35,9 +35,7 @@
 import { ref, computed, watch } from "vue";
 import QuillMention from "quill-mention";
 
-const attachDocument = () => {
-  console.log("attachDocument");
-};
+const attachDocument = () => {};
 
 const emit = defineEmits();
 
@@ -116,9 +114,9 @@ const modules = [
 ];
 
 const logContent = () => {
-  console.log(myQuillEditor.value.getHTML());
-  console.log(myQuillEditor.value.getText());
-  console.log(myQuillEditor.value.getContents());
+  // console.log(myQuillEditor.value.getHTML());
+  // console.log(myQuillEditor.value.getText());
+  // console.log(myQuillEditor.value.getContents());
 };
 
 watch(

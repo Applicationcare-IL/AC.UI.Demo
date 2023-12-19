@@ -298,7 +298,6 @@ const loadLazyData = () => {
   const params = new URLSearchParams(paramOptions);
 
   getContactsFromApi(params).then((result) => {
-    // console.log("result", result);
     contacts.value = result.data;
     totalRecords.value = result.totalRecords;
   });

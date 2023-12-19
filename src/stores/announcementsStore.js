@@ -11,7 +11,7 @@ export const useAnnouncementsStore = defineStore("announcements", {
           return { data };
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
   },

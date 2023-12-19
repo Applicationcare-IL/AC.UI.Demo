@@ -71,23 +71,20 @@ const router = useRouter();
 const error = ref("");
 
 const handleLogin = handleSubmit((values) => {
-  console.log(useAuthStore());
   useAuthStore()
     .login(values.email, values.password)
     .then(() => {
-      console.log(useAuthStore());
       if (useAuthStore().isAuthenticated == true) {
         useAuthStore()
           .userData()
           .then((data) => {
-            console.log(data);
             router.push("/dashboard");
           })
           .catch(() => {
             error.value = "User Data not found";
           });
       } else {
-        console.log("ERROR");
+        console.error("ERROR");
         error.value = "login.invalid_credentials";
       }
     })

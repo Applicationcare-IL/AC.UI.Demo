@@ -10,7 +10,7 @@ export const useServicesStore = defineStore("services", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     getServiceFromApi(id) {
@@ -20,7 +20,7 @@ export const useServicesStore = defineStore("services", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     createService(service) {
@@ -30,7 +30,7 @@ export const useServicesStore = defineStore("services", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
@@ -42,7 +42,7 @@ export const useServicesStore = defineStore("services", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
@@ -54,7 +54,7 @@ export const useServicesStore = defineStore("services", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },

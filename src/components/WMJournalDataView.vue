@@ -94,7 +94,6 @@ const onAttachClick = () => {
 };
 
 const entries = ref();
-console.log(entries);
 
 const menu = ref();
 const menu2 = ref();

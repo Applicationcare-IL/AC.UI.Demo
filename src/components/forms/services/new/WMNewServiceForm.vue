@@ -300,7 +300,7 @@ const onSubmit = handleSubmit((values) => {
       toast.successAction("service", "created");
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       toast.error("service", "not-created");
     });
 });

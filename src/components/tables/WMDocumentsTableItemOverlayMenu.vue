@@ -43,7 +43,6 @@ const handleOverlayMenuClick = (action) => {
     case "view":
       break;
     case "edit":
-      console.log("edit", props.itemId);
       emit("editRow", props.itemId);
       break;
     case "share":

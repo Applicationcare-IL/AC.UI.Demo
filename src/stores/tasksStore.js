@@ -10,7 +10,7 @@ export const useTasksStore = defineStore("tasks", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
@@ -21,7 +21,7 @@ export const useTasksStore = defineStore("tasks", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
@@ -32,7 +32,7 @@ export const useTasksStore = defineStore("tasks", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     getTasksTypesFromApi(params) {
@@ -42,7 +42,7 @@ export const useTasksStore = defineStore("tasks", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     getTaskFromApi(id) {
@@ -52,7 +52,7 @@ export const useTasksStore = defineStore("tasks", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     completeTask(id) {
@@ -62,7 +62,7 @@ export const useTasksStore = defineStore("tasks", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
@@ -78,7 +78,7 @@ export const useTasksStore = defineStore("tasks", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },

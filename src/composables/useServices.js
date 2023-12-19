@@ -7,7 +7,6 @@ export function useServices() {
 
   // ACTIONS
   const getServicesFromApi = async (params) => {
-    console.log("params", params);
     const response = await servicesStore.getServicesFromApi(params);
 
     if (!response) {
@@ -43,7 +42,6 @@ export function useServices() {
 
   // UTILITIES
   const parseService = (service) => {
-    console.log("service", service);
     return {
       contact_id: service.contact.id,
       customer_id: service.customer.id,
@@ -81,7 +79,6 @@ export function useServices() {
   };
 
   const mapService = (service) => {
-    console.log(service.last_activity?.updater.at);
     return {
       id: service.id,
       name: service.id,

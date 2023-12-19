@@ -47,7 +47,6 @@ const appliedFilters = computed(() => {
 const filterElementRefs = ref([]);
 
 const addFilter = (filter) => {
-  console.log(filter.value);
   if (filter.value == null) delete filters.value[filter.name];
   else filters.value[filter.name] = filter.value;
 };

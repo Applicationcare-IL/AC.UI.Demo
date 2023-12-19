@@ -113,7 +113,6 @@ const searchOwner = (query) => {
 };
 
 const assignOwner = () => {
-  console.log(selectedOwner.value);
   OwnersService.assignTo(
     utilsStore.selectedElements[props.entity],
     props.entity,

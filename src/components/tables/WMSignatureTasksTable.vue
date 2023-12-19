@@ -149,7 +149,6 @@ const rowClass = (data) => {
 };
 
 const onSelectionChanged = () => {
-  console.log(selectedTasks.value);
   utilsStore.selectedElements["task"] = selectedTasks.value;
 };
 

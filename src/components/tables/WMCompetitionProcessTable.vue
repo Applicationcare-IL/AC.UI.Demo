@@ -226,7 +226,5 @@ watch(
   }
 );
 
-const addCustomers = (customers) => {
-  console.log("addCustomers", customers);
-};
+const addCustomers = (customers) => {};
 </script>

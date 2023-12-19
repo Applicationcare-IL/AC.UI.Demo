@@ -21,7 +21,6 @@ const saveForm = () => {
 const { updateState } = useCustomers();
 
 const updateEntityState = (id, state) => {
-  console.log("updateEntityState", state);
   updateState(id, state);
 };
 </script>

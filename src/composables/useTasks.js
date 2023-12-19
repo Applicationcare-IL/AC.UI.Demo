@@ -92,8 +92,6 @@ export function useTasks() {
   };
 
   const parseTask = (task) => {
-    console.log("task to parse", task);
-
     return {
       task_type: task["task-type"].id,
       description: task.description,

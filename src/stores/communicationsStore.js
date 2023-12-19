@@ -11,7 +11,7 @@ export const useCommunicationsStore = defineStore("communications", {
           return { data };
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     sendEmail(params) {
@@ -22,7 +22,7 @@ export const useCommunicationsStore = defineStore("communications", {
           return { data };
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
   },

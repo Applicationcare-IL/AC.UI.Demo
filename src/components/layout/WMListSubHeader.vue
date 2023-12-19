@@ -126,7 +126,5 @@ function openFilterSidebar() {
   isFilterVisible.value = true;
 }
 
-function onChangeOwnerFilter(event) {
-  console.log(event.value);
-}
+function onChangeOwnerFilter(event) {}
 </script>

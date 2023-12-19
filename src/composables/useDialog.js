@@ -138,7 +138,6 @@ export function useDialog() {
   };
 
   const cancelService = (id) => {
-    console.log("cancelService " + id);
     confirm.require({
       group: "cancelService",
       header: "ביטול שירות" + id,
@@ -152,7 +151,6 @@ export function useDialog() {
   };
 
   const completeService = (id) => {
-    console.log("completeService " + id);
     confirm.require({
       group: "completeService",
       header: "ביטול שירות" + id,

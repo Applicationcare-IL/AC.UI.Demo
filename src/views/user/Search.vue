@@ -101,7 +101,6 @@ const searchResults = ref([]);
 
 onMounted(() => {
   globalSearch({ search: route.params.query }).then((result) => {
-    console.log(result);
     searchResults.value = result;
   });
 });

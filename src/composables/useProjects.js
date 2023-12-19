@@ -159,12 +159,6 @@ export function useProjects() {
   const mapContactsFromProjects = (projects) => {
     let contacts = [];
 
-    // console.log(
-    //   "mapContactsFromProjects",
-    //   projects.contacts,
-    //   Array.isArray(projects.contacts)
-    // );
-
     if (Array.isArray(projects.contacts)) {
       contacts = projects.contacts.map((project) => {
         return {

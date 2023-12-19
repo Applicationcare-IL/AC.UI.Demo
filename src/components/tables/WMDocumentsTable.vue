@@ -321,7 +321,6 @@ const filters = ref({
 });
 
 const saveRow = (document) => {
-  console.log("save new document", document);
   // const contactParams = {
   //   id: contact.contact_id,
   //   role: contact.role.id,

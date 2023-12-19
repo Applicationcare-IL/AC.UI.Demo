@@ -142,7 +142,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
           return optionSetValues;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     getOptionSetValuesFromApiRaw(optionSet, dependant) {
@@ -164,15 +164,13 @@ export const useOptionSetsStore = defineStore("optionSets", {
                 option["value_" + lang.value];
             }
 
-            console.log("returnOption", returnOption);
-
             return returnOption;
           });
 
           return optionSetValues;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
 

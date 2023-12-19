@@ -10,7 +10,7 @@ export const useProjectsStore = defineStore("projects", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     getProjectFromApi(id) {
@@ -20,7 +20,7 @@ export const useProjectsStore = defineStore("projects", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     createProject(project) {
@@ -30,7 +30,7 @@ export const useProjectsStore = defineStore("projects", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
@@ -41,7 +41,7 @@ export const useProjectsStore = defineStore("projects", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
@@ -57,7 +57,7 @@ export const useProjectsStore = defineStore("projects", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
@@ -73,7 +73,7 @@ export const useProjectsStore = defineStore("projects", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },

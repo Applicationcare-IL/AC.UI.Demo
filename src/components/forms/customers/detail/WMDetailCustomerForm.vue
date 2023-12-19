@@ -437,7 +437,7 @@ const onSave = handleSubmit((values) => {
       resetForm({ values: values });
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       toast.error("customer", "not-updated");
     });
 });

@@ -400,7 +400,7 @@ onMounted(async () => {
 const fetchData = async () => {
   const data = await getServiceFromApi(route.params.id);
   service.value = data;
-  console.log(data.stages);
+
   stages.value = data.stages.map((stage) => ({
     label: stage.name,
     date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
@@ -418,7 +418,6 @@ const fetchData = async () => {
 };
 
 const updateDropdown = (optionSet, selectedValue, dropdownOptions) => {
-  console.log(selectedValue);
   optionSetsStore
     .getOptionSetValuesFromApiRaw(optionSet, selectedValue)
     .then((data) => {
@@ -437,7 +436,7 @@ const onSave = handleSubmit((values) => {
       resetForm({ values: values });
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       toast.error("service", "not-updated");
     });
 });
@@ -458,7 +457,7 @@ const handleCancelService = (id) => {
       toast.successAction("service", "canceled");
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       toast.error("service", "not-canceled");
     });
 };

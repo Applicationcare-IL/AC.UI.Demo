@@ -7,12 +7,11 @@ export const useSearchStore = defineStore("search", {
       return axiosConfig
         .get("/global/search", { params })
         .then((response) => {
-          console.log(response);
           const results = response.data.data;
           return results;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
   },

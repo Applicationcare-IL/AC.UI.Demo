@@ -14,19 +14,18 @@ export const useCustomersStore = defineStore("customers", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
 
     getCustomersFromApi(params) {
-      console.log(params);
       return axiosConfig
         .get("/customers", { params })
         .then((response) => {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
 
@@ -37,20 +36,19 @@ export const useCustomersStore = defineStore("customers", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
 
     updateCustomer(id, customer) {
-      console.log(customer);
       return axiosConfig
         .patch("/customers/" + id, customer)
         .then((response) => {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
@@ -66,7 +64,7 @@ export const useCustomersStore = defineStore("customers", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
@@ -82,7 +80,7 @@ export const useCustomersStore = defineStore("customers", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },
@@ -98,7 +96,7 @@ export const useCustomersStore = defineStore("customers", {
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           throw error;
         });
     },

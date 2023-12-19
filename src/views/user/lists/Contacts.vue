@@ -175,7 +175,6 @@ const loadLazyData = () => {
   });
 
   getContactsFromApi(params).then((result) => {
-    console.log(result);
     contacts.value = result.data;
     totalRecords.value = result.totalRecords;
     loading.value = false;

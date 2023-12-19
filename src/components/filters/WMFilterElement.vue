@@ -85,7 +85,6 @@ const fromDate = ref(null);
 const toDate = ref(null);
 
 const onDropdownChanged = (value) => {
-  console.log("value", value);
   emits("update:filter", {
     name: filterName,
     value: value.map((x) => x.id),
@@ -126,9 +125,7 @@ const clear = () => {
     toDate.value = null;
   }
   if (type == "dropdown") {
-    console.log("selectedOptions", selectedOptions.value);
     selectedOptions.value = [];
-    console.log("selectedOptions", selectedOptions.value);
   }
   if (type == "buttons") {
     selectedButtons.value = [];

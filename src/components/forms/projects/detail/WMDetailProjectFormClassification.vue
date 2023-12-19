@@ -97,8 +97,6 @@ const filterProjectAreasDropdown = (value) => {
 };
 
 const filterProjectDetailsDropdown = (value) => {
-  console.log("filterProjectDetailsDropdown");
-
   optionSetsStore
     .getOptionSetValuesFromApiRaw("project_detail", value)
     .then((data) => {
