@@ -1,5 +1,7 @@
 <template>
-  <WMButton name="new" icon="new" @click="toggle">תחום שירות חדש</WMButton>
+  <WMButton name="new" icon="new" @click="toggle">
+    {{ $t("project.add_service_area") }}
+  </WMButton>
 
   <OverlayPanel
     ref="isOpen"

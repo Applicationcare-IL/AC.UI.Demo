@@ -4,14 +4,14 @@
       <div class="flex flex-row">
         <WMAssignCustomerButton @addCustomers="addCustomers" />
 
-        <WMButton class="m-1 col-6" name="export-white" icon="export">
+        <!-- <WMButton class="m-1 col-6" name="export-white" icon="export">
           {{ $t("export") }}
-        </WMButton>
+        </WMButton> -->
       </div>
     </div>
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="customer" />
-      <WMButton
+      <!-- <WMButton
         name="filter"
         icon="filter"
         :open="isFilterOpen"
@@ -26,7 +26,7 @@
         name="filterCustomer"
       >
         <WMFilterForm entity="customer" filterFormName="customer" />
-      </WMSidebar>
+      </WMSidebar> -->
     </div>
   </div>
   <DataTable
@@ -44,6 +44,16 @@
     @update:selection="onSelectionChanged"
     :class="`p-datatable-${tableClass}`"
   >
+    <Column style="width: 35px">
+      <template #body="slotProps">
+        <img
+          @click="console.log('preview customer')"
+          src="/icons/eye.svg"
+          alt=""
+          class="vertical-align-middle"
+        />
+      </template>
+    </Column>
     <Column
       v-if="multiselect"
       style="width: 40px"
@@ -58,53 +68,37 @@
       "
       :class="column.class"
     >
-      <template v-if="column.type === 'alert'" #body="slotProps">
-        <div :class="alertCellConditionalStyle(slotProps.data[column.name])">
-          {{ slotProps.data[column.name] }}
-        </div>
+      <template v-if="column.type === 'text'" #body="slotProps">
+        {{ slotProps.data[column.name] }}
       </template>
-      <template
-        v-if="column.type === 'link'"
-        #body="slotProps"
-        class="link-col"
-      >
-        <router-link
-          :to="{
-            name: 'customerDetail',
-            params: { id: slotProps.data.id },
-          }"
-          class="vertical-align-middle"
-          >{{ slotProps.data[column.name] }}</router-link
-        >
-      </template>
-      <template v-if="column.type === 'detail'">
-        <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
-      </template>
-      <template v-if="column.type === 'star'" #body="slotProps">
-        <img
-          v-if="slotProps.data['main_contact']['id'] == contactId"
-          src="/icons/star.svg"
-          alt=""
-          class="vertical-align-middle"
-        />
-      </template>
-      <template v-if="column.type === 'tags'" #body="slotProps">
-        <div class="flex flex-row gap-2">
-          <Tag
-            v-for="item in slotProps.data[column.name]"
-            class="vertical-align-middle"
-            >{{ item.value }}</Tag
-          >
-        </div>
-      </template>
+
       <template v-if="column.type === 'actions'" #body="slotProps">
         <div class="flex flex-row gap-2">
-          <WMButton name="edit" icon="edit" />
-          <WMButton name="unlink" icon="unlink" />
+          <WMButton
+            v-if="
+              column.buttons?.includes('edit') && !editMode[slotProps.index]
+            "
+            name="edit"
+            icon="edit"
+            @click="editMode[slotProps.index] = true"
+          />
+          <WMButton
+            v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
+            name="save"
+            icon="save"
+            class="in_table"
+            @click="
+              saveRow(slotProps.data);
+              editMode[slotProps.index] = false;
+            "
+          />
+          <WMButton
+            v-if="column.buttons?.includes('unlink')"
+            name="unlink"
+            icon="unlink"
+            @click=""
+          />
         </div>
-      </template>
-      <template v-if="column.type === 'option-set'" #body="slotProps">
-        {{ $t(slotProps.data[column.name].value) }}
       </template>
     </Column>
   </DataTable>
@@ -185,7 +179,7 @@ const loadLazyData = () => {
   });
 
   getCustomersFromApi(params).then((result) => {
-    customers.value = result.data;
+    customers.value = fakeData();
     totalRecords.value = result.totalRecords;
   });
 };
@@ -227,4 +221,51 @@ watch(
 );
 
 const addCustomers = (customers) => {};
+
+const editMode = ref([]);
+
+const fakeData = () => [
+  {
+    file: true,
+    notes: "משהו חשוב שכולל מילים שכתבו על הארגון ",
+    refusal_to_win: "",
+    qualified_second: "",
+    status: "התקבלה הצעה",
+    offer_amount: "30,000.00",
+    offer_received: "11/12/23",
+    offer_requested: "11/12/23",
+    organization: {
+      id: 1,
+      name: "א.א. בוני הדרום",
+    },
+  },
+  {
+    file: true,
+    notes: "משהו חשוב שכולל מילים שכתבו על הארגון ",
+    refusal_to_win: "",
+    qualified_second: "",
+    status: "התקבלה הצעה",
+    offer_amount: "30,000.00",
+    offer_received: "11/12/23",
+    offer_requested: "11/12/23",
+    organization: {
+      id: 1,
+      name: "א.א. בוני הדרום",
+    },
+  },
+  {
+    file: true,
+    notes: "משהו חשוב שכולל מילים שכתבו על הארגון ",
+    refusal_to_win: "",
+    qualified_second: "",
+    status: "התקבלה הצעה",
+    offer_amount: "30,000.00",
+    offer_received: "11/12/23",
+    offer_requested: "11/12/23",
+    organization: {
+      id: 1,
+      name: "א.א. בוני הדרום",
+    },
+  },
+];
 </script>

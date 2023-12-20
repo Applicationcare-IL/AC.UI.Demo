@@ -241,7 +241,9 @@
     "architect": "Architect",
     "contractor": "Contractor",
     "supervisor": "Supervisor",
-    "organization": "Organization"
+    "organization": "Organization",
+    "competition_process": "Competition process",
+    "add_service_area": "Add service area"
   },
   "documents": {
     "document": "Document",

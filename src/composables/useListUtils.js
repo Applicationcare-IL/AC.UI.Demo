@@ -413,6 +413,27 @@ export function useListUtils() {
     ];
   };
 
+  const getCompetitionProcessColumns = () => {
+    return [
+      { name: "name", type: "text" },
+      { name: "notes", type: "text" },
+      { name: "refusal_to_win", type: "text" },
+      { name: "qualified_second", type: "text" },
+      { name: "status", type: "text" },
+      { name: "offer_amount", type: "text" },
+      { name: "offer_received", type: "text" },
+      { name: "offer_requested", type: "text" },
+      { name: "organization", type: "text" },
+      {
+        name: "actions",
+        type: "actions",
+        header: "",
+        class: "buttons",
+        buttons: ["unlink", "edit"],
+      },
+    ];
+  };
+
   // METHODS
   const getAlertCellConditionalStyle = (data) => {
     return [{ "bg-red-100 text-red-600": data > 0 }];
@@ -458,6 +479,7 @@ export function useListUtils() {
     getDocumentColumns,
     getSignatureTaskColumns,
     getProjectTeamColumns,
+    getCompetitionProcessColumns,
     // METHODS
     getAlertCellConditionalStyle,
     getStatusConditionalStyle,

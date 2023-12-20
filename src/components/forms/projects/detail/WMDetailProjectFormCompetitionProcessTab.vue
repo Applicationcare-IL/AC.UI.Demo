@@ -19,15 +19,27 @@
           </span>
         </template>
 
-        <WMCompetitionProcessTable />
+        <WMCompetitionProcessTable :columns="competitionProcessColumns" />
       </AccordionTab>
     </Accordion>
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
+const { getCompetitionProcessColumns } = useListUtils();
 
-const serviceAreas = ref([]);
+const competitionProcessColumns = ref(getCompetitionProcessColumns());
+
+const serviceAreas = ref([
+  {
+    value: "SPI",
+    id: 911,
+    name: "SPI",
+    label: "SPI",
+    value_he: "שיפור פני העיר",
+    value_en: "SPI",
+  },
+]);
 
 const addServiceAreas = (event) => {
   serviceAreas.value.push(...event);

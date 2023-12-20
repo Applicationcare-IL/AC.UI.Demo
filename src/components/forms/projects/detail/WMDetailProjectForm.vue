@@ -93,7 +93,7 @@
       </Accordion> -->
 
       <!-- <Accordion>
-        <AccordionTab header="תהליך תיחור (Competition process)">
+        <AccordionTab :header="$t('project.competition_process')">
           <WMDetailProjectFormCompetitionProcessTab />
         </AccordionTab>
       </Accordion> -->

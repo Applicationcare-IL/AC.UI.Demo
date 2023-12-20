@@ -239,7 +239,9 @@
     "architect": "אדריכל",
     "contractor": "קבלן",
     "supervisor": "מפקח",
-    "organization": "ארגון"
+    "organization": "ארגון",
+    "competition_process": "תהליך תיחור",
+    "add_service_area": "תחום שירות חדש"
   },
   "documents": {
     "document": "מסמך",
