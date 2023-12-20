@@ -13,6 +13,7 @@
           width="152"
           :placeholder="$t('project.project_types_placeholder')"
           v-model="selectedProjectType"
+          :option-set="true"
         />
 
         <WMInputSearch
@@ -24,6 +25,7 @@
           :placeholder="$t('select', ['classification-2'])"
           @change="filterProjectDetailsDropdown($event.value.id)"
           v-model="selectedProjectArea"
+          :option-set="true"
         />
 
         <WMInputSearch
@@ -34,6 +36,7 @@
           width="152"
           :placeholder="$t('select', ['classification-3'])"
           v-model="selectedProjectDetail"
+          :option-set="true"
         />
       </div>
     </template>

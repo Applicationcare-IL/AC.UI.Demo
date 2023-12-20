@@ -7,10 +7,9 @@
     >
       {{ label }} <span v-if="required && label" class="text-red-500"> *</span>
     </label>
-
     <AutoComplete
       :suggestions="filteredOptions"
-      optionLabel="name"
+      :optionLabel="optionLabel"
       :placeholder="placeholder"
       :multiple="props.multiple"
       :disabled="props.disabled"
@@ -141,6 +140,10 @@ const props = defineProps({
     type: String,
     default: "default",
   },
+  optionSet: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const chipThemeClass = computed(() => {
@@ -154,6 +157,13 @@ const emit = defineEmits(["customChange", "update:modelValue"]);
 const openRelatedSidebar = () => {
   openSidebar(props.relatedSidebar);
 };
+
+const optionLabel = computed(() => {
+  if (props.optionSet) {
+    return optionLabelWithLang.value;
+  }
+  return "name";
+});
 
 const search = (event) => {
   setTimeout(() => {
