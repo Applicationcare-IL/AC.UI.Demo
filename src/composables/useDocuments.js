@@ -32,6 +32,10 @@ export function useDocuments() {
     return await documentsStore.uploadDocument(id, document);
   };
 
+  const downloadDocument = async (id) => {
+    return await documentsStore.downloadDocument(id);
+  };
+
   // UTILITIES
   const parseUpdateDocument = (document) => {
     return {
@@ -100,6 +104,7 @@ export function useDocuments() {
     updateDocument,
     deleteDocument,
     uploadDocument,
+    downloadDocument,
 
     // UTILITIES
     mapDocument,

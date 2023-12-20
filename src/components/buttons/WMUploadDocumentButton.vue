@@ -1,6 +1,6 @@
 <template>
   <Button v-if="hasFile" class="p-button-only-icon p-lightblue-button">
-    <div class="p-button-svg" v-html="FileIcon" />
+    <div class="p-button-svg" v-html="FileIcon" @click="handleDownloadFile" />
   </Button>
   <Button
     v-else
@@ -41,7 +41,48 @@ const props = defineProps({
 
 const emit = defineEmits(["documentUploaded"]);
 
-const { uploadDocument } = useDocuments();
+const { uploadDocument, downloadDocument } = useDocuments();
+
+const handleDownloadFile = () => {
+  downloadDocument(props.documentId)
+    .then((response) => {
+      console.log("response", response);
+
+      const base64Data = response.data;
+
+      // Determinar el tipo de archivo basado en la respuesta de la API
+      const contentType = response.headers["content-type"];
+      let fileExtension = "";
+
+      if (contentType.includes("image/jpeg")) {
+        fileExtension = "jpeg";
+      } else if (contentType.includes("application/pdf")) {
+        fileExtension = "pdf";
+      } else {
+        console.error("Tipo de archivo no soportado");
+        return;
+      }
+
+      // Crear un enlace temporal
+      const link = document.createElement("a");
+
+      // Configurar el enlace con el contenido base64 y la extensión adecuada
+      link.href = `data:${contentType};base64,${base64Data}`;
+      link.download = `archivo.${fileExtension}`;
+
+      // Añadir el enlace al DOM y simular un clic para iniciar la descarga
+      document.body.appendChild(link);
+
+      console.log("link", link);
+      link.click();
+
+      // Eliminar el enlace del DOM después de la descarga
+      document.body.removeChild(link);
+    })
+    .catch((error) => {
+      console.error("Error al descargar el archivo", error);
+    });
+};
 
 const customBase64Uploader = async (event, id) => {
   const file = event.files[0];

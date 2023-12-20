@@ -58,5 +58,16 @@ export const useDocumentsStore = defineStore("documents", {
           throw error;
         });
     },
+    downloadDocument(id) {
+      return axiosConfig
+        .get("/documents/" + id + "/download")
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });
