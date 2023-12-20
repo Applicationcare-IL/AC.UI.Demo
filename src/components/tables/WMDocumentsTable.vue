@@ -147,31 +147,11 @@
 
     <Column style="width: 40px" :header="$t('documents.file')">
       <template #body="slotProps">
-        <Button
-          v-if="slotProps.data.has_file"
-          class="p-button-only-icon p-lightblue-button"
-        >
-          <div class="p-button-svg" v-html="FileIcon" />
-        </Button>
-        <Button
-          v-else
-          class="p-button-only-icon p-orange-button"
-          @click="toggleAddFileOverlay"
-        >
-          <div class="p-button-svg" v-html="AddFileIcon" />
-        </Button>
-        <OverlayPanel ref="addFileOverlay">
-          <div class="flex gap-3">
-            <FileUpload
-              mode="basic"
-              name="demo[]"
-              accept="image/*,application/pdf"
-              customUpload
-              @uploader="customBase64Uploader($event, slotProps.data.id)"
-            />
-            <!-- <Button label="File folder" /> -->
-          </div>
-        </OverlayPanel>
+        <WMUploadDocumentButton
+          :document-id="slotProps.data.id"
+          :has-file="slotProps.data.has_file"
+          @document-uploaded="loadLazyData"
+        />
       </template>
     </Column>
 
@@ -219,8 +199,6 @@ import { useRoute } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
 
-import FileIcon from "/icons/menu/file.svg?raw";
-import AddFileIcon from "/icons/menu/add_file.svg?raw";
 import SaveIcon from "/icons/save_default.svg?raw";
 import WMOptionSetValue from "../WMOptionSetValue.vue";
 
@@ -245,7 +223,6 @@ const {
   parseUpdateDocument,
   createDocument,
   parseCreateDocument,
-  uploadDocument,
 } = useDocuments();
 
 const props = defineProps({
@@ -363,12 +340,6 @@ onMounted(() => {
   loadLazyData();
 });
 
-const addFileOverlay = ref();
-
-const toggleAddFileOverlay = (event) => {
-  addFileOverlay.value.toggle(event);
-};
-
 const getFilterOptions = () => {
   return [
     { name: i18n.t("no-file", { label: "no-file" }), value: 3 },
@@ -449,40 +420,6 @@ const createDocumentRow = (document) => {
       console.error(error);
       toast.error("Document not created");
     });
-};
-
-const customBase64Uploader = async (event, id) => {
-  const file = event.files[0];
-  const reader = new FileReader();
-  let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
-
-  // get the file extension
-  const fileExtension = file.name.split(".").pop();
-
-  reader.readAsDataURL(blob);
-
-  reader.onloadend = function () {
-    const base64data = reader.result;
-
-    const cleanBase64 = base64data.split(",")[1];
-
-    const params = {
-      extension: fileExtension,
-      file: cleanBase64,
-    };
-
-    console.log("params", params);
-    console.log("id", id);
-
-    uploadDocument(id, params)
-      .then((data) => {
-        console.log("document uploaded");
-        loadLazyData();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
 };
 
 watch(
