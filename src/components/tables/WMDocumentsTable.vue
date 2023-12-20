@@ -107,7 +107,7 @@
           :options="optionSetsStore.optionSets[column.optionSet]"
           :optionLabel="optionLabelWithLang"
           optionValue="id"
-          class="w-full p-0 p-invalid"
+          class="w-full p-0"
           v-model="slotProps.data.document_detail"
           :placeholder="$t('documents.select_detail_type')"
         >
