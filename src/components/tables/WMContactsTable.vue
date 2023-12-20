@@ -1,5 +1,7 @@
 <template>
-  <h2 v-if="showControls" class="h2">{{ $t("contact.contact") }}</h2>
+  <h2 v-if="showControls && showTitle" class="h2">
+    {{ $t("contact.contact") }}
+  </h2>
 
   <WMAssignContactButton v-if="showAddContact" @addContacts="addContacts" />
 
@@ -11,10 +13,10 @@
       <div class="flex flex-row">
         <WMAssignContactButton @addContacts="addContacts" />
         <WMButton class="m-1 col-6" name="export-white" icon="export">
-          ייצוא נתונים
+          {{ $t("export") }}
         </WMButton>
       </div>
-      <div class="flex flex-row align-items-center gap-3">
+      <div class="flex flex-row align-items-center gap-3" v-if="showFilters">
         <WMButton
           name="filter"
           icon="filter"
@@ -200,6 +202,14 @@ const props = defineProps({
     default: true,
   },
   showControls: {
+    type: Boolean,
+    default: true,
+  },
+  showFilters: {
+    type: Boolean,
+    default: true,
+  },
+  showTitle: {
     type: Boolean,
     default: true,
   },

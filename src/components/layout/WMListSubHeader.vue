@@ -13,7 +13,7 @@
           </WMButton>
 
           <WMButton class="m-1 col-6" name="export-white" icon="export">
-            ייצוא נתונים
+            {{ $t("export") }}
           </WMButton>
 
           <Divider layout="vertical" />
@@ -30,7 +30,8 @@
             name="phone-white"
             icon="phone"
             :disabled="selectedElements != 1"
-            >הקצה
+          >
+            {{ $t("buttons.assign") }}
           </WMButton>
 
           <WMSendEmailButton
@@ -55,7 +56,8 @@
             :open="isFilterVisible"
             :applied="isFilterApplied"
             @click="openFilterSidebar"
-            >הקצה
+          >
+            {{ $t("buttons.assign") }}
           </WMButton>
         </div>
         <div class="flex flex-row gap-3">

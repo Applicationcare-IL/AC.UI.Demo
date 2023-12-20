@@ -19,7 +19,7 @@
           icon="phone"
           :disabled="selectedElements == 0"
         >
-          הקצה
+  {{ $t("buttons.assign") }}
         </WMButton> -->
         <!-- <WMButton
           class="m-1 col-6"
@@ -27,18 +27,25 @@
           icon="mail"
           :disabled="selectedElements == 0"
         >
-          הקצה
+          {{ $t("buttons.assign") }}
         </WMButton> -->
       </div>
       <div class="flex flex-row align-items-center gap-3">
-        <WMButton
+        <!-- <WMButton
           name="filter"
           icon="filter"
           :open="isFilterOpen"
           :applied="isFilterApplied"
           >{{ t("filter") }}
-        </WMButton>
-        <WMOwnerToggle entity="document" />
+        </WMButton> -->
+        <!-- <SelectButton
+          v-model="selectedOption"
+          :options="options"
+          optionLabel="name"
+          optionValue="value"
+          class="flex flex-nowrap"
+          @change="onChangeOwnerFilter"
+        /> -->
       </div>
     </div>
     <div>

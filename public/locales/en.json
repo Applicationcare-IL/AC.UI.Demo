@@ -52,6 +52,11 @@
   "day": "day",
   "future": "Future",
   "now": "Now",
+  "export": "Export",
+  "buttons": {
+    "link_contact": "Link contact",
+    "assign": "Assign"
+  },
   "navigation": {
     "dashboard": "Dashboard",
     "customers": "Customers",
@@ -235,7 +240,8 @@
     "tbr_no": "TBR No.",
     "architect": "Architect",
     "contractor": "Contractor",
-    "supervisor": "Supervisor"
+    "supervisor": "Supervisor",
+    "organization": "Organization"
   },
   "documents": {
     "file": "File",

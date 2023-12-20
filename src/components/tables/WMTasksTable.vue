@@ -31,7 +31,7 @@
         <WMAssignOwnerButton entity="task" />
         <WMCompleteTasksButton entity="task" />
       </div>
-      <div class="flex flex-row align-items-center gap-3">
+      <div class="flex flex-row align-items-center gap-3" v-if="showFilters">
         <WMButton
           name="filter"
           icon="filter"
@@ -151,6 +151,10 @@ const props = defineProps({
     default: null,
   },
   showHeaderOptions: {
+    type: Boolean,
+    default: true,
+  },
+  showFilters: {
     type: Boolean,
     default: true,
   },

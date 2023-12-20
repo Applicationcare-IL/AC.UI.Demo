@@ -51,6 +51,11 @@
   "day": "יום",
   "future": "Future",
   "now": "Now",
+  "export": "ייצוא נתונים",
+  "buttons": {
+    "link_contact": "שיוך איש קשר",
+    "assign": "הקצה"
+  },
   "navigation": {
     "dashboard": "דאשבורד",
     "customers": "לקוחות",
@@ -233,7 +238,8 @@
     "tbr_no": "מס’ בקשה",
     "architect": "אדריכל",
     "contractor": "קבלן",
-    "supervisor": "מפקח"
+    "supervisor": "מפקח",
+    "organization": "ארגון"
   },
   "documents": {
     "file": "קובץ",

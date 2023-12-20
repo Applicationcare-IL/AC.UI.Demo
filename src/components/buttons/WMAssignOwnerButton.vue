@@ -6,7 +6,7 @@
     icon="assign"
     :disabled="selectedElements == 0"
   >
-    הקצה
+    {{ $t("buttons.assign") }}
   </WMButton>
   <OverlayPanel
     ref="isOpen"
@@ -24,7 +24,7 @@
           And {{ utilsStore.selectedElements[props.entity]?.length - 3 }} more
         </div>
       </div>
-      <span>הקצה ל:</span>
+      <span>{{ $t("buttons.assign") }}</span>
       <div class="flex flex-row gap-2">
         <WMButton
           @click="onAssignTo('employee')"
@@ -57,8 +57,8 @@
         :selectedOption="selectedOwner"
       />
 
-      <WMButton @click="assignOwner" class="m-1 col-6" name="basic-secondary"
-        >הקצה
+      <WMButton @click="assignOwner" class="m-1 col-6" name="basic-secondary">
+        {{ $t("buttons.assign") }}
       </WMButton>
     </div>
   </OverlayPanel>

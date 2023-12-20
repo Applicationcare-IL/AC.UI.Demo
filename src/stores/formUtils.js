@@ -75,6 +75,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
     },
     getTaskFormValidationSchema: () => {
       return yup.object({
+        description: yup.string().required(),
         contact: yup
           .object()
           .required({

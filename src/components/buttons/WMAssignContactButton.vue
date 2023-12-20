@@ -1,6 +1,6 @@
 <template>
   <WMButton @click="toggle" class="m-1 col-6" name="assign-white" icon="assign">
-    שיוך אנשי קשר
+    {{ $t("buttons.link_contact") }}
   </WMButton>
   <OverlayPanel
     ref="isOpen"
@@ -27,7 +27,7 @@
         class="m-1 col-6"
         name="basic-secondary"
       >
-        הקצה
+        {{ $t("buttons.assign") }}
       </WMButton>
     </div>
   </OverlayPanel>

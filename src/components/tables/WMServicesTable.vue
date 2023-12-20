@@ -28,12 +28,12 @@
         <WMButtonMenu class="m-1" mode="light" :menuItems="menuItems"
           >הודעה</WMButtonMenu
         >
-        <WMButton class="m-1 col-6" name="phone-white" icon="phone"
-          >הקצה</WMButton
-        >
-        <WMButton class="m-1 col-6" name="mail-white" icon="mail"
-          >הקצה</WMButton
-        >
+        <WMButton class="m-1 col-6" name="phone-white" icon="phone">
+          {{ $t("buttons.assign") }}
+        </WMButton>
+        <WMButton class="m-1 col-6" name="mail-white" icon="mail">
+          {{ $t("buttons.assign") }}
+        </WMButton>
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMButton

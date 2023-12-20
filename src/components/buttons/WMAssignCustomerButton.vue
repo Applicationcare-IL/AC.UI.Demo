@@ -27,7 +27,7 @@
         class="m-1 col-6"
         name="basic-secondary"
       >
-        הקצה
+        {{ $t("buttons.assign") }}
       </WMButton>
     </div>
   </OverlayPanel>

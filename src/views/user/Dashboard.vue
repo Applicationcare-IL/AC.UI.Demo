@@ -137,7 +137,7 @@
                     icon="assign"
                     :disabled="!isAnyRowSelected"
                   >
-                    הקצה
+                    {{ $t("buttons.assign") }}
                   </WMButton>
                 </div>
 
@@ -271,7 +271,7 @@
                     icon="assign"
                     :disabled="!isAnyRowSelected"
                   >
-                    הקצה
+                    {{ $t("buttons.assign") }}
                   </WMButton>
                 </div>
 

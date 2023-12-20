@@ -7,9 +7,10 @@
     >
       {{ label }} <span v-if="required && label" class="text-red-500"> *</span>
     </label>
+
     <AutoComplete
       :suggestions="filteredOptions"
-      :optionLabel="optionLabelWithLang"
+      optionLabel="name"
       :placeholder="placeholder"
       :multiple="props.multiple"
       :disabled="props.disabled"

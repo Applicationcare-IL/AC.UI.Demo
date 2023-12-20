@@ -395,7 +395,7 @@ export function useListUtils() {
       { name: "landline", type: "text" },
       { name: "email", type: "text" },
       { name: "address", type: "text" },
-      { name: "customer.name", type: "text", header: "organization" },
+      { name: "customer.name", type: "text", header: "project.organization" },
       {
         name: "role_project",
         type: "role_project",

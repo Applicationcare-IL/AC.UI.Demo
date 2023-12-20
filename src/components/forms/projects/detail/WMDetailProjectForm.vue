@@ -31,9 +31,9 @@
         </div>
       </div>
 
-      <div class="flex-1 card-container">
+      <!-- <div class="flex-1 card-container">
         <WMDetailProjectFormLocation :project="project" />
-      </div>
+      </div> -->
 
       <!-- <div class="flex-1 card-container">
         <Card>
@@ -57,7 +57,7 @@
       </div>
 
       <Accordion>
-        <AccordionTab header="משימות (Tasks)">
+        <AccordionTab :header="$t('task.tasks')">
           <WMDetailProjectFormTasksTab :project="project" />
         </AccordionTab>
       </Accordion>

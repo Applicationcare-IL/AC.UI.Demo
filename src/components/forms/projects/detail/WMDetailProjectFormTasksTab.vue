@@ -5,6 +5,7 @@
     :columns="taskColumns"
     multiselect
     :hide-title="true"
+    :show-filters="false"
   />
 </template>
 <script setup>

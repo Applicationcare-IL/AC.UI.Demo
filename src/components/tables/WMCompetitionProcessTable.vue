@@ -5,7 +5,7 @@
         <WMAssignCustomerButton @addCustomers="addCustomers" />
 
         <WMButton class="m-1 col-6" name="export-white" icon="export">
-          ייצוא נתונים
+          {{ $t("export") }}
         </WMButton>
       </div>
     </div>

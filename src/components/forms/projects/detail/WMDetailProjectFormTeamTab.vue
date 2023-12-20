@@ -3,6 +3,8 @@
     :columns="projectTeamColumns"
     :projectId="route.params.id"
     related-entity="project"
+    :show-title="false"
+    :show-filters="false"
   />
 </template>
 <script setup>

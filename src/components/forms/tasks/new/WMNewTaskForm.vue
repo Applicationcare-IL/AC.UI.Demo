@@ -114,7 +114,7 @@
             v-if="selectedStartTaskOption.name === 'future'"
             type="date"
             :label="'Start date'"
-            id="description"
+            id="start_date"
             name="start_date"
           />
         </div>
@@ -128,7 +128,12 @@
       <div class="task-description flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">{{ $t("description") }}</h2>
         <div class="wm-form-row gap-5">
-          <WMInput type="text-area" id="description" name="description" />
+          <WMInput
+            type="text-area"
+            id="description"
+            name="description"
+            :required="true"
+          />
         </div>
       </div>
     </div>
