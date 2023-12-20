@@ -60,7 +60,9 @@ export const useDocumentsStore = defineStore("documents", {
     },
     downloadDocument(id) {
       return axiosConfig
-        .get("/documents/" + id + "/download")
+        .get("/documents/" + id + "/download", {
+          responseType: "blob",
+        })
         .then((response) => {
           return response;
         })
