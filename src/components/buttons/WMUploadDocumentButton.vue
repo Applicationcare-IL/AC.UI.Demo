@@ -44,6 +44,9 @@ const emit = defineEmits(["documentUploaded"]);
 const { uploadDocument, downloadDocument } = useDocuments();
 
 const handleDownloadFile = () => {
+  console.log("download document");
+  return;
+
   downloadDocument(props.documentId)
     .then((response) => {
       console.log("response", response);

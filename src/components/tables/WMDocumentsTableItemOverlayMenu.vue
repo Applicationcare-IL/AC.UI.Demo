@@ -76,11 +76,11 @@ const items = ref([
   //   image: new URL("/icons/menu/share.svg", import.meta.url).href,
   //   action: "share",
   // },
-  {
-    label: "Download",
-    image: new URL("/icons/menu/download.svg", import.meta.url).href,
-    action: "download",
-  },
+  // {
+  //   label: "Download",
+  //   image: new URL("/icons/menu/download.svg", import.meta.url).href,
+  //   action: "download",
+  // },
   {
     label: "Delete",
     image: new URL("/icons/menu/delete.svg", import.meta.url).href,
