@@ -36,6 +36,25 @@ export function useDocuments() {
     return await documentsStore.downloadDocument(id);
   };
 
+  const handleDownloadFile = (documentId) => {
+    downloadDocument(documentId)
+      .then((response) => {
+        var reader = new window.FileReader();
+        reader.readAsDataURL(response.data);
+        reader.onload = function () {
+          let imageDataUrl = reader.result;
+
+          let link = document.createElement("a");
+          link.download = "file";
+          link.href = imageDataUrl;
+          link.click();
+        };
+      })
+      .catch((error) => {
+        console.error("Error al descargar el archivo", error);
+      });
+  };
+
   // UTILITIES
   const parseUpdateDocument = (document) => {
     return {
@@ -105,6 +124,7 @@ export function useDocuments() {
     deleteDocument,
     uploadDocument,
     downloadDocument,
+    handleDownloadFile,
 
     // UTILITIES
     mapDocument,

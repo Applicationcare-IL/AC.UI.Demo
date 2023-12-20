@@ -1,6 +1,10 @@
 <template>
   <Button v-if="hasFile" class="p-button-only-icon p-lightblue-button">
-    <div class="p-button-svg" v-html="FileIcon" @click="handleDownloadFile" />
+    <div
+      class="p-button-svg"
+      v-html="FileIcon"
+      @click="handleDownloadFile(documentId)"
+    />
   </Button>
   <Button
     v-else
@@ -41,26 +45,7 @@ const props = defineProps({
 
 const emit = defineEmits(["documentUploaded"]);
 
-const { uploadDocument, downloadDocument } = useDocuments();
-
-const handleDownloadFile = () => {
-  downloadDocument(props.documentId)
-    .then((response) => {
-      var reader = new window.FileReader();
-      reader.readAsDataURL(response.data);
-      reader.onload = function () {
-        let imageDataUrl = reader.result;
-
-        let link = document.createElement("a");
-        link.download = "file";
-        link.href = imageDataUrl;
-        link.click();
-      };
-    })
-    .catch((error) => {
-      console.error("Error al descargar el archivo", error);
-    });
-};
+const { uploadDocument, handleDownloadFile } = useDocuments();
 
 const customBase64Uploader = async (event, id) => {
   const file = event.files[0];
