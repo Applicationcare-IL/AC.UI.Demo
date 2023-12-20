@@ -242,6 +242,8 @@
     "organization": "ארגון"
   },
   "documents": {
+    "document": "מסמך",
+    "documents": "מסמכים",
     "file": "קובץ",
     "upload_date": "תאריך העלאה",
     "task_id": "משימה",

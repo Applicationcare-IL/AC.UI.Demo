@@ -244,6 +244,8 @@
     "organization": "Organization"
   },
   "documents": {
+    "document": "Document",
+    "documents": "Documents",
     "file": "File",
     "upload_date": "Upload Date",
     "task_id": "Task ID",
