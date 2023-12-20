@@ -1,11 +1,13 @@
 import { useConfirm } from "primevue/useconfirm";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 
 export function useDialog() {
   const confirm = useConfirm();
   const formUtilsStore = useFormUtilsStore();
   const i18n = useI18n();
+  const router = useRouter();
 
   // TODO: manage close sidebar with the composable
   // const { closeSidebar } = useSidebar();
@@ -165,17 +167,23 @@ export function useDialog() {
 
   const confirmNewProject = (id) => {
     confirm.require({
-      message: i18n.t(
-        "הפרויקט החדש נוצר בהצלחה! מעתה הוא יופיע ברשימת הפרויקטים."
-      ),
-      header: i18n.t("נוצר פרויקט חדש"),
-      acceptLabel: i18n.t("חזרה לרשימה"),
-      rejectLabel: i18n.t("צפייה בפרויקט"),
+      message: "The new contact was successfully created!",
+      header: "New project created",
+      acceptLabel: "View project",
+      rejectLabel: "View list",
       accept: () => {
         formUtilsStore.goToDetail(id, "project");
+        router.push({
+          name: "projectDetail",
+          params: { id: id },
+          force: true,
+        });
       },
       reject: () => {
-        formUtilsStore.closeForm();
+        router.push({
+          name: "projects",
+          force: true,
+        });
       },
     });
   };
