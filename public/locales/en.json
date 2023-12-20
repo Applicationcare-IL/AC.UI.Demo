@@ -253,7 +253,10 @@
     "detail": "Detail",
     "type": "Type",
     "name": "Name",
-    "id": "ID"
+    "id": "ID",
+    "new_document": "New Document",
+    "select_detail_type": "Select detail type",
+    "select_type": "Select type"
   },
   "site": {
     "details": "Site Details",

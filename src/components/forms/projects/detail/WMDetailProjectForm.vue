@@ -73,13 +73,13 @@
       </Accordion> -->
 
       <Accordion>
-        <AccordionTab header="צוות (Team)">
+        <AccordionTab :header="$t('team')">
           <WMDetailProjectFormTeamTab />
         </AccordionTab>
       </Accordion>
 
       <Accordion>
-        <AccordionTab header="מסמכים (Documents)">
+        <AccordionTab :header="$t('documents.documents')">
           <WMDetailProjectFormDocumentsTab />
         </AccordionTab>
       </Accordion>

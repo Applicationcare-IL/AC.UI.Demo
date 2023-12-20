@@ -10,7 +10,7 @@
           icon-position="right"
           @click="handleNewDocument"
         >
-          מסמך חדש
+          {{ $t("documents.new_document") }}
         </WMButton>
         <!-- <WMAssignOwnerButton entity="document" /> -->
         <!-- <WMButton
@@ -107,8 +107,9 @@
           :options="optionSetsStore.optionSets[column.optionSet]"
           :optionLabel="optionLabelWithLang"
           optionValue="id"
-          class="w-full p-0"
+          class="w-full p-0 p-invalid"
           v-model="slotProps.data.document_detail"
+          :placeholder="$t('documents.select_detail_type')"
         >
         </Dropdown>
         <div v-else>
@@ -124,6 +125,7 @@
           optionValue="id"
           class="w-full p-0"
           v-model="slotProps.data.document_type"
+          :placeholder="$t('documents.select_type')"
         >
         </Dropdown>
         <div v-else>
@@ -133,6 +135,7 @@
 
       <template v-if="column.type === 'name'" #body="slotProps">
         <input
+          class="w-full p-0"
           v-if="editMode[slotProps.data.id] || createMode[slotProps.data.id]"
           v-model="slotProps.data.name"
         />
@@ -162,7 +165,7 @@
             <FileUpload
               mode="basic"
               name="demo[]"
-              accept="image/*"
+              accept="image/*,application/pdf"
               customUpload
               @uploader="customBase64Uploader($event, slotProps.data.id)"
             />
@@ -295,7 +298,7 @@ const createNewDocument = (id) => {
     owner: "",
     task_id: "",
     type: "",
-    uploaded_from: "שם של פרויקט",
+    uploaded_from: "",
     uploaded_on: "",
     mode: "new",
   });
@@ -407,7 +410,27 @@ const updateDocumentRow = (id, document) => {
     });
 };
 
+const toast = useToast();
+
 const createDocumentRow = (document) => {
+  console.log("document", document);
+
+  // TODO: Temporal validation
+  if (!document.name) {
+    toast.error("Document name should not be empty");
+    return;
+  }
+
+  if (!document.document_type) {
+    toast.error("Document type should not be empty");
+    return;
+  }
+
+  if (!document.document_detail) {
+    toast.error("Document detail should not be empty");
+    return;
+  }
+
   if (props.relatedEntity === "project") {
     document.project_id = props.projectId;
   }
@@ -419,13 +442,12 @@ const createDocumentRow = (document) => {
   createDocument(parseCreateDocument(document))
     .then((data) => {
       createMode.value[document.id] = false;
-      alert("document created", document.id);
+      toast.success("Document created");
       loadLazyData();
-      // toast.successAction("customer", "updated");
     })
     .catch((error) => {
       console.error(error);
-      // toast.error("customer", "not-updated");
+      toast.error("Document not created");
     });
 };
 
