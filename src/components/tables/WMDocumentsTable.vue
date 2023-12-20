@@ -93,6 +93,18 @@
         <router-link
           v-if="!createMode[slotProps.data.id]"
           :to="{
+            name: 'documentDetail',
+            params: { id: slotProps.data.id },
+          }"
+          class="vertical-align-middle"
+          >{{ slotProps.data.id }}</router-link
+        >
+      </template>
+
+      <template v-if="column.type === 'task'" #body="slotProps">
+        <router-link
+          v-if="slotProps.data.task"
+          :to="{
             name: 'taskDetail',
             params: { id: slotProps.data.id },
           }"

@@ -61,7 +61,7 @@ export function useDocuments() {
       uploaded_from: document.uploaded_from,
       upload_date: document.upload_date,
       owner: document.owner,
-      task_id: document.task_id,
+      task: document.task,
       file_name: document.file_name,
       has_file: document.file_name ? true : false,
       mode: "saved",

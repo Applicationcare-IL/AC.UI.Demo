@@ -345,14 +345,14 @@ export function useListUtils() {
     return [
       {
         name: "id",
-        type: "link",
+        type: "text",
         class: "link-col",
       },
       { name: "name", type: "name" },
       { name: "type", type: "type", optionSet: "document_type" },
       { name: "detail", type: "detail", optionSet: "document_detail" },
       { name: "uploaded_from", type: "text" },
-      { name: "task_id", type: "link" },
+      { name: "task", type: "task" },
       { name: "upload_date", type: "text" },
     ];
   };
