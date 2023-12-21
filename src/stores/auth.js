@@ -11,8 +11,11 @@ export const useAuthStore = defineStore("auth", {
     token: localStorage.getItem("token"),
   }),
   getters: {
-    userFullName() {
-      return this.user.name + " " + this.user.surname;
+    userFullName(state) {
+      return state.user.name + " " + state.user.surname;
+    },
+    team(state) {
+      return state.user.team;
     },
   },
   actions: {

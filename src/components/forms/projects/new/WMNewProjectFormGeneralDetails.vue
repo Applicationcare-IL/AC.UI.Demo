@@ -8,14 +8,14 @@
         type="info"
         :highlighted="true"
         :label="$t('owner') + ':'"
-        :value="authStore.user?.team"
+        :value="authStore.userFullName"
       />
       <WMInput
         name="id"
         type="info"
         :highlighted="true"
         :label="$t('team') + ':'"
-        :value="authStore.user?.name"
+        :value="authStore.team"
       />
     </div>
   </div>
