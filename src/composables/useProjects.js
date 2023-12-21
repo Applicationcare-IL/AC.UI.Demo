@@ -43,8 +43,30 @@ export function useProjects() {
   };
 
   const removeServiceArea = async (projectId, serviceArea) => {
-    console.log("removeServiceArea", projectId, serviceArea);
     return await projectsStore.removeServiceArea(projectId, serviceArea);
+  };
+
+  const getProjectCustomers = async (projectId, params) => {
+    return await projectsStore.getProjectCustomers(projectId, params);
+  };
+
+  const createProjectCustomer = async (projectId, data) => {
+    return await projectsStore.createProjectCustomer(projectId, data);
+  };
+
+  const deleteProjectCustomer = async (
+    projectId,
+    customerId,
+    serviceAreaId
+  ) => {
+    console.log("deleteProjectCustomer", projectId, customerId, serviceAreaId);
+
+    const data = {
+      customer: customerId,
+      service_area: serviceAreaId,
+    };
+
+    return await projectsStore.deleteProjectCustomer(projectId, data);
   };
 
   // UTILITIES
@@ -203,6 +225,9 @@ export function useProjects() {
     unassignContactFromProject,
     addServiceArea,
     removeServiceArea,
+    getProjectCustomers,
+    createProjectCustomer,
+    deleteProjectCustomer,
 
     // UTILITIES
     parseProject,

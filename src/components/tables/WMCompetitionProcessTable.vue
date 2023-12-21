@@ -73,11 +73,11 @@
       </template>
 
       <template v-if="column.type === 'winner'" #body="slotProps">
-        <button>set winner</button>
+        <button disabled>set winner</button>
       </template>
 
       <template v-if="column.type === 'qualified_second'" #body="slotProps">
-        <button>set qualified second</button>
+        <button disabled>set qualified second</button>
       </template>
 
       <template v-if="column.type === 'actions'" #body="slotProps">
@@ -104,7 +104,7 @@
             v-if="column.buttons?.includes('unlink')"
             name="unlink"
             icon="unlink"
-            @click=""
+            @click="handleUnlinkProjectCustomer(slotProps.data)"
           />
         </div>
       </template>
@@ -121,6 +121,9 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 const { t } = useI18n();
+
+const { getProjectCustomers, createProjectCustomer, deleteProjectCustomer } =
+  useProjects();
 
 const selectedCustomers = ref(null);
 const isFilterOpen = ref(false);
@@ -151,8 +154,12 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  contactId: {
+  serviceArea: {
     type: Object,
+    default: null,
+  },
+  projectId: {
+    type: Number,
     default: null,
   },
   tableClass: {
@@ -175,7 +182,6 @@ const loadLazyData = () => {
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = props.rows;
-  const contactParam = props.contactId;
 
   // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams({
@@ -183,11 +189,12 @@ const loadLazyData = () => {
     page: nextPage,
     per_page: selectedRowsPerPageParam,
     search: searchValueParam,
-    contact_id: contactParam,
+    service_area: props.serviceArea.id,
   });
 
-  getCustomersFromApi(params).then((result) => {
-    // customers.value = fakeData();
+  getProjectCustomers(props.projectId, params).then((result) => {
+    console.log("result", result);
+    customers.value = result.data;
     totalRecords.value = result.totalRecords;
   });
 };
@@ -237,17 +244,34 @@ const addCustomers = (addedCustomers) => {
   });
 };
 
-const saveRow = (customer) => {
-  console.log("saveRow", customer);
+const toast = useToast();
 
-  // assignContactToProject(props.projectId, contactParams)
-  //   .then(() => {
-  //     // loadLazyData();
-  //     toast.success("Contact Successfully updated");
-  //   })
-  //   .catch(() => {
-  //     toast.error("Contact assign Failed");
-  //   });
+const saveRow = (customer) => {
+  const data = {
+    customer: customer.id,
+    service_area: props.serviceArea.id,
+  };
+
+  createProjectCustomer(props.projectId, data)
+    .then(() => {
+      toast.success("Project customer successfully updated");
+    })
+    .catch(() => {
+      toast.error("Project customer assign failed");
+    });
+};
+
+const handleUnlinkProjectCustomer = (row) => {
+  let customerId = row.id;
+
+  deleteProjectCustomer(props.projectId, customerId, props.serviceArea.id)
+    .then(() => {
+      customers.value = customers.value.filter((c) => c.id !== customerId);
+      toast.success("Project customer successfully unlinked");
+    })
+    .catch(() => {
+      toast.error("Project customer unlink failed");
+    });
 };
 
 const editMode = ref([]);

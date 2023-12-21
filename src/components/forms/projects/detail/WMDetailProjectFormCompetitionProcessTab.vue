@@ -19,7 +19,11 @@
           </span>
         </template>
 
-        <WMCompetitionProcessTable :columns="competitionProcessColumns" />
+        <WMCompetitionProcessTable
+          :columns="competitionProcessColumns"
+          :serviceArea="serviceArea"
+          :projectId="project.project_id"
+        />
       </AccordionTab>
     </Accordion>
   </div>

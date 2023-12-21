@@ -99,5 +99,38 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
+    getProjectCustomers(projectId, params) {
+      return axiosConfig
+        .get(`/projects/${projectId}/customers`, { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
+    createProjectCustomer(projectId, data) {
+      return axiosConfig
+        .post(`/projects/${projectId}/customers`, data)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
+    deleteProjectCustomer(projectId, data) {
+      return axiosConfig
+        .delete(`/projects/${projectId}/customers/`, { data })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });
