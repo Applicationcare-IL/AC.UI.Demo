@@ -13,6 +13,7 @@
         width="152"
         :placeholder="$t('project.project_types_placeholder')"
         v-model="selectedProjectType"
+        :optionSet="true"
       />
 
       <WMInputSearch
@@ -23,6 +24,8 @@
         width="152"
         :placeholder="$t('select', ['classification-2'])"
         v-model="selectedProjectArea"
+        :optionSet="true"
+        :disabled="isProjectTypeEmptyOrFalsy"
       />
 
       <WMInputSearch
@@ -33,6 +36,8 @@
         width="152"
         :placeholder="$t('select', ['classification-3'])"
         v-model="selectedProjectDetail"
+        :optionSet="true"
+        :disabled="isProjectAreaEmtpyOrFalsy"
       />
     </div>
   </div>
@@ -40,19 +45,28 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+// TODO: combine the new and detail form classification sections to avoid duplicated code
+import { ref, onMounted, watch, computed } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
 
 const selectedProjectType = ref(false);
-const selectedProjectArea = ref();
-const selectedProjectDetail = ref();
+const selectedProjectArea = ref(false);
+const selectedProjectDetail = ref(false);
 
 const projectTypes = ref([]);
 const projectAreas = ref([]);
 const projectDetails = ref([]);
+
+const isProjectTypeEmptyOrFalsy = computed(() => {
+  return !selectedProjectType.value;
+});
+
+const isProjectAreaEmtpyOrFalsy = computed(() => {
+  return !selectedProjectArea.value;
+});
 
 onMounted(() => {
   optionSetsStore.getOptionSetValuesFromApiRaw("project_type").then((data) => {
@@ -65,17 +79,6 @@ onMounted(() => {
     .getOptionSetValuesFromApiRaw("project_detail")
     .then((data) => (projectDetails.value = data));
 });
-
-const handleProjectTypeInputChange = (value) => {
-  if (!value) {
-    selectedProjectType.value = false;
-
-    return;
-  }
-
-  selectedProjectType.value = value.value;
-  filterProjectAreasDropdown(value.id);
-};
 
 const filterProjectAreasDropdown = (value) => {
   optionSetsStore

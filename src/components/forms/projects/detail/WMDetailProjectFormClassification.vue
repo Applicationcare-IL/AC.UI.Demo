@@ -26,6 +26,7 @@
           @change="filterProjectDetailsDropdown($event.value.id)"
           v-model="selectedProjectArea"
           :option-set="true"
+          :disabled="isProjectTypeEmptyOrFalsy"
         />
 
         <WMInputSearch
@@ -37,13 +38,15 @@
           :placeholder="$t('select', ['classification-3'])"
           v-model="selectedProjectDetail"
           :option-set="true"
+          :disabled="isProjectAreaEmtpyOrFalsy"
         />
       </div>
     </template>
   </Card>
 </template>
 <script setup>
-import { ref, onMounted, watch } from "vue";
+// TODO: combine the new and detail form classification sections to avoid duplicated code
+import { ref, onMounted, watch, computed } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -63,6 +66,14 @@ const projectDetails = ref([]);
 const selectedProjectType = ref();
 const selectedProjectArea = ref();
 const selectedProjectDetail = ref();
+
+const isProjectTypeEmptyOrFalsy = computed(() => {
+  return !selectedProjectType.value;
+});
+
+const isProjectAreaEmtpyOrFalsy = computed(() => {
+  return !selectedProjectArea.value;
+});
 
 onMounted(() => {
   optionSetsStore.getOptionSetValuesFromApiRaw("project_type").then((data) => {
