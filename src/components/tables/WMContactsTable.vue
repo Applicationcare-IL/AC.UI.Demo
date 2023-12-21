@@ -400,6 +400,10 @@ const toast = useToast();
 const unlinkContact = (contactId) => {
   if (isSourceExternal.value) {
     emit("unlink", contactId);
+
+    contacts.value = contacts.value.filter((contact) => {
+      return contact.contact_id !== contactId;
+    });
     return;
   }
 

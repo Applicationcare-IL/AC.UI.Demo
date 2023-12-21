@@ -42,15 +42,23 @@ const { createProject, parseProject } = useProjects();
 const { getSelectedContactsForNewProjectColumns } = useListUtils();
 
 const teamMembers = ref([]);
+// the selectedContacts it's only used to pass to the table so it recognizes it as external
 const selectedContacts = ref([]);
 
 const handleChangeSelectedContacts = (contacts) => {
   teamMembers.value = contacts;
 };
 
-const handleUnlinkContact = (contact) => {
-  const index = teamMembers.value.findIndex((c) => c.id === contact.id);
-  teamMembers.value.splice(index, 1);
+const handleUnlinkContact = (contactId) => {
+  // console.log("contactId", contactId);
+  // console.log("selectedContacts.value", selectedContacts.value);
+
+  const filteredSelectedContacts = selectedContacts.value.filter((contact) => {
+    console.log("comparo", contact.id, contactId);
+    return contact.id !== contactId;
+  });
+
+  selectedContacts.value = filteredSelectedContacts;
 };
 
 const props = defineProps({
