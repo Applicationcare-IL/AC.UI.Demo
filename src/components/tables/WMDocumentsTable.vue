@@ -264,7 +264,7 @@ const props = defineProps({
   },
 });
 
-const multiselect = ref(true);
+const multiselect = ref(false);
 const rows = ref(10);
 
 const editMode = ref([]);

@@ -31,9 +31,9 @@
         </div>
       </div>
 
-      <!-- <div class="flex-1 card-container">
+      <div class="flex-1 card-container">
         <WMDetailProjectFormLocation :project="project" />
-      </div> -->
+      </div>
 
       <!-- <div class="flex-1 card-container">
         <Card>
@@ -92,11 +92,11 @@
         </AccordionTab>
       </Accordion> -->
 
-      <Accordion>
+      <!-- <Accordion>
         <AccordionTab :header="$t('project.competition_process')">
           <WMDetailProjectFormCompetitionProcessTab :project="project" />
         </AccordionTab>
-      </Accordion>
+      </Accordion> -->
 
       <Divider />
 

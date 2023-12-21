@@ -1,8 +1,6 @@
 <template>
   <WMAddServiceAreasButton @addServiceAreas="addServiceAreas" />
 
-  serviceAreas {{ serviceAreas }}
-
   <div class="my-5" v-for="serviceArea in serviceAreas" :key="serviceArea.id">
     <Accordion class="p-accordion--compact">
       <AccordionTab>

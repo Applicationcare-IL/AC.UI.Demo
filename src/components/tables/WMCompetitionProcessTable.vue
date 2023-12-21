@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="flex flex-row gap-3">
-      <WMSearchBox entity="customer" />
+      <!-- <WMSearchBox entity="customer" /> -->
       <!-- <WMButton
         name="filter"
         icon="filter"
@@ -44,7 +44,7 @@
     @update:selection="onSelectionChanged"
     :class="`p-datatable-${tableClass}`"
   >
-    <Column style="width: 35px">
+    <!-- <Column style="width: 35px">
       <template #body="slotProps">
         <img
           @click="console.log('preview customer')"
@@ -53,12 +53,12 @@
           class="vertical-align-middle"
         />
       </template>
-    </Column>
-    <Column
+    </Column> -->
+    <!-- <Column
       v-if="multiselect"
       style="width: 40px"
       selectionMode="multiple"
-    ></Column>
+    ></Column> -->
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -187,7 +187,7 @@ const loadLazyData = () => {
   });
 
   getCustomersFromApi(params).then((result) => {
-    customers.value = fakeData();
+    // customers.value = fakeData();
     totalRecords.value = result.totalRecords;
   });
 };
@@ -228,7 +228,27 @@ watch(
   }
 );
 
-const addCustomers = (customers) => {};
+const addCustomers = (addedCustomers) => {
+  addedCustomers.forEach((customer) => {
+    if (customers.value.find((c) => c.customer_id === customer.id)) return;
+
+    customers.value.push(customer);
+    editMode.value[customers.value.length - 1] = true;
+  });
+};
+
+const saveRow = (customer) => {
+  console.log("saveRow", customer);
+
+  // assignContactToProject(props.projectId, contactParams)
+  //   .then(() => {
+  //     // loadLazyData();
+  //     toast.success("Contact Successfully updated");
+  //   })
+  //   .catch(() => {
+  //     toast.error("Contact assign Failed");
+  //   });
+};
 
 const editMode = ref([]);
 
