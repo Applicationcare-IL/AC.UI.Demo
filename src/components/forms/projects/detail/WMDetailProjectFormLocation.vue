@@ -2,16 +2,19 @@
   <Card>
     <template #title>
       <div class="flex flex-row justify-content-between">
-        <div>נתוני מיקום</div>
+        <div>{{ $t("project.location_information") }}</div>
         <WMLocationButton></WMLocationButton>
       </div>
     </template>
     <template #content>
       <div class="flex">
         <div class="w-6 pr-4">
-          <WMSelectableButton label="כתובת" v-model="showAddressOptions" />
+          <WMSelectableButton
+            :label="$t('project.address')"
+            v-model="showAddressOptions"
+          />
           <div v-if="showAddressOptions">
-            <div class="wm-form-row gap-5">
+            <div class="wm-form-row gap-5 mt-3">
               <WMInputSearch
                 name="city"
                 :highlighted="true"
@@ -22,6 +25,7 @@
                 width="152"
                 :placeholder="$t('select', ['addres.city'])"
                 @change="updateStreets"
+                :optionSet="true"
               />
               <div class="flex flex-row gap-5">
                 <WMInputSearch
@@ -33,21 +37,24 @@
                   :modelValue="selectedSteet"
                   width="152"
                   :placeholder="$t('select', ['address.street'])"
+                  :optionSet="true"
+                  :disabled="!isCitySelected"
                 />
-                <WMInput
+                <!-- <WMInput
                   name="neighborhood"
                   type="info"
                   :highlighted="true"
                   label="שכונה:"
                   value="שם של שכונה"
                   class="is-mocked"
-                />
+                /> -->
               </div>
               <WMInput
                 name="house-number"
                 type="input-text"
                 :highlighted="true"
                 :label="$t('address.house-number') + ':'"
+                :disabled="!isCitySelected"
               />
             </div>
           </div>
@@ -55,30 +62,30 @@
         <Divider layout="vertical" />
         <div class="w-6">
           <WMSelectableButton
-            label="מידע עירוני"
+            :label="$t('project.city_data')"
             v-model="showCityDataOptions"
           />
           <div v-if="showCityDataOptions">
-            <div class="wm-form-row gap-5">
+            <div class="wm-form-row gap-5 mt-3">
               <WMInput
                 name="block"
                 type="input-text"
                 :highlighted="true"
-                label="גוש:"
+                :label="$t('address.block') + ':'"
                 required
               />
               <WMInput
                 name="parcel"
                 type="input-text"
                 :highlighted="true"
-                label="חלקה:"
+                :label="$t('address.parcel') + ':'"
                 required
               />
               <WMInput
                 name="sub-parcel"
                 type="input-text"
                 :highlighted="true"
-                label="תת-חלקה:"
+                :label="$t('address.sub-parcel') + ':'"
               />
             </div>
           </div>
@@ -107,6 +114,8 @@ const showAddressOptions = ref(false);
 const selectedCity = ref();
 const selectedSteet = ref();
 
+const isCitySelected = ref(false);
+
 const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
 
@@ -131,6 +140,10 @@ const updateStreets = (city) => {
       .then((data) => {
         streets.value = data;
       });
+
+    isCitySelected.value = true;
+  } else {
+    isCitySelected.value = false;
   }
 };
 </script>

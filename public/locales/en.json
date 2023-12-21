@@ -55,7 +55,8 @@
   "export": "Export",
   "buttons": {
     "link_contact": "Link contact",
-    "assign": "Assign"
+    "assign": "Assign",
+    "view_map": "View map"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -219,6 +220,7 @@
   },
   "project": {
     "project": "Project",
+    "projects": "Projects",
     "status": "Status",
     "stage": "Stage",
     "breached_tasks": "Breached Tasks",
@@ -243,7 +245,8 @@
     "supervisor": "Supervisor",
     "organization": "Organization",
     "competition_process": "Competition process",
-    "add_service_area": "Add service area"
+    "add_service_area": "Add service area",
+    "location_information": "Location Information"
   },
   "documents": {
     "document": "Document",

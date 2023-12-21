@@ -54,7 +54,8 @@
   "export": "ייצוא נתונים",
   "buttons": {
     "link_contact": "שיוך איש קשר",
-    "assign": "הקצה"
+    "assign": "הקצה",
+    "view_map": "צפייה במפה"
   },
   "navigation": {
     "dashboard": "דאשבורד",
@@ -217,6 +218,7 @@
   },
   "project": {
     "project": "פרויקט",
+    "projects": "פרויקטים",
     "status": "סטטוס",
     "stage": "שלב",
     "breached_tasks": "משימות בחריגה",
@@ -241,7 +243,8 @@
     "supervisor": "מפקח",
     "organization": "ארגון",
     "competition_process": "תהליך תיחור",
-    "add_service_area": "תחום שירות חדש"
+    "add_service_area": "תחום שירות חדש",
+    "location_information": "נתוני מיקום"
   },
   "documents": {
     "document": "מסמך",

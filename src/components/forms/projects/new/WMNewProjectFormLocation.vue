@@ -36,6 +36,7 @@
               width="152"
               :placeholder="$t('select', ['address.street'])"
               :optionSet="true"
+              :disabled="!isCitySelected"
             />
             <!-- <WMInput
               name="neighborhood"
@@ -50,6 +51,7 @@
           <WMInput
             name="house-number"
             type="input-text"
+            :disabled="!isCitySelected"
             :highlighted="true"
             :label="$t('address.house-number') + ':'"
           />
@@ -86,13 +88,15 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
 
 const showCityDataOptions = ref(false);
 const showAddressOptions = ref(false);
+
+const isCitySelected = ref(false);
 
 const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
@@ -104,6 +108,9 @@ const updateStreets = (city) => {
       .then((data) => {
         streets.value = data;
       });
+    isCitySelected.value = true;
+  } else {
+    isCitySelected.value = false;
   }
 };
 </script>
