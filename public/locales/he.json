@@ -276,7 +276,11 @@
     "house-number": "מספר בית",
     "apartment": "דירה",
     "entrance": "כניסה",
-    "zip": "מיקוד"
+    "zip": "מיקוד",
+    "neighborhood": "שכונה",
+    "block": "גוש",
+    "parcel": "חלקה",
+    "sub-parcel": "תת-חלקה"
   },
   "validation": {
     "required": "שדה חובה",

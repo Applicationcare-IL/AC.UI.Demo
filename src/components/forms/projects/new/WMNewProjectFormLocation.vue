@@ -1,12 +1,18 @@
 <template>
   <h2 class="h2 mb-0">LOCATION</h2>
   <div class="wm-form-row gap-4">
-    <WMSelectableButton label="כתובת" v-model="showAddressOptions" />
-    <WMSelectableButton label="מידע עירוני" v-model="showCityDataOptions" />
+    <WMSelectableButton
+      :label="$t('project.address')"
+      v-model="showAddressOptions"
+    />
+    <WMSelectableButton
+      :label="$t('project.city_data')"
+      v-model="showCityDataOptions"
+    />
   </div>
   <div class="wm-form-row gap-5">
     <div v-if="showAddressOptions">
-      <h5 class="h5">כתובת</h5>
+      <h5 class="h5">{{ $t("project.address") }}</h5>
       <div class="wm-form-row gap-5">
         <div class="wm-form-column gap-5">
           <WMInputSearch
@@ -18,8 +24,9 @@
             width="152"
             :placeholder="$t('select', ['addres.city'])"
             @change="updateStreets"
+            :optionSet="true"
           />
-          <div class="flex flex-row gap-5">
+          <div class="flex flex-row gap-5 mt-2 mb-2">
             <WMInputSearch
               name="street"
               :required="true"
@@ -28,16 +35,18 @@
               :options="streets"
               width="152"
               :placeholder="$t('select', ['address.street'])"
+              :optionSet="true"
             />
-            <WMInput
+            <!-- <WMInput
               name="neighborhood"
               type="info"
               :highlighted="true"
-              label="שכונה:"
+              :label="$t('address.neighborhood') + ':'"
               value="שם של שכונה"
               class="is-mocked"
-            />
+            /> -->
           </div>
+
           <WMInput
             name="house-number"
             type="input-text"
@@ -50,27 +59,27 @@
     </div>
   </div>
   <div v-if="showCityDataOptions">
-    <h5 class="h5">מידע עירוני</h5>
+    <h5 class="h5">{{ $t("project.city_data") }}</h5>
     <div class="wm-form-row gap-5">
       <WMInput
         name="block"
         type="input-text"
         :highlighted="true"
-        label="גוש:"
+        :label="$t('address.block') + ':'"
         required
       />
       <WMInput
         name="parcel"
         type="input-text"
         :highlighted="true"
-        label="חלקה:"
+        :label="$t('address.parcel') + ':'"
         required
       />
       <WMInput
         name="sub-parcel"
         type="input-text"
         :highlighted="true"
-        label="תת-חלקה:"
+        :label="$t('address.sub-parcel') + ':'"
       />
     </div>
   </div>
@@ -79,10 +88,8 @@
 <script setup>
 import { ref } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { useFormUtilsStore } from "@/stores/formUtils";
 
 const optionSetsStore = useOptionSetsStore();
-const formUtilsStore = useFormUtilsStore();
 
 const showCityDataOptions = ref(false);
 const showAddressOptions = ref(false);

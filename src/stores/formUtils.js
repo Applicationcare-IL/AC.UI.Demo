@@ -190,6 +190,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
     getNewProjectFormValidationSchema: (state) => {
       return yup.object({
         "project-name": yup.string().required(),
+        "project-description": yup.string().required(),
         project_type: yup
           .object()
           .required({

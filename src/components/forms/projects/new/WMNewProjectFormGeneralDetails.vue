@@ -36,6 +36,7 @@
         :label="$t('project.project_description') + ':'"
         id="description"
         name="project-description"
+        :required="true"
       />
     </div>
   </div>

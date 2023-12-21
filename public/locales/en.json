@@ -278,7 +278,11 @@
     "house-number": "House Number",
     "apartment": "Apartment",
     "entrance": "Entrance",
-    "zip": "ZIP"
+    "zip": "ZIP",
+    "neighborhood": "Neighborhood",
+    "block": "Block",
+    "parcel": "Parcel",
+    "sub-parcel": "Sub Parcel"
   },
   "validation": {
     "required": "Field required",

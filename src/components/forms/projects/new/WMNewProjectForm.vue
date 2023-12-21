@@ -7,8 +7,8 @@
 
       <WMNewProjectFormClassification />
 
-      <!-- <Divider class="mb-0" layout="horizontal" /> -->
-      <!-- <WMNewProjectFormLocation /> -->
+      <Divider class="mb-0" layout="horizontal" />
+      <WMNewProjectFormLocation />
 
       <Divider class="mb-0" layout="horizontal" />
 
