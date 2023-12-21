@@ -10,6 +10,7 @@
     v-else
     class="p-button-only-icon p-orange-button"
     @click="toggleAddFileOverlay"
+    :disabled="disabled"
   >
     <div class="p-button-svg" v-html="AddFileIcon" />
   </Button>
@@ -40,6 +41,10 @@ const props = defineProps({
   hasFile: {
     type: Boolean,
     required: true,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 });
 
