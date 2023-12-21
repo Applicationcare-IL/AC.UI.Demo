@@ -112,6 +112,7 @@
       <Column field="customer" :header="$t('task.customer')" class="link-col">
         <template #body="slotProps">
           <router-link
+            v-if="slotProps.data.customer_id"
             :to="{
               name: 'customerDetail',
               params: { id: slotProps.data.customer_id },
