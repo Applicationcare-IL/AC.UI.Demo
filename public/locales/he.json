@@ -55,7 +55,10 @@
   "buttons": {
     "link_contact": "שיוך איש קשר",
     "assign": "הקצה",
-    "view_map": "צפייה במפה"
+    "view_map": "צפייה במפה",
+    "email": "דוא”ל",
+    "message": "הודעה",
+    "new": "חדש"
   },
   "navigation": {
     "dashboard": "דאשבורד",

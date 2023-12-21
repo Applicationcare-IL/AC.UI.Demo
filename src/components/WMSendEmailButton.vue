@@ -6,7 +6,7 @@
     :disabled="selectedElements == 0"
     @click="sendEmailDialogVisible = true"
   >
-    דוא”ל
+    {{ $t("buttons.email") }}
   </WMButton>
 
   <Dialog

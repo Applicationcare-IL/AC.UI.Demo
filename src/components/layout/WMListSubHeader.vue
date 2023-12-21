@@ -9,7 +9,7 @@
             icon="new"
             @click="$emit('new')"
           >
-            חדש
+            {{ $t("buttons.new") }}
           </WMButton>
 
           <WMButton class="m-1 col-6" name="export-white" icon="export">
@@ -57,7 +57,7 @@
             :applied="isFilterApplied"
             @click="openFilterSidebar"
           >
-            {{ $t("buttons.assign") }}
+            {{ $t("filter") }}
           </WMButton>
         </div>
         <div class="flex flex-row gap-3">

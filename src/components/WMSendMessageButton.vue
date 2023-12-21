@@ -1,6 +1,6 @@
 <template>
   <Button
-    label="הודעה"
+    :label="$t('buttons.message')"
     icon="pi pi-chevron-down"
     aria-haspopup="true"
     @click="toggleCommunicationsMenu"
