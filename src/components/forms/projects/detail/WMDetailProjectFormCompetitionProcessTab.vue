@@ -18,8 +18,8 @@
             />
           </span>
         </template>
-        WIP Table
-        <!-- <WMCompetitionProcessTable :columns="competitionProcessColumns" /> -->
+
+        <WMCompetitionProcessTable :columns="competitionProcessColumns" />
       </AccordionTab>
     </Accordion>
   </div>

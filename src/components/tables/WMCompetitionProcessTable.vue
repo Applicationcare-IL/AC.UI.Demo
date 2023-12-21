@@ -64,7 +64,7 @@
       :key="column.name"
       :field="column.name"
       :header="
-        column.header ? $t(column.header) : $t(`customer.${column.name}`)
+        column.header ? $t(column.header) : $t(`organization.${column.name}`)
       "
       :class="column.class"
     >
