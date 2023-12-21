@@ -21,6 +21,7 @@
         :multiselect="false"
         related-entity="project"
         @change:selected-contacts="handleChangeSelectedContacts"
+        @unlink="handleUnlinkContact"
       />
 
       <WMFormButtons
@@ -47,14 +48,17 @@ const handleChangeSelectedContacts = (contacts) => {
   teamMembers.value = contacts;
 };
 
+const handleUnlinkContact = (contact) => {
+  const index = teamMembers.value.findIndex((c) => c.id === contact.id);
+  teamMembers.value.splice(index, 1);
+};
+
 const props = defineProps({
   isSidebar: {
     type: Boolean,
     default: false,
   },
 });
-
-const selectedProjectType = ref(false);
 
 const toast = useToast();
 const dialog = useDialog();
