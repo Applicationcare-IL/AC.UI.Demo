@@ -8,14 +8,14 @@
         type="info"
         :highlighted="true"
         :label="$t('owner') + ':'"
-        value="שרוליק כהן"
+        :value="authStore.user?.team"
       />
       <WMInput
         name="id"
         type="info"
         :highlighted="true"
         :label="$t('team') + ':'"
-        value="שיפור פני העיר"
+        :value="authStore.user?.name"
       />
     </div>
   </div>
@@ -42,6 +42,9 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore();
+</script>
 
 <style scoped lang="scss"></style>
