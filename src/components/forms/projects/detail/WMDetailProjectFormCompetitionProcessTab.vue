@@ -1,6 +1,8 @@
 <template>
   <WMAddServiceAreasButton @addServiceAreas="addServiceAreas" />
 
+  serviceAreas {{ serviceAreas }}
+
   <div class="my-5" v-for="serviceArea in serviceAreas" :key="serviceArea.id">
     <Accordion class="p-accordion--compact">
       <AccordionTab>
@@ -25,28 +27,42 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 const { getCompetitionProcessColumns } = useListUtils();
+
+const { addServiceArea, removeServiceArea } = useProjects();
 
 const competitionProcessColumns = ref(getCompetitionProcessColumns());
 
-const serviceAreas = ref([
-  {
-    value: "SPI",
-    id: 911,
-    name: "SPI",
-    label: "SPI",
-    value_he: "שיפור פני העיר",
-    value_en: "SPI",
-  },
-]);
+const serviceAreas = ref([]);
 
-const addServiceAreas = (event) => {
-  serviceAreas.value.push(...event);
+const props = defineProps({
+  project: {
+    type: Object,
+    required: true,
+  },
+});
+
+onMounted(() => {
+  if (props.project.service_areas) {
+    serviceAreas.value = props.project.service_areas;
+  }
+});
+
+// TODO: manage errors, toast, etc.
+const addServiceAreas = (newServiceAreas) => {
+  newServiceAreas.forEach((serviceArea) => {
+    addServiceArea(props.project.project_id, { service_area: serviceArea.id });
+  });
+
+  serviceAreas.value.push(...newServiceAreas);
 };
 
+// TODO: manage errors, toast, etc.
 const deleteServiceArea = (id) => {
   serviceAreas.value = serviceAreas.value.filter((item) => item.id !== id);
+
+  removeServiceArea(props.project.project_id, { service_area: id });
 };
 </script>
 

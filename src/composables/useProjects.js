@@ -38,20 +38,12 @@ export function useProjects() {
     return await projectsStore.unassignContactFromProject(projectId, contactId);
   };
 
-  const getCompetitionOrganizations = async () => {
-    return Array(10).fill(fakeOrganization);
+  const addServiceArea = async (projectId, serviceArea) => {
+    return await projectsStore.addServiceArea(projectId, serviceArea);
   };
 
-  const fakeOrganization = {
-    name: "א.א. בוני הדרום",
-    offer_requested: "11/12/23",
-    offer_recieved: "11/12/23",
-    offer_amount: "30000",
-    status: "התקבלה הצעה",
-    qualified_first: true,
-    quealified_second: false,
-    notes: "משהו חשוב שכולל מילים שכתבו על הארגון ",
-    file: "",
+  const removeServiceArea = async (projectId, serviceArea) => {
+    return await projectsStore.removeServiceArea(projectId, serviceArea);
   };
 
   // UTILITIES
@@ -126,31 +118,6 @@ export function useProjects() {
     return subprojects.map(mapProject);
   };
 
-  // MOCKED DATA
-  const randomStatus = () => {
-    const status = ["active", "not_active"];
-    return status[Math.floor(Math.random() * status.length)];
-  };
-
-  const generateFakeProject = (i) => {
-    const is_active = Math.random() < 0.5;
-
-    return {
-      project_id: i,
-      project_number: "003-02-" + i,
-      project_name: "שכונת הבוכרים",
-      city_data: "גוש 1234, חלקה 456",
-      address: "שמעון פרס 15, רחובות",
-      project_type: "בנייה ציבורית",
-      project_area: "בנייה ציבורית",
-      project_detail: "בנייה ציבורית",
-      open_tasks: "12",
-      breached_tasks: "0",
-      stage: "תכנון",
-      status: randomStatus(),
-    };
-  };
-
   /**
    * This function maps contacts from projects array (or single project) to array of unique contacts
    * @param {*} projects
@@ -183,6 +150,47 @@ export function useProjects() {
     return uniqueContacts;
   };
 
+  // MOCKED DATA
+  const randomStatus = () => {
+    const status = ["active", "not_active"];
+    return status[Math.floor(Math.random() * status.length)];
+  };
+
+  const generateFakeProject = (i) => {
+    const is_active = Math.random() < 0.5;
+
+    return {
+      project_id: i,
+      project_number: "003-02-" + i,
+      project_name: "שכונת הבוכרים",
+      city_data: "גוש 1234, חלקה 456",
+      address: "שמעון פרס 15, רחובות",
+      project_type: "בנייה ציבורית",
+      project_area: "בנייה ציבורית",
+      project_detail: "בנייה ציבורית",
+      open_tasks: "12",
+      breached_tasks: "0",
+      stage: "תכנון",
+      status: randomStatus(),
+    };
+  };
+
+  const getCompetitionOrganizations = async () => {
+    return Array(10).fill(fakeOrganization);
+  };
+
+  const fakeOrganization = {
+    name: "א.א. בוני הדרום",
+    offer_requested: "11/12/23",
+    offer_recieved: "11/12/23",
+    offer_amount: "30000",
+    status: "התקבלה הצעה",
+    qualified_first: true,
+    quealified_second: false,
+    notes: "משהו חשוב שכולל מילים שכתבו על הארגון ",
+    file: "",
+  };
+
   return {
     // ACTIONS
     getProjectsFromApi,
@@ -191,6 +199,8 @@ export function useProjects() {
     updateProject,
     assignContactToProject,
     unassignContactFromProject,
+    addServiceArea,
+    removeServiceArea,
 
     // UTILITIES
     parseProject,

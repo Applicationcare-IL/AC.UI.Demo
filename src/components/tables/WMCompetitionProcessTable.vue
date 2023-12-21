@@ -72,6 +72,14 @@
         {{ slotProps.data[column.name] }}
       </template>
 
+      <template v-if="column.type === 'winner'" #body="slotProps">
+        <button>set winner</button>
+      </template>
+
+      <template v-if="column.type === 'qualified_second'" #body="slotProps">
+        <button>set qualified second</button>
+      </template>
+
       <template v-if="column.type === 'actions'" #body="slotProps">
         <div class="flex flex-row gap-2">
           <WMButton

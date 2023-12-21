@@ -77,5 +77,27 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
+    addServiceArea(projectId, serviceArea) {
+      return axiosConfig
+        .post(`/projects/${projectId}/service-area`, serviceArea)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
+    removeServiceArea(projectId, serviceArea) {
+      return axiosConfig
+        .delete(`/projects/${projectId}/service-area`, serviceArea)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });

@@ -345,8 +345,7 @@ export function useListUtils() {
     return [
       {
         name: "id",
-        type: "text",
-        class: "link-col",
+        type: "id",
       },
       { name: "name", type: "name" },
       { name: "type", type: "type", optionSet: "document_type" },
@@ -417,8 +416,8 @@ export function useListUtils() {
     return [
       { name: "name", type: "text" },
       { name: "notes", type: "text" },
-      { name: "refusal_to_win", type: "text" },
-      { name: "qualified_second", type: "text" },
+      { name: "refusal_to_win", type: "winner" },
+      { name: "qualified_second", type: "qualified_second" },
       { name: "status", type: "text" },
       { name: "offer_amount", type: "text" },
       { name: "offer_received", type: "text" },
