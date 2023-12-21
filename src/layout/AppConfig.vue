@@ -91,7 +91,7 @@ const applyScale = () => {
         <span class="flag flag-il"></span
       ></i-button>
     </div>
-    <h5>Scale</h5>
+    <!-- <h5>Scale</h5>
     <div class="flex align-items-center">
       <Button
         icon="pi pi-minus"
@@ -116,9 +116,9 @@ const applyScale = () => {
         class="p-button-text p-button-rounded w-2rem h-2rem ml-2"
         :disabled="layoutConfig.scale.value === scales[scales.length - 1]"
       ></Button>
-    </div>
+    </div> -->
 
-    <template v-if="!simple">
+    <!-- <template v-if="!simple">
       <h5>Menu Type</h5>
       <div class="flex">
         <div class="field-radiobutton flex-1">
@@ -143,9 +143,9 @@ const applyScale = () => {
           <label for="mode2">Overlay</label>
         </div>
       </div>
-    </template>
+    </template> -->
 
-    <template v-if="!simple">
+    <!-- <template v-if="!simple">
       <h5>Input Style</h5>
       <div class="flex">
         <div class="field-radiobutton flex-1">
@@ -225,8 +225,8 @@ const applyScale = () => {
           />
         </button>
       </div>
-    </div>
-
+    </div> -->
+    <!-- 
     <h5>Material Design</h5>
     <div class="grid">
       <div class="col-3">
@@ -609,7 +609,7 @@ const applyScale = () => {
           />
         </button>
       </div>
-    </div>
+    </div> -->
   </Sidebar>
 </template>
 
