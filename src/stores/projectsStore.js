@@ -90,7 +90,7 @@ export const useProjectsStore = defineStore("projects", {
     },
     removeServiceArea(projectId, serviceArea) {
       return axiosConfig
-        .delete(`/projects/${projectId}/service-area`, serviceArea)
+        .delete(`/projects/${projectId}/service-area`, { data: serviceArea })
         .then((response) => {
           return response.data;
         })

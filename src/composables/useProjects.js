@@ -43,6 +43,7 @@ export function useProjects() {
   };
 
   const removeServiceArea = async (projectId, serviceArea) => {
+    console.log("removeServiceArea", projectId, serviceArea);
     return await projectsStore.removeServiceArea(projectId, serviceArea);
   };
 
@@ -107,6 +108,7 @@ export function useProjects() {
       location: project.location,
       contacts: project.contacts,
       subprojects: mapSubprojects(project.subprojects),
+      service_areas: project.service_areas,
     };
   };
 

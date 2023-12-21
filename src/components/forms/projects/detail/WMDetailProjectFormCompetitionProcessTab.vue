@@ -7,7 +7,7 @@
         <template #header>
           <span class="flex gap-2 w-full justify-between">
             <span class="font-bold white-space-nowrap ml-auto">
-              {{ serviceArea.label }}
+              <WMOptionSetValue :optionSet="serviceArea" />
             </span>
 
             <Button
@@ -18,8 +18,8 @@
             />
           </span>
         </template>
-
-        <WMCompetitionProcessTable :columns="competitionProcessColumns" />
+        WIP Table
+        <!-- <WMCompetitionProcessTable :columns="competitionProcessColumns" /> -->
       </AccordionTab>
     </Accordion>
   </div>
@@ -42,6 +42,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
+  console.log("onmounted", props.project);
   if (props.project.service_areas) {
     serviceAreas.value = props.project.service_areas;
   }

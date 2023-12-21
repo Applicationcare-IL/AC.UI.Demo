@@ -92,11 +92,11 @@
         </AccordionTab>
       </Accordion> -->
 
-      <!-- <Accordion>
+      <Accordion>
         <AccordionTab :header="$t('project.competition_process')">
           <WMDetailProjectFormCompetitionProcessTab :project="project" />
         </AccordionTab>
-      </Accordion> -->
+      </Accordion>
 
       <Divider />
 
