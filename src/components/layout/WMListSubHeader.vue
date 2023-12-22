@@ -18,6 +18,11 @@
 
           <Divider layout="vertical" />
 
+          <WMCompleteTasksButton
+            v-if="utilsStore.entity == 'task'"
+            :entity="utilsStore.entity"
+          ></WMCompleteTasksButton>
+
           <WMAssignOwnerButton :entity="utilsStore.entity" />
 
           <WMSendMessageButton

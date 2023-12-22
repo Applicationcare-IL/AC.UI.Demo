@@ -91,7 +91,11 @@
         </template>
       </Column>
       <!-- Task status -->
-      <Column field="status" :header="$t('task.status')"></Column>
+      <Column field="status" :header="$t('task.status')">
+        <template #body="slotProps">
+          <WMOptionSetValue :optionSet="slotProps.data.status" />
+        </template>
+      </Column>
       <!-- Goal date -->
       <Column field="due_date" :header="$t('task.due_date')"></Column>
       <!-- SLA -->

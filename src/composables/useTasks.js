@@ -73,7 +73,7 @@ export function useTasks() {
       contact: task.contact?.name,
       contact_id: task.contact?.id,
       state: task.state?.value,
-      status: task.status?.value,
+      status: task.status,
       is_open: task.status?.value == "open",
       due_date: task.sla?.due_date,
       open_date: task.started_at,
