@@ -121,6 +121,17 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
+    updateProjectCustomer(projectId, data) {
+      return axiosConfig
+        .patch(`/projects/${projectId}/customers`, data)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
     deleteProjectCustomer(projectId, data) {
       return axiosConfig
         .delete(`/projects/${projectId}/customers/`, { data })

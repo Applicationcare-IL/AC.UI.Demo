@@ -115,7 +115,7 @@
     </span>
     <Calendar
       v-if="type === 'date'"
-      v-model="value"
+      v-model="today"
       showIcon
       :disabled="props.disabled"
     />
@@ -124,9 +124,10 @@
 </template>
 
 <script setup>
-import { watch } from "vue";
 import { toRef } from "vue";
 import { useField } from "vee-validate";
+
+const today = new Date(2024, 0, 1);
 
 defineEmits(["update:value", "update:selectedItem"]);
 

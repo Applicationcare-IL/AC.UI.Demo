@@ -54,6 +54,10 @@ export function useProjects() {
     return await projectsStore.createProjectCustomer(projectId, data);
   };
 
+  const updateProjectCustomer = async (projectId, data) => {
+    return await projectsStore.updateProjectCustomer(projectId, data);
+  };
+
   const deleteProjectCustomer = async (
     projectId,
     customerId,
@@ -109,6 +113,15 @@ export function useProjects() {
         entrance: "",
         zip: "",
       },
+    };
+  };
+
+  const parseProjectCustomer = (customer, serviceAreaId) => {
+    return {
+      customer: customer.id,
+      service_area: serviceAreaId,
+      offer_winner: customer.offer_winner,
+      customer_project_status: customer.customer_project_status,
     };
   };
 
@@ -227,11 +240,13 @@ export function useProjects() {
     removeServiceArea,
     getProjectCustomers,
     createProjectCustomer,
+    updateProjectCustomer,
     deleteProjectCustomer,
 
     // UTILITIES
     parseProject,
     parseUpdateProject,
+    parseProjectCustomer,
     mapProject,
     mapContactsFromProjects,
   };

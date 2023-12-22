@@ -72,34 +72,89 @@
         {{ slotProps.data[column.name] }}
       </template>
 
+      <template v-if="column.type === 'status'" #body="slotProps">
+        <Dropdown
+          v-if="createMode[slotProps.index] || editMode[slotProps.index]"
+          :options="optionSetsStore.optionSets[column.optionSet]"
+          :optionLabel="optionLabelWithLang"
+          optionValue="id"
+          class="w-full p-0"
+          v-model="slotProps.data.customer_project_status"
+        >
+        </Dropdown>
+        <div v-else>
+          <WMOptionSetValue
+            v-if="slotProps.data.customer_project_status"
+            :optionSet="slotProps.data.customer_project_status"
+          />
+        </div>
+      </template>
+
       <template v-if="column.type === 'winner'" #body="slotProps">
-        <button disabled>set winner</button>
+        <Checkbox
+          v-if="editMode[slotProps.index]"
+          v-model="slotProps.data[column.name]"
+          :binary="true"
+        />
       </template>
 
       <template v-if="column.type === 'qualified_second'" #body="slotProps">
-        <button disabled>set qualified second</button>
+        <Checkbox
+          v-if="editMode[slotProps.index]"
+          v-model="slotProps.data[column.name]"
+          :binary="true"
+        />
+      </template>
+
+      <template v-if="column.type === 'date'" #body="slotProps">
+        <span v-if="slotProps.data[column.name]">
+          {{ slotProps.data[column.name] }}
+        </span>
+        <WMInput
+          v-else-if="editMode[slotProps.index]"
+          type="date"
+          :id="column.name"
+          :name="column.name"
+        />
       </template>
 
       <template v-if="column.type === 'actions'" #body="slotProps">
         <div class="flex flex-row gap-2">
           <WMButton
             v-if="
-              column.buttons?.includes('edit') && !editMode[slotProps.index]
+              column.buttons?.includes('edit') &&
+              !editMode[slotProps.index] &&
+              !createMode[slotProps.index]
             "
             name="edit"
             icon="edit"
             @click="editMode[slotProps.index] = true"
           />
+
+          <WMButton
+            v-if="
+              column.buttons?.includes('edit') && createMode[slotProps.index]
+            "
+            name="save"
+            icon="save"
+            class="in_table"
+            @click="
+              saveRow(slotProps.data);
+              createMode[slotProps.index] = false;
+            "
+          />
+
           <WMButton
             v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
             name="save"
             icon="save"
             class="in_table"
             @click="
-              saveRow(slotProps.data);
+              editRow(slotProps.data);
               editMode[slotProps.index] = false;
             "
           />
+
           <WMButton
             v-if="column.buttons?.includes('unlink')"
             name="unlink"
@@ -116,14 +171,24 @@
 import { ref, watch, watchEffect, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 
+import { useOptionSetsStore } from "@/stores/optionSets";
+
 import { useFormUtilsStore } from "@/stores/formUtils";
 
 import { useUtilsStore } from "@/stores/utils";
 
 const { t } = useI18n();
 
-const { getProjectCustomers, createProjectCustomer, deleteProjectCustomer } =
-  useProjects();
+const {
+  getProjectCustomers,
+  createProjectCustomer,
+  deleteProjectCustomer,
+  parseProjectCustomer,
+  updateProjectCustomer,
+} = useProjects();
+
+const { optionLabelWithLang } = useLanguages();
+const optionSetsStore = useOptionSetsStore();
 
 const selectedCustomers = ref(null);
 const isFilterOpen = ref(false);
@@ -140,7 +205,7 @@ const { getCustomersFromApi } = useCustomers();
 const props = defineProps({
   rows: {
     type: Number,
-    default: 5,
+    default: 20,
   },
   columns: {
     type: Array,
@@ -193,7 +258,6 @@ const loadLazyData = () => {
   });
 
   getProjectCustomers(props.projectId, params).then((result) => {
-    console.log("result", result);
     customers.value = result.data;
     totalRecords.value = result.totalRecords;
   });
@@ -240,19 +304,37 @@ const addCustomers = (addedCustomers) => {
     if (customers.value.find((c) => c.customer_id === customer.id)) return;
 
     customers.value.push(customer);
-    editMode.value[customers.value.length - 1] = true;
+    createMode.value[customers.value.length - 1] = true;
   });
 };
 
 const toast = useToast();
 
 const saveRow = (customer) => {
-  const data = {
-    customer: customer.id,
-    service_area: props.serviceArea.id,
-  };
+  const parsedProjectCustomer = parseProjectCustomer(
+    customer,
+    props.serviceArea.id
+  );
 
-  createProjectCustomer(props.projectId, data)
+  createProjectCustomer(props.projectId, parsedProjectCustomer)
+    .then(() => {
+      toast.success("Project customer successfully updated");
+    })
+    .catch(() => {
+      toast.error("Project customer assign failed");
+    });
+};
+
+const editRow = (customer) => {
+  const parsedProjectCustomer = parseProjectCustomer(
+    customer,
+    props.serviceArea.id
+  );
+
+  console.log(customer);
+  console.log("parsedProjectCustomer", parsedProjectCustomer);
+
+  updateProjectCustomer(props.projectId, parsedProjectCustomer)
     .then(() => {
       toast.success("Project customer successfully updated");
     })
@@ -275,6 +357,7 @@ const handleUnlinkProjectCustomer = (row) => {
 };
 
 const editMode = ref([]);
+const createMode = ref([]);
 
 const fakeData = () => [
   {

@@ -47,6 +47,7 @@ import ProgressSpinner from "primevue/progressspinner";
 import Accordion from "primevue/accordion";
 import AccordionTab from "primevue/accordiontab";
 import Breadcrumb from "primevue/breadcrumb";
+import Checkbox from "primevue/checkbox";
 
 import VueGoogleMaps from "@fawmi/vue-google-maps";
 
@@ -105,7 +106,8 @@ const app = createApp(App)
   .component("ProgressSpinner", ProgressSpinner)
   .component("Accordion", Accordion)
   .component("AccordionTab", AccordionTab)
-  .component("Breadcrumb", Breadcrumb);
+  .component("Breadcrumb", Breadcrumb)
+  .component("Checkbox", Checkbox);
 
 app.config.globalProperties.$appState = reactive({
   isRTL: true,
