@@ -40,7 +40,7 @@
         </div>
       </div>
     </TabPanel>
-    <TabPanel header="טאב 1">
+    <!-- <TabPanel header="טאב 1">
       <p>
         Sed ut perspiciatis unde omnis iste natus error sit voluptatem
         accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
@@ -61,7 +61,7 @@
         distinctio. Nam libero tempore, cum soluta nobis est eligendi optio
         cumque nihil impedit quo minus.
       </p>
-    </TabPanel>
+    </TabPanel> -->
   </TabView>
 </template>
 

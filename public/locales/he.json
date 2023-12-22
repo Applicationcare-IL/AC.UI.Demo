@@ -270,7 +270,12 @@
     "organization_name": "שם הארגון",
     "refusal_to_win": "סירוב זכייה",
     "qualified_second": "כשיר שני",
-    "actions": ""
+    "actions": "",
+    "status": "סטטוס",
+    "notes": "הערות",
+    "offer_amount": "סכום הצעה",
+    "offer_received_at": "תאריך קבלת הצעה",
+    "offer_requested_at": "תאריך פנייה"
   },
   "site": {
     "details": "פרטי מיקום",

@@ -100,9 +100,9 @@
 
       <Divider />
 
-      <div class="flex-1 tabs-container mt-5">
+      <!-- <div class="flex-1 tabs-container mt-5">
         <WMDetailProjectFormAdditionalInformation />
-      </div>
+      </div> -->
     </div>
   </div>
   <div v-else>

@@ -415,17 +415,17 @@ export function useListUtils() {
   const getCompetitionProcessColumns = () => {
     return [
       { name: "name", type: "text", header: "organization.organization_name" },
-      // { name: "notes", type: "text" },
-      // { name: "refusal_to_win", type: "winner" },
-      // { name: "qualified_second", type: "qualified_second" },
+      { name: "notes", type: "text" },
+      { name: "refusal_to_win", type: "winner" },
+      { name: "qualified_second", type: "qualified_second" },
       {
         name: "status",
         type: "status",
         optionSet: "customer_project_status",
       },
-      // { name: "offer_amount", type: "text" },
-      // { name: "offer_received_at", type: "date", editable: true },
-      // { name: "offer_requested_at", type: "date", editable: true },
+      { name: "offer_amount", type: "text" },
+      { name: "offer_received_at", type: "date", editable: true },
+      { name: "offer_requested_at", type: "date", editable: true },
       {
         name: "actions",
         type: "actions",
