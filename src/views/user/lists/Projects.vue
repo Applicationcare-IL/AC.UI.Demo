@@ -97,10 +97,10 @@
       >
         <template #body="slotProps">
           <div
-            :class="statusClass(slotProps.data.status)"
+            :class="statusClass(slotProps.data.status.value)"
             class="status-label h-full w-full"
           >
-            {{ $t(`statuses.${slotProps.data.status}`) }}
+            <WMOptionSetValue :optionSet="slotProps.data.status" />
           </div>
         </template>
       </Column>

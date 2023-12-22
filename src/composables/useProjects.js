@@ -2,6 +2,7 @@ import { useProjectsStore } from "@/stores/projectsStore";
 
 export function useProjects() {
   const projectsStore = useProjectsStore();
+  const { getLocalizedValue } = useLanguages();
 
   // ACTIONS
   const getProjectsFromApi = async (params) => {
@@ -105,6 +106,7 @@ export function useProjects() {
       project_type: project.project_type?.id,
       project_area: project.project_area?.id,
       project_detail: project.project_detail?.id,
+      description: project["project-description"],
       location: {
         city: project.city?.id,
         street: project.street?.id,
@@ -131,6 +133,7 @@ export function useProjects() {
       project_id: project.id,
       project_number: project.number,
       project_name: project.name,
+      project_description: project.description,
       city_data: project.location?.city?.value,
       address: project.location?.street?.value,
       project_type: project.project_type,
@@ -139,7 +142,7 @@ export function useProjects() {
       open_tasks: project.open_tasks,
       breached_tasks: project.breached_tasks,
       stage: project.process?.current_stage?.name,
-      status: project.state?.value,
+      status: project.state,
       process: project.process,
       location: project.location,
       contacts: project.contacts,
