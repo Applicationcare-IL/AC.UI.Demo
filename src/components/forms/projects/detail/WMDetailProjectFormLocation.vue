@@ -27,6 +27,7 @@
                 @change="updateStreets"
                 :optionSet="true"
               />
+
               <div class="flex flex-row gap-5">
                 <WMInputSearch
                   name="street"
@@ -55,6 +56,8 @@
                 :highlighted="true"
                 :label="$t('address.house-number') + ':'"
                 :disabled="!isCitySelected"
+                required
+                :value="props.project.location.house_number"
               />
             </div>
           </div>
@@ -122,6 +125,7 @@ const streets = ref(optionSetsStore.optionSets["service_street"]);
 onMounted(() => {
   if (props.project.location?.street && props.project.location?.city) {
     showAddressOptions.value = true;
+    isCitySelected.value = true;
 
     selectedCity.value = cities.value.find(
       (city) => city.id === props.project.location.city.id

@@ -89,12 +89,12 @@ export function useProjects() {
         };
       }),
       location: {
-        city_id: project.city?.id,
-        street_id: project.street?.id,
+        city: project.city?.id,
+        street: project.street?.id,
         house_number: project["house-number"],
         apartment_number: "",
         entrance: "",
-        zip_id: "",
+        zip: "",
       },
     };
   };
