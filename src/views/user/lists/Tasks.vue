@@ -72,13 +72,14 @@
       <!-- Task family -->
       <Column field="task_family " :header="$t('task.family')">
         <template #body="slotProps">
-          {{ slotProps.data.task_family }}
+          <WMOptionSetValue :optionSet="slotProps.data.task_family" />
         </template>
       </Column>
       <!-- Task contact -->
       <Column field="contact" :header="$t('contact.contact')" class="link-col">
         <template #body="slotProps">
           <router-link
+            v-if="slotProps.data.contact_id"
             :to="{
               name: 'contactDetail',
               params: { id: slotProps.data.contact_id },
@@ -140,6 +141,7 @@
 import { ref, onMounted, computed, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
+import WMOptionSetValue from "../../../components/WMOptionSetValue.vue";
 
 const { getTasksFromApi, mapContactsFromTasks } = useTasks();
 
