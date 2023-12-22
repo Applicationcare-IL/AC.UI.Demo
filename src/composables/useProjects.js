@@ -106,6 +106,7 @@ export function useProjects() {
       project_type: project.project_type?.id,
       project_area: project.project_area?.id,
       project_detail: project.project_detail?.id,
+      description: project["project-description"],
       location: {
         city: project.city?.id,
         street: project.street?.id,
@@ -131,6 +132,7 @@ export function useProjects() {
       project_id: project.id,
       project_number: project.number,
       project_name: project.name,
+      project_description: project.description,
       city_data: project.location?.city?.value,
       address: project.location?.street?.value,
       project_type: project.project_type,
