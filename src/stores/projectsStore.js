@@ -132,9 +132,9 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
-    deleteProjectCustomer(projectId, data) {
+    deleteProjectCustomer(projectId, params) {
       return axiosConfig
-        .delete(`/projects/${projectId}/customers/`, { data })
+        .delete(`/projects/${projectId}/customers/`, { data: params })
         .then((response) => {
           return response.data;
         })

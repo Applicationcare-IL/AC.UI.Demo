@@ -90,7 +90,8 @@
         </div>
       </template>
 
-      <template v-if="column.type === 'winner'" #body="slotProps">
+      <template v-if="column.type === 'refusal_to_win'" #body="slotProps">
+        {{ slotProps.data[column.name] }}
         <Checkbox
           v-if="editMode[slotProps.index]"
           v-model="slotProps.data[column.name]"
@@ -106,12 +107,23 @@
         />
       </template>
 
+      <template v-if="column.type === 'offer_amount'" #body="slotProps">
+        <input
+          class="w-full p-0"
+          v-if="editMode[slotProps.index] || createMode[slotProps.index]"
+          v-model="slotProps.data.offer_amount"
+        />
+        <div v-else>
+          {{ slotProps.data.offer_amount }}
+        </div>
+      </template>
+
       <template v-if="column.type === 'date'" #body="slotProps">
         <span v-if="slotProps.data[column.name]">
           {{ slotProps.data[column.name] }}
         </span>
         <WMInput
-          v-else-if="editMode[slotProps.index]"
+          v-else-if="editMode[slotProps.index] || createMode[slotProps.index]"
           type="date"
           :id="column.name"
           :name="column.name"
