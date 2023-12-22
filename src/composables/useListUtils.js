@@ -414,7 +414,11 @@ export function useListUtils() {
 
   const getCompetitionProcessColumns = () => {
     return [
-      { name: "name", type: "text", header: "organization.organization_name" },
+      {
+        name: "customer_name",
+        type: "text",
+        header: "organization.organization_name",
+      },
       { name: "offer_requested_at", type: "date", editable: true },
       { name: "offer_received_at", type: "date", editable: true },
       { name: "offer_amount", type: "offer_amount" },
