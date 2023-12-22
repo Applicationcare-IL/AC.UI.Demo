@@ -43,7 +43,7 @@
           <!-- <WMButton class="m-1 col-6 " name="basic-secondary">כפתור </WMButton> -->
         </div>
         <div class="flex flex-row align-items-center gap-3">
-          <WMOwnerToggle entity="project" />
+          <WMOwnerToggle :entity="entity" />
         </div>
       </div>
       <div class="flex flex-row justify-content-between">
