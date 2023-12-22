@@ -100,7 +100,7 @@
             :class="statusClass(slotProps.data.status)"
             class="status-label h-full w-full"
           >
-            {{ slotProps.data.status }}
+            <WMOptionSetValue :optionSet="slotProps.data.status" />
           </div>
         </template>
       </Column>

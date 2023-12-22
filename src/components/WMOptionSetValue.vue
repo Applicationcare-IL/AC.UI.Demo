@@ -16,6 +16,7 @@ const props = defineProps({
 });
 
 const translatedValue = computed(() => {
+  if (!props.optionSet) return;
   return props.optionSet[`value_${locale.value}`];
 });
 </script>
