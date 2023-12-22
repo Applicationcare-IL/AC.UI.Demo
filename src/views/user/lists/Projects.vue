@@ -54,9 +54,21 @@
       <Column field="project_name" :header="$t('project.project_name')" />
       <Column field="city_data" :header="$t('project.city_data')" />
       <Column field="address" :header="$t('project.address')" />
-      <Column field="project_type" :header="$t('project.project_type')" />
-      <Column field="project_area" :header="$t('project.project_area')" />
-      <Column field="project_detail" :header="$t('project.project_detail')" />
+      <Column field="project_type" :header="$t('project.project_type')">
+        <template #body="slotProps">
+          <WMOptionSetValue :optionSet="slotProps.data.project_type" />
+        </template>
+      </Column>
+      <Column field="project_area" :header="$t('project.project_area')">
+        <template #body="slotProps">
+          <WMOptionSetValue :optionSet="slotProps.data.project_area" />
+        </template>
+      </Column>
+      <Column field="project_detail" :header="$t('project.project_detail')">
+        <template #body="slotProps">
+          <WMOptionSetValue :optionSet="slotProps.data.project_detail" />
+        </template>
+      </Column>
       <Column field="open_tasks" :header="$t('project.open_tasks')" />
       <Column
         field="breached_tasks"
