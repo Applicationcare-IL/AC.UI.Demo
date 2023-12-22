@@ -95,9 +95,22 @@
       <template v-if="column.type === 'detail'">
         <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
       </template>
-      <template v-if="column.type === 'sla'" #body="slotProps"> sla </template>
+      <template v-if="column.type === 'sla'" #body="slotProps">
+        <WMSLATag
+          v-if="slotProps.data.sla"
+          :sla="slotProps.data.sla"
+          :daysForClosing="slotProps.data.days_for_closing"
+          :state="slotProps.data.state"
+        >
+        </WMSLATag>
+      </template>
       <template v-if="column.type === 'translate'" #body="slotProps">
         {{ $t(column.prefix + "." + slotProps.data[column.name]) }}
+      </template>
+      <template v-if="column.type === 'optionset'" #body="slotProps">
+        <WMOptionSetValue
+          :optionSet="slotProps.data[column.name]"
+        ></WMOptionSetValue>
       </template>
     </Column>
   </DataTable>

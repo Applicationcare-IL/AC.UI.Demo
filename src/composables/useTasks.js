@@ -66,7 +66,7 @@ export function useTasks() {
       task_number: task.id,
       process_number: "10",
       task_type: task.task_type?.name,
-      task_family: task.task_family?.value,
+      task_family: task.task_family,
       stage: task.stage?.name,
       sla: task.sla,
       days_for_closing: task.sla?.days_for_closing,

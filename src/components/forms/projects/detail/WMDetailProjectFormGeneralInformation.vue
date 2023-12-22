@@ -9,14 +9,14 @@
             type="info"
             :highlighted="true"
             :label="$t('owner') + ':'"
-            value="שרוליק כהן"
+            :value="project.owner"
           />
           <WMInput
             name="id"
             type="info"
             :highlighted="true"
             :label="$t('team') + ':'"
-            value="שיפור פני העיר"
+            :value="project.team"
           />
         </div>
         <div class="wm-form-row gap-5">

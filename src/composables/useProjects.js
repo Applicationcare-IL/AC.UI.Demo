@@ -129,6 +129,7 @@ export function useProjects() {
 
   const mapProject = (project) => {
     return {
+      name: project.name,
       project_id: project.id,
       project_number: project.number,
       project_name: project.name,
@@ -147,6 +148,8 @@ export function useProjects() {
       contacts: project.contacts,
       subprojects: mapSubprojects(project.subprojects),
       service_areas: project.service_areas,
+      owner: project.owner.name,
+      team: project.owner.default_team,
     };
   };
 
