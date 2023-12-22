@@ -75,16 +75,6 @@
       </div>
       <div class="wm-form-row align-items-end gap-5">
         <WMInputSearch
-          name="task-type"
-          :required="true"
-          :placeholder="$t('select', ['task.type'])"
-          type="input-search"
-          :label="$t('task.type') + ':'"
-          width="200"
-          :highlighted="true"
-          :searchFunction="searchTaskTypes"
-        />
-        <WMInputSearch
           name="task-family"
           :required="true"
           :placeholder="$t('select', ['task.family'])"
@@ -93,9 +83,22 @@
           width="200"
           :highlighted="true"
           :options="taskFamily"
+          :optionSet="true"
+        />
+        <WMInputSearch
+          name="task-type"
+          :required="true"
+          :placeholder="$t('select', ['task.type'])"
+          type="input-search"
+          :label="$t('task.type') + ':'"
+          width="200"
+          :highlighted="true"
+          :searchFunction="searchTaskTypes"
+          :optionSet="true"
+          :disabled="!values['task-family']"
         />
       </div>
-      <Divider class="mb-0" layout="horizontal" />
+      <!-- <Divider class="mb-0" layout="horizontal" />
       <div class="task-timing flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">Timing</h2>
         <div class="wm-form-row gap-5">
@@ -118,12 +121,12 @@
             name="start_date"
           />
         </div>
-        <!-- <div class="wm-form-row gap-5">
+      <div class="wm-form-row gap-5">
           <WMToggleSwitch v-model="isRecurring" label="Recurring task">
             Content
           </WMToggleSwitch>
-        </div> -->
-      </div>
+        </div>
+      </div> -->
       <Divider class="mb-0" layout="horizontal" />
       <div class="task-description flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">{{ $t("description") }}</h2>

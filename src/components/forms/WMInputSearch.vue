@@ -54,7 +54,10 @@
       class="selected-options flex flex-row gap-2"
     >
       <Chip v-for="item in value" :label="item.name" :class="chipThemeClass">
-        <span>{{ item.name }}</span>
+        <span v-if="optionSet">
+          <WMOptionSetValue :optionSet="item" />
+        </span>
+        <span v-else>{{ item.name }}</span>
         <i class="pi pi-times cursor-pointer" @click="onRemove(item)"></i>
       </Chip>
     </div>

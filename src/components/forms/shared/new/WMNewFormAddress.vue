@@ -12,6 +12,7 @@
         width="152"
         :placeholder="$t('select', ['addres.city'])"
         @change="updateStreets"
+        :optionSet="true"
       />
       <div class="flex flex-row">
         <WMInputSearch
@@ -22,6 +23,7 @@
           :options="streets"
           width="152"
           :placeholder="$t('select', ['address.street'])"
+          :optionSet="true"
         />
       </div>
     </div>
