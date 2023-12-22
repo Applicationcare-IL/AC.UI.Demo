@@ -203,7 +203,7 @@
     "open_date": "נפתח",
     "close_date": "נסגר",
     "service_number": "מס’ תהליך",
-    "complete": "השלמ",
+    "complete": "השלם",
     "notification": {
       "created": {
         "header": "New Task Created",
