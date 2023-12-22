@@ -106,9 +106,9 @@ export function useProjects() {
       project_area: project.project_area?.id,
       project_detail: project.project_detail?.id,
       location: {
-        city: "",
-        street: "",
-        house_number: "",
+        city: project.city?.id,
+        street: project.street?.id,
+        house_number: project["house-number"],
         apartment: "",
         entrance: "",
         zip: "",

@@ -180,11 +180,13 @@ const { handleSubmit, resetForm, meta } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
+  console.log("values", values);
+
   updateProject(route.params.id, parseUpdateProject(values))
     .then((data) => {
       toast.successAction("project", "updated");
       resetForm({ values: values });
-      refreshPage();
+      // refreshPage();
     })
     .catch((error) => {
       console.error(error);
