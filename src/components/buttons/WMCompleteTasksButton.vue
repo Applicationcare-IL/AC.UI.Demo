@@ -4,7 +4,7 @@
     name="done-white"
     icon="done"
     @click="handleCompleteTasks"
-    :disabled="selectedElements == 0 || !isEntityActive"
+    :disabled="selectedElements == 0 || !areTaskCompletable"
   >
     {{ t("task.complete") }}
   </WMButton>
@@ -37,16 +37,23 @@ const props = defineProps({
 const emit = defineEmits(["taskCompleted"]);
 
 const selectedElements = ref(0);
-const isEntityActive = ref(false);
+const areTaskCompletable = ref(false);
 
 watch(
   () => utilsStore.selectedElements[props.entity],
   (value) => {
     selectedElements.value = value.length;
-    isEntityActive.value =
-      utilsStore.selectedElements[utilsStore.entity][0].status === "active";
+    areTaskCompletable.value = checkIfTasksAreCompletable(value);
   }
 );
+
+const checkIfTasksAreCompletable = (tasks) => {
+  if (tasks.length == 0) return false;
+
+  if (tasks.length == 1) return tasks[0].state == "active";
+
+  return tasks.every((x) => x.state == "active");
+};
 
 const handleCompleteTasks = () => {
   completeTasks(utilsStore.selectedElements["task"].map((x) => x.task_number))
