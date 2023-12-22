@@ -8,7 +8,17 @@ export function useLanguages() {
     return `value_${locale.value}`;
   });
 
+  const getLocalizedValue = (optionSet) => {
+    if (!optionSet) return "";
+    if (locale.value === "en") {
+      return optionSet.value_en;
+    } else {
+      return optionSet.value_he;
+    }
+  };
+
   return {
     optionLabelWithLang,
+    getLocalizedValue,
   };
 }
