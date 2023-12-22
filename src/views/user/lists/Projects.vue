@@ -69,21 +69,22 @@
           <WMOptionSetValue :optionSet="slotProps.data.project_detail" />
         </template>
       </Column>
-      <Column field="open_tasks" :header="$t('project.open_tasks')" />
+      <Column
+        field="open_tasks"
+        :header="$t('project.open_tasks')"
+        class="numeric"
+      >
+        <div :class="highlightCellClass(slotProps.data.open_tasks)">
+          {{ slotProps.data.open_tasks }}
+        </div>
+      </Column>
       <Column
         field="breached_tasks"
         :header="$t('project.breached_tasks')"
-        class="filled-td"
+        class="numeric"
       >
         <template #body="slotProps">
-          <div
-            :class="
-              slotProps.data.breached_tasks >= 0
-                ? 'bg-red-100 text-red-900'
-                : ''
-            "
-            class="breached-tasks h-full w-full text-center"
-          >
+          <div :class="highlightCellClass(slotProps.data.breached_tasks)">
             {{ slotProps.data.breached_tasks }}
           </div>
         </template>
@@ -286,6 +287,10 @@ function showExpander(data) {
 
 const statusClass = (data) => {
   return getStatusConditionalStyle(data);
+};
+
+const highlightCellClass = (data) => {
+  return [{ "bg-red-100 text-red-600": data > 0 }];
 };
 
 /**
