@@ -27,7 +27,7 @@
             @project-type-update="handleProjectTypeUpdate"
             :project="project"
           />
-          <WMDetailProjectFormExecutionInformation />
+          <!-- <WMDetailProjectFormExecutionInformation /> -->
         </div>
       </div>
 
@@ -122,7 +122,7 @@ import { useForm } from "vee-validate";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
 
 const { setSelectedContacts } = useContacts();
@@ -184,12 +184,19 @@ const onSave = handleSubmit((values) => {
     .then((data) => {
       toast.successAction("project", "updated");
       resetForm({ values: values });
+      refreshPage();
     })
     .catch((error) => {
       console.error(error);
       toast.error("project", "not-updated");
     });
 });
+
+const router = useRouter();
+
+const refreshPage = () => {
+  router.go(); // Reloads the current route
+};
 
 const priorityClass = (data) => {
   return getPriorityConditionalStyle(data);
