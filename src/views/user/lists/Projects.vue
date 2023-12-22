@@ -97,7 +97,7 @@
       >
         <template #body="slotProps">
           <div
-            :class="statusClass(slotProps.data.status)"
+            :class="statusClass(slotProps.data.status.value)"
             class="status-label h-full w-full"
           >
             <WMOptionSetValue :optionSet="slotProps.data.status" />
