@@ -79,7 +79,7 @@
           :optionLabel="optionLabelWithLang"
           optionValue="id"
           class="w-full p-0"
-          v-model="slotProps.data.customer_project_status"
+          v-model="slotProps.data.customer_project_status.id"
         >
         </Dropdown>
         <div v-else>
@@ -91,12 +91,19 @@
       </template>
 
       <template v-if="column.type === 'refusal_to_win'" #body="slotProps">
-        {{ slotProps.data[column.name] }}
         <Checkbox
           v-if="editMode[slotProps.index]"
           v-model="slotProps.data[column.name]"
           :binary="true"
         />
+
+        <i
+          v-if="
+            slotProps.data.offer_refusal_to_win && !editMode[slotProps.index]
+          "
+          class="pi pi-check"
+          style="font-size: 1rem"
+        ></i>
       </template>
 
       <template v-if="column.type === 'qualified_second'" #body="slotProps">
@@ -105,6 +112,12 @@
           v-model="slotProps.data[column.name]"
           :binary="true"
         />
+
+        <i
+          v-if="slotProps.data.offer_second && !editMode[slotProps.index]"
+          class="pi pi-check"
+          style="font-size: 1rem"
+        ></i>
       </template>
 
       <template v-if="column.type === 'offer_amount'" #body="slotProps">
@@ -197,6 +210,7 @@ const {
   deleteProjectCustomer,
   parseProjectCustomer,
   updateProjectCustomer,
+  mapProjectCustomer,
 } = useProjects();
 
 const { optionLabelWithLang } = useLanguages();
@@ -270,7 +284,9 @@ const loadLazyData = () => {
   });
 
   getProjectCustomers(props.projectId, params).then((result) => {
-    customers.value = result.data;
+    customers.value = result.data.map((customer) =>
+      mapProjectCustomer(customer)
+    );
     totalRecords.value = result.totalRecords;
   });
 };
@@ -315,7 +331,17 @@ const addCustomers = (addedCustomers) => {
   addedCustomers.forEach((customer) => {
     if (customers.value.find((c) => c.customer_id === customer.id)) return;
 
-    customers.value.push(customer);
+    const newCustomer = {
+      ...customer,
+      customer_project_status: {
+        id: 1912,
+        value: "waiting",
+        value_en: "Waiting",
+        value_he: "מחכה",
+      },
+    };
+
+    customers.value.push(newCustomer);
     createMode.value[customers.value.length - 1] = true;
   });
 };
@@ -323,14 +349,20 @@ const addCustomers = (addedCustomers) => {
 const toast = useToast();
 
 const saveRow = (customer) => {
+  const newCustomer = {
+    customer_id: customer.id,
+    customer_project_status: customer.customer_project_status,
+  };
+
   const parsedProjectCustomer = parseProjectCustomer(
-    customer,
+    newCustomer,
     props.serviceArea.id
   );
 
   createProjectCustomer(props.projectId, parsedProjectCustomer)
     .then(() => {
       toast.success("Project customer successfully updated");
+      loadLazyData();
     })
     .catch(() => {
       toast.error("Project customer assign failed");
@@ -343,12 +375,10 @@ const editRow = (customer) => {
     props.serviceArea.id
   );
 
-  console.log(customer);
-  console.log("parsedProjectCustomer", parsedProjectCustomer);
-
   updateProjectCustomer(props.projectId, parsedProjectCustomer)
     .then(() => {
       toast.success("Project customer successfully updated");
+      loadLazyData();
     })
     .catch(() => {
       toast.error("Project customer assign failed");
@@ -356,12 +386,13 @@ const editRow = (customer) => {
 };
 
 const handleUnlinkProjectCustomer = (row) => {
-  let customerId = row.id;
+  let customerId = row.customer_id;
 
   deleteProjectCustomer(props.projectId, customerId, props.serviceArea.id)
     .then(() => {
       customers.value = customers.value.filter((c) => c.id !== customerId);
       toast.success("Project customer successfully unlinked");
+      laodLazyData();
     })
     .catch(() => {
       toast.error("Project customer unlink failed");

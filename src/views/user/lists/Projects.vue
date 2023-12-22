@@ -100,7 +100,7 @@
             :class="statusClass(slotProps.data.status)"
             class="status-label h-full w-full"
           >
-            {{ slotProps.data.status }}
+            {{ $t(`statuses.${slotProps.data.status}`) }}
           </div>
         </template>
       </Column>

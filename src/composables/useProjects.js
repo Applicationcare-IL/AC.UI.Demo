@@ -118,10 +118,11 @@ export function useProjects() {
 
   const parseProjectCustomer = (customer, serviceAreaId) => {
     return {
-      customer: customer.id,
+      customer: customer.customer_id,
       service_area: serviceAreaId,
-      offer_winner: customer.offer_winner,
-      customer_project_status: customer.customer_project_status,
+      offer_refusal_to_win: customer.refusal_to_win,
+      offer_second: customer.qualified_second,
+      customer_project_status: customer.customer_project_status.id,
     };
   };
 
@@ -187,6 +188,24 @@ export function useProjects() {
     return uniqueContacts;
   };
 
+  const mapProjectCustomer = (customer) => {
+    console.log("mapProjectCustomer", customer);
+
+    return {
+      id: customer.id,
+      customer_name: customer.customer.name,
+      customer_id: customer.customer.id,
+      notes: customer.notes,
+      offer_amount: customer.offer_amount,
+      offer_second: customer.offer_second,
+      offer_winner: customer.offer_winner,
+      offer_received_at: customer.offer_received_at,
+      offer_requested_at: customer.offer_requested_at,
+      offer_refusal_to_win: customer.offer_refusal_to_win,
+      customer_project_status: customer.customer_project_status,
+    };
+  };
+
   // MOCKED DATA
   const randomStatus = () => {
     const status = ["active", "not_active"];
@@ -249,5 +268,6 @@ export function useProjects() {
     parseProjectCustomer,
     mapProject,
     mapContactsFromProjects,
+    mapProjectCustomer,
   };
 }
