@@ -16,11 +16,11 @@ const model = ref([
     visible: true,
     section: "user",
     items: [
-      {
-        label: computed(() => t("navigation.dashboard")),
-        to: "/dashboard",
-        image: new URL("/icons/nav/dashboard.svg", import.meta.url).href,
-      },
+      // {
+      //   label: computed(() => t("navigation.dashboard")),
+      //   to: "/dashboard",
+      //   image: new URL("/icons/nav/dashboard.svg", import.meta.url).href,
+      // },
       {
         label: computed(() => t("navigation.customers")),
         to: "/customers",
@@ -31,11 +31,11 @@ const model = ref([
         to: "/contacts",
         image: new URL("/icons/nav/contacts.svg", import.meta.url).href,
       },
-      {
-        label: computed(() => t("navigation.services")),
-        to: "/services",
-        image: new URL("/icons/nav/services.svg", import.meta.url).href,
-      },
+      // {
+      //   label: computed(() => t("navigation.services")),
+      //   to: "/services",
+      //   image: new URL("/icons/nav/services.svg", import.meta.url).href,
+      // },
       {
         label: computed(() => t("navigation.tasks")),
         to: "/tasks",

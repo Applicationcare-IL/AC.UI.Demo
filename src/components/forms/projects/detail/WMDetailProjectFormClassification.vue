@@ -79,14 +79,14 @@ onMounted(() => {
   optionSetsStore.getOptionSetValuesFromApiRaw("project_type").then((data) => {
     projectTypes.value = data;
     selectedProjectType.value = data.find((item) => {
-      return item.value === props.project.project_type;
+      return item.value === props.project.project_type.value;
     });
   });
   optionSetsStore.getOptionSetValuesFromApiRaw("project_area").then((data) => {
     projectAreas.value = data;
 
     selectedProjectArea.value = data.find((item) => {
-      return item.value === props.project.project_area;
+      return item.value === props.project.project_area?.value;
     });
   });
   optionSetsStore
@@ -95,7 +95,7 @@ onMounted(() => {
       projectDetails.value = data;
 
       selectedProjectDetail.value = data.find((item) => {
-        return item.value === props.project.project_detail;
+        return item.value === props.project.project_detail?.value;
       });
     });
 });

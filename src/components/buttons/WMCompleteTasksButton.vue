@@ -4,8 +4,9 @@
     name="done-white"
     icon="done"
     @click="handleCompleteTasks"
-    :disabled="selectedElements == 0 || !isEntityActive"
-    >{{ t("task.complete") }}
+    :disabled="selectedElements == 0 || !areTaskCompletable"
+  >
+    {{ t("task.complete") }}
   </WMButton>
   <WMCompleteServiceDialog />
 </template>
@@ -17,7 +18,7 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 
 import { useI18n } from "vue-i18n";
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const { completeTasks } = useTasks();
 
@@ -33,22 +34,32 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(["taskCompleted"]);
+
 const selectedElements = ref(0);
-const isEntityActive = ref(false);
+const areTaskCompletable = ref(false);
 
 watch(
   () => utilsStore.selectedElements[props.entity],
   (value) => {
     selectedElements.value = value.length;
-    isEntityActive.value =
-      utilsStore.selectedElements[utilsStore.entity][0].state === "active";
+    areTaskCompletable.value = checkIfTasksAreCompletable(value);
   }
 );
+
+const checkIfTasksAreCompletable = (tasks) => {
+  if (tasks.length == 0) return false;
+
+  if (tasks.length == 1) return tasks[0].state == "active";
+
+  return tasks.every((x) => x.state == "active");
+};
 
 const handleCompleteTasks = () => {
   completeTasks(utilsStore.selectedElements["task"].map((x) => x.task_number))
     .then(() => {
       toast.successAction("task", "completed");
+      emit("taskCompleted");
     })
     .catch((error) => {
       if (error.response.status == 422) {

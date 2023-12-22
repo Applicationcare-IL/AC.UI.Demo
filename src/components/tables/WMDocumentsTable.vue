@@ -164,6 +164,7 @@
           :has-file="slotProps.data.has_file"
           @document-uploaded="loadLazyData"
           :disabled="slotProps.data.mode === 'new'"
+          v-if="editMode[slotProps.data.id]"
         />
       </template>
     </Column>

@@ -18,7 +18,9 @@
       class="custom-input-search__input"
       ref="inputSearch"
       :options="serviceAreas"
+      :optionSet="true"
     />
+
     <Button
       :disabled="selectedServiceAreas == 0"
       class="custom-input-search__clear mt-4"

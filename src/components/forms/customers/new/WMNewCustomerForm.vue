@@ -72,6 +72,7 @@
           width="248"
           :options="serviceAreas"
           :highlighted="true"
+          :optionSet="true"
         />
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px" />
@@ -171,11 +172,9 @@ const utilsStore = useUtilsStore();
 const { getSelectedContactsForNewCustomerColumns } = useListUtils();
 const { createCustomer, parseCustomer, existsCustomer } = useCustomers();
 
-const cities = ref();
 const types = ref(optionSetsStore.optionSets["customer_type"]);
 const ratings = ref(optionSetsStore.optionSets["customer_rating"]);
 const serviceAreas = ref(optionSetsStore.optionSets["service_area"]);
-const alphabet = ref(formUtilsStore.getAlphabet);
 const toast = useToast();
 const dialog = useDialog();
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");

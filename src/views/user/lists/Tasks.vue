@@ -68,7 +68,7 @@
         </template>
       </Column>
       <!-- Task type -->
-      <Column field="task_type" :header="$t('task.type')"></Column>
+      <Column field="task_type" :header="$t('task.type')"> </Column>
       <!-- Task family -->
       <Column field="task_family " :header="$t('task.family')">
         <template #body="slotProps">
@@ -96,7 +96,6 @@
       <!-- SLA -->
       <Column field="SLA" header="SLA" class="sla">
         <template #body="slotProps">
-          sla {{ slotProps.data.sla }}
           <WMSLATag
             v-if="slotProps.data.sla"
             :sla="slotProps.data.sla"

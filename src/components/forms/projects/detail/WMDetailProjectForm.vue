@@ -27,7 +27,7 @@
             @project-type-update="handleProjectTypeUpdate"
             :project="project"
           />
-          <WMDetailProjectFormExecutionInformation />
+          <!-- <WMDetailProjectFormExecutionInformation /> -->
         </div>
       </div>
 
@@ -100,9 +100,9 @@
 
       <Divider />
 
-      <div class="flex-1 tabs-container mt-5">
+      <!-- <div class="flex-1 tabs-container mt-5">
         <WMDetailProjectFormAdditionalInformation />
-      </div>
+      </div> -->
     </div>
   </div>
   <div v-else>
@@ -122,7 +122,7 @@ import { useForm } from "vee-validate";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
 
 const { setSelectedContacts } = useContacts();
@@ -172,7 +172,7 @@ const fetchData = async () => {
     date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
   }));
 
-  currentStage.value = data.current_stage?.order - 1;
+  currentStage.value = data.process.current_stage?.order - 1;
 };
 
 const { handleSubmit, resetForm, meta } = useForm({
@@ -180,16 +180,25 @@ const { handleSubmit, resetForm, meta } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
+  console.log("values", values);
+
   updateProject(route.params.id, parseUpdateProject(values))
     .then((data) => {
       toast.successAction("project", "updated");
       resetForm({ values: values });
+      // refreshPage();
     })
     .catch((error) => {
       console.error(error);
       toast.error("project", "not-updated");
     });
 });
+
+const router = useRouter();
+
+const refreshPage = () => {
+  router.go(); // Reloads the current route
+};
 
 const priorityClass = (data) => {
   return getPriorityConditionalStyle(data);

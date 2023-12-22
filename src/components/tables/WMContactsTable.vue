@@ -448,7 +448,7 @@ const saveRow = (contact) => {
   if (props.relatedEntity === "customer") {
     assignContactToCustomer(customer.value.id, contactParams)
       .then(() => {
-        // loadLazyData();
+        loadLazyData();
         toast.success("Contact Successfully updated");
       })
       .catch(() => {
@@ -459,7 +459,7 @@ const saveRow = (contact) => {
   if (props.relatedEntity === "project") {
     assignContactToProject(props.projectId, contactParams)
       .then(() => {
-        // loadLazyData();
+        loadLazyData();
         toast.success("Contact Successfully updated");
       })
       .catch(() => {

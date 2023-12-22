@@ -29,7 +29,7 @@
           >{{ t("new") }}</WMButton
         >
         <WMAssignOwnerButton entity="task" />
-        <WMCompleteTasksButton entity="task" />
+        <WMCompleteTasksButton entity="task" @taskCompleted="loadLazyData" />
       </div>
       <div class="flex flex-row align-items-center gap-3" v-if="showFilters">
         <WMButton
