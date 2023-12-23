@@ -30,10 +30,11 @@ const slaClasses = computed(() => {
 });
 
 const getSLAText = computed(() => {
+  if (props.sla === null) return;
   if (props.state === "active" && props.sla !== "breached")
-    return "נותרו " + props.daysForClosing + " ימים";
+    return "נותרו " + Math.abs(props.daysForClosing) + " ימים";
   if (props.state === "active" && props.sla === "breached")
-    return "חריגה " + props.daysForClosing + " ימים";
+    return "חריגה " + Math.abs(props.daysForClosing) + " ימים";
   if (props.sla !== "breached") return "עמד ביעד";
   if (props.sla === "breached") return "הסתיים בחריגה";
 });

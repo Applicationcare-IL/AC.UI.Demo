@@ -98,7 +98,7 @@
       <template v-if="column.type === 'sla'" #body="slotProps">
         <WMSLATag
           v-if="slotProps.data.sla"
-          :sla="slotProps.data.sla"
+          :sla="slotProps.data.sla.sla"
           :daysForClosing="slotProps.data.days_for_closing"
           :state="slotProps.data.state"
         >

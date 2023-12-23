@@ -103,7 +103,7 @@
         <template #body="slotProps">
           <WMSLATag
             v-if="slotProps.data.sla"
-            :sla="slotProps.data.sla"
+            :sla="slotProps.data.sla.sla"
             :daysForClosing="slotProps.data.days_for_closing"
             :state="slotProps.data.state"
           >
@@ -128,7 +128,7 @@
         </template>
       </Column>
       <!-- Read -->
-      <Column field="call" :header="$t('task.call')" class="is-mocked"></Column>
+      <Column field="call" :header="$t('task.call')"></Column>
       <!-- Date opened -->
       <Column field="open_date" :header="$t('task.open_date')"></Column>
       <!-- Date closed -->

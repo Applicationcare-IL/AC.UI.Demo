@@ -78,7 +78,7 @@ export function useTasks() {
       due_date: task.sla?.due_date,
       open_date: task.started_at,
       owner: task.owner?.name,
-      team: "אגף רישוי ופיקוח (הנדסה)",
+      team: task.owner?.default_team,
       customer: task.customer?.name,
       customer_id: task.customer?.id,
       call: "כן",

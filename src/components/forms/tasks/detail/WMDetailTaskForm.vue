@@ -40,7 +40,9 @@
                     :label="$t('status') + ':'"
                     :options="statuses"
                     :value="
-                      statuses.find((status) => status.value === task.status)
+                      statuses.find(
+                        (status) => status.value === task.status.value
+                      )
                     "
                   />
                 </div>
@@ -83,7 +85,7 @@
                     type="info"
                     :highlighted="true"
                     :label="$t('task.family')"
-                    :value="task.task_family"
+                    :value="task.task_family[optionLabelWithLang]"
                   />
                   <WMInput
                     name="type"
@@ -292,6 +294,7 @@ import { useRoute } from "vue-router";
 
 const toast = useToast();
 const { updateTask, parseUpdateTask } = useTasks();
+const { optionLabelWithLang } = useLanguages();
 
 const tasks = ref([]);
 

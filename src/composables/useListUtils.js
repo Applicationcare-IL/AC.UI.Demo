@@ -312,14 +312,14 @@ export function useListUtils() {
         header: "task.number",
         class: "link-col",
       },
-      { name: "task_family", type: "optionset" },
+      { name: "task_family", type: "optionset", header: "task.family" },
       { name: "task_type", type: "text", header: "task.type" },
       { name: "stage", type: "text" },
       { name: "sla", type: "sla", class: "sla" },
       { name: "open_date", type: "text" },
       { name: "due_date", type: "text" },
       { name: "owner", type: "text" },
-      { name: "status", type: "translate", prefix: "statuses" },
+      { name: "status", type: "optionset", prefix: "statuses" },
       { name: "notes", type: "text" },
     ];
   };
@@ -337,7 +337,7 @@ export function useListUtils() {
       { name: "task_type", type: "text", header: "task.type" },
       { name: "sla", type: "sla", class: "sla" },
       { name: "due_date", type: "text" },
-      { name: "status", type: "translate", prefix: "statuses" },
+      { name: "status", type: "optionset", prefix: "statuses" },
     ];
   };
 
