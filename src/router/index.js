@@ -18,9 +18,12 @@ const router = createRouter({
       children: [
         {
           path: "/",
-          name: "dashboard",
-          exact: true,
-          component: () => import("@/views/user/Dashboard.vue"),
+          name: "index",
+          // exact: true,
+          redirect: (to) => {
+            return "/tasks";
+          },
+          // component: () => import("@/views/user/Dashboard.vue"),
         },
         {
           path: "/buttons",
@@ -36,7 +39,10 @@ const router = createRouter({
         {
           path: "/dashboard",
           name: "dashboard",
-          component: () => import("@/views/user/Dashboard.vue"),
+          redirect: (to) => {
+            return "/tasks";
+          },
+          // component: () => import("@/views/user/Dashboard.vue"),
         },
         {
           path: "/contacts",
