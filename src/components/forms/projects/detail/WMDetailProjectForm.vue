@@ -62,11 +62,14 @@
         </AccordionTab>
       </Accordion>
 
-      <!-- <Accordion>
-        <AccordionTab header="יומן (Journal)">
-          <WMJournalDataView />
+      <Accordion>
+        <AccordionTab :header="$t('journal')">
+          <WMJournalDataView
+            entity-type="project"
+            :entity-id="project.project_id"
+          />
         </AccordionTab>
-      </Accordion> -->
+      </Accordion>
 
       <!-- <Accordion>
         <AccordionTab header="גאנט (Gantt)"> NOT DEFINED YET </AccordionTab>

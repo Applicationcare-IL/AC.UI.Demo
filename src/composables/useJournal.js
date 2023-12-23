@@ -1,4 +1,47 @@
+import { useJournalStore } from "@/stores/journalStore";
+
 export function useJournal() {
+  const journalStore = useJournalStore();
+
+  const getJournalFromApi = async (entityType, entityId) => {
+    const params = {
+      entity_type: entityType,
+      entity_id: entityId,
+    };
+
+    const response = await journalStore.getJournalFromApi(params);
+
+    return response.data.data;
+
+    // const journal = response.data.map((journal) => {
+    //   return mapJournal(journal);
+    // });
+
+    // const totalRecords = response.meta.total;
+
+    // return { data: journal, totalRecords };
+  };
+
+  const postJournalInApi = async (entityType, entityId, content) => {
+    const params = {
+      entity_type: entityType,
+      entity_id: entityId,
+      content: content,
+    };
+
+    await journalStore.postJournalInApi(params);
+  };
+
+  const mapJournal = (journal) => {
+    return {
+      id: journal.id,
+      type: journal.type,
+      date: journal.date,
+      // hour: journal.hour,
+      content: journal.content,
+    };
+  };
+
   // MOCKED DATA
   const getJournalData = () => {
     const Journal = [];
@@ -42,5 +85,8 @@ export function useJournal() {
     getJournalWithOrdersSmall,
     getJournalWithOrders,
     getJournal,
+    getJournalFromApi,
+    postJournalInApi,
+    mapJournal,
   };
 }
