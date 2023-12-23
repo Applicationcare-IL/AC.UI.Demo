@@ -7,8 +7,6 @@
           class="connector"
           :class="getStatus(index)"
         ></div>
-        index {{ index }} currentStep {{ currentStep }} getStatus
-        {{ getStatus(index) }}
         <div class="step" :class="getStatus(index)">
           <svg
             v-if="getStatus(index) == 'completed'"
