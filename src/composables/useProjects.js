@@ -118,13 +118,20 @@ export function useProjects() {
     };
   };
 
+  // parse date Sun Dec 24 2023 00:00:00 GMT+0100 (hora estándar de Europa central) to 2023-12-24
+  const parseDate = (date) => {
+    return date.toISOString().split("T")[0];
+  };
+
   const parseProjectCustomer = (customer, serviceAreaId) => {
     return {
       customer: customer.customer_id,
       service_area: serviceAreaId,
-      offer_refusal_to_win: customer.refusal_to_win,
-      offer_second: customer.qualified_second,
+      offer_refusal_to_win: customer.offer_refusal_to_win ? true : false,
+      offer_second: customer.offer_second ? true : false,
       customer_project_status: customer.customer_project_status.id,
+      offer_amount: customer.offer_amount ? customer.offer_amount : 0,
+      // offer_received_at: parseDate(customer.offer_received_at),
     };
   };
 

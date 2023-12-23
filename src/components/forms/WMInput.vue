@@ -115,9 +115,13 @@
     </span>
     <Calendar
       v-if="type === 'date'"
-      v-model="today"
+      v-model="value"
       showIcon
       :disabled="props.disabled"
+      @update:modelValue="
+        $emit('update:modelValue', value);
+        handleChange($event);
+      "
     />
     <slot></slot>
   </div>
@@ -127,9 +131,7 @@
 import { toRef } from "vue";
 import { useField } from "vee-validate";
 
-const today = new Date(2024, 0, 1);
-
-defineEmits(["update:value", "update:selectedItem"]);
+defineEmits(["update:value", "update:selectedItem", "update:modelValue"]);
 
 const props = defineProps({
   value: {
