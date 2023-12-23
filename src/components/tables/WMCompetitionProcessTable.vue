@@ -97,13 +97,14 @@
           :binary="true"
         />
 
-        <i
+        <img
           v-if="
-            slotProps.data.offer_refusal_to_win && !editMode[slotProps.index]
+            !editMode[slotProps.index] && slotProps.data.offer_refusal_to_win
           "
-          class="pi pi-check"
-          style="font-size: 1rem"
-        ></i>
+          src="/icons/refusal_to_win_check.svg"
+          alt=""
+          class="vertical-align-middle"
+        />
       </template>
 
       <template v-if="column.type === 'qualified_second'" #body="slotProps">
@@ -113,11 +114,12 @@
           :binary="true"
         />
 
-        <i
-          v-if="slotProps.data.offer_second && !editMode[slotProps.index]"
-          class="pi pi-check"
-          style="font-size: 1rem"
-        ></i>
+        <img
+          v-if="!editMode[slotProps.index] && slotProps.data.offer_second"
+          src="/icons/offer_second.svg"
+          alt=""
+          class="vertical-align-middle"
+        />
       </template>
 
       <template v-if="column.type === 'offer_amount'" #body="slotProps">
@@ -138,6 +140,7 @@
           :id="column.name"
           :name="column.name"
           v-model="slotProps.data[column.name]"
+          :value="parseDate(slotProps.data[column.name])"
         />
 
         <span v-else-if="slotProps.data[column.name]">
@@ -225,7 +228,21 @@ const utilsStore = useUtilsStore();
 const totalRecords = ref(0);
 const searchValue = ref("");
 
-const { getCustomersFromApi } = useCustomers();
+const parseDate = (date) => {
+  if (!date) return null;
+
+  // check if date is an object
+  if (typeof date === "object") {
+    return date;
+  }
+
+  if (date.includes("-")) {
+    const dateParts = date.split("-");
+    return `${dateParts[1]}/${dateParts[2]}/${dateParts[0]}`;
+  }
+
+  return date;
+};
 
 const props = defineProps({
   rows: {
@@ -408,49 +425,4 @@ const handleUnlinkProjectCustomer = (row) => {
 
 const editMode = ref([]);
 const createMode = ref([]);
-
-const fakeData = () => [
-  {
-    file: true,
-    notes: "משהו חשוב שכולל מילים שכתבו על הארגון ",
-    refusal_to_win: "",
-    qualified_second: "",
-    status: "התקבלה הצעה",
-    offer_amount: "30,000.00",
-    offer_received: "11/12/23",
-    offer_requested: "11/12/23",
-    organization: {
-      id: 1,
-      name: "א.א. בוני הדרום",
-    },
-  },
-  {
-    file: true,
-    notes: "משהו חשוב שכולל מילים שכתבו על הארגון ",
-    refusal_to_win: "",
-    qualified_second: "",
-    status: "התקבלה הצעה",
-    offer_amount: "30,000.00",
-    offer_received: "11/12/23",
-    offer_requested: "11/12/23",
-    organization: {
-      id: 1,
-      name: "א.א. בוני הדרום",
-    },
-  },
-  {
-    file: true,
-    notes: "משהו חשוב שכולל מילים שכתבו על הארגון ",
-    refusal_to_win: "",
-    qualified_second: "",
-    status: "התקבלה הצעה",
-    offer_amount: "30,000.00",
-    offer_received: "11/12/23",
-    offer_requested: "11/12/23",
-    organization: {
-      id: 1,
-      name: "א.א. בוני הדרום",
-    },
-  },
-];
 </script>
