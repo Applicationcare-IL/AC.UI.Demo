@@ -172,7 +172,7 @@ const fetchData = async () => {
     date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
   }));
 
-  currentStage.value = data.process.current_stage?.order - 1;
+  currentStage.value = data.process?.order - 1;
 };
 
 const { handleSubmit, resetForm, meta } = useForm({
