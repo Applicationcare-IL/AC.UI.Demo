@@ -19,9 +19,8 @@
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <!-- For some reason the name "owner" is hidden. That's why is changed to other -->
                   <WMInput
-                    name="owner_name"
+                    name="owner"
                     type="info"
                     :highlighted="true"
                     :label="$t('owner') + ':'"

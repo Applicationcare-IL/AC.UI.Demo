@@ -15,7 +15,7 @@
         <div class="flex flex-auto flex-column gap-5" v-if="service">
           <div class="wm-form-row gap-5">
             <WMInput
-              name="owner"
+              name="service-owner"
               type="info"
               :highlighted="true"
               :label="$t('owner')"

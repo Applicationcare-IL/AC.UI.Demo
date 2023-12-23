@@ -26,7 +26,7 @@
               :value="project.project_id"
             />
             <WMInput
-              name="owner"
+              name="project-owner"
               type="info"
               :highlighted="true"
               :label="$t('owner')"
