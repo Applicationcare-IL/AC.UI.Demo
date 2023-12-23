@@ -398,8 +398,6 @@ const updateDocumentRow = (id, document) => {
 const toast = useToast();
 
 const createDocumentRow = (document) => {
-  console.log("document", document);
-
   // TODO: Temporal validation
   if (!document.name) {
     toast.error("Document name should not be empty");

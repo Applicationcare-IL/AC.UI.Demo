@@ -50,11 +50,7 @@ const handleChangeSelectedContacts = (contacts) => {
 };
 
 const handleUnlinkContact = (contactId) => {
-  // console.log("contactId", contactId);
-  // console.log("selectedContacts.value", selectedContacts.value);
-
   const filteredSelectedContacts = selectedContacts.value.filter((contact) => {
-    console.log("comparo", contact.id, contactId);
     return contact.id !== contactId;
   });
 

@@ -64,8 +64,6 @@ export function useProjects() {
     customerId,
     serviceAreaId
   ) => {
-    console.log("deleteProjectCustomer", projectId, customerId, serviceAreaId);
-
     const data = {
       customer: customerId,
       service_area: serviceAreaId,
@@ -202,8 +200,6 @@ export function useProjects() {
   };
 
   const mapProjectCustomer = (customer) => {
-    console.log("mapProjectCustomer", customer);
-
     return {
       id: customer.id,
       customer_name: customer.customer.name,

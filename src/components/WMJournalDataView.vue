@@ -107,7 +107,6 @@ const { getJournalFromApi, postJournalInApi, mapJournal } = useJournal();
 
 const getJournalData = async () => {
   const data = await getJournalFromApi(props.entityType, props.entityId);
-  console.log("data", data);
   entries.value = data.map((item) => mapJournal(item));
 };
 
