@@ -332,6 +332,7 @@ const addCustomers = (addedCustomers) => {
 
     const newCustomer = {
       ...customer,
+      customer_name: customer.name,
       customer_project_status: {
         id: 1912,
         value: "waiting",
@@ -339,6 +340,8 @@ const addCustomers = (addedCustomers) => {
         value_he: "מחכה",
       },
     };
+
+    console.log("newCustomer", newCustomer);
 
     customers.value.push(newCustomer);
     createMode.value[customers.value.length - 1] = true;
