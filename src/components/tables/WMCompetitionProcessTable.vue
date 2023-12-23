@@ -93,7 +93,7 @@
       <template v-if="column.type === 'refusal_to_win'" #body="slotProps">
         <Checkbox
           v-if="editMode[slotProps.index]"
-          v-model="slotProps.data[column.name]"
+          v-model="slotProps.data.offer_refusal_to_win"
           :binary="true"
         />
 
@@ -109,7 +109,7 @@
       <template v-if="column.type === 'qualified_second'" #body="slotProps">
         <Checkbox
           v-if="editMode[slotProps.index]"
-          v-model="slotProps.data[column.name]"
+          v-model="slotProps.data.offer_second"
           :binary="true"
         />
 
@@ -132,15 +132,17 @@
       </template>
 
       <template v-if="column.type === 'date'" #body="slotProps">
-        <span v-if="slotProps.data[column.name]">
-          {{ slotProps.data[column.name] }}
-        </span>
         <WMInput
-          v-else-if="editMode[slotProps.index] || createMode[slotProps.index]"
+          v-if="editMode[slotProps.index] || createMode[slotProps.index]"
           type="date"
           :id="column.name"
           :name="column.name"
+          v-model="slotProps.data[column.name]"
         />
+
+        <span v-else-if="slotProps.data[column.name]">
+          {{ slotProps.data[column.name] }}
+        </span>
       </template>
 
       <template v-if="column.type === 'actions'" #body="slotProps">
@@ -174,10 +176,7 @@
             name="save"
             icon="save"
             class="in_table"
-            @click="
-              editRow(slotProps.data);
-              editMode[slotProps.index] = false;
-            "
+            @click="editRow(slotProps.data, slotProps.index)"
           />
 
           <WMButton
@@ -349,6 +348,8 @@ const addCustomers = (addedCustomers) => {
 const toast = useToast();
 
 const saveRow = (customer) => {
+  console.log("saveRow", customer);
+
   const newCustomer = {
     customer_id: customer.id,
     customer_project_status: customer.customer_project_status,
@@ -369,7 +370,9 @@ const saveRow = (customer) => {
     });
 };
 
-const editRow = (customer) => {
+const editRow = (customer, index) => {
+  console.log("editRow", customer);
+
   const parsedProjectCustomer = parseProjectCustomer(
     customer,
     props.serviceArea.id
@@ -378,6 +381,7 @@ const editRow = (customer) => {
   updateProjectCustomer(props.projectId, parsedProjectCustomer)
     .then(() => {
       toast.success("Project customer successfully updated");
+      editMode.value[index] = false;
       loadLazyData();
     })
     .catch(() => {
@@ -392,7 +396,7 @@ const handleUnlinkProjectCustomer = (row) => {
     .then(() => {
       customers.value = customers.value.filter((c) => c.id !== customerId);
       toast.success("Project customer successfully unlinked");
-      laodLazyData();
+      loadLazyData();
     })
     .catch(() => {
       toast.error("Project customer unlink failed");
