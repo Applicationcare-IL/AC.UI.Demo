@@ -81,7 +81,7 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion>
+      <Accordion :activeIndex="0">
         <AccordionTab :header="$t('documents.documents')">
           <WMDetailProjectFormDocumentsTab />
         </AccordionTab>
