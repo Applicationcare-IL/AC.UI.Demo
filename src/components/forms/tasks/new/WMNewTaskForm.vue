@@ -238,7 +238,7 @@ const searchContact = (query) => {
 const searchTaskTypes = (query) => {
   return getTasksTypesFromApi({
     search: query,
-    task_family: values["task-family"].id,
+    task_family: values["task-family"].name,
   });
 };
 
