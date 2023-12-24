@@ -62,11 +62,14 @@
         </AccordionTab>
       </Accordion>
 
-      <!-- <Accordion>
-        <AccordionTab header="יומן (Journal)">
-          <WMJournalDataView />
+      <Accordion>
+        <AccordionTab :header="$t('journal')">
+          <WMJournalDataView
+            entity-type="project"
+            :entity-id="project.project_id"
+          />
         </AccordionTab>
-      </Accordion> -->
+      </Accordion>
 
       <!-- <Accordion>
         <AccordionTab header="גאנט (Gantt)"> NOT DEFINED YET </AccordionTab>
@@ -180,8 +183,6 @@ const { handleSubmit, resetForm, meta } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  console.log("values", values);
-
   updateProject(route.params.id, parseUpdateProject(values))
     .then((data) => {
       toast.successAction("project", "updated");

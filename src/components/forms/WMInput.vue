@@ -118,6 +118,7 @@
       v-model="value"
       showIcon
       :disabled="props.disabled"
+      dateFormat="dd/mm/yy"
       @update:modelValue="
         $emit('update:modelValue', value);
         handleChange($event);

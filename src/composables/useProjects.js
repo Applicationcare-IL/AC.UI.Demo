@@ -64,8 +64,6 @@ export function useProjects() {
     customerId,
     serviceAreaId
   ) => {
-    console.log("deleteProjectCustomer", projectId, customerId, serviceAreaId);
-
     const data = {
       customer: customerId,
       service_area: serviceAreaId,
@@ -118,21 +116,48 @@ export function useProjects() {
     };
   };
 
-  // parse date Sun Dec 24 2023 00:00:00 GMT+0100 (hora estándar de Europa central) to 2023-12-24
   const parseDate = (date) => {
-    return date.toISOString().split("T")[0];
+    if (!date) {
+      return new Date().toISOString().split("T")[0];
+    }
+
+    if (typeof date === "object") {
+      return formatDate(date);
+    }
+
+    return date;
   };
 
+  function formatDate(date) {
+    const newDate = new Date(date);
+
+    const year = newDate.getFullYear();
+    const month = newDate.getMonth() + 1; // Note: months are 0-based
+    const day = newDate.getDate();
+
+    const dateISO = `
+    ${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}
+    `;
+
+    return dateISO;
+  }
+
   const parseProjectCustomer = (customer, serviceAreaId) => {
-    return {
+    let result = {
       customer: customer.customer_id,
       service_area: serviceAreaId,
       offer_refusal_to_win: customer.offer_refusal_to_win ? true : false,
       offer_second: customer.offer_second ? true : false,
       customer_project_status: customer.customer_project_status.id,
       offer_amount: customer.offer_amount ? customer.offer_amount : 0,
-      // offer_received_at: parseDate(customer.offer_received_at),
+      offer_received_at: parseDate(customer.offer_received_at),
+      offer_requested_at: parseDate(customer.offer_requested_at),
     };
+
+    console.log("recibo esto", customer);
+    console.log("envio esto", result);
+
+    return result;
   };
 
   const mapProject = (project) => {
@@ -203,8 +228,6 @@ export function useProjects() {
   };
 
   const mapProjectCustomer = (customer) => {
-    console.log("mapProjectCustomer", customer);
-
     return {
       id: customer.id,
       customer_name: customer.customer.name,

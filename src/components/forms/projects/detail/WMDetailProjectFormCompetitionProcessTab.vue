@@ -46,7 +46,6 @@ const props = defineProps({
 });
 
 onMounted(() => {
-  console.log("onmounted", props.project);
   if (props.project.service_areas) {
     serviceAreas.value = props.project.service_areas;
   }
