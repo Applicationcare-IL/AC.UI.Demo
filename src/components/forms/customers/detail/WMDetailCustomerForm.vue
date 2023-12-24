@@ -111,6 +111,7 @@
                   :options="service_areas"
                   :highlighted="true"
                   :modelValue="selectedServiceAreas"
+                  :option-set="true"
                 />
               </div>
             </template>

@@ -19,6 +19,7 @@
               width="152"
               :placeholder="$t('select', ['address.city'])"
               :modelValue="location.city"
+              :option-set="true"
               @change="updateStreets"
             />
             <WMInput
@@ -37,6 +38,7 @@
               :options="streets"
               width="152"
               :placeholder="$t('select', ['address.street'])"
+              :option-set="true"
               :modelValue="location.street"
             />
             <WMInput

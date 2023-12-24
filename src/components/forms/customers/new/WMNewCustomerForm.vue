@@ -115,7 +115,7 @@
             :required="true"
             :placeholder="$t('select', ['contact'])"
             type="table"
-            :label="$t('contact') + ':'"
+            label="אנשי קשר:"
             width="160"
             :highlighted="true"
             :searchFunction="searchContact"
