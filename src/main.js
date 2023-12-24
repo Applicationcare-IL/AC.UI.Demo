@@ -67,6 +67,8 @@ const app = createApp(App)
   .use(VueGoogleMaps, {
     load: {
       key: import.meta.env.VITE_GMAPS_API_KEY,
+      language: "iw",
+      region: "IL",
     },
     libraries: ["places"],
   })

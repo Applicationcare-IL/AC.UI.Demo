@@ -47,8 +47,8 @@ const defaultCenter = ref({
 
 const getLocation = () => {
   console.log(
-    `${props.location.street} ${props.location.house_number} , ${props.location.city}`
+    `${props.location.street.value_he} ${props.location.house_number} , ${props.location.city.value_he}`
   );
-  return `${props.location.street.value} ${props.location.house_number} , ${props.location.city.value}`;
+  return `${props.location.street.value_he} ${props.location.house_number} , ${props.location.city.value_he}`;
 };
 </script>
