@@ -25,8 +25,8 @@ export function useCustomers() {
     return await customersStore.createCustomer(customer);
   };
 
-  const updateCustomer = async (customer) => {
-    return await customersStore.updateCustomer(customer);
+  const updateCustomer = async (id, customer) => {
+    return await customersStore.updateCustomer(id, customer);
   };
 
   const updateState = async (id, state) => {
