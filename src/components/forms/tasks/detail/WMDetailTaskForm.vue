@@ -307,7 +307,12 @@ const service = ref();
 const project = ref();
 const route = useRoute();
 
-const statuses = optionSetsStore.optionSets["task_status"];
+const statuses = optionSetsStore.optionSets["task_status"].map((status) => {
+  return {
+    label: status[optionLabelWithLang.value],
+    value: status.id,
+  };
+});
 
 const props = defineProps({
   formKey: {
