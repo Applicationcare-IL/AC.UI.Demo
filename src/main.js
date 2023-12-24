@@ -68,6 +68,7 @@ const app = createApp(App)
     load: {
       key: import.meta.env.VITE_GMAPS_API_KEY,
     },
+    libraries: ["places"],
   })
   .component("QuillEditor", QuillEditor)
   .component("Column", Column)
