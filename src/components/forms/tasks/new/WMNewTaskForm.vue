@@ -94,7 +94,6 @@
           width="200"
           :highlighted="true"
           :searchFunction="searchTaskTypes"
-          :optionSet="true"
           :disabled="!values['task-family']"
         />
       </div>
@@ -238,7 +237,7 @@ const searchContact = (query) => {
 const searchTaskTypes = (query) => {
   return getTasksTypesFromApi({
     search: query,
-    task_family: values["task-family"].name,
+    task_family: values["task-family"].id,
   });
 };
 
