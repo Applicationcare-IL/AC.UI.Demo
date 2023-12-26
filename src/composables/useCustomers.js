@@ -56,25 +56,11 @@ export function useCustomers() {
       type: customer.type,
       state: customer.state?.value,
       status: customer.status?.value,
-      address: customer.street
-        ? customer.street +
-          " " +
-          customer.street_number +
-          ", " +
-          customer.city +
-          " " +
-          customer.zipcode
-        : "",
-      street: customer.street,
-      street_number: customer.street_number,
-      city: customer.city ? customer.city : "",
-      zipcode: customer.zipcode,
       open_services: customer.open_services,
       breached_services: customer.breached_services,
       open_tasks: customer.open_tasks,
       breached_tasks: customer.breached_tasks,
       notes: customer.notes,
-      // classification1: ["שם של תחום", "שם של תחום"],
       rating: customer.rating ? customer.rating : "",
       number: customer.number,
       id: customer.id,
@@ -83,20 +69,22 @@ export function useCustomers() {
       service_areas: customer.service_areas,
       is_provider: customer.is_provider,
       location: {
-        city: customer["city"]?.id,
-        street: customer["street"]?.id,
+        city: customer.location.city?.id,
+        street: customer.location.street?.id,
         house_number:
-          customer["house-number"] != null
-            ? parseInt(customer["house-number"])
+          customer.location.house_number !== null
+            ? parseInt(customer.location.house_number)
             : null,
-        apartment: customer["apartment"],
-        entrance: customer["entrance"]?.value,
-        zip: customer["zip"],
+        apartment: customer.location.apartment_number,
+        entrance: customer.location.house_entrance,
+        zip: customer.location.zip?.id,
       },
     };
   };
 
   const parseCustomer = (customer, contacts) => {
+    console.log("customer", customer);
+
     return {
       name: customer.name,
       number: customer.number,
@@ -104,30 +92,20 @@ export function useCustomers() {
       project_manager_type: "employee",
       type: customer.type ? customer.type.id : "",
       rating: customer.rating ? customer.rating.id : "",
-      is_provider: customer.is_provider.value, // Optional pero si no lo pones peta
+      is_provider: customer.is_provider ? true : false, // Optional pero si no lo pones peta
       // business: customer.business ? customer.business.id : '',
       service_area: customer.service_area
         ? customer.service_area.map((x) => x.id)
         : "",
-      //   street: customer.street.name,
-      //   street_number: customer.street_number,
-      //   city: customer.city.name,
-      //   zipcode: customer.zipcode,
-      // "file_folder_link": "et",
-      // "account_number": "exercitationem",
-      // "registration_area": "voluptatem",
-      // "subscription": "possimus",
-      // "water_meter": "in"
-      // Missing: entrance, house_number, apartment
       notes: customer.notes,
       contacts: contacts,
       location: {
         city: customer["city"]?.id,
         street: customer["street"]?.id,
         house_number: parseInt(customer["house-number"]),
-        apartment: customer["apartment"],
-        entrance: customer["entrance"]?.value,
-        zip: customer["zip"],
+        apartment_number: customer["apartment"],
+        house_entrance: customer.entrance?.value,
+        zip: customer["zip"]?.id,
       },
     };
   };
