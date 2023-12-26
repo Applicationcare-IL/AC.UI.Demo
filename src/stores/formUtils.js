@@ -123,10 +123,47 @@ export const useFormUtilsStore = defineStore("formUtils", {
       return yup.object({
         name: yup.string().required(),
         number: yup.string().required(),
-        service_area: yup.array().min(1, {
-          key: "validation.required-select",
-          values: { label: "customer.field" },
-        }),
+        rating: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "customer.rating" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "customer.rating" },
+          }),
+        type: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "customer.rating" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "customer.rating" },
+          }),
+
+        city: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "address.city" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "address.city" },
+          }),
+        street: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "address.street" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "address.street" },
+          }),
       });
     },
     getCustomerDetailFormValidationSchema: () => {
