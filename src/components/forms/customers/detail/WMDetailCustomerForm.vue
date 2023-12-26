@@ -14,10 +14,7 @@
           </div>
         </div>
         <div>
-          <WMAnnouncementsButton
-            entity="customer"
-            :id="route.params.id"
-          ></WMAnnouncementsButton>
+          <WMAnnouncementsButton entity="customer" :id="route.params.id" />
         </div>
       </div>
       <div class="flex flex-row gap-5 flex-wrap">
@@ -47,7 +44,7 @@
                     name="name"
                     type="input-text"
                     :highlighted="true"
-                    :label="$t('id') + ':'"
+                    :label="$t('customer.name') + ':'"
                     :value="customer.name"
                     width="150"
                     required
