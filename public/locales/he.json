@@ -190,6 +190,7 @@
     "task": "משימה",
     "tasks": "משימות",
     "new_task": "משימה חדשה",
+    "recurring_task": "משימה חוזרת",
     "family": "משפחה",
     "type": "סוג המשימה",
     "open": "משימות פתיחה ",
@@ -207,6 +208,7 @@
     "close_date": "נסגר",
     "service_number": "מס’ תהליך",
     "complete": "השלם",
+    "description": "תיאור",
     "notification": {
       "created": {
         "header": "New Task Created",

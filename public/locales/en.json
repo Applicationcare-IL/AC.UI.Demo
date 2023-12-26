@@ -192,6 +192,7 @@
     "task": "Task",
     "tasks": "Tasks",
     "new_task": "New Task",
+    "recurring_task": "Recurring Task",
     "family": "Task family",
     "type": "Task type",
     "open": "Open Tasks",
@@ -209,6 +210,7 @@
     "close_date": "Date closed",
     "service_number": "Service number",
     "complete": "Complete",
+    "description": "Description",
     "notification": {
       "created": {
         "header": "New Task Created",
