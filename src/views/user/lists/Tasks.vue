@@ -11,7 +11,11 @@
     @open-sidebar="openSidebar"
     name="newTask"
   >
-    <WMNewEntityFormHeader entity="task" name="newTask" />
+    <WMNewEntityFormHeader
+      entity="task"
+      name="newTask"
+      titleTranslationKey="task.new_task"
+    />
     <WMNewTaskForm :isSidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
 
