@@ -79,7 +79,7 @@ export function useDocuments() {
       document_detail: document.document_detail,
       uploaded_from: document.uploaded_from,
       upload_date: document.upload_date,
-      owner: document.owner,
+      owner: document.owner.name,
       task: document.task,
       file_name: document.file_name,
       has_file: document.file_name ? true : false,

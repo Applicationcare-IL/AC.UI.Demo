@@ -267,7 +267,8 @@
     "id": "מזהה",
     "new_document": "מסמך חדש",
     "select_detail_type": "בחירת פירוט מסמך",
-    "select_type": "בחירת סוג מסמך"
+    "select_type": "בחירת סוג מסמך",
+    "owner": "בעלים"
   },
   "organization": {
     "organization": "ארגון",

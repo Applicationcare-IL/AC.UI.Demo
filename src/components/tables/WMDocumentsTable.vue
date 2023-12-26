@@ -163,7 +163,6 @@
           :document-id="slotProps.data.id"
           :has-file="slotProps.data.has_file"
           @document-uploaded="loadLazyData"
-          :disabled="slotProps.data.mode === 'new'"
         />
       </template>
     </Column>

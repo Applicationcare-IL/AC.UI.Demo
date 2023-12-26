@@ -281,7 +281,8 @@
     "id": "ID",
     "new_document": "New Document",
     "select_detail_type": "Select detail type",
-    "select_type": "Select type"
+    "select_type": "Select type",
+    "owner": "Owner"
   },
   "site": {
     "details": "Site Details",
