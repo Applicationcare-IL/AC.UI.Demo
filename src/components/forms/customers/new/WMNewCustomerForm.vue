@@ -88,7 +88,12 @@
             :label="$t('telephone') + ':'"
             width="88"
           />
-          <WMInput name="fax" type="input-text" :label="$t('fax') + ':'" width="88" />
+          <WMInput
+            name="fax"
+            type="input-text"
+            :label="$t('fax') + ':'"
+            width="88"
+          />
         </div>
 
         <div class="wm-form-row gap-5">
@@ -115,10 +120,19 @@
             :highlighted="true"
             :searchFunction="searchContact"
             :new="true"
-            related-sidebar="newCustomer"
+            related-sidebar="newContact"
             @change="onContactselected"
             :multiple="true"
           />
+          <WMSidebar
+            :visible="isVisible"
+            @close-sidebar="closeSidebar"
+            @open-sidebar="openSidebar"
+            name="newContact"
+          >
+            <WMNewEntityFormHeader entity="contact" name="newContact" />
+            <WMNewContactForm :isSidebar="true" @close-sidebar="closeSidebar" />
+          </WMSidebar>
         </div>
         <WMContactsTable
           :contacts="selectedContacts"
@@ -131,7 +145,11 @@
         />
       </div>
     </div>
-    <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSubmit()"
+      @cancel-form="onCancel()"
+    />
   </div>
 </template>
 
@@ -170,6 +188,16 @@ const toast = useToast();
 const dialog = useDialog();
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
 const selectedContacts = ref([]);
+
+const isVisible = ref(false);
+
+function openSidebar() {
+  isVisible.value = true;
+}
+
+function closeSidebar() {
+  isVisible.value = false;
+}
 
 onMounted(() => {
   optionSetsStore
@@ -260,7 +288,9 @@ const defaultRole = optionSetsStore.optionSets["contact_customer_role"].find(
 const onContactselected = (newContact) => {
   console.log("onContactselected", newContact);
 
-  if (selectedContacts.value.some((contact) => contact.id === newContact.value.id)) {
+  if (
+    selectedContacts.value.some((contact) => contact.id === newContact.value.id)
+  ) {
     console.log("entro aquí");
     return;
   }
