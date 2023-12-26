@@ -52,12 +52,13 @@
       />
     </div>
     <div class="wm-form-row gap-5">
-      <WMInput
+      <WMInputSearch
         name="zip"
-        :highlighted="true"
-        type="input-text"
         :label="$t('address.zip') + ':'"
+        :options="zips"
         width="80"
+        :placeholder="$t('select', ['addres.zip'])"
+        :optionSet="true"
       />
     </div>
   </div>
@@ -74,6 +75,7 @@ const formUtilsStore = useFormUtilsStore();
 
 const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
+const zips = ref(optionSetsStore.optionSets["zip"]);
 
 const updateStreets = (city) => {
   if (city) {

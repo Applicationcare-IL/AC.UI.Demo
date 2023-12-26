@@ -34,6 +34,7 @@ export function useContacts() {
   const updateState = async (id, state) => {
     return await contactsStore.updateState(id, state);
   };
+
   // UTILITIES
   const mapContact = (contact) => {
     return {
@@ -87,6 +88,7 @@ export function useContacts() {
     };
   };
 
+  // used to send data to the API
   const parseContact = (contact) => {
     return {
       name: contact["first-name"],
@@ -112,7 +114,7 @@ export function useContacts() {
         house_number: parseInt(contact["house-number"]),
         apartment: contact["apartment"],
         entrance: contact["entrance"]?.value,
-        zip: contact["zip"],
+        zip: contact["zip"].id,
       },
     };
   };
