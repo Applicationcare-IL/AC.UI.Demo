@@ -235,6 +235,17 @@ const searchContact = (query) => {
 };
 
 const updatedMainContact = (id) => {
+  // unselect contact if it was selected
+  const index = selectedContacts.value.findIndex((contact) => {
+    return contact.id == id;
+  });
+
+  if (index !== -1 && selectedContacts.value[index].main) {
+    selectedContacts.value[index].main = false;
+    return;
+  }
+
+  // change main contact to a new one
   selectedContacts.value.map((contact) => {
     if (contact.id === id) {
       contact.main = true;

@@ -74,11 +74,7 @@
       </template>
       <template v-if="column.type === 'star'" #body="slotProps">
         <div
-          @click="
-            editMode[slotProps.index] &&
-              !isMainContact(slotProps.data) &&
-              onStarClicked(slotProps.data)
-          "
+          @click="editMode[slotProps.index] && onStarClicked(slotProps.data)"
         >
           <img
             v-if="isMainContact(slotProps.data)"
@@ -369,6 +365,8 @@ const alertCellConditionalStyle = (data) => {
 };
 
 const onStarClicked = (contact) => {
+  console.log("onStarClicked");
+
   emit("update:mainContact", contact.id);
 
   if (!isSourceExternal.value) {
@@ -395,6 +393,7 @@ const onStarClicked = (contact) => {
     }
   }
 };
+
 const toast = useToast();
 
 const unlinkContact = (contactId) => {
