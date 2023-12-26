@@ -1,7 +1,7 @@
 <template>
   <Button
     class="selectable-button border-round-2xl"
-    :class="{ completed: completed }"
+    :class="classes"
     :icon="icon"
     @click="toggleCompleted"
     :label="label"
@@ -9,19 +9,27 @@
   </Button>
 </template>
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 
-const { label, modelValue } = defineProps(["label", "modelValue"]);
+const props = defineProps({
+  label: {
+    type: String,
+    required: true,
+  },
+  modelValue: {
+    type: Boolean,
+    required: true,
+  },
+});
+
 const emit = defineEmits();
 
-const completed = ref(modelValue);
-
 const toggleCompleted = () => {
-  completed.value = !completed.value;
-  emit("update:modelValue", completed.value);
+  emit("update:modelValue", !props.modelValue);
 };
 
-const icon = computed(() => (completed.value ? "pi pi-check" : ""));
+const classes = computed(() => (props.modelValue ? "completed" : ""));
+const icon = computed(() => (props.modelValue ? "pi pi-check" : ""));
 </script>
 
 <style scoped>
