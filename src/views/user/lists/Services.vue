@@ -137,6 +137,10 @@ import { useLayout } from "@/layout/composables/layout";
 
 import { formatDate } from "@vueuse/core";
 
+useHead({
+  title: "Services",
+});
+
 const { layoutConfig } = useLayout();
 const formUtilsStore = useFormUtilsStore();
 

@@ -149,7 +149,10 @@
 import { ref, onMounted, computed, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
-import WMOptionSetValue from "../../../components/WMOptionSetValue.vue";
+
+useHead({
+  title: "Tasks",
+});
 
 const { getTasksFromApi, mapContactsFromTasks } = useTasks();
 

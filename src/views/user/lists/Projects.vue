@@ -190,6 +190,10 @@ import { ref, onMounted, computed, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
+useHead({
+  title: "Projects",
+});
+
 const { getProjectsFromApi } = useProjects();
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
 

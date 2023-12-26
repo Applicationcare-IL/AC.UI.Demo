@@ -2,6 +2,7 @@ import { createApp, reactive, markRaw } from "vue";
 import { createPinia } from "pinia";
 import App from "./App.vue";
 // import 'maze-components/dist/index.css'
+import { createHead } from "@unhead/vue";
 
 import mazeComponents from "maze-components";
 import PrimeVue from "primevue/config";
@@ -122,11 +123,15 @@ app.use(i18nInstance);
 
 const pinia = createPinia();
 
+// Create a global head instance
+const head = createHead();
+
 pinia.use(({ store }) => {
   store.router = markRaw(router);
 });
 
 app.use(pinia);
+app.use(head);
 app.use(router);
 
 app.mount("#app");
