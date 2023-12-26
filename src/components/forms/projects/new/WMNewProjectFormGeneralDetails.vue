@@ -3,20 +3,7 @@
   <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
   <div class="wm-form-row align-items-end gap-5">
     <div class="wm-form-row gap-5">
-      <WMInput
-        name="owner"
-        type="info"
-        :highlighted="true"
-        :label="$t('owner') + ':'"
-        :value="authStore.userFullName"
-      />
-      <WMInput
-        name="id"
-        type="info"
-        :highlighted="true"
-        :label="$t('team') + ':'"
-        :value="authStore.team"
-      />
+      <WMTeamOwnerFields />
     </div>
   </div>
   <div class="wm-form-row align-items-end gap-5">
@@ -42,9 +29,6 @@
   </div>
 </template>
 
-<script setup>
-import { useAuthStore } from "@/stores/auth";
-const authStore = useAuthStore();
-</script>
+<script setup></script>
 
 <style scoped lang="scss"></style>
