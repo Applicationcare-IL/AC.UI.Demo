@@ -261,10 +261,17 @@ const { getAlertCellConditionalStyle } = useListUtils();
 watch(
   props.contacts,
   (newValue) => {
-    if (!isSourceExternal.value || !newValue) return;
+    if (isSourceExternal.value && newValue && contacts) {
+      contacts.value = newValue;
+    }
+
+    if (!isSourceExternal.value || !newValue) {
+      return;
+    }
+
     editMode.value[props.contacts.length - 1] = true;
   },
-  { immediate: true }
+  { deep: true }
 );
 
 const contacts = ref([]);
@@ -365,8 +372,6 @@ const alertCellConditionalStyle = (data) => {
 };
 
 const onStarClicked = (contact) => {
-  console.log("onStarClicked");
-
   emit("update:mainContact", contact.id);
 
   if (!isSourceExternal.value) {
