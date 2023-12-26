@@ -50,6 +50,8 @@ export function useCustomers() {
 
   // UTILITIES
   const mapCustomer = (customer) => {
+    console.log("mapCustomer", customer);
+
     return {
       telephone: customer.phone,
       name: customer.name,
