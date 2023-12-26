@@ -135,27 +135,29 @@
           <Column field="project_name" :header="$t('project.project_name')" />
           <Column field="city_data" :header="$t('project.city_data')" />
           <Column field="address" :header="$t('project.address')" />
-          <Column field="project_type" :header="$t('project.project_type')" />
-          <Column field="project_area" :header="$t('project.project_area')" />
-          <Column
-            field="project_detail"
-            :header="$t('project.project_detail')"
-          />
+          <Column field="project_type" :header="$t('project.project_type')">
+            <template #body="slotProps">
+              <WMOptionSetValue :optionSet="slotProps.data.project_type" />
+            </template>
+          </Column>
+          <Column field="project_area" :header="$t('project.project_area')">
+            <template #body="slotProps">
+              <WMOptionSetValue :optionSet="slotProps.data.project_area" />
+            </template>
+          </Column>
+          <Column field="project_detail" :header="$t('project.project_detail')">
+            <template #body="slotProps">
+              <WMOptionSetValue :optionSet="slotProps.data.project_detail" />
+            </template>
+          </Column>
           <Column field="open_tasks" :header="$t('project.open_tasks')" />
           <Column
             field="breached_tasks"
             :header="$t('project.breached_tasks')"
-            class="filled-td"
+            class="numeric"
           >
             <template #body="slotProps">
-              <div
-                :class="
-                  slotProps.data.breached_tasks >= 0
-                    ? 'bg-red-100 text-red-900'
-                    : ''
-                "
-                class="breached-tasks h-full w-full text-center"
-              >
+              <div :class="highlightCellClass(slotProps.data.breached_tasks)">
                 {{ slotProps.data.breached_tasks }}
               </div>
             </template>
@@ -169,10 +171,10 @@
           >
             <template #body="slotProps">
               <div
-                :class="statusClass(slotProps.data.status)"
+                :class="statusClass(slotProps.data.status.value)"
                 class="status-label h-full w-full"
               >
-                {{ slotProps.data.status }}
+                <WMOptionSetValue :optionSet="slotProps.data.status" />
               </div>
             </template>
           </Column>
