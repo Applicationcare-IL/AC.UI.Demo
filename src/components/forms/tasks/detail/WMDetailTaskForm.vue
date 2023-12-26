@@ -33,27 +33,24 @@
                     :label="$t('team') + ':'"
                     :value="task.team"
                   />
+
                   <WMInput
                     name="status"
                     :highlighted="true"
                     type="input-select"
                     :label="$t('status') + ':'"
                     :options="statuses"
-                    :value="
-                      statuses.find(
-                        (status) => status.value === task.status.value
-                      )
-                    "
+                    :value="currentStatus"
                   />
                 </div>
 
                 <div class="wm-form-row gap-5">
                   <WMInput
-                    name="due-date"
+                    name="started-date"
                     type="info"
                     :highlighted="true"
-                    :label="$t('task.due_date')"
-                    :value="task.due_date"
+                    :label="$t('task.started_at')"
+                    :value="task.started_at"
                   />
                   <WMInput
                     name="due-date"
@@ -283,7 +280,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -349,6 +346,12 @@ onMounted(async () => {
 
 const { handleSubmit, meta, resetForm } = useForm({
   // validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
+});
+
+const currentStatus = computed(() => {
+  return statuses.find((status) => {
+    return status.value === task.value.status.id;
+  });
 });
 
 const onSave = handleSubmit((values) => {

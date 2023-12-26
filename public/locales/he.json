@@ -189,6 +189,7 @@
   "task": {
     "task": "משימה",
     "tasks": "משימות",
+    "new_task": "משימה חדשה",
     "family": "משפחה",
     "type": "סוג המשימה",
     "open": "משימות פתיחה ",
@@ -196,6 +197,7 @@
     "stage": "שלב",
     "sla": "SLA",
     "due_date": "תאריך יעד",
+    "started_at": "תאריך התחלה",
     "owner": "אחראי",
     "status": "סטטוס",
     "notes": "הערות",
@@ -268,6 +270,7 @@
     "select_type": "בחירת סוג מסמך"
   },
   "organization": {
+    "organization": "ארגון",
     "organization_name": "שם הארגון",
     "refusal_to_win": "סירוב זכייה",
     "qualified_second": "כשיר שני",

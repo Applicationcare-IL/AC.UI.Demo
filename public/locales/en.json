@@ -191,6 +191,7 @@
   "task": {
     "task": "Task",
     "tasks": "Tasks",
+    "new_task": "New Task",
     "family": "Task family",
     "type": "Task type",
     "open": "Open Tasks",
@@ -198,6 +199,7 @@
     "stage": "Stage",
     "sla": "SLA",
     "due_date": "Due date",
+    "started_at": "Started at",
     "owner": "Owner",
     "status": "Status",
     "notes": "Notes",
@@ -255,6 +257,7 @@
     "location_information": "Location Information"
   },
   "organization": {
+    "organization": "Organization",
     "organization_name": "Organization name",
     "refusal_to_win": "Refusal to win",
     "qualified_second": "Qualified second",
