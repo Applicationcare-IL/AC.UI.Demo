@@ -69,15 +69,15 @@ export function useCustomers() {
       service_areas: customer.service_areas,
       is_provider: customer.is_provider,
       location: {
-        city: customer.location.city?.id,
-        street: customer.location.street?.id,
+        city: customer.location?.city?.id,
+        street: customer.location?.street?.id,
         house_number:
-          customer.location.house_number !== null
-            ? parseInt(customer.location.house_number)
+          customer.location?.house_number !== null
+            ? parseInt(customer.location?.house_number)
             : null,
-        apartment: customer.location.apartment_number,
-        entrance: customer.location.house_entrance,
-        zip: customer.location.zip?.id,
+        apartment: customer.location?.apartment_number,
+        entrance: customer.location?.house_entrance,
+        zip: customer.location?.zip?.id,
       },
     };
   };
