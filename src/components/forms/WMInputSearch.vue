@@ -30,10 +30,7 @@
           :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
         >
           <span class="vertical-align-middle"> לא נמצאו תוצאות </span>
-          <a
-            class="vertical-align-middle orange-link"
-            @click="openRelatedSidebar()"
-          >
+          <a class="vertical-align-middle orange-link" @click="openRelatedSidebar()">
             + צור חדש
           </a>
         </div>
@@ -150,9 +147,7 @@ const props = defineProps({
 });
 
 const chipThemeClass = computed(() => {
-  return props.theme == "default"
-    ? "p-chip--default"
-    : `p-chip--${props.theme}`;
+  return props.theme == "default" ? "p-chip--default" : `p-chip--${props.theme}`;
 });
 
 const emit = defineEmits(["customChange", "update:modelValue"]);
@@ -183,9 +178,7 @@ const search = (event) => {
         filteredOptions.value = [...props.options];
       } else {
         filteredOptions.value = props.options.filter((option) => {
-          return option.name
-            .toLowerCase()
-            .startsWith(event.query.toLowerCase());
+          return option.name.toLowerCase().startsWith(event.query.toLowerCase());
         });
       }
     }
@@ -202,8 +195,17 @@ const search = (event) => {
   }, 250);
 };
 
-const onRemove = (item) => {
-  value.value.splice(value.value.indexOf(item), 1);
+const onRemove = (event) => {
+  // this condition is for the case when the user press the backspace key
+  // we dont want to remove the last item in the list
+  if (event.originalEvent && event.originalEvent.code == "Backspace") {
+    console.log("Se presionó la tecla de borrar (Backspace)");
+    value.value.push(event.value);
+    event.originalEvent.preventDefault();
+    return;
+  }
+
+  value.value.splice(value.value.indexOf(event), 1);
 };
 
 const onItemSelected = (item) => {
