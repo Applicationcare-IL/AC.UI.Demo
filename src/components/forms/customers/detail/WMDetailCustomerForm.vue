@@ -122,7 +122,12 @@
             <template #content>
               <div class="contact-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <Textarea name="notes" v-model="value" autoResize rows="5" />
+                  <WMInput
+                    type="text-area"
+                    id="notes"
+                    name="notes"
+                    :value="customer.notes"
+                  />
                 </div>
               </div>
             </template>
@@ -422,6 +427,8 @@ const { errors, handleSubmit, setFieldError, meta, resetForm } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
+  console.log("values", values);
+
   if (customerNumberExists.value) {
     setFieldError("number", {
       key: "validation.exists",

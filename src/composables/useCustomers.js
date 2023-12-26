@@ -73,6 +73,7 @@ export function useCustomers() {
       breached_services: customer.breached_services,
       open_tasks: customer.open_tasks,
       breached_tasks: customer.breached_tasks,
+      notes: customer.notes,
       // classification1: ["שם של תחום", "שם של תחום"],
       rating: customer.rating ? customer.rating : "",
       number: customer.number,
@@ -103,7 +104,7 @@ export function useCustomers() {
       project_manager_type: "employee",
       type: customer.type ? customer.type.id : "",
       rating: customer.rating ? customer.rating.id : "",
-      is_provider: customer.is_provider.value, //Optional pero si no lo pones peta
+      is_provider: customer.is_provider.value, // Optional pero si no lo pones peta
       // business: customer.business ? customer.business.id : '',
       service_area: customer.service_area
         ? customer.service_area.map((x) => x.id)
