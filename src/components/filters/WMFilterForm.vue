@@ -2,7 +2,9 @@
   <div class="filter-header flex flex-row justify-content-between p-4">
     <Button @click="applyFilter"> החל סינון </Button>
     <div class="flex flex-column align-items-center">
-      <div class="h3">סינון אנשי קשר</div>
+      <div class="h3">
+        {{ translatedTitle }}
+      </div>
       <span v-if="appliedFilters == 0">לא הופעלו סננים</span>
       <span v-else>הופעלו {{ appliedFilters }} סננים </span>
     </div>
@@ -29,10 +31,17 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useUtilsStore } from "@/stores/utils";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const { entity, filterFormName } = defineProps({
   entity: String,
   filterFormName: String,
+});
+
+const translatedTitle = computed(() => {
+  return t(`filters.${entity}-title`);
 });
 
 const utilsStore = useUtilsStore();

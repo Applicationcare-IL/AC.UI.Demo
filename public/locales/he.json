@@ -458,5 +458,12 @@
   "communication-channels": {
     "sms": "SMS",
     "whatsapp": "Whatsapp"
+  },
+  "filters": {
+    "task-title": "סינון משימות",
+    "customer-title": "סינון לקוחות",
+    "contact-title": "סינון אנשי קשר",
+    "service-title": "סינון שירותים",
+    "project-title": "סינון פרויקטים"
   }
 }
