@@ -147,6 +147,10 @@ import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useLayout } from "@/layout/composables/layout";
 
+useHead({
+  title: "Customers",
+});
+
 const { getTasksMini } = useTasks();
 const { getServicesMini } = useServices();
 const { setSelectedContacts, resetSelectedContacts } = useContacts();

@@ -11,7 +11,11 @@
     @open-sidebar="openSidebar"
     name="newTask"
   >
-    <WMNewEntityFormHeader entity="task" name="newTask" />
+    <WMNewEntityFormHeader
+      entity="task"
+      name="newTask"
+      titleTranslationKey="task.new_task"
+    />
     <WMNewTaskForm :isSidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
 
@@ -145,7 +149,10 @@
 import { ref, onMounted, computed, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
-import WMOptionSetValue from "../../../components/WMOptionSetValue.vue";
+
+useHead({
+  title: "Tasks",
+});
 
 const { getTasksFromApi, mapContactsFromTasks } = useTasks();
 

@@ -76,7 +76,7 @@ export function useTasks() {
       status: task.status,
       is_open: task.status?.value == "open",
       due_date: task.sla?.due_date,
-      open_date: task.started_at,
+      started_at: task.started_at,
       owner: task.owner?.name,
       team: task.owner?.default_team,
       customer: task.customer?.name,
@@ -106,7 +106,8 @@ export function useTasks() {
 
   const parseUpdateTask = (task) => {
     return {
-      notes: task.notes,
+      notes: task.notes ? task.notes : "",
+      status: task.status.value,
     };
   };
 

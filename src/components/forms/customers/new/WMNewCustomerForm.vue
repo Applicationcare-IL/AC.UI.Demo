@@ -120,10 +120,19 @@
             :highlighted="true"
             :searchFunction="searchContact"
             :new="true"
-            related-sidebar="newCustomer"
+            related-sidebar="newContact"
             @change="onContactselected"
             :multiple="true"
           />
+          <WMSidebar
+            :visible="isVisible"
+            @close-sidebar="closeSidebar"
+            @open-sidebar="openSidebar"
+            name="newContact"
+          >
+            <WMNewEntityFormHeader entity="contact" name="newContact" />
+            <WMNewContactForm :isSidebar="true" @close-sidebar="closeSidebar" />
+          </WMSidebar>
         </div>
         <WMContactsTable
           :contacts="selectedContacts"
@@ -180,6 +189,16 @@ const dialog = useDialog();
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
 const selectedContacts = ref([]);
 
+const isVisible = ref(false);
+
+function openSidebar() {
+  isVisible.value = true;
+}
+
+function closeSidebar() {
+  isVisible.value = false;
+}
+
 onMounted(() => {
   optionSetsStore
     .getOptionSetValuesFromApi("service_area")
@@ -235,6 +254,17 @@ const searchContact = (query) => {
 };
 
 const updatedMainContact = (id) => {
+  // unselect contact if it was selected
+  const index = selectedContacts.value.findIndex((contact) => {
+    return contact.id == id;
+  });
+
+  if (index !== -1 && selectedContacts.value[index].main) {
+    selectedContacts.value[index].main = false;
+    return;
+  }
+
+  // change main contact to a new one
   selectedContacts.value.map((contact) => {
     if (contact.id === id) {
       contact.main = true;
@@ -256,12 +286,16 @@ const defaultRole = optionSetsStore.optionSets["contact_customer_role"].find(
 );
 
 const onContactselected = (newContact) => {
+  console.log("onContactselected", newContact);
+
   if (
     selectedContacts.value.some((contact) => contact.id === newContact.value.id)
-  )
+  ) {
+    console.log("entro aquí");
     return;
+  }
 
-  //Select the default role for the new contact and add it to the list of selected contacts
+  // Select the default role for the new contact and add it to the list of selected contacts
   newContact.value.role = { ...defaultRole };
   selectedContacts.value.push(newContact.value);
 };

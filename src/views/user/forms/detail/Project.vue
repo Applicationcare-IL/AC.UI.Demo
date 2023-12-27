@@ -6,6 +6,10 @@
 <script setup>
 import { ref } from "vue";
 
+useHead({
+  title: "Project Detail",
+});
+
 const formKey = ref("projectDetailForm");
 
 const detailProjectForm = ref(null);

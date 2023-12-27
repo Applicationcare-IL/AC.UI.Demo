@@ -8,40 +8,42 @@
             name="tbr-number"
             type="input-text"
             :label="$t('project.tbr_no') + ':'"
-            :value="project?.firstName"
+            :value="project?.tbr_number"
           />
           <WMInput
             name="request-number"
-            validationMessage="Validation Message"
             type="input-text"
             :label="$t('project.request_no') + ':'"
-            :value="project?.lastName"
+            :value="project?.request_number"
           />
         </div>
         <div class="wm-form-row gap-5">
           <WMInput
+            v-if="project.architect"
             name="architect"
             type="info-link"
             :highlighted="true"
             :label="$t('project.architect') + ':'"
-            :value="`נופר דוד אדריכלים ומתכנני ערים בע`"
-            :to="'/contact/' + 'test'"
+            :value="`${project.architect.name} ${project.architect.surname}`"
+            :to="'/customer/' + project.architect.id"
           />
           <WMInput
+            v-if="project.contractor"
             name="contractor"
             type="info-link"
             :highlighted="true"
             :label="$t('project.contractor') + ':'"
-            :value="'אשל הנדסה הבע”מ'"
-            :to="'/contact/' + 'test'"
+            :value="`${project.contractor.name} ${project.contractor.surname}`"
+            :to="'/customer/' + project.contractor.id"
           />
           <WMInput
+            v-if="project.supervisor"
             name="supervisor"
             type="info-link"
             :highlighted="true"
             :label="$t('project.supervisor') + ':'"
-            :value="'אנך הנדסה הבע”מ'"
-            :to="'/contact/' + 'test'"
+            :value="`${project.supervisor.name} ${project.supervisor.surname}`"
+            :to="'/customer/' + project.supervisor.id"
           />
         </div>
       </div>

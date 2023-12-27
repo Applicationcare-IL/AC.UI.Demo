@@ -18,9 +18,10 @@
               :options="cities"
               width="152"
               :placeholder="$t('select', ['address.city'])"
-              :modelValue="location.city"
+              :modelValue="selectedCity"
               :option-set="true"
               @change="updateStreets"
+              required
             />
             <WMInput
               v-else
@@ -39,7 +40,9 @@
               width="152"
               :placeholder="$t('select', ['address.street'])"
               :option-set="true"
-              :modelValue="location.street"
+              :modelValue="selectedSteet"
+              :disabled="!isCitySelected"
+              required
             />
             <WMInput
               v-else
@@ -67,18 +70,30 @@
             />
             <WMInput
               name="entrance"
-              :type="formType"
-              :highlighted="true"
+              type="input-select"
               :label="$t('address.entrance') + ':'"
-              :value="location.entrance"
+              :options="alphabet"
+              :value="selectedEntrance"
+              width="60"
             />
           </div>
           <div class="wm-form-row gap-5">
+            <WMInputSearch
+              v-if="editable"
+              name="zip"
+              :label="$t('address.zip') + ':'"
+              :options="zips"
+              width="80"
+              :placeholder="$t('select', ['address.zip'])"
+              :optionSet="true"
+              :modelValue="selectedZip"
+            />
             <WMInput
+              v-else
               name="zip"
               :type="formType"
+              :highlighted="true"
               :label="$t('address.zip') + ':'"
-              width="80"
               :value="location.zip"
             />
           </div>
@@ -89,10 +104,13 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
+import { useFormUtilsStore } from "@/stores/formUtils";
 
-const { location, editable } = defineProps({
+const formUtilsStore = useFormUtilsStore();
+
+const props = defineProps({
   location: {
     type: Object,
     required: true,
@@ -104,13 +122,41 @@ const { location, editable } = defineProps({
 });
 
 const optionSetsStore = useOptionSetsStore();
+const alphabet = ref(formUtilsStore.getAlphabet);
 
 const formType = computed(() => {
-  return editable ? "input-text" : "info";
+  return props.editable ? "input-text" : "info";
 });
 
 const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
+const zips = ref(optionSetsStore.optionSets["zip"]);
+
+const selectedCity = ref();
+const selectedSteet = ref();
+const isCitySelected = ref(false);
+const selectedZip = ref();
+const selectedEntrance = computed(() => {
+  return alphabet.value.find(
+    (letter) => letter.value === props.location.entrance
+  );
+});
+
+onMounted(() => {
+  if (props.location?.street && props.location?.city) {
+    isCitySelected.value = true;
+
+    selectedCity.value = cities.value.find(
+      (city) => city.id === props.location.city
+    );
+
+    selectedSteet.value = streets.value.find(
+      (street) => street.id === props.location.street
+    );
+
+    selectedZip.value = zips.value.find((zip) => zip.id === props.location.zip);
+  }
+});
 
 const updateStreets = (city) => {
   if (city) {
@@ -119,6 +165,10 @@ const updateStreets = (city) => {
       .then((data) => {
         streets.value = data;
       });
+
+    isCitySelected.value = true;
+  } else {
+    isCitySelected.value = false;
   }
 };
 </script>

@@ -347,11 +347,12 @@ export function useListUtils() {
         name: "id",
         type: "id",
       },
-      { name: "name", type: "name" },
       { name: "type", type: "type", optionSet: "document_type" },
       { name: "detail", type: "detail", optionSet: "document_detail" },
+      { name: "name", type: "name" },
       { name: "uploaded_from", type: "text" },
       { name: "task", type: "task" },
+      { name: "owner", type: "text" },
       { name: "upload_date", type: "text" },
     ];
   };

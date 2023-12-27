@@ -1,5 +1,5 @@
 <template>
-  <Button v-if="hasFile" class="p-button-only-icon p-lightblue-button">
+  <Button v-if="hasFileUploaded" class="p-button-only-icon p-lightblue-button">
     <div
       class="p-button-svg"
       v-html="FileIcon"
@@ -21,7 +21,7 @@
         name="demo[]"
         accept="image/*,application/pdf"
         customUpload
-        @uploader="customBase64Uploader($event, documentId)"
+        @uploader="customBase64Uploader($event)"
       />
       <!-- <Button label="File folder" /> -->
     </div>
@@ -36,7 +36,6 @@ import AddFileIcon from "/icons/menu/add_file.svg?raw";
 const props = defineProps({
   documentId: {
     type: Number,
-    required: true,
   },
   hasFile: {
     type: Boolean,
@@ -48,11 +47,11 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["documentUploaded"]);
-
 const { uploadDocument, handleDownloadFile } = useDocuments();
 
-const customBase64Uploader = async (event, id) => {
+const hasFileUploaded = ref(props.hasFile);
+
+const customBase64Uploader = async (event) => {
   const file = event.files[0];
   const reader = new FileReader();
   let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
@@ -71,9 +70,9 @@ const customBase64Uploader = async (event, id) => {
       file: cleanBase64,
     };
 
-    uploadDocument(id, params)
+    uploadDocument(props.documentId, params)
       .then((data) => {
-        emit("documentUploaded");
+        hasFileUploaded.value = true;
         addFileOverlay.value.toggle();
       })
       .catch((error) => {

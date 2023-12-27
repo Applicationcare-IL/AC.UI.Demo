@@ -1,45 +1,6 @@
 <template>
-  <h2 v-if="showControls && showTitle" class="h2">
-    {{ $t("contact.contact") }}
-  </h2>
+  <WMAssignContactButton @addContacts="addContacts" />
 
-  <WMAssignContactButton v-if="showAddContact" @addContacts="addContacts" />
-
-  <div
-    v-if="showControls && showHeaderOptions && !showAddContact"
-    class="flex flex-column gap-3 mb-3"
-  >
-    <div class="flex flex-row justify-content-between">
-      <div class="flex flex-row">
-        <WMAssignContactButton @addContacts="addContacts" />
-        <WMButton class="m-1 col-6" name="export-white" icon="export">
-          {{ $t("export") }}
-        </WMButton>
-      </div>
-      <div class="flex flex-row align-items-center gap-3" v-if="showFilters">
-        <WMButton
-          name="filter"
-          icon="filter"
-          :open="isFilterOpen"
-          :applied="isFilterApplied"
-          @click="openFilterSidebar"
-          >{{ t("filter") }}
-        </WMButton>
-        <WMSidebar
-          :visible="isFilterVisible"
-          @close-sidebar="closeFilterSidebar"
-          @open-sidebar="openFilterSidebar"
-          name="filterContact"
-        >
-          <WMFilterForm entity="contact" filterFormName="contact" />
-        </WMSidebar>
-        <WMOwnerToggle entity="contact" />
-      </div>
-    </div>
-    <div class="flex flex-row gap-3">
-      <WMSearchBox entity="contact" />
-    </div>
-  </div>
   <DataTable
     lazy
     v-model:selection="selectedContacts"
@@ -47,17 +8,11 @@
     dataKey="contact_id"
     tableStyle="min-width: 50rem"
     scrollable
-    :paginator="showControls"
     :rows="props.rows"
     @page="onPage($event)"
     :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selectionMode="multiple"
-    ></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -72,38 +27,7 @@
           >{{ slotProps.data[column.name] }}</router-link
         >
       </template>
-      <template v-if="column.type === 'star'" #body="slotProps">
-        <div
-          @click="editMode[slotProps.index] && onStarClicked(slotProps.data)"
-        >
-          <img
-            v-if="isMainContact(slotProps.data)"
-            src="/icons/star.svg"
-            alt=""
-            class="vertical-align-middle"
-          />
-          <img
-            v-if="editMode[slotProps.index] && !isMainContact(slotProps.data)"
-            src="/icons/star_grey.svg"
-            alt=""
-            class="vertical-align-middle"
-          />
-        </div>
-      </template>
-      <template v-if="column.type === 'role'" #body="slotProps">
-        <Dropdown
-          v-if="editMode[slotProps.index]"
-          :options="optionSetsStore.optionSets[column.optionSet]"
-          :optionLabel="optionLabelWithLang"
-          optionValue="id"
-          class="w-full p-0"
-          v-model="slotProps.data.role.id"
-        >
-        </Dropdown>
-        <div v-else>
-          <WMOptionSetValue :optionSet="slotProps.data.role" />
-        </div>
-      </template>
+
       <template v-if="column.type === 'role_project'" #body="slotProps">
         <Dropdown
           v-if="editMode[slotProps.index]"
@@ -111,7 +35,7 @@
           :optionLabel="optionLabelWithLang"
           optionValue="id"
           class="w-full p-0"
-          v-model="slotProps.data.role_project.id"
+          v-model="slotProps.data.role_project"
         />
         <div v-else>
           <WMOptionSetValue :optionSet="slotProps.data.role_project" />
@@ -196,18 +120,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  showControls: {
-    type: Boolean,
-    default: true,
-  },
-  showFilters: {
-    type: Boolean,
-    default: true,
-  },
-  showTitle: {
-    type: Boolean,
-    default: true,
-  },
+
   customerId: {
     type: String,
     default: null,
@@ -219,18 +132,6 @@ const props = defineProps({
   contacts: {
     type: Array,
     default: null,
-  },
-  showHeaderOptions: {
-    type: Boolean,
-    default: true,
-  },
-  showAddContact: {
-    type: Boolean,
-    default: false,
-  },
-  tableClass: {
-    type: String,
-    default: "",
   },
   relatedEntity: {
     type: String,
@@ -350,10 +251,11 @@ const addContacts = (addedContacts) => {
     }
 
     if (props.relatedEntity === "project") {
-      contact.role_project = defaultRole.value;
+      contact.role_project = defaultRole.value.id;
     }
 
     contact.main = false;
+
     contacts.value.push(contact);
     editMode.value[contacts.value.length - 1] = true;
   });

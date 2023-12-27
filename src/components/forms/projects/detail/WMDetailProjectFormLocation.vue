@@ -13,6 +13,7 @@
             :label="$t('project.address')"
             v-model="showAddressOptions"
           />
+
           <div v-if="showAddressOptions">
             <div class="wm-form-row gap-5 mt-3">
               <WMInputSearch
@@ -36,6 +37,7 @@
                   :label="$t('address.street') + ':'"
                   :options="streets"
                   :modelValue="selectedSteet"
+                  v-model="selectedSteet"
                   width="152"
                   :placeholder="$t('select', ['address.street'])"
                   :optionSet="true"
@@ -137,16 +139,17 @@ onMounted(() => {
   }
 });
 
-const updateStreets = (city) => {
-  if (city) {
+const updateStreets = (event) => {
+  if (event.value) {
     optionSetsStore
-      .getOptionSetValuesFromApiRaw("service_street", city.value.id)
+      .getOptionSetValuesFromApiRaw("service_street", event.value.id)
       .then((data) => {
         streets.value = data;
       });
 
     isCitySelected.value = true;
   } else {
+    selectedSteet.value = null;
     isCitySelected.value = false;
   }
 };

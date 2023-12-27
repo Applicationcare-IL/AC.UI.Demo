@@ -36,6 +36,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
       "document_detail",
       "document_type",
       "customer_project_status",
+      "zip",
     ],
     optionSets: {},
     optionSetsPreloaded: false,

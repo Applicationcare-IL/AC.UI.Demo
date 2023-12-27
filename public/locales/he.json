@@ -189,6 +189,8 @@
   "task": {
     "task": "משימה",
     "tasks": "משימות",
+    "new_task": "משימה חדשה",
+    "recurring_task": "משימה חוזרת",
     "family": "משפחה",
     "type": "סוג המשימה",
     "open": "משימות פתיחה ",
@@ -196,6 +198,7 @@
     "stage": "שלב",
     "sla": "SLA",
     "due_date": "תאריך יעד",
+    "started_at": "תאריך התחלה",
     "owner": "אחראי",
     "status": "סטטוס",
     "notes": "הערות",
@@ -205,6 +208,7 @@
     "close_date": "נסגר",
     "service_number": "מס’ תהליך",
     "complete": "השלם",
+    "description": "תיאור",
     "notification": {
       "created": {
         "header": "New Task Created",
@@ -265,9 +269,11 @@
     "id": "מזהה",
     "new_document": "מסמך חדש",
     "select_detail_type": "בחירת פירוט מסמך",
-    "select_type": "בחירת סוג מסמך"
+    "select_type": "בחירת סוג מסמך",
+    "owner": "בעלים"
   },
   "organization": {
+    "organization": "ארגון",
     "organization_name": "שם הארגון",
     "refusal_to_win": "סירוב זכייה",
     "qualified_second": "כשיר שני",
@@ -458,5 +464,12 @@
   "communication-channels": {
     "sms": "SMS",
     "whatsapp": "Whatsapp"
+  },
+  "filters": {
+    "task-title": "סינון משימות",
+    "customer-title": "סינון לקוחות",
+    "contact-title": "סינון אנשי קשר",
+    "service-title": "סינון שירותים",
+    "project-title": "סינון פרויקטים"
   }
 }

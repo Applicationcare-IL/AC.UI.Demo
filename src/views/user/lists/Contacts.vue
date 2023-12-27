@@ -125,6 +125,10 @@ import { usePermissionsStore } from "@/stores/permissionsStore";
 
 import { useLayout } from "@/layout/composables/layout";
 
+useHead({
+  title: "Contacts",
+});
+
 const { getTasksMini } = useTasks();
 const { layoutConfig } = useLayout();
 const { getServicesMini } = useServices();

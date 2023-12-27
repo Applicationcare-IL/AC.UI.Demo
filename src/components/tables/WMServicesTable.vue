@@ -8,7 +8,7 @@
     <WMNewEntityFormHeader entity="service" name="newService" />
     <WMNewTaskForm :isSidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
-  <h2 class="h2">{{ $t("service.services") }}</h2>
+  <h2 class="h2">{{ $t("service.service") }}</h2>
   <div class="flex flex-column gap-3 mb-3" v-if="showHeaderOptions">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">

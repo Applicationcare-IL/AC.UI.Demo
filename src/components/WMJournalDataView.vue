@@ -40,8 +40,22 @@
               style="width: 16px; height: 16px"
             />
           </div>
-          <div>{{ item.date }}</div>
-          <!-- <div>{{ item.hour }}</div> -->
+
+          <div>
+            <span class="mr-2">{{ item.hour }}</span>
+            <strong> {{ item.date }}</strong>
+          </div>
+          <div v-if="item.caused_by" class="mr-4">
+            <strong
+              >{{ item.caused_by.name + " " + item.caused_by.surname }}:</strong
+            >
+          </div>
+          <div v-if="item.task">
+            <strong>{{ $t("task") }} {{ item.task.id }}</strong>
+          </div>
+          <div v-if="item.data?.assigned_to">
+            <strong>המשימה הוקצתה ל {{ item.data.assigned_to.name }}</strong>
+          </div>
           <div>{{ item.content }}</div>
         </div>
         <!-- <div class="flex flex-row justify-items-end align-items-center gap-2">
@@ -73,8 +87,15 @@
   <div class="flex flex-row mt-5">
     <Button @click="onSendJorunal">Send</Button>
     <span class="journal-input">
-      <img :src="`icons/journal/post.svg`" style="width: 16px; height: 16px" />
-      <InputText v-model="newJournal" placeholder="כתיבת עדכון..." />
+      <img
+        :src="`icons/journal/blue_post.svg`"
+        style="width: 16px; height: 16px"
+      />
+      <InputText
+        v-model="newJournal"
+        placeholder="כתיבת עדכון..."
+        @keyup.enter="onSendJorunal"
+      />
     </span>
   </div>
 
@@ -112,10 +133,6 @@ const getJournalData = async () => {
 
 onMounted(() => {
   getJournalData();
-
-  // setTimeout(function () {
-  //   getJournalSmall().then((data) => (entries.value = data.slice(0, 10)));
-  // }, 1000);
 });
 
 const onSendJorunal = () => {

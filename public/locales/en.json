@@ -115,8 +115,8 @@
     "number-abbreviation": "Customer No.",
     "type": "Type",
     "rating": "Rating",
-    "area": "Field",
-    "areas": "Field",
+    "area": "Service area",
+    "areas": "Service areas",
     "add": "Add Customer",
     "main": "Main",
     "open-services": "Open Services",
@@ -191,6 +191,8 @@
   "task": {
     "task": "Task",
     "tasks": "Tasks",
+    "new_task": "New Task",
+    "recurring_task": "Recurring Task",
     "family": "Task family",
     "type": "Task type",
     "open": "Open Tasks",
@@ -198,6 +200,7 @@
     "stage": "Stage",
     "sla": "SLA",
     "due_date": "Due date",
+    "started_at": "Started at",
     "owner": "Owner",
     "status": "Status",
     "notes": "Notes",
@@ -207,6 +210,7 @@
     "close_date": "Date closed",
     "service_number": "Service number",
     "complete": "Complete",
+    "description": "Description",
     "notification": {
       "created": {
         "header": "New Task Created",
@@ -255,6 +259,7 @@
     "location_information": "Location Information"
   },
   "organization": {
+    "organization": "Organization",
     "organization_name": "Organization name",
     "refusal_to_win": "Refusal to win",
     "qualified_second": "Qualified second",
@@ -278,7 +283,8 @@
     "id": "ID",
     "new_document": "New Document",
     "select_detail_type": "Select detail type",
-    "select_type": "Select type"
+    "select_type": "Select type",
+    "owner": "Owner"
   },
   "site": {
     "details": "Site Details",
@@ -451,5 +457,12 @@
   "communication-channels": {
     "sms": "SMS",
     "whatsapp": "Whatsapp"
+  },
+  "filters": {
+    "task-title": "Task Filters",
+    "customer-title": "Customer Filters",
+    "contact-title": "Contact Filters",
+    "service-title": "Service Filters",
+    "project-title": "Project Filters"
   }
 }

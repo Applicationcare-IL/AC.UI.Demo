@@ -1,24 +1,11 @@
 <template>
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 class="h1 mb-0">{{ $t("new", ["task.task"]) }}</h1>
+      <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["task.task"]) }}</h1>
       <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
-          <WMInput
-            name="owner"
-            type="info"
-            :highlighted="true"
-            :label="$t('owner') + ':'"
-            value="שרוליק כהן"
-          />
-          <WMInput
-            name="id"
-            type="info"
-            :highlighted="true"
-            :label="$t('team') + ':'"
-            value="שיפור פני העיר"
-          />
+          <WMTeamOwnerFields />
         </div>
       </div>
       <div class="wm-form-row align-items-end gap-5">
@@ -26,9 +13,9 @@
           <WMInputSearch
             name="contact"
             :required="true"
-            :placeholder="$t('select', ['contact'])"
+            :placeholder="$t('select', ['contact.contact'])"
             type="input-search"
-            :label="$t('contact') + ':'"
+            :label="$t('contact.contact') + ':'"
             width="160"
             :highlighted="true"
             :new="true"
@@ -51,9 +38,9 @@
         <WMInputSearch
           name="customer"
           :required="true"
-          :placeholder="$t('select', ['customer'])"
+          :placeholder="$t('select', ['organization.organization'])"
           type="input-search"
-          :label="$t('customer') + ':'"
+          :label="$t('organization.organization') + ':'"
           width="160"
           :highlighted="true"
           :searchFunction="searchCustomer"
@@ -128,13 +115,14 @@
       </div> -->
       <Divider class="mb-0" layout="horizontal" />
       <div class="task-description flex flex-auto flex-column gap-5">
-        <h2 class="h2 mb-0">{{ $t("description") }}</h2>
         <div class="wm-form-row gap-5">
           <WMInput
             type="text-area"
             id="description"
             name="description"
             :required="true"
+            :label="$t('description') + ':'"
+            :highlighted="true"
           />
         </div>
       </div>

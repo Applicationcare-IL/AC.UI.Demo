@@ -12,14 +12,6 @@ export function useJournal() {
     const response = await journalStore.getJournalFromApi(params);
 
     return response.data.data;
-
-    // const journal = response.data.map((journal) => {
-    //   return mapJournal(journal);
-    // });
-
-    // const totalRecords = response.meta.total;
-
-    // return { data: journal, totalRecords };
   };
 
   const postJournalInApi = async (entityType, entityId, content) => {
@@ -33,12 +25,18 @@ export function useJournal() {
   };
 
   const mapJournal = (journal) => {
+    const date = journal.date.split(" ")[0].split("-").reverse().join("-");
+    const hour = journal.date.split(" ")[1].split(":").slice(0, 2).join(":");
+
     return {
       id: journal.id,
       type: journal.type,
-      date: journal.date,
-      // hour: journal.hour,
+      date: date,
+      hour: hour,
+      data: journal.data,
       content: journal.content,
+      caused_by: journal.caused_by,
+      task: journal.task,
     };
   };
 

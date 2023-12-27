@@ -33,27 +33,24 @@
                     :label="$t('team') + ':'"
                     :value="task.team"
                   />
+
                   <WMInput
                     name="status"
                     :highlighted="true"
                     type="input-select"
                     :label="$t('status') + ':'"
                     :options="statuses"
-                    :value="
-                      statuses.find(
-                        (status) => status.value === task.status.value
-                      )
-                    "
+                    :value="currentStatus"
                   />
                 </div>
 
                 <div class="wm-form-row gap-5">
                   <WMInput
-                    name="due-date"
+                    name="started-date"
                     type="info"
                     :highlighted="true"
-                    :label="$t('task.due_date')"
-                    :value="task.due_date"
+                    :label="$t('task.started_at')"
+                    :value="task.started_at"
                   />
                   <WMInput
                     name="due-date"
@@ -81,6 +78,7 @@
 
                 <div class="wm-form-row gap-5">
                   <WMInput
+                    v-if="task.task_family"
                     name="family"
                     type="info"
                     :highlighted="true"
@@ -129,7 +127,7 @@
                     name="recurring-task"
                     type="info"
                     :highlighted="true"
-                    label="Recurring task"
+                    :label="$t('task.recurring_task')"
                     value="No"
                   />
                 </div>
@@ -165,12 +163,7 @@
             <template #content>
               <div class="task-description flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <Textarea
-                    v-model="task.description"
-                    autoResize
-                    rows="5"
-                    disabled
-                  />
+                  <Textarea v-model="task.description" autoResize rows="5" disabled />
                 </div>
               </div>
             </template>
@@ -182,12 +175,7 @@
             <template #content>
               <div class="task-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <WMInput
-                    :value="task.notes"
-                    type="text-area"
-                    id="notes"
-                    name="notes"
-                  />
+                  <WMInput :value="task.notes" type="text-area" id="notes" name="notes" />
                 </div>
               </div>
             </template>
@@ -255,24 +243,22 @@
           </TabPanel>
           <TabPanel header="טאב 1">
             <p>
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-              quae ab illo inventore veritatis et quasi architecto beatae vitae
-              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-              aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-              eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci
-              velit, sed quia non numquam eius modi.
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+              doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+              veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
+              ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+              consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+              Consectetur, adipisci velit, sed quia non numquam eius modi.
             </p>
           </TabPanel>
           <TabPanel header="טאב 2">
             <p>
-              At vero eos et accusamus et iusto odio dignissimos ducimus qui
-              blanditiis praesentium voluptatum deleniti atque corrupti quos
-              dolores et quas molestias excepturi sint occaecati cupiditate non
-              provident, similique sunt in culpa qui officia deserunt mollitia
-              animi, id est laborum et dolorum fuga. Et harum quidem rerum
-              facilis est et expedita distinctio. Nam libero tempore, cum soluta
-              nobis est eligendi optio cumque nihil impedit quo minus.
+              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+              praesentium voluptatum deleniti atque corrupti quos dolores et quas
+              molestias excepturi sint occaecati cupiditate non provident, similique sunt
+              in culpa qui officia deserunt mollitia animi, id est laborum et dolorum
+              fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero
+              tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
             </p>
           </TabPanel>
         </TabView>
@@ -283,7 +269,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -349,6 +335,12 @@ onMounted(async () => {
 
 const { handleSubmit, meta, resetForm } = useForm({
   // validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
+});
+
+const currentStatus = computed(() => {
+  return statuses.find((status) => {
+    return status.value === task.value.status.id;
+  });
 });
 
 const onSave = handleSubmit((values) => {

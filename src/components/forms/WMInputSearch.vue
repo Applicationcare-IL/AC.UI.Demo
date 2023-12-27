@@ -69,6 +69,10 @@ import { ref, toRef, computed, onMounted, watch } from "vue";
 import { useField } from "vee-validate";
 import { useLayout } from "@/layout/composables/layout";
 
+import { useI18n } from "vue-i18n";
+
+const { locale } = useI18n();
+
 const { layoutConfig } = useLayout();
 const { openSidebar } = useSidebar();
 const { optionLabelWithLang } = useLanguages();
@@ -170,26 +174,31 @@ const optionLabel = computed(() => {
 
 const search = (event) => {
   setTimeout(() => {
-    //In case we have a search function, we will use it to filter the options
+    // In case we have a search function, we will use it to filter the options
     if (props.searchFunction) {
       props.searchFunction(event.query.toLowerCase()).then((result) => {
         return (filteredOptions.value = result.data.filter((option) => {
           return option.name;
         }));
       });
-      //Otherwise we will filter the static list
+      // Otherwise we will filter the static list
     } else {
       if (!event.query?.trim().length) {
         filteredOptions.value = [...props.options];
       } else {
         filteredOptions.value = props.options.filter((option) => {
-          return option.name
-            .toLowerCase()
-            .startsWith(event.query.toLowerCase());
+          if (option[`value_${locale.value}`]) {
+            return option[`value_${locale.value}`]
+              .toLowerCase()
+              .includes(event.query.toLowerCase());
+          }
+
+          // by default, try to search by name and without translations
+          return option.name.toLowerCase().includes(event.query.toLowerCase());
         });
       }
     }
-    //Remove the selected options from the available options
+    // Remove the selected options from the available options
     if (props.multiple && value.value?.length > 0)
       filteredOptions.value = filteredOptions.value.filter((option) => {
         if (value.value.length == 0) return true;
@@ -202,8 +211,17 @@ const search = (event) => {
   }, 250);
 };
 
-const onRemove = (item) => {
-  value.value.splice(value.value.indexOf(item), 1);
+const onRemove = (event) => {
+  // this condition is for the case when the user press the backspace key
+  // we dont want to remove the last item in the list
+  if (event.originalEvent && event.originalEvent.code == "Backspace") {
+    console.log("Se presionó la tecla de borrar (Backspace)");
+    value.value.push(event.value);
+    event.originalEvent.preventDefault();
+    return;
+  }
+
+  value.value.splice(value.value.indexOf(event), 1);
 };
 
 const onItemSelected = (item) => {

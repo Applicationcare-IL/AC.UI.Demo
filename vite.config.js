@@ -6,6 +6,8 @@ import svgLoader from "vite-svg-loader";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 
+import { unheadVueComposablesImports } from "@unhead/vue";
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -15,6 +17,7 @@ export default defineConfig({
       /* options */
     }),
     AutoImport({
+      imports: [unheadVueComposablesImports],
       dirs: ["./src/composables"],
     }),
   ],
