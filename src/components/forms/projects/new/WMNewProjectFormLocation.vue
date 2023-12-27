@@ -54,6 +54,7 @@
             :disabled="!isCitySelected"
             :highlighted="true"
             :label="$t('address.house-number') + ':'"
+            :required="true"
           />
         </div>
         <WMLocationMap />

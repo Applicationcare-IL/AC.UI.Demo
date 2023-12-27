@@ -27,7 +27,7 @@
             @project-type-update="handleProjectTypeUpdate"
             :project="project"
           />
-          <!-- <WMDetailProjectFormExecutionInformation /> -->
+          <WMDetailProjectFormExecutionInformation />
         </div>
       </div>
 
