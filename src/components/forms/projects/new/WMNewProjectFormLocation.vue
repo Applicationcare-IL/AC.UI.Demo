@@ -88,7 +88,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
@@ -101,15 +101,16 @@ const isCitySelected = ref(false);
 const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
 
-const updateStreets = (city) => {
-  if (city) {
+const updateStreets = (event) => {
+  if (event.value) {
     optionSetsStore
-      .getOptionSetValuesFromApiRaw("service_street", city.value.id)
+      .getOptionSetValuesFromApiRaw("service_street", event.value.id)
       .then((data) => {
         streets.value = data;
       });
     isCitySelected.value = true;
   } else {
+    selectedSteet.value = null;
     isCitySelected.value = false;
   }
 };
