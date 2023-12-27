@@ -2,23 +2,19 @@
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <WMNewProjectFormGeneralDetails />
-
       <Divider layout="horizontal" />
 
       <WMNewProjectFormClassification />
-
       <Divider class="mb-0" layout="horizontal" />
-      <WMNewProjectFormLocation />
 
+      <WMNewProjectFormLocation />
       <Divider class="mb-0" layout="horizontal" />
 
       <h2 class="h2 mb-0">{{ $t("team") }}</h2>
-      <WMContactsTable
+
+      <WMAssignContactsTable
         :contacts="selectedContacts"
         :columns="getSelectedContactsForNewProjectColumns()"
-        :showControls="false"
-        :showAddContact="true"
-        :multiselect="false"
         related-entity="project"
         @change:selected-contacts="handleChangeSelectedContacts"
         @unlink="handleUnlinkContact"
