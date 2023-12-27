@@ -101,6 +101,8 @@ export function useProjects() {
   };
 
   const parseUpdateProject = (project) => {
+    console.log("parseUpdateProject", project);
+
     return {
       name: project["project-name"],
       project_type: project.project_type?.id,
@@ -115,6 +117,8 @@ export function useProjects() {
         entrance: "",
         zip: "",
       },
+      tbr_number: project["tbr-number"],
+      request_number: project["request-number"],
     };
   };
 
@@ -186,6 +190,11 @@ export function useProjects() {
       service_areas: project.service_areas,
       owner: project.owner.name,
       team: project.owner.default_team,
+      tbr_number: project.tbr_number,
+      request_number: project.request_number,
+      architect: project.architect,
+      supervisor: project.supervisor,
+      contractor: project.contractor,
     };
   };
 
