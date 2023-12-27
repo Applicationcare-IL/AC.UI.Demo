@@ -163,7 +163,6 @@
         <WMUploadDocumentButton
           :document-id="slotProps.data.id"
           :has-file="slotProps.data.has_file"
-          @document-uploaded="loadLazyData"
         />
       </template>
     </Column>
@@ -202,7 +201,6 @@ import { useRoute } from "vue-router";
 import { useUtilsStore } from "@/stores/utils";
 
 import SaveIcon from "/icons/save_default.svg?raw";
-import WMOptionSetValue from "../WMOptionSetValue.vue";
 
 const { t, locale } = useI18n();
 

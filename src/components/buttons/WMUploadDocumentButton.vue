@@ -1,5 +1,5 @@
 <template>
-  <Button v-if="hasFile" class="p-button-only-icon p-lightblue-button">
+  <Button v-if="hasFileUploaded" class="p-button-only-icon p-lightblue-button">
     <div
       class="p-button-svg"
       v-html="FileIcon"
@@ -47,9 +47,9 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["documentUploaded"]);
-
 const { uploadDocument, handleDownloadFile } = useDocuments();
+
+const hasFileUploaded = ref(props.hasFile);
 
 const customBase64Uploader = async (event) => {
   const file = event.files[0];
@@ -72,7 +72,7 @@ const customBase64Uploader = async (event) => {
 
     uploadDocument(props.documentId, params)
       .then((data) => {
-        emit("documentUploaded");
+        hasFileUploaded.value = true;
         addFileOverlay.value.toggle();
       })
       .catch((error) => {
