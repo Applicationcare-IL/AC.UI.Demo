@@ -114,7 +114,7 @@ export function useContacts() {
         house_number: parseInt(contact["house-number"]),
         apartment: contact["apartment"],
         entrance: contact["entrance"]?.value,
-        zip: contact["zip"].id,
+        zip: contact["zip"]?.id,
       },
     };
   };
