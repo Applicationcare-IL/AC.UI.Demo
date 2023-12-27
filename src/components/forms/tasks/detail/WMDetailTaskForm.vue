@@ -78,6 +78,7 @@
 
                 <div class="wm-form-row gap-5">
                   <WMInput
+                    v-if="task.task_family"
                     name="family"
                     type="info"
                     :highlighted="true"
