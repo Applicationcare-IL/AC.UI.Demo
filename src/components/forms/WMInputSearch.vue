@@ -30,7 +30,10 @@
           :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
         >
           <span class="vertical-align-middle"> לא נמצאו תוצאות </span>
-          <a class="vertical-align-middle orange-link" @click="openRelatedSidebar()">
+          <a
+            class="vertical-align-middle orange-link"
+            @click="openRelatedSidebar()"
+          >
             + צור חדש
           </a>
         </div>
@@ -65,6 +68,10 @@
 import { ref, toRef, computed, onMounted, watch } from "vue";
 import { useField } from "vee-validate";
 import { useLayout } from "@/layout/composables/layout";
+
+import { useI18n } from "vue-i18n";
+
+const { locale } = useI18n();
 
 const { layoutConfig } = useLayout();
 const { openSidebar } = useSidebar();
@@ -147,7 +154,9 @@ const props = defineProps({
 });
 
 const chipThemeClass = computed(() => {
-  return props.theme == "default" ? "p-chip--default" : `p-chip--${props.theme}`;
+  return props.theme == "default"
+    ? "p-chip--default"
+    : `p-chip--${props.theme}`;
 });
 
 const emit = defineEmits(["customChange", "update:modelValue"]);
@@ -165,24 +174,33 @@ const optionLabel = computed(() => {
 
 const search = (event) => {
   setTimeout(() => {
-    //In case we have a search function, we will use it to filter the options
+    // In case we have a search function, we will use it to filter the options
     if (props.searchFunction) {
       props.searchFunction(event.query.toLowerCase()).then((result) => {
         return (filteredOptions.value = result.data.filter((option) => {
           return option.name;
         }));
       });
-      //Otherwise we will filter the static list
+      // Otherwise we will filter the static list
     } else {
       if (!event.query?.trim().length) {
         filteredOptions.value = [...props.options];
       } else {
         filteredOptions.value = props.options.filter((option) => {
-          return option.name.toLowerCase().startsWith(event.query.toLowerCase());
+          if (option[`value_${locale.value}`]) {
+            return option[`value_${locale.value}`]
+              .toLowerCase()
+              .startsWith(event.query.toLowerCase());
+          }
+
+          // by default, try to search by name and without translations
+          return option.name
+            .toLowerCase()
+            .startsWith(event.query.toLowerCase());
         });
       }
     }
-    //Remove the selected options from the available options
+    // Remove the selected options from the available options
     if (props.multiple && value.value?.length > 0)
       filteredOptions.value = filteredOptions.value.filter((option) => {
         if (value.value.length == 0) return true;
