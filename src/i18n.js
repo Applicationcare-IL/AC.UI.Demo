@@ -62,8 +62,8 @@ export async function loadLocaleMessages(i18n, locale) {
 
 export const i18n = setupI18n({
   legacy: false,
-  locale: "he", // set the default locale
-  fallbackLocale: "he", // set the fallback locale
+  locale: import.meta.env.VITE_I18N_LOCALE || "he",
+  fallbackLocale: import.meta.env.VITE_I18N_FALLBACK_LOCALE || "he",
   globalInjection: true,
 });
 
