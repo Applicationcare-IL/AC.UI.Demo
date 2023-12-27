@@ -22,7 +22,7 @@
       :value="value"
       v-model="value"
       @input="
-        $emit('update:value', $event.target.value);
+        $emit('update:modelValue', $event.target.value);
         handleChange($event.target.value);
       "
       @blur="handleBlur"

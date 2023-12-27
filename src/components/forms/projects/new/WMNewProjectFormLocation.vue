@@ -23,8 +23,9 @@
             :options="cities"
             width="152"
             :placeholder="$t('select', ['addres.city'])"
-            @change="updateStreets"
+            @change="updateStreets($event)"
             :optionSet="true"
+            v-model="location.city"
           />
           <div class="flex flex-row gap-5 mt-2 mb-2">
             <WMInputSearch
@@ -37,15 +38,8 @@
               :placeholder="$t('select', ['address.street'])"
               :optionSet="true"
               :disabled="!isCitySelected"
+              v-model="location.street"
             />
-            <!-- <WMInput
-              name="neighborhood"
-              type="info"
-              :highlighted="true"
-              :label="$t('address.neighborhood') + ':'"
-              value="שם של שכונה"
-              class="is-mocked"
-            /> -->
           </div>
 
           <WMInput
@@ -54,9 +48,10 @@
             :disabled="!isCitySelected"
             :highlighted="true"
             :label="$t('address.house-number') + ':'"
+            v-model="location.house_number"
           />
         </div>
-        <WMLocationMap />
+        <WMLocationMap :location="location" />
       </div>
     </div>
   </div>
@@ -100,6 +95,8 @@ const isCitySelected = ref(false);
 
 const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
+
+const location = ref({});
 
 const updateStreets = (city) => {
   if (city) {
