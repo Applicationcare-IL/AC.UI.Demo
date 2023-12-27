@@ -57,26 +57,48 @@ export function useDocuments() {
 
   // UTILITIES
   const parseUpdateDocument = (document) => {
-    return {
+    let parsedDocument = {
       name: document.name,
     };
+
+    // send only if document_type id is not null
+    if (document.document_type?.id) {
+      parsedDocument.document_type_id = document.document_type.id;
+    }
+
+    // send only if document_detail id is not null
+    if (document.document_detail?.id) {
+      parsedDocument.document_detail_id = document.document_detail.id;
+    }
+
+    return parsedDocument;
   };
 
   const parseCreateDocument = (document) => {
     return {
       name: document.name,
       project_id: document.project_id,
-      document_type_id: document.document_detail,
-      document_detail_id: document.document_type,
+      document_type_id: document.document_type,
+      document_detail_id: document.document_detail,
     };
   };
 
+  /**
+   * Maps document object to a new object with the required properties
+   * We need the document_type and document_detail to be empty objects in order to work with the dropdowns
+   * @param {*} document
+   * @returns mapped document
+   */
   const mapDocument = (document) => {
     return {
       id: document.id,
       name: document.name,
-      document_type: document.document_type,
-      document_detail: document.document_detail,
+      document_type: document.document_type
+        ? document.document_type
+        : { id: null },
+      document_detail: document.document_detail
+        ? document.document_detail
+        : { id: null },
       uploaded_from: document.uploaded_from,
       upload_date: document.upload_date,
       owner: document.owner.name,

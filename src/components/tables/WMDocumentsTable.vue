@@ -109,18 +109,19 @@
             params: { id: slotProps.data.id },
           }"
           class="vertical-align-middle"
-          >{{ slotProps.data.id }}</router-link
         >
+          {{ slotProps.data.id }}
+        </router-link>
       </template>
 
       <template v-if="column.type === 'detail'" #body="slotProps">
         <Dropdown
-          v-if="createMode[slotProps.data.id]"
+          v-if="editMode[slotProps.data.id]"
           :options="optionSetsStore.optionSets[column.optionSet]"
           :optionLabel="optionLabelWithLang"
           optionValue="id"
           class="w-full p-0"
-          v-model="slotProps.data.document_detail"
+          v-model="slotProps.data.document_detail.id"
           :placeholder="$t('documents.select_detail_type')"
         >
         </Dropdown>
@@ -131,12 +132,12 @@
 
       <template v-if="column.type === 'type'" #body="slotProps">
         <Dropdown
-          v-if="createMode[slotProps.data.id]"
+          v-if="editMode[slotProps.data.id]"
           :options="optionSetsStore.optionSets[column.optionSet]"
           :optionLabel="optionLabelWithLang"
           optionValue="id"
           class="w-full p-0"
-          v-model="slotProps.data.document_type"
+          v-model="slotProps.data.document_type.id"
           :placeholder="$t('documents.select_type')"
         >
         </Dropdown>
@@ -148,7 +149,7 @@
       <template v-if="column.type === 'name'" #body="slotProps">
         <input
           class="w-full p-0"
-          v-if="editMode[slotProps.data.id] || createMode[slotProps.data.id]"
+          v-if="editMode[slotProps.data.id]"
           v-model="slotProps.data.name"
         />
         <div v-else>
@@ -180,22 +181,11 @@
           <div class="p-button-svg" v-html="SaveIcon" />
         </Button>
 
-        <Button
-          v-else-if="createMode[slotProps.data.id]"
-          class="p-button-only-icon p-teal-button"
-          @click="
-            createDocumentRow(slotProps.data);
-            slotProps.data.mode = 'view';
-          "
-        >
-          <div class="p-button-svg" v-html="SaveIcon" />
-        </Button>
-
         <WMDocumentsTableItemOverlayMenu
           v-else
           :item-id="slotProps.data.id"
           @edit-row="handleEditRow"
-          @refresh-table="loadLazyData"
+          @refresh-table="refreshTable"
         />
       </template>
     </Column>
@@ -298,14 +288,25 @@ const loading = ref(false);
 const handleNewDocument = () => {
   loading.value = true;
 
-  // we need a random id to manage the new document table states
-  const id = randomId();
-  const newDocument = createNewDocument(id);
+  let document = {};
 
-  documents.value.push(newDocument.value);
-  createMode.value[id] = true;
+  if (props.relatedEntity === "project") {
+    document.project_id = props.projectId;
+  }
 
-  loading.value = false;
+  if (props.relatedEntity === "task") {
+    document.task_id = props.taskId;
+  }
+
+  createDocument(document)
+    .then(({ data }) => {
+      loadLazyData();
+      editMode.value[data.id] = true;
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Document not created");
+    });
 };
 
 const getColumnHeaderText = (column) => {
@@ -341,6 +342,8 @@ const loadLazyData = () => {
     documents.value = result.data;
     totalRecords.value = result.totalRecords;
   });
+
+  loading.value = false;
 };
 
 const onPage = (event) => {
@@ -381,10 +384,11 @@ const filters = ref({
 });
 
 const updateDocumentRow = (id, document) => {
+  console.log("updateDocumentRow", id, document);
   updateDocument(document.id, parseUpdateDocument(document))
     .then((data) => {
       editMode.value[id] = false;
-      // alert("document updated", id);
+      loadLazyData();
       // toast.successAction("customer", "updated");
     })
     .catch((error) => {
@@ -395,42 +399,22 @@ const updateDocumentRow = (id, document) => {
 
 const toast = useToast();
 
-const createDocumentRow = (document) => {
-  // TODO: Temporal validation
-  if (!document.name) {
-    toast.error("Document name should not be empty");
-    return;
-  }
-
-  if (!document.document_type) {
-    toast.error("Document type should not be empty");
-    return;
-  }
-
-  if (!document.document_detail) {
-    toast.error("Document detail should not be empty");
-    return;
-  }
-
-  if (props.relatedEntity === "project") {
-    document.project_id = props.projectId;
-  }
-
-  if (props.relatedEntity === "task") {
-    document.task_id = props.taskId;
-  }
-
-  createDocument(parseCreateDocument(document))
-    .then((data) => {
-      createMode.value[document.id] = false;
-      toast.success("Document created");
-      loadLazyData();
-    })
-    .catch((error) => {
-      console.error(error);
-      toast.error("Document not created");
-    });
+const refreshTable = () => {
+  setTimeout(() => loadLazyData(), 500);
 };
+
+// const createDocumentRow = (document) => {
+//   createDocument(parseCreateDocument(document))
+//     .then((data) => {
+//       createMode.value[document.id] = false;
+//       toast.success("Document created");
+//       loadLazyData();
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       toast.error("Document not created");
+//     });
+// };
 
 watch(
   () => utilsStore.selectedElements["document"],

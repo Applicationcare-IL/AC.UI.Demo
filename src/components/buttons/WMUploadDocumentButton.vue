@@ -21,7 +21,7 @@
         name="demo[]"
         accept="image/*,application/pdf"
         customUpload
-        @uploader="customBase64Uploader($event, documentId)"
+        @uploader="customBase64Uploader($event)"
       />
       <!-- <Button label="File folder" /> -->
     </div>
@@ -49,9 +49,9 @@ const props = defineProps({
 
 const emit = defineEmits(["documentUploaded"]);
 
-const { createDocument, uploadDocument, handleDownloadFile } = useDocuments();
+const { uploadDocument, handleDownloadFile } = useDocuments();
 
-const customBase64Uploader = async (event, id) => {
+const customBase64Uploader = async (event) => {
   const file = event.files[0];
   const reader = new FileReader();
   let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
@@ -70,20 +70,14 @@ const customBase64Uploader = async (event, id) => {
       file: cleanBase64,
     };
 
-    console.log("props.documentId", props.documentId);
-
-    if (props.documentId) {
-      uploadDocument(id, params)
-        .then((data) => {
-          emit("documentUploaded");
-          addFileOverlay.value.toggle();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } else {
-      console.log("creo un document");
-    }
+    uploadDocument(props.documentId, params)
+      .then((data) => {
+        emit("documentUploaded");
+        addFileOverlay.value.toggle();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 };
 
