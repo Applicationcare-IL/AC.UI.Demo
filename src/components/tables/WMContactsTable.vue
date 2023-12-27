@@ -112,8 +112,7 @@
           optionValue="id"
           class="w-full p-0"
           v-model="slotProps.data.role_project.id"
-        >
-        </Dropdown>
+        />
         <div v-else>
           <WMOptionSetValue :optionSet="slotProps.data.role_project" />
         </div>
@@ -337,9 +336,8 @@ const defaultRole = computed(() => {
   }
 
   if (props.relatedEntity === "project") {
-    return optionSetsStore.optionSets["contact_project_role"].find(
-      (role) => role.value === "role_1"
-    );
+    // set the first role as default
+    return optionSetsStore.optionSets["contact_project_role"][0];
   }
 });
 
