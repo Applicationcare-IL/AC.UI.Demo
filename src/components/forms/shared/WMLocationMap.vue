@@ -13,7 +13,7 @@
 import { ref, onMounted, watchEffect } from "vue";
 
 const myMapRef = ref(null);
-const marker = new window.google.maps.Marker();
+let marker;
 let geocoder;
 
 const props = defineProps({
@@ -33,10 +33,10 @@ onMounted(() => {
 const geocode = () => {
   if (!props.location.street || !props.location.city) return;
   myMapRef.value.$mapPromise.then((map) => {
+    marker = new window.google.maps.Marker();
     geocoder = new window.google.maps.Geocoder();
 
     geocoder.geocode({ address: getLocation() }, (results) => {
-      console.log(results);
       map.panTo(results[0].geometry.location);
       marker.setMap(map);
       marker.setPosition(results[0].geometry.location);
@@ -51,9 +51,6 @@ const defaultCenter = ref({
 
 const getLocation = () => {
   if (!props.location.street || !props.location.city) return;
-  console.log(
-    `${props.location.street.value_he} ${props.location.house_number} , ${props.location.city.value_he}`
-  );
   return `${props.location.street.value_he} ${props.location.house_number} , ${props.location.city.value_he}`;
 };
 </script>
