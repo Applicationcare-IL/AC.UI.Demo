@@ -54,7 +54,7 @@
             <strong>{{ $t("task") }} {{ item.task.id }}</strong>
           </div>
           <div v-if="item.data?.assigned_to">
-            <strong>המשימה הוטלה על {{ item.data.assigned_to.name }}</strong>
+            <strong>המשימה הוקצתה ל {{ item.data.assigned_to.name }}</strong>
           </div>
           <div>{{ item.content }}</div>
         </div>
