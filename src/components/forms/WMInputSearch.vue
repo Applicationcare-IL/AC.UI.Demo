@@ -190,13 +190,11 @@ const search = (event) => {
           if (option[`value_${locale.value}`]) {
             return option[`value_${locale.value}`]
               .toLowerCase()
-              .startsWith(event.query.toLowerCase());
+              .includes(event.query.toLowerCase());
           }
 
           // by default, try to search by name and without translations
-          return option.name
-            .toLowerCase()
-            .startsWith(event.query.toLowerCase());
+          return option.name.toLowerCase().includes(event.query.toLowerCase());
         });
       }
     }
