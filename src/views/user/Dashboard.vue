@@ -170,7 +170,7 @@
                   </template>
                 </Column>
 
-                <Column field="name" header="שם לקוח"></Column>
+                <Column field="name" :header="$t('customer_name')"></Column>
                 <Column field="type" header="סוג"></Column>
                 <Column field="selected_product" header="איש קשר ראשי">
                   <template #body="slotProps">
@@ -304,7 +304,7 @@
                   </template>
                 </Column>
 
-                <Column field="name" header="שם לקוח"></Column>
+                <Column field="name" :header="$t('customer_name')"></Column>
                 <Column field="type" header="סוג"></Column>
                 <Column field="selected_product" header="איש קשר ראשי">
                   <template #body="slotProps">

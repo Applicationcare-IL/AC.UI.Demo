@@ -54,6 +54,7 @@
   "now": "Now",
   "export": "Export",
   "journal": "Journal",
+  "customer_name": "Customer Name",
   "buttons": {
     "link_contact": "Link contact",
     "assign": "Assign",
@@ -126,6 +127,7 @@
     "notes": "Customer Notes",
     "is-provider": "Is Provider",
     "system-id": "System ID",
+    "main-contact": "Main Contact",
     "notification": {
       "created": {
         "header": "New Customer Created",
