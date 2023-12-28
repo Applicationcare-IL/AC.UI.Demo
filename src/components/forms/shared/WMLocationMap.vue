@@ -10,10 +10,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watchEffect } from "vue";
+import { watch } from "vue";
+import { ref, onMounted } from "vue";
 
 const myMapRef = ref(null);
-const marker = new window.google.maps.Marker();
+let marker;
 let geocoder;
 
 const props = defineProps({
@@ -23,26 +24,34 @@ const props = defineProps({
   },
 });
 
-onMounted(() => {
-  watchEffect(() => {
-    console.log(props.location.house_number);
+watch(
+  () => props.location,
+  () => {
     geocode();
-  });
-});
+  },
+  { deep: true }
+);
 
 const geocode = () => {
   if (!props.location.street || !props.location.city) return;
   myMapRef.value.$mapPromise.then((map) => {
+    if (!marker) {
+      marker = new window.google.maps.Marker();
+      marker.setMap(map);
+    }
     geocoder = new window.google.maps.Geocoder();
 
     geocoder.geocode({ address: getLocation() }, (results) => {
-      console.log(results);
       map.panTo(results[0].geometry.location);
-      marker.setMap(map);
+
       marker.setPosition(results[0].geometry.location);
     });
   });
 };
+
+onMounted(() => {
+  geocode();
+});
 
 const defaultCenter = ref({
   lat: 32.0853,
@@ -51,9 +60,6 @@ const defaultCenter = ref({
 
 const getLocation = () => {
   if (!props.location.street || !props.location.city) return;
-  console.log(
-    `${props.location.street.value_he} ${props.location.house_number} , ${props.location.city.value_he}`
-  );
   return `${props.location.street.value_he} ${props.location.house_number} , ${props.location.city.value_he}`;
 };
 </script>
