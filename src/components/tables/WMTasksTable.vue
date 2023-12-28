@@ -55,6 +55,7 @@
       <WMSearchBox entity="task" />
     </div>
   </div>
+  rows {{ rows }} totalRecords {{ totalRecords }}
   <DataTable
     lazyParams
     v-model:selection="selectedTasks"
@@ -66,6 +67,7 @@
     paginator
     :rows="props.rows"
     @page="onPage($event)"
+    :first="0"
     :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
     :class="`p-datatable-${tableClass}`"
