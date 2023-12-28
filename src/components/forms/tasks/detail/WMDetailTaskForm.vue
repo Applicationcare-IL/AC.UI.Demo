@@ -36,11 +36,10 @@
 
                   <WMInput
                     name="status"
+                    type="info"
                     :highlighted="true"
-                    type="input-select"
                     :label="$t('status') + ':'"
-                    :options="statuses"
-                    :value="currentStatus"
+                    :value="currentStatus.label"
                   />
                 </div>
 
