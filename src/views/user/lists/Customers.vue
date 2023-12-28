@@ -132,7 +132,7 @@
           <div :class="highlightCellClass(slotProps.data.rating)">
             {{
               slotProps.data.rating
-                ? $t("customer-rating." + slotProps.data.rating.value)
+                ? slotProps.data.rating[optionLabelWithLang]
                 : ""
             }}
           </div>
@@ -146,13 +146,13 @@
           >
             <Chip
               v-for="area in slotProps.data.service_areas"
-              :label="area.value"
+              :label="area[optionLabelWithLang]"
             ></Chip>
           </div>
         </template>
       </Column>
-      <Column field="number" :header="$t('customer.number')" frozen></Column>
-      <Column field="owner.name" :header="$t('owner')"></Column>
+      <Column field="number" :header="$t('customer.number')"></Column>
+      <Column field="owner.name" :header="$t('owner')" frozen></Column>
     </DataTable>
   </div>
 </template>
@@ -170,6 +170,7 @@ useHead({
 const { getTasksMini } = useTasks();
 const { getServicesMini } = useServices();
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
+const { optionLabelWithLang } = useLanguages();
 
 onMounted(() => {
   utilsStore.entity = "customer";
