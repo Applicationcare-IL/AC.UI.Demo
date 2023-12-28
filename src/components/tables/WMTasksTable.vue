@@ -56,7 +56,7 @@
     </div>
   </div>
   <DataTable
-    lazyParams
+    lazy
     v-model:selection="selectedTasks"
     :rowClass="rowClass"
     :value="tasks"
@@ -66,6 +66,7 @@
     paginator
     :rows="props.rows"
     @page="onPage($event)"
+    :first="0"
     :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
     :class="`p-datatable-${tableClass}`"

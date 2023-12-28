@@ -6,6 +6,7 @@
     multiselect
     :hide-title="true"
     :show-filters="false"
+    rows="10"
   />
 </template>
 <script setup>
