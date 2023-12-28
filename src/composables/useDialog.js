@@ -165,6 +165,19 @@ export function useDialog() {
     });
   };
 
+  const completeProject = (id) => {
+    confirm.require({
+      group: "completeProject",
+      header: "ביטול פרויקט" + id,
+      acceptLabel: "ביטול תהליך",
+      rejectLabel: "חזור",
+      accept: () => {
+        formUtilsStore.completeProject(id);
+      },
+      reject: () => {},
+    });
+  };
+
   const confirmNewProject = (id) => {
     confirm.require({
       message: "The new contact was successfully created!",
