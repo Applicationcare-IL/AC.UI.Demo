@@ -13,6 +13,9 @@
 import { ref } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 import { useI18n } from "vue-i18n";
+import { useAuthStore } from "@/stores/auth";
+
+const authStore = useAuthStore();
 
 const { t } = useI18n();
 const utilsStore = useUtilsStore();
@@ -22,9 +25,10 @@ const props = defineProps({
 });
 
 const onChangeOwnerFilter = (event) => {
+  console.log(utilsStore.filters["task"]);
   if (event.value === "all")
     delete utilsStore.filters[props.entity]["employee"];
-  else utilsStore.filters[props.entity] = { employee: 1 };
+  else utilsStore.filters[props.entity] = { employee: authStore.user?.id };
 };
 
 const getEntityPlural = () => {
