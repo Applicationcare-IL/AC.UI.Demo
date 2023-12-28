@@ -172,6 +172,8 @@ onMounted(() => {
 const { selectedRowsPerPage } = useListUtils();
 
 const loadLazyData = () => {
+  loading.value = true;
+
   const filters = utilsStore.filters["task"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
