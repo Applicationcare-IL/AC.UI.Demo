@@ -40,7 +40,7 @@
       @update:selection="onSelectionChanged"
     >
       <Column style="width: 40px" selectionMode="multiple"></Column>
-      <!-- Task number -->
+
       <Column field="task_number" :header="$t('task.number')" class="link-col">
         <template #body="slotProps">
           <router-link
@@ -53,56 +53,25 @@
           >
         </template>
       </Column>
-      <!-- Service number -->
-      <Column
-        field="process_number"
-        :header="$t('task.service_number')"
-        class="link-col"
-      >
-        <template #body="slotProps">
-          <router-link
-            v-if="slotProps.data.service_number"
-            :to="{
-              name: 'serviceDetail',
-              params: { id: slotProps.data.service_number },
-            }"
-            class="vertical-align-middle"
-            >{{ slotProps.data.service_number }}
-          </router-link>
-        </template>
+      <Column field="project_name" header="Project name">
+        <template #body="slotProps"> </template>
       </Column>
-      <!-- Task type -->
-      <Column field="task_type" :header="$t('task.type')"> </Column>
-      <!-- Task family -->
+
       <Column field="task_family " :header="$t('task.family')">
         <template #body="slotProps">
           <WMOptionSetValue :optionSet="slotProps.data.task_family" />
         </template>
       </Column>
-      <!-- Task contact -->
-      <Column field="contact" :header="$t('contact.contact')" class="link-col">
+      <Column field="task_type" :header="$t('task.type')">
         <template #body="slotProps">
-          <router-link
-            v-if="slotProps.data.contact_id"
-            :to="{
-              name: 'contactDetail',
-              params: { id: slotProps.data.contact_id },
-            }"
-            class="vertical-align-middle"
-          >
-            {{ slotProps.data.contact }}
-          </router-link>
+          {{ slotProps.data.task_type.value }}
+          <!-- <WMOptionSetValue :optionSet="slotProps.data.task_family" /> -->
         </template>
       </Column>
-      <!-- Task status -->
-      <Column field="status" :header="$t('task.status')">
-        <template #body="slotProps">
-          <WMOptionSetValue :optionSet="slotProps.data.status" />
-        </template>
-      </Column>
-      <!-- Goal date -->
+
+      <Column field="started_at" :header="$t('task.started_at')"></Column>
       <Column field="due_date" :header="$t('task.due_date')"></Column>
-      <!-- SLA -->
+
       <Column field="SLA" header="SLA" class="sla">
         <template #body="slotProps">
           <WMSLATag
@@ -110,36 +79,26 @@
             :sla="slotProps.data.sla.sla"
             :daysForClosing="slotProps.data.days_for_closing"
             :state="slotProps.data.state"
-          >
-          </WMSLATag>
+          />
         </template>
       </Column>
-      <!-- Owner -->
-      <Column field="owner" :header="$t('task.owner')"> </Column>
-      <!-- Customer -->
-      <Column field="customer" :header="$t('task.customer')" class="link-col">
-        <template #body="slotProps">
-          <router-link
-            v-if="slotProps.data.customer_id"
-            :to="{
-              name: 'customerDetail',
-              params: { id: slotProps.data.customer_id },
-            }"
-            class="vertical-align-middle"
-          >
-            {{ slotProps.data.customer }}
-          </router-link>
-        </template>
-      </Column>
-      <!-- Read -->
-      <Column field="call" :header="$t('task.call')"></Column>
-      <!-- Date opened -->
-      <Column field="open_date" :header="$t('task.open_date')"></Column>
-      <!-- Date closed -->
+
       <Column field="close_date" :header="$t('task.close_date')"></Column>
-      <!-- Last changed -->
-      <Column field="last_change" :header="$t('modified_at')"></Column>
-      <!-- Notes -->
+
+      <Column field="owner" :header="$t('task.owner')"> </Column>
+
+      <Column field="status" :header="$t('task.status')">
+        <template #body="slotProps">
+          <WMOptionSetValue :optionSet="slotProps.data.status" />
+        </template>
+      </Column>
+
+      <Column field="last_change" :header="$t('modified_at')">
+        <template #body="slotProps">
+          {{ slotProps.data.last_change }}
+        </template>
+      </Column>
+
       <Column field="notes" :header="$t('task.notes')"></Column>
     </DataTable>
   </div>
