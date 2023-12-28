@@ -3,7 +3,7 @@
     <template #title>
       <div class="flex flex-row justify-content-between">
         <div>{{ $t("project.location_information") }}</div>
-        <WMLocationButton></WMLocationButton>
+        <WMLocationButton />
       </div>
     </template>
     <template #content>
