@@ -21,7 +21,6 @@
               :modelValue="selectedCity"
               :option-set="true"
               @change="updateStreets"
-              required
             />
             <WMInput
               v-else
@@ -42,7 +41,6 @@
               :option-set="true"
               :modelValue="selectedSteet"
               :disabled="!isCitySelected"
-              required
             />
             <WMInput
               v-else

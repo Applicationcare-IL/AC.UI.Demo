@@ -208,29 +208,6 @@ export const useFormUtilsStore = defineStore("formUtils", {
           .string()
           .min(9, "validation.contactid")
           .required(),
-        city: yup
-          .object()
-          .required({
-            key: "validation.required-select",
-            values: { label: "address.city" },
-          })
-          .typeError({
-            key: "validation.required-select",
-            values: { label: "address.city" },
-          }),
-        street: yup
-          .object()
-          .required({
-            key: "validation.required-select",
-            values: { label: "address.street" },
-          })
-          .typeError({
-            key: "validation.required-select",
-            values: { label: "address.street" },
-          }),
-        // 'mobile-phone': yup.string().trim().matches(state.israeliPhoneRegex, 'validation.phone').required(),
-        // 'landline': yup.string().trim().matches(state.israeliLandlineRegex, 'validation.phone').required(),
-        // 'email': yup.string().trim().email('validation.email').required(),
       });
     },
     // getContactDetailFormValidationSchema: (state) => {
