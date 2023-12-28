@@ -256,7 +256,9 @@
     "organization": "Organization",
     "competition_process": "Competition process",
     "add_service_area": "Add service area",
-    "location_information": "Location Information"
+    "location_information": "Location Information",
+    "subproject_information": "Subproject Information",
+    "subproject_name": "Subproject Name"
   },
   "organization": {
     "organization": "Organization",
