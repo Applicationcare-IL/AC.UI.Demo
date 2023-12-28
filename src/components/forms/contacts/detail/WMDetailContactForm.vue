@@ -238,8 +238,14 @@
           :relatedEntityId="contact.id"
           :columns="taskColumns"
           multiselect
-        >
-        </WMTasksTable>
+        />
+      </div>
+      <div>
+        <WMProjectsTable
+          relatedEntity="contact"
+          :relatedEntityId="contact.id"
+          multiselect
+        />
       </div>
       <div class="flex-1 card-container">
         <Card>
