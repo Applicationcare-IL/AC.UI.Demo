@@ -10,6 +10,7 @@
       <WMNewTaskForm
         :isSidebar="true"
         @close-sidebar="closeSidebar"
+        @new-task-created="loadLazyData"
         :relatedEntity="slotProps.props.data.relatedEntity"
         :relatedEntityId="slotProps.props.data.relatedEntityId"
       />
@@ -200,8 +201,7 @@ const loadLazyData = () => {
 
   if (props.relatedEntity == "contact") {
     params.append("contact_id", props.relatedEntityId);
-  }
-  if (props.relatedEntity == "customer") {
+  } else if (props.relatedEntity == "customer") {
     params.append("customer_id", props.relatedEntityId);
   } else {
     params.append("entity_type", props.relatedEntity);
