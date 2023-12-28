@@ -182,7 +182,7 @@ optionSetsStore.getOptionSetValuesFromApiRaw("task_family").then((data) => {
   taskFamily.value = data;
 });
 
-const emit = defineEmits(["closeSidebar"]);
+const emit = defineEmits(["closeSidebar", "newTaskCreated"]);
 
 // new contact sidebar
 const isNewContactSidebarVisible = ref(false);
@@ -251,6 +251,7 @@ const onSubmit = handleSubmit((values) => {
 
   createTask(parseTask(task))
     .then((data) => {
+      emit("newTaskCreated");
       dialog.confirmNewTask(data.data.id);
       toast.successAction("contact", "created");
     })

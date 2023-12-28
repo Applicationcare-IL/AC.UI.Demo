@@ -48,7 +48,11 @@
       </Column>
       <Column style="width: 40px" selectionMode="multiple"></Column>
 
-      <Column field="id" header="מס’ לקוח" class="link-col">
+      <Column
+        field="id"
+        :header="$t('customer.number-abbreviation')"
+        class="link-col"
+      >
         <template #body="slotProps">
           <router-link
             :to="{ name: 'customerDetail', params: { id: slotProps.data.id } }"
@@ -58,15 +62,19 @@
         </template>
       </Column>
 
-      <Column field="name" header="שם לקוח"></Column>
-      <Column field="type" header="סוג">
+      <Column field="name" :header="$t('customer_name')"></Column>
+      <Column field="type" :header="$t('customer.type')">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.type)">
             {{ $t("option-set.customer_type." + slotProps.data.type.value) }}
           </div>
         </template>
       </Column>
-      <Column field="main_contact" header="איש קשר ראשי" class="link-col">
+      <Column
+        field="main_contact"
+        :header="$t('customer.main-contact')"
+        class="link-col"
+      >
         <template #body="slotProps">
           <router-link
             v-if="slotProps.data.main_contact?.id != null"
@@ -79,20 +87,24 @@
           >
         </template>
       </Column>
-      <Column field="status" header="סטטוס">
+      <Column field="status" :header="$t('status')">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.status)">
             {{ $t("statuses." + slotProps.data.status.toLowerCase()) }}
           </div>
         </template>
       </Column>
-      <Column field="address" header="כתובת"></Column>
+      <Column field="address" :header="$t('address.address')"></Column>
       <Column
         field="open_services"
-        header="תהליכים פתוחים"
+        :header="$t('customer.open-services')"
         class="numeric"
       ></Column>
-      <Column field="breached_services" header="תהליכים בחריגה" class="numeric">
+      <Column
+        field="breached_services"
+        :header="$t('customer.breached-services')"
+        class="numeric"
+      >
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.breached_services)">
             {{ slotProps.data.breached_services }}
@@ -101,28 +113,32 @@
       </Column>
       <Column
         field="open_tasks"
-        header="תהליכים בחריגה"
+        :header="$t('customer.open-tasks')"
         class="numeric"
       ></Column>
-      <Column field="breached_tasks" header="משימות בחריגה" class="numeric">
+      <Column
+        field="breached_tasks"
+        :header="$t('customer.breached-tasks')"
+        class="numeric"
+      >
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.breached_tasks)">
             {{ slotProps.data.breached_tasks }}
           </div>
         </template>
       </Column>
-      <Column field="rating" header="דירוג">
+      <Column field="rating" :header="$t('customer.rating')">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.rating)">
             {{
               slotProps.data.rating
-                ? $t("customer-rating." + slotProps.data.rating.value)
+                ? slotProps.data.rating[optionLabelWithLang]
                 : ""
             }}
           </div>
         </template>
       </Column>
-      <Column field="service_areas" header="תחום">
+      <Column field="service_areas" :header="$t('customer.areas')">
         <template #body="slotProps">
           <div
             :class="highlightCellClass(slotProps.data.area)"
@@ -130,13 +146,13 @@
           >
             <Chip
               v-for="area in slotProps.data.service_areas"
-              :label="area.value"
+              :label="area[optionLabelWithLang]"
             ></Chip>
           </div>
         </template>
       </Column>
-      <Column field="number" header="מזהה"></Column>
-      <Column field="owner.name" header="אחראי"></Column>
+      <Column field="number" :header="$t('customer.number')"></Column>
+      <Column field="owner.name" :header="$t('owner')" frozen></Column>
     </DataTable>
   </div>
 </template>
@@ -154,6 +170,7 @@ useHead({
 const { getTasksMini } = useTasks();
 const { getServicesMini } = useServices();
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
+const { optionLabelWithLang } = useLanguages();
 
 onMounted(() => {
   utilsStore.entity = "customer";

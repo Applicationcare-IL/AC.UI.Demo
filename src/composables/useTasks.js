@@ -107,7 +107,6 @@ export function useTasks() {
   const parseUpdateTask = (task) => {
     return {
       notes: task.notes ? task.notes : "",
-      status: task.status.value,
     };
   };
 

@@ -53,6 +53,7 @@
   "now": "Now",
   "export": "ייצוא נתונים",
   "journal": "יומן",
+  "customer_name": "שם לקוח",
   "buttons": {
     "link_contact": "שיוך איש קשר",
     "assign": "הקצה",
@@ -124,6 +125,7 @@
     "notes": "הערות ללקוח",
     "is-provider": "ספק",
     "system-id": "מזהה",
+    "main-contact": "איש קשר ראשי",
     "notification": {
       "created": {
         "header": "נוצר לקוח חדש",
