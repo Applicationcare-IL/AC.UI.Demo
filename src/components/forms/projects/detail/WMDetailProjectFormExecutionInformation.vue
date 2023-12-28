@@ -19,31 +19,28 @@
         </div>
         <div class="wm-form-row gap-5">
           <WMInput
-            v-if="project.architect"
             name="architect"
             type="info-link"
             :highlighted="true"
             :label="$t('project.architect') + ':'"
-            :value="`${project.architect.name} ${project.architect.surname}`"
-            :to="'/customer/' + project.architect.id"
+            :value="project.architect?.name"
+            :to="'/customer/' + project.architect?.id"
           />
           <WMInput
-            v-if="project.contractor"
             name="contractor"
             type="info-link"
             :highlighted="true"
             :label="$t('project.contractor') + ':'"
-            :value="`${project.contractor.name} ${project.contractor.surname}`"
-            :to="'/customer/' + project.contractor.id"
+            :value="project.contractor?.name"
+            :to="'/customer/' + project.contractor?.id"
           />
           <WMInput
-            v-if="project.supervisor"
             name="supervisor"
             type="info-link"
             :highlighted="true"
             :label="$t('project.supervisor') + ':'"
-            :value="`${project.supervisor.name} ${project.supervisor.surname}`"
-            :to="'/customer/' + project.supervisor.id"
+            :value="project.supervisor?.name"
+            :to="'/customer/' + project.supervisor?.id"
           />
         </div>
       </div>
