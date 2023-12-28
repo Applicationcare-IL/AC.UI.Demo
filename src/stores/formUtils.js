@@ -32,6 +32,8 @@ export const useFormUtilsStore = defineStore("formUtils", {
     formMeta: {},
     cancelService: "",
     completeService: "",
+    completeProject: "",
+    completeProjectReasons: {},
     cancelServiceReasons: {},
     completeServiceReasons: {},
     formMetas: [],

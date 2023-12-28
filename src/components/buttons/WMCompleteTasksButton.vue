@@ -56,6 +56,9 @@ const checkIfTasksAreCompletable = (tasks) => {
 };
 
 const handleCompleteTasks = () => {
+  //We need to assume that all the tasks to be completed share the same related entity type (service or project at the moment)
+  const relatedEntity = utilsStore.selectedElements["task"][0].related_entity;
+
   completeTasks(utilsStore.selectedElements["task"].map((x) => x.task_number))
     .then(() => {
       toast.successAction("task", "completed");
@@ -63,7 +66,8 @@ const handleCompleteTasks = () => {
     })
     .catch((error) => {
       if (error.response.status == 422) {
-        dialog.completeService(1);
+        if (relatedEntity.type == "service") dialog.completeService(1);
+        // if (relatedEntity.type == "project") dialog.completeProject(1);
       } else {
         toast.errorAction("task", "not_completed");
       }
@@ -81,6 +85,20 @@ const completeService = (id) => {
     .catch((error) => {
       console.error(error);
       toast.error("service", "not-completed");
+    });
+};
+
+const completeProject = (id) => {
+  completeTasks(
+    utilsStore.selectedElements["task"].map((x) => x.task_number),
+    formUtilsStore.completeProjectReasons
+  )
+    .then((data) => {
+      toast.successAction("project", "completed");
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("project", "not-completed");
     });
 };
 
