@@ -13,7 +13,7 @@
                 type="info"
                 :highlighted="true"
                 :label="$t('project.project_type') + ':'"
-                :value="task.owner"
+                :value="task.task_type?.project_type[optionLabelWithLang]"
                 width="180"
               />
               <WMInput
@@ -21,7 +21,7 @@
                 type="info"
                 :highlighted="true"
                 :label="$t('project.project_area') + ':'"
-                :value="task.owner"
+                :value="task.task_type?.project_area[optionLabelWithLang]"
                 width="180"
               />
               <WMInput
@@ -29,16 +29,17 @@
                 type="info"
                 :highlighted="true"
                 :label="$t('project.project_detail') + ':'"
-                :value="task.owner"
+                :value="task.task_type?.project_detail[optionLabelWithLang]"
                 width="180"
               />
+
               <WMInput
                 name="contact"
                 type="info-link"
                 :highlighted="true"
                 :label="$t('project.subproject_name') + ':'"
-                :value="task.contact"
-                :to="'/contact/' + task.contact_id"
+                :value="task.project_created.name"
+                :to="'/projects/' + task.project_created.id"
                 width="180"
               />
             </div>
@@ -50,6 +51,8 @@
 </template>
 
 <script setup>
+const { optionLabelWithLang } = useLanguages();
+
 const props = defineProps({
   task: {
     type: Object,

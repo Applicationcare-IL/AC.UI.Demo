@@ -89,7 +89,7 @@
                     type="info"
                     :highlighted="true"
                     :label="$t('task.type')"
-                    :value="task.task_type"
+                    :value="task.task_type.name"
                   />
                 </div>
 
@@ -197,11 +197,13 @@
         v-if="task?.related_entity?.type == 'service' && service"
       >
         <WMDetailFormLocation :location="service.location" />
-
         <WMDetailFormSite :site="service.site" />
       </div>
 
-      <WMDetailTaskSubprojectInfo :task="task" v-if="false" />
+      <WMDetailTaskSubprojectInfo
+        v-if="task.task_family.value === 'subproject'"
+        :task="task"
+      />
 
       <div class="flex flex-row gap-5 flex-wrap mt-5">
         <Accordion class="p-accordion--blue">

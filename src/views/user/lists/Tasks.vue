@@ -62,10 +62,9 @@
           <WMOptionSetValue :optionSet="slotProps.data.task_family" />
         </template>
       </Column>
-      <Column field="task_type" :header="$t('task.type')">
+      <Column field="task_type.name" :header="$t('task.type')">
         <template #body="slotProps">
-          {{ slotProps.data.task_type.value }}
-          <!-- <WMOptionSetValue :optionSet="slotProps.data.task_family" /> -->
+          {{ slotProps.data.task_type?.name }}
         </template>
       </Column>
 

@@ -65,7 +65,7 @@ export function useTasks() {
       name: task.id,
       task_number: task.id,
       process_number: "10",
-      task_type: task.task_type?.name,
+      task_type: task.task_type,
       task_family: task.task_family,
       stage: task.stage?.name,
       sla: task.sla,
@@ -88,6 +88,7 @@ export function useTasks() {
       related_entity: task.entity,
       description: task.description,
       notes: task.notes,
+      project_created: task.project_created,
     };
   };
 
