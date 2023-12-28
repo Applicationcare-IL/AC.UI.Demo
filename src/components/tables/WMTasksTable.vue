@@ -55,9 +55,8 @@
       <WMSearchBox entity="task" />
     </div>
   </div>
-  rows {{ rows }} totalRecords {{ totalRecords }}
   <DataTable
-    lazyParams
+    lazy
     v-model:selection="selectedTasks"
     :rowClass="rowClass"
     :value="tasks"
@@ -187,7 +186,7 @@ const { getTasksFromApi } = useTasks();
 
 const loadLazyData = () => {
   const filters = utilsStore.filters["task"];
-  const nextPage = lazyParams.value.page ? lazyParams.value.page + 1 : 1;
+  const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = props.rows;
 
