@@ -13,7 +13,7 @@
                 type="info"
                 :highlighted="true"
                 :label="$t('project.project_type') + ':'"
-                :value="task.task_type?.project_type[optionLabelWithLang]"
+                :value="projectTypeValue"
                 width="180"
               />
               <WMInput
@@ -21,7 +21,7 @@
                 type="info"
                 :highlighted="true"
                 :label="$t('project.project_area') + ':'"
-                :value="task.task_type?.project_area[optionLabelWithLang]"
+                :value="projectAreaValue"
                 width="180"
               />
               <WMInput
@@ -29,7 +29,7 @@
                 type="info"
                 :highlighted="true"
                 :label="$t('project.project_detail') + ':'"
-                :value="task.task_type?.project_detail[optionLabelWithLang]"
+                :value="projectDetailValue"
                 width="180"
               />
 
@@ -51,6 +51,8 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
+
 const { optionLabelWithLang } = useLanguages();
 
 const props = defineProps({
@@ -58,5 +60,29 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+});
+
+const projectTypeValue = computed(() => {
+  if (!props.task.task_type?.project_type) {
+    return null;
+  }
+
+  return props.task.task_type?.project_type[optionLabelWithLang];
+});
+
+const projectAreaValue = computed(() => {
+  if (!props.task.task_type?.project_area) {
+    return null;
+  }
+
+  return props.task.task_type?.project_area[optionLabelWithLang];
+});
+
+const projectDetailValue = computed(() => {
+  if (!props.task.task_type?.project_detail) {
+    return null;
+  }
+
+  return props.task.task_type?.project_detail[optionLabelWithLang];
 });
 </script>
