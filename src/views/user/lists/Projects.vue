@@ -52,8 +52,16 @@
         </template>
       </Column>
       <Column field="project_name" :header="$t('project.project_name')" />
-      <Column field="city_data" :header="$t('project.city_data')" />
-      <Column field="address" :header="$t('project.address')" />
+      <Column field="city_data" :header="$t('project.city_data')">
+        <template #body="slotProps">
+          {{ formatCityData(slotProps.data.location) }}
+        </template>
+      </Column>
+      <Column field="address" :header="$t('project.address')">
+        <template #body="slotProps">
+          {{ formatAddress(slotProps.data.location) }}
+        </template>
+      </Column>
       <Column field="project_type" :header="$t('project.project_type')">
         <template #body="slotProps">
           <WMOptionSetValue :optionSet="slotProps.data.project_type" />
@@ -133,8 +141,14 @@
             </template>
           </Column>
           <Column field="project_name" :header="$t('project.project_name')" />
-          <Column field="city_data" :header="$t('project.city_data')" />
-          <Column field="address" :header="$t('project.address')" />
+          <Column field="city_data" :header="$t('project.city_data')">
+            <template #body="slotProps">
+              {{ slotProps.data.location }}
+            </template>
+          </Column>
+          <Column field="address" :header="$t('project.address')">
+            <template #body="slotProps"> </template>
+          </Column>
           <Column field="project_type" :header="$t('project.project_type')">
             <template #body="slotProps">
               <WMOptionSetValue :optionSet="slotProps.data.project_type" />
@@ -205,6 +219,7 @@ onMounted(() => {
 });
 
 const formUtilsStore = useFormUtilsStore();
+const { optionLabelWithLang } = useLanguages();
 
 const utilsStore = useUtilsStore();
 
@@ -212,7 +227,6 @@ const utilsStore = useUtilsStore();
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const projects = ref();
-const subprojects = ref();
 const expandedRows = ref([]);
 const loading = ref(false);
 const dt = ref();
@@ -297,6 +311,31 @@ const statusClass = (data) => {
 
 const highlightCellClass = (data) => {
   return [{ "bg-red-100 text-red-600": data > 0 }];
+};
+
+const formatCityData = (location) => {
+  const { block, parcel, sub_parcel } = location;
+  const formattedLocation = [block, parcel, sub_parcel]
+    .filter((value) => value)
+    .join(" - ");
+
+  return formattedLocation;
+};
+
+// format location with the format: city - street - house_number
+// the city and street are in an object
+const formatAddress = (location) => {
+  let { city, street, house_number } = location;
+
+  // check if city is null
+  city = city ? city[optionLabelWithLang.value] : null;
+  street = street ? street[optionLabelWithLang.value] : null;
+
+  const formattedAddress = [city, street, house_number]
+    .filter((value) => value)
+    .join(" - ");
+
+  return formattedAddress;
 };
 
 /**
