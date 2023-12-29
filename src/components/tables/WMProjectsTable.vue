@@ -295,11 +295,12 @@ const loadLazyData = () => {
     search: searchValueParam,
   });
 
-  // if (props.relatedEntity == "contact") {
-  //   params.append("contact_id", props.relatedEntityId);
-  // } else if (props.relatedEntity == "customer") {
-  //   params.append("customer_id", props.relatedEntityId);
-  // } else {
+  if (props.relatedEntity == "contact") {
+    params.append("contact", props.relatedEntityId);
+  } else if (props.relatedEntity == "customer") {
+    params.append("customer", props.relatedEntityId);
+  }
+  // else {
   //   params.append("entity_type", props.relatedEntity);
   //   params.append("entity_id", props.relatedEntityId);
   // }
