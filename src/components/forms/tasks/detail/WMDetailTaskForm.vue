@@ -35,13 +35,13 @@
                   />
                   statutes {{ statuses }} <br /><br /><br />
                   currentStatus {{ currentStatus }}
-                  <WMInput
+                  <!-- <WMInput
                     name="status"
                     type="info"
                     :highlighted="true"
                     :label="$t('status') + ':'"
                     :value="currentStatus.label"
-                  />
+                  /> -->
                 </div>
 
                 <div class="wm-form-row gap-5">
