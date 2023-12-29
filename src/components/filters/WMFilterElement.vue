@@ -17,9 +17,9 @@
     <div class="flex flex-row gap-2 p-2" v-if="type == 'buttons'">
       <WMSelectableButton
         v-for="(option, index) in options"
-        :key="componentKey + index"
+        :key="index"
         :label="option.value"
-        v-model="isButtonSelected[componentKey]"
+        v-model="isButtonSelected[index]"
         @update:modelValue="onButtonChanged($event, option)"
       />
     </div>
