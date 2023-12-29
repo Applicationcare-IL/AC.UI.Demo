@@ -77,20 +77,21 @@
                 type="input-text"
                 :highlighted="true"
                 :label="$t('address.block') + ':'"
-                required
+                :value="props.project.location.block"
               />
               <WMInput
                 name="parcel"
                 type="input-text"
                 :highlighted="true"
                 :label="$t('address.parcel') + ':'"
-                required
+                :value="props.project.location.parcel"
               />
               <WMInput
                 name="sub-parcel"
                 type="input-text"
                 :highlighted="true"
                 :label="$t('address.sub-parcel') + ':'"
+                :value="props.project.location.sub_parcel"
               />
             </div>
           </div>
@@ -136,6 +137,10 @@ onMounted(() => {
     selectedSteet.value = streets.value.find(
       (street) => street.id === props.project.location.street.id
     );
+  }
+
+  if (props.project.location?.block || props.project.location?.parcel) {
+    showCityDataOptions.value = true;
   }
 });
 
