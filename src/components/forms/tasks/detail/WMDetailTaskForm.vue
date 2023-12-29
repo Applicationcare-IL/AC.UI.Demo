@@ -33,15 +33,13 @@
                     :label="$t('team') + ':'"
                     :value="task.team"
                   />
-                  statutes {{ statuses }} <br /><br /><br />
-                  currentStatus {{ currentStatus }}
-                  <!-- <WMInput
+                  <WMInput
                     name="status"
                     type="info"
                     :highlighted="true"
                     :label="$t('status') + ':'"
-                    :value="currentStatus.label"
-                  /> -->
+                    :value="task.status[optionLabelWithLang]"
+                  />
                 </div>
 
                 <div class="wm-form-row gap-5">
@@ -310,13 +308,6 @@ const service = ref();
 const project = ref();
 const route = useRoute();
 
-const statuses = optionSetsStore.optionSets["task_status"].map((status) => {
-  return {
-    label: status[optionLabelWithLang.value],
-    value: status.id,
-  };
-});
-
 const props = defineProps({
   formKey: {
     type: String,
@@ -352,12 +343,6 @@ onMounted(async () => {
 
 const { handleSubmit, meta, resetForm } = useForm({
   // validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
-});
-
-const currentStatus = computed(() => {
-  return statuses.find((status) => {
-    return status.value === task.value.status.id;
-  });
 });
 
 const onSave = handleSubmit((values) => {
