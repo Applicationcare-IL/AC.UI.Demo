@@ -22,6 +22,7 @@
         accept="image/*,application/pdf"
         customUpload
         @uploader="customBase64Uploader($event)"
+        :auto="true"
       />
       <!-- <Button label="File folder" /> -->
     </div>

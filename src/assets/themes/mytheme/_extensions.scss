@@ -647,4 +647,10 @@ a {
         line-height: 2em;
         padding: 0;
     }
+
+    .p-datatable-tbody > tr > td input{
+        height: 32px;
+        border: 1px solid #ced4db;
+        border-radius: 2px;
+    }
 }

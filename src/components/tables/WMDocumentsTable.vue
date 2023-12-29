@@ -382,7 +382,16 @@ const filters = ref({
 });
 
 const updateDocumentRow = (id, document) => {
-  console.log("updateDocumentRow", id, document);
+  if (!document.document_detail.id) {
+    toast.error("Please fill the document detail");
+    return;
+  }
+
+  if (!document.document_type.id) {
+    toast.error("Please fill the document type");
+    return;
+  }
+
   updateDocument(document.id, parseUpdateDocument(document))
     .then((data) => {
       editMode.value[id] = false;
