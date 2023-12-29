@@ -33,7 +33,8 @@
                     :label="$t('team') + ':'"
                     :value="task.team"
                   />
-
+                  statutes {{ statuses }} <br /><br /><br />
+                  currentStatus {{ currentStatus }}
                   <WMInput
                     name="status"
                     type="info"
