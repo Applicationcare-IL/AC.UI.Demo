@@ -180,9 +180,9 @@
                   class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-red-50 text-red-600"
                 >
                   <span class="font-size-20 font-weight-light">Breach</span>
-                  <span class="font-size-24 font-weight-bold">{{
-                    customer.breached_tasks
-                  }}</span>
+                  <span class="font-size-24 font-weight-bold">
+                    {{ customer.breached_tasks }}
+                  </span>
                 </div>
               </div>
             </template>
@@ -193,8 +193,7 @@
         <WMContactsTable
           :columns="contactColumns"
           :customerId="route.params.id"
-        >
-        </WMContactsTable>
+        />
       </div>
       <div>
         <WMServicesTable
@@ -202,8 +201,7 @@
           :relatedEntityId="customer.id"
           :columns="serviceColumns"
           multiselect
-        >
-        </WMServicesTable>
+        />
       </div>
       <div>
         <WMTasksTable
@@ -215,8 +213,8 @@
       </div>
       <div>
         <WMProjectsTable
-          relatedEntity="contact"
-          :relatedEntityId="contact.id"
+          relatedEntity="customer"
+          :relatedEntityId="customer.id"
           multiselect
         />
       </div>
