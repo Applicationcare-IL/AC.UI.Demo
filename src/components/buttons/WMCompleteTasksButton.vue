@@ -9,6 +9,7 @@
     {{ t("task.complete") }}
   </WMButton>
   <WMCompleteServiceDialog />
+  <WMCompleteProjectDialog />
 </template>
 
 <script setup>
@@ -66,8 +67,10 @@ const handleCompleteTasks = () => {
     })
     .catch((error) => {
       if (error.response.status == 422) {
-        if (relatedEntity.type == "service") dialog.completeService(1);
-        // if (relatedEntity.type == "project") dialog.completeProject(1);
+        if (relatedEntity.type == "service")
+          dialog.completeService(relatedEntity.id);
+        if (relatedEntity.type == "project")
+          dialog.completeProject(relatedEntity.id);
       } else {
         toast.errorAction("task", "not_completed");
       }
