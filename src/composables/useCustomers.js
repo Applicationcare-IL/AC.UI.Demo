@@ -53,7 +53,6 @@ export function useCustomers() {
     console.log("mapCustomer", customer);
 
     return {
-      telephone: customer.phone,
       name: customer.name,
       type: customer.type,
       state: customer.state?.value,
@@ -70,6 +69,9 @@ export function useCustomers() {
       main_contact: customer.main_contact,
       service_areas: customer.service_areas,
       is_provider: customer.is_provider,
+      fax: customer.fax,
+      email: customer.email,
+      phone: customer.phone,
       location: {
         city: customer.location?.city?.id,
         street: customer.location?.street?.id,
@@ -85,8 +87,6 @@ export function useCustomers() {
   };
 
   const parseCustomer = (customer, contacts) => {
-    console.log("customer", customer);
-
     return {
       name: customer.name,
       number: customer.number,
@@ -101,6 +101,9 @@ export function useCustomers() {
         : "",
       notes: customer.notes,
       contacts: contacts,
+      fax: customer.fax,
+      phone: customer.phone,
+      email: customer.email,
       location: {
         city: customer["city"]?.id,
         street: customer["street"]?.id,
