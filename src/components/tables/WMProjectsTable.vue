@@ -67,7 +67,7 @@
     @update:selection="onSelectionChanged"
   >
     <Column expander style="width: 45px"> </Column>
-    <Column style="width: 40px" selectionMode="multiple"></Column>
+    <Column style="width: 40px" selectionMode="multiple" v-if="multiselect" />
     <Column
       field="project_number"
       :header="$t('project.project_number')"
@@ -144,7 +144,11 @@
         class="subtable"
       >
         <Column style="width: 45px"></Column>
-        <Column style="width: 40px" selectionMode="multiple"></Column>
+        <Column
+          style="width: 40px"
+          selectionMode="multiple"
+          v-if="multiselect"
+        ></Column>
         <Column
           field="project_number"
           :header="$t('project.project_number')"
@@ -312,6 +316,10 @@ const loadLazyData = () => {
   });
 };
 
+function showExpander(data) {
+  return data.subprojects && data.subprojects.length ? "" : "no-expander";
+}
+
 const statusClass = (data) => {
   return getStatusConditionalStyle(data);
 };
@@ -367,3 +375,49 @@ watch(
   }
 );
 </script>
+
+<style scoped lang="scss">
+// TODO: duplicated CSS in Projects.vue
+.projects-table :deep(td) {
+  background: var(--gray-100);
+}
+
+.breached-tasks {
+  display: flex;
+  width: 72px;
+  height: 24px;
+  padding: 10px 8px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.subtable {
+  :deep(.p-datatable-thead th) {
+    padding: 0 0.5rem !important;
+    .p-column-header-content {
+      overflow: hidden;
+      height: 0;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  :deep(td) {
+    background: var(--gray-50);
+  }
+}
+
+:deep(.filled-td) {
+  text-align: center !important;
+  padding: 0px !important;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+:deep(.no-expander .p-row-toggler) {
+  opacity: 0;
+  pointer-events: none;
+}
+</style>
