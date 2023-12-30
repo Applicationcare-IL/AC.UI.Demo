@@ -11,6 +11,18 @@
       width="248"
       :options="options"
       v-model="selectedOptions"
+      :optionSet="optionSet"
+      @update:modelValue="onDropdownChanged"
+    />
+    <!-- ENTITY -->
+    <WMAutocomplete
+      v-if="type == 'entity'"
+      :placeholder="placeholder"
+      :multiple="true"
+      width="248"
+      v-model="selectedOptions"
+      optionLabel="name"
+      :searchFunction="searchFunction"
       @update:modelValue="onDropdownChanged"
     />
     <!-- BUTTONS -->
@@ -64,6 +76,7 @@ const { entity, type, optionSet, placeholder, filterName, label } = defineProps(
     placeholder: String,
     filterName: String,
     label: String,
+    searchFunction: Function,
   }
 );
 

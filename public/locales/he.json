@@ -1,5 +1,5 @@
 {
-  "new": "חדש @.lower:{0}",
+  "new": "@.lower:{0} חדש",
   "save": "שמירה",
   "discard": "ביטול",
   "select": "בחירה @.lower:{0}",

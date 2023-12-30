@@ -33,6 +33,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
       "project_detail",
       "task_sla",
       "task_status",
+      "task_family",
       "document_detail",
       "document_type",
       "customer_project_status",
