@@ -70,6 +70,7 @@ export function useCustomers() {
       fax: customer.fax,
       email: customer.email,
       phone: customer.phone,
+      role: customer.role,
       location: {
         city: customer.location?.city?.id,
         street: customer.location?.street?.id,

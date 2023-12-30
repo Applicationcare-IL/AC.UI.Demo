@@ -2,7 +2,6 @@
   <h2 class="h2">
     {{ $t("customer.customer") }}
   </h2>
-
   <div v-if="showControls" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
@@ -98,19 +97,21 @@
             v-for="item in slotProps.data[column.name]"
             class="vertical-align-middle"
           >
-            {{ item.value }}
+            <WMOptionSetValue :optionSet="item" />
           </Tag>
         </div>
       </template>
       <template v-if="column.type === 'actions'" #body="slotProps">
         <div class="flex flex-row gap-2">
-          <!-- <WMButton name="edit" icon="edit" /> -->
           <WMButton
             name="unlink"
             icon="unlink"
             @click="unlinkCustomer(slotProps.data.id)"
           />
         </div>
+      </template>
+      <template v-if="column.type === 'role'" #body="slotProps">
+        {{ slotProps.data.role.value }}
       </template>
       <template v-if="column.type === 'option-set'" #body="slotProps">
         {{ $t(slotProps.data[column.name].value) }}
@@ -120,15 +121,18 @@
 </template>
 
 <script setup>
-import { ref, watch, watchEffect, onMounted } from "vue";
+import { ref, watch, watchEffect, onMounted, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { FilterMatchMode } from "primevue/api";
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 import { useUtilsStore } from "@/stores/utils";
 
 const { t } = useI18n();
 const toast = useToast();
+
+const optionSetsStore = useOptionSetsStore();
 
 const selectedCustomers = ref(null);
 const isFilterOpen = ref(false);
@@ -226,17 +230,45 @@ watchEffect(() => {
   loadLazyData();
 });
 
+const editMode = ref([]);
+
 const addCustomers = (addedCustomers) => {
   addedCustomers.forEach((customer) => {
     if (customers.value.find((c) => c.customer_id === customer.id)) return;
 
     customer.main = false;
-    customers.value.push(customer);
+    // customers.value.push(customer);
+    saveRow(customer);
     editMode.value[customers.value.length - 1] = true;
   });
 };
 
-const { unassignContactFromCustomer } = useCustomers();
+const { unassignContactFromCustomer, assignContactToCustomer } = useCustomers();
+
+const defaultRole = computed(() => {
+  return optionSetsStore.optionSets["contact_customer_role"].find(
+    (role) => role.value === "employee"
+  );
+});
+
+const saveRow = (customer) => {
+  const contactParams = {
+    contact_id: props.contactId,
+    role: defaultRole.value.id,
+  };
+
+  console.log("defaultRole", defaultRole.value);
+  console.log("contactParams", contactParams);
+
+  assignContactToCustomer(customer.id, contactParams)
+    .then(() => {
+      loadLazyData();
+      toast.success("Contact successfully linked");
+    })
+    .catch(() => {
+      toast.error("Contact link failed");
+    });
+};
 
 const unlinkCustomer = (customerId) => {
   unassignContactFromCustomer(customerId, props.contactId)

@@ -220,7 +220,7 @@ export function useListUtils() {
         header: "service_areas",
         class: "tags buttons",
       },
-      { name: "role", type: "text", header: "role" },
+      { name: "role", type: "role", header: "role" },
       {
         name: "actions",
         type: "actions",
