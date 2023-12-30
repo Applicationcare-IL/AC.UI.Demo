@@ -231,6 +231,8 @@ const expandedRows = ref([]);
 const loading = ref(false);
 const dt = ref();
 
+const searchValue = ref("");
+
 const { selectedRowsPerPage, getStatusConditionalStyle } = useListUtils();
 
 const loadLazyData = () => {
@@ -238,7 +240,7 @@ const loadLazyData = () => {
 
   const filters = utilsStore.filters["project"];
   const nextPage = lazyParams.value.page + 1;
-  // const searchValueParam = searchValue.value;
+  const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = selectedRowsPerPage.value;
 
   // Create a new URLSearchParams object by combining base filters and additional parameters
@@ -246,7 +248,7 @@ const loadLazyData = () => {
     ...filters,
     page: nextPage,
     per_page: selectedRowsPerPageParam,
-    // search: searchValueParam,
+    search: searchValueParam,
   });
 
   getProjectsFromApi(params).then((data) => {
@@ -298,6 +300,16 @@ watch(
   () => selectedRowsPerPage,
   () => {
     loadLazyData();
+  }
+);
+
+watch(
+  () => utilsStore.searchString["project"],
+  () => {
+    searchValue.value = utilsStore.searchString["project"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
   }
 );
 

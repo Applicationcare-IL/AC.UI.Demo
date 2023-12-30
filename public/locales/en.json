@@ -14,7 +14,7 @@
   "owner": "Owner",
   "first-name": "First Name",
   "last-name": "Last Name",
-  "id": "ID",
+  "id": "System ID",
   "gender": "Gender",
   "telephone": "Telephone",
   "mobilephone": "Mobile Phone",
