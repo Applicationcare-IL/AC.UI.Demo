@@ -79,8 +79,8 @@ const handleLogin = handleSubmit((values) => {
       if (useAuthStore().isAuthenticated == true) {
         useAuthStore()
           .userData()
-          .then((data) => {
-            fetchLicensing();
+          .then(async (data) => {
+            await fetchLicensing();
             router.push("/dashboard");
           })
           .catch(() => {
