@@ -1,16 +1,12 @@
 <template>
-  <h2 class="h2">{{ $t("customer.customer") }}</h2>
+  <h2 class="h2">
+    {{ $t("customer.customer") }}
+  </h2>
+
   <div v-if="showControls" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMButton
-          @click="formUtilsStore.expandSidebar = 'newCustomer'"
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          icon-position="right"
-          >{{ t("new") }}</WMButton
-        >
+        <WMAssignCustomerButton @addCustomers="addCustomers" />
         <WMAssignOwnerButton entity="customer" />
       </div>
       <div class="flex flex-row align-items-center gap-3">
@@ -90,7 +86,7 @@
       </template>
       <template v-if="column.type === 'star'" #body="slotProps">
         <img
-          v-if="slotProps.data['main_contact']['id'] == contactId"
+          v-if="slotProps.data.main_contact?.id == contactId"
           src="/icons/star.svg"
           alt=""
           class="vertical-align-middle"
@@ -101,14 +97,19 @@
           <Tag
             v-for="item in slotProps.data[column.name]"
             class="vertical-align-middle"
-            >{{ item.value }}</Tag
           >
+            {{ item.value }}
+          </Tag>
         </div>
       </template>
       <template v-if="column.type === 'actions'" #body="slotProps">
         <div class="flex flex-row gap-2">
-          <WMButton name="edit" icon="edit" />
-          <WMButton name="unlink" icon="unlink" />
+          <!-- <WMButton name="edit" icon="edit" /> -->
+          <WMButton
+            name="unlink"
+            icon="unlink"
+            @click="unlinkCustomer(slotProps.data.id)"
+          />
         </div>
       </template>
       <template v-if="column.type === 'option-set'" #body="slotProps">
@@ -126,9 +127,8 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 
 import { useUtilsStore } from "@/stores/utils";
 
-const i18n = useI18n();
-
-const { t, locale } = useI18n();
+const { t } = useI18n();
+const toast = useToast();
 
 const selectedCustomers = ref(null);
 const isFilterOpen = ref(false);
@@ -225,6 +225,29 @@ function openFilterSidebar() {
 watchEffect(() => {
   loadLazyData();
 });
+
+const addCustomers = (addedCustomers) => {
+  addedCustomers.forEach((customer) => {
+    if (customers.value.find((c) => c.customer_id === customer.id)) return;
+
+    customer.main = false;
+    customers.value.push(customer);
+    editMode.value[customers.value.length - 1] = true;
+  });
+};
+
+const { unassignContactFromCustomer } = useCustomers();
+
+const unlinkCustomer = (customerId) => {
+  unassignContactFromCustomer(customerId, props.contactId)
+    .then(() => {
+      loadLazyData();
+      toast.success("Contact Successfully unlinked");
+    })
+    .catch(() => {
+      toast.error("Contact unlink Failed");
+    });
+};
 
 watch(
   () => utilsStore.searchString["customer"],

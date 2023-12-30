@@ -221,8 +221,7 @@
         </div>
       </div>
       <div>
-        <WMCustomersTable :contactId="contact.id" :columns="customerColumns">
-        </WMCustomersTable>
+        <WMCustomersTable :contactId="contact.id" :columns="customerColumns" />
       </div>
       <div>
         <WMServicesTable

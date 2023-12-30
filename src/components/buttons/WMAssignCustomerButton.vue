@@ -1,5 +1,7 @@
 <template>
-  <Button label="שיוך ארגונים" icon="pi pi-briefcase" @click="toggle" />
+  <WMButton @click="toggle" class="m-1 col-6" name="assign-white" icon="assign">
+    {{ $t("buttons.link_customer") }}
+  </WMButton>
 
   <OverlayPanel
     ref="isOpen"

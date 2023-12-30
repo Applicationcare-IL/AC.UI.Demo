@@ -212,7 +212,7 @@ watch(
 const fillSelectedContactDropdownWithSelectedContacts = (
   newSelectedContacts
 ) => {
-  if (newSelectedContacts.length == 0 || !contactOptions.value) {
+  if (newSelectedContacts?.length == 0 || !contactOptions.value) {
     return;
   }
 

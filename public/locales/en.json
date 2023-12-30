@@ -57,6 +57,7 @@
   "customer_name": "Customer Name",
   "buttons": {
     "link_contact": "Link contact",
+    "link_customer": "Link customer",
     "assign": "Assign",
     "view_map": "View map",
     "email": "Email",

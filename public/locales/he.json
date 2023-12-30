@@ -56,6 +56,7 @@
   "customer_name": "שם לקוח",
   "buttons": {
     "link_contact": "שיוך איש קשר",
+    "link_customer": "שיוך ארגונים",
     "assign": "הקצה",
     "view_map": "צפייה במפה",
     "email": "דוא”ל",
