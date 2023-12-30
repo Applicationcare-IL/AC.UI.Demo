@@ -227,6 +227,7 @@
       </div>
       <div>
         <WMServicesTable
+          v-if="checkIfEntityIsActive('services')"
           relatedEntity="customer"
           :relatedEntityId="customer.id"
           :columns="serviceColumns"
@@ -354,6 +355,7 @@ const props = defineProps({
 
 const { getTasksFromApi } = useTasks();
 const { getServicesFromApi } = useServices();
+const { checkIfEntityIsActive } = useLicensing();
 
 const services = ref();
 const tasks = ref();
