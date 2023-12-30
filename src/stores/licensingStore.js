@@ -1,0 +1,20 @@
+import axiosConfig from "@/service/axiosConfig";
+import { defineStore } from "pinia";
+
+export const useLicensingStore = defineStore("licensing", {
+  state: () => ({
+    licensing: [],
+  }),
+  actions: {
+    fetchLicensing() {
+      return axiosConfig
+        .get("/licensing")
+        .then((response) => {
+          this.licensing = response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+  },
+});

@@ -67,6 +67,8 @@ const { layoutConfig } = useLayout();
 
 const { errors, handleSubmit, setFieldError } = useForm();
 
+const { fetchLicensing } = useLicensing();
+
 const router = useRouter();
 const error = ref("");
 
@@ -78,6 +80,7 @@ const handleLogin = handleSubmit((values) => {
         useAuthStore()
           .userData()
           .then((data) => {
+            fetchLicensing();
             router.push("/dashboard");
           })
           .catch(() => {

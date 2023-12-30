@@ -39,8 +39,9 @@ export const useAuthStore = defineStore("auth", {
       localStorage.setItem("isAuthenticated", false);
       localStorage.setItem("token", null);
       localStorage.clear();
-
-      // router.push('/login');
+      // refresh the page using javascript
+      location.reload();
+      // router.push("/login");
     },
     userData() {
       return Promise.resolve(

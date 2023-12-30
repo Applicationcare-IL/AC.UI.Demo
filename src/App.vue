@@ -14,8 +14,9 @@
 import { ref, onMounted, computed } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { usePermissionsStore } from "@/stores/permissionsStore";
-
 import { useI18n } from "vue-i18n";
+
+const { getLicensing } = useLicensing();
 const i18n = useI18n();
 
 const optionSetsStore = useOptionSetsStore();
@@ -28,6 +29,8 @@ const loading = computed(
 );
 
 onMounted(() => {
+  getLicensing();
+
   if (!optionSetsStore.isOptionSetsPreloaded) {
     optionSetsStore
       .preloadOptionSets()
