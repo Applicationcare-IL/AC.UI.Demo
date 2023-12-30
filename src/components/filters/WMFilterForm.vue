@@ -22,6 +22,7 @@
         :entity="entity"
         :filterName="filter.name"
         :optionSet="filter.optionSet"
+        :searchFunction="filter.searchFunction"
         @update:filter="addFilter"
       />
     </div>

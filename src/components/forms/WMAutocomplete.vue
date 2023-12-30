@@ -9,7 +9,7 @@
     </label>
     <AutoComplete
       :suggestions="filteredOptions"
-      optionLabel="value"
+      :optionLabel="optionLabel"
       :placeholder="placeholder"
       :multiple="props.multiple"
       :disabled="props.disabled"
@@ -52,9 +52,12 @@
       v-if="props.multiple && type == 'tags'"
       class="selected-options flex flex-row gap-2"
     >
-      <Chip v-for="item in value" :label="item.name">
-        <span>{{ item.name }}</span>
-        <i class="pi pi-times" @click="onRemove(item)"></i>
+      <Chip v-for="item in value" :label="item.name" :class="chipThemeClass">
+        <span v-if="optionSet">
+          <WMOptionSetValue :optionSet="item" />
+        </span>
+        <span v-else>{{ item.name }}</span>
+        <i class="pi pi-times cursor-pointer" @click="onRemove(item)"></i>
       </Chip>
     </div>
   </div>
@@ -68,6 +71,7 @@ const { layoutConfig } = useLayout();
 const { openSidebar } = useSidebar();
 
 const filteredOptions = ref();
+const { optionLabelWithLang } = useLanguages();
 
 const props = defineProps({
   highlighted: {
@@ -129,6 +133,14 @@ const props = defineProps({
     type: String,
     default: "tags",
   },
+  optionLabel: {
+    type: String,
+    default: "value",
+  },
+  optionSet: {
+    type: String,
+    default: false,
+  },
 });
 
 const value = ref(props.modelValue);
@@ -145,13 +157,21 @@ const openRelatedSidebar = () => {
   openSidebar(props.relatedSidebar);
 };
 
+const optionLabel = computed(() => {
+  if (props.optionSet) {
+    return optionLabelWithLang.value;
+  }
+  return "name";
+});
+
 const search = (event) => {
   setTimeout(() => {
     //In case we have a search function, we will use it to filter the options
     if (props.searchFunction) {
       props.searchFunction(event.query.toLowerCase()).then((result) => {
         return (filteredOptions.value = result.data.filter((option) => {
-          return option.value;
+          console.log(option);
+          return option.name;
         }));
       });
       //Otherwise we will filter the static list

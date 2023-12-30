@@ -1,4 +1,12 @@
+const { getTasksTypesFromApi } = useTasks();
+
 export function useFilters() {
+  const searchTaskTypes = (query) => {
+    return getTasksTypesFromApi({
+      search: query,
+    });
+  };
+
   const filterList = {
     contact: [
       {
@@ -202,10 +210,11 @@ export function useFilters() {
         placeholder: "בחירת משפחה",
       },
       {
-        type: "dropdown",
+        type: "entity",
         name: "type",
         optionSet: "task_type",
         placeholder: "בחירת סוג משימה",
+        searchFunction: searchTaskTypes,
       },
       {
         type: "buttons",
