@@ -47,15 +47,6 @@ export function useContacts() {
       landline: contact.land_line,
       fax: contact.fax,
       email: contact.email,
-      address: contact.street
-        ? contact.street +
-          " " +
-          contact.street_number +
-          ", " +
-          contact.city +
-          " " +
-          contact.zipcode
-        : "",
       open_services: contact.open_services,
       breached_services: contact.breached_services,
       open_tasks: contact.open_tasks,
@@ -75,15 +66,15 @@ export function useContacts() {
       updated_by: contact.last_activity?.updater?.name,
       updated_at: contact.last_activity?.updater?.at,
       location: {
-        city: contact["city"]?.id,
-        street: contact["street"]?.id,
+        city: contact.location?.city?.id,
+        street: contact.location?.street?.id,
         house_number:
-          contact["house-number"] != null
-            ? parseInt(contact["house-number"])
+          contact.location?.house_number !== null
+            ? parseInt(contact.location?.house_number)
             : null,
-        apartment: contact["apartment"],
-        entrance: contact["entrance"]?.value,
-        zip: contact["zip"],
+        apartment: contact.location?.apartment_number,
+        entrance: contact.location?.house_entrance,
+        zip: contact.location?.zip?.id,
       },
     };
   };
@@ -112,8 +103,8 @@ export function useContacts() {
         city: contact["city"]?.id,
         street: contact["street"]?.id,
         house_number: parseInt(contact["house-number"]),
-        apartment: contact["apartment"],
-        entrance: contact["entrance"]?.value,
+        apartment_number: contact["apartment"],
+        house_entrance: contact.entrance?.value,
         zip: contact["zip"]?.id,
       },
     };
