@@ -123,6 +123,7 @@
             </template>
           </Card>
         </div>
+
         <WMDetailFormLocation :location="contact.location" editable />
       </div>
       <div class="flex flex-row gap-5 flex-wrap">

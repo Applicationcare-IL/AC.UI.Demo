@@ -54,7 +54,17 @@
         </template>
       </Column>
       <Column field="project_name" header="Project name">
-        <template #body="slotProps"> </template>
+        <template #body="slotProps">
+          <router-link
+            v-if="slotProps.data.project_created"
+            :to="{
+              name: 'projectDetail',
+              params: { id: slotProps.data.project_created.id },
+            }"
+            class="vertical-align-middle"
+            >{{ slotProps.data.project_created.name }}</router-link
+          >
+        </template>
       </Column>
 
       <Column field="task_family " :header="$t('task.family')">

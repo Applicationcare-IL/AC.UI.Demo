@@ -35,6 +35,7 @@
           :label="$t('customer.number') + ':'"
         />
       </div>
+
       <div class="wm-form-row gap-5">
         <WMInput
           name="type"
@@ -79,10 +80,12 @@
       <WMNewFormAddress />
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px" />
       <div class="customer-address flex flex-auto flex-column gap-5">
-        <h2 class="h2 mb-0">פרטי התקשרות</h2>
+        <h2 class="h2 mb-0">
+          {{ $t("communication-details") }}
+        </h2>
         <div class="wm-form-row gap-5">
           <WMInput
-            name="mobile-phone"
+            name="phone"
             :required="true"
             type="input-text"
             :label="$t('telephone') + ':'"

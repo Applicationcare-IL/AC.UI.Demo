@@ -89,6 +89,36 @@
                     width="80"
                   />
                 </div>
+                <div class="wm-form-row mt-5">
+                  <p class="p-card-title mb-0">
+                    {{ $t("communication-details") }}
+                  </p>
+                </div>
+                <div class="wm-form-row gap-5">
+                  <WMInput
+                    name="phone"
+                    type="input-text"
+                    :highlighted="true"
+                    :label="$t('telephone') + ':'"
+                    :value="customer.phone"
+                  />
+                  <WMInput
+                    name="fax"
+                    type="input-text"
+                    :highlighted="true"
+                    :label="$t('fax') + ':'"
+                    :value="customer.fax"
+                  />
+                </div>
+                <div class="wm-form-row">
+                  <WMInput
+                    name="email"
+                    type="input-text"
+                    :highlighted="true"
+                    :label="$t('email') + ':'"
+                    :value="customer.email"
+                  />
+                </div>
               </div>
             </template>
           </Card>
@@ -431,8 +461,6 @@ const { errors, handleSubmit, setFieldError, meta, resetForm } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  console.log("values", values);
-
   if (customerNumberExists.value) {
     setFieldError("number", {
       key: "validation.exists",
