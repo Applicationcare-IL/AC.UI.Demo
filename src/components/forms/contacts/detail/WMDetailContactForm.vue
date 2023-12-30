@@ -244,7 +244,8 @@
         <WMProjectsTable
           relatedEntity="contact"
           :relatedEntityId="contact.id"
-          multiselect
+          :multiselect="false"
+          :showHeaderOptions="false"
         />
       </div>
       <div class="flex-1 card-container">

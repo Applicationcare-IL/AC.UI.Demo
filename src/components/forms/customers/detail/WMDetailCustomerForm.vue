@@ -245,7 +245,8 @@
         <WMProjectsTable
           relatedEntity="customer"
           :relatedEntityId="customer.id"
-          multiselect
+          :multiselect="false"
+          :showHeaderOptions="false"
         />
       </div>
       <div class="flex flex-row gap-5 flex-wrap mt-5">
