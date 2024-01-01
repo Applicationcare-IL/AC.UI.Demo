@@ -52,7 +52,7 @@
       :name="name"
       :disabled="props.disabled"
       :options="options"
-      optionLabel="label"
+      :optionLabel="optionLabel"
       v-model="value"
       :placeholder="placeholder"
       :style="{ width: width + 'px' }"
@@ -129,7 +129,7 @@
 </template>
 
 <script setup>
-import { toRef } from "vue";
+import { toRef, computed } from "vue";
 import { useField } from "vee-validate";
 
 defineEmits(["update:value", "update:selectedItem", "update:modelValue"]);
@@ -190,9 +190,12 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-
   class: {
     type: String,
+  },
+  optionSet: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -206,6 +209,20 @@ const {
   handleChange,
 } = useField(name, undefined, {
   initialValue: props.value,
+});
+
+const { optionLabelWithLang } = useLanguages();
+
+const optionLabel = computed(() => {
+  if (props.optionSet) {
+    return optionLabelWithLang.value;
+  }
+
+  if (props.type === "input-select-button") {
+    return "name";
+  }
+
+  return "label";
 });
 </script>
 

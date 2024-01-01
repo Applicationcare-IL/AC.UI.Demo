@@ -1,7 +1,9 @@
 <template>
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="service-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 class="h1 mb-0">{{ $t("new", ["service.service"]) }}</h1>
+      <h1 class="h1 mb-0" v-if="!props.isSidebar">
+        {{ $t("new", ["service.service"]) }}
+      </h1>
       <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
@@ -69,6 +71,7 @@
           :label="$t('direction') + ':'"
           width="80"
           :options="directions"
+          optionSet
         />
         <WMInput
           name="channel"
@@ -76,6 +79,7 @@
           :highlighted="true"
           :label="$t('channel') + ':'"
           :options="channels"
+          optionSet
           width="104"
         />
         <WMInput
@@ -85,6 +89,7 @@
           :label="$t('priority') + ':'"
           :options="urgencies"
           width="104"
+          optionSet
         />
       </div>
 

@@ -56,10 +56,48 @@ export const useFormUtilsStore = defineStore("formUtils", {
     getServiceFormValidationSchema: () => {
       return yup.object({
         // description: yup.string().required().default(null).nullable()
-        // 'contact': yup.object().required({ key: 'validation.required-select', values: { label: 'contact' } })
-        //     .typeError({ key: 'validation.required-select', values: { label: 'contact' } }),
-        // 'customer': yup.object().required({ key: 'validation.required-select', values: { label: 'customer' } })
-        //     .typeError({ key: 'validation.required-select', values: { label: 'customer' } }),
+        contact: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "contact" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "contact" },
+          }),
+        customer: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "customer" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "customer" },
+          }),
+        area: yup.object().required(),
+        city: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "address.city" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "address.city" },
+          }),
+        street: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "address.street" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "address.street" },
+          }),
+        // "house-number": yup.number().required(),
         // 'classification-1': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-1' } })
         //     .typeError({ key: 'validation.required-select', values: { label: 'classification-1' } }),
         // 'classification-2': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-2' } })
@@ -135,6 +173,15 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "customer.rating" },
           }),
+        service_area: yup
+          .array()
+          .required()
+          .min(1, {
+            key: "validation.required-select",
+            values: { label: "customer.field" },
+          }),
+        email: yup.string().required(),
+        phone: yup.string().required(),
         type: yup
           .object()
           .required({
@@ -145,7 +192,6 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "customer.rating" },
           }),
-
         city: yup
           .object()
           .required({

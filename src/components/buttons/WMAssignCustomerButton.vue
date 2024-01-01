@@ -16,8 +16,6 @@
         theme="purple"
         :searchFunction="searchCustomer"
         @update:modelValue="updateSelectedCustomers"
-        :new="true"
-        related-sidebar="newCustomer"
         :modelValue="selectedCustomers"
       />
       <WMButton
