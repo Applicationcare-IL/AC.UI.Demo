@@ -17,7 +17,7 @@
             :value="project?.request_number"
           />
         </div>
-        <div class="wm-form-row gap-5">
+        <div class="wm-form-row align-items-start gap-5">
           <WMInput
             name="architect"
             type="info-link"
