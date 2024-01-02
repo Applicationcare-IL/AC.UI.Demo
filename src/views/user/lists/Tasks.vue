@@ -56,14 +56,15 @@
       <Column field="project_name" header="Project name">
         <template #body="slotProps">
           <router-link
-            v-if="slotProps.data.project_created"
+            v-if="slotProps.data.related_entity?.type === 'project'"
             :to="{
               name: 'projectDetail',
-              params: { id: slotProps.data.project_created.id },
+              params: { id: slotProps.data.related_entity?.id },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.project_created.name }}</router-link
           >
+            {{ slotProps.data.related_entity?.name }}
+          </router-link>
         </template>
       </Column>
 
@@ -96,15 +97,15 @@
 
       <Column field="owner" :header="$t('task.owner')"> </Column>
 
-      <Column field="status" :header="$t('task.status')">
-        <template #body="slotProps">
-          <WMOptionSetValue :optionSet="slotProps.data.status" />
-        </template>
-      </Column>
-
       <Column field="last_change" :header="$t('modified_at')">
         <template #body="slotProps">
           {{ slotProps.data.last_change }}
+        </template>
+      </Column>
+
+      <Column field="status" :header="$t('task.status')">
+        <template #body="slotProps">
+          <WMOptionSetValue :optionSet="slotProps.data.status" />
         </template>
       </Column>
 

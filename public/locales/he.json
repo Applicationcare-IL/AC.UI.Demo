@@ -330,7 +330,8 @@
     "not_active": "לא פעיל",
     "inactive": "לא פעיל",
     "pending": "ממתין",
-    "completed": "הושלם"
+    "completed": "הושלם",
+    "terminated": "הופסק"
   },
   "customer-type": {
     "private": "פרטי",

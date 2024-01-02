@@ -221,6 +221,7 @@ const highlightCellClass = (data) => {
   return [{ "bg-red-100 text-red-600": data > 0 }];
 };
 
+// TODO: move to a SLA related composable
 const highlightStatusClass = (status) => {
   return [
     {
