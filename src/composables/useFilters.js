@@ -29,7 +29,7 @@ export function useFilters() {
       // },
       {
         type: "buttons",
-        name: "status",
+        name: "state",
         optionSet: "state",
         label: "סטטוס:",
       },

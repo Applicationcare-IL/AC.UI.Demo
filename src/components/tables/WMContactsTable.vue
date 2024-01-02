@@ -479,9 +479,9 @@ function closeFilterSidebar() {
 function openFilterSidebar() {
   isFilterVisible.value = true;
 }
-// watchEffect(() => {
-//   loadLazyData();
-// });
+watchEffect(() => {
+  loadLazyData();
+});
 
 watch(
   () => utilsStore.searchString["contact"],

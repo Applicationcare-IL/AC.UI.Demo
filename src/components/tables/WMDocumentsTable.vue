@@ -12,15 +12,7 @@
         >
           {{ $t("documents.new_document") }}
         </WMButton>
-        <!-- <WMAssignOwnerButton entity="document" /> -->
-        <!-- <WMButton
-          class="m-1 col-6"
-          name="phone-white"
-          icon="phone"
-          :disabled="selectedElements == 0"
-        >
-  {{ $t("buttons.assign") }}
-        </WMButton> -->
+        <WMAssignOwnerButton entity="document" />
         <!-- <WMButton
           class="m-1 col-6"
           name="mail-white"
@@ -250,9 +242,12 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  multiselect: {
+    type: Boolean,
+    default: true,
+  },
 });
 
-const multiselect = ref(false);
 const rows = ref(10);
 
 const editMode = ref([]);
