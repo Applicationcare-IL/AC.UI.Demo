@@ -21,7 +21,8 @@
           <WMCompleteTasksButton
             v-if="utilsStore.entity == 'task'"
             :entity="utilsStore.entity"
-          ></WMCompleteTasksButton>
+            @taskCompleted="$emit('taskCompleted')"
+          />
 
           <WMAssignOwnerButton :entity="utilsStore.entity" />
 
@@ -93,6 +94,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useUtilsStore } from "@/stores/utils";
+
 const utilsStore = useUtilsStore();
 
 const { listRowsPerPage, selectedRowsPerPage } = useListUtils();
@@ -107,7 +109,7 @@ const props = defineProps({
   entity: String,
 });
 
-const emits = defineEmits(["new"]);
+const emits = defineEmits(["new", "taskCompleted"]);
 
 const isFilterVisible = ref(false);
 const isFilterApplied = ref(false);

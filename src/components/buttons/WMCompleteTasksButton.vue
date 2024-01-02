@@ -57,7 +57,7 @@ const checkIfTasksAreCompletable = (tasks) => {
 };
 
 const handleCompleteTasks = () => {
-  //We need to assume that all the tasks to be completed share the same related entity type (service or project at the moment)
+  // We need to assume that all the tasks to be completed share the same related entity type (service or project at the moment)
   const relatedEntity = utilsStore.selectedElements["task"][0].related_entity;
 
   completeTasks(utilsStore.selectedElements["task"].map((x) => x.task_number))

@@ -3,6 +3,10 @@
     :activeButtons="isAnyRowSelected"
     entity="task"
     @new="toggleSidebarVisibility"
+    @taskCompleted="
+      clearSelectedTasks();
+      loadLazyData();
+    "
   />
 
   <WMSidebar
@@ -195,6 +199,10 @@ function openSidebar() {
 }
 
 utilsStore.resetElements();
+
+const clearSelectedTasks = () => {
+  selectedTasks.value = [];
+};
 
 const onSelectionChanged = () => {
   setSelectedContacts(mapContactsFromTasks(selectedTasks.value));
