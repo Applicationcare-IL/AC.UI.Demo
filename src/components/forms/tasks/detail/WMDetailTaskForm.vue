@@ -98,7 +98,7 @@
                     type="info-link"
                     :highlighted="true"
                     :label="$t('contact.contact') + ':'"
-                    :value="task.contact?.name + ' ' + task.contact?.surname"
+                    :value="contactFullName"
                     :to="'/contact/' + task.contact_id"
                   />
                   <WMInput
@@ -363,6 +363,11 @@ const statusClass = (data) => {
   return getStatusConditionalStyle(data);
 };
 
+const contactFullName = computed(() => {
+  if (task.value.contact) {
+    return task.value.contact.name + " " + task.value.contact.surname;
+  }
+});
 watch(
   () => meta.value,
   (value) => {
