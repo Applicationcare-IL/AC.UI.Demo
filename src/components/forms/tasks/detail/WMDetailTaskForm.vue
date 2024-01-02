@@ -8,7 +8,10 @@
         <h1 class="h1 mb-0">
           <h1 class="h1 mb-0">{{ $t("task.task") }} {{ task.task_number }}</h1>
         </h1>
-        <div :class="statusClass(task.state)" class="status-label">
+        <div
+          :class="statusClass(task.state)"
+          class="status-label white-space-nowrap"
+        >
           {{ $t("statuses." + task.state) }}
         </div>
       </div>
