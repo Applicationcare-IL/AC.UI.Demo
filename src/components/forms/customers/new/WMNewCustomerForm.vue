@@ -102,7 +102,7 @@
         <div class="wm-form-row gap-5">
           <WMInput
             name="email"
-            :required="true"
+            required
             type="input-text"
             :label="$t('email') + ':'"
             width="240"

@@ -101,6 +101,7 @@
                     :highlighted="true"
                     :label="$t('telephone') + ':'"
                     :value="customer.phone"
+                    required
                   />
                   <WMInput
                     name="fax"
@@ -117,6 +118,7 @@
                     :highlighted="true"
                     :label="$t('email') + ':'"
                     :value="customer.email"
+                    required
                   />
                 </div>
               </div>

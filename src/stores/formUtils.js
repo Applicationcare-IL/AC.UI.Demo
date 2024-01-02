@@ -159,7 +159,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
       });
     },
 
-    getCustomerNewFormValidationSchema: () => {
+    getCustomerNewFormValidationSchema: (state) => {
       return yup.object({
         name: yup.string().required(),
         number: yup.string().required(),
@@ -180,8 +180,12 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "customer.field" },
           }),
-        email: yup.string().required(),
-        phone: yup.string().required(),
+        email: yup.string().email().required(),
+        phone: yup
+          .string()
+          .trim()
+          .matches(state.israeliPhoneRegex, "validation.phone")
+          .required(),
         type: yup
           .object()
           .required({
@@ -214,7 +218,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
           }),
       });
     },
-    getCustomerDetailFormValidationSchema: () => {
+    getCustomerDetailFormValidationSchema: (state) => {
       return yup.object({
         name: yup.string().required(),
         number: yup.string().required(),
@@ -222,6 +226,12 @@ export const useFormUtilsStore = defineStore("formUtils", {
           key: "validation.required-select",
           values: { label: "customer.field" },
         }),
+        email: yup.string().email().required(),
+        phone: yup
+          .string()
+          .trim()
+          .matches(state.israeliPhoneRegex, "validation.phone")
+          .required(),
       });
     },
 
