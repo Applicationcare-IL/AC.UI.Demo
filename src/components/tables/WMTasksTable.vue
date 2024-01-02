@@ -30,7 +30,13 @@
           >{{ t("new") }}</WMButton
         >
         <WMAssignOwnerButton entity="task" />
-        <WMCompleteTasksButton entity="task" @taskCompleted="loadLazyData" />
+        <WMCompleteTasksButton
+          entity="task"
+          @taskCompleted="
+            loadLazyData();
+            clearSelectedTasks();
+          "
+        />
       </div>
       <div class="flex flex-row align-items-center gap-3" v-if="showFilters">
         <WMButton
@@ -225,6 +231,10 @@ const rowClass = (data) => {
 
 const onSelectionChanged = () => {
   utilsStore.selectedElements["task"] = selectedTasks.value;
+};
+
+const clearSelectedTasks = () => {
+  selectedTasks.value = [];
 };
 
 // first sidebar
