@@ -232,6 +232,7 @@ const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
 const selectedOption = ref(1);
 const projects = ref([]);
+const expandedRows = ref([]);
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const searchValue = ref("");
