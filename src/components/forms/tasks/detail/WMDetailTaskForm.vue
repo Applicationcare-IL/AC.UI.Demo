@@ -203,7 +203,7 @@
       </div>
 
       <WMDetailTaskSubprojectInfo
-        v-if="task.task_family.value === 'subproject' && task.project_created"
+        v-if="task.task_family?.value === 'subproject' && task.project_created"
         :task="task"
       />
 
