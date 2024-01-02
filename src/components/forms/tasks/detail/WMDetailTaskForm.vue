@@ -93,6 +93,7 @@
                 </div>
 
                 <div class="wm-form-row align-items-start gap-5">
+                  contactFullName {{ contactFullName }}
                   <WMInput
                     name="contact"
                     type="info-link"
