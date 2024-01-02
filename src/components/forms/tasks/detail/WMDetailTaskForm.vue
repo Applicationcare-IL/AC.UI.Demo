@@ -42,7 +42,7 @@
                   />
                 </div>
 
-                <div class="wm-form-row gap-5">
+                <div class="wm-form-row align-items-start gap-5">
                   <WMInput
                     name="started-date"
                     type="info"
@@ -74,7 +74,7 @@
                   </WMInput>
                 </div>
 
-                <div class="wm-form-row gap-5">
+                <div class="wm-form-row align-items-start gap-5">
                   <WMInput
                     v-if="task.task_family"
                     name="family"
@@ -88,17 +88,17 @@
                     type="info"
                     :highlighted="true"
                     :label="$t('task.type')"
-                    :value="task.task_type.name"
+                    :value="task.task_type?.name"
                   />
                 </div>
 
-                <div class="wm-form-row gap-5">
+                <div class="wm-form-row align-items-start gap-5">
                   <WMInput
                     name="contact"
                     type="info-link"
                     :highlighted="true"
                     :label="$t('contact.contact') + ':'"
-                    :value="task.contact"
+                    :value="task.contact.name + ' ' + task.contact.surname"
                     :to="'/contact/' + task.contact_id"
                   />
                   <WMInput
@@ -111,7 +111,7 @@
                   />
                 </div>
 
-                <div class="wm-form-row gap-5">
+                <div class="wm-form-row align-items-start gap-5">
                   <WMInput
                     name="service_number"
                     type="info-link"
@@ -200,7 +200,7 @@
       </div>
 
       <WMDetailTaskSubprojectInfo
-        v-if="task.task_family.value === 'subproject'"
+        v-if="task.task_family.value === 'subproject' && task.project_created"
         :task="task"
       />
 

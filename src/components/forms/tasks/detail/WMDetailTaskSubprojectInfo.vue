@@ -38,7 +38,7 @@
                 type="info-link"
                 :highlighted="true"
                 :label="$t('project.subproject_name') + ':'"
-                :value="task.project_created.name"
+                :value="task.project_created?.name"
                 :to="'/projects/' + task.project_created.id"
                 width="180"
               />

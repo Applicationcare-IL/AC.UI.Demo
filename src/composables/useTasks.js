@@ -70,7 +70,7 @@ export function useTasks() {
       stage: task.stage?.name,
       sla: task.sla,
       days_for_closing: task.sla?.days_for_closing,
-      contact: task.contact?.name,
+      contact: task.contact,
       contact_id: task.contact?.id,
       state: task.state?.value,
       status: task.status,
