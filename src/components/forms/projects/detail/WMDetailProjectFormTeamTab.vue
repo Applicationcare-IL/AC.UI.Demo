@@ -4,7 +4,7 @@
     :projectId="route.params.id"
     related-entity="project"
     :show-title="false"
-    :show-filters="false"
+    :show-filters="true"
     :multiselect="false"
   />
 </template>

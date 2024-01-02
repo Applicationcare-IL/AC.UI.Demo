@@ -5,7 +5,7 @@
     :columns="taskColumns"
     multiselect
     :hide-title="true"
-    :show-filters="false"
+    :show-filters="true"
     rows="10"
   />
 </template>
