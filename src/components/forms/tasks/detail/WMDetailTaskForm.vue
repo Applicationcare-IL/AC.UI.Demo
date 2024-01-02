@@ -98,7 +98,7 @@
                     type="info-link"
                     :highlighted="true"
                     :label="$t('contact.contact') + ':'"
-                    :value="task.contact.name + ' ' + task.contact.surname"
+                    :value="task.contact?.name + ' ' + task.contact?.surname"
                     :to="'/contact/' + task.contact_id"
                   />
                   <WMInput
