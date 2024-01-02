@@ -5,7 +5,7 @@
     related-entity="project"
     :show-title="false"
     :show-filters="true"
-    :multiselect="false"
+    :multiselect="true"
   />
 </template>
 <script setup>

@@ -30,7 +30,7 @@
       <WMSelectableButton
         v-for="(option, index) in options"
         :key="index"
-        :label="option.value"
+        :label="option[optionLabelWithLang]"
         v-model="isButtonSelected[index]"
         @update:modelValue="onButtonChanged($event, option)"
       />
@@ -79,6 +79,8 @@ const { entity, type, optionSet, placeholder, filterName, label } = defineProps(
     searchFunction: Function,
   }
 );
+
+const { optionLabelWithLang } = useLanguages();
 
 const utilsStore = useUtilsStore();
 
