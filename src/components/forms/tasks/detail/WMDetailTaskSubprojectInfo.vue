@@ -34,7 +34,7 @@
               />
 
               <WMInput
-                name="contact"
+                name="subproject_contact"
                 type="info-link"
                 :highlighted="true"
                 :label="$t('project.subproject_name') + ':'"
