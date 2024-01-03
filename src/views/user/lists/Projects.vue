@@ -119,9 +119,11 @@
           :value="slotProps.data.subprojects"
           v-model:selection="selectedProjects"
           @update:selection="onSelectionChanged"
+          v-model:expandedRows="expandedSubprojectsRows"
+          :rowClass="showExpander"
           class="subtable"
         >
-          <Column style="width: 45px"></Column>
+          <Column expander style="width: 45px"> </Column>
           <Column style="width: 40px" selectionMode="multiple"></Column>
           <Column
             field="project_number"
@@ -192,6 +194,8 @@
               </div>
             </template>
           </Column>
+
+          <template #expansion="slotProps"> Subproject of subproject </template>
         </DataTable>
       </template>
     </DataTable>
@@ -228,6 +232,7 @@ const totalRecords = ref(0);
 const lazyParams = ref({});
 const projects = ref();
 const expandedRows = ref([]);
+const expandedSubprojectsRows = ref([]);
 const loading = ref(false);
 const dt = ref();
 
