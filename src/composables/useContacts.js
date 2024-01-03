@@ -37,10 +37,14 @@ export function useContacts() {
 
   // UTILITIES
   const mapContact = (contact) => {
+    const contactFullName = contact.surname
+      ? `${contact.name} ${contact.surname}`
+      : contact.name;
+
     return {
       id: contact.id,
       contact_id: contact.id,
-      name: contact.name + " " + contact.surname,
+      name: contactFullName,
       firstName: contact.name,
       lastName: contact.surname,
       telephone: contact.phone,
