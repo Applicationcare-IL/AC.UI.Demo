@@ -123,7 +123,7 @@
           :rowClass="showExpander"
           class="subtable"
         >
-          <Column expander style="width: 45px"> </Column>
+          <Column style="width: 45px"></Column>
           <Column style="width: 40px" selectionMode="multiple"></Column>
           <Column
             field="project_number"
@@ -194,8 +194,6 @@
               </div>
             </template>
           </Column>
-
-          <template #expansion="slotProps"> Subproject of subproject </template>
         </DataTable>
       </template>
     </DataTable>

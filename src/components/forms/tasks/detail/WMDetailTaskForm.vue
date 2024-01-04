@@ -208,9 +208,14 @@
       />
 
       <div class="flex flex-row gap-5 flex-wrap mt-5">
-        <Accordion class="p-accordion--blue">
+        <Accordion class="p-accordion--blue" :activeIndex="0">
           <AccordionTab :header="$t('documents.documents')">
-            Documents table
+            <WMDocumentsTable
+              :columns="documentsColumns"
+              :taskId="route.params.id"
+              relatedEntity="task"
+              :hide-title="true"
+            />
           </AccordionTab>
         </Accordion>
       </div>
@@ -304,6 +309,9 @@ const tasks = ref([]);
 
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
+
+const { getDocumentColumns } = useListUtils();
+const documentsColumns = ref(getDocumentColumns());
 
 const utilsStore = useUtilsStore();
 const task = ref();
