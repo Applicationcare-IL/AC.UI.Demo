@@ -74,12 +74,9 @@
               params: { id: slotProps.data.customer?.id },
             }"
             class="vertical-align-middle"
-            >{{
-              slotProps.data.customer.name +
-              " " +
-              slotProps.data.customer.surname
-            }}</router-link
           >
+            {{ slotProps.data.customer.surname }}
+          </router-link>
         </template>
       </Column>
       <Column field="telephone" header="טלפון נייד"></Column>
