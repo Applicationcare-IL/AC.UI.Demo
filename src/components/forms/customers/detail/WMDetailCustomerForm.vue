@@ -475,9 +475,11 @@ const onSave = handleSubmit((values) => {
     });
     return;
   }
+
   updateCustomer(route.params.id, parseCustomer(values))
     .then((data) => {
       toast.successAction("customer", "updated");
+      fetchData();
       resetForm({ values: values });
     })
     .catch((error) => {
