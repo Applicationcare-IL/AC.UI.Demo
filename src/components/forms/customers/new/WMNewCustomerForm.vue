@@ -17,7 +17,7 @@
           type="info"
           :highlighted="true"
           :label="$t('id') + ':'"
-          value="000000"
+          :value="nextID"
         />
       </div>
       <div class="wm-form-row gap-5">
@@ -183,6 +183,7 @@ const utilsStore = useUtilsStore();
 
 const { getSelectedContactsForNewCustomerColumns } = useListUtils();
 const { createCustomer, parseCustomer, existsCustomer } = useCustomers();
+const { getNextEntityID } = useUtils();
 
 const types = ref(optionSetsStore.optionSets["customer_type"]);
 const ratings = ref(optionSetsStore.optionSets["customer_rating"]);
@@ -193,6 +194,8 @@ const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
 const selectedContacts = ref([]);
 
 const isVisible = ref(false);
+
+const nextID = getNextEntityID("customer");
 
 function openSidebar() {
   isVisible.value = true;

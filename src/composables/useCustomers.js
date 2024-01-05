@@ -34,7 +34,9 @@ export function useCustomers() {
   };
 
   const existsCustomer = async (field, value) => {
-    return await customersStore.existsCustomer(field, value);
+    return false;
+    // TODO: implement this funcionality
+    // return await customersStore.existsCustomer(field, value);
   };
 
   const assignContactToCustomer = async (customerId, contact) => {

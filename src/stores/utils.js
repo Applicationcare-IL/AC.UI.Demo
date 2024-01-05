@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import axiosConfig from "@/service/axiosConfig";
 
 export const useUtilsStore = defineStore("utils", {
   id: "debounce",
@@ -11,6 +12,16 @@ export const useUtilsStore = defineStore("utils", {
     dateFormat: "DD/MM/YY",
   }),
   actions: {
+    getNextEntityID(params) {
+      return axiosConfig
+        .get("/next-id", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     debounceAction(callback, delay = 500) {
       if (this.debounceTimer) {
         clearTimeout(this.debounceTimer);
