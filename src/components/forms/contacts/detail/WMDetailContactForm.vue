@@ -301,7 +301,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, provide } from "vue";
 
 import { useForm } from "vee-validate";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -353,6 +353,8 @@ const toast = useToast();
 
 const { getContactFromApi, updateContact, parseContact, setSelectedContacts } =
   useContacts();
+
+provide("preselectedContact", contact);
 
 onMounted(async () => {
   await fetchData();

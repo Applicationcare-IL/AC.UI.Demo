@@ -21,6 +21,7 @@
             :new="true"
             related-sidebar="newContact"
             :searchFunction="searchContact"
+            :modelValue="preselectedContact"
           />
           <WMSidebar
             :visible="isNewContactSidebarVisible"
@@ -46,6 +47,7 @@
           :searchFunction="searchCustomer"
           :new="true"
           related-sidebar="newCustomer"
+          :modelValue="preselectedCustomer"
         />
         <WMSidebar
           :visible="isNewCustomerSidebarVisible"
@@ -136,12 +138,15 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, inject } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 import { useForm } from "vee-validate";
+
+const preselectedContact = inject("preselectedContact", null);
+const preselectedCustomer = inject("preselectedCustomer", null);
 
 const optionSetsStore = useOptionSetsStore();
 
@@ -244,7 +249,11 @@ const onSubmit = handleSubmit((values) => {
     due_date: today, // TODO: change that to the date the user selected
   };
 
-  if (props.relatedEntity) {
+  if (
+    props.relatedEntity &&
+    props.relatedEntity != "contact" &&
+    props.relatedEntity != "customer"
+  ) {
     task.entity_type = props.relatedEntity;
     task.entity_id = props.relatedEntityId;
   }

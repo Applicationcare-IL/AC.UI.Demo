@@ -316,7 +316,7 @@ export function useListUtils() {
       { name: "task_type.name", type: "text", header: "task.type" },
       { name: "stage", type: "text" },
       { name: "sla", type: "sla", class: "sla" },
-      { name: "open_date", type: "text" },
+      { name: "started_at", type: "text" },
       { name: "due_date", type: "text" },
       { name: "owner", type: "text" },
       { name: "status", type: "optionset", prefix: "statuses" },

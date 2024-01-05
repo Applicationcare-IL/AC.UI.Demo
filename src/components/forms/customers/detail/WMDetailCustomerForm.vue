@@ -336,7 +336,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, provide } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useForm } from "vee-validate";
@@ -381,6 +381,8 @@ const selectedEntrance = ref("");
 const statusConditionalStyle = ref("");
 
 const alphabet = formUtilsStore.getAlphabet;
+
+provide("preselectedCustomer", customer);
 
 const {
   getContactColumns,

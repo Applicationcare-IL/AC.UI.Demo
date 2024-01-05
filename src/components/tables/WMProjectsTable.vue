@@ -1,12 +1,12 @@
 <template>
-  <WMSidebar
+  <!-- <WMSidebar
     :visible="isVisible"
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
-    name="newTask"
+    name="newProject"
   >
     <WMNewProjectForm :isSidebar="true" @close-sidebar="closeSidebar" />
-  </WMSidebar>
+  </WMSidebar> -->
 
   <h2 v-if="!hideTitle" class="h2">{{ $t("project.projects") }}</h2>
   <div class="flex flex-column gap-3 mb-3" v-if="showHeaderOptions">
