@@ -49,10 +49,29 @@ watch(
 );
 
 const checkIfTasksAreCompletable = (tasks) => {
-  if (tasks.length == 0) return false;
+  if (tasks.length == 0) {
+    return false;
+  }
 
-  if (tasks.length == 1) return tasks[0].state == "active";
+  // we cant complete if the selected task is a subproject task
+  if (tasks.length == 1 && tasks[0].task_family.value == "subproject") {
+    return false;
+  }
 
+  // check if the selected task is active
+  if (tasks.length == 1) {
+    return tasks[0].state == "active";
+  }
+
+  // prevent complete when some of the selected tasks are subproject tasks
+  if (
+    tasks.lenght > 1 &&
+    tasks.some((x) => x.task_family.value == "subproject")
+  ) {
+    return false;
+  }
+
+  // check if all the selected tasks are active
   return tasks.every((x) => x.state == "active");
 };
 
