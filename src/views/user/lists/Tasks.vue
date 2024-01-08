@@ -57,7 +57,7 @@
           >
         </template>
       </Column>
-      <Column field="project_name" header="Project name">
+      <Column field="project_name" :header="$t('project.project_name')">
         <template #body="slotProps">
           <router-link
             v-if="slotProps.data.related_entity?.type === 'project'"
