@@ -114,6 +114,7 @@
     "my": "My Customers",
     "name": "Customer Name",
     "number": "Customer Number",
+    "customer-number": "Customer Number",
     "number-abbreviation": "Customer No.",
     "type": "Type",
     "rating": "Rating",

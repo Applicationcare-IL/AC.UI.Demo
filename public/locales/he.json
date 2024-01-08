@@ -111,6 +111,7 @@
     "customers": "לקוחות",
     "name": "שם הלקוח",
     "number": "מספר הלקוח",
+    "customer-number": "ת.ז / ח.פ",
     "number-abbreviation": "מס’ לקוח",
     "type": "סוג",
     "rating": "דירוג",

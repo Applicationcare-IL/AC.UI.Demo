@@ -28,7 +28,7 @@
                     name="id"
                     type="info"
                     :highlighted="true"
-                    :label="$t('id') + ':'"
+                    :label="$t('contact.system-id') + ':'"
                     :value="contact.id"
                   />
                 </div>
