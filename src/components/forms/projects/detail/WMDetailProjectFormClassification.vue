@@ -9,44 +9,41 @@
           :required="true"
           :label="$t('project.project_type') + ':'"
           type="input-search"
-          :options="projectTypes"
           width="152"
           :placeholder="$t('project.project_types_placeholder')"
           v-model="selectedProjectType"
           :option-set="true"
+          :disabled="true"
         />
 
         <WMInputSearch
           name="project_area"
           :highlighted="true"
           :label="$t('project.project_area') + ':'"
-          :options="projectAreas"
           width="152"
           :placeholder="$t('project.project_areas_placeholder')"
           @change="filterProjectDetailsDropdown($event.value.id)"
           v-model="selectedProjectArea"
           :option-set="true"
-          :disabled="isProjectTypeEmptyOrFalsy"
+          :disabled="true"
         />
 
         <WMInputSearch
           name="project_detail"
           :highlighted="true"
           :label="$t('project.project_detail') + ':'"
-          :options="projectDetails"
           width="152"
           :placeholder="$t('project.project_details_placeholder')"
           v-model="selectedProjectDetail"
           :option-set="true"
-          :disabled="isProjectAreaEmtpyOrFalsy"
+          :disabled="true"
         />
       </div>
     </template>
   </Card>
 </template>
 <script setup>
-// TODO: combine the new and detail form classification sections to avoid duplicated code
-import { ref, onMounted, watch, computed } from "vue";
+import { ref, onMounted } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -59,99 +56,31 @@ const props = defineProps({
 
 const optionSetsStore = useOptionSetsStore();
 
-const projectTypes = ref([]);
-const projectAreas = ref([]);
-const projectDetails = ref([]);
-
 const selectedProjectType = ref();
 const selectedProjectArea = ref();
 const selectedProjectDetail = ref();
 
-const isProjectTypeEmptyOrFalsy = computed(() => {
-  return !selectedProjectType.value;
-});
-
-const isProjectAreaEmtpyOrFalsy = computed(() => {
-  return !selectedProjectArea.value;
-});
-
 onMounted(() => {
   optionSetsStore.getOptionSetValuesFromApiRaw("project_type").then((data) => {
-    projectTypes.value = data;
     selectedProjectType.value = data.find((item) => {
       return item.value === props.project.project_type.value;
     });
   });
-  optionSetsStore.getOptionSetValuesFromApiRaw("project_area").then((data) => {
-    projectAreas.value = data;
 
+  optionSetsStore.getOptionSetValuesFromApiRaw("project_area").then((data) => {
     selectedProjectArea.value = data.find((item) => {
       return item.value === props.project.project_area?.value;
     });
   });
+
   optionSetsStore
     .getOptionSetValuesFromApiRaw("project_detail")
     .then((data) => {
-      projectDetails.value = data;
-
       selectedProjectDetail.value = data.find((item) => {
         return item.value === props.project.project_detail?.value;
       });
     });
 });
-
-const emit = defineEmits(["projectTypeUpdate"]);
-
-const filterProjectAreasDropdown = (value) => {
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("project_area", value)
-    .then((data) => {
-      projectAreas.value = data;
-    });
-};
-
-const filterProjectDetailsDropdown = (value) => {
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("project_detail", value)
-    .then((data) => {
-      projectDetails.value = data;
-    });
-};
-
-const clearProjectDetailsDropdown = () => {
-  selectedProjectDetail.value = [];
-};
-
-const clearProjectAreasDropdown = () => {
-  selectedProjectArea.value = [];
-};
-
-watch(
-  () => selectedProjectType.value,
-  (newValue) => {
-    if (!newValue) {
-      clearProjectAreasDropdown();
-      clearProjectDetailsDropdown();
-      emit("projectTypeUpdate", false);
-      return;
-    }
-
-    emit("projectTypeUpdate", newValue.value);
-    filterProjectAreasDropdown(newValue.id);
-  }
-);
-
-watch(
-  () => selectedProjectArea.value,
-  (newValue) => {
-    if (!newValue) {
-      clearProjectDetailsDropdown();
-      return;
-    }
-
-    filterProjectDetailsDropdown(newValue.id);
-  }
-);
 </script>
 
 <style scoped lang="scss"></style>
