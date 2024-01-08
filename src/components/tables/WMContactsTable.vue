@@ -330,9 +330,10 @@ const onPage = (event) => {
 
 const defaultRole = computed(() => {
   if (props.relatedEntity === "customer") {
-    return optionSetsStore.optionSets["contact_customer_role"].find(
-      (role) => role.value === "employee"
-    );
+    return optionSetsStore.optionSets["contact_customer_role"][0];
+    // return optionSetsStore.optionSets["contact_customer_role"].find(
+    //   (role) => role.value === "employee"
+    // );
   }
 
   if (props.relatedEntity === "project") {

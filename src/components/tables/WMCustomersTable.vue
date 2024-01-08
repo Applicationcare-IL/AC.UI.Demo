@@ -246,9 +246,10 @@ const addCustomers = (addedCustomers) => {
 const { unassignContactFromCustomer, assignContactToCustomer } = useCustomers();
 
 const defaultRole = computed(() => {
-  return optionSetsStore.optionSets["contact_customer_role"].find(
-    (role) => role.value === "employee"
-  );
+  return optionSetsStore.optionSets["contact_customer_role"][0];
+  // return optionSetsStore.optionSets["contact_customer_role"].find(
+  //   (role) => role.value === "employee"
+  // );
 });
 
 const saveRow = (customer) => {

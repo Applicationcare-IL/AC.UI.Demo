@@ -287,9 +287,11 @@ const unlinkContact = (id) => {
   selectedContacts.value.splice(index, 1);
 };
 
-const defaultRole = optionSetsStore.optionSets["contact_customer_role"].find(
-  (role) => role.value === "employee"
-);
+const defaultRole = optionSetsStore.optionSets["contact_customer_role"][0];
+
+// const defaultRole = optionSetsStore.optionSets["contact_customer_role"].find(
+//   (role) => role.value === "employee"
+// );
 
 const onContactselected = (newContact) => {
   console.log("onContactselected", newContact);
