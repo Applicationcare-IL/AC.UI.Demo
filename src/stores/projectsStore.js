@@ -47,7 +47,7 @@ export const useProjectsStore = defineStore("projects", {
     },
     assignContactToProject(projectId, contact) {
       const params = {
-        project_id: projectId,
+        project: projectId,
         ...contact,
       };
 

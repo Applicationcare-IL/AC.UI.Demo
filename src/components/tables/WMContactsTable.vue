@@ -374,13 +374,13 @@ const onStarClicked = (contact) => {
   emit("update:mainContact", contact.id);
 
   if (!isSourceExternal.value) {
-    const contactParams = {
-      contact_id: contact.id,
-      main: true,
-      role: contact.role.id,
-    };
-
     if (props.relatedEntity === "customer") {
+      const contactParams = {
+        contact_id: contact.id,
+        main: true,
+        role: contact.role.id,
+      };
+
       assignContactToCustomer(customer.value.id, contactParams)
         .then(() => {
           loadLazyData();
@@ -389,6 +389,11 @@ const onStarClicked = (contact) => {
     }
 
     if (props.relatedEntity === "project") {
+      const contactParams = {
+        contact: contact.id,
+        role: contact.role.id,
+      };
+
       assignContactToProject(props.projectId, contactParams)
         .then(() => {
           loadLazyData();
@@ -443,12 +448,12 @@ const saveRow = (contact) => {
       ? contact.role?.id
       : contact.role_project?.id;
 
-  const contactParams = {
-    contact_id: contact.contact_id,
-    role: roleValue,
-  };
-
   if (props.relatedEntity === "customer") {
+    const contactParams = {
+      contact_id: contact.contact_id,
+      role: roleValue,
+    };
+
     assignContactToCustomer(customer.value.id, contactParams)
       .then(() => {
         loadLazyData();
@@ -460,6 +465,11 @@ const saveRow = (contact) => {
   }
 
   if (props.relatedEntity === "project") {
+    const contactParams = {
+      contact: contact.contact_id,
+      role: roleValue,
+    };
+
     assignContactToProject(props.projectId, contactParams)
       .then(() => {
         loadLazyData();
