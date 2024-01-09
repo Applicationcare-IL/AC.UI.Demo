@@ -40,6 +40,7 @@
       <WMSearchBox entity="contact" />
     </div>
   </div>
+
   <DataTable
     lazy
     v-model:selection="selectedContacts"
@@ -491,6 +492,8 @@ function openFilterSidebar() {
   isFilterVisible.value = true;
 }
 watchEffect(() => {
+  if (isSourceExternal.value) return;
+
   loadLazyData();
 });
 
