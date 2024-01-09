@@ -51,9 +51,9 @@
           </WMButton>
 
           <WMButton
-            v-if="['customer', 'contact'].includes(utilsStore.entity)"
+            v-if="showUpdateEntityStateButton"
             class="m-1 col-6"
-            name="basic-primary"
+            name="basic-secondary"
             @click="
               $emit(
                 'updateEntityState',
@@ -62,7 +62,9 @@
               )
             "
           >
-            {{ isEntityActive ? "הפוך לפעיל" : "הפוך ללא פעיל" }}
+            {{
+              isEntityActive ? $t("buttons.deactivate") : $t("buttons.activate")
+            }}
           </WMButton>
         </div>
       </div>
@@ -72,7 +74,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 import { useRoute } from "vue-router";
@@ -87,10 +89,9 @@ const emit = defineEmits(["saveForm", "updateEntityState"]);
 
 const { getFormMeta } = storeToRefs(formUtilsStore);
 
-const menuItems = [
-  { label: "Whatsapp", value: "option1" },
-  { label: "SMS", value: "option2" },
-];
+const showUpdateEntityStateButton = computed(() => {
+  return ["customer", "contact"].includes(utilsStore.entity);
+});
 
 const props = defineProps({
   activeButtons: Boolean,

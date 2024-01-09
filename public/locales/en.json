@@ -62,7 +62,9 @@
     "view_map": "View map",
     "email": "Email",
     "message": "Message",
-    "new": "New"
+    "new": "New",
+    "activate": "Activate",
+    "deactivate": "Deactivate"
   },
   "navigation": {
     "dashboard": "Dashboard",

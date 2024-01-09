@@ -9,7 +9,10 @@
           <h1 class="h1 mb-0">
             {{ $t("customer.customer") }}: {{ customer.name }}
           </h1>
-          <div :class="statusClass(customer.state)" class="status-label">
+          <div
+            :class="statusClass(customer.state)"
+            class="status-label white-space-nowrap"
+          >
             {{ $t("statuses." + customer.state) }}
           </div>
         </div>
