@@ -69,11 +69,10 @@
                   >
                     <WMSLATag
                       v-if="task.sla"
-                      :sla="task.sla"
+                      :sla="task.sla.sla"
                       :daysForClosing="task.days_for_closing"
                       :state="task.state"
-                    >
-                    </WMSLATag>
+                    />
                   </WMInput>
                 </div>
 
