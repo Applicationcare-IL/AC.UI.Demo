@@ -194,8 +194,7 @@ const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
 const selectedContacts = ref([]);
 
 const isVisible = ref(false);
-
-const nextID = getNextEntityID("customer");
+const nextID = ref(12);
 
 function openSidebar() {
   isVisible.value = true;
@@ -209,6 +208,10 @@ onMounted(() => {
   optionSetsStore
     .getOptionSetValuesFromApi("service_area")
     .then((data) => (serviceAreas.value = data));
+
+  getNextEntityID("customer").then((id) => {
+    nextID.value = id;
+  });
 });
 
 const { errors, handleSubmit, meta, setFieldError } = useForm({

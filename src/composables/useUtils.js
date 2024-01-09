@@ -4,9 +4,11 @@ export function useUtils() {
   const utilsStore = useUtilsStore();
 
   const getNextEntityID = async (entity) => {
-    return await utilsStore.getNextEntityID({
+    const response = await utilsStore.getNextEntityID({
       entity_type: entity,
     });
+
+    return response.data.id;
   };
 
   return {

@@ -101,8 +101,9 @@
       v-if="type == 'info'"
       :class="styles"
       :style="{ width: width + 'px' }"
-      >{{ value }}</span
     >
+      {{ refValue }}
+    </span>
     <span v-if="type == 'info-link' && value" :style="{ width: width + 'px' }">
       <router-link :to="props.to">{{ value }}</router-link>
     </span>
@@ -201,6 +202,7 @@ const props = defineProps({
 
 const styles = toRef(props, "class");
 const name = toRef(props, "name");
+const refValue = toRef(props, "value");
 
 const {
   value: value,
