@@ -42,8 +42,6 @@ export function useServices() {
 
   // UTILITIES
   const parseService = (service) => {
-    console.log("parseService", service);
-
     return {
       contact_id: service.contact.id,
       customer_id: service.customer.id,
@@ -133,6 +131,7 @@ export function useServices() {
         email: "mailmail@mailmail.com",
         type: "ציבורי",
       },
+      last_activity: service.last_activity,
     };
   };
 

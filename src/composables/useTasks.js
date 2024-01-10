@@ -89,6 +89,7 @@ export function useTasks() {
       description: task.description,
       notes: task.notes,
       project_created: task.project_created,
+      last_activity: task.last_activity,
     };
   };
 

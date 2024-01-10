@@ -84,6 +84,7 @@ export function useCustomers() {
         entrance: customer.location?.house_entrance,
         zip: customer.location?.zip?.id,
       },
+      last_activity: customer.last_activity,
     };
   };
 

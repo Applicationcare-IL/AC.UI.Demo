@@ -160,9 +160,6 @@ export function useProjects() {
       offer_requested_at: parseDate(customer.offer_requested_at),
     };
 
-    console.log("recibo esto", customer);
-    console.log("envio esto", result);
-
     return result;
   };
 
@@ -195,6 +192,7 @@ export function useProjects() {
       architect: project.architect,
       supervisor: project.supervisor,
       contractor: project.contractor,
+      last_activity: project.last_activity,
     };
   };
 
