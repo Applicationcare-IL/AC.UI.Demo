@@ -55,7 +55,9 @@
       </div>
     </div>
 
-    <Button @click="clear" link>נקה</Button>
+    <Button @click="clear" link>
+      {{ $t("buttons.clear") }}
+    </Button>
   </div>
   <Divider></Divider>
 </template>

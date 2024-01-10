@@ -5,10 +5,18 @@
         <div class="label h5">בחירת צוותים:</div>
         <span class="p-input-icon-left">
           <i class="pi pi-search" />
-          <InputText class="input-search" v-model="searchValue" placeholder="Search" />
+          <InputText
+            class="input-search"
+            v-model="searchValue"
+            placeholder="Search"
+          />
         </span>
-        <WMButton class="m-1 col-6 small" name="basic-primary">בחר הכל </WMButton>
-        <WMButton class="m-1 col-6 small" name="basic-secondary">נקה הכל </WMButton>
+        <WMButton class="m-1 col-6 small" name="basic-primary"
+          >בחר הכל
+        </WMButton>
+        <WMButton class="m-1 col-6 small" name="basic-secondary">{{
+          $t("buttons.clear-all")
+        }}</WMButton>
       </div>
       <div class="flex flex-row gap-3">
         <Tag>
@@ -68,11 +76,15 @@
               <div
                 class="flex flex-row gap-3 px-4 py-2 time-info justify-content-between"
               >
-                <div class="flex flex-column justify-content-between align-items-start">
+                <div
+                  class="flex flex-column justify-content-between align-items-start"
+                >
                   <div class="white-space-nowrap">זמן ממוצע של הצוות</div>
                   <div class="font-bold">00:08:46</div>
                 </div>
-                <div class="flex flex-column justify-content-between align-items-end">
+                <div
+                  class="flex flex-column justify-content-between align-items-end"
+                >
                   <i class="pi pi-ellipsis-v"></i>
                   <Tag severity="success" rounded value="+4%"></Tag>
                 </div>
@@ -99,10 +111,10 @@
               <template #title> משפחות מובילות </template>
               <template #content>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed
-                  consequuntur error repudiandae numquam deserunt quisquam repellat libero
-                  asperiores earum nam nobis, culpa ratione quam perferendis esse,
-                  cupiditate neque quas!
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Inventore sed consequuntur error repudiandae numquam deserunt
+                  quisquam repellat libero asperiores earum nam nobis, culpa
+                  ratione quam perferendis esse, cupiditate neque quas!
                 </p>
               </template>
             </Card>
@@ -113,7 +125,9 @@
             <div class="flex flex-column gap-3">
               <div class="flex flex-row justify-content-between">
                 <div class="flex flex-row">
-                  <WMButton class="m-1 col-6" name="new" icon="new">חדש</WMButton>
+                  <WMButton class="m-1 col-6" name="new" icon="new"
+                    >חדש</WMButton
+                  >
                   <WMButton class="m-1 col-6" name="export-white" icon="export"
                     >ייצוא נתונים</WMButton
                   >
@@ -231,10 +245,10 @@
               <template #title> משפחות מובילות </template>
               <template #content>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed
-                  consequuntur error repudiandae numquam deserunt quisquam repellat libero
-                  asperiores earum nam nobis, culpa ratione quam perferendis esse,
-                  cupiditate neque quas!
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Inventore sed consequuntur error repudiandae numquam deserunt
+                  quisquam repellat libero asperiores earum nam nobis, culpa
+                  ratione quam perferendis esse, cupiditate neque quas!
                 </p>
               </template>
             </Card>
@@ -245,7 +259,9 @@
             <div class="flex flex-column gap-3">
               <div class="flex flex-row justify-content-between">
                 <div class="flex flex-row">
-                  <WMButton class="m-1 col-6" name="new" icon="new">חדש</WMButton>
+                  <WMButton class="m-1 col-6" name="new" icon="new"
+                    >חדש</WMButton
+                  >
                   <WMButton class="m-1 col-6" name="export-white" icon="export"
                     >ייצוא נתונים</WMButton
                   >

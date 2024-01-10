@@ -66,7 +66,10 @@
     "message": "Message",
     "new": "New",
     "activate": "Activate",
-    "deactivate": "Deactivate"
+    "deactivate": "Deactivate",
+    "clear": "Clear",
+    "clear-all": "Clear all",
+    "apply-filters": "Apply filters"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -474,6 +477,7 @@
     "customer-title": "Customer Filters",
     "contact-title": "Contact Filters",
     "service-title": "Service Filters",
-    "project-title": "Project Filters"
+    "project-title": "Project Filters",
+    "no-filters-applied": "No filters applied"
   }
 }

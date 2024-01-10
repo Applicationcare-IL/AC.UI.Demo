@@ -1,6 +1,5 @@
 <template>
-  <WMListSubHeader entity="customer" @new="toggleSidebarVisibility">
-  </WMListSubHeader>
+  <WMListSubHeader entity="customer" @new="toggleSidebarVisibility" />
 
   <WMCustomerPreviewSidebar
     :customer="customerDetail"
@@ -83,8 +82,9 @@
               params: { id: slotProps.data.main_contact?.id },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.main_contact.name }}</router-link
           >
+            {{ slotProps.data.main_contact.name }}
+          </router-link>
         </template>
       </Column>
       <Column field="status" :header="$t('status')">
@@ -188,7 +188,7 @@ const { layoutConfig } = useLayout();
 
 const { selectedRowsPerPage, getContactDetailColumns } = useListUtils();
 
-//Pagination and table content
+// Pagination and table content
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const customers = ref();
@@ -300,6 +300,7 @@ watch(
   }
 );
 
+// used to load data when filters are changed
 watchEffect(() => {
   loadLazyData();
 });

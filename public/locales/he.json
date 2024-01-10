@@ -65,7 +65,10 @@
     "message": "הודעה",
     "new": "חדש",
     "activate": "הפוך לפעיל",
-    "deactivate": "הפוך ללא פעיל"
+    "deactivate": "הפוך ללא פעיל",
+    "clear": "נקה",
+    "clear-all": "נקה הכל",
+    "apply-filters": "החל סינון"
   },
   "navigation": {
     "dashboard": "דאשבורד",
@@ -481,6 +484,7 @@
     "customer-title": "סינון לקוחות",
     "contact-title": "סינון אנשי קשר",
     "service-title": "סינון שירותים",
-    "project-title": "סינון פרויקטים"
+    "project-title": "סינון פרויקטים",
+    "no-filters-applied": "לא הופעלו סננים"
   }
 }

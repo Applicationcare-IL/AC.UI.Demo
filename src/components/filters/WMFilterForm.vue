@@ -1,14 +1,17 @@
 <template>
   <div class="filter-header flex flex-row justify-content-between p-4">
-    <Button @click="applyFilter"> החל סינון </Button>
+    <Button @click="applyFilter">{{ $t("buttons.apply-filters") }}</Button>
     <div class="flex flex-column align-items-center">
       <div class="h3">
         {{ translatedTitle }}
       </div>
-      <span v-if="appliedFilters == 0">לא הופעלו סננים</span>
+      <span v-if="appliedFilters == 0">
+        {{ $t("filters.no-filters-applied") }}
+      </span>
       <span v-else>הופעלו {{ appliedFilters }} סננים </span>
     </div>
-    <Button @click="clear" link>נקה הכל</Button>
+
+    <Button @click="clear" link>{{ $t("buttons.clear-all") }}</Button>
   </div>
   <Divider></Divider>
   <div class="filter-body p-4">
