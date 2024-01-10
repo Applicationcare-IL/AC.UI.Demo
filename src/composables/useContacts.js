@@ -80,6 +80,7 @@ export function useContacts() {
         entrance: contact.location?.house_entrance,
         zip: contact.location?.zip?.id,
       },
+      last_activity: contact.last_activity,
     };
   };
 

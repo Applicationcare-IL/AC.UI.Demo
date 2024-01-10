@@ -62,7 +62,7 @@
         </template>
       </Column>
 
-      <Column field="name" :header="$t('customer_name')"></Column>
+      <Column field="name" :header="$t('customer-name')"></Column>
       <Column field="type" :header="$t('customer.type')">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.type)">

@@ -53,7 +53,9 @@
   "now": "Now",
   "export": "ייצוא נתונים",
   "journal": "יומן",
-  "customer_name": "שם לקוח",
+  "customer-name": "שם לקוח",
+  "additional-information": "נתונים נוספים",
+  "logs": "לוגים",
   "buttons": {
     "link_contact": "שיוך איש קשר",
     "link_customer": "שיוך ארגונים",

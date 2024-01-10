@@ -40,7 +40,9 @@
           <WMButton class="m-1 col-6" name="basic-secondary">כפתור </WMButton>
         </div>
         <div class="flex flex-row">
-          <WMButton class="m-1 col-6" name="filter-white" icon="filter">חדש</WMButton>
+          <WMButton class="m-1 col-6" name="filter-white" icon="filter"
+            >חדש</WMButton
+          >
           <SelectButton
             v-model="value"
             :options="options"
@@ -52,7 +54,11 @@
       <div class="">
         <span class="p-input-icon-left">
           <i class="pi pi-search" />
-          <InputText class="w-30rem" v-model="searchValue" placeholder="Search" />
+          <InputText
+            class="w-30rem"
+            v-model="searchValue"
+            placeholder="Search"
+          />
         </span>
       </div>
     </div>
@@ -74,7 +80,7 @@
       </Column>
       <Column style="width: 40px" selectionMode="multiple"></Column>
       <Column field="telephone" header="מס’ לקוח"></Column>
-      <Column field="name" :header="$t('customer_name')" />
+      <Column field="name" :header="$t('customer-name')" />
       <Column field="type" header="סוג"></Column>
       <Column field="selected_product" header="איש קשר ראשי"></Column>
       <Column field="status" header="סטטוס"></Column>

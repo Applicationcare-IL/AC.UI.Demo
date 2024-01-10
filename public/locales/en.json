@@ -54,7 +54,9 @@
   "now": "Now",
   "export": "Export",
   "journal": "Journal",
-  "customer_name": "Customer Name",
+  "customer-name": "Customer Name",
+  "additional-information": "Additional Information",
+  "logs": "Logs",
   "buttons": {
     "link_contact": "Link contact",
     "link_customer": "Link customer",

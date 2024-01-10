@@ -248,29 +248,29 @@
           :showHeaderOptions="false"
         />
       </div>
-      <div class="flex-1 card-container">
-        <Card>
-          <template #title>
-            <div class="h1 mx-5 mt-5">{{ $t("general-details") }}</div>
-          </template>
-          <template #content>
-            <div class="flex flex-column gap-5 m-5">
+      <div class="flex-1 tabs-container">
+        <TabView>
+          <TabPanel :header="$t('additional-information')">
+            <div class="flex flex-column gap-5 m-2">
+              <h4 class="h4 mb-0">
+                {{ $t("logs") }}
+              </h4>
               <div class="flex flex-auto gap-5 flex-row">
                 <WMInput
                   name="created_by"
                   type="info"
                   :highlighted="true"
                   :label="$t('created_by') + ':'"
-                  :value="contact.created_by"
-                  inline
+                  :value="contact.last_activity.creator.name"
+                  width="150"
                 />
                 <WMInput
                   name="modified_by"
                   type="info"
                   :highlighted="true"
                   :label="$t('modified_by') + ':'"
-                  :value="contact.updated_by"
-                  inline
+                  :value="contact.last_activity.updater.name"
+                  width="150"
                 />
               </div>
               <div class="flex flex-auto gap-5 flex-row">
@@ -279,21 +279,21 @@
                   type="info"
                   :highlighted="true"
                   :label="$t('created_at') + ':'"
-                  :value="contact.created_at"
-                  inline
+                  :value="contact.last_activity.creator.at"
+                  width="150"
                 />
                 <WMInput
                   name="modified_at"
                   type="info"
                   :highlighted="true"
                   :label="$t('modified_at') + ':'"
-                  :value="contact.updated_at"
-                  inline
+                  :value="contact.last_activity.updater.at"
+                  width="150"
                 />
               </div>
             </div>
-          </template>
-        </Card>
+          </TabPanel>
+        </TabView>
       </div>
     </div>
   </div>
@@ -387,6 +387,7 @@ const onSave = handleSubmit((values) => {
     .then((data) => {
       toast.successAction("contact", "updated");
       resetForm({ values: values });
+      fetchData();
     })
     .catch((error) => {
       console.error(error);
