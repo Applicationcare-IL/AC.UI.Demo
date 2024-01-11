@@ -15,7 +15,24 @@ module.exports = {
     // 'vue/no-unused-vars': 'error'
   },
   globals: {
-    // composables
+    // Composables
+    useAnnouncements: true,
+    useCommunications: true,
+    useContacts: true,
+    useCustomers: true,
+    useDialogs: true,
+    useDocuments: true,
+    useFilters: true,
+    useJournal: true,
+    useLangauges: true,
+    useLicensing: true,
+    useListUtils: true,
+    useProjects: true,
+    useSearch: true,
+    useServices: true,
+    useSidebar: true,
     useTasks: true,
+    useToast: true,
+    useUtils: true,
   },
 };

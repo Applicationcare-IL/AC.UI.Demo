@@ -246,9 +246,9 @@ export function useListUtils() {
       },
       { name: "name", type: "text" },
       { name: "type", type: "option-set", header: "customer.type" },
-      { name: "owner.name", type: "text", header: "owner" },
+      { name: "owner.name", type: "owner", header: "owner" },
 
-      { name: "role", type: "text", header: "role" },
+      { name: "role", type: "role", header: "role" },
     ];
   };
 

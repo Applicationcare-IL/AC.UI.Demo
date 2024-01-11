@@ -1,10 +1,10 @@
 <template>
   <Sidebar
     v-model:visible="visible"
-    @update:modelValue="updateModelValue"
     class="details-sidebar w-6"
-    :showCloseIcon="false"
+    :show-close-icon="false"
     :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+    @update:model-value="updateModelValue"
   >
     <div class="flex justify-content-between">
       <h2 class="h2">שם של איש קשר</h2>
@@ -48,30 +48,30 @@
     </div>
 
     <WMCustomersTable
-      :contactId="contact.id"
+      :contact-id="contact.id"
       :columns="customerPreviewTableColumns"
-      :showControls="false"
+      :show-controls="false"
       :multiselect="false"
       :rows="5"
       table-class="compact"
     />
 
     <WMServicesTable
-      relatedEntity="contact"
-      :relatedEntityId="contact.id"
+      related-entity="contact"
+      :related-entity-id="contact.id"
       :columns="servicePreviewTableColumns"
       :multiselect="false"
-      :showHeaderOptions="false"
+      :show-header-options="false"
       :rows="5"
       table-class="compact"
     />
 
     <WMTasksTable
-      relatedEntity="contact"
-      :relatedEntityId="contact.id"
+      related-entity="contact"
+      :related-entity-id="contact.id"
       :columns="taskPreviewTableColumns"
       :multiselect="false"
-      :showHeaderOptions="false"
+      :show-header-options="false"
       :rows="5"
       table-class="compact"
     />
@@ -80,9 +80,10 @@
 
 <script setup>
 import { ref } from "vue";
+
 import { useLayout } from "@/layout/composables/layout";
 
-const props = defineProps({
+defineProps({
   isVisible: {
     type: Boolean,
     default: false,
@@ -100,6 +101,7 @@ const visible = ref(false);
 const updateModelValue = (value) => {
   visible.value = value;
 };
+
 const {
   getCustomerPreviewColumns,
   getServicePreviewColumns,
