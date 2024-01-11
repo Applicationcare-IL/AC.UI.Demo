@@ -33,7 +33,6 @@
       <div class="wm-form-row gap-4">
         <WMInput
           name="contact-number"
-          :required="true"
           type="input-text"
           :label="$t('contact.number') + ':'"
         />
