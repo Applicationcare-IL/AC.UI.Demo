@@ -1,24 +1,24 @@
 <template>
   <WMSidebar
     :visible="isVisible"
-    @close-sidebar="closeSidebar"
-    @open-sidebar="openSidebar"
     name="newTask"
     :data="{ relatedEntity: relatedEntity, relatedEntityId: relatedEntityId }"
+    @close-sidebar="closeSidebar"
+    @open-sidebar="openSidebar"
   >
-    <template v-slot:default="slotProps">
+    <template #default="slotProps">
       <WMNewTaskForm
-        :isSidebar="true"
+        :is-sidebar="true"
+        :related-entity="slotProps.props.data.relatedEntity"
+        :related-entity-id="slotProps.props.data.relatedEntityId"
         @close-sidebar="closeSidebar"
         @new-task-created="loadLazyData"
-        :relatedEntity="slotProps.props.data.relatedEntity"
-        :relatedEntityId="slotProps.props.data.relatedEntityId"
       />
     </template>
   </WMSidebar>
 
   <h2 v-if="!hideTitle" class="h2">{{ $t("task.tasks") }}</h2>
-  <div class="flex flex-column gap-3 mb-3" v-if="showHeaderOptions">
+  <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMButton
@@ -32,13 +32,13 @@
         <WMAssignOwnerButton entity="task" />
         <WMCompleteTasksButton
           entity="task"
-          @taskCompleted="
+          @task-completed="
             loadLazyData();
             clearSelectedTasks();
           "
         />
       </div>
-      <div class="flex flex-row align-items-center gap-3" v-if="showFilters">
+      <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMButton
           name="filter"
           icon="filter"
@@ -49,11 +49,11 @@
         </WMButton>
         <WMSidebar
           :visible="isFilterVisible"
+          name="filterTask"
           @close-sidebar="closeFilterSidebar"
           @open-sidebar="openFilterSidebar"
-          name="filterTask"
         >
-          <WMFilterForm entity="task" filterFormName="task" />
+          <WMFilterForm entity="task" filter-form-name="task" />
         </WMSidebar>
         <WMOwnerToggle entity="task" />
       </div>
@@ -63,26 +63,22 @@
     </div>
   </div>
   <DataTable
-    lazy
     v-model:selection="selectedTasks"
-    :rowClass="rowClass"
+    lazy
+    :row-class="rowClass"
     :value="tasks"
-    dataKey="task_number"
-    tableStyle="min-width: 50rem"
+    data-key="task_number"
+    table-style="min-width: 50rem"
     scrollable
     paginator
     :rows="props.rows"
-    @page="onPage($event)"
     :first="0"
-    :totalRecords="totalRecords"
-    @update:selection="onSelectionChanged"
+    :total-records="totalRecords"
     :class="`p-datatable-${tableClass}`"
+    @page="onPage($event)"
+    @update:selection="onSelectionChanged"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selectionMode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple" />
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -90,63 +86,63 @@
       :header="column.header ? $t(column.header) : $t(`task.${column.name}`)"
       :class="column.class"
     >
-      <template v-if="column.type === 'link'" #body="slotProps">
-        <router-link
-          :to="{
-            name: 'taskDetail',
-            params: { id: slotProps.data.task_number },
-          }"
-          class="vertical-align-middle"
-          >{{ slotProps.data.task_number }}</router-link
-        >
-      </template>
-      <template v-if="column.type === 'detail'">
-        <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
-      </template>
-      <template v-if="column.type === 'sla'" #body="slotProps">
-        <WMSLATag
-          v-if="slotProps.data.sla"
-          :sla="slotProps.data.sla.sla"
-          :daysForClosing="slotProps.data.days_for_closing"
-          :state="slotProps.data.state"
-        >
-        </WMSLATag>
-      </template>
-      <template v-if="column.type === 'translate'" #body="slotProps">
-        {{ $t(column.prefix + "." + slotProps.data[column.name]) }}
-      </template>
-      <template v-if="column.type === 'optionset'" #body="slotProps">
-        <WMOptionSetValue
-          :optionSet="slotProps.data[column.name]"
-        ></WMOptionSetValue>
+      <template #body="slotProps">
+        <template v-if="column.type === 'link'">
+          <router-link
+            :to="{
+              name: 'taskDetail',
+              params: { id: slotProps.data.task_number },
+            }"
+            class="vertical-align-middle"
+            >{{ slotProps.data.task_number }}</router-link
+          >
+        </template>
+        <template v-if="column.type === 'detail'">
+          <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
+        </template>
+        <template v-if="column.type === 'sla'">
+          <WMSLATag
+            v-if="slotProps.data.sla"
+            :sla="slotProps.data.sla.sla"
+            :days-for-closing="slotProps.data.days_for_closing"
+            :state="slotProps.data.state"
+          >
+          </WMSLATag>
+        </template>
+        <template v-if="column.type === 'translate'">
+          {{ $t(column.prefix + "." + slotProps.data[column.name]) }}
+        </template>
+        <template v-if="column.type === 'optionset'">
+          <WMOptionSetValue :option-set="slotProps.data[column.name]" />
+        </template>
+        <template v-if="column.type === 'text'">
+          {{ slotProps.data[column.name] }}
+        </template>
       </template>
     </Column>
   </DataTable>
 </template>
 
 <script setup>
-import { ref, watch, watchEffect, onMounted } from "vue";
+import { onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
-import WMOwnerToggle from "../forms/shared/WMOwnerToggle.vue";
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const selectedTasks = ref([]);
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
-const selectedOption = ref(1);
+
 const tasks = ref([]);
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const searchValue = ref("");
 
 const utilsStore = useUtilsStore();
-const i18n = useI18n();
 
 const props = defineProps({
-  tasks: Array,
   rows: {
     type: Number,
     default: 10,
