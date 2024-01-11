@@ -16,7 +16,6 @@ useHead({
 });
 
 const formKey = ref("customerDetailForm");
-
 const detailCustomerForm = ref(null);
 
 const saveForm = () => {

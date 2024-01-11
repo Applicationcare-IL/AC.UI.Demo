@@ -9,6 +9,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 useHead({
   title: "Contact Detail",
@@ -22,8 +23,10 @@ const saveForm = () => {
 };
 
 const { updateState } = useContacts();
+const router = useRouter();
 
 const updateEntityState = (id, state) => {
   updateState(id, state);
+  router.go(); // refresh page
 };
 </script>
