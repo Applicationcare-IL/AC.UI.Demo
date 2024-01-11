@@ -3,7 +3,7 @@
     {{ $t("contact.contact") }}
   </h2>
 
-  <WMAssignContactButton v-if="showAddContact" @addContacts="addContacts" />
+  <WMAssignContactButton v-if="showAddContact" @add-contacts="addContacts" />
 
   <div
     v-if="showControls && showHeaderOptions && !showAddContact"
@@ -11,12 +11,12 @@
   >
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMAssignContactButton @addContacts="addContacts" />
+        <WMAssignContactButton @add-contacts="addContacts" />
         <WMButton class="m-1 col-6" name="export-white" icon="export">
           {{ $t("export") }}
         </WMButton>
       </div>
-      <div class="flex flex-row align-items-center gap-3" v-if="showFilters">
+      <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMButton
           name="filter"
           icon="filter"
@@ -27,11 +27,11 @@
         </WMButton>
         <WMSidebar
           :visible="isFilterVisible"
+          name="filterContact"
           @close-sidebar="closeFilterSidebar"
           @open-sidebar="openFilterSidebar"
-          name="filterContact"
         >
-          <WMFilterForm entity="contact" filterFormName="contact" />
+          <WMFilterForm entity="contact" filter-form-name="contact" />
         </WMSidebar>
         <WMOwnerToggle entity="contact" />
       </div>
@@ -42,22 +42,22 @@
   </div>
 
   <DataTable
-    lazy
     v-model:selection="selectedContacts"
+    lazy
     :value="contacts"
-    dataKey="contact_id"
-    tableStyle="min-width: 50rem"
+    data-key="contact_id"
+    table-style="min-width: 50rem"
     scrollable
     :paginator="showControls"
     :rows="props.rows"
+    :total-records="totalRecords"
     @page="onPage($event)"
-    :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
   >
     <Column
       v-if="multiselect"
       style="width: 40px"
-      selectionMode="multiple"
+      selection-mode="multiple"
     ></Column>
     <Column
       v-for="column in columns"
@@ -94,28 +94,28 @@
       <template v-if="column.type === 'role'" #body="slotProps">
         <Dropdown
           v-if="editMode[slotProps.index]"
-          :options="optionSetsStore.optionSets[column.optionSet]"
-          :optionLabel="optionLabelWithLang"
-          optionValue="id"
-          class="w-full p-0"
           v-model="slotProps.data.role.id"
+          :options="optionSetsStore.optionSets[column.optionSet]"
+          :option-label="optionLabelWithLang"
+          option-value="id"
+          class="w-full p-0"
         >
         </Dropdown>
         <div v-else>
-          <WMOptionSetValue :optionSet="slotProps.data.role" />
+          <WMOptionSetValue :option-set="slotProps.data.role" />
         </div>
       </template>
       <template v-if="column.type === 'role_project'" #body="slotProps">
         <Dropdown
           v-if="editMode[slotProps.index]"
-          :options="optionSetsStore.optionSets[column.optionSet]"
-          :optionLabel="optionLabelWithLang"
-          optionValue="id"
-          class="w-full p-0"
           v-model="slotProps.data.role_project.id"
+          :options="optionSetsStore.optionSets[column.optionSet]"
+          :option-label="optionLabelWithLang"
+          option-value="id"
+          class="w-full p-0"
         />
         <div v-else>
-          <WMOptionSetValue :optionSet="slotProps.data.role_project" />
+          <WMOptionSetValue :option-set="slotProps.data.role_project" />
         </div>
       </template>
       <template v-if="column.type === 'actions'" #body="slotProps">
@@ -156,34 +156,29 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, computed, watchEffect } from "vue";
+// IMPORTS
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
-import { useFormUtilsStore } from "@/stores/formUtils";
-import { useUtilsStore } from "@/stores/utils";
+
 import { useOptionSetsStore } from "@/stores/optionSets";
+import { useUtilsStore } from "@/stores/utils";
 
+// DEPENDENCIES
 const { t } = useI18n();
-
-const selectedContacts = ref(null);
-const isFilterOpen = ref(false);
-const isFilterApplied = ref(false);
-const selectedOption = ref(1);
-
-const formUtilsStore = useFormUtilsStore();
+const toast = useToast();
 const utilsStore = useUtilsStore();
-const totalRecords = ref(0);
 const optionSetsStore = useOptionSetsStore();
-const selectedRole = ref([]);
-
-const emit = defineEmits([
-  "update:role",
-  "unlink",
-  "update:mainContact",
-  "change:selectedContacts",
-]);
-
 const { optionLabelWithLang } = useLanguages();
+const { getAlertCellConditionalStyle } = useListUtils();
+const { getContactsFromApi } = useContacts();
+const {
+  getCustomerFromApi,
+  assignContactToCustomer,
+  unassignContactFromCustomer,
+} = useCustomers();
+const { assignContactToProject, unassignContactFromProject } = useProjects();
 
+// PROPS, EMITS AND EXPOSE
 const props = defineProps({
   rows: {
     type: Number,
@@ -239,57 +234,49 @@ const props = defineProps({
   },
 });
 
-const editMode = ref([]);
+const emit = defineEmits([
+  "update:role",
+  "unlink",
+  "update:mainContact",
+  "change:selectedContacts",
+]);
 
+// REFS
+const selectedContacts = ref(null);
+const isFilterOpen = ref(false);
+const isFilterApplied = ref(false);
+const totalRecords = ref(0);
+const editMode = ref([]);
+const contacts = ref([]);
+const customer = ref();
+const searchValue = ref("");
+const lazyParams = ref({});
+const isFilterVisible = ref(false);
+
+// COMPUTED
 // If the source of data is external, we don't need to load the
 // data from the API and the functions are dealt internally
 const isSourceExternal = computed(() => {
   return props.contacts != null;
 });
 
-onMounted(() => {
-  if (isSourceExternal.value) {
-    contacts.value = props.contacts;
-    totalRecords.value = props.contacts?.length;
-  } else {
-    loadLazyData();
+const defaultRole = computed(() => {
+  if (props.relatedEntity === "customer") {
+    return optionSetsStore.optionSets["contact_customer_role"][0];
+    // return optionSetsStore.optionSets["contact_customer_role"].find(
+    //   (role) => role.value === "employee"
+    // );
   }
+
+  if (props.relatedEntity === "project") {
+    // set the first role as default
+    return optionSetsStore.optionSets["contact_project_role"][0];
+  }
+
+  return null;
 });
 
-const { getAlertCellConditionalStyle } = useListUtils();
-
-watch(
-  props.contacts,
-  (newValue) => {
-    if (isSourceExternal.value && newValue && contacts) {
-      contacts.value = newValue;
-    }
-
-    if (!isSourceExternal.value || !newValue) {
-      return;
-    }
-
-    editMode.value[props.contacts.length - 1] = true;
-  },
-  { deep: true }
-);
-
-const contacts = ref([]);
-const customer = ref();
-const searchValue = ref("");
-
-const lazyParams = ref({});
-
-const { getContactsFromApi } = useContacts();
-
-const {
-  getCustomerFromApi,
-  assignContactToCustomer,
-  unassignContactFromCustomer,
-} = useCustomers();
-
-const { assignContactToProject, unassignContactFromProject } = useProjects();
-
+// COMPONENT METHODS
 const loadLazyData = () => {
   const filters = utilsStore.filters["contact"];
   const nextPage = lazyParams.value.page + 1;
@@ -328,20 +315,6 @@ const onPage = (event) => {
   lazyParams.value = event;
   loadLazyData();
 };
-
-const defaultRole = computed(() => {
-  if (props.relatedEntity === "customer") {
-    return optionSetsStore.optionSets["contact_customer_role"][0];
-    // return optionSetsStore.optionSets["contact_customer_role"].find(
-    //   (role) => role.value === "employee"
-    // );
-  }
-
-  if (props.relatedEntity === "project") {
-    // set the first role as default
-    return optionSetsStore.optionSets["contact_project_role"][0];
-  }
-});
 
 const addContacts = (addedContacts) => {
   addedContacts.forEach((contact) => {
@@ -403,8 +376,6 @@ const onStarClicked = (contact) => {
     }
   }
 };
-
-const toast = useToast();
 
 const unlinkContact = (contactId) => {
   if (isSourceExternal.value) {
@@ -482,8 +453,6 @@ const saveRow = (contact) => {
   }
 };
 
-const isFilterVisible = ref(false);
-
 function closeFilterSidebar() {
   isFilterVisible.value = false;
 }
@@ -491,6 +460,24 @@ function closeFilterSidebar() {
 function openFilterSidebar() {
   isFilterVisible.value = true;
 }
+
+// WATCHERS
+watch(
+  props.contacts,
+  (newValue) => {
+    if (isSourceExternal.value && newValue && contacts) {
+      contacts.value = newValue;
+    }
+
+    if (!isSourceExternal.value || !newValue) {
+      return;
+    }
+
+    editMode.value[props.contacts.length - 1] = true;
+  },
+  { deep: true }
+);
+
 watchEffect(() => {
   if (isSourceExternal.value) return;
 
@@ -513,4 +500,14 @@ watch(
     emit("change:selectedContacts", contacts.value);
   }
 );
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  if (isSourceExternal.value) {
+    contacts.value = props.contacts;
+    totalRecords.value = props.contacts?.length;
+  } else {
+    loadLazyData();
+  }
+});
 </script>

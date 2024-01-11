@@ -24,7 +24,7 @@ module.exports = {
     useDocuments: true,
     useFilters: true,
     useJournal: true,
-    useLangauges: true,
+    useLanguages: true,
     useLicensing: true,
     useListUtils: true,
     useProjects: true,

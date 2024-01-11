@@ -91,7 +91,8 @@
         <template v-if="column.type === 'tags'">
           <div class="flex flex-row gap-2">
             <Tag
-              v-for="item in slotProps.data[column.name]"
+              v-for="(item, index) in slotProps.data[column.name]"
+              :key="index"
               class="vertical-align-middle"
             >
               <WMOptionSetValue :option-set="item" />
@@ -137,11 +138,13 @@ const { t } = useI18n();
 const toast = useToast();
 const optionSetsStore = useOptionSetsStore();
 const utilsStore = useUtilsStore();
-const { getCustomersFromApi } = useCustomers();
+const {
+  getCustomersFromApi,
+  unassignContactFromCustomer,
+  assignContactToCustomer,
+} = useCustomers();
 const { getAlertCellConditionalStyle } = useListUtils();
-const { unassignContactFromCustomer, assignContactToCustomer } = useCustomers();
 
-// PROVIDE / INJECT
 // PROPS, EMITS AND EXPOSE
 const props = defineProps({
   rows: {
@@ -189,7 +192,7 @@ const defaultRole = computed(() => {
   // );
 });
 
-// METHODS OF THE COMPONENT
+// COMPONENT METHODS
 const loadLazyData = () => {
   const filters = utilsStore.filters["customer"];
   const nextPage = lazyParams.value.page + 1;
@@ -238,7 +241,6 @@ const addCustomers = (addedCustomers) => {
     if (customers.value.find((c) => c.customer_id === customer.id)) return;
 
     customer.main = false;
-    // customers.value.push(customer);
     saveRow(customer);
     editMode.value[customers.value.length - 1] = true;
   });
