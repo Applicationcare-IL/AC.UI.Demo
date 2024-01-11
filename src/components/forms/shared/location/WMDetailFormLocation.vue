@@ -145,11 +145,11 @@ onMounted(() => {
     isCitySelected.value = true;
 
     selectedCity.value = cities.value.find(
-      (city) => city.id === props.location.city
+      (city) => city.id === props.location.city?.id
     );
 
     selectedSteet.value = streets.value.find(
-      (street) => street.id === props.location.street
+      (street) => street.id === props.location.street?.id
     );
 
     selectedZip.value = zips.value.find((zip) => zip.id === props.location.zip);

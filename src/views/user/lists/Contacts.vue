@@ -52,7 +52,7 @@
         </template>
       </Column>
       <Column style="width: 40px" selectionMode="multiple"></Column>
-      <Column field="contact" header="איש קשר" class="link-col">
+      <Column field="contact" :header="$t('contact.contact')" class="link-col">
         <template #body="slotProps">
           <router-link
             v-if="slotProps.data.contact_id"
@@ -65,7 +65,11 @@
           >
         </template>
       </Column>
-      <Column field="customer" header="לקוח" class="link-col">
+      <Column
+        field="customer"
+        :header="$t('customer.customer')"
+        class="link-col"
+      >
         <template #body="slotProps">
           <router-link
             v-if="slotProps.data.customer?.id"
@@ -79,31 +83,51 @@
           </router-link>
         </template>
       </Column>
-      <Column field="telephone" header="טלפון נייד"></Column>
-      <Column field="landline" header="טלפון נייח"></Column>
-      <Column field="email" header="דוא”ל"></Column>
-      <Column field="address" header="כתובת"></Column>
-      <Column field="open_services" header="תהליכים פתוחים" class="numeric">
+      <Column field="telephone" :header="$t('contact.telephone')"></Column>
+      <Column field="landline" :header="$t('contact.landline')"></Column>
+      <Column field="email" :header="$t('contact.email')"></Column>
+      <Column field="address" :header="$t('contact.address')">
+        <template #body="slotProps">
+          {{ formatAddress(slotProps.data.location) }}
+        </template>
       </Column>
-      <Column field="breached_services" header="תהליכים בחריגה" class="numeric">
+      <Column
+        field="open_services"
+        :header="$t('contact.open-services')"
+        class="numeric"
+      >
+      </Column>
+      <Column
+        field="breached_services"
+        :header="$t('contact.breached-services')"
+        class="numeric"
+      >
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.breached_services)">
             {{ slotProps.data.breached_services }}
           </div>
         </template>
       </Column>
-      <Column field="open_tasks" header="תהליכים בחריגה" class="numeric">
+      <Column
+        field="open_tasks"
+        :header="$t('contact.open-tasks')"
+        class="numeric"
+      >
       </Column>
-      <Column field="breached_tasks" header="משימות בחריגה" class="numeric">
+      <Column
+        field="breached_tasks"
+        :header="$t('contact.breached-tasks')"
+        class="numeric"
+      >
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.breached_tasks)">
             {{ slotProps.data.breached_tasks }}
           </div>
         </template>
       </Column>
-      <Column field="contact_id" header="מזהה"></Column>
-      <Column field="owner.name" header="אחראי"></Column>
-      <Column field="status" header="סטטוס" class="numeric">
+      <Column field="contact_id" :header="$t('contact.system-id')"></Column>
+      <Column field="owner.name" :header="$t('owner')"></Column>
+      <Column field="status" :header="$t('status')" class="numeric">
         <template #body="slotProps">
           <div :class="highlightStatusClass(slotProps.data.status)">
             {{ $t("statuses." + slotProps.data.status) }}
@@ -115,7 +139,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch, watchEffect } from "vue";
+import { ref, onMounted, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { usePermissionsStore } from "@/stores/permissionsStore";
@@ -127,10 +151,10 @@ useHead({
 });
 
 const { getTasksMini } = useTasks();
-const { layoutConfig } = useLayout();
 const { getServicesMini } = useServices();
 const permissionsStore = usePermissionsStore();
 const permissions = permissionsStore.permissions;
+const { formatAddress } = useUtils();
 
 const { getContactsFromApi, setSelectedContacts, resetSelectedContacts } =
   useContacts();

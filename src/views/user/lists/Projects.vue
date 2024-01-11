@@ -204,7 +204,6 @@
 import { ref, onMounted, computed, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
-import { useFormUtilsStore } from "@/stores/formUtils";
 
 useHead({
   title: "Projects",
@@ -212,6 +211,7 @@ useHead({
 
 const { getProjectsFromApi } = useProjects();
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
+const { formatAddress } = useUtils();
 
 onMounted(() => {
   utilsStore.entity = "project";
@@ -219,9 +219,6 @@ onMounted(() => {
   loadLazyData();
   resetSelectedContacts();
 });
-
-const formUtilsStore = useFormUtilsStore();
-const { optionLabelWithLang } = useLanguages();
 
 const utilsStore = useUtilsStore();
 
@@ -335,22 +332,6 @@ const formatCityData = (location) => {
     .join(" - ");
 
   return formattedLocation;
-};
-
-// format location with the format: city - street - house_number
-// the city and street are in an object
-const formatAddress = (location) => {
-  let { city, street, house_number } = location;
-
-  // check if city is null
-  city = city ? city[optionLabelWithLang.value] : null;
-  street = street ? street[optionLabelWithLang.value] : null;
-
-  const formattedAddress = [city, street, house_number]
-    .filter((value) => value)
-    .join(" - ");
-
-  return formattedAddress;
 };
 
 /**

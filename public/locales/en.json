@@ -57,6 +57,7 @@
   "customer-name": "Customer Name",
   "additional-information": "Additional Information",
   "logs": "Logs",
+  "rows-per-page": "Rows per page",
   "buttons": {
     "link_contact": "Link contact",
     "link_customer": "Link customer",
@@ -95,6 +96,8 @@
     "system-id": "System ID",
     "main": "Main",
     "number": "Contact Number",
+    "breached-tasks": "Breached Tasks",
+    "breached-services": "Breached Services",
     "notification": {
       "created": {
         "header": "New Contact Created",

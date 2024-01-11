@@ -74,8 +74,8 @@ export function useCustomers() {
       phone: customer.phone,
       role: customer.role,
       location: {
-        city: customer.location?.city?.id,
-        street: customer.location?.street?.id,
+        city: customer.location?.city,
+        street: customer.location?.street,
         house_number:
           customer.location?.house_number !== null
             ? parseInt(customer.location?.house_number)

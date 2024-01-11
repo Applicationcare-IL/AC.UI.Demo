@@ -66,8 +66,8 @@
             {{ $t("filter") }}
           </WMButton>
         </div>
-        <div class="flex flex-row gap-3">
-          <span>רשומות בדף:</span>
+        <div class="flex flex-row align-items-center gap-3">
+          <span>{{ $t("rows-per-page") + ":" }}</span>
           <WMInput
             @update:selectedItem="onChange"
             width="70"

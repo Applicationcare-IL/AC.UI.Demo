@@ -70,8 +70,8 @@ export function useContacts() {
       updated_by: contact.last_activity?.updater?.name,
       updated_at: contact.last_activity?.updater?.at,
       location: {
-        city: contact.location?.city?.id,
-        street: contact.location?.street?.id,
+        city: contact.location?.city,
+        street: contact.location?.street,
         house_number:
           contact.location?.house_number !== null
             ? parseInt(contact.location?.house_number)

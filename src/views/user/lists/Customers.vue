@@ -94,7 +94,11 @@
           </div>
         </template>
       </Column>
-      <Column field="address" :header="$t('address.address')"></Column>
+      <Column field="address" :header="$t('address.address')">
+        <template #body="slotProps">
+          {{ formatAddress(slotProps.data.location) }}
+        </template>
+      </Column>
       <Column
         field="open_services"
         :header="$t('customer.open-services')"
@@ -158,10 +162,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch, watchEffect } from "vue";
+import { ref, onMounted, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useLayout } from "@/layout/composables/layout";
 
 useHead({
   title: "Customers",
@@ -171,6 +174,7 @@ const { getTasksMini } = useTasks();
 const { getServicesMini } = useServices();
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
 const { optionLabelWithLang } = useLanguages();
+const { formatAddress } = useUtils();
 
 onMounted(() => {
   utilsStore.entity = "customer";
@@ -184,7 +188,6 @@ onMounted(() => {
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
-const { layoutConfig } = useLayout();
 
 const { selectedRowsPerPage, getContactDetailColumns } = useListUtils();
 

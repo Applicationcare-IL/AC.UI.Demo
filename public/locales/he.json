@@ -56,6 +56,7 @@
   "customer-name": "שם לקוח",
   "additional-information": "נתונים נוספים",
   "logs": "לוגים",
+  "rows-per-page": "רשומות בדף",
   "buttons": {
     "link_contact": "שיוך איש קשר",
     "link_customer": "שיוך ארגונים",
@@ -87,13 +88,15 @@
     "landline": "טלפון נייח",
     "email": "דוא”ל",
     "address": "כתובת",
-    "open-services": "פתיחת תהליכים",
-    "open-tasks": "פתיחת תהליכים",
+    "open-services": "שירותים פתוחים",
+    "open-tasks": "משימות פתוחות",
     "notes": "הערות לאיש קשר",
     "id": "ת”ז",
     "system-id": "מזהה",
     "main": "ראשי",
     "number": "תעודת זהות",
+    "breached_tasks": "משימות בחריגה",
+    "breached-services": "שירותים בחריגה",
     "notification": {
       "created": {
         "header": "נוצר לקוח חדש",
