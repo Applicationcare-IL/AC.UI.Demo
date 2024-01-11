@@ -125,27 +125,24 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
+// DEPENDENCIES
 const { t } = useI18n();
 const toast = useToast();
-
 const optionSetsStore = useOptionSetsStore();
-
-const selectedCustomers = ref(null);
-const isFilterOpen = ref(false);
-const isFilterApplied = ref(false);
-
 const utilsStore = useUtilsStore();
-const totalRecords = ref(0);
-const searchValue = ref("");
-
 const { getCustomersFromApi } = useCustomers();
+const { getAlertCellConditionalStyle } = useListUtils();
+const { unassignContactFromCustomer, assignContactToCustomer } = useCustomers();
 
+// PROVIDE / INJECT
+// PROPS, EMITS AND EXPOSE
 const props = defineProps({
   rows: {
     type: Number,
@@ -173,15 +170,26 @@ const props = defineProps({
   },
 });
 
-onMounted(() => {
-  loadLazyData();
-});
-
-const { getAlertCellConditionalStyle } = useListUtils();
-
+// REFS
+const selectedCustomers = ref(null);
+const isFilterOpen = ref(false);
+const isFilterApplied = ref(false);
+const totalRecords = ref(0);
+const searchValue = ref("");
 const customers = ref([]);
 const lazyParams = ref({});
+const isFilterVisible = ref(false);
+const editMode = ref([]);
 
+// COMPUTED
+const defaultRole = computed(() => {
+  return optionSetsStore.optionSets["contact_customer_role"][0];
+  // return optionSetsStore.optionSets["contact_customer_role"].find(
+  //   (role) => role.value === "employee"
+  // );
+});
+
+// METHODS OF THE COMPONENT
 const loadLazyData = () => {
   const filters = utilsStore.filters["customer"];
   const nextPage = lazyParams.value.page + 1;
@@ -217,8 +225,6 @@ const onSelectionChanged = () => {
   utilsStore.selectedElements["customer"] = selectedCustomers.value;
 };
 
-const isFilterVisible = ref(false);
-
 function closeFilterSidebar() {
   isFilterVisible.value = false;
 }
@@ -226,11 +232,6 @@ function closeFilterSidebar() {
 function openFilterSidebar() {
   isFilterVisible.value = true;
 }
-watchEffect(() => {
-  loadLazyData();
-});
-
-const editMode = ref([]);
 
 const addCustomers = (addedCustomers) => {
   addedCustomers.forEach((customer) => {
@@ -243,23 +244,11 @@ const addCustomers = (addedCustomers) => {
   });
 };
 
-const { unassignContactFromCustomer, assignContactToCustomer } = useCustomers();
-
-const defaultRole = computed(() => {
-  return optionSetsStore.optionSets["contact_customer_role"][0];
-  // return optionSetsStore.optionSets["contact_customer_role"].find(
-  //   (role) => role.value === "employee"
-  // );
-});
-
 const saveRow = (customer) => {
   const contactParams = {
     contact_id: props.contactId,
     role: defaultRole.value.id,
   };
-
-  console.log("defaultRole", defaultRole.value);
-  console.log("contactParams", contactParams);
 
   assignContactToCustomer(customer.id, contactParams)
     .then(() => {
@@ -282,6 +271,11 @@ const unlinkCustomer = (customerId) => {
     });
 };
 
+// WATCHERS
+watchEffect(() => {
+  loadLazyData();
+});
+
 watch(
   () => utilsStore.searchString["customer"],
   () => {
@@ -291,4 +285,9 @@ watch(
     });
   }
 );
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  loadLazyData();
+});
 </script>
