@@ -9,6 +9,12 @@ module.exports = {
       "error",
       ["script-setup", "composition"], // "script-setup", "composition", "composition-vue2", or "options"
     ],
+    "vue/multi-word-component-names": [
+      "error",
+      {
+        ignores: ["Services", "Tasks"],
+      },
+    ],
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     // override/add rules settings here, such as:
@@ -34,5 +40,6 @@ module.exports = {
     useTasks: true,
     useToast: true,
     useUtils: true,
+    useHead: true,
   },
 };

@@ -167,6 +167,7 @@
     "breached": "Open Services",
     "number": "Service number",
     "open-date": "Open date",
+    "start-date": "Start date",
     "due-date": "Due date",
     "stage": "Stage",
     "sla": "SLA",
@@ -183,6 +184,10 @@
     "location": "Location",
     "description": "Description",
     "classification": "Classification",
+    "service-number": "Service number",
+    "service-area": "Service area",
+    "service-type": "Service type",
+    "request-1": "Request 1",
     "notification": {
       "created": {
         "header": "New service Created",

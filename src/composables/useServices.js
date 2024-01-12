@@ -1,4 +1,3 @@
-import { SLAS } from "@/constants";
 import { useServicesStore } from "@/stores/servicesStore";
 
 export function useServices() {
@@ -168,83 +167,6 @@ export function useServices() {
     return uniqueContacts;
   };
 
-  // MOCKED DATA
-  const getServicesData = () => {
-    const services = [];
-
-    for (let i = 0; i < 100; i++) {
-      const is_active = Math.random() < 0.5;
-      services.push({
-        service_number: "469879" + i,
-        contact: "שלומי שבת",
-        contact_id: "795" + i,
-        customer: "מועצה דתית בית הכנסת",
-        customer_id: "0000" + i,
-        open_date: "11/11/22",
-        due_date: "11/12/23",
-        classification_1: "בטחון",
-        classification_2: "בטחון",
-        classification_3: "אדם חשוד",
-        classification_4: "אדם חשוד",
-        classification_5: "אדם חשוד",
-        duration: "01:40:00",
-        owner: "Israel Israeli",
-        staff: "106 מוקד",
-        SLA: is_active
-          ? SLAS[parseInt(Math.random() * 3)]
-          : SLAS[parseInt(Math.random() * 2 + 3)],
-        priority: parseInt(Math.random() * 3 + 1),
-        recurring: "לא",
-        urgency: "לא דחוף",
-        last_change: "11/11/22 10:23",
-        closed: "--",
-        stage: "שליחת נציג בטחון",
-        team: "אגף רישוי ופיקוח (הנדסה)",
-        is_active: is_active,
-        location: {
-          house_number: "12",
-          apartment: "42",
-          entrance: "ב",
-          street: "שמעון פרס",
-          city: "כוכב יאיר",
-          country: "ישראל",
-          zip: "1234567",
-        },
-        site: {
-          name: "מועצה דתית בית הכנסת",
-          contact: "שלומי שבת",
-          contact_id: "795" + i,
-          contact_role: "אחראי תברואה",
-          phone: "054-1234567",
-          email: "mailmail@mailmail.com",
-          type: "ציבורי",
-        },
-      });
-    }
-
-    return services;
-  };
-
-  const getServicesMini = () => {
-    return Promise.resolve(getServicesData().slice(0, 5));
-  };
-
-  const getServicesSmall = () => {
-    return Promise.resolve(getServicesData().slice(0, 10));
-  };
-
-  const getServices = () => {
-    return Promise.resolve(getServicesData());
-  };
-
-  const getService = (service_number) => {
-    return Promise.resolve(
-      getServicesData().find(
-        (service) => service.service_number === service_number
-      )
-    );
-  };
-
   return {
     // API
     getServicesFromApi,
@@ -257,10 +179,5 @@ export function useServices() {
     parseUpdateService,
     mapService,
     mapContactsFromServices,
-    // MOCKED DATA
-    getService,
-    getServices,
-    getServicesMini,
-    getServicesSmall,
   };
 }

@@ -1,38 +1,38 @@
 <template>
-  <WMListSubHeader @new="toggleSidebarVisibility" entity="service">
+  <WMListSubHeader entity="service" @new="toggleSidebarVisibility">
   </WMListSubHeader>
 
   <WMServicePreviewSidebar
-    :service="serviceDetail"
     v-model:visible="isDetailsVisible"
+    :service="serviceDetail"
   />
 
   <WMSidebar
     :visible="isVisible"
+    name="newService"
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
-    name="newService"
   >
     <WMNewEntityFormHeader entity="service" name="newService" />
-    <WMNewServiceForm :isSidebar="true" @close-sidebar="closeSidebar" />
+    <WMNewServiceForm :is-sidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
 
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
-      lazy
+      ref="dt"
       v-model:selection="selectedServices"
-      :rowClass="rowClass"
+      lazy
+      :row-class="rowClass"
       :value="services"
-      dataKey="service_number"
-      tableStyle="min-width: 50rem"
+      data-key="service_number"
+      table-style="min-width: 50rem"
       class="p-datatable-sm"
       scrollable
-      scrollHeight="flex"
+      scroll-height="flex"
       paginator
       :rows="selectedRowsPerPage"
       :first="0"
-      ref="dt"
-      :totalRecords="totalRecords"
+      :total-records="totalRecords"
       :loading="loading"
       @page="onPage($event)"
       @update:selection="onSelectionChanged"
@@ -40,15 +40,19 @@
       <Column style="width: 35px">
         <template #body="slotProps">
           <img
-            @click="displayDetails(slotProps.data)"
             src="/icons/eye.svg"
             alt=""
             class="vertical-align-middle"
+            @click="displayDetails(slotProps.data)"
           />
         </template>
       </Column>
-      <Column style="width: 40px" selectionMode="multiple"></Column>
-      <Column field="service_number" header="מס’ תהליך" class="link-col">
+      <Column style="width: 40px" selection-mode="multiple"></Column>
+      <Column
+        field="service_number"
+        :header="$t('service.service-number')"
+        class="link-col"
+      >
         <template #body="slotProps">
           <router-link
             :to="{
@@ -56,11 +60,12 @@
               params: { id: slotProps.data.service_number },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.service_number }}</router-link
           >
+            {{ slotProps.data.service_number }}
+          </router-link>
         </template>
       </Column>
-      <Column field="contact" header="איש קשר" class="link-col">
+      <Column field="contact" :header="$t('contact.contact')" class="link-col">
         <template #body="slotProps">
           <router-link
             :to="{
@@ -68,94 +73,109 @@
               params: { id: slotProps.data.contact_id },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.contact }}</router-link
           >
+            {{ slotProps.data.contact }}
+          </router-link>
         </template>
       </Column>
 
-      <Column field="open_date" header="נפתח">
+      <Column field="open_date" :header="$t('service.start-date')">
         <template #body="slotProps">
-          <span>{{
-            formatDate(new Date(slotProps.data.open_date), "DD/MM/YY")
-          }}</span>
+          <span>
+            {{ formatDate(new Date(slotProps.data.open_date), "DD/MM/YY") }}
+          </span>
         </template>
       </Column>
-      <Column field="due_date" header="תאריך יעד">
+      <Column field="due_date" :header="$t('service.due-date')">
         <template #body="slotProps">
-          <span>{{
-            formatDate(new Date(slotProps.data.due_date), "DD/MM/YY")
-          }}</span>
+          <span>
+            {{ formatDate(new Date(slotProps.data.due_date), "DD/MM/YY") }}
+          </span>
         </template>
       </Column>
-      <Column field="area.value" header="תחום"></Column>
-      <Column field="type.value" header="תת-תחום"></Column>
-      <Column field="request1.value" header="מהות"></Column>
-      <Column field="days_from_opening_date" header="משך"></Column>
-      <Column field="owner.name" header="אחראי"></Column>
-      <Column field="owner.default_team" header="צוות"></Column>
+      <Column field="area.value" :header="$t('service.service-area')"></Column>
+      <Column field="type.value" :header="$t('service.service-type')"></Column>
+      <Column field="request1.value" :header="$t('service.request-1')"></Column>
+      <Column
+        field="days_from_opening_date"
+        :header="$t('service.duration')"
+      ></Column>
+      <Column field="owner.name" :header="$t('service.owner')"></Column>
+      <Column field="owner.default_team" :header="$t('service.team')"></Column>
       <Column field="SLA" header="SLA" class="sla">
         <template #body="slotProps">
           <WMSLATag
             v-if="slotProps.data.sla"
             :sla="slotProps.data.sla"
-            :daysForClosing="slotProps.data.days_for_closing"
+            :days-for-closing="slotProps.data.days_for_closing"
             :state="slotProps.data.state"
           >
           </WMSLATag>
         </template>
       </Column>
-      <Column field="priority" header="עדיפות" class="numeric priority">
+      <Column
+        field="priority"
+        :header="$t('service.priority')"
+        class="numeric priority"
+      >
         <template #body="slotProps">
           <div :class="priorityClass(slotProps.data)">
             {{ slotProps.data.is_active ? slotProps.data.priority : "-" }}
           </div>
         </template>
       </Column>
-      <Column field="recurring" header="חוזר">
+      <Column field="recurring" :header="$t('service.recurring')">
         <template #body="slotProps">
           {{ $t(slotProps.data.recurring) }}
         </template>
       </Column>
-      <Column field="urgency" header="דחיפות">
+      <Column field="urgency" :header="$t('service.urgency')">
         <template #body="slotProps">
           {{ $t("option-set.service_urgent." + slotProps.data.urgency) }}
         </template>
       </Column>
-      <Column field="last_change" header="שינוי אחרון"></Column>
-      <Column field="closed" header="נסגר"></Column>
-      <Column field="stage" header="שליחת נציג בטחון"></Column>
+      <Column field="last_change" :header="$t('service.last-change')"></Column>
+      <Column field="closed" :header="$t('service.date-closed')"></Column>
+      <Column field="stage" :header="$t('service.stage')"></Column>
     </DataTable>
   </div>
 </template>
-
 <script setup>
-import { ref, onMounted, computed, watch, watchEffect } from "vue";
-import { useUtilsStore } from "@/stores/utils";
-import { useFormUtilsStore } from "@/stores/formUtils";
-
-import { useLayout } from "@/layout/composables/layout";
-
+// IMPORTS
 import { formatDate } from "@vueuse/core";
+import { onMounted, ref, watch, watchEffect } from "vue";
 
-useHead({
-  title: "Services",
-});
+import { useUtilsStore } from "@/stores/utils";
 
-const { layoutConfig } = useLayout();
-const formUtilsStore = useFormUtilsStore();
-
+// DEPENDENCIES
 const utilsStore = useUtilsStore();
-
 const { selectedRowsPerPage } = useListUtils();
+const { setSelectedContacts, resetSelectedContacts } = useContacts();
+const { getServicesFromApi, mapContactsFromServices } = useServices();
 
+// PROPS, EMITS
+
+// REFS
 const loading = ref(false);
 const totalRecords = ref(0);
 const lazyParams = ref({});
+const searchValue = ref("");
 
 const services = ref();
 const dt = ref();
 
 const isVisible = ref(false);
+
+const isDetailsVisible = ref(false);
+const serviceDetail = ref(null);
+const selectedServices = ref([]);
+
+// COMPUTED
+
+// COMPONENT METHODS
+useHead({
+  title: "Services",
+});
 
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
@@ -168,19 +188,6 @@ function closeSidebar() {
 function openSidebar() {
   isVisible.value = true;
 }
-
-const { setSelectedContacts, resetSelectedContacts } = useContacts();
-
-onMounted(() => {
-  utilsStore.entity = "service";
-
-  loadLazyData();
-  resetSelectedContacts();
-});
-
-const searchValue = ref("");
-
-const { getServicesFromApi, mapContactsFromServices } = useServices();
 
 const loadLazyData = () => {
   loading.value = true;
@@ -210,10 +217,7 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const isDetailsVisible = ref(false);
-
-//Display sidebars
-const serviceDetail = ref(null);
+// Display sidebars
 const displayDetails = (data) => {
   serviceDetail.value = data;
   isDetailsVisible.value = true;
@@ -234,21 +238,15 @@ const priorityClass = (data) => {
   ];
 };
 
-const menuItems = [
-  { label: "Whatsapp", value: "option1" },
-  { label: "SMS", value: "option2" },
-];
-
 // Manage selected rows
-const selectedServices = ref([]);
-
-utilsStore.resetElements();
-
 const onSelectionChanged = () => {
   setSelectedContacts(mapContactsFromServices(selectedServices.value));
   utilsStore.selectedElements["service"] = selectedServices.value;
 };
 
+utilsStore.resetElements();
+
+// WATCHERS
 watchEffect(() => {
   loadLazyData();
 });
@@ -262,6 +260,14 @@ watch(
     });
   }
 );
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  utilsStore.entity = "service";
+
+  loadLazyData();
+  resetSelectedContacts();
+});
 </script>
 
 <style scoped lang="scss"></style>
