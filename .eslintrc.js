@@ -12,7 +12,7 @@ module.exports = {
     "vue/multi-word-component-names": [
       "error",
       {
-        ignores: ["Services", "Tasks"],
+        ignores: ["Services", "Tasks", "Customers", "Projects", "Contacts"],
       },
     ],
     "simple-import-sort/imports": "error",

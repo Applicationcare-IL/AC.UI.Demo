@@ -149,7 +149,8 @@
             class="flex flex-row gap-2"
           >
             <Chip
-              v-for="area in slotProps.data.service_areas"
+              v-for="(area, index) in slotProps.data.service_areas"
+              :key="index"
               :label="area[optionLabelWithLang]"
             ></Chip>
           </div>
@@ -164,7 +165,6 @@
 <script setup>
 import { onMounted, ref, watch, watchEffect } from "vue";
 
-import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 useHead({
@@ -186,10 +186,9 @@ onMounted(() => {
   getTasksMini().then((data) => (tasks.value = data));
 });
 
-const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 
-const { selectedRowsPerPage, getContactDetailColumns } = useListUtils();
+const { selectedRowsPerPage } = useListUtils();
 
 // Pagination and table content
 const totalRecords = ref(0);
@@ -244,8 +243,7 @@ function openSidebar() {
   isVisible.value = true;
 }
 
-//Display sidebars
-const contactColumns = ref(getContactDetailColumns());
+// Display sidebars
 const customerDetail = ref(null);
 const displayDetails = (data) => {
   customerDetail.value = data;
@@ -253,10 +251,6 @@ const displayDetails = (data) => {
 };
 
 const isDetailsVisible = ref(false);
-
-const displayNewForm = () => {
-  formUtilsStore.expandSidebar = "newCustomer";
-};
 
 // TODO:Move to Store
 const highlightCellClass = (data) => {

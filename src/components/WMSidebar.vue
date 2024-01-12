@@ -15,16 +15,16 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { computed, provide, ref, toRefs, watch } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
 
+// DEPENDENCIES
 const { activeSidebar, openSidebar, closeSidebar } = useSidebar();
-
 const { layoutConfig } = useLayout();
 
-const target = ref(null);
-
+// PROPS, EMITS
 const props = defineProps({
   name: {
     type: String,
@@ -40,10 +40,28 @@ const props = defineProps({
   },
 });
 
-const { visible } = toRefs(props);
-
 const emit = defineEmits(["closeSidebar", "openSidebar"]);
 
+// REFS
+const target = ref(null);
+const { visible } = toRefs(props);
+
+// COMPUTED
+/**
+ * Used to calculate the margin left of the sidebar
+ * based on the number of active (and stacked) sidebars
+ */
+const leftPositon = computed(() => {
+  const totalActiveSidebars = activeSidebar.length - 1; // the first sidebar should not have margin
+
+  const space = 20;
+  const sidebarPositionInActiveSidebarArray = activeSidebar.indexOf(props.name);
+  const totalMargin = totalActiveSidebars * space;
+
+  return totalMargin - sidebarPositionInActiveSidebarArray * space;
+});
+
+// COMPONENT METHODS
 const handleCloseSidebar = () => {
   emit("closeSidebar");
 };
@@ -56,20 +74,10 @@ const handleOpenSidebar = () => {
   });
 };
 
-/* Used to calculate the margin left of the sidebar
-   based on the number of active (and stacked) sidebars */
-const leftPositon = computed(() => {
-  const totalActiveSidebars = activeSidebar.length - 1; // the first sidebar should not have margin
-
-  const space = 20;
-  const sidebarPositionInActiveSidebarArray = activeSidebar.indexOf(props.name);
-  const totalMargin = totalActiveSidebars * space;
-
-  return totalMargin - sidebarPositionInActiveSidebarArray * space;
-});
-
+// PROVIDE, EXPOSE
 provide("closeSidebar", handleCloseSidebar);
 
+// WATCHERS
 watch(visible, (value) => {
   if (value) {
     openSidebar(props.name);
@@ -89,6 +97,8 @@ watch(
   },
   { deep: true }
 );
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
 <style>
