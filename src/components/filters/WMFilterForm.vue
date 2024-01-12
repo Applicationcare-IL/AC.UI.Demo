@@ -11,21 +11,22 @@
       <span v-else>הופעלו {{ appliedFilters }} סננים </span>
     </div>
 
-    <Button @click="clear" link>{{ $t("buttons.clear-all") }}</Button>
+    <Button link @click="clear">{{ $t("buttons.clear-all") }}</Button>
   </div>
   <Divider></Divider>
   <div class="filter-body p-4">
     <div>
       <WMFilterElement
-        v-for="filter in filterElements"
+        v-for="(filter, index) in filterElements"
+        :key="index"
+        ref="filterElementRefs"
         :placeholder="filter.placeholder"
         :label="filter.label"
-        ref="filterElementRefs"
         :type="filter.type"
         :entity="entity"
-        :filterName="filter.name"
-        :optionSet="filter.optionSet"
-        :searchFunction="filter.searchFunction"
+        :filter-name="filter.name"
+        :option-set="filter.optionSet"
+        :search-function="filter.searchFunction"
         @update:filter="addFilter"
       />
     </div>
@@ -33,32 +34,42 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useUtilsStore } from "@/stores/utils";
+// IMPORTS
+import { computed, inject, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
-const { t } = useI18n();
+import { useUtilsStore } from "@/stores/utils";
 
+// DEPENDENCIES
+const { t } = useI18n();
+const utilsStore = useUtilsStore();
+const { filterList } = useFilters();
+
+// INJECT
+const closeSidebar = inject("closeSidebar");
+
+// PROPS, EMITS
 const { entity, filterFormName } = defineProps({
   entity: String,
   filterFormName: String,
 });
 
+// REFS
+const filters = ref({});
+const filterElementRefs = ref([]);
+const filterElements = ref(filterList[filterFormName]);
+
+// COMPUTED
 const translatedTitle = computed(() => {
   return t(`filters.${entity}-title`);
 });
-
-const utilsStore = useUtilsStore();
-
-const filters = ref({});
 
 const appliedFilters = computed(() => {
   if (!utilsStore.filters[entity]) return 0;
   return Object.keys(utilsStore.filters[entity]).length;
 });
 
-const filterElementRefs = ref([]);
-
+// COMPONENT METHODS
 const addFilter = (filter) => {
   if (filter.value == null) delete filters.value[filter.name];
   else filters.value[filter.name] = filter.value;
@@ -66,10 +77,8 @@ const addFilter = (filter) => {
 
 const applyFilter = () => {
   utilsStore.filters[entity] = { ...filters.value };
+  closeSidebar();
 };
-
-const { filterList } = useFilters();
-const filterElements = ref(filterList[filterFormName]);
 
 const clear = () => {
   filterElementRefs.value.forEach((filterElement) => {
@@ -78,4 +87,8 @@ const clear = () => {
   filters.value = {};
   delete utilsStore.filters[entity];
 };
+
+// EXPOSE
+// WATCHERS
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

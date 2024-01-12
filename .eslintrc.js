@@ -17,8 +17,8 @@ module.exports = {
     ],
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    // override/add rules settings here, such as:
-    // 'vue/no-unused-vars': 'error'
+    // disabled rules from base configurations
+    "vue/require-default-prop": "off",
   },
   globals: {
     // Composables

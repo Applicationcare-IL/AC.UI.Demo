@@ -2,35 +2,35 @@
   <WMListSubHeader entity="customer" @new="toggleSidebarVisibility" />
 
   <WMCustomerPreviewSidebar
-    :customer="customerDetail"
     v-model:visible="isDetailsVisible"
+    :customer="customerDetail"
   />
 
   <WMSidebar
     :visible="isVisible"
+    name="newCustomer"
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
-    name="newCustomer"
   >
     <WMNewEntityFormHeader entity="customer" name="newCustomer" />
-    <WMNewCustomerForm :isSidebar="true" @close-sidebar="closeSidebar" />
+    <WMNewCustomerForm :is-sidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
 
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
-      lazy
+      ref="dt"
       v-model:selection="selectedCustomers"
+      lazy
       :value="customers"
-      dataKey="id"
-      tableStyle="min-width: 50rem"
+      data-key="id"
+      table-style="min-width: 50rem"
       class="p-datatable-sm"
       scrollable
-      scrollHeight="flex"
+      scroll-height="flex"
       paginator
       :rows="selectedRowsPerPage"
       :first="0"
-      ref="dt"
-      :totalRecords="totalRecords"
+      :total-records="totalRecords"
       :loading="loading"
       @page="onPage($event)"
       @update:selection="onSelectionChanged"
@@ -38,14 +38,14 @@
       <Column style="width: 35px">
         <template #body="slotProps">
           <img
-            @click="displayDetails(slotProps.data)"
             src="/icons/eye.svg"
             alt=""
             class="vertical-align-middle"
+            @click="displayDetails(slotProps.data)"
           />
         </template>
       </Column>
-      <Column style="width: 40px" selectionMode="multiple"></Column>
+      <Column style="width: 40px" selection-mode="multiple"></Column>
 
       <Column
         field="id"
@@ -162,16 +162,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, watchEffect } from "vue";
-import { useUtilsStore } from "@/stores/utils";
+import { onMounted, ref, watch, watchEffect } from "vue";
+
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useUtilsStore } from "@/stores/utils";
 
 useHead({
   title: "Customers",
 });
 
 const { getTasksMini } = useTasks();
-const { getServicesMini } = useServices();
+
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
 const { optionLabelWithLang } = useLanguages();
 const { formatAddress } = useUtils();
@@ -182,7 +183,6 @@ onMounted(() => {
   loadLazyData();
   resetSelectedContacts();
 
-  getServicesMini().then((data) => (services.value = data));
   getTasksMini().then((data) => (tasks.value = data));
 });
 
@@ -195,7 +195,6 @@ const { selectedRowsPerPage, getContactDetailColumns } = useListUtils();
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const customers = ref();
-const services = ref();
 const tasks = ref();
 const loading = ref(false);
 const dt = ref();

@@ -21,13 +21,13 @@
           <WMCompleteTasksButton
             v-if="utilsStore.entity == 'task'"
             :entity="utilsStore.entity"
-            @taskCompleted="$emit('taskCompleted')"
+            @task-completed="$emit('taskCompleted')"
           />
 
           <WMAssignOwnerButton :entity="utilsStore.entity" />
 
           <WMSendMessageButton
-            :selectedElements="selectedElements"
+            :selected-elements="selectedElements"
             :multiple="true"
           />
 
@@ -41,7 +41,7 @@
           </WMButton>
 
           <WMSendEmailButton
-            :selectedElements="selectedElements"
+            :selected-elements="selectedElements"
             :multiple="true"
           />
 
@@ -69,13 +69,13 @@
         <div class="flex flex-row align-items-center gap-3">
           <span>{{ $t("rows-per-page") + ":" }}</span>
           <WMInput
-            @update:selectedItem="onChange"
             width="70"
             name="status"
             :highlighted="true"
             type="input-select"
             :options="listRowsPerPage"
             :value="numberOfRows"
+            @update:selected-item="onChange"
           />
         </div>
       </div>
@@ -83,16 +83,17 @@
   </div>
   <WMSidebar
     :visible="isFilterVisible"
+    name="filter"
     @close-sidebar="closeFilterSidebar"
     @open-sidebar="openFilterSidebar"
-    name="filter"
   >
-    <WMFilterForm :entity="props.entity" :filterFormName="props.entity" />
+    <WMFilterForm :entity="props.entity" :filter-form-name="props.entity" />
   </WMSidebar>
 </template>
 
 <script setup>
 import { ref, watch } from "vue";
+
 import { useUtilsStore } from "@/stores/utils";
 
 const utilsStore = useUtilsStore();
@@ -109,7 +110,7 @@ const props = defineProps({
   entity: String,
 });
 
-const emits = defineEmits(["new", "taskCompleted"]);
+defineEmits(["new", "taskCompleted"]);
 
 const isFilterVisible = ref(false);
 const isFilterApplied = ref(false);
@@ -134,6 +135,4 @@ function closeFilterSidebar() {
 function openFilterSidebar() {
   isFilterVisible.value = true;
 }
-
-function onChangeOwnerFilter(event) {}
 </script>

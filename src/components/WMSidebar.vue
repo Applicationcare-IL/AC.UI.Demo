@@ -6,8 +6,8 @@
       :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
       :style="{ left: leftPositon + 'px' }"
     >
-      <div class="wm-sidebar" ref="target">
-        <slot v-bind:props="props"></slot>
+      <div ref="target" class="wm-sidebar">
+        <slot :props="props" @close-sidebar="handleCloseSidebar" />
       </div>
       <div class="wm-sidebar-overlay" @click="handleCloseSidebar"></div>
     </div>
@@ -15,7 +15,8 @@
 </template>
 
 <script setup>
-import { ref, toRefs, watch, computed } from "vue";
+import { computed, provide, ref, toRefs, watch } from "vue";
+
 import { useLayout } from "@/layout/composables/layout";
 
 const { activeSidebar, openSidebar, closeSidebar } = useSidebar();
@@ -41,7 +42,7 @@ const props = defineProps({
 
 const { visible } = toRefs(props);
 
-const emit = defineEmits(["closeSidebar"]);
+const emit = defineEmits(["closeSidebar", "openSidebar"]);
 
 const handleCloseSidebar = () => {
   emit("closeSidebar");
@@ -66,6 +67,8 @@ const leftPositon = computed(() => {
 
   return totalMargin - sidebarPositionInActiveSidebarArray * space;
 });
+
+provide("closeSidebar", handleCloseSidebar);
 
 watch(visible, (value) => {
   if (value) {

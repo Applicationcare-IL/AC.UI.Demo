@@ -7,36 +7,36 @@
   </WMListSubHeader>
 
   <WMContactPreviewSidebar
-    :contact="contactDetail"
     v-model:visible="isDetailsVisible"
+    :contact="contactDetail"
   />
 
   <WMSidebar
     :visible="isVisible"
+    name="newContact"
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
-    name="newContact"
   >
     <WMNewEntityFormHeader entity="contact" name="newContact" />
-    <WMNewContactForm :isSidebar="true" @close-sidebar="closeSidebar" />
+    <WMNewContactForm :is-sidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
       v-if="permissions.contacts.read"
-      lazy
+      ref="dt"
       v-model:selection="selectedContacts"
+      lazy
       :value="contacts"
-      dataKey="contact_id"
-      tableStyle="min-width: 50rem"
+      data-key="contact_id"
+      table-style="min-width: 50rem"
       class="p-datatable-sm"
       paginator
       scrollable
-      scrollHeight="flex"
+      scroll-height="flex"
       :rows="selectedRowsPerPage"
       :first="0"
-      ref="dt"
-      :totalRecords="totalRecords"
+      :total-records="totalRecords"
       :loading="loading"
       @page="onPage($event)"
       @update:selection="onSelectionChanged"
@@ -44,14 +44,14 @@
       <Column style="width: 35px">
         <template #body="slotProps">
           <img
-            @click="displayDetails(slotProps.data)"
             src="/icons/eye.svg"
             alt=""
             class="vertical-align-middle"
+            @click="displayDetails(slotProps.data)"
           />
         </template>
       </Column>
-      <Column style="width: 40px" selectionMode="multiple"></Column>
+      <Column style="width: 40px" selection-mode="multiple"></Column>
       <Column field="contact" :header="$t('contact.contact')" class="link-col">
         <template #body="slotProps">
           <router-link
@@ -139,19 +139,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, watchEffect } from "vue";
-import { useUtilsStore } from "@/stores/utils";
-import { useFormUtilsStore } from "@/stores/formUtils";
-import { usePermissionsStore } from "@/stores/permissionsStore";
+import { onMounted, ref, watch, watchEffect } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
+import { useFormUtilsStore } from "@/stores/formUtils";
+import { usePermissionsStore } from "@/stores/permissionsStore";
+import { useUtilsStore } from "@/stores/utils";
 
 useHead({
   title: "Contacts",
 });
 
 const { getTasksMini } = useTasks();
-const { getServicesMini } = useServices();
+
 const permissionsStore = usePermissionsStore();
 const permissions = permissionsStore.permissions;
 const { formatAddress } = useUtils();
@@ -166,7 +166,6 @@ onMounted(() => {
   loadLazyData();
   resetSelectedContacts();
 
-  getServicesMini().then((data) => (services.value = data));
   getTasksMini().then((data) => (tasks.value = data));
 });
 
