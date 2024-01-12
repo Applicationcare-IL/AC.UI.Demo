@@ -116,6 +116,7 @@
             :options="areas"
             width="152"
             :placeholder="$t('select', ['classification-1'])"
+            required
             @change="updateDropdown('service_type', $event.value.id, 'types')"
           />
 
@@ -126,6 +127,7 @@
             :options="types"
             width="152"
             :placeholder="$t('select', ['classification-2'])"
+            required
             @change="
               updateDropdown('service_request_1', $event.value.id, 'requests1')
             "
@@ -137,6 +139,7 @@
             :options="requests1"
             width="152"
             :placeholder="$t('select', ['classification-3'])"
+            required
             @change="
               updateDropdown('service_request_2', $event.value.id, 'requests2')
             "

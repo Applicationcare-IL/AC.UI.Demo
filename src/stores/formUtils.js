@@ -55,7 +55,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
 
     getServiceFormValidationSchema: () => {
       return yup.object({
-        // description: yup.string().required().default(null).nullable()
+        description: yup.string().required().default(null).nullable(),
         contact: yup
           .object()
           .required({
@@ -76,7 +76,9 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "customer" },
           }),
-        // area: yup.object().required(),
+        area: yup.object().required(),
+        type: yup.object().required(),
+        request1: yup.object().required(),
         city: yup
           .object()
           .required({
@@ -97,7 +99,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "address.street" },
           }),
-        // "house-number": yup.number().required(),
+        "house-number": yup.number().required(),
         // 'classification-1': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-1' } })
         //     .typeError({ key: 'validation.required-select', values: { label: 'classification-1' } }),
         // 'classification-2': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-2' } })
@@ -271,7 +273,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
           }),
       });
     },
-    getContactDetailFormValidationSchema: (state) => {
+    getContactDetailFormValidationSchema: () => {
       return yup.object({
         "first-name": yup.string().required(),
         "last-name": yup.string().required(),
@@ -292,7 +294,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
         return state.formMetas.find((meta) => meta.key === key);
       };
     },
-    getNewProjectFormValidationSchema: (state) => {
+    getNewProjectFormValidationSchema: () => {
       return yup.object({
         "project-name": yup.string().required(),
         "project-description": yup.string().required(),
