@@ -57,6 +57,7 @@
   "additional-information": "נתונים נוספים",
   "logs": "לוגים",
   "rows-per-page": "רשומות בדף",
+  "no-results": "לא נמצאו תוצאות",
   "buttons": {
     "link_contact": "שיוך איש קשר",
     "link_customer": "שיוך ארגונים",
@@ -69,7 +70,8 @@
     "deactivate": "הפוך ללא פעיל",
     "clear": "נקה",
     "clear-all": "נקה הכל",
-    "apply-filters": "החל סינון"
+    "apply-filters": "החל סינון",
+    "create-new-one": "צור חדש"
   },
   "navigation": {
     "dashboard": "דאשבורד",

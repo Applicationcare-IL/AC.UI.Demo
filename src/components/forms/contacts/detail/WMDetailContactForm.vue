@@ -43,7 +43,7 @@
                   <WMInput
                     name="last-name"
                     :required="true"
-                    validationMessage="Validation Message"
+                    validation-message="Validation Message"
                     type="input-text"
                     :label="$t('last-name') + ':'"
                     :value="contact.lastName"
@@ -134,9 +134,9 @@
               <div class="contact-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
+                    id="notes"
                     :value="contact.notes"
                     type="text-area"
-                    id="notes"
                     name="notes"
                   />
                 </div>
@@ -221,31 +221,31 @@
         </div>
       </div>
       <div>
-        <WMCustomersTable :contactId="contact.id" :columns="customerColumns" />
+        <WMCustomersTable :contact-id="contact.id" :columns="customerColumns" />
       </div>
       <div>
         <WMServicesTable
           v-if="checkIfEntityIsActive('services')"
-          relatedEntity="contact"
-          :relatedEntityId="contact.id"
+          related-entity="contact"
+          :related-entity-id="contact.id"
           :columns="serviceColumns"
           multiselect
         />
       </div>
       <div>
         <WMTasksTable
-          relatedEntity="contact"
-          :relatedEntityId="contact.id"
+          related-entity="contact"
+          :related-entity-id="contact.id"
           :columns="taskColumns"
           multiselect
         />
       </div>
       <div>
         <WMProjectsTable
-          relatedEntity="contact"
-          :relatedEntityId="contact.id"
+          related-entity="contact"
+          :related-entity-id="contact.id"
           :multiselect="false"
-          :showHeaderOptions="false"
+          :show-header-options="false"
         />
       </div>
       <div class="flex-1 tabs-container">
@@ -301,25 +301,24 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, provide } from "vue";
-
+// IMPORTS
 import { useForm } from "vee-validate";
-import { useFormUtilsStore } from "@/stores/formUtils";
-
-import { useOptionSetsStore } from "@/stores/optionSets";
-import { useUtilsStore } from "@/stores/utils";
+import { onMounted, provide, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
-const props = defineProps({
-  formKey: {
-    type: String,
-    required: true,
-  },
-});
+import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
+import { useUtilsStore } from "@/stores/utils";
 
+// DEPENDENCIES
 const { getTasksFromApi } = useTasks();
-const { getServicesFromApi } = useServices();
 const { checkIfEntityIsActive } = useLicensing();
+
+const formUtilsStore = useFormUtilsStore();
+const optionSetsStore = useOptionSetsStore();
+const utilsStore = useUtilsStore();
+const route = useRoute();
+const toast = useToast();
 
 const {
   getCustomerColumns,
@@ -328,40 +327,31 @@ const {
   getStatusConditionalStyle,
 } = useListUtils();
 
-const customers = ref();
-const services = ref();
-const tasks = ref();
-const cities = ref();
+const { getContactFromApi, updateContact, parseContact, setSelectedContacts } =
+  useContacts();
 
-const formUtilsStore = useFormUtilsStore();
+// PROPS, EMITS
+const props = defineProps({
+  formKey: {
+    type: String,
+    required: true,
+  },
+});
 
-const optionSetsStore = useOptionSetsStore();
-const utilsStore = useUtilsStore();
+// REFS
 const contact = ref();
-const route = useRoute();
-const alphabet = formUtilsStore.getAlphabet;
-const statuses = optionSetsStore.getOptionSetValues("status");
-const genders = ref(optionSetsStore.optionSets["gender"]);
+const tasks = ref();
 
+const genders = ref(optionSetsStore.optionSets["gender"]);
 const loaded = ref(false);
 
 const customerColumns = ref(getCustomerColumns());
 const serviceColumns = ref(getServiceColumns());
 const taskColumns = ref(getTaskColumns());
 
-const toast = useToast();
+// COMPUTED
 
-const { getContactFromApi, updateContact, parseContact, setSelectedContacts } =
-  useContacts();
-
-provide("preselectedContact", contact);
-
-onMounted(async () => {
-  await fetchData();
-
-  setSelectedContacts(contact.value);
-});
-
+// COMPONENT METHODS
 const fetchData = async () => {
   getContactFromApi(route.params.id).then((data) => {
     contact.value = data;
@@ -378,13 +368,13 @@ const fetchData = async () => {
   tasks.value = tasksData?.data;
 };
 
-const { handleSubmit, meta, resetForm, values } = useForm({
+const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {
   updateContact(route.params.id, parseContact(values))
-    .then((data) => {
+    .then(() => {
       toast.successAction("contact", "updated");
       resetForm({ values: values });
       fetchData();
@@ -395,11 +385,23 @@ const onSave = handleSubmit((values) => {
     });
 });
 
+const statusClass = (data) => {
+  return getStatusConditionalStyle(data);
+};
+
 formUtilsStore.$reset();
 formUtilsStore.save = onSave;
 formUtilsStore.formEntity = "contact";
 utilsStore.entity = "contact";
 
+// PROVIDE, EXPOSE
+provide("preselectedContact", contact);
+
+defineExpose({
+  onSave,
+});
+
+// WATCHERS
 watch(
   () => meta.value,
   (value) => {
@@ -408,13 +410,12 @@ watch(
   }
 );
 
-defineExpose({
-  onSave,
-});
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  await fetchData();
 
-const statusClass = (data) => {
-  return getStatusConditionalStyle(data);
-};
+  setSelectedContacts(contact.value);
+});
 </script>
 
 <style scoped lang="scss"></style>

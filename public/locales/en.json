@@ -58,6 +58,7 @@
   "additional-information": "Additional Information",
   "logs": "Logs",
   "rows-per-page": "Rows per page",
+  "no-results": "No results have been found",
   "buttons": {
     "link_contact": "Link contact",
     "link_customer": "Link customer",
@@ -70,7 +71,8 @@
     "deactivate": "Deactivate",
     "clear": "Clear",
     "clear-all": "Clear all",
-    "apply-filters": "Apply filters"
+    "apply-filters": "Apply filters",
+    "create-new-one": "Create new one"
   },
   "navigation": {
     "dashboard": "Dashboard",

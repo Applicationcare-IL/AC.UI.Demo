@@ -1,5 +1,5 @@
 <template>
-  <WMButton @click="toggle" class="m-1 col-6" name="assign-white" icon="assign">
+  <WMButton class="m-1 col-6" name="assign-white" icon="assign" @click="toggle">
     {{ $t("buttons.link_contact") }}
   </WMButton>
   <OverlayPanel
@@ -12,20 +12,20 @@
         :placeholder="$t('select', ['contact'])"
         :multiple="true"
         width="248"
-        :searchFunction="searchContact"
-        @update:modelValue="onContactselected"
+        :search-function="searchContact"
         :new="true"
         related-sidebar="newContact"
-        :modelValue="selectedContacts"
+        :model-value="selectedContacts"
+        @update:model-value="onContactselected"
       />
       <WMButton
+        class="m-1 col-6"
+        name="basic-secondary"
         @click="
           emit('addContacts', selectedContacts);
           closeOverlay();
           clearSelectedContacts();
         "
-        class="m-1 col-6"
-        name="basic-secondary"
       >
         {{ $t("buttons.assign") }}
       </WMButton>
@@ -33,42 +33,48 @@
   </OverlayPanel>
   <WMSidebar
     :visible="isNewContactSidebarVisible"
+    name="newContact"
     @close-sidebar="closeNewContactSidebar"
     @open-sidebar="openNewContactSidebar"
-    name="newContact"
   >
     <WMNewEntityFormHeader entity="contact" name="newContact" />
     <WMNewContactForm
-      :isSidebar="true"
+      :is-sidebar="true"
       @close-sidebar="closeNewContactSidebar"
     />
   </WMSidebar>
 </template>
 
 <script setup>
+// IMPORTS
 import { ref } from "vue";
-import { useLayout } from "@/layout/composables/layout";
-import { useContactsStore } from "@/stores/contactsStore";
 
-const props = defineProps({
+import { useLayout } from "@/layout/composables/layout";
+
+// DEPENDENCIES
+const { getContactsFromApi } = useContacts();
+const { layoutConfig } = useLayout();
+
+// PROPS, EMITS
+defineProps({
   entity: {
     type: String,
     default: "",
   },
 });
 
-const emit = defineEmits(["contactSelected", "closeSidebar"]);
+const emit = defineEmits(["addContacts", "contactSelected", "closeSidebar"]);
 
-const { getContactsFromApi } = useContacts();
-
-const { layoutConfig } = useLayout();
-
+// REFS
 const isOpen = ref();
+const selectedContacts = ref([]);
+const isNewContactSidebarVisible = ref(false);
+
+// COMPUTED
+// COMPONENT METHODS
 const toggle = (event) => {
   isOpen.value.toggle(event);
 };
-
-const selectedContacts = ref([]);
 
 const searchContact = (query) => {
   return getContactsFromApi({ search: query });
@@ -87,8 +93,6 @@ const clearSelectedContacts = () => {
 };
 
 // new contact sidebar
-const isNewContactSidebarVisible = ref(false);
-
 function openNewContactSidebar() {
   isNewContactSidebarVisible.value = true;
 }
@@ -96,4 +100,7 @@ function openNewContactSidebar() {
 function closeNewContactSidebar() {
   isNewContactSidebarVisible.value = false;
 }
+
+// WATCHERS
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

@@ -8,32 +8,32 @@
       {{ label }}
     </label>
     <AutoComplete
+      v-model="value"
       :suggestions="filteredOptions"
-      :optionLabel="optionLabel"
+      :option-label="optionLabel"
       :placeholder="placeholder"
       :multiple="props.multiple"
       :disabled="props.disabled"
       :class="[{ 'wm-input-error': !!errorMessage }]"
+      complete-on-focus
+      :focused="true"
       @complete="search"
-      completeOnFocus
-      v-model="value"
       @item-unselect="onRemove"
       @input="$emit('update:value', $event.target.value)"
       @item-select="onItemSelected"
       @change="emit('update:modelValue', value)"
-      :focused="true"
     >
-      <template #empty v-if="props.relatedSidebar">
+      <template v-if="props.relatedSidebar" #empty>
         <div
           class="flex flex-column m-2"
           :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
         >
-          <span class="vertical-align-middle"> לא נמצאו תוצאות </span>
+          <span class="vertical-align-middle"> {{ $t("no-results") }} </span>
           <a
             class="vertical-align-middle orange-link"
             @click="openRelatedSidebar()"
           >
-            + צור חדש
+            {{ $t("buttons.create-new-one") + " + " }}
           </a>
         </div>
       </template>
@@ -54,7 +54,7 @@
     >
       <Chip v-for="item in value" :label="item.name" :class="chipThemeClass">
         <span v-if="optionSet">
-          <WMOptionSetValue :optionSet="item" />
+          <WMOptionSetValue :option-set="item" />
         </span>
         <span v-else>{{ item.name }}</span>
         <i class="pi pi-times cursor-pointer" @click="onRemove(item)"></i>
@@ -64,7 +64,8 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { computed, ref, watch } from "vue";
+
 import { useLayout } from "@/layout/composables/layout";
 
 const { layoutConfig } = useLayout();

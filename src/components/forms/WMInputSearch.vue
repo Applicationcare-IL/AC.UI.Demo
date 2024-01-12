@@ -8,33 +8,33 @@
       {{ label }} <span v-if="required && label" class="text-red-500"> *</span>
     </label>
     <AutoComplete
+      v-model="value"
       :suggestions="filteredOptions"
-      :optionLabel="optionLabel"
+      :option-label="optionLabel"
       :placeholder="placeholder"
       :multiple="props.multiple"
       :disabled="props.disabled"
       :class="[{ 'wm-input-error': !!errorMessage }]"
+      complete-on-focus
+      :focused="true"
       @complete="search"
-      completeOnFocus
-      v-model="value"
       @item-unselect="onRemove"
       @input="$emit('update:value', $event.target.value)"
       @item-select="onItemSelected"
       @change="emit('update:modelValue', value)"
-      :focused="true"
       @blur="emit('blur')"
     >
-      <template #empty v-if="props.relatedSidebar">
+      <template v-if="props.relatedSidebar" #empty>
         <div
           class="flex flex-column m-2"
           :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
         >
-          <span class="vertical-align-middle"> לא נמצאו תוצאות </span>
+          <span class="vertical-align-middle"> {{ $t("no-results") }} </span>
           <a
             class="vertical-align-middle orange-link"
             @click="openRelatedSidebar()"
           >
-            + צור חדש
+            {{ $t("buttons.create-new-one") + " + " }}
           </a>
         </div>
       </template>
@@ -53,9 +53,14 @@
       v-if="props.multiple && type == 'tags'"
       class="selected-options flex flex-row gap-2"
     >
-      <Chip v-for="item in value" :label="item.name" :class="chipThemeClass">
+      <Chip
+        v-for="(item, index) in value"
+        :key="index"
+        :label="item.name"
+        :class="chipThemeClass"
+      >
         <span v-if="optionSet">
-          <WMOptionSetValue :optionSet="item" />
+          <WMOptionSetValue :option-set="item" />
         </span>
         <span v-else>{{ item.name }}</span>
         <i class="pi pi-times cursor-pointer" @click="onRemove(item)"></i>
@@ -65,20 +70,22 @@
 </template>
 
 <script setup>
-import { ref, toRef, computed, onMounted, watch } from "vue";
+// IMPORTS
 import { useField } from "vee-validate";
-import { useLayout } from "@/layout/composables/layout";
-
+import { computed, onMounted, ref, toRef, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
-const { locale } = useI18n();
+import { useLayout } from "@/layout/composables/layout";
 
+// DEPENDENCIES
+const { locale } = useI18n();
 const { layoutConfig } = useLayout();
 const { openSidebar } = useSidebar();
 const { optionLabelWithLang } = useLanguages();
 
-const filteredOptions = ref();
+// INJECT
 
+// PROPS, EMITS
 const props = defineProps({
   highlighted: {
     type: Boolean,
@@ -153,17 +160,24 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits([
+  "change",
+  "blur",
+  "update:value",
+  "customChange",
+  "update:modelValue",
+]);
+
+// REFS
+const filteredOptions = ref();
+const name = toRef(props, "name");
+
+// COMPUTED
 const chipThemeClass = computed(() => {
   return props.theme == "default"
     ? "p-chip--default"
     : `p-chip--${props.theme}`;
 });
-
-const emit = defineEmits(["customChange", "update:modelValue"]);
-
-const openRelatedSidebar = () => {
-  openSidebar(props.relatedSidebar);
-};
 
 const optionLabel = computed(() => {
   if (props.optionSet) {
@@ -171,6 +185,28 @@ const optionLabel = computed(() => {
   }
   return "name";
 });
+
+const width = computed(() => {
+  return props.width + "px";
+});
+
+// COMPONENT METHODS
+const { value, errorMessage, resetField } = useField(name, undefined, {
+  validateOnValueUpdate: true,
+  validateOnMount: false,
+  validateOnBlur: true,
+  validateOnChange: true,
+  value: props.modelValue,
+});
+
+const openRelatedSidebar = () => {
+  openSidebar(props.relatedSidebar);
+
+  // hide all the active overlays
+  document.querySelectorAll(".p-overlaypanel").forEach((overlay) => {
+    overlay.style.display = "none";
+  });
+};
 
 const search = (event) => {
   setTimeout(() => {
@@ -215,7 +251,6 @@ const onRemove = (event) => {
   // this condition is for the case when the user press the backspace key
   // we dont want to remove the last item in the list
   if (event.originalEvent && event.originalEvent.code == "Backspace") {
-    console.log("Se presionó la tecla de borrar (Backspace)");
     value.value.push(event.value);
     event.originalEvent.preventDefault();
     return;
@@ -228,30 +263,14 @@ const onItemSelected = (item) => {
   emit("change", item);
 };
 
-const onItemUnselect = (item) => {
-  emit("onItemUnselect", item);
-};
+function clear() {
+  resetField();
+}
 
-const width = computed(() => {
-  return props.width + "px";
-});
+// PROVIDE, EXPOSE
+defineExpose({ clear });
 
-const name = toRef(props, "name");
-
-const { value, errorMessage, resetField } = useField(name, undefined, {
-  validateOnValueUpdate: true,
-  validateOnMount: false,
-  validateOnBlur: true,
-  validateOnChange: true,
-  value: props.modelValue,
-});
-
-onMounted(() => {
-  if (props.modelValue) {
-    value.value = props.modelValue;
-  }
-});
-
+// WATCHERS
 watch(
   () => props.modelValue,
   (newValue) => {
@@ -259,11 +278,12 @@ watch(
   }
 );
 
-function clear() {
-  resetField();
-}
-
-defineExpose({ clear });
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  if (props.modelValue) {
+    value.value = props.modelValue;
+  }
+});
 </script>
 
 <style scoped lang="scss">
