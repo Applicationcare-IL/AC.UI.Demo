@@ -75,7 +75,7 @@ export function useFilters() {
     customer: [
       {
         type: "dropdown",
-        name: "area",
+        name: "service_area",
         optionSet: "service_area",
         placeholder: "בחירת תחום",
       },
