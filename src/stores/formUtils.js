@@ -1,6 +1,6 @@
+import { useMagicKeys, whenever } from "@vueuse/core";
 import { defineStore } from "pinia";
 import * as yup from "yup";
-import { useMagicKeys, whenever } from "@vueuse/core";
 
 const { ctrl_s } = useMagicKeys({
   passive: false,
@@ -76,7 +76,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "customer" },
           }),
-        area: yup.object().required(),
+        // area: yup.object().required(),
         city: yup
           .object()
           .required({

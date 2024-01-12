@@ -1,5 +1,5 @@
-import { useServicesStore } from "@/stores/servicesStore";
 import { SLAS } from "@/constants";
+import { useServicesStore } from "@/stores/servicesStore";
 
 export function useServices() {
   const servicesStore = useServicesStore();
@@ -42,6 +42,7 @@ export function useServices() {
 
   // UTILITIES
   const parseService = (service) => {
+    console.log("parseService, service: ", service);
     return {
       contact_id: service.contact.id,
       customer_id: service.customer.id,
@@ -236,14 +237,6 @@ export function useServices() {
     return Promise.resolve(getServicesData());
   };
 
-  const getServicesWithOrdersSmall = () => {
-    return Promise.resolve(getServicesWithOrdersData().slice(0, 10));
-  };
-
-  const getServicesWithOrders = () => {
-    return Promise.resolve(getServicesWithOrdersData());
-  };
-
   const getService = (service_number) => {
     return Promise.resolve(
       getServicesData().find(
@@ -269,7 +262,5 @@ export function useServices() {
     getServices,
     getServicesMini,
     getServicesSmall,
-    getServicesWithOrders,
-    getServicesWithOrdersSmall,
   };
 }

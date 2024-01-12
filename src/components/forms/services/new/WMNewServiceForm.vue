@@ -1,7 +1,7 @@
 <template>
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="service-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 class="h1 mb-0" v-if="!props.isSidebar">
+      <h1 v-if="!props.isSidebar" class="h1 mb-0">
         {{ $t("new", ["service.service"]) }}
       </h1>
       <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
@@ -19,20 +19,20 @@
           :label="$t('contact') + ':'"
           width="160"
           :highlighted="true"
-          :searchFunction="searchContact"
+          :search-function="searchContact"
           :new="true"
           related-sidebar="newContact"
         />
 
         <WMSidebar
           :visible="isNewContactSidebarVisible"
+          name="newContact"
           @close-sidebar="closeNewContactSidebar"
           @open-sidebar="openNewContactSidebar"
-          name="newContact"
         >
           <WMNewEntityFormHeader entity="contact" name="newContact" />
           <WMNewContactForm
-            :isSidebar="true"
+            :is-sidebar="true"
             @close-sidebar="closeNewContactSidebar"
           />
         </WMSidebar>
@@ -45,20 +45,20 @@
           :label="$t('customer') + ':'"
           width="160"
           :highlighted="true"
-          :searchFunction="searchCustomer"
+          :search-function="searchCustomer"
           :new="true"
           related-sidebar="newCustomer"
         />
 
         <WMSidebar
           :visible="isNewCustomerSidebarVisible"
+          name="newCustomer"
           @close-sidebar="closeNewCustomerSidebar"
           @open-sidebar="openNewCustomerSidebar"
-          name="newCustomer"
         >
           <WMNewEntityFormHeader entity="customer" name="newCustomer" />
           <WMNewCustomerForm
-            :isSidebar="true"
+            :is-sidebar="true"
             @close-sidebar="closeNewCustomerSidebar"
           />
         </WMSidebar>
@@ -71,7 +71,7 @@
           :label="$t('direction') + ':'"
           width="80"
           :options="directions"
-          optionSet
+          option-set
         />
         <WMInput
           name="channel"
@@ -79,7 +79,7 @@
           :highlighted="true"
           :label="$t('channel') + ':'"
           :options="channels"
-          optionSet
+          option-set
           width="104"
         />
         <WMInput
@@ -89,7 +89,7 @@
           :label="$t('priority') + ':'"
           :options="urgencies"
           width="104"
-          optionSet
+          option-set
         />
       </div>
 
@@ -111,7 +111,6 @@
           <WMInputSearch
             name="area"
             :highlighted="true"
-            :required="true"
             :label="$t('classification-1') + ':'"
             type="input-search"
             :options="areas"
@@ -123,7 +122,6 @@
           <WMInputSearch
             name="type"
             :highlighted="true"
-            :required="true"
             :label="$t('classification-2') + ':'"
             :options="types"
             width="152"
@@ -135,7 +133,6 @@
           <WMInputSearch
             name="request1"
             :highlighted="true"
-            :required="true"
             :label="$t('classification-3') + ':'"
             :options="requests1"
             width="152"
@@ -172,7 +169,7 @@
       <div class="service-description flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">{{ $t("description") }}</h2>
         <div class="wm-form-row gap-5">
-          <WMInput type="text-area" id="description" name="description" />
+          <WMInput id="description" type="text-area" name="description" />
         </div>
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" />
@@ -189,13 +186,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+// IMPORTS
+import { useForm } from "vee-validate";
+import { onMounted, ref, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useForm, useField } from "vee-validate";
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { useRouter } from "vue-router";
 
+// DEPENDENCIES
+const optionSetsStore = useOptionSetsStore();
+const toast = useToast();
+const dialog = useDialog();
+const formUtilsStore = useFormUtilsStore();
+const { getCustomersFromApi } = useCustomers();
+const { getContactsFromApi } = useContacts();
+const { createService, parseService } = useServices();
+
+// PROPS, EMITS
 const props = defineProps({
   isSidebar: {
     type: Boolean,
@@ -205,15 +212,7 @@ const props = defineProps({
 
 const emit = defineEmits(["closeSidebar"]);
 
-const router = useRouter();
-const customers = ref();
-const contacts = ref();
-const optionSetsStore = useOptionSetsStore();
-
-const toast = useToast();
-const dialog = useDialog();
-const formUtilsStore = useFormUtilsStore();
-
+// REFS
 const directions = ref();
 const channels = ref();
 const urgencies = ref();
@@ -224,6 +223,7 @@ const types = ref([]);
 const requests1 = ref([]);
 const requests2 = ref([]);
 const requests3 = ref([]);
+
 const optionRefs = {
   areas: areas,
   types: types,
@@ -231,24 +231,12 @@ const optionRefs = {
   requests2: requests2,
   requests3: requests3,
 };
-const { value } = useField("description");
-const { getCustomersFromApi } = useCustomers();
 
-onMounted(() => {
-  optionSetsStore
-    .getOptionSetValuesFromApi("service_direction")
-    .then((data) => (directions.value = data));
-  optionSetsStore
-    .getOptionSetValuesFromApi("service_channel")
-    .then((data) => (channels.value = data));
-  optionSetsStore
-    .getOptionSetValuesFromApi("service_urgent")
-    .then((data) => (urgencies.value = data));
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("service_area")
-    .then((data) => (areas.value = data));
-});
+const isNewContactSidebarVisible = ref(false);
 
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
 const updateDropdown = (dropdown, selectedId, dropdownOptions) => {
   optionSetsStore
     .getOptionSetValuesFromApiRaw(dropdown, selectedId)
@@ -257,17 +245,12 @@ const updateDropdown = (dropdown, selectedId, dropdownOptions) => {
     });
 };
 
-const selectedContact = ref();
-const selectedCustomer = ref();
-
 const searchCustomer = (query) => {
   return getCustomersFromApi({
     search: query,
     contact_id: values.contact?.id,
   });
 };
-
-const { getContactsFromApi } = useContacts();
 
 const searchContact = (query) => {
   return getContactsFromApi({
@@ -276,44 +259,13 @@ const searchContact = (query) => {
   });
 };
 
-const { errors, handleSubmit, setFieldError, meta, values } = useForm({
+const { handleSubmit, meta, values } = useForm({
   validationSchema: formUtilsStore.getServiceFormValidationSchema,
-  initialValues: {
-    description: "",
-  },
 });
-
-const { createService, parseService } = useServices();
-
-const onSubmit = handleSubmit((values) => {
-  createService(parseService(values))
-    .then((data) => {
-      dialog.confirmNewService(data.data.id);
-      toast.successAction("service", "created");
-    })
-    .catch((error) => {
-      console.error(error);
-      toast.error("service", "not-created");
-    });
-});
-
-// if (formUtilsStore.formMeta.dirty) dialog.discardNewService();
-const onCancel = () => {
-  emit("closeSidebar");
-};
 
 formUtilsStore.formEntity = "service";
 
-watch(
-  () => meta.value,
-  (value) => {
-    formUtilsStore.formMeta = value;
-  }
-);
-
 // new contact sidebar
-const isNewContactSidebarVisible = ref(false);
-
 function openNewContactSidebar() {
   isNewContactSidebarVisible.value = true;
 }
@@ -333,15 +285,52 @@ function closeNewCustomerSidebar() {
   isNewCustomerSidebarVisible.value = false;
 }
 
-const openNewContact = () => {
-  router.push("/new-contact");
-  const routeData = router.resolve({ name: "newContact" });
-  window.open(routeData.href, "_blank");
+const onSubmit = handleSubmit((values) => {
+  createService(parseService(values))
+    .then((data) => {
+      dialog.confirmNewService(data.data.id);
+      toast.successAction("service", "created");
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("service", "not-created");
+    });
+});
+
+const onCancel = () => {
+  emit("closeSidebar");
 };
 
+// EXPOSE
 defineExpose({
   onSubmit,
   onCancel,
+});
+
+// WATCHERS
+watch(
+  () => meta.value,
+  (value) => {
+    formUtilsStore.formMeta = value;
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  optionSetsStore
+    .getOptionSetValuesFromApi("service_direction")
+    .then((data) => {
+      directions.value = data;
+    });
+  optionSetsStore
+    .getOptionSetValuesFromApi("service_channel")
+    .then((data) => (channels.value = data));
+  optionSetsStore
+    .getOptionSetValuesFromApi("service_urgent")
+    .then((data) => (urgencies.value = data));
+  optionSetsStore
+    .getOptionSetValuesFromApiRaw("service_area")
+    .then((data) => (areas.value = data));
 });
 </script>
 

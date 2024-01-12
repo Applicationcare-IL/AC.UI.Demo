@@ -47,18 +47,12 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selection-mode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
       :field="column.name"
-      :header="
-        column.header ? $t(column.header) : $t(`customer.${column.name}`)
-      "
+      :header="column.header ? $t(column.header) : $t(`customer.${column.name}`)"
       :class="column.class"
     >
       <template #body="slotProps">
@@ -145,7 +139,7 @@ const {
 } = useCustomers();
 const { getAlertCellConditionalStyle } = useListUtils();
 
-// PROPS, EMITS AND EXPOSE
+// PROPS, EMITS
 const props = defineProps({
   rows: {
     type: Number,

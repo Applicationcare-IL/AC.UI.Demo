@@ -20,7 +20,7 @@ module.exports = {
     useCommunications: true,
     useContacts: true,
     useCustomers: true,
-    useDialogs: true,
+    useDialog: true,
     useDocuments: true,
     useFilters: true,
     useJournal: true,

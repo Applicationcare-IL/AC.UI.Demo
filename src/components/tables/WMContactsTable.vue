@@ -54,11 +54,7 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selection-mode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -74,9 +70,7 @@
         >
       </template>
       <template v-if="column.type === 'star'" #body="slotProps">
-        <div
-          @click="editMode[slotProps.index] && onStarClicked(slotProps.data)"
-        >
+        <div @click="editMode[slotProps.index] && onStarClicked(slotProps.data)">
           <img
             v-if="isMainContact(slotProps.data)"
             src="/icons/star.svg"
@@ -121,9 +115,7 @@
       <template v-if="column.type === 'actions'" #body="slotProps">
         <div class="flex flex-row gap-2">
           <WMButton
-            v-if="
-              column.buttons?.includes('edit') && !editMode[slotProps.index]
-            "
+            v-if="column.buttons?.includes('edit') && !editMode[slotProps.index]"
             name="edit"
             icon="edit"
             @click="editMode[slotProps.index] = true"
@@ -178,7 +170,7 @@ const {
 } = useCustomers();
 const { assignContactToProject, unassignContactFromProject } = useProjects();
 
-// PROPS, EMITS AND EXPOSE
+// PROPS, EMITS
 const props = defineProps({
   rows: {
     type: Number,
@@ -335,9 +327,7 @@ const addContacts = (addedContacts) => {
 };
 
 const isMainContact = (contact) => {
-  return (
-    customer.value?.main_contact?.id == contact.id || contact.main === true
-  );
+  return customer.value?.main_contact?.id == contact.id || contact.main === true;
 };
 
 const alertCellConditionalStyle = (data) => {
@@ -416,9 +406,7 @@ const onSelectionChanged = () => {
 
 const saveRow = (contact) => {
   const roleValue =
-    props.relatedEntity === "customer"
-      ? contact.role?.id
-      : contact.role_project?.id;
+    props.relatedEntity === "customer" ? contact.role?.id : contact.role_project?.id;
 
   if (props.relatedEntity === "customer") {
     const contactParams = {

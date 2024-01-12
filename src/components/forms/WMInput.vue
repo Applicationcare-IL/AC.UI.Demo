@@ -16,22 +16,22 @@
     </label>
     <InputText
       v-if="type == 'input-text'"
+      v-model="inputValue"
       :name="name"
       :disabled="props.disabled"
       :placeholder="placeholder"
-      :value="value"
-      v-model="value"
-      @input="
-        $emit('update:modelValue', $event.target.value);
-        handleChange($event.target.value);
-      "
-      @blur="handleBlur"
+      :value="inputValue"
       :class="[
         {
           'wm-input-error': !!errorMessage,
         },
       ]"
       style="width: 100%"
+      @input="
+        $emit('update:modelValue', $event.target.value);
+        handleChange($event.target.value);
+      "
+      @blur="handleBlur"
     />
     <Password
       v-if="type == 'input-password'"
@@ -49,11 +49,11 @@
     </Password>
     <Dropdown
       v-if="type == 'input-select'"
+      v-model="inputValue"
       :name="name"
       :disabled="props.disabled"
-      :options="options"
-      :optionLabel="optionLabel"
-      v-model="value"
+      :options="refOptions"
+      :option-label="optionLabel"
       :placeholder="placeholder"
       :style="{ width: width + 'px' }"
       @change="
@@ -69,28 +69,29 @@
       :disabled="props.disabled"
       :placeholder="placeholder"
       :value="value"
-      @input="
-        $emit('update:value', $event.target.value);
-        handleChange($event.target.value);
-      "
-      @blur="handleBlur"
       :class="[
         {
           'wm-input-error': !!errorMessage,
         },
       ]"
       style="width: 100%"
-      autoResize
+      auto-resize
       rows="8"
       cols="100"
+      @input="
+        $emit('update:value', $event.target.value);
+        handleChange($event.target.value);
+      "
+      @blur="handleBlur"
     >
     </Textarea>
+
     <SelectButton
       v-if="type == 'input-select-button'"
+      v-model="inputValue"
       :name="name"
-      v-model="value"
-      :options="options"
-      optionLabel="name"
+      :options="refOptions"
+      option-label="name"
       class="form-select-button flex-nowrap flex"
       @change="
         $emit('update:selectedItem', $event.value);
@@ -116,11 +117,11 @@
     </span>
     <Calendar
       v-if="type === 'date'"
-      v-model="value"
-      showIcon
+      v-model="inputValue"
+      show-icon
       :disabled="props.disabled"
-      dateFormat="dd/mm/yy"
-      @update:modelValue="
+      date-format="dd/mm/yy"
+      @update:model-value="
         $emit('update:modelValue', value);
         handleChange($event);
       "
@@ -130,11 +131,14 @@
 </template>
 
 <script setup>
-import { toRef, computed } from "vue";
+// IMPORTS
 import { useField } from "vee-validate";
+import { computed, toRef, watch } from "vue";
 
-defineEmits(["update:value", "update:selectedItem", "update:modelValue"]);
+// DEPENDENCIES
+const { optionLabelWithLang } = useLanguages();
 
+// PROPS, EMITS
 const props = defineProps({
   value: {
     type: String,
@@ -155,10 +159,12 @@ const props = defineProps({
   label: {
     type: String,
     required: false,
+    default: "",
   },
   name: {
     type: String,
     required: false,
+    default: "",
   },
   required: {
     type: Boolean,
@@ -179,9 +185,11 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
+    default: "",
   },
   options: {
     type: Array,
+    default: () => [],
   },
   width: {
     type: String,
@@ -193,6 +201,7 @@ const props = defineProps({
   },
   class: {
     type: String,
+    default: "",
   },
   optionSet: {
     type: Boolean,
@@ -200,21 +209,15 @@ const props = defineProps({
   },
 });
 
+defineEmits(["update:value", "update:selectedItem", "update:modelValue"]);
+
+// REFS
 const styles = toRef(props, "class");
 const name = toRef(props, "name");
 const refValue = toRef(props, "value");
+const refOptions = toRef(props, "options");
 
-const {
-  value: value,
-  errorMessage,
-  handleBlur,
-  handleChange,
-} = useField(name, undefined, {
-  initialValue: props.value,
-});
-
-const { optionLabelWithLang } = useLanguages();
-
+// COMPUTED
 const optionLabel = computed(() => {
   if (props.optionSet) {
     return optionLabelWithLang.value;
@@ -226,6 +229,32 @@ const optionLabel = computed(() => {
 
   return "label";
 });
+
+// COMPONENT METHODS
+const {
+  value: inputValue,
+  errorMessage,
+  handleBlur,
+  handleChange,
+} = useField(name, undefined, {
+  initialValue: props.value,
+});
+
+// WATCHERS
+/**
+ * Set the first option as the default value when prop value is empty
+ */
+watch(
+  () => refOptions.value,
+  (options) => {
+    if (!options) return;
+    if (props.value) return;
+
+    inputValue.value = options[0];
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
 <style scoped lang="scss"></style>

@@ -30,7 +30,7 @@
             :label="$t('site.contact') + ':'"
             width="152"
             :highlighted="true"
-            :searchFunction="searchSiteContact"
+            :search-function="searchSiteContact"
           />
         </div>
         <WMInputSearch
@@ -49,6 +49,7 @@
 
 <script setup>
 import { ref } from "vue";
+
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
