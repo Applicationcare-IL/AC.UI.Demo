@@ -308,6 +308,33 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "project_type" },
           }),
+        showAddressOptions: yup.boolean(),
+        city: yup.object().when("showAddressOptions", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "address.city" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "address.city" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        // street: yup
+        //   .object()
+        //   .required({
+        //     key: "validation.required-select",
+        //     values: { label: "address.street" },
+        //   })
+        //   .typeError({
+        //     key: "validation.required-select",
+        //     values: { label: "address.street" },
+        //   }),
+        // "house-number": yup.number().required(),
       });
     },
   },

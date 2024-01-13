@@ -30,17 +30,35 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useFormUtilsStore } from "@/stores/formUtils";
+// IMPORTS
 import { useForm } from "vee-validate";
+import { ref } from "vue";
 
+import { useFormUtilsStore } from "@/stores/formUtils";
+
+// DEPENDENCIES
 const { createProject, parseProject } = useProjects();
 const { getSelectedContactsForNewProjectColumns } = useListUtils();
+const toast = useToast();
+const dialog = useDialog();
+const formUtilsStore = useFormUtilsStore();
 
+// PROPS, EMITS
+defineProps({
+  isSidebar: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emit = defineEmits(["closeSidebar"]);
+
+// REFS
 const teamMembers = ref([]);
-// the selectedContacts it's only used to pass to the table so it recognizes it as external
-const selectedContacts = ref([]);
+const selectedContacts = ref([]); // the selectedContacts is only used to pass to the table so it recognizes it as external
 
+// COMPUTED
+// COMPONENT METHODS
 const handleChangeSelectedContacts = (contacts) => {
   teamMembers.value = contacts;
 };
@@ -53,22 +71,9 @@ const handleUnlinkContact = (contactId) => {
   selectedContacts.value = filteredSelectedContacts;
 };
 
-const props = defineProps({
-  isSidebar: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-const toast = useToast();
-const dialog = useDialog();
-const formUtilsStore = useFormUtilsStore();
-
 const { handleSubmit } = useForm({
   validationSchema: formUtilsStore.getNewProjectFormValidationSchema,
 });
-
-const emit = defineEmits(["closeSidebar"]);
 
 const onSubmit = handleSubmit((values) => {
   const newFormValues = {
@@ -98,10 +103,14 @@ const onCancel = () => {
   emit("closeSidebar");
 };
 
+// PROVIDE, EXPOSE
 defineExpose({
   onSubmit,
   onCancel,
 });
+
+// WATCHERS
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
 <style scoped lang="scss"></style>
