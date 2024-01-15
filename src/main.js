@@ -1,70 +1,69 @@
-import { createApp, reactive, markRaw } from "vue";
-import { createPinia } from "pinia";
-import App from "./App.vue";
-// import 'maze-components/dist/index.css'
-import { createHead } from "@unhead/vue";
-
-import mazeComponents from "maze-components";
-import PrimeVue from "primevue/config";
-import router from "./router";
-
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
-import AutoComplete from "primevue/autocomplete";
-import InputText from "primevue/inputtext";
-import Textarea from "primevue/textarea";
-import Dropdown from "primevue/dropdown";
-import Badge from "primevue/badge";
-import Divider from "primevue/divider";
-import Skeleton from "primevue/skeleton";
-import SelectButton from "primevue/selectbutton";
-import ScrollPanel from "primevue/scrollpanel";
-import BadgeDirective from "primevue/badgedirective";
-import Button from "primevue/button";
-import Menu from "primevue/menu";
-import ContextMenu from "primevue/contextmenu";
-import Card from "primevue/card";
-import Chart from "primevue/chart";
-import Chip from "primevue/chip";
-import Chips from "primevue/chips";
-import TabView from "primevue/tabview";
-import DataView from "primevue/dataview";
-import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
-import TabPanel from "primevue/tabpanel";
-import FileUpload from "primevue/fileupload";
-import Tag from "primevue/tag";
-import Steps from "primevue/steps";
-import Dialog from "primevue/dialog";
-import ConfirmDialog from "primevue/confirmdialog";
-import ConfirmationService from "primevue/confirmationservice";
-import Sidebar from "primevue/sidebar";
-import Password from "primevue/password";
-import Toast from "primevue/toast";
-import ToastService from "primevue/toastservice";
-import OverlayPanel from "primevue/overlaypanel";
-import Calendar from "primevue/calendar";
-import InputSwitch from "primevue/inputswitch";
-import ProgressSpinner from "primevue/progressspinner";
-import Accordion from "primevue/accordion";
-import AccordionTab from "primevue/accordiontab";
-import Breadcrumb from "primevue/breadcrumb";
-import Checkbox from "primevue/checkbox";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import "@/assets/styles.scss";
+import "@/assets/themes/mytheme/theme.scss";
 
 import VueGoogleMaps from "@fawmi/vue-google-maps";
+// import 'maze-components/dist/index.css'
+import { createHead } from "@unhead/vue";
+import { QuillEditor } from "@vueup/vue-quill";
+import mazeComponents from "maze-components";
+import { createPinia } from "pinia";
+import Accordion from "primevue/accordion";
+import AccordionTab from "primevue/accordiontab";
+import AutoComplete from "primevue/autocomplete";
+import Badge from "primevue/badge";
+import BadgeDirective from "primevue/badgedirective";
+import Breadcrumb from "primevue/breadcrumb";
+import Button from "primevue/button";
+import Calendar from "primevue/calendar";
+import Card from "primevue/card";
+import Chart from "primevue/chart";
+import Checkbox from "primevue/checkbox";
+import Chip from "primevue/chip";
+import Chips from "primevue/chips";
+import Column from "primevue/column";
+import PrimeVue from "primevue/config";
+import ConfirmationService from "primevue/confirmationservice";
+import ConfirmDialog from "primevue/confirmdialog";
+import ContextMenu from "primevue/contextmenu";
+import DataTable from "primevue/datatable";
+import DataView from "primevue/dataview";
+import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
+import Dialog from "primevue/dialog";
+import Divider from "primevue/divider";
+import Dropdown from "primevue/dropdown";
+import FileUpload from "primevue/fileupload";
+import InputSwitch from "primevue/inputswitch";
+import InputText from "primevue/inputtext";
+import Menu from "primevue/menu";
+import OverlayPanel from "primevue/overlaypanel";
+import Password from "primevue/password";
+import ProgressSpinner from "primevue/progressspinner";
+import ScrollPanel from "primevue/scrollpanel";
+import SelectButton from "primevue/selectbutton";
+import Sidebar from "primevue/sidebar";
+import Skeleton from "primevue/skeleton";
+import Steps from "primevue/steps";
+import TabPanel from "primevue/tabpanel";
+import TabView from "primevue/tabview";
+import Tag from "primevue/tag";
+import Textarea from "primevue/textarea";
+import Toast from "primevue/toast";
+import ToastService from "primevue/toastservice";
+import { createApp, markRaw, reactive } from "vue";
+import Vue3Signature from "vue3-signature";
 
 import i18nInstance from "@/i18n";
 
-import { QuillEditor } from "@vueup/vue-quill";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
-
-import "@/assets/styles.scss";
-import "@/assets/themes/mytheme/theme.scss";
+import App from "./App.vue";
+import router from "./router";
 
 const app = createApp(App)
   .use(PrimeVue, { ripple: true })
   .use(mazeComponents)
   .use(ConfirmationService)
   .use(ToastService)
+  .use(Vue3Signature)
   .use(VueGoogleMaps, {
     load: {
       key: import.meta.env.VITE_GMAPS_API_KEY,

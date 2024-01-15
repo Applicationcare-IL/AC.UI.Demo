@@ -10,7 +10,7 @@
             {{ $t("project.project") }}: {{ project.project_name }}
           </h1>
           <div :class="statusClass(project.status.value)" class="status-label">
-            <WMOptionSetValue :optionSet="project.status" />
+            <WMOptionSetValue :option-set="project.status" />
           </div>
         </div>
         <div>
@@ -24,8 +24,8 @@
         </div>
         <div class="flex flex-1 gap-5 flex-column card-container">
           <WMDetailProjectFormClassification
-            @project-type-update="handleProjectTypeUpdate"
             :project="project"
+            @project-type-update="handleProjectTypeUpdate"
           />
           <WMDetailProjectFormExecutionInformation :project="project" />
         </div>
@@ -51,7 +51,7 @@
       <div class="mt-5">
         <WMStepper
           :steps="stages"
-          :currentStep="currentStage"
+          :current-step="currentStage"
           aria-label="Form Steps"
         />
       </div>
@@ -81,7 +81,7 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion :activeIndex="0">
+      <Accordion :active-index="0">
         <AccordionTab :header="$t('documents.documents')">
           <WMDetailProjectFormDocumentsTab />
         </AccordionTab>
@@ -90,10 +90,11 @@
       <!-- <h2>Others tabs</h2> -->
 
       <!-- <Accordion>
-        <AccordionTab header="Round of signatures tasks">
-          <WMDetailProjectFormSignatureTasksTab />
+        <AccordionTab header="Round of signatures">
+          <WMDetailProjectFormSignatureTasksTab :project="project" />
         </AccordionTab>
       </Accordion> -->
+
       <Accordion v-if="project.project_type.value === COMPETITION_PROJECT_ID">
         <AccordionTab :header="$t('project.competition_process')">
           <WMDetailProjectFormCompetitionProcessTab :project="project" />
@@ -162,14 +163,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
-
-import { useForm } from "vee-validate";
-import { useUtilsStore } from "@/stores/utils";
-import { useFormUtilsStore } from "@/stores/formUtils";
-
-import { useRoute, useRouter } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
+import { useForm } from "vee-validate";
+import { onMounted, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+import { useFormUtilsStore } from "@/stores/formUtils";
+import { useUtilsStore } from "@/stores/utils";
 
 const { setSelectedContacts } = useContacts();
 const {

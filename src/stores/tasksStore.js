@@ -1,5 +1,6 @@
-import axiosConfig from "@/service/axiosConfig";
 import { defineStore } from "pinia";
+
+import axiosConfig from "@/service/axiosConfig";
 
 export const useTasksStore = defineStore("tasks", {
   actions: {
@@ -38,6 +39,16 @@ export const useTasksStore = defineStore("tasks", {
     getTasksTypesFromApi(params) {
       return axiosConfig
         .get("/tasks/types", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getSignatureTaskFromApi(params) {
+      return axiosConfig
+        .get("/signatures", { params })
         .then((response) => {
           return response.data;
         })

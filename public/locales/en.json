@@ -232,6 +232,7 @@
     "service_number": "Service number",
     "complete": "Complete",
     "description": "Description",
+    "sign_button": "",
     "notification": {
       "created": {
         "header": "New Task Created",

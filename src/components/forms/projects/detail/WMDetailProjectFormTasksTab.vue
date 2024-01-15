@@ -1,7 +1,7 @@
 <template>
   <WMTasksTable
-    relatedEntity="project"
-    :relatedEntityId="project.project_id"
+    related-entity="project"
+    :related-entity-id="project.project_id"
     :columns="taskColumns"
     multiselect
     :hide-title="true"
@@ -16,7 +16,7 @@ const { getTaskColumns } = useListUtils();
 
 const taskColumns = ref(getTaskColumns());
 
-const props = defineProps({
+defineProps({
   project: {
     type: Object,
     required: true,

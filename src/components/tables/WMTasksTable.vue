@@ -106,8 +106,7 @@
             :sla="slotProps.data.sla.sla"
             :days-for-closing="slotProps.data.days_for_closing"
             :state="slotProps.data.state"
-          >
-          </WMSLATag>
+          />
         </template>
         <template v-if="column.type === 'translate'">
           {{ $t(column.prefix + "." + slotProps.data[column.name]) }}

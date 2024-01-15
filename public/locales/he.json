@@ -230,6 +230,7 @@
     "service_number": "מס’ תהליך",
     "complete": "השלם",
     "description": "תיאור",
+    "sign_button": "",
     "notification": {
       "created": {
         "header": "New Task Created",

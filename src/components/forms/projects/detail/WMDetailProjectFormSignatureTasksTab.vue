@@ -1,35 +1,25 @@
 <template>
   <WMSignatureTasksTable
-    :tasks="tasks"
-    :columns="taskColumns"
+    related-entity="project"
+    :related-entity-id="project.project_id"
+    :columns="signatureTasksColumns"
     multiselect
     :hide-title="true"
+    :show-filters="true"
+    rows="10"
   />
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { ref } from "vue";
 
-const { getTasksFromApi, getTasks } = useTasks();
 const { getSignatureTaskColumns } = useListUtils();
-const route = useRoute();
+const signatureTasksColumns = ref(getSignatureTaskColumns());
 
-const tasks = ref();
-const taskColumns = ref(getSignatureTaskColumns());
-
-const fetchData = async () => {
-  tasks.value = await getTasks();
-  return;
-
-  const tasksData = await getTasksFromApi({
-    entity_type: "project",
-    entity_id: route.params.id,
-  });
-  tasks.value = tasksData.data;
-};
-
-onMounted(() => {
-  fetchData();
+defineProps({
+  project: {
+    type: Object,
+    required: true,
+  },
 });
 </script>
 
