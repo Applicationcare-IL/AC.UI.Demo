@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-import { i18n } from "@/i18n";
-import axiosConfig from "@/service/axiosConfig";
 
 import { LANGUAGES } from "@/constants";
+import { i18n } from "@/i18n";
+import axiosConfig from "@/service/axiosConfig";
 
 // const i18n = useI18n();
 

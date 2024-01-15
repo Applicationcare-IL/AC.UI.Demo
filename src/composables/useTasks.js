@@ -50,7 +50,7 @@ export function useTasks() {
     const response = await tasksStore.getSignatureTaskFromApi(params);
 
     const tasks = response.data.map((task) => {
-      return mapTask(task);
+      return mapSignatureTask(task);
     });
 
     const totalRecords = response.meta.total;
@@ -72,6 +72,10 @@ export function useTasks() {
 
   const completeTasks = async (task, reasons) => {
     return await tasksStore.completeTasks(task, reasons);
+  };
+
+  const signTask = async (signatureId, data) => {
+    return await tasksStore.signTask(signatureId, data);
   };
 
   // UTILITIES
@@ -106,6 +110,22 @@ export function useTasks() {
       notes: task.notes,
       project_created: task.project_created,
       last_activity: task.last_activity,
+    };
+  };
+
+  const mapSignatureTask = (task) => {
+    return {
+      id: task.id,
+      task_id: task.task_id,
+      owner: task.owner?.name,
+      stage: task.stage?.name,
+      sla: task.sla,
+      days_for_closing: task.sla?.days_for_closing,
+      notes: task.remarks,
+      task_type: task.task_type.name,
+      status: task.status,
+      open_date: task.last_activity?.creator?.at,
+      state: task.state?.value,
     };
   };
 
@@ -170,6 +190,7 @@ export function useTasks() {
     updateTask,
     completeTask,
     completeTasks,
+    signTask,
     // UTILITIES
     mapTask,
     parseTask,

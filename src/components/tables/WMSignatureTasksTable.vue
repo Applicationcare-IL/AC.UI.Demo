@@ -55,7 +55,6 @@
       <WMSearchBox entity="task" />
     </div>
   </div>
-  <WMSignTaskButton />
   <DataTable
     v-model:selection="selectedTasks"
     lazy
@@ -85,10 +84,10 @@
           <router-link
             :to="{
               name: 'taskDetail',
-              params: { id: slotProps.data.task_number },
+              params: { id: slotProps.data.task_id },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.task_number }}</router-link
+            >{{ slotProps.data.task_id }}</router-link
           >
         </template>
         <template v-if="column.type === 'detail'">
@@ -112,7 +111,7 @@
           {{ slotProps.data[column.name] }}
         </template>
         <template v-if="column.type === 'sign_button'">
-          <WMButton v-if="true" name="edit" icon="edit" />
+          <WMSignTaskButton :signature-id="slotProps.data.id" />
         </template>
       </template>
     </Column>

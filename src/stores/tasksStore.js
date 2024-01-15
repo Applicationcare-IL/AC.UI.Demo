@@ -93,5 +93,16 @@ export const useTasksStore = defineStore("tasks", {
           throw error;
         });
     },
+    signTask(signatureId, data) {
+      return axiosConfig
+        .patch("/signatures/" + signatureId, data)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });

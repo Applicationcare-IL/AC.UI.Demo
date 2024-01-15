@@ -17,7 +17,7 @@
           </div>
         </div>
         <div>
-          <WMAnnouncementsButton entity="customer" :id="route.params.id" />
+          <WMAnnouncementsButton :id="route.params.id" entity="customer" />
         </div>
       </div>
       <div class="flex flex-row gap-5 flex-wrap">
@@ -57,10 +57,10 @@
                     type="input-text"
                     :highlighted="true"
                     :label="$t('customer.customer-number') + ':'"
-                    @input.stop="onCustomerNumberChanged"
                     :value="customer.number"
                     width="150"
                     required
+                    @input.stop="onCustomerNumberChanged"
                   />
                 </div>
                 <div class="wm-form-row gap-5">
@@ -142,7 +142,7 @@
                   width="248"
                   :options="service_areas"
                   :highlighted="true"
-                  :modelValue="selectedServiceAreas"
+                  :model-value="selectedServiceAreas"
                   :option-set="true"
                 />
               </div>
@@ -158,8 +158,8 @@
               <div class="contact-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
-                    type="text-area"
                     id="notes"
+                    type="text-area"
                     name="notes"
                     :value="customer.notes"
                   />
@@ -227,32 +227,32 @@
       <div>
         <WMContactsTable
           :columns="contactColumns"
-          :customerId="route.params.id"
+          :customer-id="route.params.id"
         />
       </div>
       <div>
         <WMServicesTable
           v-if="checkIfEntityIsActive('services')"
-          relatedEntity="customer"
-          :relatedEntityId="customer.id"
+          related-entity="customer"
+          :related-entity-id="customer.id"
           :columns="serviceColumns"
           multiselect
         />
       </div>
       <div>
         <WMTasksTable
-          relatedEntity="customer"
-          :relatedEntityId="customer.id"
+          related-entity="customer"
+          :related-entity-id="customer.id"
           :columns="taskColumns"
           multiselect
         />
       </div>
       <div>
         <WMProjectsTable
-          relatedEntity="customer"
-          :relatedEntityId="customer.id"
+          related-entity="customer"
+          :related-entity-id="customer.id"
           :multiselect="false"
-          :showHeaderOptions="false"
+          :show-header-options="false"
         />
       </div>
       <div class="flex flex-row gap-5 flex-wrap mt-5">
@@ -318,15 +318,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, provide } from "vue";
-import { useI18n } from "vue-i18n";
-
 import { useForm } from "vee-validate";
-import { useFormUtilsStore } from "@/stores/formUtils";
-
-import { useUtilsStore } from "@/stores/utils";
-import { useOptionSetsStore } from "@/stores/optionSets";
+import { onMounted, provide, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
+
+import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
+import { useUtilsStore } from "@/stores/utils";
 
 const { t } = useI18n();
 

@@ -289,6 +289,21 @@ export const useFormUtilsStore = defineStore("formUtils", {
     //     "last-name": yup.string().required(),
     //   });
     // },
+    getSignTaskFormValidationSchema: () => {
+      return yup.object({
+        notes: yup.string().required(),
+        signature_status: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "signature-status" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "signature-status" },
+          }),
+      });
+    },
     getFormMeta: (state) => {
       return (key) => {
         return state.formMetas.find((meta) => meta.key === key);

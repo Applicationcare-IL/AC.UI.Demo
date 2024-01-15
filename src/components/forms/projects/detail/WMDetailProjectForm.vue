@@ -87,9 +87,9 @@
         </AccordionTab>
       </Accordion>
 
-      <!-- <h2>Others tabs</h2> -->
+      <!-- <h2>Others tabs</h2>
 
-      <!-- <Accordion>
+      <Accordion>
         <AccordionTab header="Round of signatures">
           <WMDetailProjectFormSignatureTasksTab :project="project" />
         </AccordionTab>
