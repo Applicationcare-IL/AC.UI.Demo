@@ -171,8 +171,6 @@ useHead({
   title: "Customers",
 });
 
-const { getTasksMini } = useTasks();
-
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
 const { optionLabelWithLang } = useLanguages();
 const { formatAddress } = useUtils();
@@ -182,8 +180,6 @@ onMounted(() => {
 
   loadLazyData();
   resetSelectedContacts();
-
-  getTasksMini().then((data) => (tasks.value = data));
 });
 
 const utilsStore = useUtilsStore();

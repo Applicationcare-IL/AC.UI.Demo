@@ -150,8 +150,6 @@ useHead({
   title: "Contacts",
 });
 
-const { getTasksMini } = useTasks();
-
 const permissionsStore = usePermissionsStore();
 const permissions = permissionsStore.permissions;
 const { formatAddress } = useUtils();
@@ -165,8 +163,6 @@ onMounted(() => {
 
   loadLazyData();
   resetSelectedContacts();
-
-  getTasksMini().then((data) => (tasks.value = data));
 });
 
 const formUtilsStore = useFormUtilsStore();

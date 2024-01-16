@@ -6,24 +6,22 @@
       <WMInputSearch
         name="city"
         :highlighted="true"
-        :required="true"
         :label="$t('address.city') + ':'"
         :options="cities"
         width="152"
         :placeholder="$t('select', ['addres.city'])"
+        :option-set="true"
         @change="updateStreets"
-        :optionSet="true"
       />
       <div class="flex flex-row">
         <WMInputSearch
           name="street"
-          :required="true"
           :highlighted="true"
           :label="$t('address.street') + ':'"
           :options="streets"
           width="152"
           :placeholder="$t('select', ['address.street'])"
-          :optionSet="true"
+          :option-set="true"
         />
       </div>
     </div>
@@ -58,7 +56,7 @@
         :options="zips"
         width="80"
         :placeholder="$t('select', ['addres.zip'])"
-        :optionSet="true"
+        :option-set="true"
       />
     </div>
   </div>
@@ -67,8 +65,8 @@
 <script setup>
 import { ref } from "vue";
 
-import { useOptionSetsStore } from "@/stores/optionSets";
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();

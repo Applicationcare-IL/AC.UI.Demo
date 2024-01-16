@@ -251,26 +251,26 @@ export const useFormUtilsStore = defineStore("formUtils", {
           .matches(state.israeliPhoneRegex, "validation.phone")
           .required(),
         email: yup.string().required(),
-        city: yup
-          .object()
-          .required({
-            key: "validation.required-select",
-            values: { label: "address.city" },
-          })
-          .typeError({
-            key: "validation.required-select",
-            values: { label: "address.city" },
-          }),
-        street: yup
-          .object()
-          .required({
-            key: "validation.required-select",
-            values: { label: "address.street" },
-          })
-          .typeError({
-            key: "validation.required-select",
-            values: { label: "address.street" },
-          }),
+        // city: yup
+        //   .object()
+        //   .required({
+        //     key: "validation.required-select",
+        //     values: { label: "address.city" },
+        //   })
+        //   .typeError({
+        //     key: "validation.required-select",
+        //     values: { label: "address.city" },
+        //   }),
+        // street: yup
+        //   .object()
+        //   .required({
+        //     key: "validation.required-select",
+        //     values: { label: "address.street" },
+        //   })
+        //   .typeError({
+        //     key: "validation.required-select",
+        //     values: { label: "address.street" },
+        //   }),
       });
     },
     getContactDetailFormValidationSchema: () => {
