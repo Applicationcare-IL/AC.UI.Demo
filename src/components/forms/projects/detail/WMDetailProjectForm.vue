@@ -216,10 +216,17 @@ const fetchData = async () => {
 
   utilsStore.selectedElements["project"] = [project.value];
 
-  stages.value = data.process.stages.map((stage) => ({
-    label: stage.name,
-    date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
-  }));
+  stages.value = data.process.stages.map((stage) => {
+    const completed_at = stage.completed_at
+      ? useDateFormat(stage.completed_at, "DD/MM/YY")
+      : null;
+
+    return {
+      label: stage.name,
+      date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
+      completed_at,
+    };
+  });
 
   currentStage.value = data.process?.current_stage.order;
 };
@@ -230,7 +237,7 @@ const { handleSubmit, resetForm, meta } = useForm({
 
 const onSave = handleSubmit((values) => {
   updateProject(route.params.id, parseUpdateProject(values))
-    .then((data) => {
+    .then(() => {
       toast.successAction("project", "updated");
       resetForm({ values: values });
       // refreshPage();

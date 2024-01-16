@@ -22,7 +22,9 @@
           </svg>
         </div>
         <div class="label" :class="getStatus(index)">{{ step.label }}</div>
-        <div class="date" :class="getStatus(index)">{{ step.date }}</div>
+        <div v-if="showDate(index)" class="date" :class="getStatus(index)">
+          {{ step.completed_at ? step.completed_at : step.date }}
+        </div>
       </div>
     </div>
   </div>
@@ -30,7 +32,9 @@
 
 <script setup>
 import { useLayout } from "@/layout/composables/layout";
+
 const { layoutConfig } = useLayout();
+const CLIENT_ENV = import.meta.env.VITE_CLIENT_ENV;
 
 const props = defineProps({
   steps: {
@@ -43,6 +47,19 @@ const props = defineProps({
     default: 0,
   },
 });
+
+// This is only for some clients, like HELER
+function showDate(index) {
+  if (CLIENT_ENV !== "HELER") {
+    return true;
+  }
+
+  if (index < props.currentStep) {
+    return true;
+  }
+
+  return false;
+}
 
 function showConnector(index) {
   return layoutConfig.isRTL.value ? index > 0 : index < props.steps.length - 1;
