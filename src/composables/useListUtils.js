@@ -369,7 +369,7 @@ export function useListUtils() {
       { name: "owner", type: "text", header: "owner" },
       { name: "open_date", type: "text" },
       { name: "sla", type: "sla", class: "sla" },
-      { name: "status", type: "optionset" },
+      { name: "signature_status", type: "optionset", header: "status" },
       { name: "notes", type: "text" },
       {
         name: "sign_button",

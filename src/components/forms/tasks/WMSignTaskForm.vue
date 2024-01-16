@@ -8,6 +8,8 @@
         label="Signature status:"
         :options="signatureStatusOptions"
         :required="true"
+        option-set
+        width="200"
       />
     </div>
     <div class="wm-form-column w-7">
@@ -40,28 +42,22 @@
     </div>
   </div>
   <Divider />
-  <Button
-    label="Sign task"
-    icon="pi pi-check"
-    autofocus
-    class="mb-5"
-    @click="onSave"
-  />
+  <Button label="Sign task" autofocus class="mb-5" @click="onSave" />
 </template>
 
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { onMounted, reactive, ref } from "vue";
+import { defineEmits, onMounted, reactive, ref } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
-// import { useOptionSetsStore } from "@/stores/optionSets";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
 const toast = useToast();
 const { signTask } = useTasks();
 const formUtilsStore = useFormUtilsStore();
-// const optionSetsStore = useOptionSetsStore();
+const optionSetsStore = useOptionSetsStore();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -70,6 +66,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(["taskSigned"]);
 
 // REFS
 const signatureStatusOptions = ref();
@@ -98,13 +96,14 @@ const onSave = handleSubmit((values) => {
   }
 
   const data = {
-    signature_status: values.signature_status.value,
-    notes: values.notes,
+    signature_status: values.signature_status.id,
+    remarks: values.notes,
     signature: signature1.value.save(),
   };
 
   signTask(props.signatureId, data)
     .then(() => {
+      emit("taskSigned");
       toast.success("Task signed successfully");
     })
     .catch((error) => {
@@ -121,15 +120,11 @@ const clear = () => {
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  signatureStatusOptions.value = [
-    { label: "Pending", value: "pending" },
-    { label: "Signed", value: "signed" },
-    { label: "Rejected", value: "rejected" },
-  ];
-
-  // optionSetsStore.getOptionSetValuesFromApi("signature_status").then((data) => {
-  //   signatureStatusOptions.value = data;
-  // });
+  optionSetsStore
+    .getOptionSetValuesFromApi("status_round_of_signatures")
+    .then((data) => {
+      signatureStatusOptions.value = data;
+    });
 });
 </script>
 

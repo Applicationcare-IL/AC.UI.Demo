@@ -124,8 +124,10 @@ export function useTasks() {
       notes: task.remarks,
       task_type: task.task_type.name,
       status: task.status,
+      signature_status: task.signature_status,
       open_date: task.last_activity?.creator?.at,
       state: task.state?.value,
+      is_open: task.status?.value == "open",
     };
   };
 

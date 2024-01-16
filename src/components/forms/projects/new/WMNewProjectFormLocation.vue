@@ -5,7 +5,6 @@
       v-model="showAddressOptionsRef"
       :label="$t('project.address')"
     />
-    checked {{ checked }} showAddressOptionsRef {{ showAddressOptionsRef }}
     <WMSelectableButton
       v-model="showCityDataOptionsRef"
       :label="$t('project.city_data')"

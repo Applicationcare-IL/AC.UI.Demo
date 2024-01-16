@@ -87,13 +87,15 @@
         </AccordionTab>
       </Accordion>
 
-      <!-- <h2>Others tabs</h2>
+      <h2>Others tabs</h2>
 
-      <Accordion>
+      <Accordion
+        v-if="project.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID"
+      >
         <AccordionTab header="Round of signatures">
           <WMDetailProjectFormSignatureTasksTab :project="project" />
         </AccordionTab>
-      </Accordion> -->
+      </Accordion>
 
       <Accordion v-if="project.project_type.value === COMPETITION_PROJECT_ID">
         <AccordionTab :header="$t('project.competition_process')">
@@ -185,7 +187,9 @@ const currentStage = ref();
 const selectedProjectType = ref(false);
 
 const project = ref();
+
 const COMPETITION_PROJECT_ID = "project_type10";
+const ROUND_OF_SIGNATURES_PROJECT_ID = "project_type12";
 
 const props = defineProps({
   formKey: {

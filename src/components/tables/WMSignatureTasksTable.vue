@@ -111,7 +111,10 @@
           {{ slotProps.data[column.name] }}
         </template>
         <template v-if="column.type === 'sign_button'">
-          <WMSignTaskButton :signature-id="slotProps.data.id" />
+          <WMSignTaskButton
+            :signature-id="slotProps.data.id"
+            @task-signed="loadLazyData"
+          />
         </template>
       </template>
     </Column>
