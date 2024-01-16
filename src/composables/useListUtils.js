@@ -341,7 +341,7 @@ export function useListUtils() {
     ];
   };
 
-  const getDocumentColumns = () => {
+  const getProjectDocumentColumns = () => {
     return [
       {
         name: "id",
@@ -352,6 +352,21 @@ export function useListUtils() {
       { name: "name", type: "name" },
       { name: "uploaded_from", type: "text" },
       { name: "task", type: "task" },
+      { name: "owner", type: "text" },
+      { name: "upload_date", type: "text" },
+    ];
+  };
+
+  const getTaskDocumentColumns = () => {
+    return [
+      {
+        name: "id",
+        type: "text",
+      },
+      { name: "type", type: "type", optionSet: "document_type" },
+      { name: "detail", type: "detail", optionSet: "document_detail" },
+      { name: "name", type: "name" },
+      { name: "uploaded_from", type: "text" },
       { name: "owner", type: "text" },
       { name: "upload_date", type: "text" },
     ];
@@ -392,7 +407,7 @@ export function useListUtils() {
       { name: "telephone", type: "text" },
       { name: "landline", type: "text" },
       { name: "email", type: "text" },
-      { name: "address", type: "text" },
+      { name: "address", type: "address" },
       { name: "customer.name", type: "text", header: "project.organization" },
       {
         name: "role_project",
@@ -483,7 +498,8 @@ export function useListUtils() {
     getServicePreviewColumns,
     getTaskColumns,
     getTaskPreviewColumns,
-    getDocumentColumns,
+    getProjectDocumentColumns,
+    getTaskDocumentColumns,
     getSignatureTaskColumns,
     getProjectTeamColumns,
     getCompetitionProcessColumns,

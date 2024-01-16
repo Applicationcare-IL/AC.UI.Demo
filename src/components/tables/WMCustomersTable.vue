@@ -47,12 +47,18 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
+    <Column
+      v-if="multiselect"
+      style="width: 40px"
+      selection-mode="multiple"
+    ></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
       :field="column.name"
-      :header="column.header ? $t(column.header) : $t(`customer.${column.name}`)"
+      :header="
+        column.header ? $t(column.header) : $t(`customer.${column.name}`)
+      "
       :class="column.class"
     >
       <template #body="slotProps">
@@ -179,7 +185,7 @@ const isFilterVisible = ref(false);
 const editMode = ref([]);
 
 // COMPUTED
-const defaultRole = computed(() => {
+const defaultRole = ref(() => {
   return optionSetsStore.optionSets["contact_customer_role"][0];
   // return optionSetsStore.optionSets["contact_customer_role"].find(
   //   (role) => role.value === "employee"

@@ -14,7 +14,7 @@
         width="248"
         :search-function="searchContact"
         :new="true"
-        related-sidebar="newContact"
+        related-sidebar="newContactFromAssignContactButton"
         :model-value="selectedContacts"
         @update:model-value="onContactselected"
       />
@@ -31,16 +31,19 @@
       </WMButton>
     </div>
   </OverlayPanel>
+
   <WMSidebar
     :visible="isNewContactSidebarVisible"
-    name="newContact"
+    name="newContactFromAssignContactButton"
     @close-sidebar="closeNewContactSidebar"
     @open-sidebar="openNewContactSidebar"
   >
-    <WMNewEntityFormHeader entity="contact" name="newContact" />
+    <WMNewEntityFormHeader entity="contact" />
     <WMNewContactForm
       :is-sidebar="true"
+      :show-confirm-dialog="false"
       @close-sidebar="closeNewContactSidebar"
+      @contact-created="handleContactCreated"
     />
   </WMSidebar>
 </template>
@@ -52,7 +55,7 @@ import { ref } from "vue";
 import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES
-const { getContactsFromApi } = useContacts();
+const { getContactsFromApi, getContactFromApi } = useContacts();
 const { layoutConfig } = useLayout();
 
 // PROPS, EMITS
@@ -85,7 +88,7 @@ const onContactselected = (contacts) => {
 };
 
 const closeOverlay = () => {
-  isOpen.value.toggle();
+  isOpen.value.hide();
 };
 
 const clearSelectedContacts = () => {
@@ -99,6 +102,20 @@ function openNewContactSidebar() {
 
 function closeNewContactSidebar() {
   isNewContactSidebarVisible.value = false;
+}
+
+function handleContactCreated(contactId) {
+  if (!contactId) {
+    return;
+  }
+
+  getContactFromApi(contactId).then((response) => {
+    selectedContacts.value.push(response);
+
+    emit("addContacts", selectedContacts.value);
+    closeNewContactSidebar();
+    clearSelectedContacts();
+  });
 }
 
 // WATCHERS

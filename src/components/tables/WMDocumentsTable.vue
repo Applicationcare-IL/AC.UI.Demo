@@ -99,11 +99,11 @@
             v-if="slotProps.data.task"
             :to="{
               name: 'taskDetail',
-              params: { id: slotProps.data.id },
+              params: { id: slotProps.data.task.id },
             }"
             class="vertical-align-middle"
           >
-            {{ slotProps.data.id }}
+            {{ slotProps.data.task.name }}
           </router-link>
         </template>
 
@@ -285,6 +285,8 @@ const handleNewDocument = () => {
   if (props.relatedEntity === "task") {
     document.task_id = props.taskId;
   }
+
+  document.project_id = 113;
 
   createDocument(document)
     .then(({ data }) => {

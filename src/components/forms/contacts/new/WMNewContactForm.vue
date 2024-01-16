@@ -24,7 +24,7 @@
         <WMInput
           name="last-name"
           :required="true"
-          validationMessage="Validation Message"
+          validation-message="Validation Message"
           type="input-text"
           :label="$t('last-name') + ':'"
         />
@@ -56,19 +56,19 @@
           :multiple="true"
           width="248"
           :highlighted="true"
-          :searchFunction="searchCustomer"
+          :search-function="searchCustomer"
           :new="true"
           related-sidebar="newCustomer"
         />
 
         <WMSidebar
           :visible="isVisible"
+          name="newCustomer"
           @close-sidebar="closeSidebar"
           @open-sidebar="openSidebar"
-          name="newCustomer"
         >
           <WMNewEntityFormHeader entity="customer" name="newCustomer" />
-          <WMNewCustomerForm :isSidebar="true" @close-sidebar="closeSidebar" />
+          <WMNewCustomerForm :is-sidebar="true" @close-sidebar="closeSidebar" />
         </WMSidebar>
       </div>
     </div>
@@ -119,7 +119,7 @@
       <h2 class="h2 mb-0">{{ $t("contact.notes") }}</h2>
 
       <div class="wm-form-row gap-5">
-        <WMInput type="text-area" id="notes" name="notes" />
+        <WMInput id="notes" type="text-area" name="notes" />
       </div>
     </div>
 
@@ -132,21 +132,15 @@
 </template>
 
 <script setup>
-import { watch, ref } from "vue";
-import { useAuthStore } from "@/stores/auth";
+// IMPORTS
 import { useForm } from "vee-validate";
+import { ref, watch } from "vue";
+
+import { useAuthStore } from "@/stores/auth";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
-const props = defineProps({
-  isSidebar: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-const emit = defineEmits(["closeSidebar"]);
-
+// DEPENDENCIES
 const authStore = useAuthStore();
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
@@ -154,11 +148,32 @@ const optionSetsStore = useOptionSetsStore();
 const toast = useToast();
 const dialog = useDialog();
 
-const { errors, handleSubmit, setFieldError, meta } = useForm({
-  validationSchema: formUtilsStore.getContactNewFormValidationSchema,
+const { getCustomersFromApi } = useCustomers();
+const { createContact, parseContact } = useContacts();
+
+// PROPS, EMITS
+const props = defineProps({
+  isSidebar: {
+    type: Boolean,
+    default: false,
+  },
+  showConfirmDialog: {
+    type: Boolean,
+    default: true,
+  },
 });
 
+const emit = defineEmits(["closeSidebar", "contactCreated"]);
+
+// REFS
 const isVisible = ref(false);
+const genders = ref(optionSetsStore.optionSets["gender"]);
+
+// COMPUTED
+// COMPONENT METHODS
+const { handleSubmit, meta } = useForm({
+  validationSchema: formUtilsStore.getContactNewFormValidationSchema,
+});
 
 function openSidebar() {
   isVisible.value = true;
@@ -167,20 +182,19 @@ function openSidebar() {
 function closeSidebar() {
   isVisible.value = false;
 }
-const genders = ref(optionSetsStore.optionSets["gender"]);
-const alphabet = formUtilsStore.getAlphabet;
-
-const { getCustomersFromApi } = useCustomers();
 
 const searchCustomer = (query) => {
   return getCustomersFromApi({ search: query });
 };
-const { createContact, parseContact } = useContacts();
 
 const onSubmit = handleSubmit((values) => {
   createContact(parseContact(values))
     .then((data) => {
-      dialog.confirmNewContact(data.data.id);
+      if (props.showConfirmDialog) {
+        dialog.confirmNewContact(data.data.id);
+      }
+
+      emit("contactCreated", data.data.id);
       toast.successAction("contact", "created");
     })
     .catch((error) => {
@@ -195,6 +209,13 @@ const onCancel = () => {
 
 formUtilsStore.formEntity = "contact";
 
+// PROVIDE, EXPOSE
+defineExpose({
+  onSubmit,
+  onCancel,
+});
+
+// WATCHERS
 watch(
   () => meta.value,
   (value) => {
@@ -202,10 +223,7 @@ watch(
   }
 );
 
-defineExpose({
-  onSubmit,
-  onCancel,
-});
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
 <style scoped lang="scss"></style>

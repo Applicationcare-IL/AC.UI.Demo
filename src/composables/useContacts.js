@@ -1,5 +1,6 @@
-import { useContactsStore } from "@/stores/contactsStore";
 import { storeToRefs } from "pinia";
+
+import { useContactsStore } from "@/stores/contactsStore";
 
 export function useContacts() {
   const contactsStore = useContactsStore();
@@ -100,7 +101,6 @@ export function useContacts() {
       street_number: contact["house-number"],
       city: contact["city"]?.id,
       zipcode: contact["zipcode"],
-      fax: contact["fax"],
       land_line: contact["landline"],
       notes: contact["notes"],
       contact_number: contact["contact-number"],

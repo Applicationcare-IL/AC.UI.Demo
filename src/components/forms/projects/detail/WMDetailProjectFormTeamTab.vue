@@ -1,7 +1,7 @@
 <template>
   <WMContactsTable
     :columns="projectTeamColumns"
-    :projectId="route.params.id"
+    :project-id="route.params.id"
     related-entity="project"
     :show-title="false"
     :show-filters="true"
@@ -9,8 +9,8 @@
   />
 </template>
 <script setup>
-import { useRoute } from "vue-router";
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 
 const route = useRoute();
 

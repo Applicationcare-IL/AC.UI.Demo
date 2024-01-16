@@ -2,7 +2,7 @@
   <div class="m-3">
     <div class="flex flex-row justify-content-between align-content-center">
       <h1 class="h1 mb-0">{{ entityTitle }}</h1>
-      <router-link :to="{ name }" class="p-2">
+      <router-link v-if="name" :to="{ name }" class="p-2">
         <img src="/icons/fullScreen.svg" alt="fullScreen" />
       </router-link>
     </div>

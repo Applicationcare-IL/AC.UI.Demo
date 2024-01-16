@@ -54,7 +54,11 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
+    <Column
+      v-if="multiselect"
+      style="width: 40px"
+      selection-mode="multiple"
+    ></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -62,86 +66,97 @@
       :header="column.header ? $t(column.header) : $t(`contact.${column.name}`)"
       :class="column.class"
     >
-      <template v-if="column.type === 'link'" #body="slotProps">
-        <router-link
-          :to="'/' + column.to + '/' + slotProps.data[column.linkParameter]"
-          class="vertical-align-middle"
-          >{{ slotProps.data[column.name] }}</router-link
-        >
-      </template>
-      <template v-if="column.type === 'star'" #body="slotProps">
-        <div @click="editMode[slotProps.index] && onStarClicked(slotProps.data)">
-          <img
-            v-if="isMainContact(slotProps.data)"
-            src="/icons/star.svg"
-            alt=""
-            class="vertical-align-middle"
-          />
-          <img
-            v-if="editMode[slotProps.index] && !isMainContact(slotProps.data)"
-            src="/icons/star_grey.svg"
-            alt=""
-            class="vertical-align-middle"
-          />
-        </div>
-      </template>
-      <template v-if="column.type === 'role'" #body="slotProps">
-        <Dropdown
-          v-if="editMode[slotProps.index]"
-          v-model="slotProps.data.role.id"
-          :options="optionSetsStore.optionSets[column.optionSet]"
-          :option-label="optionLabelWithLang"
-          option-value="id"
-          class="w-full p-0"
-        >
-        </Dropdown>
-        <div v-else>
-          <WMOptionSetValue :option-set="slotProps.data.role" />
-        </div>
-      </template>
-      <template v-if="column.type === 'role_project'" #body="slotProps">
-        <Dropdown
-          v-if="editMode[slotProps.index]"
-          v-model="slotProps.data.role_project.id"
-          :options="optionSetsStore.optionSets[column.optionSet]"
-          :option-label="optionLabelWithLang"
-          option-value="id"
-          class="w-full p-0"
-        />
-        <div v-else>
-          <WMOptionSetValue :option-set="slotProps.data.role_project" />
-        </div>
-      </template>
-      <template v-if="column.type === 'actions'" #body="slotProps">
-        <div class="flex flex-row gap-2">
-          <WMButton
-            v-if="column.buttons?.includes('edit') && !editMode[slotProps.index]"
-            name="edit"
-            icon="edit"
-            @click="editMode[slotProps.index] = true"
-          />
-          <WMButton
-            v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
-            name="save"
-            icon="save"
-            class="in_table"
-            @click="
-              saveRow(slotProps.data);
-              editMode[slotProps.index] = false;
-            "
-          />
-          <WMButton
-            v-if="column.buttons?.includes('unlink')"
-            name="unlink"
-            icon="unlink"
-            @click="unlinkContact(slotProps.data.contact_id)"
-          />
-        </div>
-      </template>
-      <template v-if="column.type === 'alert'" #body="slotProps">
-        <div :class="alertCellConditionalStyle(slotProps.data[column.name])">
+      <template #body="slotProps">
+        <template v-if="column.type === 'text'">
           {{ slotProps.data[column.name] }}
-        </div>
+        </template>
+        <template v-if="column.type === 'link'">
+          <router-link
+            :to="'/' + column.to + '/' + slotProps.data[column.linkParameter]"
+            class="vertical-align-middle"
+            >{{ slotProps.data[column.name] }}</router-link
+          >
+        </template>
+        <template v-if="column.type === 'star'">
+          <div
+            @click="editMode[slotProps.index] && onStarClicked(slotProps.data)"
+          >
+            <img
+              v-if="isMainContact(slotProps.data)"
+              src="/icons/star.svg"
+              alt=""
+              class="vertical-align-middle"
+            />
+            <img
+              v-if="editMode[slotProps.index] && !isMainContact(slotProps.data)"
+              src="/icons/star_grey.svg"
+              alt=""
+              class="vertical-align-middle"
+            />
+          </div>
+        </template>
+        <template v-if="column.type === 'role'">
+          <Dropdown
+            v-if="editMode[slotProps.index]"
+            v-model="slotProps.data.role"
+            :options="optionSetsStore.optionSets[column.optionSet]"
+            :option-label="optionLabelWithLang"
+            class="w-full p-0"
+          />
+          <div v-else>
+            <WMOptionSetValue :option-set="slotProps.data.role" />
+          </div>
+        </template>
+        <template v-if="column.type === 'role_project'">
+          <Dropdown
+            v-if="editMode[slotProps.index]"
+            v-model="slotProps.data.role_project"
+            :options="optionSetsStore.optionSets[column.optionSet]"
+            :option-label="optionLabelWithLang"
+            class="w-full p-0"
+          />
+          <div v-else>
+            <WMOptionSetValue :option-set="slotProps.data.role_project" />
+          </div>
+        </template>
+        <template v-if="column.type === 'actions'">
+          <div class="flex flex-row gap-2">
+            <WMButton
+              v-if="
+                column.buttons?.includes('edit') && !editMode[slotProps.index]
+              "
+              name="edit"
+              icon="edit"
+              @click="editMode[slotProps.index] = true"
+            />
+            <WMButton
+              v-if="
+                column.buttons?.includes('edit') && editMode[slotProps.index]
+              "
+              name="save"
+              icon="save"
+              class="in_table"
+              @click="
+                saveRow(slotProps.data);
+                editMode[slotProps.index] = false;
+              "
+            />
+            <WMButton
+              v-if="column.buttons?.includes('unlink')"
+              name="unlink"
+              icon="unlink"
+              @click="unlinkContact(slotProps.data.contact_id)"
+            />
+          </div>
+        </template>
+        <template v-if="column.type === 'alert'">
+          <div :class="alertCellConditionalStyle(slotProps.data[column.name])">
+            {{ slotProps.data[column.name] }}
+          </div>
+        </template>
+        <template v-if="column.type === 'address'">
+          {{ formatAddress(slotProps.data.location) }}
+        </template>
       </template>
     </Column>
   </DataTable>
@@ -149,7 +164,7 @@
 
 <script setup>
 // IMPORTS
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { computed, onMounted, ref, unref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -169,6 +184,8 @@ const {
   unassignContactFromCustomer,
 } = useCustomers();
 const { assignContactToProject, unassignContactFromProject } = useProjects();
+
+const { formatAddress } = useUtils();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -252,22 +269,6 @@ const isSourceExternal = computed(() => {
   return props.contacts != null;
 });
 
-const defaultRole = computed(() => {
-  if (props.relatedEntity === "customer") {
-    return optionSetsStore.optionSets["contact_customer_role"][0];
-    // return optionSetsStore.optionSets["contact_customer_role"].find(
-    //   (role) => role.value === "employee"
-    // );
-  }
-
-  if (props.relatedEntity === "project") {
-    // set the first role as default
-    return optionSetsStore.optionSets["contact_project_role"][0];
-  }
-
-  return null;
-});
-
 // COMPONENT METHODS
 const loadLazyData = () => {
   const filters = utilsStore.filters["contact"];
@@ -313,11 +314,11 @@ const addContacts = (addedContacts) => {
     if (contacts.value.find((c) => c.contact_id === contact.id)) return;
 
     if (props.relatedEntity === "customer") {
-      contact.role = defaultRole.value;
+      contact.role = getDefaultRole();
     }
 
     if (props.relatedEntity === "project") {
-      contact.role_project = defaultRole.value;
+      contact.role_project = getDefaultRole();
     }
 
     contact.main = false;
@@ -327,7 +328,9 @@ const addContacts = (addedContacts) => {
 };
 
 const isMainContact = (contact) => {
-  return customer.value?.main_contact?.id == contact.id || contact.main === true;
+  return (
+    customer.value?.main_contact?.id == contact.id || contact.main === true
+  );
 };
 
 const alertCellConditionalStyle = (data) => {
@@ -406,7 +409,9 @@ const onSelectionChanged = () => {
 
 const saveRow = (contact) => {
   const roleValue =
-    props.relatedEntity === "customer" ? contact.role?.id : contact.role_project?.id;
+    props.relatedEntity === "customer"
+      ? contact.role?.id
+      : contact.role_project?.id;
 
   if (props.relatedEntity === "customer") {
     const contactParams = {
@@ -448,6 +453,16 @@ function closeFilterSidebar() {
 function openFilterSidebar() {
   isFilterVisible.value = true;
 }
+
+const getDefaultRole = () => {
+  if (props.relatedEntity === "customer") {
+    return unref(optionSetsStore.optionSets["contact_customer_role"][0]);
+  }
+
+  if (props.relatedEntity === "project") {
+    return unref(optionSetsStore.optionSets["contact_project_role"][0]);
+  }
+};
 
 // WATCHERS
 watch(

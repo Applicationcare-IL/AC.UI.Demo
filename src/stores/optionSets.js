@@ -140,12 +140,6 @@ export const useOptionSetsStore = defineStore("optionSets", {
             const returnOption = {
               value: option.value,
               id: option.id,
-              name: i18n.global.t(
-                "option-set." + optionSet + "." + option.value
-              ),
-              label: i18n.global.t(
-                "option-set." + optionSet + "." + option.value
-              ),
             };
 
             for (const lang of LANGUAGES) {

@@ -1,19 +1,19 @@
 <template>
   <WMDocumentsTable
     :columns="documentsColumns"
-    :projectId="route.params.id"
+    :project-id="route.params.id"
     :hide-title="true"
   />
 </template>
 <script setup>
-import { useRoute } from "vue-router";
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 
 const route = useRoute();
 
-const { getDocumentColumns } = useListUtils();
+const { getProjectDocumentColumns } = useListUtils();
 
-const documentsColumns = ref(getDocumentColumns());
+const documentsColumns = ref(getProjectDocumentColumns());
 </script>
 
 <style scoped lang="scss"></style>

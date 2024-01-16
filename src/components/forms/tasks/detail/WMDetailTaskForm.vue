@@ -70,7 +70,7 @@
                     <WMSLATag
                       v-if="task.sla"
                       :sla="task.sla.sla"
-                      :daysForClosing="task.days_for_closing"
+                      :days-for-closing="task.days_for_closing"
                       :state="task.state"
                     />
                   </WMInput>
@@ -137,12 +137,12 @@
         </div>
         <!-- RELATED ENTITY -->
         <WMDetailTaskRelatedService
-          :service="service"
           v-if="task.related_entity?.type == 'service'"
+          :service="service"
         />
         <WMDetailTaskRelatedProject
-          :project="project"
           v-if="task.related_entity?.type == 'project'"
+          :project="project"
         />
         <div
           v-if="task.related_entity == null"
@@ -165,7 +165,7 @@
                 <div class="wm-form-row gap-5">
                   <Textarea
                     v-model="task.description"
-                    autoResize
+                    auto-resize
                     rows="5"
                     disabled
                   />
@@ -181,9 +181,9 @@
               <div class="task-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
+                    id="notes"
                     :value="task.notes"
                     type="text-area"
-                    id="notes"
                     name="notes"
                   />
                 </div>
@@ -194,8 +194,8 @@
       </div>
 
       <div
-        class="flex flex-row gap-5 flex-wrap mt-5"
         v-if="task?.related_entity?.type == 'service' && service"
+        class="flex flex-row gap-5 flex-wrap mt-5"
       >
         <WMDetailFormLocation :location="service.location" />
         <WMDetailFormSite :site="service.site" />
@@ -207,12 +207,12 @@
       />
 
       <div class="flex flex-row gap-5 flex-wrap mt-5">
-        <Accordion class="p-accordion--blue" :activeIndex="0">
+        <Accordion class="p-accordion--blue" :active-index="0">
           <AccordionTab :header="$t('documents.documents')">
             <WMDocumentsTable
               :columns="documentsColumns"
-              :taskId="route.params.id"
-              relatedEntity="task"
+              :task-id="route.params.id"
+              related-entity="task"
               :hide-title="true"
             />
           </AccordionTab>
@@ -272,14 +272,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, computed } from "vue";
-
 import { useForm } from "vee-validate";
-import { useFormUtilsStore } from "@/stores/formUtils";
-
-import { useUtilsStore } from "@/stores/utils";
-import { useOptionSetsStore } from "@/stores/optionSets";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+
+import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
+import { useUtilsStore } from "@/stores/utils";
 
 const toast = useToast();
 const { updateTask, parseUpdateTask } = useTasks();
@@ -290,8 +289,8 @@ const tasks = ref([]);
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 
-const { getDocumentColumns } = useListUtils();
-const documentsColumns = ref(getDocumentColumns());
+const { getTaskDocumentColumns } = useListUtils();
+const documentsColumns = ref(getTaskDocumentColumns());
 
 const utilsStore = useUtilsStore();
 const task = ref();

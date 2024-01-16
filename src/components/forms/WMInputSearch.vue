@@ -31,7 +31,7 @@
         >
           <span class="vertical-align-middle"> {{ $t("no-results") }} </span>
           <a
-            class="vertical-align-middle orange-link"
+            class="vertical-align-middle orange-link cursor-pointer"
             @click="openRelatedSidebar()"
           >
             {{ $t("buttons.create-new-one") + " + " }}
