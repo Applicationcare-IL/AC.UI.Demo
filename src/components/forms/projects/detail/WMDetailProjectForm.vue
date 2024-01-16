@@ -87,8 +87,6 @@
         </AccordionTab>
       </Accordion>
 
-      <h2>Others tabs</h2>
-
       <Accordion
         v-if="project.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID"
       >
