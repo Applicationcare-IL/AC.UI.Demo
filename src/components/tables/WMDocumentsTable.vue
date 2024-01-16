@@ -44,8 +44,8 @@
       <span class="p-input-icon-left">
         <i class="pi pi-search" />
         <InputText
-          class="w-30rem"
           v-model="filters['global'].value"
+          class="w-30rem"
           :placeholder="$t('search')"
         />
       </span>
@@ -56,22 +56,22 @@
     v-model:filters="filters"
     v-model:selection="selectedDocuments"
     :value="documents"
-    :rowClass="rowClass"
-    dataKey="id"
-    tableStyle="min-width: 50rem"
+    :row-class="rowClass"
+    data-key="id"
+    table-style="min-width: 50rem"
     scrollable
     paginator
     :rows="rows"
-    @update:selection="onSelectionChanged"
-    sortField="id"
-    :sortOrder="-1"
+    sort-field="id"
+    :sort-order="-1"
     :loading="loading"
+    @update:selection="onSelectionChanged"
     @page="onPage($event)"
   >
     <Column
       v-if="multiselect"
       style="width: 40px"
-      selectionMode="multiple"
+      selection-mode="multiple"
     ></Column>
 
     <Column
@@ -81,72 +81,77 @@
       :header="getColumnHeaderText(column)"
       :class="column.class"
     >
-      <template v-if="column.type === 'link'" #body="slotProps">
-        <router-link
-          v-if="!createMode[slotProps.data.id]"
-          :to="{
-            name: 'documentDetail',
-            params: { id: slotProps.data.id },
-          }"
-          class="vertical-align-middle"
-          >{{ slotProps.data.id }}</router-link
-        >
-      </template>
+      <template #body="slotProps">
+        <template v-if="column.type === 'link'">
+          <router-link
+            v-if="!createMode[slotProps.data.id]"
+            :to="{
+              name: 'documentDetail',
+              params: { id: slotProps.data.id },
+            }"
+            class="vertical-align-middle"
+            >{{ slotProps.data.id }}</router-link
+          >
+        </template>
 
-      <template v-if="column.type === 'task'" #body="slotProps">
-        <router-link
-          v-if="slotProps.data.task"
-          :to="{
-            name: 'taskDetail',
-            params: { id: slotProps.data.id },
-          }"
-          class="vertical-align-middle"
-        >
-          {{ slotProps.data.id }}
-        </router-link>
-      </template>
+        <template v-if="column.type === 'task'">
+          <router-link
+            v-if="slotProps.data.task"
+            :to="{
+              name: 'taskDetail',
+              params: { id: slotProps.data.id },
+            }"
+            class="vertical-align-middle"
+          >
+            {{ slotProps.data.id }}
+          </router-link>
+        </template>
 
-      <template v-if="column.type === 'detail'" #body="slotProps">
-        <Dropdown
-          v-if="editMode[slotProps.data.id]"
-          :options="optionSetsStore.optionSets[column.optionSet]"
-          :optionLabel="optionLabelWithLang"
-          optionValue="id"
-          class="w-full p-0"
-          v-model="slotProps.data.document_detail.id"
-          :placeholder="$t('documents.select_detail_type')"
-        >
-        </Dropdown>
-        <div v-else>
-          <WMOptionSetValue :optionSet="slotProps.data.document_detail" />
-        </div>
-      </template>
+        <template v-if="column.type === 'detail'">
+          <Dropdown
+            v-if="editMode[slotProps.data.id]"
+            v-model="slotProps.data.document_detail.id"
+            :options="optionSetsStore.optionSets[column.optionSet]"
+            :option-label="optionLabelWithLang"
+            option-value="id"
+            class="w-full p-0"
+            :placeholder="$t('documents.select_detail_type')"
+          >
+          </Dropdown>
+          <div v-else>
+            <WMOptionSetValue :option-set="slotProps.data.document_detail" />
+          </div>
+        </template>
 
-      <template v-if="column.type === 'type'" #body="slotProps">
-        <Dropdown
-          v-if="editMode[slotProps.data.id]"
-          :options="optionSetsStore.optionSets[column.optionSet]"
-          :optionLabel="optionLabelWithLang"
-          optionValue="id"
-          class="w-full p-0"
-          v-model="slotProps.data.document_type.id"
-          :placeholder="$t('documents.select_type')"
-        >
-        </Dropdown>
-        <div v-else>
-          <WMOptionSetValue :optionSet="slotProps.data.document_type" />
-        </div>
-      </template>
+        <template v-if="column.type === 'type'">
+          <Dropdown
+            v-if="editMode[slotProps.data.id]"
+            v-model="slotProps.data.document_type.id"
+            :options="optionSetsStore.optionSets[column.optionSet]"
+            :option-label="optionLabelWithLang"
+            option-value="id"
+            class="w-full p-0"
+            :placeholder="$t('documents.select_type')"
+          >
+          </Dropdown>
+          <div v-else>
+            <WMOptionSetValue :option-set="slotProps.data.document_type" />
+          </div>
+        </template>
 
-      <template v-if="column.type === 'name'" #body="slotProps">
-        <input
-          class="w-full p-0"
-          v-if="editMode[slotProps.data.id]"
-          v-model="slotProps.data.name"
-        />
-        <div v-else>
-          {{ slotProps.data.name }}
-        </div>
+        <template v-if="column.type === 'name'">
+          <input
+            v-if="editMode[slotProps.data.id]"
+            v-model="slotProps.data.name"
+            class="w-full p-0"
+          />
+          <div v-else>
+            {{ slotProps.data.name }}
+          </div>
+        </template>
+        <template v-if="column.type === 'text'">
+          {{ slotProps.data[column.name] }}
+        </template>
       </template>
     </Column>
 
@@ -184,39 +189,33 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
-import { useI18n } from "vue-i18n";
+// IMPORTS
 import { FilterMatchMode } from "primevue/api";
-import { useOptionSetsStore } from "@/stores/optionSets";
-import { useRoute } from "vue-router";
-
-import { useUtilsStore } from "@/stores/utils";
+import { onMounted, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 import SaveIcon from "/icons/save_default.svg?raw";
+import { useOptionSetsStore } from "@/stores/optionSets";
+import { useUtilsStore } from "@/stores/utils";
 
+// DEPENDENCIES
 const { t, locale } = useI18n();
+const i18n = useI18n();
 
 const { optionLabelWithLang } = useLanguages();
-const route = useRoute();
-
-const selectedDocuments = ref([]);
-const isFilterOpen = ref(false);
-const isFilterApplied = ref(false);
-const selectedOption = ref(1);
-const selectedElements = ref(0);
+const toast = useToast();
 
 const optionSetsStore = useOptionSetsStore();
-
 const utilsStore = useUtilsStore();
-const i18n = useI18n();
+
 const {
   getDocumentsFromApi,
   updateDocument,
   parseUpdateDocument,
   createDocument,
-  parseCreateDocument,
 } = useDocuments();
 
+// PROPS, EMITS
 const props = defineProps({
   rows: {
     type: Number,
@@ -248,35 +247,31 @@ const props = defineProps({
   },
 });
 
-const rows = ref(10);
-
+// REFS
+const selectedDocuments = ref([]);
+const selectedElements = ref(0);
 const editMode = ref([]);
 const createMode = ref([]);
+const loading = ref(false);
+const documents = ref([]);
+const lazyParams = ref({});
+const totalRecords = ref(0);
+const options = ref();
 
+const filters = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  "country.name": { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  representative: { value: null, matchMode: FilterMatchMode.IN },
+  status: { value: null, matchMode: FilterMatchMode.EQUALS },
+  verified: { value: null, matchMode: FilterMatchMode.EQUALS },
+});
+
+// COMPUTED
+// COMPONENT METHODS
 const handleEditRow = (id) => {
   editMode.value[id] = true;
 };
-
-const randomId = () => {
-  return Math.floor(Math.random() * 1000000);
-};
-
-const createNewDocument = (id) => {
-  return ref({
-    detail: "",
-    has_file: false,
-    id: id,
-    name: "",
-    owner: "",
-    task_id: "",
-    type: "",
-    uploaded_from: "",
-    uploaded_on: "",
-    mode: "new",
-  });
-};
-
-const loading = ref(false);
 
 const handleNewDocument = () => {
   loading.value = true;
@@ -312,10 +307,6 @@ const rowClass = (data) => {
   return [{ "bg-new-row": data.mode === "new" }];
 };
 
-const documents = ref([]);
-const lazyParams = ref({});
-const totalRecords = ref(0);
-
 const loadLazyData = () => {
   const nextPage = lazyParams.value.page + 1;
   // const filters = utilsStore.filters["documents"];
@@ -344,10 +335,6 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-onMounted(() => {
-  loadLazyData();
-});
-
 const getFilterOptions = () => {
   return [
     { name: i18n.t("no-file", { label: "no-file" }), value: 3 },
@@ -356,25 +343,11 @@ const getFilterOptions = () => {
   ];
 };
 
-const options = ref();
 options.value = getFilterOptions();
-
-watch(locale, () => {
-  options.value = getFilterOptions();
-});
 
 const onSelectionChanged = () => {
   utilsStore.selectedElements["document"] = selectedDocuments.value;
 };
-
-const filters = ref({
-  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  "country.name": { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  representative: { value: null, matchMode: FilterMatchMode.IN },
-  status: { value: null, matchMode: FilterMatchMode.EQUALS },
-  verified: { value: null, matchMode: FilterMatchMode.EQUALS },
-});
 
 const updateDocumentRow = (id, document) => {
   if (!document.document_detail.id) {
@@ -388,7 +361,7 @@ const updateDocumentRow = (id, document) => {
   }
 
   updateDocument(document.id, parseUpdateDocument(document))
-    .then((data) => {
+    .then(() => {
       editMode.value[id] = false;
       loadLazyData();
       // toast.successAction("customer", "updated");
@@ -399,24 +372,14 @@ const updateDocumentRow = (id, document) => {
     });
 };
 
-const toast = useToast();
-
 const refreshTable = () => {
   setTimeout(() => loadLazyData(), 500);
 };
 
-// const createDocumentRow = (document) => {
-//   createDocument(parseCreateDocument(document))
-//     .then((data) => {
-//       createMode.value[document.id] = false;
-//       toast.success("Document created");
-//       loadLazyData();
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       toast.error("Document not created");
-//     });
-// };
+// WATCHERS
+watch(locale, () => {
+  options.value = getFilterOptions();
+});
 
 watch(
   () => utilsStore.selectedElements["document"],
@@ -424,4 +387,9 @@ watch(
     selectedElements.value = value.length;
   }
 );
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  loadLazyData();
+});
 </script>

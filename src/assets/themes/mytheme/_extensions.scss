@@ -1,11 +1,24 @@
 /* Customizations to the designer theme should be defined here */
 
-//General
+// FONTS
+@font-face {
+    font-family: 'Futurism';
+    src: url('@/assets/fonts/Futurism-Light.woff2') format('woff2'), url('@/assets/fonts/Futurism-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
+@font-face {
+    font-family: 'Futurism';
+    src: url('@/assets/fonts/Futurism-Bold.woff2') format('woff2'), url('@/assets/fonts/Futurism-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+//General
 ul {
     padding-inline-start: 0px;
 }
-
 
 body {
     background-color: white;
@@ -278,19 +291,7 @@ body {
     overflow-y: auto;
 }
 
-@font-face {
-    font-family: 'Futurism';
-    src: url('@/assets/fonts/Futurism-Light.woff2') format('woff2'), url('@/assets/fonts/Futurism-Light.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
 
-@font-face {
-    font-family: 'Futurism';
-    src: url('@/assets/fonts/Futurism-Bold.woff2') format('woff2'), url('@/assets/fonts/Futurism-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-}
 
 .p-component,
 .p-component .numeric,
@@ -304,7 +305,7 @@ body {
     }
 }
 
-
+/* TYPOGRAPHY */
 .h1 {
     font-weight: 700;
     font-size: 32px;
@@ -348,6 +349,14 @@ body {
     font-weight: 700;
     font-size: 12px;
     line-height: 15.7px;
+}
+
+.p2{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: black;
 }
 
 a {

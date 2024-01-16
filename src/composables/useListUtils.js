@@ -345,7 +345,7 @@ export function useListUtils() {
     return [
       {
         name: "id",
-        type: "id",
+        type: "text",
       },
       { name: "type", type: "type", optionSet: "document_type" },
       { name: "detail", type: "detail", optionSet: "document_detail" },

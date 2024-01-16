@@ -19,6 +19,7 @@ module.exports = {
     "simple-import-sort/exports": "error",
     // disabled rules from base configurations
     "vue/require-default-prop": "off",
+    "vue/no-v-html": "off",
   },
   globals: {
     // Composables
