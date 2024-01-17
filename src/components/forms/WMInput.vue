@@ -91,13 +91,14 @@
       v-model="inputValue"
       :name="name"
       :options="refOptions"
-      option-label="name"
+      :option-label="optionLabel"
       class="form-select-button flex-nowrap flex"
       @change="
         $emit('update:selectedItem', $event.value);
         handleChange($event.value);
       "
     />
+
     <span
       v-if="type == 'info'"
       :class="styles"

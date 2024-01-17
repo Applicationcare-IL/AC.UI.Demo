@@ -28,11 +28,11 @@
           :label="$t('customer.name') + ':'"
         />
         <WMInput
-          @input.stop="onCustomerNumberChanged"
           name="number"
           :required="true"
           type="input-text"
           :label="$t('customer.number') + ':'"
+          @input.stop="onCustomerNumberChanged"
         />
       </div>
 
@@ -44,6 +44,7 @@
           :label="$t('customer.type') + ':'"
           :options="types"
           width="80"
+          option-set
         />
         <WMInput
           name="rating"
@@ -52,14 +53,16 @@
           :label="$t('customer.rating') + ':'"
           :options="ratings"
           width="80"
+          option-set
         />
+
         <WMInput
           name="is_provider"
           type="input-select-button"
           :highlighted="true"
           :label="$t('customer.is-provider') + ':'"
           :options="yesNoOptions"
-          :selectedOption="yesNoOptions[1]"
+          :selected-option="yesNoOptions[1]"
           width="80"
         />
       </div>
@@ -73,7 +76,7 @@
           width="248"
           :options="serviceAreas"
           :highlighted="true"
-          :optionSet="true"
+          :option-set="true"
         />
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px" />
@@ -121,30 +124,33 @@
             label="אנשי קשר:"
             width="160"
             :highlighted="true"
-            :searchFunction="searchContact"
+            :search-function="searchContact"
             :new="true"
             related-sidebar="newContact"
-            @change="onContactselected"
             :multiple="true"
+            @change="onContactselected"
           />
           <WMSidebar
             :visible="isVisible"
+            name="newContact"
             @close-sidebar="closeSidebar"
             @open-sidebar="openSidebar"
-            name="newContact"
           >
             <WMNewEntityFormHeader entity="contact" name="newContact" />
-            <WMNewContactForm :isSidebar="true" @close-sidebar="closeSidebar" />
+            <WMNewContactForm
+              :is-sidebar="true"
+              @close-sidebar="closeSidebar"
+            />
           </WMSidebar>
         </div>
         <WMContactsTable
           :contacts="selectedContacts"
           :columns="getSelectedContactsForNewCustomerColumns()"
-          :showControls="false"
-          @update:role="updatedRole"
-          @update:mainContact="updatedMainContact"
-          @unlink="unlinkContact"
+          :show-controls="false"
           :multiselect="false"
+          @update:role="updatedRole"
+          @update:main-contact="updatedMainContact"
+          @unlink="unlinkContact"
         />
       </div>
     </div>
@@ -157,15 +163,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
-
-import { useFormUtilsStore } from "@/stores/formUtils";
-import { useUtilsStore } from "@/stores/utils";
-
 import { useForm } from "vee-validate";
-import { useAuthStore } from "@/stores/auth";
+import { onMounted, ref, watch } from "vue";
 
+import { useAuthStore } from "@/stores/auth";
+import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
+import { useUtilsStore } from "@/stores/utils";
 
 const props = defineProps({
   isSidebar: {
