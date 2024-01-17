@@ -4,12 +4,12 @@
       <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
         <div class="flex flex-row flex-wrap gap-2 align-items-center">
           <WMButton
-            @click="saveForm"
             name="save"
             icon="save"
             type="specialSave"
-            iconPosition="left"
+            icon-position="left"
             :disabled="!getFormMeta(formKey)?.dirty"
+            @click="saveForm"
           >
             {{ $t("save") }}
           </WMButton>
@@ -17,7 +17,7 @@
           <WMAssignOwnerButton :entity="utilsStore.entity" />
 
           <WMSendMessageButton
-            :selectedElements="selectedElements"
+            :selected-elements="selectedElements"
             :multiple="false"
           />
 
@@ -31,7 +31,7 @@
           </WMButton>
 
           <WMSendEmailButton
-            :selectedElements="selectedElements"
+            :selected-elements="selectedElements"
             :multiple="false"
           />
 
@@ -47,7 +47,8 @@
             name="cancel"
             icon="cancel"
             @click="dialog.cancelService(route.params.id)"
-            >Cancel
+          >
+            Cancel
           </WMButton>
 
           <WMButton
@@ -74,38 +75,45 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from "vue";
+// IMPORTS
+import { storeToRefs } from "pinia";
+import { computed, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
-import { useRoute } from "vue-router";
-import { storeToRefs } from "pinia";
 
+// DEPENDENCIES
 const route = useRoute();
 const dialog = useDialog();
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 
-const emit = defineEmits(["saveForm", "updateEntityState"]);
-
-const { getFormMeta } = storeToRefs(formUtilsStore);
-
-const showUpdateEntityStateButton = computed(() => {
-  return ["customer", "contact"].includes(utilsStore.entity);
-});
-
-const props = defineProps({
+// PROPS, EMITS
+defineProps({
   activeButtons: Boolean,
   defaultOption: Object,
   formKey: String,
 });
 
+const emit = defineEmits(["saveForm", "updateEntityState"]);
+
+// REFS
+const { getFormMeta } = storeToRefs(formUtilsStore);
 const selectedElements = ref(0);
 const isEntityActive = ref(false);
 
+// COMPUTED
+const showUpdateEntityStateButton = computed(() => {
+  return ["customer", "contact"].includes(utilsStore.entity);
+});
+
+// COMPONENT METHODS
 const saveForm = () => {
   emit("saveForm");
 };
 
+// WATCHERS
 watch(
   () => utilsStore.selectedElements[utilsStore.entity],
   (value) => {
@@ -114,4 +122,6 @@ watch(
       utilsStore.selectedElements[utilsStore.entity][0].state === "active";
   }
 );
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
