@@ -118,7 +118,6 @@
         <div class="wm-form-row gap-5">
           <WMInputSearch
             name="contact"
-            :required="true"
             :placeholder="$t('select', ['contact'])"
             type="table"
             label="אנשי קשר:"

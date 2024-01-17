@@ -339,17 +339,26 @@ export const useFormUtilsStore = defineStore("formUtils", {
               }),
           otherwise: () => yup.object().optional(),
         }),
-        // street: yup
-        //   .object()
-        //   .required({
-        //     key: "validation.required-select",
-        //     values: { label: "address.street" },
-        //   })
-        //   .typeError({
-        //     key: "validation.required-select",
-        //     values: { label: "address.street" },
-        //   }),
-        // "house-number": yup.number().required(),
+        street: yup.object().when("showAddressOptions", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "address.street" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "address.street" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        "house-number": yup.number().when("showAddressOptions", {
+          is: true,
+          then: () => yup.number().required(),
+          otherwise: () => yup.number().optional(),
+        }),
       });
     },
   },
