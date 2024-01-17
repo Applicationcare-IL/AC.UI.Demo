@@ -31,8 +31,32 @@ export function useUtils() {
     return formattedAddress;
   };
 
+  function getValueOf(obj, reference) {
+    // Dividir la cadena de referencia en partes
+    const keys = reference.split(".");
+
+    // Iniciar la búsqueda desde el objeto proporcionado
+    let result = obj;
+
+    // Iterar a través de las partes de la referencia
+    for (const key of keys) {
+      // Verificar si la clave actual existe en el objeto
+      if (result && result.hasOwnProperty(key)) {
+        // Actualizar el resultado con la propiedad actual
+        result = result[key];
+      } else {
+        // Devolver undefined si la clave no existe
+        return undefined;
+      }
+    }
+
+    // Devolver el resultado final
+    return result;
+  }
+
   return {
     getNextEntityID,
     formatAddress,
+    getValueOf,
   };
 }

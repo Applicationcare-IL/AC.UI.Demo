@@ -27,8 +27,8 @@
           icon="new"
           icon-position="right"
           @click="toggleSidebarVisibility"
-          >{{ t("new") }}</WMButton
-        >
+          >{{ t("new") }}
+        </WMButton>
         <WMAssignOwnerButton entity="task" />
         <WMCompleteTasksButton
           entity="task"
@@ -115,7 +115,7 @@
           <WMOptionSetValue :option-set="slotProps.data[column.name]" />
         </template>
         <template v-if="column.type === 'text'">
-          {{ slotProps.data[column.name] }}
+          {{ getValueOf(slotProps.data, column.name) }}
         </template>
       </template>
     </Column>
@@ -129,6 +129,7 @@ import { useI18n } from "vue-i18n";
 import { useUtilsStore } from "@/stores/utils";
 
 const { t } = useI18n();
+const { getValueOf } = useUtils();
 
 const selectedTasks = ref([]);
 const isFilterOpen = ref(false);
