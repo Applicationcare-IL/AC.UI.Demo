@@ -1,8 +1,12 @@
+import { storeToRefs } from "pinia";
+
 import { useUtilsStore } from "@/stores/utils";
 
 export function useUtils() {
   const utilsStore = useUtilsStore();
   const { optionLabelWithLang } = useLanguages();
+
+  const { entity } = storeToRefs(utilsStore);
 
   const getNextEntityID = async (entity) => {
     const response = await utilsStore.getNextEntityID({
@@ -58,5 +62,6 @@ export function useUtils() {
     getNextEntityID,
     formatAddress,
     getValueOf,
+    currentEntity: entity,
   };
 }

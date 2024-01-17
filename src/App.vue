@@ -8,16 +8,20 @@
     <p v-if="loadingPermissions" class="ml-2">Preloading permissions</p>
   </div>
   <router-view v-else />
+  <ConfirmDialog :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''" />
+  <!-- why is this here? https://stackoverflow.com/questions/74525054/primevue-confirmdialog-opens-multiple-times -->
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { computed, onMounted, ref } from "vue";
+
+import { useLayout } from "@/layout/composables/layout";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { usePermissionsStore } from "@/stores/permissionsStore";
-import { useI18n } from "vue-i18n";
+
+const { layoutConfig } = useLayout();
 
 const { getLicensing } = useLicensing();
-const i18n = useI18n();
 
 const optionSetsStore = useOptionSetsStore();
 const permissionsStore = usePermissionsStore();

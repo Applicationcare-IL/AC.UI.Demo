@@ -32,7 +32,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { ref } from "vue";
+import { inject, ref, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -42,6 +42,9 @@ const { getSelectedContactsForNewProjectColumns } = useListUtils();
 const toast = useToast();
 const dialog = useDialog();
 const formUtilsStore = useFormUtilsStore();
+
+// INJECT
+const isFormDirty = inject("isFormDirty");
 
 // PROPS, EMITS
 defineProps({
@@ -71,7 +74,7 @@ const handleUnlinkContact = (contactId) => {
   selectedContacts.value = filteredSelectedContacts;
 };
 
-const { handleSubmit } = useForm({
+const { handleSubmit, meta } = useForm({
   validationSchema: formUtilsStore.getNewProjectFormValidationSchema,
 });
 
@@ -110,6 +113,13 @@ defineExpose({
 });
 
 // WATCHERS
+watch(
+  () => meta.value,
+  (value) => {
+    isFormDirty.value = value.dirty;
+  }
+);
+
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 

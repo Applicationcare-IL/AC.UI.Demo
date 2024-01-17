@@ -1,22 +1,19 @@
 <template>
   <div class="flex flex-row flex-wrap gap-4">
-    <ConfirmDialog
-      :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-    ></ConfirmDialog>
     <WMButton
-      @click="saveForm()"
       name="save"
       icon="save"
       type="specialSave"
-      iconPosition="left"
+      icon-position="left"
+      @click="saveForm()"
     >
       שמירה
     </WMButton>
     <WMButton
-      @click="cancelForm()"
       name="cancel"
       icon="cancel"
-      iconPosition="left"
+      icon-position="left"
+      @click="cancelForm()"
     >
       ביטול
     </WMButton>

@@ -162,23 +162,16 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { useForm } from "vee-validate";
-import { onMounted, ref, watch } from "vue";
+import { inject, onMounted, ref, watch } from "vue";
 
 import { useAuthStore } from "@/stores/auth";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
-const props = defineProps({
-  isSidebar: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-const emit = defineEmits(["closeSidebar"]);
-
+// DEPENDENCIES
 const authStore = useAuthStore();
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
@@ -188,17 +181,38 @@ const { getSelectedContactsForNewCustomerColumns } = useListUtils();
 const { createCustomer, parseCustomer, existsCustomer } = useCustomers();
 const { getNextEntityID } = useUtils();
 
+const { getContactsFromApi } = useContacts();
+
+const toast = useToast();
+const dialog = useDialog();
+
+// INJECT
+const isFormDirty = inject("isFormDirty");
+
+// PROPS, EMITS
+const props = defineProps({
+  isSidebar: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emit = defineEmits(["closeSidebar"]);
+
+// REFS
 const types = ref(optionSetsStore.optionSets["customer_type"]);
 const ratings = ref(optionSetsStore.optionSets["customer_rating"]);
 const serviceAreas = ref(optionSetsStore.optionSets["service_area"]);
-const toast = useToast();
-const dialog = useDialog();
+
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
 const selectedContacts = ref([]);
 
 const isVisible = ref(false);
-const nextID = ref(12);
+const nextID = ref(0);
 
+// COMPUTED
+
+// COMPONENT METHODS
 function openSidebar() {
   isVisible.value = true;
 }
@@ -207,17 +221,7 @@ function closeSidebar() {
   isVisible.value = false;
 }
 
-onMounted(() => {
-  optionSetsStore
-    .getOptionSetValuesFromApi("service_area")
-    .then((data) => (serviceAreas.value = data));
-
-  getNextEntityID("customer").then((id) => {
-    nextID.value = id;
-  });
-});
-
-const { errors, handleSubmit, meta, setFieldError } = useForm({
+const { handleSubmit, meta, setFieldError } = useForm({
   validationSchema: formUtilsStore.getCustomerNewFormValidationSchema,
 });
 
@@ -257,8 +261,6 @@ const onCustomerNumberChanged = (event) => {
   });
 };
 
-const { getContactsFromApi } = useContacts();
-
 const searchContact = (query) => {
   return getContactsFromApi({
     search: query,
@@ -293,12 +295,6 @@ const unlinkContact = (id) => {
   selectedContacts.value.splice(index, 1);
 };
 
-const defaultRole = optionSetsStore.optionSets["contact_customer_role"][0];
-
-// const defaultRole = optionSetsStore.optionSets["contact_customer_role"].find(
-//   (role) => role.value === "employee"
-// );
-
 const onContactselected = (newContact) => {
   console.log("onContactselected", newContact);
 
@@ -314,18 +310,34 @@ const onContactselected = (newContact) => {
   selectedContacts.value.push(newContact.value);
 };
 
+const defaultRole = optionSetsStore.optionSets["contact_customer_role"][0];
+
 formUtilsStore.formEntity = "customer";
 
+// PROVIDE, EXPOSE
+defineExpose({
+  onSubmit,
+  onCancel,
+});
+
+// WATCHERS
 watch(
   () => meta.value,
   (value) => {
     formUtilsStore.formMeta = value;
+    isFormDirty.value = value.dirty;
   }
 );
 
-defineExpose({
-  onSubmit,
-  onCancel,
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  optionSetsStore
+    .getOptionSetValuesFromApi("service_area")
+    .then((data) => (serviceAreas.value = data));
+
+  getNextEntityID("customer").then((id) => {
+    nextID.value = id;
+  });
 });
 </script>
 

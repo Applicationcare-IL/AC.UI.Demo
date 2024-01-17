@@ -134,7 +134,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { ref, watch } from "vue";
+import { inject, ref, watch } from "vue";
 
 import { useAuthStore } from "@/stores/auth";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -150,6 +150,9 @@ const dialog = useDialog();
 
 const { getCustomersFromApi } = useCustomers();
 const { createContact, parseContact } = useContacts();
+
+// INJECT
+const isFormDirty = inject("isFormDirty");
 
 // PROPS, EMITS
 const props = defineProps({
@@ -220,6 +223,7 @@ watch(
   () => meta.value,
   (value) => {
     formUtilsStore.formMeta = value;
+    isFormDirty.value = value.dirty;
   }
 );
 

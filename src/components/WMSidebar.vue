@@ -16,13 +16,16 @@
 
 <script setup>
 // IMPORTS
+import { useConfirm } from "primevue/useconfirm";
 import { computed, provide, ref, toRefs, watch } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES
+const confirm = useConfirm();
 const { activeSidebar, openSidebar, closeSidebar } = useSidebar();
 const { layoutConfig } = useLayout();
+const { currentEntity } = useUtils();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -45,6 +48,7 @@ const emit = defineEmits(["closeSidebar", "openSidebar"]);
 // REFS
 const target = ref(null);
 const { visible } = toRefs(props);
+const isFormDirty = ref(false);
 
 // COMPUTED
 /**
@@ -62,8 +66,27 @@ const leftPositon = computed(() => {
 });
 
 // COMPONENT METHODS
+const confirmCancelDialog = () => {
+  console.log("confirmCancelDialog");
+
+  confirm.require({
+    message: `You haven't finished creating the new ${currentEntity.value}. Do you want to leave without saving it?`,
+    header: `${currentEntity.value} not saved`,
+    acceptLabel: "Stay on page",
+    rejectLabel: "Leave without saving",
+    reject: () => {
+      emit("closeSidebar");
+    },
+  });
+};
+
 const handleCloseSidebar = () => {
-  emit("closeSidebar");
+  console.log("handleCoseSidebar");
+  if (isFormDirty.value) {
+    confirmCancelDialog();
+  } else {
+    emit("closeSidebar");
+  }
 };
 
 const handleOpenSidebar = () => {
@@ -76,6 +99,7 @@ const handleOpenSidebar = () => {
 
 // PROVIDE, EXPOSE
 provide("closeSidebar", handleCloseSidebar);
+provide("isFormDirty", isFormDirty);
 
 // WATCHERS
 watch(visible, (value) => {
@@ -91,8 +115,6 @@ watch(
   (value) => {
     if (value.includes(props.name)) {
       handleOpenSidebar();
-    } else {
-      handleCloseSidebar();
     }
   },
   { deep: true }

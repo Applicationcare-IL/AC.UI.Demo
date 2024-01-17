@@ -1,7 +1,8 @@
 import { useConfirm } from "primevue/useconfirm";
-import { useFormUtilsStore } from "@/stores/formUtils";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
+
+import { useFormUtilsStore } from "@/stores/formUtils";
 
 export function useDialog() {
   const confirm = useConfirm();

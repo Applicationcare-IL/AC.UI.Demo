@@ -575,8 +575,29 @@ a {
 // }
 
 //Dialogs
-.p-dialog-content{
-    white-space: pre-line;
+.p-dialog{
+    .p-dialog-header{
+        border: none;
+
+        .p-dialog-title:first-letter {
+            text-transform: uppercase;
+        }
+    }
+
+    .p-dialog-content{
+        white-space: pre-line;
+        padding: 1em;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        color: black;
+    }
+
+    .p-dialog-footer{
+        display: flex;
+        border: none;
+    } 
 }
 
 

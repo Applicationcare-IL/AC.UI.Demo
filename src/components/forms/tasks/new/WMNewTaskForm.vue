@@ -20,18 +20,18 @@
             :highlighted="true"
             :new="true"
             related-sidebar="newContact"
-            :searchFunction="searchContact"
-            :modelValue="preselectedContact"
+            :search-function="searchContact"
+            :model-value="preselectedContact"
           />
           <WMSidebar
             :visible="isNewContactSidebarVisible"
+            name="newContact"
             @close-sidebar="closeNewContactSidebar"
             @open-sidebar="openNewContactSidebar"
-            name="newContact"
           >
             <WMNewEntityFormHeader entity="contact" name="newContact" />
             <WMNewContactForm
-              :isSidebar="true"
+              :is-sidebar="true"
               @close-sidebar="closeNewContactSidebar"
             />
           </WMSidebar>
@@ -44,20 +44,20 @@
           :label="$t('organization.organization') + ':'"
           width="160"
           :highlighted="true"
-          :searchFunction="searchCustomer"
+          :search-function="searchCustomer"
           :new="true"
           related-sidebar="newCustomer"
-          :modelValue="preselectedCustomer"
+          :model-value="preselectedCustomer"
         />
         <WMSidebar
           :visible="isNewCustomerSidebarVisible"
+          name="newCustomer"
           @close-sidebar="closeNewCustomerSidebar"
           @open-sidebar="openNewCustomerSidebar"
-          name="newCustomer"
         >
           <WMNewEntityFormHeader entity="customer" name="newCustomer" />
           <WMNewCustomerForm
-            :isSidebar="true"
+            :is-sidebar="true"
             @close-sidebar="closeNewCustomerSidebar"
           />
         </WMSidebar>
@@ -72,7 +72,7 @@
           width="200"
           :highlighted="true"
           :options="taskFamily"
-          :optionSet="true"
+          :option-set="true"
         />
         <WMInputSearch
           name="task-type"
@@ -82,7 +82,7 @@
           :label="$t('task.type') + ':'"
           width="200"
           :highlighted="true"
-          :searchFunction="searchTaskTypes"
+          :search-function="searchTaskTypes"
           :disabled="!values['task-family']"
         />
       </div>
@@ -119,8 +119,8 @@
       <div class="task-description flex flex-auto flex-column gap-5">
         <div class="wm-form-row gap-5">
           <WMInput
-            type="text-area"
             id="description"
+            type="text-area"
             name="description"
             :required="true"
             :label="$t('description') + ':'"
@@ -138,23 +138,31 @@
 </template>
 
 <script setup>
-import { ref, inject } from "vue";
+// IMPORTS
+import { useForm } from "vee-validate";
+import { inject, ref, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
-import { useForm } from "vee-validate";
-
-const preselectedContact = inject("preselectedContact", null);
-const preselectedCustomer = inject("preselectedCustomer", null);
-
+// DEPENDENCIES
 const optionSetsStore = useOptionSetsStore();
 
 const { getTasksTypesFromApi, createTask, parseTask } = useTasks();
 const { getCustomersFromApi } = useCustomers();
 
-const isRecurring = ref(false);
+const toast = useToast();
+const dialog = useDialog();
+const formUtilsStore = useFormUtilsStore();
 
+const { getContactsFromApi } = useContacts();
+
+// INJECT
+const preselectedContact = inject("preselectedContact", null);
+const preselectedCustomer = inject("preselectedCustomer", null);
+const isFormDirty = inject("isFormDirty");
+
+// PROPS, EMITS
 const props = defineProps({
   isSidebar: {
     type: Boolean,
@@ -170,28 +178,24 @@ const props = defineProps({
   },
 });
 
-function onChange(value) {
-  selectedStartTaskOption.value = value;
-}
-
-const toast = useToast();
-const dialog = useDialog();
-const formUtilsStore = useFormUtilsStore();
-
-const { handleSubmit, values } = useForm({
-  validationSchema: formUtilsStore.getTaskFormValidationSchema,
-});
-
-const taskFamily = ref("");
-optionSetsStore.getOptionSetValuesFromApiRaw("task_family").then((data) => {
-  taskFamily.value = data;
-});
-
 const emit = defineEmits(["closeSidebar", "newTaskCreated"]);
 
-// new contact sidebar
-const isNewContactSidebarVisible = ref(false);
+// REFS
+// const isRecurring = ref(false);
+const taskFamily = ref("");
 
+const isNewContactSidebarVisible = ref(false);
+const isNewCustomerSidebarVisible = ref(false);
+
+// const selectedStartTaskOption = ref({ name: "now", value: "now" });
+// const startTaskOptions = ref([
+//   { name: "now", value: "now" },
+//   { name: "future", value: "future" },
+// ]);
+
+// COMPUTED
+
+// COMPONENT METHODS
 function openNewContactSidebar() {
   isNewContactSidebarVisible.value = true;
 }
@@ -199,9 +203,6 @@ function openNewContactSidebar() {
 function closeNewContactSidebar() {
   isNewContactSidebarVisible.value = false;
 }
-
-// new customer sidebar
-const isNewCustomerSidebarVisible = ref(false);
 
 function openNewCustomerSidebar() {
   isNewCustomerSidebarVisible.value = true;
@@ -218,7 +219,13 @@ const searchCustomer = (query) => {
   });
 };
 
-const { getContactsFromApi } = useContacts();
+const { handleSubmit, values, meta } = useForm({
+  validationSchema: formUtilsStore.getTaskFormValidationSchema,
+});
+
+optionSetsStore.getOptionSetValuesFromApiRaw("task_family").then((data) => {
+  taskFamily.value = data;
+});
 
 const searchContact = (query) => {
   return getContactsFromApi({
@@ -233,12 +240,6 @@ const searchTaskTypes = (query) => {
     task_family: values["task-family"].id,
   });
 };
-
-const selectedStartTaskOption = ref({ name: "now", value: "now" });
-const startTaskOptions = ref([
-  { name: "now", value: "now" },
-  { name: "future", value: "future" },
-]);
 
 const onSubmit = handleSubmit((values) => {
   const today = new Date().toISOString().slice(0, 10);
@@ -274,10 +275,25 @@ const onCancel = () => {
   emit("closeSidebar");
 };
 
+// function onChange(value) {
+//   selectedStartTaskOption.value = value;
+// }
+
+// PROVIDE, EXPOSE
 defineExpose({
   onSubmit,
   onCancel,
 });
+
+// WATCHERS
+watch(
+  () => meta.value,
+  (value) => {
+    isFormDirty.value = value.dirty;
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
 <style scoped lang="scss"></style>
