@@ -161,6 +161,7 @@ const { getContactsFromApi } = useContacts();
 const preselectedContact = inject("preselectedContact", null);
 const preselectedCustomer = inject("preselectedCustomer", null);
 const isFormDirty = inject("isFormDirty");
+const closeSidebar = inject("closeSidebar");
 
 // PROPS, EMITS
 const props = defineProps({
@@ -178,7 +179,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["closeSidebar", "newTaskCreated"]);
+const emit = defineEmits(["newTaskCreated"]);
 
 // REFS
 // const isRecurring = ref(false);
@@ -272,7 +273,7 @@ const onSubmit = handleSubmit((values) => {
 });
 
 const onCancel = () => {
-  emit("closeSidebar");
+  closeSidebar();
 };
 
 // function onChange(value) {

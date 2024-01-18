@@ -11,7 +11,6 @@
         :is-sidebar="true"
         :related-entity="slotProps.props.data.relatedEntity"
         :related-entity-id="slotProps.props.data.relatedEntityId"
-        @close-sidebar="closeSidebar"
         @new-task-created="loadLazyData"
       />
     </template>

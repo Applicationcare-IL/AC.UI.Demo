@@ -1,9 +1,9 @@
 <template>
   <WMListSubHeader
-    :activeButtons="isAnyRowSelected"
+    :active-buttons="isAnyRowSelected"
     entity="task"
     @new="toggleSidebarVisibility"
-    @taskCompleted="
+    @task-completed="
       clearSelectedTasks();
       loadLazyData();
     "
@@ -11,39 +11,39 @@
 
   <WMSidebar
     :visible="isVisible"
+    name="newTask"
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
-    name="newTask"
   >
     <WMNewEntityFormHeader
       entity="task"
       name="newTask"
-      titleTranslationKey="task.new_task"
+      title-translation-key="task.new_task"
     />
-    <WMNewTaskForm :isSidebar="true" @close-sidebar="closeSidebar" />
+    <WMNewTaskForm :is-sidebar="true" />
   </WMSidebar>
 
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
-      lazy
       v-model:selection="selectedTasks"
-      :rowClass="rowClass"
+      ref="dt"
+      lazy
+      :row-class="rowClass"
       :value="tasks"
-      dataKey="task_number"
-      tableStyle="min-width: 50rem"
+      data-key="task_number"
+      table-style="min-width: 50rem"
       class="p-datatable-sm"
       scrollable
-      scrollHeight="flex"
+      scroll-height="flex"
       paginator
       :rows="selectedRowsPerPage"
       :first="0"
-      ref="dt"
-      :totalRecords="totalRecords"
+      :total-records="totalRecords"
       :loading="loading"
       @page="onPage($event)"
       @update:selection="onSelectionChanged"
     >
-      <Column style="width: 40px" selectionMode="multiple"></Column>
+      <Column style="width: 40px" selection-mode="multiple"></Column>
 
       <Column field="task_number" :header="$t('task.number')" class="link-col">
         <template #body="slotProps">
@@ -74,7 +74,7 @@
 
       <Column field="task_family " :header="$t('task.family')">
         <template #body="slotProps">
-          <WMOptionSetValue :optionSet="slotProps.data.task_family" />
+          <WMOptionSetValue :option-set="slotProps.data.task_family" />
         </template>
       </Column>
       <Column field="task_type.name" :header="$t('task.type')">
@@ -91,7 +91,7 @@
           <WMSLATag
             v-if="slotProps.data.sla"
             :sla="slotProps.data.sla.sla"
-            :daysForClosing="slotProps.data.days_for_closing"
+            :days-for-closing="slotProps.data.days_for_closing"
             :state="slotProps.data.state"
           />
         </template>
@@ -109,7 +109,7 @@
 
       <Column field="status" :header="$t('task.status')">
         <template #body="slotProps">
-          <WMOptionSetValue :optionSet="slotProps.data.status" />
+          <WMOptionSetValue :option-set="slotProps.data.status" />
         </template>
       </Column>
 
@@ -119,7 +119,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch, watchEffect } from "vue";
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 

@@ -81,7 +81,6 @@ const confirmCancelDialog = () => {
 };
 
 const handleCloseSidebar = () => {
-  console.log("handleCoseSidebar");
   if (isFormDirty.value) {
     confirmCancelDialog();
   } else {
