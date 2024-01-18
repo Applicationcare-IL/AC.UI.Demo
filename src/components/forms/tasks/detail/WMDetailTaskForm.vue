@@ -276,7 +276,7 @@
 // IMPORTS
 import { useForm } from "vee-validate";
 import { computed, onMounted, ref, watch } from "vue";
-import { onBeforeRouteLeave, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
@@ -286,7 +286,7 @@ const toast = useToast();
 const { updateTask, parseUpdateTask, getTaskFromApi, mapContactsFromTasks } =
   useTasks();
 const { optionLabelWithLang } = useLanguages();
-const { confirmCancelDialog } = useDialog();
+const { handleRouteChangeWithUnsavedFormChanges } = useNavigationGuards();
 const formUtilsStore = useFormUtilsStore();
 const { getTaskDocumentColumns } = useListUtils();
 const utilsStore = useUtilsStore();
@@ -343,6 +343,8 @@ const statusClass = (data) => {
 formUtilsStore.formEntity = "task";
 utilsStore.entity = "task";
 
+handleRouteChangeWithUnsavedFormChanges(meta);
+
 // EXPOSE
 defineExpose({
   onSave,
@@ -356,20 +358,6 @@ watch(
     formUtilsStore.setFormMetas(value, props.formKey);
   }
 );
-
-onBeforeRouteLeave(async (to, from, next) => {
-  if (meta.value.dirty) {
-    const result = await confirmCancelDialog({ to });
-
-    if (result) {
-      next(false);
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-});
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {

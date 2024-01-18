@@ -42,5 +42,6 @@ module.exports = {
     useToast: true,
     useUtils: true,
     useHead: true,
+    useNavigationGuards: true,
   },
 };
