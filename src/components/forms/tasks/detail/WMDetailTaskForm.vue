@@ -273,32 +273,30 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { useForm } from "vee-validate";
 import { computed, onMounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { onBeforeRouteLeave, useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
+// DEPENDENCIES
 const toast = useToast();
-const { updateTask, parseUpdateTask } = useTasks();
+const { updateTask, parseUpdateTask, getTaskFromApi, mapContactsFromTasks } =
+  useTasks();
 const { optionLabelWithLang } = useLanguages();
-
-const tasks = ref([]);
-
+const { confirmCancelDialog } = useDialog();
 const formUtilsStore = useFormUtilsStore();
-const optionSetsStore = useOptionSetsStore();
-
 const { getTaskDocumentColumns } = useListUtils();
-const documentsColumns = ref(getTaskDocumentColumns());
-
 const utilsStore = useUtilsStore();
-const task = ref();
-const service = ref();
-const project = ref();
 const route = useRoute();
+const { getServiceFromApi } = useServices();
+const { setSelectedContacts } = useContacts();
+const { getProjectFromApi } = useProjects();
+const { getStatusConditionalStyle } = useListUtils();
 
+// PROPS, EMITS
 const props = defineProps({
   formKey: {
     type: String,
@@ -306,11 +304,74 @@ const props = defineProps({
   },
 });
 
-const { getTaskFromApi, mapContactsFromTasks } = useTasks();
-const { getServiceFromApi } = useServices();
-const { setSelectedContacts } = useContacts();
-const { getProjectFromApi } = useProjects();
+// REFS
+const documentsColumns = ref(getTaskDocumentColumns());
+const task = ref();
+const service = ref();
+const project = ref();
 
+// COMPUTED
+const contactFullName = computed(() => {
+  if (task.value.contact) {
+    return task.value.contact.name + " " + task.value.contact.surname;
+  }
+
+  return "";
+});
+
+// COMPONENT METHODS
+const { handleSubmit, meta, resetForm } = useForm({
+  // validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
+});
+
+const onSave = handleSubmit((values) => {
+  updateTask(route.params.id, parseUpdateTask(values))
+    .then(() => {
+      toast.successAction("task", "updated");
+      resetForm({ values: values });
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("service", "not-updated");
+    });
+});
+
+const statusClass = (data) => {
+  return getStatusConditionalStyle(data);
+};
+
+formUtilsStore.formEntity = "task";
+utilsStore.entity = "task";
+
+// EXPOSE
+defineExpose({
+  onSave,
+});
+
+// WATCHERS
+watch(
+  () => meta.value,
+  (value) => {
+    formUtilsStore.formMeta = value;
+    formUtilsStore.setFormMetas(value, props.formKey);
+  }
+);
+
+onBeforeRouteLeave(async (to, from, next) => {
+  if (meta.value.dirty) {
+    const result = await confirmCancelDialog({ to });
+
+    if (result) {
+      next(false);
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   await getTaskFromApi(route.params.id).then((data) => {
     task.value = data;
@@ -330,48 +391,6 @@ onMounted(async () => {
   }
 
   setSelectedContacts(mapContactsFromTasks(task.value));
-});
-
-const { handleSubmit, meta, resetForm } = useForm({
-  // validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
-});
-
-const onSave = handleSubmit((values) => {
-  updateTask(route.params.id, parseUpdateTask(values))
-    .then(() => {
-      toast.successAction("task", "updated");
-      resetForm({ values: values });
-    })
-    .catch((error) => {
-      console.error(error);
-      toast.error("service", "not-updated");
-    });
-});
-
-const { getStatusConditionalStyle } = useListUtils();
-
-const statusClass = (data) => {
-  return getStatusConditionalStyle(data);
-};
-
-const contactFullName = computed(() => {
-  if (task.value.contact) {
-    return task.value.contact.name + " " + task.value.contact.surname;
-  }
-});
-watch(
-  () => meta.value,
-  (value) => {
-    formUtilsStore.formMeta = value;
-    formUtilsStore.setFormMetas(value, props.formKey);
-  }
-);
-
-formUtilsStore.formEntity = "task";
-utilsStore.entity = "task";
-
-defineExpose({
-  onSave,
 });
 </script>
 

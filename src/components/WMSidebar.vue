@@ -16,16 +16,14 @@
 
 <script setup>
 // IMPORTS
-import { useConfirm } from "primevue/useconfirm";
 import { computed, provide, ref, toRefs, watch } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES
-const confirm = useConfirm();
 const { activeSidebar, openSidebar, closeSidebar } = useSidebar();
 const { layoutConfig } = useLayout();
-const { currentEntity } = useUtils();
+const { confirmCancelDialog } = useDialog();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -66,23 +64,9 @@ const leftPositon = computed(() => {
 });
 
 // COMPONENT METHODS
-const confirmCancelDialog = () => {
-  console.log("confirmCancelDialog");
-
-  confirm.require({
-    message: `You haven't finished creating the new ${currentEntity.value}. Do you want to leave without saving it?`,
-    header: `${currentEntity.value} not saved`,
-    acceptLabel: "Stay on page",
-    rejectLabel: "Leave without saving",
-    reject: () => {
-      emit("closeSidebar");
-    },
-  });
-};
-
 const handleCloseSidebar = () => {
   if (isFormDirty.value) {
-    confirmCancelDialog();
+    confirmCancelDialog({ emit });
   } else {
     emit("closeSidebar");
   }

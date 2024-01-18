@@ -10,6 +10,8 @@ export function useDialog() {
   const i18n = useI18n();
   const router = useRouter();
 
+  const { currentEntity } = useUtils();
+
   // TODO: manage close sidebar with the composable
   // const { closeSidebar } = useSidebar();
 
@@ -202,6 +204,28 @@ export function useDialog() {
     });
   };
 
+  // { emit } = {} makes the parameters optional
+  const confirmCancelDialog = ({ emit } = {}) => {
+    return new Promise((resolve) => {
+      confirm.require({
+        message: `You haven't finished creating the new ${currentEntity.value}. Do you want to leave without saving it?`,
+        header: `${currentEntity.value} not saved`,
+        acceptLabel: "Stay on page",
+        rejectLabel: "Leave without saving",
+        accept: () => {
+          resolve(true);
+        },
+        reject: async () => {
+          if (emit) {
+            emit("closeSidebar");
+          }
+
+          resolve(false);
+        },
+      });
+    });
+  };
+
   return {
     confirmNewCustomer,
     discardNewCustomer,
@@ -214,6 +238,7 @@ export function useDialog() {
     cancelService,
     completeService,
     confirmNewProject,
+    confirmCancelDialog,
   };
 }
 

@@ -1,6 +1,10 @@
+// import { storeToRefs } from "pinia";
+// import { useConfirm } from "primevue/useconfirm";
 import { createRouter, createWebHashHistory } from "vue-router";
+
 import AppLayout from "@/layout/AppLayout.vue";
 import { useAuthStore } from "@/stores/auth";
+// import { useFormUtilsStore } from "@/stores/formUtils";
 import { usePermissionsStore } from "@/stores/permissionsStore";
 
 const router = createRouter({
@@ -20,7 +24,7 @@ const router = createRouter({
           path: "/",
           name: "index",
           // exact: true,
-          redirect: (to) => {
+          redirect: () => {
             return "/tasks";
           },
           // component: () => import("@/views/user/Dashboard.vue"),
@@ -39,7 +43,7 @@ const router = createRouter({
         {
           path: "/dashboard",
           name: "dashboard",
-          redirect: (to) => {
+          redirect: () => {
             return "/tasks";
           },
           // component: () => import("@/views/user/Dashboard.vue"),
@@ -143,5 +147,17 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
+// router.beforeResolve(async () => {
+//   const formUtilsStore = useFormUtilsStore();
+//   const { confirmCancelDialog } = useDialog();
+//   const { formMeta } = storeToRefs(formUtilsStore);
+
+//   // check if there's some dirty forms and show confirm dialog
+//   console.log("formMeta", formMeta.value.dirty);
+//   if (formMeta.value.dirty) {
+//     confirmCancelDialog();
+//   }
+// });
 
 export default router;
