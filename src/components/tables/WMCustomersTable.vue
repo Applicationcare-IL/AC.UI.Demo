@@ -112,7 +112,7 @@
           {{ slotProps.data.role.value }}
         </template>
         <template v-if="column.type === 'option-set'">
-          {{ $t(slotProps.data[column.name].value) }}
+          <WMOptionSetValue :option-set="slotProps.data[column.name]" />
         </template>
         <template v-if="column.type === 'owner'">
           {{ slotProps.data.owner.name }}
@@ -127,7 +127,7 @@
 
 <script setup>
 // IMPORTS
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
