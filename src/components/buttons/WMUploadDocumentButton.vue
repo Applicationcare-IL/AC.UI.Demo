@@ -1,6 +1,10 @@
 <template>
   <Button v-if="hasFileUploaded" class="p-button-only-icon p-lightblue-button">
-    <div class="p-button-svg" @click="handleDownloadFile(documentId)" v-html="FileIcon" />
+    <div
+      class="p-button-svg"
+      @click="handleDownloadFile(documentId)"
+      v-html="FileIcon"
+    />
   </Button>
   <Button
     v-else
@@ -51,20 +55,18 @@ const hasFileUploaded = ref(props.hasFile);
 const customBase64Uploader = async (event) => {
   const file = event.files[0];
   const reader = new FileReader();
-  let blob = await fetch(file.objectURL).then((r) => r.blob()); //blob:url
 
-  const fileExtension = file.name.split(".").pop();
-
-  reader.readAsDataURL(blob);
+  reader.readAsArrayBuffer(file);
 
   reader.onloadend = function () {
-    const base64data = reader.result;
+    const arrayBuffer = reader.result;
+    const base64data = arrayBufferToBase64(arrayBuffer);
 
-    const cleanBase64 = base64data.split(",")[1];
+    console.log("base64data", base64data);
 
     const params = {
-      extension: fileExtension,
-      file: cleanBase64,
+      extension: file.name.split(".").pop(),
+      file: base64data,
     };
 
     uploadDocument(props.documentId, params)
@@ -77,6 +79,19 @@ const customBase64Uploader = async (event) => {
       });
   };
 };
+
+// Helper function to convert ArrayBuffer to base64
+function arrayBufferToBase64(buffer) {
+  let binary = "";
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+
+  return btoa(binary);
+}
 
 const addFileOverlay = ref();
 
