@@ -217,7 +217,7 @@ export function useListUtils() {
       {
         name: "service_areas",
         type: "tags",
-        header: "service_areas",
+        header: "customer.service-areas",
         class: "tags buttons",
       },
       { name: "role", type: "role", header: "role" },

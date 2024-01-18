@@ -140,6 +140,7 @@
     "is-provider": "ספק",
     "system-id": "מזהה",
     "main-contact": "איש קשר ראשי",
+    "service-areas": "תחומי שירות",
     "notification": {
       "created": {
         "header": "נוצר לקוח חדש",

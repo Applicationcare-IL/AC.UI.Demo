@@ -142,6 +142,7 @@
     "is-provider": "Is Provider",
     "system-id": "System ID",
     "main-contact": "Main Contact",
+    "service-areas": "Service Areas",
     "notification": {
       "created": {
         "header": "New Customer Created",
