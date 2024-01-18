@@ -72,6 +72,7 @@
                     :options="types"
                     width="80"
                     :value="selectedType"
+                    option-set
                   />
                   <WMInput
                     name="rating"
@@ -81,6 +82,7 @@
                     :options="ratings"
                     :value="selectedRating"
                     width="80"
+                    option-set
                   />
                   <WMInput
                     name="is_provider"
