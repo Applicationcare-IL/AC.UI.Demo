@@ -188,6 +188,7 @@ const dialog = useDialog();
 
 // INJECT
 const isFormDirty = inject("isFormDirty");
+const closeSidebar = inject("closeSidebar");
 
 // PROPS, EMITS
 const props = defineProps({
@@ -196,8 +197,6 @@ const props = defineProps({
     default: false,
   },
 });
-
-const emit = defineEmits(["closeSidebar"]);
 
 // REFS
 const types = ref(optionSetsStore.optionSets["customer_type"]);
@@ -215,10 +214,6 @@ const nextID = ref(0);
 // COMPONENT METHODS
 function openSidebar() {
   isVisible.value = true;
-}
-
-function closeSidebar() {
-  isVisible.value = false;
 }
 
 const { handleSubmit, meta, setFieldError } = useForm({
@@ -245,7 +240,7 @@ const onSubmit = handleSubmit((values) => {
 });
 
 const onCancel = () => {
-  emit("closeSidebar");
+  closeSidebar();
 };
 
 const onCustomerNumberChanged = (event) => {

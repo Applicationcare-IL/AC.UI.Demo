@@ -45,6 +45,7 @@ const formUtilsStore = useFormUtilsStore();
 
 // INJECT
 const isFormDirty = inject("isFormDirty");
+const closeSidebar = inject("closeSidebar");
 
 // PROPS, EMITS
 defineProps({
@@ -53,8 +54,6 @@ defineProps({
     default: false,
   },
 });
-
-const emit = defineEmits(["closeSidebar"]);
 
 // REFS
 const teamMembers = ref([]);
@@ -103,7 +102,7 @@ const onSubmit = handleSubmit((values) => {
 });
 
 const onCancel = () => {
-  emit("closeSidebar");
+  closeSidebar();
 };
 
 // PROVIDE, EXPOSE

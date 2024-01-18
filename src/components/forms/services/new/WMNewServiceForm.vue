@@ -207,6 +207,7 @@ const { createService, parseService } = useServices();
 
 // INJECT
 const isFormDirty = inject("isFormDirty");
+const closeSidebar = inject("closeSidebar");
 
 // PROPS, EMITS
 const props = defineProps({
@@ -215,8 +216,6 @@ const props = defineProps({
     default: false,
   },
 });
-
-const emit = defineEmits(["closeSidebar"]);
 
 // REFS
 const directions = ref();
@@ -304,7 +303,7 @@ const onSubmit = handleSubmit((values) => {
 });
 
 const onCancel = () => {
-  emit("closeSidebar");
+  closeSidebar();
 };
 
 // EXPOSE

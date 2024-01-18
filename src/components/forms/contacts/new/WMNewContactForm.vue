@@ -153,6 +153,7 @@ const { createContact, parseContact } = useContacts();
 
 // INJECT
 const isFormDirty = inject("isFormDirty");
+const closeSidebar = inject("closeSidebar");
 
 // PROPS, EMITS
 const props = defineProps({
@@ -166,7 +167,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["closeSidebar", "contactCreated"]);
+const emit = defineEmits(["contactCreated"]);
 
 // REFS
 const isVisible = ref(false);
@@ -180,10 +181,6 @@ const { handleSubmit, meta } = useForm({
 
 function openSidebar() {
   isVisible.value = true;
-}
-
-function closeSidebar() {
-  isVisible.value = false;
 }
 
 const searchCustomer = (query) => {
@@ -207,7 +204,7 @@ const onSubmit = handleSubmit((values) => {
 });
 
 const onCancel = () => {
-  emit("closeSidebar");
+  closeSidebar();
 };
 
 formUtilsStore.formEntity = "contact";
