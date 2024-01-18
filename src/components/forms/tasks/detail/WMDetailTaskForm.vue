@@ -214,6 +214,7 @@
               :task-id="route.params.id"
               related-entity="task"
               :hide-title="true"
+              :project-id="task.related_entity?.id"
             />
           </AccordionTab>
         </Accordion>

@@ -286,7 +286,9 @@ const handleNewDocument = () => {
     document.task_id = props.taskId;
   }
 
-  document.project_id = 113;
+  if (props.projectId) {
+    document.project_id = props.projectId;
+  }
 
   createDocument(document)
     .then(({ data }) => {
