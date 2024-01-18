@@ -95,10 +95,13 @@ const onSave = handleSubmit((values) => {
     return;
   }
 
+  const signature = signature1.value.save();
+  const cleanBase64Signature = signature.split(",")[1];
+
   const data = {
     signature_status: values.signature_status.id,
     remarks: values.notes,
-    signature: signature1.value.save(),
+    signature: cleanBase64Signature,
   };
 
   signTask(props.signatureId, data)

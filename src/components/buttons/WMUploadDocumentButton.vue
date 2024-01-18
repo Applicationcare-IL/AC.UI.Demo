@@ -1,16 +1,12 @@
 <template>
   <Button v-if="hasFileUploaded" class="p-button-only-icon p-lightblue-button">
-    <div
-      class="p-button-svg"
-      v-html="FileIcon"
-      @click="handleDownloadFile(documentId)"
-    />
+    <div class="p-button-svg" @click="handleDownloadFile(documentId)" v-html="FileIcon" />
   </Button>
   <Button
     v-else
     class="p-button-only-icon p-orange-button"
-    @click="toggleAddFileOverlay"
     :disabled="disabled"
+    @click="toggleAddFileOverlay"
   >
     <div class="p-button-svg" v-html="AddFileIcon" />
   </Button>
@@ -20,9 +16,9 @@
         mode="basic"
         name="demo[]"
         accept="image/*,application/pdf"
-        customUpload
-        @uploader="customBase64Uploader($event)"
+        custom-upload
         :auto="true"
+        @uploader="customBase64Uploader($event)"
       />
       <!-- <Button label="File folder" /> -->
     </div>
@@ -31,8 +27,8 @@
 <script setup>
 import { ref } from "vue";
 
-import FileIcon from "/icons/menu/file.svg?raw";
 import AddFileIcon from "/icons/menu/add_file.svg?raw";
+import FileIcon from "/icons/menu/file.svg?raw";
 
 const props = defineProps({
   documentId: {
@@ -72,7 +68,7 @@ const customBase64Uploader = async (event) => {
     };
 
     uploadDocument(props.documentId, params)
-      .then((data) => {
+      .then(() => {
         hasFileUploaded.value = true;
         addFileOverlay.value.toggle();
       })
