@@ -96,7 +96,7 @@ const onSave = handleSubmit((values) => {
   }
 
   const signature = signature1.value.save();
-  const cleanBase64Signature = signature.split(",")[1];
+  const cleanBase64Signature = signature.replace("data:image/png;base64,", "");
 
   const data = {
     signature_status: values.signature_status.id,
