@@ -25,8 +25,8 @@
 
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
-      v-model:selection="selectedTasks"
       ref="dt"
+      v-model:selection="selectedTasks"
       lazy
       :row-class="rowClass"
       :value="tasks"
@@ -48,6 +48,20 @@
       <Column field="task_number" :header="$t('task.number')" class="link-col">
         <template #body="slotProps">
           <router-link
+            v-if="
+              slotProps.data.task_family?.value === 'subproject' &&
+              slotProps.data.project_created
+            "
+            :to="{
+              name: 'projectDetail',
+              params: { id: slotProps.data.project_created.id },
+            }"
+            class="vertical-align-middle"
+            >{{ slotProps.data.task_number }}</router-link
+          >
+
+          <router-link
+            v-else
             :to="{
               name: 'taskDetail',
               params: { id: slotProps.data.task_number },
@@ -74,7 +88,17 @@
 
       <Column field="task_family " :header="$t('task.family')">
         <template #body="slotProps">
-          <WMOptionSetValue :option-set="slotProps.data.task_family" />
+          <div class="flex justify-content-between align-items-center">
+            <WMOptionSetValue :option-set="slotProps.data.task_family" />
+            <img
+              v-if="
+                slotProps.data.task_family?.value === 'subproject' &&
+                slotProps.data.project_created
+              "
+              src="/icons/format_list_bulleted.svg"
+              class="vertical-align-middle"
+            />
+          </div>
         </template>
       </Column>
       <Column field="task_type.name" :header="$t('task.type')">

@@ -88,6 +88,19 @@
       <template #body="slotProps">
         <template v-if="column.type === 'link'">
           <router-link
+            v-if="
+              slotProps.data.task_family?.value === 'subproject' &&
+              slotProps.data.project_created
+            "
+            :to="{
+              name: 'projectDetail',
+              params: { id: slotProps.data.project_created.id },
+            }"
+            class="vertical-align-middle"
+            >{{ slotProps.data.task_number }}</router-link
+          >
+          <router-link
+            v-else
             :to="{
               name: 'taskDetail',
               params: { id: slotProps.data.task_number },
@@ -112,6 +125,19 @@
         </template>
         <template v-if="column.type === 'optionset'">
           <WMOptionSetValue :option-set="slotProps.data[column.name]" />
+        </template>
+        <template v-if="column.type === 'task_family'">
+          <div class="flex justify-content-between align-items-center">
+            <WMOptionSetValue :option-set="slotProps.data.task_family" />
+            <img
+              v-if="
+                slotProps.data.task_family?.value === 'subproject' &&
+                slotProps.data.project_created
+              "
+              src="/icons/format_list_bulleted.svg"
+              class="vertical-align-middle"
+            />
+          </div>
         </template>
         <template v-if="column.type === 'text'">
           {{ getValueOf(slotProps.data, column.name) }}

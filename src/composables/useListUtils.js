@@ -312,7 +312,7 @@ export function useListUtils() {
         header: "task.number",
         class: "link-col",
       },
-      { name: "task_family", type: "optionset", header: "task.family" },
+      { name: "task_family", type: "task_family", header: "task.family" },
       { name: "task_type.name", type: "text", header: "task.type" },
       { name: "stage", type: "text" },
       { name: "sla", type: "sla", class: "sla" },
