@@ -15,8 +15,8 @@
         </div>
         <div>
           <WMAnnouncementsButton
-            entity="service"
             :id="route.params.id"
+            entity="service"
           ></WMAnnouncementsButton>
         </div>
       </div>
@@ -52,7 +52,7 @@
                   />
                 </div>
                 <div class="wm-form-row gap-5">
-                  <div class="wm-form-row gap-4">
+                  <div class="wm-form-row align-items-start gap-4">
                     <WMInput
                       name="contact"
                       type="info-link"
@@ -96,7 +96,7 @@
                       <WMSLATag
                         v-if="service.sla"
                         :sla="service.sla"
-                        :daysForClosing="service.days_for_closing"
+                        :days-for-closing="service.days_for_closing"
                         :state="service.state"
                       >
                       </WMSLATag>
@@ -110,9 +110,7 @@
                       type="info"
                       :highlighted="true"
                       :label="$t('service.urgency')"
-                      :value="
-                        $t('option-set.service_urgent.' + service.urgency)
-                      "
+                      :value="service.urgency[optionLabelWithLang]"
                     />
                     <WMInput
                       name="recurring"
@@ -138,8 +136,8 @@
               <div class="contact-notes flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
-                    type="text-area"
                     id="description"
+                    type="text-area"
                     name="description"
                     :value="service.description"
                     disabled
@@ -179,13 +177,15 @@
                     :value="service.request1?.value"
                   />
                 </div>
-                <div class="wm-form-row gap-5" v-if="service.is_active">
+                <div v-if="service.is_active" class="wm-form-row gap-5">
+                  <!-- service.request2 {{ service.request2 }} -->
                   <WMInputSearch
+                    v-model="service.request2"
                     name="request2"
                     :highlighted="true"
                     :label="$t('classification-4') + ':'"
-                    :value="service.request2?.value"
                     :options="requests2"
+                    option-set
                     @change="
                       updateDropdown(
                         'service_request_3',
@@ -195,14 +195,15 @@
                     "
                   />
                   <WMInputSearch
+                    v-model="service.request3"
                     name="request3"
                     :highlighted="true"
                     :label="$t('classification-5') + ':'"
-                    :value="service.request3?.value"
                     :options="requests3"
+                    option-set
                   />
                 </div>
-                <div class="wm-form-row gap-5" v-if="!service.is_active">
+                <div v-if="!service.is_active" class="wm-form-row gap-5">
                   <WMInput
                     name="request2"
                     type="info"
@@ -227,22 +228,22 @@
       <div class="mt-5">
         <WMStepper
           :steps="stages"
-          :currentStep="currentStage"
+          :current-step="currentStage"
           aria-label="Form Steps"
         />
       </div>
 
       <div>
         <WMTasksTable
-          relatedEntity="service"
-          :relatedEntityId="service.id"
+          related-entity="service"
+          :related-entity-id="service.id"
           :columns="taskColumns"
           multiselect
         >
         </WMTasksTable>
       </div>
 
-      <div class="flex flex-row gap-5 flex-wrap mt-5">
+      <!-- <div class="flex flex-row gap-5 flex-wrap mt-5">
         <div class="flex-1 card-container">
           <Card>
             <template #title> Files </template>
@@ -263,7 +264,7 @@
             </template>
           </Card>
         </div>
-      </div>
+      </div> -->
 
       <div class="flex flex-row gap-5 flex-wrap mt-5">
         <div class="flex-1 tabs-container">
@@ -320,15 +321,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
-
-import { useForm } from "vee-validate";
-import { useUtilsStore } from "@/stores/utils";
-import { useFormUtilsStore } from "@/stores/formUtils";
-
-import { useOptionSetsStore } from "@/stores/optionSets";
-import { useRoute } from "vue-router";
 import { useDateFormat } from "@vueuse/core";
+import { useForm } from "vee-validate";
+import { onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+
+import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
+import { useUtilsStore } from "@/stores/utils";
+
+const { optionLabelWithLang } = useLanguages();
 
 const { getTasksFromApi } = useTasks();
 const { setSelectedContacts } = useContacts();
@@ -408,15 +410,14 @@ const updateDropdown = (optionSet, selectedValue, dropdownOptions) => {
     });
 };
 
-const { errors, handleSubmit, setFieldError, meta } = useForm({
+const { handleSubmit, meta } = useForm({
   validationSchema: formUtilsStore.getServiceDetailFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {
   updateService(route.params.id, parseUpdateService(values))
-    .then((data) => {
+    .then(() => {
       toast.successAction("service", "updated");
-      resetForm({ values: values });
     })
     .catch((error) => {
       console.error(error);

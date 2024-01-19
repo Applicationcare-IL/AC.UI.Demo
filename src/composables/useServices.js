@@ -73,8 +73,8 @@ export function useServices() {
 
   const parseUpdateService = (service) => {
     return {
-      request_2: service.request1?.id,
-      request_3: service.request2?.id,
+      request_2: service.request2?.id,
+      request_3: service.request3?.id,
     };
   };
 
@@ -100,7 +100,7 @@ export function useServices() {
       sla: service.process.sla.sla,
       priority: "1",
       recurring: service.recurring == 0 ? "no" : "yes",
-      urgency: service.urgent.value,
+      urgency: service.urgent,
       last_change: service.last_activity?.updater.at,
       closed: service.process.closed ? service.process.closed : "--",
       days_for_closing: service.process.sla.days_for_closing,
