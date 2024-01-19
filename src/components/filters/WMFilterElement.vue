@@ -6,56 +6,60 @@
     <!-- DROPDOWN -->
     <WMAutocomplete
       v-if="type == 'dropdown'"
+      v-model="selectedOptions"
       :placeholder="placeholder"
       :multiple="true"
       width="248"
       :options="options"
-      v-model="selectedOptions"
-      :optionSet="optionSet"
-      @update:modelValue="onDropdownChanged"
+      :option-set="optionSet"
+      @update:model-value="onDropdownChanged"
     />
     <!-- ENTITY -->
     <WMAutocomplete
       v-if="type == 'entity'"
+      v-model="selectedOptions"
       :placeholder="placeholder"
       :multiple="true"
       width="248"
-      v-model="selectedOptions"
-      optionLabel="name"
-      :searchFunction="searchFunction"
-      @update:modelValue="onDropdownChanged"
+      option-label="name"
+      :search-function="searchFunction"
+      @update:model-value="onDropdownChanged"
     />
     <!-- BUTTONS -->
-    <div class="flex flex-row gap-2 p-2" v-if="type == 'buttons'">
+    <div v-if="type == 'buttons'" class="flex flex-row gap-2 p-2">
       <WMSelectableButton
         v-for="(option, index) in options"
         :key="index"
-        :label="option[optionLabelWithLang]"
         v-model="isButtonSelected[index]"
-        @update:modelValue="onButtonChanged($event, option)"
+        :label="option[optionLabelWithLang]"
+        @update:model-value="onButtonChanged($event, option)"
       />
     </div>
     <!-- DATES -->
-    <div class="flex flex-row gap-2 p-2" v-if="type == 'date'">
+    <div v-if="type == 'date'" class="flex flex-row gap-2 p-2">
       <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label"> מ: </label>
+        <label v-if="label != ''" class="wm-form-label">
+          {{ $t("from") }}:
+        </label>
         <Calendar
           v-model="fromDate"
-          showIcon
-          @update:modelValue="onDateChanged($event, 'from')"
+          show-icon
+          @update:model-value="onDateChanged($event, 'from')"
         />
       </div>
       <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label"> עד: </label>
+        <label v-if="label != ''" class="wm-form-label">
+          {{ $t("to") }}:
+        </label>
         <Calendar
           v-model="toDate"
-          showIcon
-          @update:modelValue="onDateChanged($event, 'to')"
+          show-icon
+          @update:model-value="onDateChanged($event, 'to')"
         />
       </div>
     </div>
 
-    <Button @click="clear" link>
+    <Button link @click="clear">
       {{ $t("buttons.clear") }}
     </Button>
   </div>
@@ -63,24 +67,23 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useOptionSetsStore } from "@/stores/optionSets";
 import { useDateFormat } from "@vueuse/core";
+import { ref } from "vue";
+
+import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 const emits = defineEmits(["update:filter"]);
 
-const { entity, type, optionSet, placeholder, filterName, label } = defineProps(
-  {
-    entity: String,
-    type: String,
-    optionSet: String,
-    placeholder: String,
-    filterName: String,
-    label: String,
-    searchFunction: Function,
-  }
-);
+const { type, optionSet, placeholder, filterName, label } = defineProps({
+  entity: String,
+  type: String,
+  optionSet: String,
+  placeholder: String,
+  filterName: String,
+  label: String,
+  searchFunction: Function,
+});
 
 const { optionLabelWithLang } = useLanguages();
 

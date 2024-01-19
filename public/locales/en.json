@@ -143,6 +143,7 @@
     "system-id": "System ID",
     "main-contact": "Main Contact",
     "service-areas": "Service Areas",
+    "service-areas-placeholder": "Select service areas",
     "notification": {
       "created": {
         "header": "New Customer Created",
@@ -191,6 +192,8 @@
     "service-area": "Service area",
     "service-type": "Service type",
     "request-1": "Request 1",
+    "service-area-placeholder": "Service areas",
+    "service-type-placeholder": "Service types",
     "notification": {
       "created": {
         "header": "New service Created",
@@ -234,6 +237,8 @@
     "complete": "Complete",
     "description": "Description",
     "sign_button": "",
+    "task-family-placeholder": "Select task family",
+    "task-type-placeholder": "Select task type",
     "notification": {
       "created": {
         "header": "New Task Created",
@@ -490,6 +495,13 @@
     "contact-title": "Contact Filters",
     "service-title": "Service Filters",
     "project-title": "Project Filters",
-    "no-filters-applied": "No filters applied"
+    "no-filters-applied": "No filters applied",
+    "service-sla-status": "Service SLA Status",
+    "task-sla-status": "Task SLA Status",
+    "select-city": "Select city",
+    "select-street": "Select street",
+    "open-date": "Open date",
+    "due-date": "Due date",
+    "started-at": "Started at"
   }
 }

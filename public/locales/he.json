@@ -58,6 +58,8 @@
   "logs": "לוגים",
   "rows-per-page": "רשומות בדף",
   "no-results": "לא נמצאו תוצאות",
+  "from": "מ",
+  "to": "עד",
   "buttons": {
     "link_contact": "שיוך איש קשר",
     "link_customer": "שיוך ארגונים",
@@ -141,6 +143,7 @@
     "system-id": "מזהה",
     "main-contact": "איש קשר ראשי",
     "service-areas": "תחומי שירות",
+    "service-areas-placeholder": "בחירת תחום שירות",
     "notification": {
       "created": {
         "header": "נוצר לקוח חדש",
@@ -168,8 +171,8 @@
     "breached": "תהליכים שנפרצו",
     "number": "מספר תהליך",
     "open-date": "תאריך פתיחה",
+    "due-date": "תאריך יעד",
     "start-date": "ת. התחלה",
-    "due-date": "ת. יעד",
     "stage": "שלב",
     "sla": "SLA",
     "owner": "אחראי",
@@ -189,6 +192,8 @@
     "service-area": "תחום שירות",
     "service-type": "תת-תחום",
     "request-1": "מהות",
+    "service-area-placeholder": "בחירת תחום",
+    "service-type-placeholder": "בחירת תת-תחום",
     "notification": {
       "created": {
         "header": "נוצר שירות חדש",
@@ -232,6 +237,8 @@
     "complete": "השלם",
     "description": "תיאור",
     "sign_button": "",
+    "task-family-placeholder": "בחירת משפחה",
+    "task-type-placeholder": "בחירת סוג משימה",
     "notification": {
       "created": {
         "header": "New Task Created",
@@ -497,6 +504,13 @@
     "contact-title": "סינון אנשי קשר",
     "service-title": "סינון שירותים",
     "project-title": "סינון פרויקטים",
-    "no-filters-applied": "לא הופעלו סננים"
+    "no-filters-applied": "לא הופעלו סננים",
+    "service-sla-status": "תהליכים פתוחים",
+    "task-sla-status": "משימות פתוחות",
+    "select-city": "בחירת עיר",
+    "select-street": "בחירת רחוב",
+    "started_at": "תאריך התחלה",
+    "open-date": "תאריך פתיחה",
+    "due-date": "תאריך יעד"
   }
 }

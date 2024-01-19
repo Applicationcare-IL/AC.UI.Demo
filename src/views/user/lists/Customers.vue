@@ -90,7 +90,7 @@
       <Column field="status" :header="$t('status')">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.status)">
-            {{ $t("statuses." + slotProps.data.status.toLowerCase()) }}
+            <WMOptionSetValue :option-set="slotProps.data.status" />
           </div>
         </template>
       </Column>
