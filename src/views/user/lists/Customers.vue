@@ -65,7 +65,7 @@
       <Column field="type" :header="$t('customer.type')">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.type)">
-            {{ $t("option-set.customer_type." + slotProps.data.type.value) }}
+            <WMOptionSetValue :option-set="slotProps.data.type" />
           </div>
         </template>
       </Column>
