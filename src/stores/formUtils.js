@@ -198,26 +198,26 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "customer.rating" },
           }),
-        city: yup
-          .object()
-          .required({
-            key: "validation.required-select",
-            values: { label: "address.city" },
-          })
-          .typeError({
-            key: "validation.required-select",
-            values: { label: "address.city" },
-          }),
-        street: yup
-          .object()
-          .required({
-            key: "validation.required-select",
-            values: { label: "address.street" },
-          })
-          .typeError({
-            key: "validation.required-select",
-            values: { label: "address.street" },
-          }),
+        // city: yup
+        //   .object()
+        //   .required({
+        //     key: "validation.required-select",
+        //     values: { label: "address.city" },
+        //   })
+        //   .typeError({
+        //     key: "validation.required-select",
+        //     values: { label: "address.city" },
+        //   }),
+        // street: yup
+        //   .object()
+        //   .required({
+        //     key: "validation.required-select",
+        //     values: { label: "address.street" },
+        //   })
+        //   .typeError({
+        //     key: "validation.required-select",
+        //     values: { label: "address.street" },
+        //   }),
       });
     },
     getCustomerDetailFormValidationSchema: (state) => {

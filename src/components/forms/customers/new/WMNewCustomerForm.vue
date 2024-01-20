@@ -45,6 +45,7 @@
           :options="types"
           width="80"
           option-set
+          required
         />
         <WMInput
           name="rating"
@@ -54,6 +55,7 @@
           :options="ratings"
           width="80"
           option-set
+          required
         />
 
         <WMInput
@@ -80,7 +82,7 @@
         />
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px" />
-      <WMNewFormAddress />
+      <WMNewFormAddress :required-fields="['city', 'street']" />
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px" />
       <div class="customer-address flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">
@@ -196,7 +198,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showConfirmDialog: {
+    type: Boolean,
+    default: true,
+  },
 });
+
+const emit = defineEmits(["customerCreated"]);
 
 // REFS
 const types = ref(optionSetsStore.optionSets["customer_type"]);
@@ -228,10 +236,16 @@ const onSubmit = handleSubmit((values) => {
       main: contact.main,
     };
   });
+
   createCustomer(parseCustomer(values, contacts))
     .then((data) => {
-      dialog.confirmNewCustomer(data.data.id);
-      toast.successAction("customer", "created");
+      if (props.showConfirmDialog) {
+        dialog.confirmNewCustomer(data.data.id);
+      }
+
+      emit("customerCreated", data.data.id);
+      toast.success("Customer successfully created");
+      // toast.successAction("customer", "created");
     })
     .catch((error) => {
       console.error(error);

@@ -214,7 +214,7 @@
               :task-id="route.params.id"
               related-entity="task"
               :hide-title="true"
-              :project-id="task.related_entity?.id"
+              :project-id="projectId"
             />
           </AccordionTab>
         </Accordion>
@@ -317,6 +317,14 @@ const contactFullName = computed(() => {
   }
 
   return "";
+});
+
+const projectId = computed(() => {
+  if (task.value.related_entity?.type === "project") {
+    return task.value.related_entity.id;
+  }
+
+  return null;
 });
 
 // COMPONENT METHODS

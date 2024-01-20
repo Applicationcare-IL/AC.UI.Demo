@@ -59,16 +59,22 @@
           :search-function="searchCustomer"
           :new="true"
           related-sidebar="newCustomer"
+          :model-value="selectedCustomers"
         />
 
         <WMSidebar
-          :visible="isVisible"
+          :visible="isNewCustomerSidebarVisible"
           name="newCustomer"
-          @close-sidebar="closeSidebar"
+          @close-sidebar="closeNewCustomerSidebar"
           @open-sidebar="openSidebar"
         >
           <WMNewEntityFormHeader entity="customer" name="newCustomer" />
-          <WMNewCustomerForm :is-sidebar="true" @close-sidebar="closeSidebar" />
+          <WMNewCustomerForm
+            :is-sidebar="true"
+            :show-confirm-dialog="false"
+            @close-sidebar="closeNewCustomerSidebar"
+            @customer-created="handleCustomerCreated"
+          />
         </WMSidebar>
       </div>
     </div>
@@ -148,7 +154,7 @@ const optionSetsStore = useOptionSetsStore();
 const toast = useToast();
 const dialog = useDialog();
 
-const { getCustomersFromApi } = useCustomers();
+const { getCustomersFromApi, getCustomerFromApi } = useCustomers();
 const { createContact, parseContact } = useContacts();
 
 // INJECT
@@ -170,8 +176,9 @@ const props = defineProps({
 const emit = defineEmits(["contactCreated"]);
 
 // REFS
-const isVisible = ref(false);
+const isNewCustomerSidebarVisible = ref(false);
 const genders = ref(optionSetsStore.optionSets["gender"]);
+const selectedCustomers = ref([]);
 
 // COMPUTED
 // COMPONENT METHODS
@@ -180,7 +187,11 @@ const { handleSubmit, meta } = useForm({
 });
 
 function openSidebar() {
-  isVisible.value = true;
+  isNewCustomerSidebarVisible.value = true;
+}
+
+function closeNewCustomerSidebar() {
+  isNewCustomerSidebarVisible.value = false;
 }
 
 const searchCustomer = (query) => {
@@ -195,7 +206,7 @@ const onSubmit = handleSubmit((values) => {
       }
 
       emit("contactCreated", data.data.id);
-      toast.successAction("contact", "created");
+      toast.success("Contact successfully created");
     })
     .catch((error) => {
       console.error(error);
@@ -206,6 +217,20 @@ const onSubmit = handleSubmit((values) => {
 const onCancel = () => {
   closeSidebar();
 };
+
+function handleCustomerCreated(customerId) {
+  if (!customerId) {
+    return;
+  }
+
+  getCustomerFromApi(customerId).then((response) => {
+    const selectedCustomersFromResponse = [];
+    selectedCustomersFromResponse.push(response);
+    selectedCustomers.value = selectedCustomersFromResponse;
+
+    closeNewCustomerSidebar();
+  });
+}
 
 formUtilsStore.formEntity = "contact";
 

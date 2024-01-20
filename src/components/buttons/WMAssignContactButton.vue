@@ -104,6 +104,13 @@ function closeNewContactSidebar() {
   isNewContactSidebarVisible.value = false;
 }
 
+/**
+ * When we create a new contact using the new contact form in a sidebar, we need to
+ * add it to the list of the contacts that uses the WMAssignContactButton and
+ * close the new form sidebar, so we manage it here by emitting the event "addContacts" and
+ * closing the sidebar directly from this component
+ * @param {*} contactId
+ */
 function handleContactCreated(contactId) {
   if (!contactId) {
     return;

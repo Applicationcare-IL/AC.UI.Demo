@@ -11,8 +11,10 @@
         width="152"
         :placeholder="$t('select', ['addres.city'])"
         :option-set="true"
+        :required="isCityRequired"
         @change="updateStreets"
       />
+
       <div class="flex flex-row">
         <WMInputSearch
           name="street"
@@ -22,6 +24,7 @@
           width="152"
           :placeholder="$t('select', ['address.street'])"
           :option-set="true"
+          :required="isStreetRequired"
         />
       </div>
     </div>
@@ -63,13 +66,28 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
+
+const props = defineProps({
+  requiredFields: {
+    type: Array,
+    default: () => [],
+  },
+});
+
+const isCityRequired = computed(() => {
+  return props.requiredFields?.includes("city");
+});
+
+const isStreetRequired = computed(() => {
+  return props.requiredFields?.includes("street");
+});
 
 const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);

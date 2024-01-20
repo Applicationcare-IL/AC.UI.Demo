@@ -21,7 +21,7 @@
             :new="true"
             related-sidebar="newContact"
             :search-function="searchContact"
-            :model-value="preselectedContact"
+            :model-value="selectedContact"
           />
           <WMSidebar
             :visible="isNewContactSidebarVisible"
@@ -32,7 +32,9 @@
             <WMNewEntityFormHeader entity="contact" name="newContact" />
             <WMNewContactForm
               :is-sidebar="true"
+              :show-confirm-dialog="false"
               @close-sidebar="closeNewContactSidebar"
+              @contact-created="handleContactCreated"
             />
           </WMSidebar>
         </div>
@@ -47,7 +49,7 @@
           :search-function="searchCustomer"
           :new="true"
           related-sidebar="newCustomer"
-          :model-value="preselectedCustomer"
+          :model-value="selectedCustomer"
         />
         <WMSidebar
           :visible="isNewCustomerSidebarVisible"
@@ -58,7 +60,9 @@
           <WMNewEntityFormHeader entity="customer" name="newCustomer" />
           <WMNewCustomerForm
             :is-sidebar="true"
+            :show-confirm-dialog="false"
             @close-sidebar="closeNewCustomerSidebar"
+            @customer-created="handleCustomerCreated"
           />
         </WMSidebar>
       </div>
@@ -140,7 +144,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { inject, ref, watch } from "vue";
+import { inject, onMounted, ref, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -149,13 +153,13 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 const optionSetsStore = useOptionSetsStore();
 
 const { getTasksTypesFromApi, createTask, parseTask } = useTasks();
-const { getCustomersFromApi } = useCustomers();
+const { getCustomersFromApi, getCustomerFromApi } = useCustomers();
 
 const toast = useToast();
 const dialog = useDialog();
 const formUtilsStore = useFormUtilsStore();
 
-const { getContactsFromApi } = useContacts();
+const { getContactsFromApi, getContactFromApi } = useContacts();
 
 // INJECT
 const preselectedContact = inject("preselectedContact", null);
@@ -187,6 +191,9 @@ const taskFamily = ref("");
 
 const isNewContactSidebarVisible = ref(false);
 const isNewCustomerSidebarVisible = ref(false);
+
+const selectedContact = ref();
+const selectedCustomer = ref();
 
 // const selectedStartTaskOption = ref({ name: "now", value: "now" });
 // const startTaskOptions = ref([
@@ -276,6 +283,30 @@ const onCancel = () => {
   closeSidebar();
 };
 
+function handleContactCreated(contactId) {
+  if (!contactId) {
+    return;
+  }
+
+  getContactFromApi(contactId).then((response) => {
+    selectedContact.value = response;
+
+    closeNewContactSidebar();
+  });
+}
+
+function handleCustomerCreated(customerId) {
+  if (!customerId) {
+    return;
+  }
+
+  getCustomerFromApi(customerId).then((response) => {
+    selectedCustomer.value = response;
+
+    closeNewCustomerSidebar();
+  });
+}
+
 // function onChange(value) {
 //   selectedStartTaskOption.value = value;
 // }
@@ -295,6 +326,15 @@ watch(
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  if (preselectedContact) {
+    selectedContact.value = preselectedContact.value;
+  }
+
+  if (preselectedCustomer) {
+    selectedCustomer.value = preselectedCustomer.value;
+  }
+});
 </script>
 
 <style scoped lang="scss"></style>
