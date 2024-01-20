@@ -127,7 +127,7 @@
 
 <script setup>
 // IMPORTS
-import { onMounted, ref, watch, watchEffect } from "vue";
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -171,6 +171,10 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  relatedEntity: {
+    type: String,
+    default: "",
+  },
 });
 
 // REFS
@@ -185,11 +189,8 @@ const isFilterVisible = ref(false);
 const editMode = ref([]);
 
 // COMPUTED
-const defaultRole = ref(() => {
+const defaultRole = computed(() => {
   return optionSetsStore.optionSets["contact_customer_role"][0];
-  // return optionSetsStore.optionSets["contact_customer_role"].find(
-  //   (role) => role.value === "employee"
-  // );
 });
 
 // COMPONENT METHODS

@@ -222,7 +222,11 @@
         </div>
       </div>
       <div>
-        <WMCustomersTable :contact-id="contact.id" :columns="customerColumns" />
+        <WMCustomersTable
+          :contact-id="contact.id"
+          :columns="customerColumns"
+          related-entity="contact"
+        />
       </div>
       <div>
         <WMServicesTable

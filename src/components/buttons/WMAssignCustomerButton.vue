@@ -41,7 +41,9 @@
     <WMNewEntityFormHeader entity="customer" name="newCustomer" />
     <WMNewCustomerForm
       :is-sidebar="true"
+      :show-confirm-dialog="false"
       @close-sidebar="closeNewCustomerSidebar"
+      @customer-created="handleCustomerCreated"
     />
   </WMSidebar>
 </template>
@@ -53,7 +55,7 @@ import { ref } from "vue";
 import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES
-const { getCustomersFromApi } = useCustomers();
+const { getCustomersFromApi, getCustomerFromApi } = useCustomers();
 const { layoutConfig } = useLayout();
 
 // PROPS, EMITS
@@ -99,6 +101,27 @@ function openNewCustomerSidebar() {
 
 function closeNewCustomerSidebar() {
   isNewCustomerSidebarVisible.value = false;
+}
+
+/**
+ * When we create a new customer using the new customer form in a sidebar, we need to
+ * add it to the list of the customers that uses the WMAssignCustomerButton and
+ * close the new form sidebar, so we manage it here by emitting the event "addCustomers" and
+ * closing the sidebar directly from this component
+ * @param {*} customerId
+ */
+function handleCustomerCreated(customerId) {
+  if (!customerId) {
+    return;
+  }
+
+  getCustomerFromApi(customerId).then((response) => {
+    selectedCustomers.value.push(response);
+
+    emit("addCustomers", selectedCustomers.value);
+    closeNewCustomerSidebar();
+    clearSelectedCustomers();
+  });
 }
 
 // WATCHERS
