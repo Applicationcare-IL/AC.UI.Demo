@@ -22,6 +22,7 @@
           :search-function="searchContact"
           :new="true"
           related-sidebar="newContact"
+          :model-value="selectedContact"
         />
 
         <WMSidebar
@@ -33,7 +34,9 @@
           <WMNewEntityFormHeader entity="contact" name="newContact" />
           <WMNewContactForm
             :is-sidebar="true"
+            :show-confirm-dialog="false"
             @close-sidebar="closeNewContactSidebar"
+            @contact-created="handleContactCreated"
           />
         </WMSidebar>
 
@@ -48,6 +51,7 @@
           :search-function="searchCustomer"
           :new="true"
           related-sidebar="newCustomer"
+          :model-value="selectedCustomer"
         />
 
         <WMSidebar
@@ -59,7 +63,9 @@
           <WMNewEntityFormHeader entity="customer" name="newCustomer" />
           <WMNewCustomerForm
             :is-sidebar="true"
+            :show-confirm-dialog="false"
             @close-sidebar="closeNewCustomerSidebar"
+            @customer-created="handleCustomerCreated"
           />
         </WMSidebar>
       </div>
@@ -201,8 +207,8 @@ const optionSetsStore = useOptionSetsStore();
 const toast = useToast();
 const dialog = useDialog();
 const formUtilsStore = useFormUtilsStore();
-const { getCustomersFromApi } = useCustomers();
-const { getContactsFromApi } = useContacts();
+const { getCustomersFromApi, getCustomerFromApi } = useCustomers();
+const { getContactsFromApi, getContactFromApi } = useContacts();
 const { createService, parseService } = useServices();
 
 // INJECT
@@ -221,6 +227,9 @@ const props = defineProps({
 const directions = ref();
 const channels = ref();
 const urgencies = ref();
+
+const selectedContact = ref();
+const selectedCustomer = ref();
 
 const quickCodes = ref([]);
 const areas = ref([]);
@@ -305,6 +314,30 @@ const onSubmit = handleSubmit((values) => {
 const onCancel = () => {
   closeSidebar();
 };
+
+function handleContactCreated(contactId) {
+  if (!contactId) {
+    return;
+  }
+
+  getContactFromApi(contactId).then((response) => {
+    selectedContact.value = response;
+
+    closeNewContactSidebar();
+  });
+}
+
+function handleCustomerCreated(customerId) {
+  if (!customerId) {
+    return;
+  }
+
+  getCustomerFromApi(customerId).then((response) => {
+    selectedCustomer.value = response;
+
+    closeNewCustomerSidebar();
+  });
+}
 
 // EXPOSE
 defineExpose({

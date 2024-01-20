@@ -116,13 +116,15 @@
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px" />
       <div class="customer-address flex flex-auto flex-column gap-5">
-        <h2 class="h2 mb-0">אנשי קשר</h2>
+        <h2 class="h2 mb-0">
+          {{ $t("contact.contact") }}
+        </h2>
         <div class="wm-form-row gap-5">
           <WMInputSearch
             name="contact"
             :placeholder="$t('select', ['contact'])"
             type="table"
-            label="אנשי קשר:"
+            :label="$t('contact.contacts') + ':'"
             width="160"
             :highlighted="true"
             :search-function="searchContact"
@@ -134,13 +136,15 @@
           <WMSidebar
             :visible="isVisible"
             name="newContact"
-            @close-sidebar="closeSidebar"
+            @close-sidebar="closeNewContactSidebar"
             @open-sidebar="openSidebar"
           >
             <WMNewEntityFormHeader entity="contact" name="newContact" />
             <WMNewContactForm
               :is-sidebar="true"
-              @close-sidebar="closeSidebar"
+              :show-confirm-dialog="false"
+              @close-sidebar="closeNewContactSidebar"
+              @contact-created="handleContactCreated"
             />
           </WMSidebar>
         </div>
@@ -183,7 +187,7 @@ const { getSelectedContactsForNewCustomerColumns } = useListUtils();
 const { createCustomer, parseCustomer, existsCustomer } = useCustomers();
 const { getNextEntityID } = useUtils();
 
-const { getContactsFromApi } = useContacts();
+const { getContactsFromApi, getContactFromApi } = useContacts();
 
 const toast = useToast();
 const dialog = useDialog();
@@ -310,7 +314,6 @@ const onContactselected = (newContact) => {
   if (
     selectedContacts.value.some((contact) => contact.id === newContact.value.id)
   ) {
-    console.log("entro aquí");
     return;
   }
 
@@ -318,6 +321,26 @@ const onContactselected = (newContact) => {
   newContact.value.role = { ...defaultRole };
   selectedContacts.value.push(newContact.value);
 };
+
+const closeNewContactSidebar = () => {
+  isVisible.value = false;
+};
+
+function handleContactCreated(contactId) {
+  if (!contactId) {
+    return;
+  }
+
+  getContactFromApi(contactId).then((contact) => {
+    const newContact = {
+      ...contact,
+      role: { ...defaultRole },
+    };
+
+    selectedContacts.value.push(newContact);
+    closeNewContactSidebar();
+  });
+}
 
 const defaultRole = optionSetsStore.optionSets["contact_customer_role"][0];
 
