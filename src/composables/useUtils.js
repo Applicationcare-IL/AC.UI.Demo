@@ -35,6 +35,19 @@ export function useUtils() {
     return formattedAddress;
   };
 
+  const formatCityData = (location) => {
+    if (!location.block || !location.parcel || !location.sub_parcel) {
+      return false;
+    }
+
+    const { block, parcel, sub_parcel } = location;
+    const formattedLocation = [block, parcel, sub_parcel]
+      .filter((value) => value)
+      .join(" - ");
+
+    return formattedLocation;
+  };
+
   function getValueOf(obj, reference) {
     // Dividir la cadena de referencia en partes
     const keys = reference.split(".");
@@ -61,6 +74,7 @@ export function useUtils() {
   return {
     getNextEntityID,
     formatAddress,
+    formatCityData,
     getValueOf,
     currentEntity: entity,
   };
