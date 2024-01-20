@@ -9,7 +9,7 @@
   </WMSidebar> -->
 
   <h2 v-if="!hideTitle" class="h2">{{ $t("project.projects") }}</h2>
-  <div class="flex flex-column gap-3 mb-3" v-if="showHeaderOptions">
+  <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMButton
@@ -21,7 +21,7 @@
           >{{ t("new") }}</WMButton
         >
       </div>
-      <div class="flex flex-row align-items-center gap-3" v-if="showFilters">
+      <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <!-- <WMButton
           name="filter"
           icon="filter"
@@ -47,31 +47,37 @@
   </div>
 
   <DataTable
-    lazy
+    ref="dt"
     v-model:selection="selectedProjects"
-    :value="projects"
-    dataKey="project_id"
     v-model:expandedRows="expandedRows"
-    :rowClass="showExpander"
-    tableStyle="min-width: 50rem"
+    lazy
+    :value="projects"
+    data-key="project_id"
+    :row-class="showExpander"
     class="p-datatable-sm projects-table"
+    table-style="width: 100%; table-layout: fixed;
+    border-collapse: collapse;"
     paginator
     scrollable
-    scrollHeight="flex"
+    scroll-height="flex"
     :rows="rows"
     :first="0"
-    ref="dt"
-    :totalRecords="totalRecords"
+    :total-records="totalRecords"
     :loading="loading"
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column expander style="width: 45px"> </Column>
-    <Column style="width: 40px" selectionMode="multiple" v-if="multiselect" />
+    <Column expander style="width: 0px"> </Column>
+    <Column
+      style="width: 0px"
+      class="th-selection"
+      selection-mode="multiple"
+    ></Column>
     <Column
       field="project_number"
       :header="$t('project.project_number')"
       class="link-col"
+      style="width: 30px"
     >
       <template #body="slotProps">
         <router-link
@@ -85,28 +91,65 @@
         </router-link>
       </template>
     </Column>
-    <Column field="project_name" :header="$t('project.project_name')" />
-    <Column field="city_data" :header="$t('project.city_data')" />
-    <Column field="address" :header="$t('project.address')" />
-    <Column field="project_type" :header="$t('project.project_type')">
+    <Column
+      field="project_name"
+      :header="$t('project.project_name')"
+      style="width: 60px"
+    >
       <template #body="slotProps">
-        <WMOptionSetValue :optionSet="slotProps.data.project_type" />
+        <div class="overflow-x-auto">
+          {{ slotProps.data.project_name }}
+        </div>
       </template>
     </Column>
-    <Column field="project_area" :header="$t('project.project_area')">
+    <Column
+      field="city_data"
+      :header="$t('project.city_data')"
+      style="width: 30px"
+    >
       <template #body="slotProps">
-        <WMOptionSetValue :optionSet="slotProps.data.project_area" />
+        {{ formatCityData(slotProps.data.location) }}
       </template>
     </Column>
-    <Column field="project_detail" :header="$t('project.project_detail')">
+    <Column field="address" :header="$t('project.address')" style="width: 30px">
       <template #body="slotProps">
-        <WMOptionSetValue :optionSet="slotProps.data.project_detail" />
+        <div class="overflow-x-auto">
+          {{ formatAddress(slotProps.data.location) }}
+        </div>
+      </template>
+    </Column>
+    <Column
+      field="project_type"
+      :header="$t('project.project_type')"
+      style="width: 30px"
+    >
+      <template #body="slotProps">
+        <WMOptionSetValue :option-set="slotProps.data.project_type" />
+      </template>
+    </Column>
+    <Column
+      field="project_area"
+      :header="$t('project.project_area')"
+      style="width: 30px"
+    >
+      <template #body="slotProps">
+        <WMOptionSetValue :option-set="slotProps.data.project_area" />
+      </template>
+    </Column>
+    <Column
+      field="project_detail"
+      :header="$t('project.project_detail')"
+      style="width: 30px"
+    >
+      <template #body="slotProps">
+        <WMOptionSetValue :option-set="slotProps.data.project_detail" />
       </template>
     </Column>
     <Column
       field="open_tasks"
       :header="$t('project.open_tasks')"
       class="numeric"
+      style="width: 30px"
     >
       <div :class="highlightCellClass(slotProps.data.open_tasks)">
         {{ slotProps.data.open_tasks }}
@@ -116,6 +159,7 @@
       field="breached_tasks"
       :header="$t('project.breached_tasks')"
       class="numeric"
+      style="width: 30px"
     >
       <template #body="slotProps">
         <div :class="highlightCellClass(slotProps.data.breached_tasks)">
@@ -124,108 +168,43 @@
       </template>
     </Column>
 
-    <Column field="stage" :header="$t('project.stage')" />
-    <Column field="status" :header="$t('project.status')" class="p-0 filled-td">
+    <Column field="stage" :header="$t('project.stage')" style="width: 30px" />
+    <Column
+      field="status"
+      :header="$t('project.status')"
+      class="p-0 filled-td"
+      style="width: 30px"
+    >
       <template #body="slotProps">
         <div
           :class="statusClass(slotProps.data.status.value)"
           class="status-label h-full w-full"
         >
-          <WMOptionSetValue :optionSet="slotProps.data.status" />
+          <WMOptionSetValue :option-set="slotProps.data.status" />
         </div>
       </template>
     </Column>
 
     <template #expansion="slotProps">
-      <DataTable
-        :value="slotProps.data.subprojects"
-        v-model:selection="selectedProjects"
-        @update:selection="onSelectionChanged"
-        class="subtable"
-      >
-        <Column style="width: 45px"></Column>
-        <Column
-          style="width: 40px"
-          selectionMode="multiple"
-          v-if="multiselect"
-        ></Column>
-        <Column
-          field="project_number"
-          :header="$t('project.project_number')"
-          class="link-col"
-        >
-          <template #body="slotProps">
-            <router-link
-              :to="{
-                name: 'projectDetail',
-                params: { id: slotProps.data.project_id },
-              }"
-              class="vertical-align-middle"
-            >
-              {{ slotProps.data.project_id }}
-            </router-link>
-          </template>
-        </Column>
-        <Column field="project_name" :header="$t('project.project_name')" />
-        <Column field="city_data" :header="$t('project.city_data')" />
-        <Column field="address" :header="$t('project.address')" />
-        <Column field="project_type" :header="$t('project.project_type')">
-          <template #body="slotProps">
-            <WMOptionSetValue :optionSet="slotProps.data.project_type" />
-          </template>
-        </Column>
-        <Column field="project_area" :header="$t('project.project_area')">
-          <template #body="slotProps">
-            <WMOptionSetValue :optionSet="slotProps.data.project_area" />
-          </template>
-        </Column>
-        <Column field="project_detail" :header="$t('project.project_detail')">
-          <template #body="slotProps">
-            <WMOptionSetValue :optionSet="slotProps.data.project_detail" />
-          </template>
-        </Column>
-        <Column field="open_tasks" :header="$t('project.open_tasks')" />
-        <Column
-          field="breached_tasks"
-          :header="$t('project.breached_tasks')"
-          class="numeric"
-        >
-          <template #body="slotProps">
-            <div :class="highlightCellClass(slotProps.data.breached_tasks)">
-              {{ slotProps.data.breached_tasks }}
-            </div>
-          </template>
-        </Column>
-
-        <Column field="stage" :header="$t('project.stage')" />
-        <Column
-          field="status"
-          :header="$t('project.status')"
-          class="p-0 filled-td"
-        >
-          <template #body="slotProps">
-            <div
-              :class="statusClass(slotProps.data.status.value)"
-              class="status-label h-full w-full"
-            >
-              <WMOptionSetValue :optionSet="slotProps.data.status" />
-            </div>
-          </template>
-        </Column>
-      </DataTable>
+      <WMProjectsSubprojectDatatable
+        v-model="selectedProjects"
+        :project="slotProps.data.subprojects"
+      />
     </template>
   </DataTable>
 </template>
 
 <script setup>
-import { ref, watch, watchEffect, onMounted } from "vue";
+import { onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
 
 const { getStatusConditionalStyle } = useListUtils();
 
-const { t, locale } = useI18n();
+const { formatAddress, formatCityData } = useUtils();
+
+const { t } = useI18n();
 
 const selectedProjects = ref([]);
 const isFilterOpen = ref(false);
@@ -379,8 +358,20 @@ watch(
 
 <style scoped lang="scss">
 // TODO: duplicated CSS in Projects.vue
+
 .projects-table :deep(td) {
   background: var(--gray-100);
+  overflow-x: hidden;
+  height: 10px;
+}
+
+.projects-table :deep(.p-datatable-tbody > tr.p-highlight > td) {
+  background: var(--blue-50);
+}
+
+:deep(.th-selection .p-column-header-content) {
+  display: flex;
+  justify-content: center;
 }
 
 .breached-tasks {
