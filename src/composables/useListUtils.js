@@ -220,12 +220,19 @@ export function useListUtils() {
         header: "customer.service-areas",
         class: "tags buttons",
       },
-      { name: "role", type: "role", header: "role" },
+      {
+        name: "role",
+        type: "role",
+        header: "role",
+        optionSet: "contact_customer_role",
+        class: "p-0",
+      },
       {
         name: "actions",
         type: "actions",
         header: "actions",
         class: "buttons",
+        buttons: ["unlink", "edit"],
       },
     ];
   };

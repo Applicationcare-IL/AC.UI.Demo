@@ -60,6 +60,7 @@
         column.header ? $t(column.header) : $t(`customer.${column.name}`)
       "
       :class="column.class"
+      :frozen="column.type === 'actions'"
     >
       <template #body="slotProps">
         <template v-if="column.type === 'alert'">
@@ -81,27 +82,62 @@
           <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
         </template>
         <template v-if="column.type === 'star'">
-          <img
-            v-if="slotProps.data.main_contact?.id == contactId"
-            src="/icons/star.svg"
-            alt=""
-            class="vertical-align-middle"
-          />
+          <div
+            @click="
+              editMode[slotProps.index] && onStarClicked(slotProps.data.id)
+            "
+          >
+            <img
+              v-if="isMainContact(slotProps.data)"
+              src="/icons/star.svg"
+              alt=""
+              class="vertical-align-middle"
+            />
+            <img
+              v-if="editMode[slotProps.index] && !isMainContact(slotProps.data)"
+              src="/icons/star_grey.svg"
+              alt=""
+              class="vertical-align-middle"
+            />
+          </div>
         </template>
         <template v-if="column.type === 'tags'">
-          <div class="flex flex-row gap-2">
-            <Tag
-              v-for="(item, index) in slotProps.data[column.name]"
-              :key="index"
-              class="vertical-align-middle"
-            >
-              <WMOptionSetValue :option-set="item" />
-            </Tag>
+          <div class="w-15rem">
+            <div class="flex flex-row gap-2 overflow-x-auto">
+              <Tag
+                v-for="(item, index) in slotProps.data[column.name]"
+                :key="index"
+                class="vertical-align-middle"
+              >
+                <WMOptionSetValue :option-set="item" />
+              </Tag>
+            </div>
           </div>
         </template>
         <template v-if="column.type === 'actions'">
           <div class="flex flex-row gap-2">
             <WMButton
+              v-if="
+                column.buttons?.includes('edit') && !editMode[slotProps.index]
+              "
+              name="edit"
+              icon="edit"
+              @click="editMode[slotProps.index] = true"
+            />
+            <WMButton
+              v-if="
+                column.buttons?.includes('edit') && editMode[slotProps.index]
+              "
+              name="save"
+              icon="save"
+              class="in_table"
+              @click="
+                saveRow(slotProps.data);
+                editMode[slotProps.index] = false;
+              "
+            />
+            <WMButton
+              v-if="column.buttons?.includes('unlink')"
               name="unlink"
               icon="unlink"
               @click="unlinkCustomer(slotProps.data.id)"
@@ -109,7 +145,17 @@
           </div>
         </template>
         <template v-if="column.type === 'role'">
-          {{ slotProps.data.role.value }}
+          <Dropdown
+            v-if="editMode[slotProps.index]"
+            v-model="slotProps.data.role"
+            :options="optionSetsStore.optionSets[column.optionSet]"
+            :option-label="optionLabelWithLang"
+            option-value="id"
+            class="w-full p-0"
+          />
+          <div v-else>
+            {{ slotProps.data.role.value }}
+          </div>
         </template>
         <template v-if="column.type === 'option-set'">
           <WMOptionSetValue :option-set="slotProps.data[column.name]" />
@@ -144,6 +190,7 @@ const {
   assignContactToCustomer,
 } = useCustomers();
 const { getAlertCellConditionalStyle } = useListUtils();
+const { optionLabelWithLang } = useLanguages();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -176,6 +223,8 @@ const props = defineProps({
     default: "",
   },
 });
+
+const emit = defineEmits(["update:mainContact"]);
 
 // REFS
 const selectedCustomers = ref(null);
@@ -242,7 +291,7 @@ const addCustomers = (addedCustomers) => {
     if (customers.value.find((c) => c.customer_id === customer.id)) return;
 
     customer.main = false;
-    saveRow(customer);
+    customers.value.push(customer);
     editMode.value[customers.value.length - 1] = true;
   });
 };
@@ -250,12 +299,12 @@ const addCustomers = (addedCustomers) => {
 const saveRow = (customer) => {
   const contactParams = {
     contact_id: props.contactId,
-    role: defaultRole.value.id,
+    role: customer.role,
   };
 
   assignContactToCustomer(customer.id, contactParams)
     .then(() => {
-      loadLazyData();
+      // loadLazyData();
       toast.success("Contact successfully linked");
     })
     .catch(() => {
@@ -272,6 +321,29 @@ const unlinkCustomer = (customerId) => {
     .catch(() => {
       toast.error("Contact unlink Failed");
     });
+};
+
+const isMainContact = (customer) => {
+  return customer.main_contact?.id == props.contactId;
+};
+
+const onStarClicked = (customerId) => {
+  emit("update:mainContact", props.contactId);
+
+  if (props.relatedEntity === "contact") {
+    const contactParams = {
+      contact_id: props.contactId,
+      main: true,
+      role: defaultRole.value.id,
+    };
+
+    assignContactToCustomer(customerId, contactParams)
+      .then(() => {
+        toast.success("Contact successfully marked as main contact");
+        // loadLazyData();
+      })
+      .catch(() => {});
+  }
 };
 
 // WATCHERS
