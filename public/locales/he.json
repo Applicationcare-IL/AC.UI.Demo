@@ -255,6 +255,7 @@
     }
   },
   "project": {
+    "system-id": "מזהה",
     "project": "פרויקט",
     "projects": "פרויקטים",
     "status": "סטטוס",
@@ -286,7 +287,8 @@
     "add_service_area": "תחום שירות חדש",
     "location_information": "נתוני מיקום",
     "subproject_information": "פרטי תת-פרויקט",
-    "subproject_name": "שם תת-פרויקט"
+    "subproject_name": "שם תת-פרויקט",
+    "open-project": "פתח פרויק"
   },
   "documents": {
     "document": "מסמך",

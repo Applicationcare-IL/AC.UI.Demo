@@ -11,18 +11,20 @@
             }"
             target="_blank"
           >
-            <Button>פתח פרויקט</Button>
+            <Button>
+              {{ $t("project.open-project") }}
+            </Button>
           </router-link>
         </div>
       </template>
       <template #content>
-        <div class="flex flex-auto flex-column gap-5" v-if="project">
+        <div v-if="project" class="flex flex-auto flex-column gap-5">
           <div class="wm-form-row gap-5">
             <WMInput
               name="id"
               type="info"
               :highlighted="true"
-              :label="$t('id')"
+              :label="$t('project.system-id')"
               :value="project.project_id"
             />
             <WMInput

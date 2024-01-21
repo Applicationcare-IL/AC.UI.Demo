@@ -255,6 +255,7 @@
     }
   },
   "project": {
+    "system-id": "System ID",
     "project": "Project",
     "projects": "Projects",
     "status": "Status",
@@ -286,7 +287,8 @@
     "add_service_area": "Add service area",
     "location_information": "Location Information",
     "subproject_information": "Subproject Information",
-    "subproject_name": "Subproject Name"
+    "subproject_name": "Subproject Name",
+    "open-project": "Open project"
   },
   "organization": {
     "organization": "Organization",
