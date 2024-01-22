@@ -91,7 +91,10 @@
         v-if="project.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID"
       >
         <AccordionTab header="Round of signatures">
-          <WMDetailProjectFormSignatureTasksTab :project="project" />
+          <WMDetailProjectFormSignatureTasksTab
+            @documentSigned="onDocumentSigned"
+            :project="project"
+          />
         </AccordionTab>
       </Accordion>
 
@@ -170,6 +173,7 @@ import { useRoute, useRouter } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
+import { provide } from "vue";
 
 const { setSelectedContacts } = useContacts();
 const {
@@ -209,6 +213,14 @@ onMounted(async () => {
   const mappedContacts = mapContactsFromProjects(project.value);
   setSelectedContacts(mappedContacts);
 });
+
+const refreshDocumentsTable = ref(false);
+provide("refreshDocumentsTable", refreshDocumentsTable);
+
+const onDocumentSigned = () => {
+  console.log("document signed");
+  refreshDocumentsTable.value = true;
+};
 
 const fetchData = async () => {
   const data = await getProjectFromApi(route.params.id);

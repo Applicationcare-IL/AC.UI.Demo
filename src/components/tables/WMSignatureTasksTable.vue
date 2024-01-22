@@ -34,7 +34,7 @@
           name="basic-secondary"
           @click="onSign"
           :disabled="tasks.length === 0"
-          >{{ t("sign_button") }}
+          >{{ t("task.sign_button") }}
         </WMButton>
       </div>
       <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
@@ -186,6 +186,10 @@ const props = defineProps({
   },
 });
 
+const toast = useToast();
+
+const emit = defineEmits(["documentSigned"]);
+
 onMounted(() => {
   loadLazyData();
 });
@@ -233,7 +237,15 @@ const clearSelectedTasks = () => {
 };
 
 const onSign = () => {
-  generateSignaturesDocument(utilsStore.selectedElements["project"][0].id);
+  generateSignaturesDocument(utilsStore.selectedElements["project"][0].id)
+    .then(() => {
+      toast.success("Document Signed");
+      emit("document-signed");
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Document not created");
+    });
 };
 
 // first sidebar
