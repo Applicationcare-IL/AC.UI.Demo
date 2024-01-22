@@ -38,8 +38,8 @@ export async function loadLocaleMessages(i18n, locale) {
   return axiosConfig
     .get(
       // `https://admin.dev-easymaze.mazemateapp.com/storage/translations/${locale}/contacts.json`
-      `https://admin.dev-easymaze.mazemateapp.com/em-translations?locale=${locale}`
-      // import.meta.env.VITE_BASE_URL + `/locales/${locale}.json`
+      // `https://admin.dev-easymaze.mazemateapp.com/em-translations?locale=${locale}`
+      import.meta.env.VITE_BASE_URL + `/locales/${locale}.json`
     )
     .then((response) => {
       const messages = response.data;
