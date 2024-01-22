@@ -191,7 +191,7 @@
 <script setup>
 // IMPORTS
 import { FilterMatchMode } from "primevue/api";
-import { onMounted, ref, watch } from "vue";
+import { inject, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import SaveIcon from "/icons/save_default.svg?raw";
@@ -245,6 +245,15 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+});
+
+const refresh = inject("refreshDocumentsTable");
+
+watch(refresh, (value) => {
+  if (value) {
+    loadLazyData();
+    refresh.value = false;
+  }
 });
 
 // REFS

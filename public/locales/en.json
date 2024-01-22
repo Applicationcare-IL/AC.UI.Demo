@@ -236,7 +236,7 @@
     "service_number": "Service number",
     "complete": "Complete",
     "description": "Description",
-    "sign_button": "",
+    "sign_button": "Signed Document",
     "task-family-placeholder": "Select task family",
     "task-type-placeholder": "Select task type",
     "notification": {

@@ -7,6 +7,7 @@
     :hide-title="true"
     :show-filters="true"
     rows="10"
+    @documentSigned="onDocumentSigned"
   />
 </template>
 <script setup>
@@ -14,6 +15,7 @@ import { ref } from "vue";
 
 const { getSignatureTaskColumns } = useListUtils();
 const signatureTasksColumns = ref(getSignatureTaskColumns());
+const emit = defineEmits(["documentSigned"]);
 
 defineProps({
   project: {
@@ -21,6 +23,10 @@ defineProps({
     required: true,
   },
 });
+
+const onDocumentSigned = () => {
+  emit("documentSigned");
+};
 </script>
 
 <style scoped lang="scss"></style>

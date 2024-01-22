@@ -236,7 +236,7 @@
     "service_number": "מס’ תהליך",
     "complete": "השלם",
     "description": "תיאור",
-    "sign_button": "",
+    "sign_button": "מסמך חתום",
     "task-family-placeholder": "בחירת משפחה",
     "task-type-placeholder": "בחירת סוג משימה",
     "notification": {

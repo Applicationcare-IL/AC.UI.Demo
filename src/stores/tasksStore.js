@@ -104,5 +104,17 @@ export const useTasksStore = defineStore("tasks", {
           throw error;
         });
     },
+
+    generateSignaturesDocument(projectId) {
+      return axiosConfig
+        .post("/signatures/generate-pdf", { project: projectId })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });
