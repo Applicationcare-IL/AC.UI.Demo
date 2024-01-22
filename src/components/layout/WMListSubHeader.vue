@@ -31,14 +31,14 @@
             :multiple="true"
           />
 
-          <WMButton
+          <!-- <WMButton
             class="m-1 col-6"
             name="phone-white"
             icon="phone"
             :disabled="selectedElements != 1"
           >
             {{ $t("buttons.assign") }}
-          </WMButton>
+          </WMButton> -->
 
           <WMSendEmailButton
             :selected-elements="selectedElements"

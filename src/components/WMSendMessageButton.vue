@@ -3,22 +3,22 @@
     :label="$t('buttons.message')"
     icon="pi pi-chevron-down"
     aria-haspopup="true"
-    @click="toggleCommunicationsMenu"
     aria-controls="overlay_menu"
     class="m-1 p-button-default"
     :disabled="selectedElements == 0"
+    @click="toggleCommunicationsMenu"
   />
 
   <Menu
-    ref="menu"
     id="overlay_menu"
+    ref="menu"
     :model="communicationChannels"
     :popup="true"
   >
     <template #item="slotProps">
       <button
-        @click="handleOverlayMenuClick(slotProps.item.value)"
         class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2 w-full"
+        @click="handleOverlayMenuClick(slotProps.item.value)"
       >
         <div class="flex flex-column align">
           {{ $t(slotProps.item.label) }}
@@ -37,7 +37,7 @@
       <span class="h4">Send message to contacts</span>
     </template>
 
-    <div class="flex flex-column gap-2 my-5">
+    <div v-if="selectedContacts" class="flex flex-column gap-2 my-5">
       <div v-if="!multiple" class="flex flex-row gap-3">
         <span class="h6">To:</span>
 
@@ -49,22 +49,22 @@
       <div v-if="multiple" class="custom-input-search mb-3">
         <span class="h6 custom-input-search__to">To:</span>
         <WMInputSearch
+          ref="inputSearch"
           name="contacts"
           :placeholder="$t('select', ['contact'])"
           :multiple="true"
-          :searchFunction="searchContact"
-          @update:modelValue="onContactselected"
-          :modelValue="selectedDropdownContacts"
+          :search-function="searchContact"
+          :model-value="selectedDropdownContacts"
           theme="purple"
           class="custom-input-search__input"
-          ref="inputSearch"
           :options="contactOptions"
+          @update:model-value="onContactselected"
         />
         <Button
-          @click="handleClearAllSelectedDropdownContacts"
           :disabled="selectedContacts == 0"
           link
           class="custom-input-search__clear"
+          @click="handleClearAllSelectedDropdownContacts"
         >
           Clear all
         </Button>
@@ -73,8 +73,8 @@
       <div class="flex flex-row align-items-baseline gap-3">
         <span class="h6">Channel:</span>
         <Dropdown
-          optionLabel="name"
           v-model="selectedChannel"
+          option-label="name"
           :options="communicationChannels"
           placeholder="Select a channel"
           class="w-full md:w-14rem"
@@ -87,14 +87,16 @@
       <Divider />
     </div>
 
+    <div v-else>There is not contacts to send messages to.</div>
+
     <template #footer>
-      <div class="flex flex-row gap-3">
+      <div v-if="selectedContacts" class="flex flex-row gap-3">
         <Button label="Send" @click="handleSendMessage()" />
 
         <Button
           label="Cancel"
-          @click="sendMessageDialogVisible = false"
           severity="secondary"
+          @click="sendMessageDialogVisible = false"
         />
       </div>
     </template>
@@ -102,7 +104,8 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { onMounted, ref, watch } from "vue";
+
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const message = ref("");
@@ -205,6 +208,10 @@ const handleClearAllSelectedDropdownContacts = () => {
 watch(
   () => selectedContacts.value,
   (newSelectedContacts) => {
+    if (!newSelectedContacts || newSelectedContacts.length == 0) {
+      return;
+    }
+
     fillSelectedContactDropdownWithSelectedContacts(newSelectedContacts);
   }
 );

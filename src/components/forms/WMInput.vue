@@ -123,7 +123,7 @@
       :disabled="props.disabled"
       date-format="dd/mm/yy"
       @update:model-value="
-        $emit('update:modelValue', value);
+        $emit('update:modelValue', $event);
         handleChange($event);
       "
     />

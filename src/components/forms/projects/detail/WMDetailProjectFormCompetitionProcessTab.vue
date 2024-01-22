@@ -1,13 +1,13 @@
 <template>
-  <WMAddServiceAreasButton @addServiceAreas="addServiceAreas" />
+  <WMAddServiceAreasButton @add-service-areas="addServiceAreas" />
 
-  <div class="my-5" v-for="serviceArea in serviceAreas" :key="serviceArea.id">
+  <div v-for="serviceArea in serviceAreas" :key="serviceArea.id" class="my-5">
     <Accordion class="p-accordion--compact">
       <AccordionTab>
         <template #header>
           <span class="flex gap-2 w-full justify-between">
             <span class="font-bold white-space-nowrap ml-auto">
-              <WMOptionSetValue :optionSet="serviceArea" />
+              <WMOptionSetValue :option-set="serviceArea" />
             </span>
 
             <Button
@@ -21,15 +21,15 @@
 
         <WMCompetitionProcessTable
           :columns="competitionProcessColumns"
-          :serviceArea="serviceArea"
-          :projectId="project.project_id"
+          :service-area="serviceArea"
+          :project-id="project.project_id"
         />
       </AccordionTab>
     </Accordion>
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 const { getCompetitionProcessColumns } = useListUtils();
 
 const { addServiceArea, removeServiceArea } = useProjects();

@@ -19,7 +19,7 @@
       <span class="h4">Send email to contacts</span>
     </template>
 
-    <div class="flex flex-column gap-2 my-5">
+    <div v-if="selectedContacts" class="flex flex-column gap-2 my-5">
       <div v-if="!multiple" class="flex flex-row gap-3">
         <span class="h6">To:</span>
         <Chip class="p-chip--purple">
@@ -30,22 +30,22 @@
       <div v-if="multiple" class="custom-input-search mb-3">
         <span class="h6 custom-input-search__to">To:</span>
         <WMInputSearch
+          ref="inputSearch"
           name="contacts"
           :placeholder="$t('select', ['contact'])"
           :multiple="true"
-          :searchFunction="searchContact"
-          @update:modelValue="onContactselected"
-          :modelValue="selectedDropdownContacts"
+          :search-function="searchContact"
+          :model-value="selectedDropdownContacts"
           theme="purple"
           class="custom-input-search__input"
-          ref="inputSearch"
           :options="contactOptions"
+          @update:model-value="onContactselected"
         />
         <Button
-          @click="handleClearAllSelectedDropdownContacts"
           :disabled="selectedContacts == 0"
           link
           class="custom-input-search__clear"
+          @click="handleClearAllSelectedDropdownContacts"
         >
           Clear all
         </Button>
@@ -58,14 +58,16 @@
       <Divider />
     </div>
 
+    <div v-else>There is not contacts to send email to.</div>
+
     <template #footer>
-      <div class="flex flex-row gap-3">
+      <div v-if="selectedContacts" class="flex flex-row gap-3">
         <Button label="Send" @click="handleSendEmail()" />
 
         <Button
           label="Cancel"
-          @click="sendEmailDialogVisible = false"
           severity="secondary"
+          @click="sendEmailDialogVisible = false"
         />
       </div>
     </template>
@@ -73,7 +75,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 const sendEmailDialogVisible = ref(false);
 
@@ -137,6 +139,10 @@ const getNames = (contacts) => {
 watch(
   () => selectedContacts.value,
   (newSelectedContacts) => {
+    if (!newSelectedContacts || newSelectedContacts.length == 0) {
+      return;
+    }
+
     fillSelectedContactDropdownWithSelectedContacts(newSelectedContacts);
   }
 );
@@ -144,7 +150,7 @@ watch(
 const fillSelectedContactDropdownWithSelectedContacts = (
   newSelectedContacts
 ) => {
-  if (newSelectedContacts.length == 0 || !contactOptions.value?.data) {
+  if (newSelectedContacts?.length == 0 || !contactOptions.value?.data) {
     return;
   }
 

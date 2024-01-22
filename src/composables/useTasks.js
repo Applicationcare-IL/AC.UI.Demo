@@ -174,7 +174,7 @@ export function useTasks() {
       return {
         id: tasks.contact_id,
         contact_id: tasks.contact_id,
-        name: tasks.contact,
+        name: tasks.contact.name,
       };
     }
 

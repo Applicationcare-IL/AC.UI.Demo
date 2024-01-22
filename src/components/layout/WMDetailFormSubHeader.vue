@@ -21,14 +21,14 @@
             :multiple="false"
           />
 
-          <WMButton
+          <!-- <WMButton
             class="m-1 col-6"
             name="phone-white"
             icon="phone"
             :disabled="selectedElements == 0"
           >
             שיחה
-          </WMButton>
+          </WMButton> -->
 
           <WMSendEmailButton
             :selected-elements="selectedElements"
@@ -118,6 +118,7 @@ watch(
   () => utilsStore.selectedElements[utilsStore.entity],
   (value) => {
     selectedElements.value = value?.length;
+
     isEntityActive.value =
       utilsStore.selectedElements[utilsStore.entity][0].state === "active";
   }

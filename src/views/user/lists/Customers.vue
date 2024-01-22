@@ -248,15 +248,15 @@ const displayDetails = (data) => {
 
 const isDetailsVisible = ref(false);
 
-// TODO:Move to Store
+// TODO: Move to Store
 const highlightCellClass = (data) => {
   return [{ "bg-red-100 text-red-600": data > 0 }];
 };
 
 // Manage selected rows
 const selectedCustomers = ref([]);
-
 utilsStore.resetElements();
+
 const onSelectionChanged = () => {
   setSelectedContacsFromCustomers(selectedCustomers.value);
   utilsStore.selectedElements["customer"] = selectedCustomers.value;
@@ -269,17 +269,19 @@ const onSelectionChanged = () => {
  * @param {*} selectedCustomers
  */
 const setSelectedContacsFromCustomers = (selectedCustomers) => {
-  const selectedContacts = selectedCustomers.map((customer) => {
+  let selectedContacts = selectedCustomers.map((customer) => {
     return customer.main_contact;
   });
 
-  // filter duplicated selected contacts based on ids
+  // filter duplicated selected contacts based on ids and check if they are not null
   const uniqueSelectedContacts = selectedContacts.filter(
     (contact, index, self) =>
-      index === self.findIndex((t) => t.id === contact.id)
+      contact && index === self.findIndex((t) => t.id === contact.id)
   );
 
-  setSelectedContacts(uniqueSelectedContacts);
+  if (uniqueSelectedContacts.length > 0) {
+    setSelectedContacts(uniqueSelectedContacts);
+  }
 };
 
 watch(
