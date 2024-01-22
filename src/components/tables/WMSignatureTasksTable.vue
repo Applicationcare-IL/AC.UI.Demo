@@ -29,6 +29,13 @@
           >{{ t("new") }}</WMButton
         >
         <WMAssignOwnerButton entity="task" />
+        <WMButton
+          class="m-1 col-6"
+          name="basic-secondary"
+          @click="onSign"
+          :disabled="tasks.length === 0"
+          >{{ t("sign_button") }}
+        </WMButton>
       </div>
       <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -39,6 +46,7 @@
           @click="openFilterSidebar"
           >{{ t("filter") }}
         </WMButton>
+
         <WMSidebar
           :visible="isFilterVisible"
           name="filterTask"
@@ -182,7 +190,7 @@ onMounted(() => {
   loadLazyData();
 });
 
-const { getSignatureTaskFromApi } = useTasks();
+const { getSignatureTaskFromApi, generateSignaturesDocument } = useTasks();
 
 const loadLazyData = () => {
   const filters = utilsStore.filters["task"];
@@ -222,6 +230,10 @@ const onSelectionChanged = () => {
 
 const clearSelectedTasks = () => {
   selectedTasks.value = [];
+};
+
+const onSign = () => {
+  generateSignaturesDocument(utilsStore.selectedElements["project"][0].id);
 };
 
 // first sidebar

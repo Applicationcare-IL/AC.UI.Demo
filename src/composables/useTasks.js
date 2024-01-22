@@ -78,6 +78,10 @@ export function useTasks() {
     return await tasksStore.signTask(signatureId, data);
   };
 
+  const generateSignaturesDocument = async (projectId) => {
+    return await tasksStore.generateSignaturesDocument(projectId);
+  };
+
   // UTILITIES
   const mapTask = (task) => {
     return {
@@ -188,6 +192,7 @@ export function useTasks() {
     getTasksTypesFromApi,
     getTaskFromApi,
     getSignatureTaskFromApi,
+    generateSignaturesDocument,
     createTask,
     updateTask,
     completeTask,
