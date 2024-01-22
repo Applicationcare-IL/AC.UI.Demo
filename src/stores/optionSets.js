@@ -114,7 +114,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
     ],
     communicationChannels: [
       { value: "sms", translationKey: "communication-channels.sms" },
-      { value: "whatsapp", translationKey: "communication-channels.whatsapp" },
+      // { value: "whatsapp", translationKey: "communication-channels.whatsapp" },
     ],
   }),
   getters: {

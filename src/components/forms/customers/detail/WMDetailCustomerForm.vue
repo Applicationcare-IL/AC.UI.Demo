@@ -408,8 +408,10 @@ const fetchData = async () => {
   await optionSetsStore
     .getOptionSetValuesFromApi("customer_rating")
     .then((data) => (ratings.value = data));
+
   await getCustomerFromApi(route.params.id).then((data) => {
     customer.value = data;
+
     utilsStore.selectedElements["customer"] = [customer.value];
 
     selectedServiceAreas.value = service_areas.value.filter((item) =>
