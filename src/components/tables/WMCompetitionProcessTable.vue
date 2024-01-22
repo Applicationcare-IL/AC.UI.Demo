@@ -2,7 +2,7 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMAssignCustomerButton @addCustomers="addCustomers" />
+        <WMAssignCustomerButton @add-customers="addCustomers" />
 
         <!-- <WMButton class="m-1 col-6" name="export-white" icon="export">
           {{ $t("export") }}
@@ -30,19 +30,19 @@
     </div>
   </div>
   <DataTable
-    lazy
     v-model:filters="filters"
     v-model:selection="selectedCustomers"
+    lazy
     :value="customers"
-    dataKey="id"
-    tableStyle="min-width: 50rem"
+    data-key="id"
+    table-style="min-width: 50rem"
     scrollable
     paginator
     :rows="rows"
-    @page="onPage($event)"
-    :totalRecords="totalRecords"
-    @update:selection="onSelectionChanged"
+    :total-records="totalRecords"
     :class="`p-datatable-${tableClass}`"
+    @page="onPage($event)"
+    @update:selection="onSelectionChanged"
   >
     <!-- <Column style="width: 35px">
       <template #body="slotProps">
@@ -68,143 +68,146 @@
       "
       :class="column.class"
     >
-      <template v-if="column.type === 'text'" #body="slotProps">
-        {{ slotProps.data[column.name] }}
-      </template>
-
-      <template v-if="column.type === 'status'" #body="slotProps">
-        <Dropdown
-          v-if="createMode[slotProps.index] || editMode[slotProps.index]"
-          :options="optionSetsStore.optionSets[column.optionSet]"
-          :optionLabel="optionLabelWithLang"
-          optionValue="id"
-          class="w-full p-0"
-          v-model="slotProps.data.customer_project_status.id"
-        >
-        </Dropdown>
-        <div v-else>
-          <WMOptionSetValue
-            v-if="slotProps.data.customer_project_status"
-            :optionSet="slotProps.data.customer_project_status"
-          />
-        </div>
-      </template>
-
-      <template v-if="column.type === 'refusal_to_win'" #body="slotProps">
-        <Checkbox
-          v-if="editMode[slotProps.index]"
-          v-model="slotProps.data.offer_refusal_to_win"
-          :binary="true"
-        />
-
-        <img
-          v-if="
-            !editMode[slotProps.index] && slotProps.data.offer_refusal_to_win
-          "
-          src="/icons/refusal_to_win_check.svg"
-          alt=""
-          class="vertical-align-middle"
-        />
-      </template>
-
-      <template v-if="column.type === 'qualified_second'" #body="slotProps">
-        <Checkbox
-          v-if="editMode[slotProps.index]"
-          v-model="slotProps.data.offer_second"
-          :binary="true"
-        />
-
-        <img
-          v-if="!editMode[slotProps.index] && slotProps.data.offer_second"
-          src="/icons/offer_second.svg"
-          alt=""
-          class="vertical-align-middle"
-        />
-      </template>
-
-      <template v-if="column.type === 'offer_amount'" #body="slotProps">
-        <input
-          class="w-full p-0"
-          v-if="editMode[slotProps.index] || createMode[slotProps.index]"
-          v-model="slotProps.data.offer_amount"
-        />
-        <div v-else>
-          {{ slotProps.data.offer_amount }}
-        </div>
-      </template>
-
-      <template v-if="column.type === 'date'" #body="slotProps">
-        <WMInput
-          v-if="editMode[slotProps.index] || createMode[slotProps.index]"
-          type="date"
-          :id="column.name"
-          :name="column.name"
-          v-model="slotProps.data[column.name]"
-          :value="parseDate(slotProps.data[column.name])"
-        />
-
-        <span v-else-if="slotProps.data[column.name]">
+      <template #body="slotProps">
+        <template v-if="column.type === 'text'">
           {{ slotProps.data[column.name] }}
-        </span>
-      </template>
+        </template>
 
-      <template v-if="column.type === 'actions'" #body="slotProps">
-        <div class="flex flex-row gap-2">
-          <WMButton
+        <template v-if="column.type === 'status'">
+          <Dropdown
+            v-if="createMode[slotProps.index] || editMode[slotProps.index]"
+            v-model="slotProps.data.customer_project_status"
+            :options="optionSetsStore.optionSets[column.optionSet]"
+            :option-label="optionLabelWithLang"
+            class="w-full p-0"
+          >
+          </Dropdown>
+          <div v-else>
+            <WMOptionSetValue
+              v-if="slotProps.data.customer_project_status"
+              :option-set="slotProps.data.customer_project_status"
+            />
+          </div>
+        </template>
+
+        <template v-if="column.type === 'refusal_to_win'">
+          <Checkbox
+            v-if="editMode[slotProps.index]"
+            v-model="slotProps.data.offer_refusal_to_win"
+            :binary="true"
+          />
+
+          <img
             v-if="
-              column.buttons?.includes('edit') &&
-              !editMode[slotProps.index] &&
-              !createMode[slotProps.index]
+              !editMode[slotProps.index] && slotProps.data.offer_refusal_to_win
             "
-            name="edit"
-            icon="edit"
-            @click="editMode[slotProps.index] = true"
+            src="/icons/refusal_to_win_check.svg"
+            alt=""
+            class="vertical-align-middle"
+          />
+        </template>
+
+        <template v-if="column.type === 'qualified_second'">
+          <Checkbox
+            v-if="editMode[slotProps.index]"
+            v-model="slotProps.data.offer_second"
+            :binary="true"
           />
 
-          <WMButton
-            v-if="
-              column.buttons?.includes('edit') && createMode[slotProps.index]
-            "
-            name="save"
-            icon="save"
-            class="in_table"
-            @click="
-              saveRow(slotProps.data);
-              createMode[slotProps.index] = false;
-            "
+          <img
+            v-if="!editMode[slotProps.index] && slotProps.data.offer_second"
+            src="/icons/offer_second.svg"
+            alt=""
+            class="vertical-align-middle"
+          />
+        </template>
+
+        <template v-if="column.type === 'offer_amount'">
+          <input
+            v-if="editMode[slotProps.index] || createMode[slotProps.index]"
+            v-model="slotProps.data.offer_amount"
+            class="w-full p-0"
+          />
+          <div v-else>
+            {{ slotProps.data.offer_amount }}
+          </div>
+        </template>
+
+        <template v-if="column.type === 'date'">
+          <WMInput
+            v-if="editMode[slotProps.index] || createMode[slotProps.index]"
+            :id="column.name + slotProps.index"
+            v-model="slotProps.data[column.name]"
+            type="date"
+            :name="column.name + slotProps.index"
+            :value="parseDate(slotProps.data[column.name])"
           />
 
-          <WMButton
-            v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
-            name="save"
-            icon="save"
-            class="in_table"
-            @click="editRow(slotProps.data, slotProps.index)"
-          />
+          <span v-else-if="slotProps.data[column.name]">
+            {{ formatearFecha(slotProps.data[column.name]) }}
+          </span>
+        </template>
 
-          <WMButton
-            v-if="column.buttons?.includes('unlink')"
-            name="unlink"
-            icon="unlink"
-            @click="handleUnlinkProjectCustomer(slotProps.data)"
-          />
-        </div>
+        <template v-if="column.type === 'actions'">
+          <div class="flex flex-row gap-2">
+            <WMButton
+              v-if="
+                column.buttons?.includes('edit') &&
+                !editMode[slotProps.index] &&
+                !createMode[slotProps.index]
+              "
+              name="edit"
+              icon="edit"
+              @click="editMode[slotProps.index] = true"
+            />
+
+            <WMButton
+              v-if="
+                column.buttons?.includes('edit') && createMode[slotProps.index]
+              "
+              name="save"
+              icon="save"
+              class="in_table"
+              @click="
+                saveRow(slotProps.data);
+                createMode[slotProps.index] = false;
+              "
+            />
+
+            <WMButton
+              v-if="
+                column.buttons?.includes('edit') && editMode[slotProps.index]
+              "
+              name="save"
+              icon="save"
+              class="in_table"
+              @click="editRow(slotProps.data, slotProps.index)"
+            />
+
+            <WMButton
+              v-if="column.buttons?.includes('unlink')"
+              name="unlink"
+              icon="unlink"
+              @click="handleUnlinkProjectCustomer(slotProps.data)"
+            />
+          </div>
+        </template>
       </template>
     </Column>
   </DataTable>
 </template>
 
 <script setup>
-import { ref, watch, watchEffect, onMounted } from "vue";
+// IMPORTS
+import { onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
-import { useOptionSetsStore } from "@/stores/optionSets";
-
 import { useFormUtilsStore } from "@/stores/formUtils";
-
+import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
-const { t } = useI18n();
+// DEPENDENCIES
+const toast = useToast();
 
 const {
   getProjectCustomers,
@@ -218,32 +221,11 @@ const {
 const { optionLabelWithLang } = useLanguages();
 const optionSetsStore = useOptionSetsStore();
 
-const selectedCustomers = ref(null);
-const isFilterOpen = ref(false);
-const isFilterApplied = ref(false);
-const selectedOption = ref(1);
+const { getAlertCellConditionalStyle } = useListUtils();
 
-const formUtilsStore = useFormUtilsStore();
-const utilsStore = useUtilsStore();
-const totalRecords = ref(0);
-const searchValue = ref("");
+// INJECT
 
-const parseDate = (date) => {
-  if (!date) return null;
-
-  // check if date is an object
-  if (typeof date === "object") {
-    return date;
-  }
-
-  if (date.includes("-")) {
-    const dateParts = date.split("-");
-    return `${dateParts[1]}/${dateParts[2]}/${dateParts[0]}`;
-  }
-
-  return date;
-};
-
+// PROPS, EMITS
 const props = defineProps({
   rows: {
     type: Number,
@@ -275,14 +257,62 @@ const props = defineProps({
   },
 });
 
-onMounted(() => {
-  loadLazyData();
-});
-
-const { getAlertCellConditionalStyle } = useListUtils();
+// REFS
+const selectedCustomers = ref(null);
+const utilsStore = useUtilsStore();
+const totalRecords = ref(0);
+const searchValue = ref("");
 
 const customers = ref([]);
 const lazyParams = ref({});
+
+const editMode = ref([]);
+const createMode = ref([]);
+
+const isFilterVisible = ref(false);
+
+// const isFilterOpen = ref(false);
+// const isFilterApplied = ref(false);
+// const selectedOption = ref(1);
+// const formUtilsStore = useFormUtilsStore();
+
+// COMPUTED
+
+// COMPONENT METHODS
+const parseDate = (date) => {
+  if (!date) return null;
+
+  // check if date is an object
+  if (typeof date === "object") {
+    return date;
+  }
+
+  if (date.includes("-")) {
+    const dateParts = date.split("-");
+    return `${dateParts[1]}/${dateParts[2]}/${dateParts[0]}`;
+  }
+
+  return date;
+};
+
+function formatearFecha(fechaString) {
+  // Crear un objeto de fecha
+  var fecha = new Date(fechaString);
+
+  // Obtener los componentes de la fecha
+  var dia = fecha.getDate();
+  var mes = fecha.getMonth() + 1; // ¡Recuerda que los meses comienzan desde 0!
+  var año = fecha.getFullYear();
+
+  // Agregar ceros a la izquierda si es necesario
+  dia = dia < 10 ? "0" + dia : dia;
+  mes = mes < 10 ? "0" + mes : mes;
+
+  // Formatear la fecha como DD/MM/YYYY
+  var fechaFormateada = dia + "/" + mes + "/" + año;
+
+  return fechaFormateada;
+}
 
 const loadLazyData = () => {
   const filters = utilsStore.filters["customer"];
@@ -320,8 +350,6 @@ const onSelectionChanged = () => {
   utilsStore.selectedElements["customer"] = selectedCustomers.value;
 };
 
-const isFilterVisible = ref(false);
-
 function closeFilterSidebar() {
   isFilterVisible.value = false;
 }
@@ -329,19 +357,6 @@ function closeFilterSidebar() {
 function openFilterSidebar() {
   isFilterVisible.value = true;
 }
-watchEffect(() => {
-  loadLazyData();
-});
-
-watch(
-  () => utilsStore.searchString["customer"],
-  () => {
-    searchValue.value = utilsStore.searchString["customer"];
-    utilsStore.debounceAction(() => {
-      loadLazyData();
-    });
-  }
-);
 
 const addCustomers = (addedCustomers) => {
   addedCustomers.forEach((customer) => {
@@ -358,19 +373,14 @@ const addCustomers = (addedCustomers) => {
       },
     };
 
-    console.log("newCustomer", newCustomer);
-
     customers.value.push(newCustomer);
     createMode.value[customers.value.length - 1] = true;
   });
 };
 
-const toast = useToast();
-
 const saveRow = (customer) => {
-  console.log("saveRow", customer);
-
   const newCustomer = {
+    ...customer,
     customer_id: customer.id,
     customer_project_status: customer.customer_project_status,
   };
@@ -383,7 +393,6 @@ const saveRow = (customer) => {
   createProjectCustomer(props.projectId, parsedProjectCustomer)
     .then(() => {
       toast.success("Project customer successfully updated");
-      loadLazyData();
     })
     .catch(() => {
       toast.error("Project customer assign failed");
@@ -391,8 +400,6 @@ const saveRow = (customer) => {
 };
 
 const editRow = (customer, index) => {
-  console.log("editRow", customer);
-
   const parsedProjectCustomer = parseProjectCustomer(
     customer,
     props.serviceArea.id
@@ -402,7 +409,7 @@ const editRow = (customer, index) => {
     .then(() => {
       toast.success("Project customer successfully updated");
       editMode.value[index] = false;
-      loadLazyData();
+      // loadLazyData();
     })
     .catch(() => {
       toast.error("Project customer assign failed");
@@ -423,6 +430,25 @@ const handleUnlinkProjectCustomer = (row) => {
     });
 };
 
-const editMode = ref([]);
-const createMode = ref([]);
+// PROVIDE, EXPOSE
+
+// WATCHERS
+watchEffect(() => {
+  loadLazyData();
+});
+
+watch(
+  () => utilsStore.searchString["customer"],
+  () => {
+    searchValue.value = utilsStore.searchString["customer"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  loadLazyData();
+});
 </script>

@@ -74,8 +74,6 @@ export function useProjects() {
 
   // UTILITIES
   const parseProject = (project) => {
-    console.log("parseProject", project);
-
     return {
       name: project["project-name"],
       description: project["project-description"],
@@ -101,8 +99,6 @@ export function useProjects() {
   };
 
   const parseUpdateProject = (project) => {
-    console.log("parseUpdateProject", project);
-
     return {
       name: project["project-name"],
       project_type: project.project_type?.id,
@@ -123,6 +119,7 @@ export function useProjects() {
   };
 
   const parseDate = (date) => {
+    // return today date in format YYYY-MM-DD
     if (!date) {
       return new Date().toISOString().split("T")[0];
     }
@@ -134,6 +131,7 @@ export function useProjects() {
     return date;
   };
 
+  // return date in format YYYY-MM-DD
   function formatDate(date) {
     const newDate = new Date(date);
 
