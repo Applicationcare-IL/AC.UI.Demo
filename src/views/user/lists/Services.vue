@@ -93,9 +93,21 @@
           </span>
         </template>
       </Column>
-      <Column field="area.value" :header="$t('service.service-area')"></Column>
-      <Column field="type.value" :header="$t('service.service-type')"></Column>
-      <Column field="request1.value" :header="$t('service.request-1')"></Column>
+      <Column field="area.value" :header="$t('service.service-area')">
+        <template #body="slotProps">
+          <WMOptionSetValue :option-set="slotProps.data.area" />
+        </template>
+      </Column>
+      <Column field="type.value" :header="$t('service.service-type')">
+        <template #body="slotProps">
+          <WMOptionSetValue :option-set="slotProps.data.type" />
+        </template>
+      </Column>
+      <Column field="request1.value" :header="$t('service.request-1')">
+        <template #body="slotProps">
+          <WMOptionSetValue :option-set="slotProps.data.request1" />
+        </template>
+      </Column>
       <Column
         field="days_from_opening_date"
         :header="$t('service.duration')"
@@ -131,7 +143,7 @@
       </Column>
       <Column field="urgency" :header="$t('service.urgency')">
         <template #body="slotProps">
-          {{ $t("option-set.service_urgent." + slotProps.data.urgency) }}
+          <WMOptionSetValue :option-set="slotProps.data.urgency" />
         </template>
       </Column>
       <Column field="last_change" :header="$t('service.last-change')"></Column>
