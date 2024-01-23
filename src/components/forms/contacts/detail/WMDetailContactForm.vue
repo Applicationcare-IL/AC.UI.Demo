@@ -262,15 +262,6 @@
           :show-header-options="true"
         />
       </div>
-      <div>
-        <WMDocumentsTable
-          :columns="documentsColumns"
-          :customer-id="customer.id"
-          :related-entity-id="customer.id"
-          related-entity="customer"
-          :show-header-options="true"
-        />
-      </div>
       <div class="flex-1 tabs-container">
         <TabView>
           <TabPanel :header="$t('additional-information')">
