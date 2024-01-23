@@ -314,7 +314,7 @@ const handleNewDocument = () => {
   if (props.contactId) {
     document.contact_id = props.contactId;
   }
-
+  console.log("document", document);
   createDocument(document)
     .then(({ data }) => {
       loadLazyData();

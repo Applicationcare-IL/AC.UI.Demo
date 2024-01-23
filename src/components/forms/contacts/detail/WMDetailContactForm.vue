@@ -256,9 +256,9 @@
       <div>
         <WMDocumentsTable
           :columns="documentsColumns"
-          :customer-id="contact.id"
+          :contact-id="contact.id"
           :related-entity-id="contact.id"
-          related-entity="customer"
+          related-entity="contact"
           :show-header-options="true"
         />
       </div>
@@ -339,6 +339,7 @@ const {
   getServiceColumns,
   getTaskColumns,
   getStatusConditionalStyle,
+  getProjectDocumentColumns,
 } = useListUtils();
 
 const { getContactFromApi, updateContact, parseContact, setSelectedContacts } =
@@ -362,6 +363,7 @@ const loaded = ref(false);
 const customerColumns = ref(getCustomerColumns());
 const serviceColumns = ref(getServiceColumns());
 const taskColumns = ref(getTaskColumns());
+const documentsColumns = ref(getProjectDocumentColumns());
 
 // COMPUTED
 
