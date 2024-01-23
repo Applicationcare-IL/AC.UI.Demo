@@ -241,6 +241,14 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  customerId: {
+    type: Number,
+    default: null,
+  },
+  contactId: {
+    type: Number,
+    default: null,
+  },
   multiselect: {
     type: Boolean,
     default: true,
@@ -299,6 +307,14 @@ const handleNewDocument = () => {
     document.project_id = props.projectId;
   }
 
+  if (props.customerId) {
+    document.customer_id = props.customerId;
+  }
+
+  if (props.contactId) {
+    document.contact_id = props.contactId;
+  }
+
   createDocument(document)
     .then(({ data }) => {
       loadLazyData();
@@ -334,6 +350,8 @@ const loadLazyData = () => {
 
   if (props.projectId) params.append("project_id", props.projectId);
   if (props.taskId) params.append("task_id", props.taskId);
+  if (props.customerId) params.append("customer_id", props.customerId);
+  if (props.contactId) params.append("contact_id", props.contactId);
 
   getDocumentsFromApi(params).then((result) => {
     documents.value = result.data;
