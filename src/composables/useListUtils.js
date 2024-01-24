@@ -379,6 +379,18 @@ export function useListUtils() {
     ];
   };
 
+  const getServiceDocumentsColumns = () => {
+    return [
+      {
+        name: "id",
+        type: "text",
+      },
+      { name: "name", type: "name", width: "100%" },
+      { name: "owner", type: "text" },
+      { name: "upload_date", type: "text" },
+    ];
+  };
+
   const getSignatureTaskColumns = () => {
     return [
       {
@@ -507,6 +519,7 @@ export function useListUtils() {
     getTaskPreviewColumns,
     getProjectDocumentColumns,
     getTaskDocumentColumns,
+    getServiceDocumentsColumns,
     getSignatureTaskColumns,
     getProjectTeamColumns,
     getCompetitionProcessColumns,

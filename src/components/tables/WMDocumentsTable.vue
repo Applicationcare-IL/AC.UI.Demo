@@ -80,6 +80,7 @@
       :field="column.name"
       :header="getColumnHeaderText(column)"
       :class="column.class"
+      :style="`width: ${column.width}`"
     >
       <template #body="slotProps">
         <template v-if="column.type === 'link'">
@@ -233,6 +234,10 @@ const props = defineProps({
     type: String,
     default: "project",
   },
+  entityId: {
+    type: Number,
+    default: null,
+  },
   projectId: {
     type: Number,
     default: null,
@@ -288,15 +293,15 @@ const handleNewDocument = () => {
   let document = {};
 
   if (props.relatedEntity === "project") {
-    document.project_id = props.projectId;
+    document.project_id = props.entityId;
   }
 
   if (props.relatedEntity === "task") {
-    document.task_id = props.taskId;
+    document.task_id = props.entityId;
   }
 
-  if (props.projectId) {
-    document.project_id = props.projectId;
+  if (props.relatedEntity === "service") {
+    document.service_id = props.entityId;
   }
 
   createDocument(document)
@@ -332,8 +337,17 @@ const loadLazyData = () => {
     // ...filters,
   });
 
-  if (props.projectId) params.append("project_id", props.projectId);
-  if (props.taskId) params.append("task_id", props.taskId);
+  if (props.relatedEntity === "project") {
+    params.append("project_id", props.entityId);
+  }
+
+  if (props.relatedEntity === "task") {
+    params.append("task_id", props.entityId);
+  }
+
+  if (props.relatedEntity === "service") {
+    params.append("service_id", props.entityId);
+  }
 
   getDocumentsFromApi(params).then((result) => {
     documents.value = result.data;

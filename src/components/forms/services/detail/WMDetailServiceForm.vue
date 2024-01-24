@@ -243,28 +243,22 @@
         </WMTasksTable>
       </div>
 
-      <!-- <div class="flex flex-row gap-5 flex-wrap mt-5">
-        <div class="flex-1 card-container">
-          <Card>
-            <template #title> Files </template>
-            <template #content>
-              <div class="files-dataview">
-                <WMFilesDataView></WMFilesDataView>
-              </div>
-            </template>
-          </Card>
-        </div>
-        <div class="flex-1 card-container">
-          <Card>
-            <template #title> Journal </template>
-            <template #content>
-              <div class="journal-dataview">
-                <WMJournalDataView></WMJournalDataView>
-              </div>
-            </template>
-          </Card>
-        </div>
-      </div> -->
+      <Accordion>
+        <AccordionTab :header="$t('journal')">
+          <WMJournalDataView entity-type="service" :entity-id="service.id" />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion :active-index="0">
+        <AccordionTab :header="$t('documents.documents')">
+          <WMDocumentsTable
+            :columns="documentsColumns"
+            :entity-id="route.params.id"
+            related-entity="service"
+            :hide-title="true"
+          />
+        </AccordionTab>
+      </Accordion>
 
       <div class="flex flex-row gap-5 flex-wrap mt-5">
         <div class="flex-1 tabs-container">
@@ -321,6 +315,7 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { useDateFormat } from "@vueuse/core";
 import { useForm } from "vee-validate";
 import { onMounted, ref, watch } from "vue";
@@ -330,7 +325,9 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
+// DEPENDENCIES
 const { optionLabelWithLang } = useLanguages();
+const { getServiceDocumentsColumns } = useListUtils();
 
 const { getTasksFromApi } = useTasks();
 const { setSelectedContacts } = useContacts();
@@ -343,6 +340,24 @@ const {
 } = useServices();
 
 const toast = useToast();
+
+// INJECT
+
+// PROPS, EMITS
+
+// REFS
+const documentsColumns = ref(getServiceDocumentsColumns());
+
+// COMPUTED
+
+// COMPONENT METHODS
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+
 const stages = ref([]);
 const currentStage = ref();
 

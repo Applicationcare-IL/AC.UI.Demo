@@ -20,7 +20,7 @@
       name="newTask"
       title-translation-key="task.new_task"
     />
-    <WMNewTaskForm :is-sidebar="true" />
+    <WMNewTaskForm :is-sidebar="true" @new-task-created="closeSidebar" />
   </WMSidebar>
 
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
