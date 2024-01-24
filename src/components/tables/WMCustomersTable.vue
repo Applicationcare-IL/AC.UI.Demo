@@ -290,6 +290,7 @@ const addCustomers = (addedCustomers) => {
     if (customers.value.find((c) => c.customer_id === customer.id)) return;
 
     customer.main = false;
+    customer.role = defaultRole.value;
     customers.value.push(customer);
     editMode.value[customers.value.length - 1] = true;
   });
@@ -298,7 +299,7 @@ const addCustomers = (addedCustomers) => {
 const saveRow = (customer) => {
   const contactParams = {
     contact_id: props.contactId,
-    role: customer.role,
+    role: customer.role.id,
   };
 
   assignContactToCustomer(customer.id, contactParams)
