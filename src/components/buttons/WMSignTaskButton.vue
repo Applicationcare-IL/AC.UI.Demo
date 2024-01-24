@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { defineEmits, ref } from "vue";
+import { ref } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
 

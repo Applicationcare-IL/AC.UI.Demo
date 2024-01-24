@@ -48,7 +48,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { defineEmits, onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
