@@ -211,7 +211,7 @@
           <AccordionTab :header="$t('documents.documents')">
             <WMDocumentsTable
               :columns="documentsColumns"
-              :task-id="route.params.id"
+              :related-entity-id="route.params.id"
               related-entity="task"
               :hide-title="true"
               :project-id="projectId"

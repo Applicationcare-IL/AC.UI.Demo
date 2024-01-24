@@ -1,7 +1,8 @@
 <template>
   <WMDocumentsTable
     :columns="documentsColumns"
-    :project-id="route.params.id"
+    related-entity="project"
+    :related-entity-id="route.params.id"
     :hide-title="true"
   />
 </template>

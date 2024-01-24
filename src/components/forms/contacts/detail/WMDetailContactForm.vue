@@ -256,7 +256,6 @@
       <div>
         <WMDocumentsTable
           :columns="documentsColumns"
-          :contact-id="contact.id"
           :related-entity-id="contact.id"
           related-entity="contact"
           :show-header-options="true"
