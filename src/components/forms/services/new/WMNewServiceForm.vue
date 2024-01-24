@@ -71,6 +71,7 @@
       </div>
       <div class="wm-form-row gap-5">
         <WMInput
+          v-model="selectedDirection"
           name="direction"
           type="input-select"
           :highlighted="true"
@@ -80,6 +81,7 @@
           option-set
         />
         <WMInput
+          v-model="selectedChannel"
           name="channel"
           type="input-select"
           :highlighted="true"
@@ -89,6 +91,7 @@
           width="104"
         />
         <WMInput
+          v-model="selectedUrgency"
           name="priority"
           type="input-select"
           :highlighted="true"
@@ -188,7 +191,7 @@
         </div>
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" />
-      <WMNewFormAddress />
+      <WMNewFormAddress :required-fields="['city', 'street']" />
       <Divider class="mt-5 mb-0" layout="horizontal" />
       <WMNewServiceFormSite />
     </div>
@@ -249,6 +252,10 @@ const selectedType = ref();
 const selectedRequest1 = ref();
 const selectedRequest2 = ref();
 const selectedRequest3 = ref();
+
+const selectedDirection = ref();
+const selectedChannel = ref();
+const selectedUrgency = ref();
 
 const optionRefs = {
   areas: areas,
@@ -499,23 +506,50 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  optionSetsStore
+  const serviceDirectionOptionSets = optionSetsStore
     .getOptionSetValuesFromApi("service_direction")
     .then((data) => {
       directions.value = data;
+      selectedDirection.value = data[0];
+      isFormDirty.value = false;
     });
-  optionSetsStore
+
+  const serviceChannelOptionSets = optionSetsStore
     .getOptionSetValuesFromApi("service_channel")
-    .then((data) => (channels.value = data));
-  optionSetsStore
+    .then((data) => {
+      channels.value = data;
+      selectedChannel.value = data[0];
+      isFormDirty.value = false;
+    });
+
+  const serviceUrgencyOptionSets = optionSetsStore
     .getOptionSetValuesFromApi("service_urgent")
-    .then((data) => (urgencies.value = data));
-  optionSetsStore
+    .then((data) => {
+      urgencies.value = data;
+      selectedUrgency.value = data[0];
+      isFormDirty.value = false;
+    });
+
+  const serviceAreaOptions = optionSetsStore
     .getOptionSetValuesFromApiRaw("service_area")
     .then((data) => (areas.value = data));
 
-  getQuickCodes().then((data) => {
+  const quickCodesPromise = getQuickCodes().then((data) => {
     quickCodes.value = data.data;
+  });
+
+  Promise.all([
+    serviceDirectionOptionSets,
+    serviceChannelOptionSets,
+    serviceUrgencyOptionSets,
+    serviceAreaOptions,
+    quickCodesPromise,
+  ]).then(() => {
+    // let the components that depends of this data to be mounted first and do their stuff
+    // this is only for the onMounted so I think it's ok to use a timeout here
+    setTimeout(() => {
+      isFormDirty.value = false;
+    }, 1000);
   });
 });
 </script>
