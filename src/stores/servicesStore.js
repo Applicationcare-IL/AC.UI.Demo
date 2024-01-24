@@ -1,5 +1,6 @@
-import axiosConfig from "@/service/axiosConfig";
 import { defineStore } from "pinia";
+
+import axiosConfig from "@/service/axiosConfig";
 
 export const useServicesStore = defineStore("services", {
   actions: {
@@ -46,7 +47,6 @@ export const useServicesStore = defineStore("services", {
           throw error;
         });
     },
-
     cancelService(id, reasons) {
       return axiosConfig
         .post("/services/" + id + "/cancel", reasons)
@@ -56,6 +56,16 @@ export const useServicesStore = defineStore("services", {
         .catch((error) => {
           console.error(error);
           throw error;
+        });
+    },
+    getQuickCodes() {
+      return axiosConfig
+        .get("/services/quick-codes")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
         });
     },
   },

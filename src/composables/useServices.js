@@ -41,7 +41,6 @@ export function useServices() {
 
   // UTILITIES
   const parseService = (service) => {
-    console.log("parseService, service: ", service);
     return {
       contact_id: service.contact.id,
       customer_id: service.customer.id,
@@ -174,6 +173,7 @@ export function useServices() {
     createService,
     updateService,
     cancelService,
+    getQuickCodes: servicesStore.getQuickCodes,
     // UTILITIES
     parseService,
     parseUpdateService,

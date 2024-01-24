@@ -111,10 +111,12 @@
             :options="quickCodes"
             width="336"
             :placeholder="$t('select', ['short-classification'])"
+            @change="handleQuickCodeChange"
           />
         </div>
         <div class="wm-form-row gap-5">
           <WMInputSearch
+            v-model="selectedArea"
             name="area"
             :highlighted="true"
             :label="$t('classification-1') + ':'"
@@ -127,6 +129,7 @@
           />
 
           <WMInputSearch
+            v-model="selectedType"
             name="type"
             :highlighted="true"
             :label="$t('classification-2') + ':'"
@@ -139,6 +142,7 @@
             "
           />
           <WMInputSearch
+            v-model="selectedRequest1"
             name="request1"
             :highlighted="true"
             :label="$t('classification-3') + ':'"
@@ -154,6 +158,7 @@
 
         <div class="wm-form-row gap-5">
           <WMInputSearch
+            v-model="selectedRequest2"
             name="request2"
             :highlighted="true"
             :label="$t('classification-4') + ':'"
@@ -165,6 +170,7 @@
             "
           />
           <WMInputSearch
+            v-model="selectedRequest3"
             name="request_3"
             :highlighted="true"
             :label="$t('classification-5') + ':'"
@@ -209,7 +215,7 @@ const dialog = useDialog();
 const formUtilsStore = useFormUtilsStore();
 const { getCustomersFromApi, getCustomerFromApi } = useCustomers();
 const { getContactsFromApi, getContactFromApi } = useContacts();
-const { createService, parseService } = useServices();
+const { createService, parseService, getQuickCodes } = useServices();
 
 // INJECT
 const isFormDirty = inject("isFormDirty");
@@ -238,6 +244,12 @@ const requests1 = ref([]);
 const requests2 = ref([]);
 const requests3 = ref([]);
 
+const selectedArea = ref();
+const selectedType = ref();
+const selectedRequest1 = ref();
+const selectedRequest2 = ref();
+const selectedRequest3 = ref();
+
 const optionRefs = {
   areas: areas,
   types: types,
@@ -252,11 +264,17 @@ const isNewContactSidebarVisible = ref(false);
 
 // COMPONENT METHODS AND LOGIC
 const updateDropdown = (dropdown, selectedId, dropdownOptions) => {
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw(dropdown, selectedId)
-    .then((data) => {
-      optionRefs[dropdownOptions].value = data;
-    });
+  return new Promise((resolve, reject) => {
+    optionSetsStore
+      .getOptionSetValuesFromApiRaw(dropdown, selectedId)
+      .then((data) => {
+        optionRefs[dropdownOptions].value = data;
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 };
 
 const searchCustomer = (query) => {
@@ -345,6 +363,125 @@ function handleCustomerCreated(customerId) {
   });
 }
 
+function handleQuickCodeChange(quickCode) {
+  if (!quickCode) {
+    return;
+  }
+
+  setArea(quickCode)
+    .then(() => {
+      return updateDropdown("service_type", quickCode.value.area.id, "types");
+    })
+    .then(() => {
+      return setType(quickCode);
+    })
+    .then(() => {
+      return updateDropdown(
+        "service_request_1",
+        quickCode.value.type.id,
+        "requests1"
+      );
+    })
+    .then(() => {
+      return setRequest1(quickCode);
+    })
+    .then(() => {
+      return updateDropdown(
+        "service_request_2",
+        quickCode.value.request_1.id,
+        "requests2"
+      );
+    })
+    .then(() => {
+      return setRequest2(quickCode);
+    })
+    .then(() => {
+      return updateDropdown(
+        "service_request_3",
+        quickCode.value.request_2.id,
+        "requests3"
+      );
+    })
+    .then(() => {
+      return setRequest3(quickCode);
+    });
+}
+
+const setArea = (quickCode) => {
+  return new Promise((resolve, reject) => {
+    if (!quickCode) {
+      reject();
+    }
+
+    if (quickCode.value.area) {
+      selectedArea.value = areas.value.find((area) => {
+        return area.id == quickCode.value.area.id;
+      });
+      resolve();
+    }
+  });
+};
+
+const setType = (quickCode) => {
+  return new Promise((resolve, reject) => {
+    if (!quickCode) {
+      reject();
+    }
+
+    if (quickCode.value.type) {
+      selectedType.value = types.value.find((type) => {
+        return type.id == quickCode.value.type.id;
+      });
+      resolve();
+    }
+  });
+};
+
+const setRequest1 = (quickCode) => {
+  return new Promise((resolve, reject) => {
+    if (!quickCode) {
+      reject();
+    }
+
+    if (quickCode.value.request_1) {
+      selectedRequest1.value = requests1.value.find((request1) => {
+        return request1.id == quickCode.value.request_1.id;
+      });
+      resolve();
+    }
+  });
+};
+
+const setRequest2 = (quickCode) => {
+  return new Promise((resolve, reject) => {
+    if (!quickCode) {
+      reject();
+    }
+
+    if (quickCode.value.request_2) {
+      selectedRequest2.value = requests2.value.find((request2) => {
+        return request2.id == quickCode.value.request_2.id;
+      });
+      resolve();
+    }
+  });
+};
+
+const setRequest3 = (quickCode) => {
+  return new Promise((resolve, reject) => {
+    if (!quickCode) {
+      reject();
+    }
+
+    if (quickCode.value.request_3) {
+      selectedRequest3.value = requests3.value.find((request3) => {
+        return request3.id == quickCode.value.request_3.id;
+      });
+      resolve();
+    }
+  });
+};
+
 // EXPOSE
 defineExpose({
   onSubmit,
@@ -376,6 +513,10 @@ onMounted(() => {
   optionSetsStore
     .getOptionSetValuesFromApiRaw("service_area")
     .then((data) => (areas.value = data));
+
+  getQuickCodes().then((data) => {
+    quickCodes.value = data.data;
+  });
 });
 </script>
 
