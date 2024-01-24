@@ -150,11 +150,10 @@
             v-model="slotProps.data.role"
             :options="optionSetsStore.optionSets[column.optionSet]"
             :option-label="optionLabelWithLang"
-            option-value="id"
             class="w-full p-0"
           />
           <div v-else>
-            {{ slotProps.data.role.value }}
+            <WMOptionSetValue :option-set="slotProps.data.role" />
           </div>
         </template>
         <template v-if="column.type === 'option-set'">

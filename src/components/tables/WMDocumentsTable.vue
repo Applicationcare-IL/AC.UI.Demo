@@ -19,7 +19,14 @@
           icon="mail"
           :disabled="selectedElements == 0"
         >
-          {{ $t("buttons.assign") }}
+          Email
+        </WMButton>
+        <WMButton
+          class="m-1 col-6"
+          name="mail-white"
+          :disabled="selectedElements == 0"
+        >
+          Download
         </WMButton> -->
       </div>
       <div class="flex flex-row align-items-center gap-3">
