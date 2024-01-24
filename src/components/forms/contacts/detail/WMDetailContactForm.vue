@@ -253,6 +253,15 @@
           :show-header-options="false"
         />
       </div>
+      <div>
+        <WMDocumentsTable
+          :columns="documentsColumns"
+          :contact-id="contact.id"
+          :related-entity-id="contact.id"
+          related-entity="contact"
+          :show-header-options="true"
+        />
+      </div>
       <div class="flex-1 tabs-container">
         <TabView>
           <TabPanel :header="$t('additional-information')">
@@ -330,6 +339,7 @@ const {
   getServiceColumns,
   getTaskColumns,
   getStatusConditionalStyle,
+  getProjectDocumentColumns,
 } = useListUtils();
 
 const { getContactFromApi, updateContact, parseContact, setSelectedContacts } =
@@ -353,6 +363,7 @@ const loaded = ref(false);
 const customerColumns = ref(getCustomerColumns());
 const serviceColumns = ref(getServiceColumns());
 const taskColumns = ref(getTaskColumns());
+const documentsColumns = ref(getProjectDocumentColumns());
 
 // COMPUTED
 

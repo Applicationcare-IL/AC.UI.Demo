@@ -257,6 +257,15 @@
           :show-header-options="false"
         />
       </div>
+      <div>
+        <WMDocumentsTable
+          :columns="documentsColumns"
+          :customer-id="customer.id"
+          :related-entity-id="customer.id"
+          related-entity="customer"
+          :show-header-options="true"
+        />
+      </div>
       <div class="flex flex-row gap-5 flex-wrap mt-5">
         <div class="flex-1 card-container">
           <Card>
@@ -372,10 +381,12 @@ const {
   getServiceColumns,
   getTaskColumns,
   getStatusConditionalStyle,
+  getProjectDocumentColumns,
 } = useListUtils();
 
 const contactColumns = ref(getContactColumns());
 const serviceColumns = ref(getServiceColumns());
+const documentsColumns = ref(getProjectDocumentColumns());
 const taskColumns = ref(getTaskColumns());
 
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");

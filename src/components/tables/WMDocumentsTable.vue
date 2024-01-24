@@ -234,21 +234,17 @@ const props = defineProps({
     type: String,
     default: "project",
   },
-  entityId: {
-    type: Number,
-    default: null,
-  },
-  projectId: {
-    type: Number,
-    default: null,
-  },
-  taskId: {
+  relatedEntityId: {
     type: Number,
     default: null,
   },
   multiselect: {
     type: Boolean,
     default: true,
+  },
+  projectId: {
+    type: Number,
+    default: null,
   },
 });
 
@@ -293,17 +289,31 @@ const handleNewDocument = () => {
   let document = {};
 
   if (props.relatedEntity === "project") {
-    document.project_id = props.entityId;
+    document.project_id = props.relatedEntityId;
   }
 
   if (props.relatedEntity === "task") {
-    document.task_id = props.entityId;
+    document.task_id = props.relatedEntityId;
   }
 
   if (props.relatedEntity === "service") {
-    document.service_id = props.entityId;
+    document.service_id = props.relatedEntityId;
   }
 
+  if (props.relatedEntity === "customer") {
+    document.customer_id = props.relatedEntityId;
+  }
+
+  if (props.relatedEntity === "contact") {
+    document.contact_id = props.relatedEntityId;
+  }
+
+  // we can create documents related to tasks but also to projects
+  if (props.projectId) {
+    document.project_id = props.projectId;
+  }
+
+  console.log("document", document);
   createDocument(document)
     .then(({ data }) => {
       loadLazyData();
@@ -338,15 +348,23 @@ const loadLazyData = () => {
   });
 
   if (props.relatedEntity === "project") {
-    params.append("project_id", props.entityId);
+    params.append("project_id", props.relatedEntityId);
   }
 
   if (props.relatedEntity === "task") {
-    params.append("task_id", props.entityId);
+    params.append("task_id", props.relatedEntityId);
   }
 
   if (props.relatedEntity === "service") {
-    params.append("service_id", props.entityId);
+    params.append("service_id", props.relatedEntityId);
+  }
+
+  if (props.relatedEntity === "customer") {
+    params.append("customer_id", props.relatedEntityId);
+  }
+
+  if (props.relatedEntity === "contact") {
+    params.append("contact_id", props.relatedEntityId);
   }
 
   getDocumentsFromApi(params).then((result) => {
