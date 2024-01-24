@@ -73,7 +73,7 @@ const handleUnlinkContact = (contactId) => {
   selectedContacts.value = filteredSelectedContacts;
 };
 
-const { handleSubmit, meta } = useForm({
+const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getNewProjectFormValidationSchema,
 });
 
@@ -93,6 +93,12 @@ const onSubmit = handleSubmit((values) => {
   createProject(parsedProject)
     .then((data) => {
       dialog.confirmNewProject(data.data.id);
+
+      resetForm();
+      isFormDirty.value = false;
+
+      closeSidebar();
+
       toast.successAction("project", "created");
     })
     .catch((error) => {

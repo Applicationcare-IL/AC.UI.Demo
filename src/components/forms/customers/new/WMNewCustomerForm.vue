@@ -228,7 +228,7 @@ function openSidebar() {
   isVisible.value = true;
 }
 
-const { handleSubmit, meta, setFieldError } = useForm({
+const { handleSubmit, meta, setFieldError, resetForm } = useForm({
   validationSchema: formUtilsStore.getCustomerNewFormValidationSchema,
 });
 
@@ -248,8 +248,13 @@ const onSubmit = handleSubmit((values) => {
       }
 
       emit("customerCreated", data.data.id);
+
+      resetForm();
+      isFormDirty.value = false;
+
+      closeSidebar();
+
       toast.success("Customer successfully created");
-      // toast.successAction("customer", "created");
     })
     .catch((error) => {
       console.error(error);

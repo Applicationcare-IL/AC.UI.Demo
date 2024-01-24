@@ -273,7 +273,7 @@ const searchContact = (query) => {
   });
 };
 
-const { handleSubmit, meta, values } = useForm({
+const { handleSubmit, meta, values, resetForm } = useForm({
   validationSchema: formUtilsStore.getServiceFormValidationSchema,
 });
 
@@ -303,6 +303,12 @@ const onSubmit = handleSubmit((values) => {
   createService(parseService(values))
     .then((data) => {
       dialog.confirmNewService(data.data.id);
+
+      resetForm();
+      isFormDirty.value = false;
+
+      closeSidebar();
+
       toast.successAction("service", "created");
     })
     .catch((error) => {

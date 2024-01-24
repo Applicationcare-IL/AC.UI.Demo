@@ -227,7 +227,7 @@ const searchCustomer = (query) => {
   });
 };
 
-const { handleSubmit, values, meta } = useForm({
+const { handleSubmit, values, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getTaskFormValidationSchema,
 });
 
@@ -271,6 +271,12 @@ const onSubmit = handleSubmit((values) => {
     .then((data) => {
       emit("newTaskCreated");
       dialog.confirmNewTask(data.data.id);
+
+      resetForm();
+      isFormDirty.value = false;
+
+      closeSidebar();
+
       toast.successAction("contact", "created");
     })
     .catch((error) => {

@@ -182,7 +182,7 @@ const selectedCustomers = ref([]);
 
 // COMPUTED
 // COMPONENT METHODS
-const { handleSubmit, meta } = useForm({
+const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getContactNewFormValidationSchema,
 });
 
@@ -206,6 +206,12 @@ const onSubmit = handleSubmit((values) => {
       }
 
       emit("contactCreated", data.data.id);
+
+      resetForm();
+      isFormDirty.value = false;
+
+      closeSidebar();
+
       toast.success("Contact successfully created");
     })
     .catch((error) => {
