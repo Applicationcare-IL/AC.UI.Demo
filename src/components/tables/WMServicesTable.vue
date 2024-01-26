@@ -1,15 +1,15 @@
 <template>
   <WMSidebar
     :visible="isVisible"
+    name="newService"
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
-    name="newService"
   >
     <WMNewEntityFormHeader entity="service" name="newService" />
-    <WMNewTaskForm :isSidebar="true" @close-sidebar="closeSidebar" />
+    <WMNewTaskForm :is-sidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
   <h2 class="h2">{{ $t("service.service") }}</h2>
-  <div class="flex flex-column gap-3 mb-3" v-if="showHeaderOptions">
+  <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMButton
@@ -25,7 +25,7 @@
           >ייצוא נתונים</WMButton
         >
         <Divider layout="vertical" />
-        <WMButtonMenu class="m-1" mode="light" :menuItems="menuItems"
+        <WMButtonMenu class="m-1" mode="light" :menu-items="menuItems"
           >הודעה</WMButtonMenu
         >
         <WMButton class="m-1 col-6" name="phone-white" icon="phone">
@@ -46,11 +46,11 @@
         </WMButton>
         <WMSidebar
           :visible="isFilterVisible"
+          name="filterService"
           @close-sidebar="closeFilterSidebar"
           @open-sidebar="openFilterSidebar"
-          name="filterService"
         >
-          <WMFilterForm entity="service" filterFormName="service" />
+          <WMFilterForm entity="service" filter-form-name="service" />
         </WMSidebar>
         <WMOwnerToggle entity="service" />
       </div>
@@ -60,24 +60,24 @@
     </div>
   </div>
   <DataTable
-    lazy
     v-model:selection="selectedServices"
-    :rowClass="rowClass"
+    lazy
+    :row-class="rowClass"
     :value="services"
-    dataKey="service_number"
-    tableStyle="min-width: 50rem"
+    data-key="service_number"
+    table-style="min-width: 50rem"
     scrollable
     paginator
     :rows="props.rows"
-    @page="onPage($event)"
-    :totalRecords="totalRecords"
-    @update:selection="onSelectionChanged"
+    :total-records="totalRecords"
     :class="`p-datatable-${tableClass}`"
+    @page="onPage($event)"
+    @update:selection="onSelectionChanged"
   >
     <Column
       v-if="multiselect"
       style="width: 40px"
-      selectionMode="multiple"
+      selection-mode="multiple"
     ></Column>
     <Column
       v-for="column in columns"
@@ -103,15 +103,15 @@
         <WMSLATag
           v-if="slotProps.data.sla"
           :sla="slotProps.data.sla"
-          :daysForClosing="slotProps.data.days_for_closing"
+          :days-for-closing="slotProps.data.days_for_closing"
           :state="slotProps.data.state"
         >
         </WMSLATag>
       </template>
       <template v-if="column.type === 'priority'" #body="slotProps">
         <div
-          :class="priorityClass(slotProps.data)"
           v-if="slotProps.data.status == 'open'"
+          :class="priorityClass(slotProps.data)"
         >
           {{ slotProps.data.priority }}
         </div>
@@ -124,7 +124,7 @@
 </template>
 
 <script setup>
-import { ref, watch, watchEffect, onMounted } from "vue";
+import { onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -196,10 +196,10 @@ const loadLazyData = async () => {
   });
 
   if (props.relatedEntity == "customer") {
-    params.append("customer_id", props.relatedEntityId);
+    params.append("customer", props.relatedEntityId);
   }
   if (props.relatedEntity == "contact") {
-    params.append("contact_id", props.relatedEntityId);
+    params.append("contact", props.relatedEntityId);
   }
 
   getServicesFromApi(params).then((result) => {
