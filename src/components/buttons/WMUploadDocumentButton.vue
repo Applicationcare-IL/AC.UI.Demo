@@ -19,7 +19,7 @@
       <FileUpload
         mode="basic"
         name="demo[]"
-        accept="*"
+        accept="*/*"
         custom-upload
         :auto="true"
         @uploader="customBase64Uploader($event)"
