@@ -92,8 +92,8 @@
       >
         <AccordionTab header="Round of signatures">
           <WMDetailProjectFormSignatureTasksTab
-            @documentSigned="onDocumentSigned"
             :project="project"
+            @document-signed="onDocumentSigned"
           />
         </AccordionTab>
       </Accordion>
@@ -169,11 +169,11 @@
 import { useDateFormat } from "@vueuse/core";
 import { useForm } from "vee-validate";
 import { onMounted, ref, watch } from "vue";
+import { provide } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
-import { provide } from "vue";
 
 const { setSelectedContacts } = useContacts();
 const {

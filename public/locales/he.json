@@ -73,7 +73,8 @@
     "clear": "נקה",
     "clear-all": "נקה הכל",
     "apply-filters": "החל סינון",
-    "create-new-one": "צור חדש"
+    "create-new-one": "צור חדש",
+    "open": "פתח"
   },
   "navigation": {
     "dashboard": "דאשבורד",
@@ -288,7 +289,8 @@
     "location_information": "נתוני מיקום",
     "subproject_information": "פרטי תת-פרויקט",
     "subproject_name": "שם תת-פרויקט",
-    "open-project": "פתח פרויק"
+    "open-project": "פתח פרויק",
+    "link-to-network-folder": "קישור לתיקיית רשת"
   },
   "documents": {
     "document": "מסמך",

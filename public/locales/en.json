@@ -72,7 +72,8 @@
     "clear": "Clear",
     "clear-all": "Clear all",
     "apply-filters": "Apply filters",
-    "create-new-one": "Create new one"
+    "create-new-one": "Create new one",
+    "open": "Open"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -288,7 +289,8 @@
     "location_information": "Location Information",
     "subproject_information": "Subproject Information",
     "subproject_name": "Subproject Name",
-    "open-project": "Open project"
+    "open-project": "Open project",
+    "link-to-network-folder": "Link to network project"
   },
   "organization": {
     "organization": "Organization",

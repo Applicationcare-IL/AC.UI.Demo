@@ -115,6 +115,7 @@ export function useProjects() {
       },
       tbr_number: project["tbr-number"],
       request_number: project["request-number"],
+      network_folder: project["network-folder"],
     };
   };
 
@@ -191,6 +192,7 @@ export function useProjects() {
       supervisor: project.supervisor,
       contractor: project.contractor,
       last_activity: project.last_activity,
+      network_folder: project.network_folder,
     };
   };
 
