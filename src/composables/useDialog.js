@@ -12,9 +12,6 @@ export function useDialog() {
 
   const { currentEntity } = useUtils();
 
-  // TODO: manage close sidebar with the composable
-  // const { closeSidebar } = useSidebar();
-
   const confirmNewCustomer = (id) => {
     confirm.require({
       message: i18n.t("customer.notification.created.message"),
@@ -26,21 +23,6 @@ export function useDialog() {
       },
       reject: () => {
         formUtilsStore.closeForm();
-      },
-    });
-  };
-
-  const confirmUpdateCustomer = (id) => {
-    confirm.require({
-      message: i18n.t("customer.notification.update.message"),
-      header: i18n.t("customer.notification.update.header"),
-      acceptLabel: i18n.t("customer.notification.update.detail"),
-      rejectLabel: i18n.t("customer.notification.update.list"),
-      accept: () => {
-        // formUtilsStore.goToDetail(id);
-      },
-      reject: () => {
-        // formUtilsStore.closeForm();
       },
     });
   };
@@ -168,25 +150,12 @@ export function useDialog() {
     });
   };
 
-  const completeProject = (id) => {
-    confirm.require({
-      group: "completeProject",
-      header: "ביטול פרויקט" + id,
-      acceptLabel: "ביטול תהליך",
-      rejectLabel: "חזור",
-      accept: () => {
-        formUtilsStore.completeProject(id);
-      },
-      reject: () => {},
-    });
-  };
-
   const confirmNewProject = (id) => {
     confirm.require({
-      message: "The new contact was successfully created!",
-      header: "New project created",
-      acceptLabel: "View project",
-      rejectLabel: "View list",
+      message: i18n.t("project.notification.created.message"),
+      header: i18n.t("project.notification.created.header"),
+      acceptLabel: i18n.t("project.notification.created.detail"),
+      rejectLabel: i18n.t("project.notification.created.list"),
       accept: () => {
         formUtilsStore.goToDetail(id, "project");
         router.push({

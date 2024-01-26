@@ -107,12 +107,6 @@
         "message": "The new contact was successfully created! \n From now on he will appear in your contacts list",
         "detail": "View contact",
         "list": "View List"
-      },
-      "discard": {
-        "header": "The contact is not saved",
-        "message": "You have not finished creating the new contact. \n You would like to exit this page without saving it",
-        "accept": "Remain on this page",
-        "cancel": "Exit without saving"
       }
     },
     "toast": {
@@ -151,12 +145,6 @@
         "message": "The new customer was successfully created! \n From now on he will appear in your customer list",
         "detail": "View Customer",
         "list": "View List"
-      },
-      "discard": {
-        "header": "The customer is not saved",
-        "message": "You have not finished creating the new customer. \n You would like to exit this page without saving it",
-        "accept": "Remain on this page",
-        "cancel": "Exit without saving"
       }
     },
     "toast": {
@@ -201,12 +189,6 @@
         "message": "The new service was successfully created! \n From now on he will appear in your customer list",
         "detail": "View service",
         "list": "View List"
-      },
-      "discard": {
-        "header": "The service is not saved",
-        "message": "You have not finished creating the new service. \n You would like to exit this page without saving it",
-        "accept": "Remain on this page",
-        "cancel": "Exit without saving"
       }
     },
     "toast": {
@@ -246,12 +228,6 @@
         "message": "The new task was successfully created! \n From now on he will appear in your tasks list",
         "detail": "View Task",
         "list": "View List"
-      },
-      "discard": {
-        "header": "The task is not saved",
-        "message": "You have not finished creating the new task. \n You would like to exit this page without saving it",
-        "accept": "Remain on this page",
-        "cancel": "Exit without saving"
       }
     }
   },
@@ -296,7 +272,15 @@
     "competition-process-by-virtue-of-a-framework": "Competition process by virtue of a framework",
     "site-tour-needed": "Site tour needed",
     "site-tour-date": "Site tour date",
-    "quality-committee-required": "Quality committee required"
+    "quality-committee-required": "Quality committee required",
+    "notification": {
+      "created": {
+        "header": "New project created",
+        "message": "The new project was successfully created! \n From now on he will appear in your project list",
+        "detail": "View project",
+        "list": "View list"
+      }
+    }
   },
   "organization": {
     "organization": "Organization",

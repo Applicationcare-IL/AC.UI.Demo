@@ -15,6 +15,7 @@ export function useToast() {
 
   const successAction = (entity, action) => {
     const entityKey = `${entity}.${entity}`;
+
     toast.add({
       severity: "success",
       summary: i18n.t("toast.success"),

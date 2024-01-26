@@ -108,12 +108,6 @@
         "message": "הלקוח החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת הלקוחות שלך",
         "detail": "צפייה באיש קשר",
         "list": "חזרה לרשימה"
-      },
-      "discard": {
-        "header": "איש הקשר לא נשמר",
-        "message": "לא סיימת ליצור את האיש הקשר החדש. \n לצאת מעמוד זה מבלי לשמור אותו?",
-        "accept": "השאר בעמוד זה",
-        "cancel": "יציאה ללא שמירה"
       }
     },
     "toast": {
@@ -151,12 +145,6 @@
         "message": "הלקוח החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת הלקוחות שלך",
         "detail": "צפייה באיש קשר",
         "list": "חזרה לרשימה"
-      },
-      "discard": {
-        "header": "הלקוח לא נשמר",
-        "message": "לא סיימת ליצור את הלקוח החדש. \n תרצה לצאת מעמוד זה מבלי לשמור אותו?",
-        "accept": "השאר בעמוד זה",
-        "cancel": "יציאה ללא שמירה"
       }
     },
     "toast": {
@@ -201,12 +189,6 @@
         "message": "השירות החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת השירותים שלך",
         "detail": "צפייה בשירות",
         "list": "חזרה לרשימה"
-      },
-      "discard": {
-        "header": "השירות לא נשמר",
-        "message": "לא סיימת ליצור את השירות החדש. \n לצאת מעמוד זה מבלי לשמור אותו?",
-        "accept": "השאר בעמוד זה",
-        "cancel": "יציאה ללא שמירה"
       }
     },
     "toast": {
@@ -246,12 +228,6 @@
         "message": "The new task was successfully created! \n From now on he will appear in your tasks list",
         "detail": "View Task",
         "list": "View List"
-      },
-      "discard": {
-        "header": "The task is not saved",
-        "message": "You have not finished creating the new task. \n You would like to exit this page without saving it",
-        "accept": "Remain on this page",
-        "cancel": "Exit without saving"
       }
     }
   },
@@ -296,7 +272,15 @@
     "competition-process-by-virtue-of-a-framework": "הליך תיחור מתוקף מכרז סל",
     "site-tour-needed": "נדרש סיור",
     "site-tour-date": "תאריך סיור",
-    "quality-committee-required": "נדרש רכיב איכות"
+    "quality-committee-required": "נדרש רכיב איכות",
+    "notification": {
+      "created": {
+        "header": "נוצר לקוח חדש",
+        "message": "הלקוח החדש נוצר בהצלחה! \n מעתה הוא יופיע ברשימת הלקוחות שלך",
+        "detail": "צפייה באיש קשר",
+        "list": "חזרה לרשימה"
+      }
+    }
   },
   "documents": {
     "document": "מסמך",
