@@ -37,9 +37,9 @@ export async function loadLocaleMessages(i18n, locale) {
   // FROM API
   return axiosConfig
     .get(
-      // import.meta.env.VITE_ADMIN_URL + `/api/em-translations?locale=${locale}`
+      import.meta.env.VITE_ADMIN_URL + `/api/em-translations?locale=${locale}`
       // FOR LOCAL ENV
-      import.meta.env.VITE_BASE_URL + `/locales/${locale}.json`
+      // import.meta.env.VITE_BASE_URL + `/locales/${locale}.json`
     )
     .then((response) => {
       const messages = response.data;
