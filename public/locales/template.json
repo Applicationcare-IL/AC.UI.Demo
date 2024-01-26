@@ -273,14 +273,10 @@
     "site-tour-needed": "Site tour needed",
     "site-tour-date": "Site tour date",
     "quality-committee-required": "Quality committee required",
-    "notification": {
-      "created": {
-        "header": "New project created",
-        "message": "The new project was successfully created! \n From now on he will appear in your project list",
-        "detail": "View project",
-        "list": "View list"
-      }
-    }
+    "notification.created.header": "New project created",
+    "notification.created.message": "The new project was successfully created! \n From now on he will appear in your project list",
+    "notification.created.detail": "View project",
+    "notification.created.list": "View list"
   },
   "organization": {
     "organization": "Organization",
