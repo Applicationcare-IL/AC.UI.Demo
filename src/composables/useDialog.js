@@ -16,7 +16,7 @@ export function useDialog() {
     confirm.require({
       message: i18n.t("customer.notification.created.message"),
       header: i18n.t("customer.notification.created.header"),
-      acceptLabel: i18n.t("customer.notification.created.detail"),
+      acceptLabel: i18n.t("customer.notification-created-detail"),
       rejectLabel: i18n.t("customer.notification.created.list"),
       accept: () => {
         formUtilsStore.goToDetail(id);
@@ -152,10 +152,10 @@ export function useDialog() {
 
   const confirmNewProject = (id) => {
     confirm.require({
-      message: i18n.t("project.notification.created.message"),
-      header: i18n.t("project.notification.created.header"),
-      acceptLabel: i18n.t("project.notification.created.detail"),
-      rejectLabel: i18n.t("project.notification.created.list"),
+      message: i18n.t("project.notification-created-message"),
+      header: i18n.t("project.notification-created-header"),
+      acceptLabel: i18n.t("project.notification-created-detail"),
+      rejectLabel: i18n.t("project.notification-created-list"),
       accept: () => {
         formUtilsStore.goToDetail(id, "project");
         router.push({
