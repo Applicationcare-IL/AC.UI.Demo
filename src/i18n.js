@@ -37,9 +37,9 @@ export async function loadLocaleMessages(i18n, locale) {
   // FROM API
   return axiosConfig
     .get(
-      import.meta.env.VITE_ADMIN_URL + `/api/em-translations?locale=${locale}`
+      // import.meta.env.VITE_ADMIN_URL + `/api/em-translations?locale=${locale}`
       // FOR LOCAL ENV
-      // import.meta.env.VITE_BASE_URL + `/locales/${locale}.json`
+      import.meta.env.VITE_BASE_URL + `/locales/${locale}.json`
     )
     .then((response) => {
       const messages = response.data;
@@ -53,12 +53,12 @@ export async function loadLocaleMessages(i18n, locale) {
     });
 
   // FROM LOCAL JSON FILE
-  const messages = await import(
-    /* @vite-ignore */ /* webpackChunkName: "locale-[request]" */ `/locales/${locale}.json`
-  );
-  i18n.setLocaleMessage(locale, messages.default);
+  // const messages = await import(
+  //   /* @vite-ignore */ /* webpackChunkName: "locale-[request]" */ `/locales/${locale}.json`
+  // );
+  // i18n.setLocaleMessage(locale, messages.default);
 
-  return nextTick();
+  // return nextTick();
 }
 
 export const i18n = setupI18n({

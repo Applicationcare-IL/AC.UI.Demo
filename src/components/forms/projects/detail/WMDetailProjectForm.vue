@@ -43,8 +43,16 @@
       </div> -->
 
       <div class="flex-1 card-container">
+        <WMDetailProjectFormContractorSection
+          v-if="project.project_type.value === CONTRACTOR_PROJECT_ID"
+          :project="project"
+        />
+      </div>
+
+      <div class="flex-1 card-container">
         <WMDetailProjectFormTenderInformation
-          v-if="selectedProjectType === 'tender'"
+          v-if="project.project_type.value === TENDER_PROJECT_ID"
+          :project="project"
         />
       </div>
 
@@ -190,8 +198,11 @@ const selectedProjectType = ref(false);
 
 const project = ref();
 
+// PROJECT TYPES
 const COMPETITION_PROJECT_ID = "project_type10";
 const ROUND_OF_SIGNATURES_PROJECT_ID = "project_type12";
+const TENDER_PROJECT_ID = "project_type11";
+const CONTRACTOR_PROJECT_ID = "consec";
 
 const props = defineProps({
   formKey: {

@@ -134,7 +134,7 @@
 <script setup>
 // IMPORTS
 import { useField } from "vee-validate";
-import { computed, toRef, watch } from "vue";
+import { computed, onMounted, toRef, watch } from "vue";
 
 // DEPENDENCIES
 const { optionLabelWithLang } = useLanguages();
@@ -256,6 +256,11 @@ watch(
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  if (props.value) {
+    inputValue.value = props.value;
+  }
+});
 </script>
 
 <style scoped lang="scss"></style>

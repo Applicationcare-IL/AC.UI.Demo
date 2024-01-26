@@ -290,7 +290,13 @@
     "subproject_information": "Subproject Information",
     "subproject_name": "Subproject Name",
     "open-project": "Open project",
-    "link-to-network-folder": "Link to network project"
+    "link-to-network-folder": "Link to network project",
+    "contractor-selection-method": "Contractor selection method",
+    "tender": "Tender",
+    "competition-process-by-virtue-of-a-framework": "Competition process by virtue of a framework",
+    "site-tour-needed": "Site tour needed",
+    "site-tour-date": "Site tour date",
+    "quality-committee-required": "Quality committee required"
   },
   "organization": {
     "organization": "Organization",

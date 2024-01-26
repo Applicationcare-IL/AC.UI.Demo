@@ -290,7 +290,13 @@
     "subproject_information": "פרטי תת-פרויקט",
     "subproject_name": "שם תת-פרויקט",
     "open-project": "פתח פרויק",
-    "link-to-network-folder": "קישור לתיקיית רשת"
+    "link-to-network-folder": "קישור לתיקיית רשת",
+    "contractor-selection-method": "אופן בחירת קבלן",
+    "tender": "מכרז",
+    "competition-process-by-virtue-of-a-framework": "הליך תיחור מתוקף מכרז סל",
+    "site-tour-needed": "נדרש סיור",
+    "site-tour-date": "תאריך סיור",
+    "quality-committee-required": "נדרש רכיב איכות"
   },
   "documents": {
     "document": "מסמך",

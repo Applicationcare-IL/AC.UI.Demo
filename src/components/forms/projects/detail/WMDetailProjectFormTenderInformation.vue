@@ -2,14 +2,14 @@
   <Card>
     <template #title> Tender information </template>
     <template #content>
-      <div class="wm-form-row gap-5">
+      <div class="wm-form-row align-items-start gap-5">
         <WMInput
           name="quality-committee-required"
           type="input-select-button"
           :highlighted="true"
-          :label="'quality committee required' + ':'"
+          :label="$t('project.quality-committee-required') + ':'"
           :options="yesNoOptions"
-          :selectedOption="yesNoOptions[1]"
+          :selected-option="yesNoOptions[1]"
           width="80"
         />
 
@@ -17,17 +17,17 @@
           name="site-tour-needed"
           type="input-select-button"
           :highlighted="true"
-          :label="'site tour needed' + ':'"
+          :label="$t('project.site-tour-needed') + ':'"
           :options="yesNoOptions"
           :value="isSiteTourNeeded"
-          @update:selectedItem="handleSiteTourNeededOptionsChange"
           width="80"
+          @update:selected-item="handleSiteTourNeededOptionsChange"
         />
 
         <WMInput
-          type="date"
-          :label="'Site tour date'"
           id="site-tour-date"
+          type="date"
+          :label="$t('project.site-tour-date') + ':'"
           name="site-tour-date"
           :disabled="!isSiteTourNeeded.value"
         />
