@@ -403,14 +403,17 @@ const onSelectionChanged = () => {
 };
 
 const updateDocumentRow = (id, document) => {
-  if (!document.document_detail.id) {
-    toast.error("Please fill the document detail");
-    return;
-  }
+  //Services don't have these columns
+  if (props.relatedEntity !== "service") {
+    if (!document.document_detail.id) {
+      toast.error("Please fill the document detail");
+      return;
+    }
 
-  if (!document.document_type.id) {
-    toast.error("Please fill the document type");
-    return;
+    if (!document.document_type.id) {
+      toast.error("Please fill the document type");
+      return;
+    }
   }
 
   updateDocument(document.id, parseUpdateDocument(document))
