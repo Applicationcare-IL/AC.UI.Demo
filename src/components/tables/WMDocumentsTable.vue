@@ -58,7 +58,6 @@
       </span>
     </div>
   </div>
-
   <DataTable
     v-model:filters="filters"
     v-model:selection="selectedDocuments"
@@ -68,9 +67,10 @@
     table-style="min-width: 50rem"
     scrollable
     paginator
+    :total-records="totalRecords"
+    lazy
     :rows="rows"
     sort-field="id"
-    :sort-order="-1"
     :loading="loading"
     @update:selection="onSelectionChanged"
     @page="onPage($event)"
@@ -98,8 +98,9 @@
               params: { id: slotProps.data.id },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.id }}</router-link
           >
+            {{ slotProps.data.id }}
+          </router-link>
         </template>
 
         <template v-if="column.type === 'task'">
@@ -111,7 +112,7 @@
             }"
             class="vertical-align-middle"
           >
-            {{ slotProps.data.task.name }}
+            <WMOptionSetValue :option-set="slotProps.data.task.task_family" />
           </router-link>
         </template>
 
