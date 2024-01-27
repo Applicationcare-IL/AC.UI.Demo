@@ -48,7 +48,7 @@
   </div> -->
 
   <div class="dashboard-content flex flex-row flex-wrap gap-5 p-5">
-    <div class="flex flex-column flex-1">
+    <div class="flex flex-column flex-1 w-6">
       <!-- Services -->
       <div class="h1 mb-5">{{ $t("dashboard.my-services") }}</div>
 
@@ -126,7 +126,7 @@
         </Card>
       </div>
     </div>
-    <div class="flex flex-column flex-1 card-container">
+    <div class="flex flex-column flex-1 w-6 card-container">
       <!-- Tasks -->
       <div class="h1 mb-5">{{ $t("dashboard.my-tasks") }}</div>
       <div class="flex flex-column gap-5 card-container">
@@ -183,7 +183,13 @@
           </div>
         </div> -->
         <Card>
-          <template #content> TABLA TASKS </template>
+          <template #content>
+            <WMTasksTable
+              :columns="taskColumns"
+              multiselect
+              :hide-title="true"
+            />
+          </template>
         </Card>
       </div>
     </div>
@@ -191,7 +197,15 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { ref } from "vue";
+
+// import { useAuthStore } from "@/stores/auth";
+// const authStore = useAuthStore();
+// const userId = ref(authStore.user?.id);
+
+const { getTaskColumns } = useListUtils();
+
+const taskColumns = ref(getTaskColumns());
 
 // OLD CODE
 

@@ -230,7 +230,7 @@ const loadLazyData = () => {
     params.append("contact_id", props.relatedEntityId);
   } else if (props.relatedEntity == "customer") {
     params.append("customer_id", props.relatedEntityId);
-  } else {
+  } else if (props.relatedEntity && props.relatedEntityId) {
     params.append("entity_type", props.relatedEntity);
     params.append("entity_id", props.relatedEntityId);
   }

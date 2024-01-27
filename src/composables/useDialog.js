@@ -42,7 +42,7 @@ export function useDialog() {
     });
   };
 
-  const confirmNewTask = (id) => {
+  const confirmNewTask = ({ id, emit }) => {
     confirm.require({
       message: i18n.t("task.notification-created-message"),
       header: i18n.t("task.notification-created-header"),
@@ -52,7 +52,9 @@ export function useDialog() {
         formUtilsStore.goToDetail(id, "task");
       },
       reject: () => {
-        formUtilsStore.closeForm();
+        if (emit) {
+          emit("closeSidebar");
+        }
       },
     });
   };

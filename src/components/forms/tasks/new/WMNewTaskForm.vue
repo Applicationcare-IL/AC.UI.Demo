@@ -270,7 +270,7 @@ const onSubmit = handleSubmit((values) => {
   createTask(parseTask(task))
     .then((data) => {
       emit("newTaskCreated");
-      dialog.confirmNewTask(data.data.id);
+      dialog.confirmNewTask({ id: data.data.id, emit });
 
       resetForm();
       isFormDirty.value = false;
