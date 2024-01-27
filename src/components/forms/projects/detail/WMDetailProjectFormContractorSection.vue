@@ -19,7 +19,7 @@
         class="wm-form-row gap-5 align-items-start mt-5"
       >
         <WMInput
-          name="contractor-option-quality-committee-required"
+          name="quality-committee-required"
           type="input-select-button"
           :highlighted="true"
           :label="$t('project.quality-committee-required') + ':'"
@@ -29,7 +29,7 @@
         />
 
         <WMInput
-          name="contractor-option-site-tour-needed"
+          name="site-tour-needed"
           type="input-select-button"
           :highlighted="true"
           :label="$t('project.site-tour-needed') + ':'"

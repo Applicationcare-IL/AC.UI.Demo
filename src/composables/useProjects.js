@@ -116,6 +116,11 @@ export function useProjects() {
       tbr_number: project["tbr-number"],
       request_number: project["request-number"],
       network_folder: project["network-folder"],
+      tender: project["contractor-option"]?.value === "tender" ? true : false,
+      site_tour: project["site-tour-needed"]?.value === "yes" ? true : false,
+      site_tour_date: project["site-tour-date"],
+      quality_commitee:
+        project["quality-committee-required"]?.value === "yes" ? true : false,
     };
   };
 
