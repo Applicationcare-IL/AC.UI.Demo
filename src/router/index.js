@@ -43,10 +43,10 @@ const router = createRouter({
         {
           path: "/dashboard",
           name: "dashboard",
-          redirect: () => {
-            return "/tasks";
-          },
-          // component: () => import("@/views/user/Dashboard.vue"),
+          // redirect: () => {
+          //   return "/tasks";
+          // },
+          component: () => import("@/views/user/Dashboard.vue"),
         },
         {
           path: "/contacts",

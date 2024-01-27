@@ -84,6 +84,10 @@
     "sales": "Sales",
     "projects": "Projects"
   },
+  "dashboard": {
+    "my-tasks": "My Tasks",
+    "my-services": "My Services"
+  },
   "contact": {
     "contact": "Contact",
     "contacts": "Contacts",
