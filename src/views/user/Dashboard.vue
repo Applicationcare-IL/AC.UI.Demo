@@ -47,8 +47,8 @@
     </div>
   </div> -->
 
-  <div class="dashboard-content flex flex-row flex-wrap gap-5 p-5">
-    <div class="flex flex-column flex-1 w-6">
+  <div class="dashboard-content flex gap-5 p-5">
+    <div class="flex flex-column flex-1 dashboard-column">
       <!-- Services -->
       <div class="h1 mb-5">{{ $t("dashboard.my-services") }}</div>
 
@@ -122,11 +122,17 @@
           </div>
         </div> -->
         <Card>
-          <template #content> TABLA SERVICES </template>
+          <template #content>
+            <WMServicesTable
+              :columns="serviceColumns"
+              :hide-title="true"
+              multiselect
+            />
+          </template>
         </Card>
       </div>
     </div>
-    <div class="flex flex-column flex-1 w-6 card-container">
+    <div class="flex flex-column flex-1 dashboard-column card-container">
       <!-- Tasks -->
       <div class="h1 mb-5">{{ $t("dashboard.my-tasks") }}</div>
       <div class="flex flex-column gap-5 card-container">
@@ -199,13 +205,10 @@
 <script setup>
 import { ref } from "vue";
 
-// import { useAuthStore } from "@/stores/auth";
-// const authStore = useAuthStore();
-// const userId = ref(authStore.user?.id);
-
-const { getTaskColumns } = useListUtils();
+const { getTaskColumns, getServiceColumns } = useListUtils();
 
 const taskColumns = ref(getTaskColumns());
+const serviceColumns = ref(getServiceColumns());
 
 // OLD CODE
 
@@ -264,3 +267,9 @@ const taskColumns = ref(getTaskColumns());
 //   { name: "אנשי הקשר שלי", value: 1 },
 // ]);
 </script>
+
+<style scoped lang="scss">
+.dashboard-column {
+  max-width: calc(50% - 2em);
+}
+</style>

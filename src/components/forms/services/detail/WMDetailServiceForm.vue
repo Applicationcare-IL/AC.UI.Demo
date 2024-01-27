@@ -73,7 +73,7 @@
                 </div>
                 <div class="wm-form-row gap-5">
                   <div class="wm-form-row gap-4">
-                    <WMInput
+                    <!-- <WMInput
                       name="due-date"
                       type="info"
                       :highlighted="true"
@@ -90,7 +90,7 @@
                       :value="
                         useDateFormat(service.open_date, utilsStore.dateFormat)
                       "
-                    />
+                    /> -->
                     <div class="wm-input flex flex-column">
                       <label class="wm-form-label highlighted"> SLA </label>
                       <WMSLATag
@@ -239,8 +239,7 @@
           :related-entity-id="service.id"
           :columns="taskColumns"
           multiselect
-        >
-        </WMTasksTable>
+        />
       </div>
 
       <Accordion>

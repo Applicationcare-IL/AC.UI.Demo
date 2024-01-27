@@ -8,7 +8,7 @@
     <WMNewEntityFormHeader entity="service" name="newService" />
     <WMNewTaskForm :is-sidebar="true" @close-sidebar="closeSidebar" />
   </WMSidebar>
-  <h2 class="h2">{{ $t("service.service") }}</h2>
+  <h2 v-if="!hideTitle" class="h2">{{ $t("service.service") }}</h2>
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
@@ -21,19 +21,16 @@
           >{{ t("new") }}</WMButton
         >
         <WMAssignOwnerButton entity="service" />
-        <WMButton class="m-1 col-6" name="export-white" icon="export"
+        <!-- <WMButton class="m-1 col-6" name="export-white" icon="export"
           >ייצוא נתונים</WMButton
-        >
-        <Divider layout="vertical" />
+        > -->
+        <!-- <Divider layout="vertical" />
         <WMButtonMenu class="m-1" mode="light" :menu-items="menuItems"
           >הודעה</WMButtonMenu
         >
-        <WMButton class="m-1 col-6" name="phone-white" icon="phone">
-          {{ $t("buttons.assign") }}
-        </WMButton>
         <WMButton class="m-1 col-6" name="mail-white" icon="mail">
           {{ $t("buttons.assign") }}
-        </WMButton>
+        </WMButton> -->
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -172,6 +169,10 @@ const props = defineProps({
   tableClass: {
     type: String,
     default: "",
+  },
+  hideTitle: {
+    type: Boolean,
+    default: false,
   },
 });
 
