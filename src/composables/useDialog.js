@@ -14,38 +14,25 @@ export function useDialog() {
 
   const confirmNewCustomer = (id) => {
     confirm.require({
-      message: i18n.t("customer.notification.created.message"),
-      header: i18n.t("customer.notification.created.header"),
+      message: i18n.t("customer.notification-created-message"),
+      header: i18n.t("customer.notification-created-header"),
       acceptLabel: i18n.t("customer.notification-created-detail"),
-      rejectLabel: i18n.t("customer.notification.created.list"),
+      rejectLabel: i18n.t("customer.notification-created-list"),
       accept: () => {
         formUtilsStore.goToDetail(id);
       },
       reject: () => {
         formUtilsStore.closeForm();
       },
-    });
-  };
-
-  const discardNewCustomer = () => {
-    confirm.require({
-      message: i18n.t("customer.notification.discard.message"),
-      header: i18n.t("customer.notification.discard.header"),
-      acceptLabel: i18n.t("customer.notification.discard.accept"),
-      rejectLabel: i18n.t("customer.notification.discard.cancel"),
-      accept: () => {
-        formUtilsStore.closeForm();
-      },
-      reject: () => {},
     });
   };
 
   const confirmNewContact = (id) => {
     confirm.require({
-      message: i18n.t("contact.notification.created.message"),
-      header: i18n.t("contact.notification.created.header"),
-      acceptLabel: i18n.t("contact.notification.created.detail"),
-      rejectLabel: i18n.t("contact.notification.created.list"),
+      message: i18n.t("contact.notification-created-message"),
+      header: i18n.t("contact.notification-created-header"),
+      acceptLabel: i18n.t("contact.notification-created-detail"),
+      rejectLabel: i18n.t("contact.notification-created-list"),
       accept: () => {
         formUtilsStore.goToDetail(id);
       },
@@ -55,25 +42,12 @@ export function useDialog() {
     });
   };
 
-  const discardNewContact = () => {
-    confirm.require({
-      message: i18n.t("contact.notification.discard.message"),
-      header: i18n.t("contact.notification.discard.header"),
-      acceptLabel: i18n.t("contact.notification.discard.accept"),
-      rejectLabel: i18n.t("contact.notification.discard.cancel"),
-      accept: () => {
-        formUtilsStore.closeForm();
-      },
-      reject: () => {},
-    });
-  };
-
   const confirmNewTask = (id) => {
     confirm.require({
-      message: i18n.t("task.notification.created.message"),
-      header: i18n.t("task.notification.created.header"),
-      acceptLabel: i18n.t("task.notification.created.detail"),
-      rejectLabel: i18n.t("task.notification.created.list"),
+      message: i18n.t("task.notification-created-message"),
+      header: i18n.t("task.notification-created-header"),
+      acceptLabel: i18n.t("task.notification-created-detail"),
+      rejectLabel: i18n.t("task.notification-created-list"),
       accept: () => {
         formUtilsStore.goToDetail(id, "task");
       },
@@ -83,44 +57,18 @@ export function useDialog() {
     });
   };
 
-  const discardNewTask = () => {
-    confirm.require({
-      message: i18n.t("task.notification.discard.message"),
-      header: i18n.t("task.notification.discard.header"),
-      acceptLabel: i18n.t("task.notification.discard.accept"),
-      rejectLabel: i18n.t("task.notification.discard.cancel"),
-      accept: () => {
-        formUtilsStore.closeForm();
-      },
-      reject: () => {},
-    });
-  };
-
   const confirmNewService = (id) => {
     confirm.require({
-      message: i18n.t("service.notification.created.message"),
-      header: i18n.t("service.notification.created.header"),
-      acceptLabel: i18n.t("service.notification.created.detail"),
-      rejectLabel: i18n.t("service.notification.created.list"),
+      message: i18n.t("service.notification-created-message"),
+      header: i18n.t("service.notification-created-header"),
+      acceptLabel: i18n.t("service.notification-created-detail"),
+      rejectLabel: i18n.t("service.notification-created-list"),
       accept: () => {
         formUtilsStore.goToDetail(id);
       },
       reject: () => {
         formUtilsStore.closeForm();
       },
-    });
-  };
-
-  const discardNewService = () => {
-    confirm.require({
-      message: i18n.t("service.notification.discard.message"),
-      header: i18n.t("service.notification.discard.header"),
-      acceptLabel: i18n.t("service.notification.discard.accept"),
-      rejectLabel: i18n.t("service.notification.discard.cancel"),
-      accept: () => {
-        formUtilsStore.closeForm();
-      },
-      reject: () => {},
     });
   };
 
@@ -197,16 +145,12 @@ export function useDialog() {
 
   return {
     confirmNewCustomer,
-    discardNewCustomer,
     confirmNewContact,
-    discardNewContact,
     confirmNewTask,
-    discardNewTask,
     confirmNewService,
-    discardNewService,
+    confirmNewProject,
     cancelService,
     completeService,
-    confirmNewProject,
     confirmCancelDialog,
   };
 }
