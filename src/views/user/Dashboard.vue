@@ -121,7 +121,7 @@
             </Card>
           </div>
         </div> -->
-        <Card>
+        <Card v-if="checkIfEntityIsActive('services')">
           <template #content>
             <WMServicesTable
               :columns="serviceColumns"
@@ -188,7 +188,7 @@
             </Card>
           </div>
         </div> -->
-        <Card>
+        <Card v-if="checkIfEntityIsActive('tasks')">
           <template #content>
             <WMTasksTable
               :columns="taskColumns"
@@ -206,6 +206,7 @@
 import { ref } from "vue";
 
 const { getTaskColumns, getServiceColumns } = useListUtils();
+const { checkIfEntityIsActive } = useLicensing();
 
 const taskColumns = ref(getTaskColumns());
 const serviceColumns = ref(getServiceColumns());

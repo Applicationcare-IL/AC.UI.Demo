@@ -12,8 +12,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
+
 import AppMenuItem from "./AppMenuItem.vue";
 
 const { t } = useI18n();
@@ -33,7 +34,7 @@ const model = ref([
         label: computed(() => t("navigation.dashboard")),
         to: "/dashboard",
         image: new URL("/icons/nav/dashboard.svg", import.meta.url).href,
-        visibility: false,
+        visibility: true,
       },
       {
         label: computed(() => t("navigation.customers")),
