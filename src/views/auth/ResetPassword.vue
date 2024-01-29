@@ -16,8 +16,10 @@
         class="login-container flex flex-column justify-content-center align-items-center h-full pb-6"
       >
         <div class="login-form">
-          <div class="h1 w-full">{{ $t("login.hello") }}</div>
-          <div class="w-full text-gray-600">{{ $t("login.instructions") }}</div>
+          <div class="h1 w-full">{{ $t("login.reset-password-title") }}</div>
+          <div class="w-full text-gray-600">
+            {{ $t("login.reset-password-instructions") }}
+          </div>
           <div class="mt-6 flex flex-column">
             <WMInput
               name="email"
@@ -32,9 +34,13 @@
               :label="$t('login.password') + ':'"
               style="margin-top: 32px"
             />
-            <router-link to="/login" class="align-self-end mb-4">{{
-              $t("login.forgot_password")
-            }}</router-link>
+            <WMInput
+              name="password"
+              type="input-password"
+              :highlighted="true"
+              :label="$t('login.password') + ':'"
+              style="margin-top: 32px"
+            />
 
             <div v-if="error != ''" class="bg-red-100 text-red-700 p-2">
               {{ $t(error) }}
@@ -56,12 +62,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useAuthStore } from "@/stores/auth";
-import { useRouter } from "vue-router";
 import { useForm } from "vee-validate";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 import { useLayout } from "@/layout/composables/layout";
+import { useAuthStore } from "@/stores/auth";
 
 const { layoutConfig } = useLayout();
 
