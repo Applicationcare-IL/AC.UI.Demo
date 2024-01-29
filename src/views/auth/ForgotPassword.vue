@@ -36,7 +36,7 @@
               class="w-full mt-4"
               name="new"
               type="submit"
-              @click="handleLogin"
+              @click="handleForgotPassword"
               >{{ $t("login.send-reset-link") }}
             </WMButton>
           </div>
@@ -45,6 +45,19 @@
     </div>
     <div class="side-design flex-1"></div>
   </div>
+  <ConfirmDialog group="templating">
+    <template #message="slotProps">
+      <div
+        class="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border"
+      >
+        <i
+          :class="slotProps.message.icon"
+          class="text-6xl text-primary-500"
+        ></i>
+        <p>{{ slotProps.message.message }}</p>
+      </div>
+    </template>
+  </ConfirmDialog>
 </template>
 
 <script setup>
@@ -57,31 +70,21 @@ import { useAuthStore } from "@/stores/auth";
 
 const { layoutConfig } = useLayout();
 
-const { errors, handleSubmit, setFieldError } = useForm();
+const { handleSubmit } = useForm();
 
-const { fetchLicensing } = useLicensing();
-
-const router = useRouter();
 const error = ref("");
 
-const handleLogin = handleSubmit((values) => {
+const handleForgotPassword = handleSubmit((values) => {
   useAuthStore()
-    .login(values.email, values.password)
+    .forgotPassword(values.email)
     .then(() => {
-      if (useAuthStore().isAuthenticated == true) {
-        useAuthStore()
-          .userData()
-          .then(async (data) => {
-            await fetchLicensing();
-            router.push("/dashboard");
-          })
-          .catch(() => {
-            error.value = "User Data not found";
-          });
-      } else {
-        console.error("ERROR");
-        error.value = "login.invalid_credentials";
-      }
+      confirm.require({
+        header: "We sent you an email!",
+        message:
+          "Click on the link in your email to reset your password and login to EasyMaze",
+        acceptLabel: "Confirm",
+        accept: () => {},
+      });
     })
     .catch(() => {
       error.value = "login.invalid_credentials";

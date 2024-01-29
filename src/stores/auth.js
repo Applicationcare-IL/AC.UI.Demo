@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { useRouter } from "vue-router";
+
 import { AuthService } from "@/service/AuthService";
 
 const router = useRouter();
@@ -42,6 +43,17 @@ export const useAuthStore = defineStore("auth", {
       // refresh the page using javascript
       location.reload();
       // router.push("/login");
+    },
+    forgotPassword(email) {
+      return Promise.resolve(
+        AuthService.forgotPassword(email)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            console.error(error);
+          })
+      );
     },
     userData() {
       return Promise.resolve(
