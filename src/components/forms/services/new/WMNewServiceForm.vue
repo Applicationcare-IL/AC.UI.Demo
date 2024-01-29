@@ -232,6 +232,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(["closeSidebar", "newServiceCreated"]);
+
 // REFS
 const directions = ref();
 const channels = ref();
@@ -327,7 +329,9 @@ function closeNewCustomerSidebar() {
 const onSubmit = handleSubmit((values) => {
   createService(parseService(values))
     .then((data) => {
-      dialog.confirmNewService(data.data.id);
+      emit("newServiceCreated");
+
+      dialog.confirmNewService({ id: data.data.id, emit });
 
       resetForm();
       isFormDirty.value = false;

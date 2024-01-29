@@ -6,7 +6,11 @@
     @open-sidebar="openSidebar"
   >
     <WMNewEntityFormHeader entity="service" name="newService" />
-    <WMNewTaskForm :is-sidebar="true" @close-sidebar="closeSidebar" />
+    <WMNewServiceForm
+      :is-sidebar="true"
+      @close-sidebar="closeSidebar"
+      @new-service-created="loadLazyData"
+    />
   </WMSidebar>
   <h2 v-if="!hideTitle" class="h2">{{ $t("service.service") }}</h2>
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
@@ -242,11 +246,6 @@ function closeSidebar() {
 function openSidebar() {
   isVisible.value = true;
 }
-
-const menuItems = [
-  { label: "Whatsapp", value: "option1" },
-  { label: "SMS", value: "option2" },
-];
 
 const isFilterVisible = ref(false);
 

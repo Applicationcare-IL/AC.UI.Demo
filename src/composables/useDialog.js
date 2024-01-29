@@ -59,7 +59,7 @@ export function useDialog() {
     });
   };
 
-  const confirmNewService = (id) => {
+  const confirmNewService = ({ id, emit }) => {
     confirm.require({
       message: i18n.t("service.notification-created-message"),
       header: i18n.t("service.notification-created-header"),
@@ -69,7 +69,9 @@ export function useDialog() {
         formUtilsStore.goToDetail(id);
       },
       reject: () => {
-        formUtilsStore.closeForm();
+        if (emit) {
+          emit("closeSidebar");
+        }
       },
     });
   };
