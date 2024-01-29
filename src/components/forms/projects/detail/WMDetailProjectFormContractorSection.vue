@@ -76,10 +76,18 @@ const contractorOptions = ref([
 const contractorSelectedOption = ref(contractorOptions.value[0]);
 
 const handleContractorOptionsChange = (option) => {
+  if (!option) {
+    return;
+  }
+
   contractorSelectedOption.value = option;
 };
 
 const handleSiteTourNeededOptionsChange = (option) => {
+  if (!option) {
+    return;
+  }
+
   isSiteTourNeeded.value = option;
 };
 </script>

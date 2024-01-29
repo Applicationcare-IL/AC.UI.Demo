@@ -9,7 +9,10 @@
           <h1 class="h1 mb-0">
             {{ $t("project.project") }}: {{ project.project_name }}
           </h1>
-          <div :class="statusClass(project.status.value)" class="status-label">
+          <div
+            :class="statusClass(project.status.value)"
+            class="status-label white-space-nowrap"
+          >
             <WMOptionSetValue :option-set="project.status" />
           </div>
         </div>

@@ -93,6 +93,7 @@
       :options="refOptions"
       :option-label="optionLabel"
       class="form-select-button flex-nowrap flex"
+      :unselectable="false"
       @change="
         $emit('update:selectedItem', $event.value);
         handleChange($event.value);
