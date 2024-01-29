@@ -10,8 +10,8 @@
       <div class="flex">
         <div class="w-6 pr-4">
           <WMSelectableButton
-            :label="$t('project.address')"
             v-model="showAddressOptions"
+            :label="$t('project.address')"
           />
 
           <div v-if="showAddressOptions">
@@ -22,25 +22,25 @@
                 :required="true"
                 :label="$t('address.city') + ':'"
                 :options="cities"
-                :modelValue="selectedCity"
+                :model-value="selectedCity"
                 width="152"
                 :placeholder="$t('select', ['addres.city'])"
+                :option-set="true"
                 @change="updateStreets"
-                :optionSet="true"
               />
 
               <div class="flex flex-row gap-5">
                 <WMInputSearch
+                  v-model="selectedSteet"
                   name="street"
                   :required="true"
                   :highlighted="true"
                   :label="$t('address.street') + ':'"
                   :options="streets"
-                  :modelValue="selectedSteet"
-                  v-model="selectedSteet"
+                  :model-value="selectedSteet"
                   width="152"
                   :placeholder="$t('select', ['address.street'])"
-                  :optionSet="true"
+                  :option-set="true"
                   :disabled="!isCitySelected"
                 />
                 <!-- <WMInput
@@ -59,7 +59,7 @@
                 :label="$t('address.house-number') + ':'"
                 :disabled="!isCitySelected"
                 required
-                :value="props.project.location.house_number"
+                :value="props.project.location?.house_number"
               />
             </div>
           </div>
@@ -67,8 +67,8 @@
         <Divider layout="vertical" />
         <div class="w-6">
           <WMSelectableButton
-            :label="$t('project.city_data')"
             v-model="showCityDataOptions"
+            :label="$t('project.city_data')"
           />
           <div v-if="showCityDataOptions">
             <div class="wm-form-row gap-5 mt-3">
@@ -77,21 +77,21 @@
                 type="input-text"
                 :highlighted="true"
                 :label="$t('address.block') + ':'"
-                :value="props.project.location.block"
+                :value="props.project.location?.block"
               />
               <WMInput
                 name="parcel"
                 type="input-text"
                 :highlighted="true"
                 :label="$t('address.parcel') + ':'"
-                :value="props.project.location.parcel"
+                :value="props.project.location?.parcel"
               />
               <WMInput
                 name="sub-parcel"
                 type="input-text"
                 :highlighted="true"
                 :label="$t('address.sub-parcel') + ':'"
-                :value="props.project.location.sub_parcel"
+                :value="props.project.location?.sub_parcel"
               />
             </div>
           </div>
@@ -102,7 +102,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
+
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const props = defineProps({
