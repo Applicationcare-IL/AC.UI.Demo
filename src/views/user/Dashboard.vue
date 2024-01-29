@@ -48,7 +48,10 @@
   </div> -->
 
   <div class="dashboard-content flex gap-5 p-5">
-    <div class="flex flex-column flex-1 dashboard-column">
+    <div
+      v-if="checkIfEntityIsActive('services')"
+      class="flex flex-column flex-1 dashboard-column"
+    >
       <!-- Services -->
       <div class="h1 mb-5">{{ $t("dashboard.my-services") }}</div>
 
@@ -121,7 +124,7 @@
             </Card>
           </div>
         </div> -->
-        <Card v-if="checkIfEntityIsActive('services')">
+        <Card>
           <template #content>
             <WMServicesTable
               :columns="serviceColumns"
@@ -132,7 +135,10 @@
         </Card>
       </div>
     </div>
-    <div class="flex flex-column flex-1 dashboard-column card-container">
+    <div
+      v-if="checkIfEntityIsActive('tasks')"
+      class="flex flex-column flex-1 dashboard-column card-container"
+    >
       <!-- Tasks -->
       <div class="h1 mb-5">{{ $t("dashboard.my-tasks") }}</div>
       <div class="flex flex-column gap-5 card-container">
@@ -188,7 +194,7 @@
             </Card>
           </div>
         </div> -->
-        <Card v-if="checkIfEntityIsActive('tasks')">
+        <Card>
           <template #content>
             <WMTasksTable
               :columns="taskColumns"
