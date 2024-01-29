@@ -47,11 +47,8 @@
     </div>
   </div> -->
 
-  <div class="dashboard-content flex gap-5 p-5">
-    <div
-      v-if="checkIfEntityIsActive('services')"
-      class="flex flex-column flex-1 dashboard-column"
-    >
+  <div class="dashboard-content">
+    <div v-if="checkIfEntityIsActive('services')" class="dashboard-column">
       <!-- Services -->
       <div class="h1 mb-5">{{ $t("dashboard.my-services") }}</div>
 
@@ -137,7 +134,7 @@
     </div>
     <div
       v-if="checkIfEntityIsActive('tasks')"
-      class="flex flex-column flex-1 dashboard-column card-container"
+      class="dashboard-column card-container"
     >
       <!-- Tasks -->
       <div class="h1 mb-5">{{ $t("dashboard.my-tasks") }}</div>
@@ -275,8 +272,4 @@ const serviceColumns = ref(getServiceColumns());
 // ]);
 </script>
 
-<style scoped lang="scss">
-.dashboard-column {
-  max-width: calc(50% - 2em);
-}
-</style>
+<style scoped lang="scss"></style>
