@@ -31,6 +31,10 @@ export function useProjects() {
     return await projectsStore.updateProject(id, project);
   };
 
+  const updateProjectConfig = async (id, config) => {
+    return await projectsStore.updateProjectConfig(id, config);
+  };
+
   const assignContactToProject = async (projectId, contact) => {
     return await projectsStore.assignContactToProject(projectId, contact);
   };
@@ -116,6 +120,11 @@ export function useProjects() {
       tbr_number: project["tbr-number"],
       request_number: project["request-number"],
       network_folder: project["network-folder"],
+    };
+  };
+
+  const parseUpdateProjectConfig = (project) => {
+    return {
       tender: project["contractor-option"]?.value === "tender" ? true : false,
       site_tour: project["site-tour-needed"]?.value === "yes" ? true : false,
       site_tour_date: project["site-tour-date"],
@@ -183,7 +192,8 @@ export function useProjects() {
       open_tasks: 0, //project.open_tasks,
       breached_tasks: 0, //project.breached_tasks,
       stage: project.process?.current_stage?.name,
-      status: project.state,
+      status: project.status,
+      state: project.state,
       process: project.process,
       location: project.location,
       contacts: project.contacts,
@@ -257,53 +267,13 @@ export function useProjects() {
     };
   };
 
-  // MOCKED DATA
-  const randomStatus = () => {
-    const status = ["active", "not_active"];
-    return status[Math.floor(Math.random() * status.length)];
-  };
-
-  const generateFakeProject = (i) => {
-    const is_active = Math.random() < 0.5;
-
-    return {
-      project_id: i,
-      project_number: "003-02-" + i,
-      project_name: "שכונת הבוכרים",
-      city_data: "גוש 1234, חלקה 456",
-      address: "שמעון פרס 15, רחובות",
-      project_type: "בנייה ציבורית",
-      project_area: "בנייה ציבורית",
-      project_detail: "בנייה ציבורית",
-      open_tasks: "12",
-      breached_tasks: "0",
-      stage: "תכנון",
-      status: randomStatus(),
-    };
-  };
-
-  const getCompetitionOrganizations = async () => {
-    return Array(10).fill(fakeOrganization);
-  };
-
-  const fakeOrganization = {
-    name: "א.א. בוני הדרום",
-    offer_requested: "11/12/23",
-    offer_recieved: "11/12/23",
-    offer_amount: "30000",
-    status: "התקבלה הצעה",
-    qualified_first: true,
-    quealified_second: false,
-    notes: "משהו חשוב שכולל מילים שכתבו על הארגון ",
-    file: "",
-  };
-
   return {
     // ACTIONS
     getProjectsFromApi,
     createProject,
     getProjectFromApi,
     updateProject,
+    updateProjectConfig,
     assignContactToProject,
     unassignContactFromProject,
     addServiceArea,
@@ -317,6 +287,7 @@ export function useProjects() {
     parseProject,
     parseUpdateProject,
     parseProjectCustomer,
+    parseUpdateProjectConfig,
     mapProject,
     mapContactsFromProjects,
     mapProjectCustomer,

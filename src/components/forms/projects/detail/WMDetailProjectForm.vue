@@ -10,10 +10,10 @@
             {{ $t("project.project") }}: {{ project.project_name }}
           </h1>
           <div
-            :class="statusClass(project.status.value)"
+            :class="statusClass(project.state.value)"
             class="status-label white-space-nowrap"
           >
-            <WMOptionSetValue :option-set="project.status" />
+            <WMOptionSetValue :option-set="project.state" />
           </div>
         </div>
         <div>
@@ -192,6 +192,8 @@ const {
   updateProject,
   parseUpdateProject,
   mapContactsFromProjects,
+  updateProjectConfig,
+  parseUpdateProjectConfig,
 } = useProjects();
 
 const toast = useToast();
@@ -272,6 +274,23 @@ const onSave = handleSubmit((values) => {
       console.error(error);
       toast.error("project", "not-updated");
     });
+
+  console.log(" project.value", project.value);
+  // for now this is only for contractor project type
+  if (
+    project.value.project_type.value === CONTRACTOR_PROJECT_ID &&
+    project.value.status.value === "pending_configuration"
+  ) {
+    updateProjectConfig(route.params.id, parseUpdateProjectConfig(values))
+      .then(() => {
+        toast.success("Project configuration updated");
+        refreshPage();
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("project", "not-updated");
+      });
+  }
 });
 
 const router = useRouter();

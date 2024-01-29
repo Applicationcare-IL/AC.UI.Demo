@@ -1,5 +1,6 @@
-import axiosConfig from "@/service/axiosConfig";
 import { defineStore } from "pinia";
+
+import axiosConfig from "@/service/axiosConfig";
 
 export const useProjectsStore = defineStore("projects", {
   actions: {
@@ -37,6 +38,17 @@ export const useProjectsStore = defineStore("projects", {
     updateProject(id, project) {
       return axiosConfig
         .patch("/projects/" + id, project)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
+    updateProjectConfig(id, config) {
+      return axiosConfig
+        .post("/projects/" + id + "/config", config)
         .then((response) => {
           return response.data;
         })

@@ -94,6 +94,7 @@
       :option-label="optionLabel"
       class="form-select-button flex-nowrap flex"
       :unselectable="false"
+      :disabled="props.disabled"
       @change="
         $emit('update:selectedItem', $event.value);
         handleChange($event.value);
@@ -105,7 +106,12 @@
       :class="styles"
       :style="{ width: width + 'px' }"
     >
-      {{ refValue[optionLabel] }}
+      <template v-if="optionSet">
+        <WMOptionSetValue :option-set="refValue" />
+      </template>
+      <template v-else>
+        {{ refValue }}
+      </template>
     </span>
     <span v-if="type == 'info-link' && value" :style="{ width: width + 'px' }">
       <router-link :to="props.to">{{ value }}</router-link>

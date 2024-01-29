@@ -19,9 +19,9 @@
   <div class="wm-form-row align-items-end gap-5">
     <div class="wm-form-row gap-5">
       <WMInput
+        id="description"
         type="text-area"
         :label="$t('project.project_description') + ':'"
-        id="description"
         name="project-description"
         :required="true"
       />

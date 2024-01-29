@@ -7,8 +7,8 @@
     :value="authStore.userFullName"
   />
   <WMInput
-    name="id"
     v-if="authStore.team"
+    name="id"
     type="info"
     :highlighted="true"
     :label="$t('team') + ':'"

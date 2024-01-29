@@ -147,10 +147,10 @@
       >
         <template #body="slotProps">
           <div
-            :class="statusClass(slotProps.data.status.value)"
+            :class="statusClass(slotProps.data.state.value)"
             class="status-label h-full w-full"
           >
-            <WMOptionSetValue :option-set="slotProps.data.status" />
+            <WMOptionSetValue :option-set="slotProps.data.state" />
           </div>
         </template>
       </Column>

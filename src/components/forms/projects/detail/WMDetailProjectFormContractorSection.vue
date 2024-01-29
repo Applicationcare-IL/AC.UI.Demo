@@ -11,6 +11,7 @@
           :highlighted="true"
           :options="contractorOptions"
           :value="contractorOptions[0]"
+          :disabled="!isEditable"
           @update:selected-item="handleContractorOptionsChange"
         />
       </div>
@@ -52,12 +53,23 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const { t } = useI18n();
+
+const props = defineProps({
+  project: {
+    type: Object,
+    required: true,
+  },
+});
+
+const isEditable = computed(() => {
+  return props.project.status.value === "pending_configuration";
+});
 
 const optionSetsStore = useOptionSetsStore();
 
