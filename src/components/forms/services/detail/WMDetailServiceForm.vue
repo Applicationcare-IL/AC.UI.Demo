@@ -160,21 +160,24 @@
                     type="info"
                     :highlighted="true"
                     :label="$t('classification-1') + ':'"
-                    :value="service.area?.value"
+                    :value="service.area"
+                    option-set
                   />
                   <WMInput
                     name="type"
                     type="info"
                     :highlighted="true"
                     :label="$t('classification-2') + ':'"
-                    :value="service.type?.value"
+                    :value="service.type"
+                    option-set
                   />
                   <WMInput
                     name="request1"
                     type="info"
                     :highlighted="true"
                     :label="$t('classification-3') + ':'"
-                    :value="service.request1?.value"
+                    :value="service.request1"
+                    option-set
                   />
                 </div>
                 <div v-if="service.is_active" class="wm-form-row gap-5">
@@ -210,6 +213,7 @@
                     :highlighted="true"
                     :label="$t('classification-4') + ':'"
                     :value="service.request2?.value"
+                    option-set
                   />
                   <WMInput
                     name="request3"
@@ -217,6 +221,7 @@
                     :highlighted="true"
                     :label="$t('classification-5') + ':'"
                     :value="service.request3?.value"
+                    option-set
                   />
                 </div>
               </div>

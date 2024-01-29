@@ -104,7 +104,7 @@
       :class="styles"
       :style="{ width: width + 'px' }"
     >
-      {{ refValue }}
+      {{ refValue[optionLabel] }}
     </span>
     <span v-if="type == 'info-link' && value" :style="{ width: width + 'px' }">
       <router-link :to="props.to">{{ value }}</router-link>

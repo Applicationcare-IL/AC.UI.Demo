@@ -128,6 +128,7 @@
             width="152"
             :placeholder="$t('select', ['classification-1'])"
             required
+            option-set
             @change="updateDropdown('service_type', $event.value.id, 'types')"
           />
 
@@ -140,6 +141,7 @@
             width="152"
             :placeholder="$t('select', ['classification-2'])"
             required
+            option-set
             @change="
               updateDropdown('service_request_1', $event.value.id, 'requests1')
             "
@@ -151,6 +153,7 @@
             :label="$t('classification-3') + ':'"
             :options="requests1"
             width="152"
+            option-set
             :placeholder="$t('select', ['classification-3'])"
             required
             @change="
@@ -167,6 +170,7 @@
             :label="$t('classification-4') + ':'"
             :options="requests2"
             width="152"
+            option-set
             :placeholder="$t('select', ['classification-4'])"
             @change="
               updateDropdown('service_request_3', $event.value.id, 'requests3')
@@ -179,6 +183,7 @@
             :label="$t('classification-5') + ':'"
             :options="requests3"
             width="152"
+            option-set
             :placeholder="$t('select', ['classification-5'])"
           />
         </div>
