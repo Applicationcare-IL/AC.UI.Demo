@@ -1,7 +1,8 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-import { useLayout } from "@/layout/composables/layout";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
+
+import { useLayout } from "@/layout/composables/layout";
 import { useAuthStore } from "@/stores/auth";
 
 const authStore = useAuthStore();
@@ -89,7 +90,7 @@ const isOutsideClicked = (event) => {
         <img :src="logoUrl" alt="logo" />
       </router-link>
 
-      <div class="flex mx-4 gap-2">
+      <!-- <div class="flex mx-4 gap-2">
         <div class="class px-3 flex align-items-center">
           <span>תזכורות</span>
           <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg text-white"
@@ -103,7 +104,7 @@ const isOutsideClicked = (event) => {
             >0</span
           >
         </div>
-      </div>
+      </div> -->
     </div>
 
     <WMGlobalSearchBox v-model="searchValue" />
@@ -114,7 +115,7 @@ const isOutsideClicked = (event) => {
                                 <i class="pi pi-bars"></i>
                             </button> -->
         <li
-          class="topbar-item notifications"
+          class="topbar-item notifications ml-2"
           :class="{
             'active-topmenuitem': activeTopbarItem === 'notifications',
           }"
@@ -176,45 +177,29 @@ const isOutsideClicked = (event) => {
         >
           <a
             href="#"
-            @click="onTopbarItemClick($event, 'profile')"
             class="flex flex-row flex align-items-center gap-2"
+            @click="onTopbarItemClick($event, 'profile')"
           >
             {{ authStore.user?.name }} {{ authStore.user?.surname }}
             <img alt="logo" src="/icons/user.svg" class="" />
           </a>
 
           <ul class="profile-dropdown fadeInDown p-4">
-            <!-- <li class="layout-submenu-header flex flex-row justify-content-between">
+            <!-- <li class="layou ft-submenu-header flex flex-row justify-content-between">
                             <h6 class="header-text">Settings</h6>
                             <span class="p-badge"></span>
                         </li> -->
-            <li role="menuitem">
+            <!-- <li role="menuitem">
               <a href="#" @click="onTopbarSubItemClick($event)">
                 <div>
                   <h6>Settings</h6>
                 </div>
               </a>
-            </li>
+            </li> -->
             <li role="menuitem">
               <a href="#" @click="authStore.logout">
                 <div class="notifications-item">
-                  <h6>Logout</h6>
-                </div>
-              </a>
-            </li>
-            <li role="menuitem">
-              <a href="#" @click="onTopbarSubItemClick($event)">
-                <div class="notifications-item">
-                  <h6>Notification 3</h6>
-                </div>
-              </a>
-            </li>
-            <li role="menuitem">
-              <a href="#" @click="onTopbarSubItemClick($event)">
-                <div class="notifications-item">
-                  <div class="notifications-item">
-                    <h6>Notification 4</h6>
-                  </div>
+                  <h6 class="mb-0">Logout</h6>
                 </div>
               </a>
             </li>
