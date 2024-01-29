@@ -32,7 +32,7 @@
               :label="$t('login.password') + ':'"
               style="margin-top: 32px"
             />
-            <router-link to="/login" class="align-self-end mb-4">{{
+            <router-link to="/forgot-password" class="align-self-end mb-4">{{
               $t("login.forgot_password")
             }}</router-link>
 
@@ -56,12 +56,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useAuthStore } from "@/stores/auth";
-import { useRouter } from "vue-router";
 import { useForm } from "vee-validate";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 import { useLayout } from "@/layout/composables/layout";
+import { useAuthStore } from "@/stores/auth";
 
 const { layoutConfig } = useLayout();
 
