@@ -120,6 +120,9 @@
       <template v-if="column.type === 'translate'" #body="slotProps">
         {{ $t(slotProps.data[column.name]) }}
       </template>
+      <template v-if="column.type === 'optionset'" #body="slotProps">
+        <WMOptionSetValue :option-set="slotProps.data[column.name]" />
+      </template>
     </Column>
   </DataTable>
 </template>
