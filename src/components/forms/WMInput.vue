@@ -35,13 +35,14 @@
     />
     <Password
       v-if="type == 'input-password'"
+      v-model="inputValue"
       :name="name"
       :disabled="props.disabled"
       :placeholder="placeholder"
       :feedback="false"
       style="width: 100%"
       @input="
-        $emit('update:value', $event.target.value);
+        $emit('update:modelValue', $event.target.value);
         handleChange($event.target.value);
       "
       @blur="handleBlur"

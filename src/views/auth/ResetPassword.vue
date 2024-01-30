@@ -29,22 +29,25 @@
               :value="email"
             />
             <WMInput
+              v-model="password"
               name="password"
               type="input-password"
               :highlighted="true"
-              :label="$t('login.password') + ':'"
-              style="margin-top: 32px"
-            />
-            <WMInput
-              name="password"
-              type="input-password"
-              :highlighted="true"
-              :label="$t('login.password') + ':'"
+              :label="$t('login.new-password') + ':'"
               style="margin-top: 32px"
             />
 
-            <div v-if="error != ''" class="bg-red-100 text-red-700 p-2">
-              {{ $t(error) }}
+            <WMInput
+              v-model="passwordConfirm"
+              name="password-confirm"
+              type="input-password"
+              :highlighted="true"
+              :label="$t('login.confirm-password') + ':'"
+              style="margin-top: 32px"
+            />
+
+            <div v-if="error" class="bg-red-100 text-red-700 p-2">
+              {{ error }}
             </div>
 
             <WMButton
@@ -52,13 +55,31 @@
               name="new"
               type="submit"
               @click="handleLogin"
-              >{{ $t("login.submit") }}
+              >{{ $t("login.save-new-password") }}
             </WMButton>
           </div>
         </div>
       </div>
     </div>
     <div class="side-design flex-1"></div>
+    <Dialog
+      v-model:visible="visible"
+      modal
+      :header="$t('login.reset-password-dialog-title')"
+      :style="{ width: '25rem' }"
+    >
+      <span class="p-text-secondary block mb-5">
+        {{ $t("login.reset-password-dialog-instructions") }}
+      </span>
+
+      <div class="flex justify-content-end gap-2">
+        <Button
+          type="button"
+          :label="$t('login.confirm')"
+          @click="handleConfirm"
+        ></Button>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -69,14 +90,18 @@ import { useRouter } from "vue-router";
 
 import { useLayout } from "@/layout/composables/layout";
 import { useAuthStore } from "@/stores/auth";
+import { useFormUtilsStore } from "@/stores/formUtils";
+
+const formUtilsStore = useFormUtilsStore();
+
+const password = ref("");
+const passwordConfirm = ref("");
 
 const { layoutConfig } = useLayout();
 
-// get email and token from route params
-
-const { errors, handleSubmit, setFieldError } = useForm();
-
-const { fetchLicensing } = useLicensing();
+const { handleSubmit, resetForm } = useForm({
+  validationSchema: formUtilsStore.getResetPasswordFormValidationSchema,
+});
 
 const router = useRouter();
 
@@ -96,31 +121,35 @@ if (!props.token || !props.email) {
   router.push("/");
 }
 
-const error = ref("");
+const error = ref(false);
+const visible = ref(false);
 
 const handleLogin = handleSubmit((values) => {
   useAuthStore()
-    .login(values.email, values.password)
-    .then(() => {
-      if (useAuthStore().isAuthenticated == true) {
-        useAuthStore()
-          .userData()
-          .then(async (data) => {
-            await fetchLicensing();
-            router.push("/dashboard");
-          })
-          .catch(() => {
-            error.value = "User Data not found";
-          });
-      } else {
-        console.error("ERROR");
-        error.value = "login.invalid_credentials";
+    .resetPassword(
+      props.email,
+      props.token,
+      values.password,
+      values["password-confirm"]
+    )
+    .then((response) => {
+      if (response.errors) {
+        error.value = response.message;
+        return;
       }
+
+      visible.value = true;
+      resetForm();
+      error.value = false;
     })
-    .catch(() => {
-      error.value = "login.invalid_credentials";
+    .catch((error) => {
+      console.log("ERROR", error);
     });
 });
+
+const handleConfirm = () => {
+  router.push("/login");
+};
 </script>
 
 <style scoped>

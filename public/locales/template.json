@@ -325,7 +325,8 @@
     "contactid": "Invalid ID Card",
     "phone": "Invalid phone number",
     "email": "Invalid email address",
-    "exists": "@:{label} already exists"
+    "exists": "@:{label} already exists",
+    "password-mismatch": "Passwords do not match"
   },
   "status": "Status",
   "statuses": {
@@ -353,6 +354,7 @@
     "instructions": "Enter an Email address and password to log in",
     "email": "Email",
     "password": "Password",
+    "new-password": "New password",
     "confirm-password": "Confirm password",
     "confirm": "Confirm",
     "forgot_password": "Forgot password?",
@@ -365,7 +367,9 @@
     "reset-password-instructions": "Please enter a password you’ve never used before",
     "save-new-password": "Save new password",
     "forgot-password-dialog-title": "We sent you an email!",
-    "forgot-password-dialog-instructions": "Click on the link in your email to reset your password and login to EasyMaze."
+    "forgot-password-dialog-instructions": "Click on the link in your email to reset your password and login to EasyMaze.",
+    "reset-password-dialog-title": "Your password has been updated!",
+    "reset-password-dialog-instructions": "You can login by entering your email address and the new password."
   },
   "sla": {
     "days_left": "{0} Days left",

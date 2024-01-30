@@ -309,6 +309,16 @@ export const useFormUtilsStore = defineStore("formUtils", {
         email: yup.string().email().required(),
       });
     },
+    // the password and password-confirm fields are required and must be the same
+    getResetPasswordFormValidationSchema: () => {
+      return yup.object({
+        password: yup.string().required(),
+        "password-confirm": yup
+          .string()
+          .required()
+          .oneOf([yup.ref("password")], "Passwords do not match"),
+      });
+    },
     getFormMeta: (state) => {
       return (key) => {
         return state.formMetas.find((meta) => meta.key === key);

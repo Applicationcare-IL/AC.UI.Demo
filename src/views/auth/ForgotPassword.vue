@@ -93,7 +93,6 @@ const handleForgotPassword = handleSubmit((values) => {
       resetForm();
     })
     .catch(() => {
-      alert("entro al catch");
       error.value = "login.invalid_credentials";
     });
 });

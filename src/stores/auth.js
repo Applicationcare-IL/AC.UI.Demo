@@ -55,6 +55,18 @@ export const useAuthStore = defineStore("auth", {
           })
       );
     },
+    resetPassword(email, token, password, password_confirmation) {
+      return Promise.resolve(
+        AuthService.resetPassword(email, token, password, password_confirmation)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            console.error(error);
+            return error.response.data;
+          })
+      );
+    },
     userData() {
       return Promise.resolve(
         AuthService.userData()
