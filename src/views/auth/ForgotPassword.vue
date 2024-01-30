@@ -68,7 +68,6 @@
 <script setup>
 import { useForm } from "vee-validate";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 
 import { useLayout } from "@/layout/composables/layout";
 import { useAuthStore } from "@/stores/auth";

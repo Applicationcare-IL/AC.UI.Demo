@@ -26,6 +26,7 @@
               type="input-text"
               :highlighted="true"
               :label="$t('login.email') + ':'"
+              :value="email"
             />
             <WMInput
               name="password"
@@ -71,11 +72,30 @@ import { useAuthStore } from "@/stores/auth";
 
 const { layoutConfig } = useLayout();
 
+// get email and token from route params
+
 const { errors, handleSubmit, setFieldError } = useForm();
 
 const { fetchLicensing } = useLicensing();
 
 const router = useRouter();
+
+const props = defineProps({
+  token: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+});
+
+// redirect to home if props are not passed
+if (!props.token || !props.email) {
+  router.push("/");
+}
+
 const error = ref("");
 
 const handleLogin = handleSubmit((values) => {
