@@ -123,11 +123,30 @@ export function useProjects() {
     };
   };
 
+  const getISODate = (fromDate) => {
+    let date = new Date(fromDate);
+
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+
+    let ISOdate = `${year}-${month.toString().padStart(2, "0")}-${day
+      .toString()
+      .padStart(2, "0")}T${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+    return ISOdate;
+  };
+
   const parseUpdateProjectConfig = (project) => {
     return {
       tender: project["contractor-option"]?.value === "tender" ? true : false,
       site_tour: project["site-tour-needed"]?.value === "yes" ? true : false,
-      site_tour_date: project["site-tour-date"],
+      site_tour_date: getISODate(project["site-tour-date"]),
       quality_commitee:
         project["quality-committee-required"]?.value === "yes" ? true : false,
     };
@@ -208,6 +227,12 @@ export function useProjects() {
       contractor: project.contractor,
       last_activity: project.last_activity,
       network_folder: project.network_folder,
+      config: {
+        tender: project.tender,
+        site_tour: project.site_tour,
+        site_tour_date: project.site_tour_date,
+        quality_commitee: project.quality_commitee,
+      },
     };
   };
 

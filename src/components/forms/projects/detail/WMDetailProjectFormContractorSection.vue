@@ -10,7 +10,7 @@
           type="input-select-button"
           :highlighted="true"
           :options="contractorOptions"
-          :value="contractorOptions[0]"
+          :value="contractorSelectedOption"
           :disabled="!isEditable"
           @update:selected-item="handleContractorOptionsChange"
         />
@@ -25,8 +25,9 @@
           :highlighted="true"
           :label="$t('project.quality-committee-required') + ':'"
           :options="yesNoOptions"
-          :value="yesNoOptions[0]"
+          :value="qualityCommitteeSelectedOption"
           width="80"
+          :disabled="!isEditable"
         />
 
         <WMInput
@@ -35,8 +36,9 @@
           :highlighted="true"
           :label="$t('project.site-tour-needed') + ':'"
           :options="yesNoOptions"
-          :value="isSiteTourNeeded"
+          :value="siteTourNeededSelectedOption"
           width="80"
+          :disabled="!isEditable"
           @update:selected-item="handleSiteTourNeededOptionsChange"
         />
 
@@ -45,7 +47,8 @@
           type="date"
           :label="$t('project.site-tour-date') + ':'"
           name="site-tour-date"
-          :disabled="!isSiteTourNeeded.value"
+          :value="project.config.site_tour_date"
+          :disabled="!siteTourNeededSelectedOption.value || !isEditable"
         />
       </div>
     </template>
@@ -74,7 +77,6 @@ const isEditable = computed(() => {
 const optionSetsStore = useOptionSetsStore();
 
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
-const isSiteTourNeeded = ref(yesNoOptions[1]);
 
 const contractorOptions = ref([
   {
@@ -85,7 +87,18 @@ const contractorOptions = ref([
   { value: "tender", name: t("project.tender"), label: t("project.tender") },
 ]);
 
-const contractorSelectedOption = ref(contractorOptions.value[0]);
+// Set initial or selected values
+const contractorSelectedOption = ref(
+  props.project.config.tender
+    ? contractorOptions.value[1]
+    : contractorOptions.value[0]
+);
+const qualityCommitteeSelectedOption = ref(
+  props.project.config.quality_commitee ? yesNoOptions[0] : yesNoOptions[1]
+);
+const siteTourNeededSelectedOption = ref(
+  props.project.config.site_tour ? yesNoOptions[0] : yesNoOptions[1]
+);
 
 const handleContractorOptionsChange = (option) => {
   if (!option) {
@@ -100,7 +113,7 @@ const handleSiteTourNeededOptionsChange = (option) => {
     return;
   }
 
-  isSiteTourNeeded.value = option;
+  siteTourNeededSelectedOption.value = option;
 };
 </script>
 

@@ -6,9 +6,7 @@
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row align-items-center gap-4">
-          <h1 class="h1 mb-0">
-            {{ $t("project.project") }}: {{ project.project_name }}
-          </h1>
+          <h1 class="h1 mb-0">{{ $t("project.project") }}: {{ project.project_name }}</h1>
           <div
             :class="statusClass(project.state.value)"
             class="status-label white-space-nowrap"
@@ -60,11 +58,7 @@
       </div>
 
       <div class="mt-5">
-        <WMStepper
-          :steps="stages"
-          :current-step="currentStage"
-          aria-label="Form Steps"
-        />
+        <WMStepper :steps="stages" :current-step="currentStage" aria-label="Form Steps" />
       </div>
 
       <Accordion>
@@ -75,10 +69,7 @@
 
       <Accordion>
         <AccordionTab :header="$t('journal')">
-          <WMJournalDataView
-            entity-type="project"
-            :entity-id="project.project_id"
-          />
+          <WMJournalDataView entity-type="project" :entity-id="project.project_id" />
         </AccordionTab>
       </Accordion>
 
@@ -98,9 +89,7 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion
-        v-if="project.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID"
-      >
+      <Accordion v-if="project.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID">
         <AccordionTab header="Round of signatures">
           <WMDetailProjectFormSignatureTasksTab
             :project="project"
@@ -221,8 +210,7 @@ const formUtilsStore = useFormUtilsStore();
 
 const route = useRoute();
 
-const { getStatusConditionalStyle, getPriorityConditionalStyle } =
-  useListUtils();
+const { getStatusConditionalStyle, getPriorityConditionalStyle } = useListUtils();
 
 onMounted(async () => {
   await fetchData();
@@ -268,14 +256,13 @@ const onSave = handleSubmit((values) => {
     .then(() => {
       toast.successAction("project", "updated");
       resetForm({ values: values });
-      // refreshPage();
+      fetchData();
     })
     .catch((error) => {
       console.error(error);
       toast.error("project", "not-updated");
     });
 
-  console.log(" project.value", project.value);
   // for now this is only for contractor project type
   if (
     project.value.project_type.value === CONTRACTOR_PROJECT_ID &&
@@ -284,7 +271,7 @@ const onSave = handleSubmit((values) => {
     updateProjectConfig(route.params.id, parseUpdateProjectConfig(values))
       .then(() => {
         toast.success("Project configuration updated");
-        refreshPage();
+        fetchData();
       })
       .catch((error) => {
         console.error(error);
@@ -293,15 +280,15 @@ const onSave = handleSubmit((values) => {
   }
 });
 
-const router = useRouter();
+// const router = useRouter();
 
-const refreshPage = () => {
-  router.go(); // Reloads the current route
-};
+// const refreshPage = () => {
+//   router.go(); // Reloads the current route
+// };
 
-const priorityClass = (data) => {
-  return getPriorityConditionalStyle(data);
-};
+// const priorityClass = (data) => {
+//   return getPriorityConditionalStyle(data);
+// };
 
 const handleProjectTypeUpdate = (value) => {
   selectedProjectType.value = value;
