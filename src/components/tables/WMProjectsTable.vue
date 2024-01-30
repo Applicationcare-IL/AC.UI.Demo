@@ -73,6 +73,7 @@
       class="th-selection"
       selection-mode="multiple"
     ></Column>
+
     <Column
       field="project_number"
       :header="$t('project.project_number')"
@@ -91,6 +92,7 @@
         </router-link>
       </template>
     </Column>
+
     <Column
       field="project_name"
       :header="$t('project.project_name')"
@@ -102,6 +104,7 @@
         </div>
       </template>
     </Column>
+
     <Column
       field="city_data"
       :header="$t('project.city_data')"
@@ -111,6 +114,7 @@
         {{ formatCityData(slotProps.data.location) }}
       </template>
     </Column>
+
     <Column field="address" :header="$t('project.address')" style="width: 30px">
       <template #body="slotProps">
         <div class="overflow-x-auto">
@@ -118,6 +122,7 @@
         </div>
       </template>
     </Column>
+
     <Column
       field="project_type"
       :header="$t('project.project_type')"
@@ -127,6 +132,7 @@
         <WMOptionSetValue :option-set="slotProps.data.project_type" />
       </template>
     </Column>
+
     <Column
       field="project_area"
       :header="$t('project.project_area')"
@@ -136,6 +142,7 @@
         <WMOptionSetValue :option-set="slotProps.data.project_area" />
       </template>
     </Column>
+
     <Column
       field="project_detail"
       :header="$t('project.project_detail')"
@@ -145,6 +152,7 @@
         <WMOptionSetValue :option-set="slotProps.data.project_detail" />
       </template>
     </Column>
+
     <Column
       field="open_tasks"
       :header="$t('project.open_tasks')"
@@ -155,6 +163,7 @@
         {{ slotProps.data.open_tasks }}
       </div>
     </Column>
+
     <Column
       field="breached_tasks"
       :header="$t('project.breached_tasks')"
@@ -169,6 +178,7 @@
     </Column>
 
     <Column field="stage" :header="$t('project.stage')" style="width: 30px" />
+
     <Column
       field="status"
       :header="$t('project.status')"
@@ -177,10 +187,10 @@
     >
       <template #body="slotProps">
         <div
-          :class="statusClass(slotProps.data.status.value)"
+          :class="statusClass(slotProps.data.state?.value)"
           class="status-label h-full w-full"
         >
-          <WMOptionSetValue :option-set="slotProps.data.status" />
+          <WMOptionSetValue :option-set="slotProps.data.state" />
         </div>
       </template>
     </Column>
