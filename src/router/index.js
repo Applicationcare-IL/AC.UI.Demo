@@ -1,6 +1,6 @@
 // import { storeToRefs } from "pinia";
 // import { useConfirm } from "primevue/useconfirm";
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 import AppLayout from "@/layout/AppLayout.vue";
 import { useAuthStore } from "@/stores/auth";
@@ -8,7 +8,7 @@ import { useAuthStore } from "@/stores/auth";
 import { usePermissionsStore } from "@/stores/permissionsStore";
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: [
     {
       path: "/login",
@@ -24,6 +24,10 @@ const router = createRouter({
       path: "/reset-password",
       name: "resetPassword",
       component: () => import("@/views/auth/ResetPassword.vue"),
+      props: (route) => ({
+        token: route.query.token,
+        email: route.query.email,
+      }),
     },
     {
       path: "/",
