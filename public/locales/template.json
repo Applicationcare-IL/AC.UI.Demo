@@ -354,6 +354,7 @@
     "email": "Email",
     "password": "Password",
     "confirm-password": "Confirm password",
+    "confirm": "Confirm",
     "forgot_password": "Forgot password?",
     "submit": "Log in",
     "invalid_credentials": "Looks like your email or password are incorrect. Maybe try again?",
@@ -362,7 +363,9 @@
     "send-reset-link": "Send reset link",
     "reset-password-title": "Reset password",
     "reset-password-instructions": "Please enter a password you’ve never used before",
-    "save-new-password": "Save new password"
+    "save-new-password": "Save new password",
+    "forgot-password-dialog-title": "We sent you an email!",
+    "forgot-password-dialog-instructions": "Click on the link in your email to reset your password and login to EasyMaze."
   },
   "sla": {
     "days_left": "{0} Days left",

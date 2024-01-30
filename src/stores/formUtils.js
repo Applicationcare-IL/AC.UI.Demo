@@ -304,6 +304,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
           }),
       });
     },
+    getForgotPasswordFormValidationSchema: () => {
+      return yup.object({
+        email: yup.string().email().required(),
+      });
+    },
     getFormMeta: (state) => {
       return (key) => {
         return state.formMetas.find((meta) => meta.key === key);

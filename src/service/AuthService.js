@@ -5,7 +5,7 @@ export const AuthService = {
     return axiosConfig.post("/auth/login", { email, password });
   },
   forgotPassword(email) {
-    return axiosConfig.post("/auth/forgot-password", { email });
+    return axiosConfig.post("/auth/email-reset-password", { email });
   },
   userData() {
     return axiosConfig.get("/auth/profile");

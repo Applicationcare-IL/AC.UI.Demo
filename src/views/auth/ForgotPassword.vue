@@ -45,19 +45,24 @@
     </div>
     <div class="side-design flex-1"></div>
   </div>
-  <ConfirmDialog group="templating">
-    <template #message="slotProps">
-      <div
-        class="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border"
-      >
-        <i
-          :class="slotProps.message.icon"
-          class="text-6xl text-primary-500"
-        ></i>
-        <p>{{ slotProps.message.message }}</p>
-      </div>
-    </template>
-  </ConfirmDialog>
+  <Dialog
+    v-model:visible="visible"
+    modal
+    :header="$t('login.forgot-password-dialog-title')"
+    :style="{ width: '25rem' }"
+  >
+    <span class="p-text-secondary block mb-5">
+      {{ $t("login.forgot-password-dialog-instructions") }}
+    </span>
+
+    <div class="flex justify-content-end gap-2">
+      <Button
+        type="button"
+        :label="$t('login.confirm')"
+        @click="visible = false"
+      ></Button>
+    </div>
+  </Dialog>
 </template>
 
 <script setup>
@@ -67,10 +72,17 @@ import { useRouter } from "vue-router";
 
 import { useLayout } from "@/layout/composables/layout";
 import { useAuthStore } from "@/stores/auth";
+import { useFormUtilsStore } from "@/stores/formUtils";
+
+const formUtilsStore = useFormUtilsStore();
 
 const { layoutConfig } = useLayout();
 
-const { handleSubmit } = useForm();
+const { handleSubmit, resetForm } = useForm({
+  validationSchema: formUtilsStore.getForgotPasswordFormValidationSchema,
+});
+
+const visible = ref(false);
 
 const error = ref("");
 
@@ -78,15 +90,11 @@ const handleForgotPassword = handleSubmit((values) => {
   useAuthStore()
     .forgotPassword(values.email)
     .then(() => {
-      confirm.require({
-        header: "We sent you an email!",
-        message:
-          "Click on the link in your email to reset your password and login to EasyMaze",
-        acceptLabel: "Confirm",
-        accept: () => {},
-      });
+      visible.value = true;
+      resetForm();
     })
     .catch(() => {
+      alert("entro al catch");
       error.value = "login.invalid_credentials";
     });
 });
