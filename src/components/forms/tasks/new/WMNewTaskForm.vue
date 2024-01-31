@@ -50,6 +50,7 @@
           :new="true"
           related-sidebar="newCustomer"
           :model-value="selectedCustomer"
+          :disabled="!isCustomerEditable"
         />
         <WMSidebar
           :visible="isNewCustomerSidebarVisible"
@@ -144,7 +145,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { inject, onMounted, ref, watch } from "vue";
+import { computed, inject, onMounted, ref, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -202,6 +203,10 @@ const selectedCustomer = ref();
 // ]);
 
 // COMPUTED
+// TODO: this should be a prop with an array of the values that we want to disable, but for now this is enough
+const isCustomerEditable = computed(() => {
+  return props.relatedEntity != "service";
+});
 
 // COMPONENT METHODS
 function openNewContactSidebar() {
@@ -334,6 +339,7 @@ watch(
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
   if (preselectedContact) {
+    console.log("preselectedContact", preselectedContact);
     selectedContact.value = preselectedContact.value;
   }
 

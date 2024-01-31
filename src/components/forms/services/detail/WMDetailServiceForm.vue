@@ -322,7 +322,7 @@
 // IMPORTS
 import { useDateFormat } from "@vueuse/core";
 import { useForm } from "vee-validate";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, provide, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -334,7 +334,9 @@ const { optionLabelWithLang } = useLanguages();
 const { getServiceDocumentsColumns } = useListUtils();
 
 const { getTasksFromApi } = useTasks();
-const { setSelectedContacts } = useContacts();
+const { setSelectedContacts, getContactFromApi } = useContacts();
+const { getCustomerFromApi } = useCustomers();
+
 const {
   updateService,
   parseUpdateService,
@@ -344,41 +346,6 @@ const {
 } = useServices();
 
 const toast = useToast();
-
-// INJECT
-
-// PROPS, EMITS
-
-// REFS
-const documentsColumns = ref(getServiceDocumentsColumns());
-
-// COMPUTED
-
-// COMPONENT METHODS
-
-// PROVIDE, EXPOSE
-
-// WATCHERS
-
-// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-
-const stages = ref([]);
-const currentStage = ref();
-
-const tasks = ref();
-
-const props = defineProps({
-  formKey: {
-    type: String,
-    required: true,
-  },
-});
-
-const utilsStore = useUtilsStore();
-const formUtilsStore = useFormUtilsStore();
-const optionSetsStore = useOptionSetsStore();
-
-const service = ref();
 const route = useRoute();
 
 const {
@@ -386,6 +353,31 @@ const {
   getStatusConditionalStyle,
   getPriorityConditionalStyle,
 } = useListUtils();
+
+const utilsStore = useUtilsStore();
+const formUtilsStore = useFormUtilsStore();
+const optionSetsStore = useOptionSetsStore();
+
+// INJECT
+
+// PROPS, EMITS
+const props = defineProps({
+  formKey: {
+    type: String,
+    required: true,
+  },
+});
+
+// REFS
+const documentsColumns = ref(getServiceDocumentsColumns());
+
+const stages = ref([]);
+const currentStage = ref();
+const tasks = ref();
+const service = ref();
+
+const contact = ref();
+const customer = ref();
 
 const taskColumns = ref(getTaskColumns());
 
@@ -396,19 +388,22 @@ const optionRefs = {
   requests3: requests3,
 };
 
-onMounted(async () => {
-  await fetchData();
-  setSelectedContacts(mapContactsFromServices(service.value));
-});
+// COMPUTED
+
+// COMPONENT METHODS
 
 const fetchData = async () => {
   const data = await getServiceFromApi(route.params.id);
   service.value = data;
 
+  setContact(data.contact_id);
+  setCustomer(data.customer_id);
+
   stages.value = data.stages.map((stage) => ({
     label: stage.name,
     date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
   }));
+
   updateDropdown("service_request_2", data.request1?.id, "requests2");
 
   currentStage.value = data.current_stage?.order;
@@ -419,6 +414,29 @@ const fetchData = async () => {
     entity_id: route.params.id,
   });
   tasks.value = tasksData.data;
+};
+
+/**
+ * We use this function to get the full data of the contact, that we use for example
+ * to provide it to child contacts forms (like the new task form)
+ * @param {number} contactId
+ */
+const setContact = (contactId) => {
+  console.log("setContact", contactId);
+  getContactFromApi(contactId).then((data) => {
+    contact.value = data;
+  });
+};
+
+/**
+ * We use this function to get the full data of the customer, that we use for example
+ * to provide it to child customers forms (like the new task form)
+ * @param {number} customerId
+ */
+const setCustomer = (customerId) => {
+  getCustomerFromApi(customerId).then((data) => {
+    customer.value = data;
+  });
 };
 
 const updateDropdown = (optionSet, selectedValue, dropdownOptions) => {
@@ -456,7 +474,7 @@ utilsStore.entity = "service";
 
 const handleCancelService = (id) => {
   cancelService(id, formUtilsStore.cancelServiceReasons)
-    .then((data) => {
+    .then(() => {
       toast.successAction("service", "canceled");
     })
     .catch((error) => {
@@ -471,10 +489,15 @@ const statusClass = (data) => {
   return getStatusConditionalStyle(data);
 };
 
+// PROVIDE, EXPOSE
+provide("preselectedContact", contact);
+provide("preselectedCustomer", customer);
+
 defineExpose({
   onSave,
 });
 
+// WATCHERS
 watch(
   () => meta.value,
   (value) => {
@@ -482,6 +505,12 @@ watch(
     formUtilsStore.setFormMetas(value, props.formKey);
   }
 );
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  await fetchData();
+  setSelectedContacts(mapContactsFromServices(service.value));
+});
 </script>
 
 <style scoped lang="scss"></style>
