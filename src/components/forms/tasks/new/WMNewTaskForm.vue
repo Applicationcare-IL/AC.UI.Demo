@@ -11,6 +11,7 @@
       <div class="wm-form-row align-items-end gap-5">
         <div class="flex flex-row gap-2 align-items-end">
           <WMInputSearch
+            v-model="selectedContact"
             name="contact"
             :required="true"
             :placeholder="$t('select', ['contact.contact'])"
@@ -21,8 +22,8 @@
             :new="true"
             related-sidebar="newContact"
             :search-function="searchContact"
-            :model-value="selectedContact"
           />
+
           <WMSidebar
             :visible="isNewContactSidebarVisible"
             name="newContact"
@@ -39,6 +40,7 @@
           </WMSidebar>
         </div>
         <WMInputSearch
+          v-model="selectedCustomer"
           name="customer"
           :required="true"
           :placeholder="$t('select', ['organization.organization'])"
@@ -49,7 +51,6 @@
           :search-function="searchCustomer"
           :new="true"
           related-sidebar="newCustomer"
-          :model-value="selectedCustomer"
           :disabled="!isCustomerEditable"
         />
         <WMSidebar
@@ -336,10 +337,20 @@ watch(
   }
 );
 
+watch(
+  () => selectedContact.value,
+  (newSelectedContact) => {
+    if (newSelectedContact.customer?.id) {
+      getCustomerFromApi(newSelectedContact.customer.id).then((response) => {
+        selectedCustomer.value = response;
+      });
+    }
+  }
+);
+
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
   if (preselectedContact) {
-    console.log("preselectedContact", preselectedContact);
     selectedContact.value = preselectedContact.value;
   }
 
