@@ -47,7 +47,7 @@
     </div>
   </div> -->
 
-  <div class="dashboard-content">
+  <div v-if="width > 768" class="dashboard-content">
     <div v-if="checkIfEntityIsActive('services')" class="dashboard-column">
       <!-- Services -->
       <div class="h1 mb-5">{{ $t("dashboard.my-services") }}</div>
@@ -203,9 +203,11 @@
       </div>
     </div>
   </div>
+  <div v-else>Responsive</div>
 </template>
 
 <script setup>
+import { useWindowSize } from "@vueuse/core";
 import { ref } from "vue";
 
 const { getTaskColumns, getServiceColumns } = useListUtils();
@@ -213,6 +215,8 @@ const { checkIfEntityIsActive } = useLicensing();
 
 const taskColumns = ref(getTaskColumns());
 const serviceColumns = ref(getServiceColumns());
+
+const { width } = useWindowSize();
 
 // OLD CODE
 
