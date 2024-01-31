@@ -7,6 +7,18 @@ import { useAuthStore } from "@/stores/auth";
 // import { useFormUtilsStore } from "@/stores/formUtils";
 import { usePermissionsStore } from "@/stores/permissionsStore";
 
+function getEmail(string) {
+  const regex = /email=([^&]+)/;
+
+  const match = string.match(regex);
+
+  if (match && match[1]) {
+    return decodeURIComponent(match[1]);
+  }
+
+  return null;
+}
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -24,10 +36,12 @@ const router = createRouter({
       path: "/reset-password",
       name: "resetPassword",
       component: () => import("@/views/auth/ResetPassword.vue"),
-      props: (route) => ({
-        token: route.query.token,
-        email: route.query.email,
-      }),
+      props: (route) => {
+        return {
+          token: route.query.token,
+          email: getEmail(route.href),
+        };
+      },
     },
     {
       path: "/",
