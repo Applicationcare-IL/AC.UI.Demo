@@ -75,7 +75,7 @@
           'wm-input-error': !!errorMessage,
         },
       ]"
-      style="width: 100%"
+      :style="{ width: styleWidth }"
       auto-resize
       rows="8"
       cols="100"
@@ -237,6 +237,13 @@ const optionLabel = computed(() => {
   }
 
   return "label";
+});
+
+const styleWidth = computed(() => {
+  if (props.width === "full") {
+    return "100%";
+  }
+  return props.width + "px";
 });
 
 // COMPONENT METHODS
