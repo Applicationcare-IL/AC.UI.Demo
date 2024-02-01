@@ -1,12 +1,10 @@
-import { defineConfig } from "vite";
+import { unheadVueComposablesImports } from "@unhead/vue";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
-
-import svgLoader from "vite-svg-loader";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
-
-import { unheadVueComposablesImports } from "@unhead/vue";
+import { defineConfig } from "vite";
+import svgLoader from "vite-svg-loader";
 
 // https://vitejs.dev/config/
 export default defineConfig({

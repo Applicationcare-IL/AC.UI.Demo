@@ -1,13 +1,12 @@
 <script setup>
-import RadioButton from "primevue/radiobutton";
 import Button from "primevue/button";
 import InputSwitch from "primevue/inputswitch";
+import RadioButton from "primevue/radiobutton";
 import Sidebar from "primevue/sidebar";
-
 import { ref } from "vue";
-import { useLayout } from "@/layout/composables/layout";
 
 import { i18n, loadLocaleMessages, setI18nLanguage } from "@/i18n";
+import { useLayout } from "@/layout/composables/layout";
 
 defineProps({
   simple: {
@@ -57,7 +56,7 @@ const applyScale = () => {
 
 <template>
   <button
-    class="layout-config-button p-link"
+    class="layout-config-button p-link hidden md:block"
     type="button"
     @click="onConfigButtonClick()"
   >
@@ -67,7 +66,7 @@ const applyScale = () => {
   <Sidebar
     v-model:visible="visible"
     position="right"
-    :transitionOptions="'.3s cubic-bezier(0, 0, 0.2, 1)'"
+    :transition-options="'.3s cubic-bezier(0, 0, 0.2, 1)'"
     class="layout-config-sidebar w-20rem"
   >
     <h5>Language</h5>

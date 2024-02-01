@@ -1,10 +1,48 @@
+<template>
+  <Toast />
+  <div
+    class="layout-wrapper"
+    :class="containerClass"
+    @click="onDocumentClick($event)"
+  >
+    <AppResponsiveTopbar class="md:hidden" />
+
+    <AppTopbar
+      class="hidden md:flex"
+      :active-topbar-item="activeTopbarItem"
+      @topbar-item-click="onTopbarItemClick"
+    />
+
+    <div
+      class="layout-sidebar hidden md:flex"
+      :class="{ expanded: isExpanded }"
+      @mouseover="mouseover"
+      @mouseleave="mouseleave"
+    >
+      <AppSidebar />
+    </div>
+
+    <div class="layout-main-container">
+      <div class="layout-main">
+        <router-view :key="$route.fullPath"></router-view>
+      </div>
+      <app-footer></app-footer>
+    </div>
+    <app-config></app-config>
+    <div class="layout-mask"></div>
+  </div>
+</template>
+
 <script setup>
-import { computed, watch, ref } from "vue";
-import AppTopbar from "./AppTopbar.vue";
-import AppFooter from "./AppFooter.vue";
-import AppSidebar from "./AppSidebar.vue";
-import AppConfig from "./AppConfig.vue";
+import { computed, ref, watch } from "vue";
+
 import { useLayout } from "@/layout/composables/layout";
+
+import AppConfig from "./AppConfig.vue";
+import AppFooter from "./AppFooter.vue";
+import AppResponsiveTopbar from "./AppResponsiveTopbar.vue";
+import AppSidebar from "./AppSidebar.vue";
+import AppTopbar from "./AppTopbar.vue";
 
 const { layoutConfig, layoutState, isSidebarActive } = useLayout();
 
@@ -99,35 +137,5 @@ const mouseleave = () => {
   isExpanded.value = false;
 };
 </script>
-
-<template>
-  <Toast />
-  <div
-    class="layout-wrapper"
-    :class="containerClass"
-    @click="onDocumentClick($event)"
-  >
-    <app-topbar
-      @topbar-item-click="onTopbarItemClick"
-      :activeTopbarItem="activeTopbarItem"
-    ></app-topbar>
-    <div
-      class="layout-sidebar"
-      :class="{ expanded: isExpanded }"
-      @mouseover="mouseover"
-      @mouseleave="mouseleave"
-    >
-      <app-sidebar></app-sidebar>
-    </div>
-    <div class="layout-main-container">
-      <div class="layout-main">
-        <router-view :key="$route.fullPath"></router-view>
-      </div>
-      <app-footer></app-footer>
-    </div>
-    <app-config></app-config>
-    <div class="layout-mask"></div>
-  </div>
-</template>
 
 <style lang="scss" scoped></style>

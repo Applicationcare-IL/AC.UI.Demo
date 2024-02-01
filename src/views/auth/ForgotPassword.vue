@@ -1,50 +1,33 @@
 <template>
-  <div
-    class="flex flex-row"
-    :class="{ 'layout-rtl': layoutConfig.isRTL.value }"
-  >
-    <div class="flex-1 p-6">
-      <div class="login-header flex flex-row gap-3 align-items-center">
-        <img src="@/assets/images/logo.png" alt="logo" />
-        <img
-          src="@/assets/images/easymaze-title.png"
-          style="padding-top: 10px; padding-bottom: 5px"
-          alt="title"
-        />
+  <AuthLayout>
+    <div class="forgot-password-form">
+      <div class="h1 w-full">{{ $t("login.forgot-password-title") }}</div>
+      <div class="w-full text-gray-600">
+        {{ $t("login.forgot-password-instructions") }}
       </div>
-      <div
-        class="login-container flex flex-column justify-content-center align-items-center h-full pb-6"
-      >
-        <div class="login-form">
-          <div class="h1 w-full">{{ $t("login.forgot-password-title") }}</div>
-          <div class="w-full text-gray-600">
-            {{ $t("login.forgot-password-instructions") }}
-          </div>
-          <div class="mt-6 flex flex-column">
-            <WMInput
-              name="email"
-              type="input-text"
-              :highlighted="true"
-              :label="$t('login.email') + ':'"
-            />
+      <div class="mt-6 flex flex-column">
+        <WMInput
+          name="email"
+          type="input-text"
+          :highlighted="true"
+          :label="$t('login.email') + ':'"
+        />
 
-            <div v-if="error != ''" class="bg-red-100 text-red-700 p-2">
-              {{ $t(error) }}
-            </div>
-
-            <WMButton
-              class="w-full mt-4"
-              name="new"
-              type="submit"
-              @click="handleForgotPassword"
-              >{{ $t("login.send-reset-link") }}
-            </WMButton>
-          </div>
+        <div v-if="error != ''" class="bg-red-100 text-red-700 p-2">
+          {{ $t(error) }}
         </div>
+
+        <WMButton
+          class="w-full mt-4"
+          name="new"
+          type="submit"
+          @click="handleForgotPassword"
+          >{{ $t("login.send-reset-link") }}
+        </WMButton>
       </div>
     </div>
-    <div class="side-design flex-1"></div>
-  </div>
+  </AuthLayout>
+
   <Dialog
     v-model:visible="visible"
     modal
@@ -60,7 +43,7 @@
         type="button"
         :label="$t('login.confirm')"
         @click="visible = false"
-      ></Button>
+      />
     </div>
   </Dialog>
 </template>
@@ -69,13 +52,12 @@
 import { useForm } from "vee-validate";
 import { ref } from "vue";
 
-import { useLayout } from "@/layout/composables/layout";
 import { useAuthStore } from "@/stores/auth";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
-const formUtilsStore = useFormUtilsStore();
+import AuthLayout from "./AuthLayout.vue";
 
-const { layoutConfig } = useLayout();
+const formUtilsStore = useFormUtilsStore();
 
 const { handleSubmit, resetForm } = useForm({
   validationSchema: formUtilsStore.getForgotPasswordFormValidationSchema,
@@ -99,12 +81,7 @@ const handleForgotPassword = handleSubmit((values) => {
 </script>
 
 <style scoped>
-.side-design {
-  background: url("@/assets/images/login-side-design.svg");
-  height: 100vh;
-}
-
-.login-form {
+.forgot-password-form {
   width: 400px;
 }
 </style>
