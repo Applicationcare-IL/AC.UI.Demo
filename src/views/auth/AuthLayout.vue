@@ -45,17 +45,23 @@ const orgLogo =
 
 :deep(.form-container) {
   width: 100%;
-  max-width: 400px;
+  max-width: 300px;
+}
+
+@media (min-width: 768px) {
+  :deep(.form-container) {
+    max-width: 400px;
+  }
 }
 
 .login-header .client-logo {
-  max-width: 150px;
+  max-width: 130px;
   height: auto;
   margin-right: auto;
 }
 
 .easy-maze-logo {
-  width: 150px;
+  width: 100px;
   height: auto;
 }
 </style>
