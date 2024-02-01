@@ -5,7 +5,7 @@
     :class="containerClass"
     @click="onDocumentClick($event)"
   >
-    <AppResponsiveTopbar class="md:hidden" />
+    <AppResponsiveTopbar v-if="width <= 768" />
 
     <AppTopbar
       class="hidden md:flex"
@@ -34,6 +34,7 @@
 </template>
 
 <script setup>
+import { useWindowSize } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
@@ -45,6 +46,8 @@ import AppSidebar from "./AppSidebar.vue";
 import AppTopbar from "./AppTopbar.vue";
 
 const { layoutConfig, layoutState, isSidebarActive } = useLayout();
+
+const { width } = useWindowSize();
 
 const outsideClickListener = ref(null);
 
