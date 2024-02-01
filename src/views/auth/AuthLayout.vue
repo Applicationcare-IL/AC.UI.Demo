@@ -5,13 +5,19 @@
   >
     <div class="flex-1 p-3 md:p-6">
       <div class="login-header flex flex-row gap-3 align-items-center">
-        <img src="@/assets/images/logo.png" alt="logo" />
+        <img src="@/assets/images/logo.png" alt="EasyMaze Logo small logo" />
         <img
           src="@/assets/images/easymaze-title.png"
           style="padding-top: 10px; padding-bottom: 5px"
-          alt="title"
+          alt="EasyMaze text logo"
+          class="easy-maze-logo"
         />
-        <img v-if="orgLogo" :src="orgLogo" alt="logo" />
+        <img
+          v-if="orgLogo"
+          :src="orgLogo"
+          alt="Client logo"
+          class="client-logo"
+        />
       </div>
       <div
         class="flex flex-column justify-content-center align-items-center h-full pb-6"
@@ -40,5 +46,16 @@ const orgLogo =
 :deep(.form-container) {
   width: 100%;
   max-width: 400px;
+}
+
+.login-header .client-logo {
+  max-width: 150px;
+  height: auto;
+  margin-right: auto;
+}
+
+.easy-maze-logo {
+  width: 150px;
+  height: auto;
 }
 </style>

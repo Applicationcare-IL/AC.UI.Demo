@@ -154,6 +154,27 @@ const router = createRouter({
           name: "projectDetail",
           component: () => import("@/views/user/forms/detail/Project.vue"),
         },
+        // FOR MOBILE VERSION ONLY
+        {
+          path: "/my-open-tasks",
+          name: "myOpenTasks",
+          component: () => import("@/views/mobile/MyOpenTasks.vue"),
+        },
+        {
+          path: "/my-closed-tasks",
+          name: "myClosedTasks",
+          component: () => import("@/views/mobile/MyClosedTasks.vue"),
+        },
+        {
+          path: "/task-detail/:id",
+          name: "taskDetailMobile",
+          component: () => import("@/views/mobile/MobileTaskDetail.vue"),
+        },
+        {
+          path: "/create-new-service",
+          name: "newServiceMobile",
+          component: () => import("@/views/mobile/MobileNewService.vue"),
+        },
       ],
     },
   ],

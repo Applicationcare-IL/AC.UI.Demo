@@ -10,10 +10,10 @@
     </div>
     <router-link
       v-if="item.to && !item.items && item.visible !== false"
-      @click="itemClick($event, item, index)"
       :class="[item.class, { 'active-route': checkActiveRoute(item) }]"
       tabindex="0"
       :to="item.to"
+      @click="itemClick($event, item, index)"
     >
       <img :src="item.image" />
       <span
@@ -32,7 +32,7 @@
             v-if="child.visibility"
             :index="i"
             :item="child"
-            :parentItemKey="itemKey"
+            :parent-item-key="itemKey"
             :root="false"
           />
         </template>
@@ -42,8 +42,9 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount, watch } from "vue";
+import { onBeforeMount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+
 import { useLayout } from "@/layout/composables/layout";
 
 const route = useRoute();

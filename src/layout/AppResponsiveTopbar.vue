@@ -63,16 +63,28 @@
                   <a
                     class="flex align-items-center cursor-pointer p-1 border-round text-700 hover:surface-100 transition-duration-150 transition-colors"
                   >
-                    <i class="pi pi-home mr-2"></i>
-                    <span class="font-medium">My open tasks</span>
+                    <i class="pi pi-inbox mr-2"></i>
+                    <router-link
+                      to="/my-open-tasks"
+                      class="nav-link"
+                      @click="closeCallback"
+                    >
+                      My open tasks
+                    </router-link>
                   </a>
                 </li>
                 <li>
                   <a
                     class="flex align-items-center cursor-pointer p-1 border-round text-700 hover:surface-100 transition-duration-150 transition-colors"
                   >
-                    <i class="pi pi-bookmark mr-2"></i>
-                    <span class="font-medium">My closed tasks</span>
+                    <i class="pi pi-times mr-2"></i>
+                    <router-link
+                      to="/my-closed-tasks"
+                      class="nav-link"
+                      @click="closeCallback"
+                    >
+                      My closed tasks
+                    </router-link>
                   </a>
                 </li>
               </ul>
@@ -92,8 +104,15 @@
                   <a
                     class="flex align-items-center cursor-pointer p-1 border-round text-700 hover:surface-100 transition-duration-150 transition-colors"
                   >
-                    <i class="pi pi-home mr-2"></i>
-                    <span class="font-medium">New service</span>
+                    <i class="pi pi-plus-circle mr-2"></i>
+
+                    <router-link
+                      to="/create-new-service"
+                      class="nav-link"
+                      @click="closeCallback"
+                    >
+                      New service
+                    </router-link>
                   </a>
                 </li>
               </ul>
@@ -113,8 +132,10 @@
                   <a
                     class="flex align-items-center cursor-pointer p-1 border-round text-700 hover:surface-100 transition-duration-150 transition-colors"
                   >
-                    <i class="pi pi-home mr-2"></i>
-                    <span class="font-medium">Logout</span>
+                    <i class="pi pi-sign-out mr-2"></i>
+                    <span class="font-medium" @click="authStore.logout">
+                      Logout
+                    </span>
                   </a>
                 </li>
               </ul>
@@ -131,10 +152,13 @@ import { ref } from "vue";
 
 import { i18n } from "@/i18n";
 import { useLayout } from "@/layout/composables/layout";
+import { useAuthStore } from "@/stores/auth";
 
 const { layoutConfig } = useLayout();
 
 const visible = ref(false);
+
+const authStore = useAuthStore();
 </script>
 
 <style lang="scss" scoped>
@@ -145,5 +169,9 @@ const visible = ref(false);
 span.flag {
   width: 30px;
   height: 21px;
+}
+
+.nav-link {
+  color: var(--surface-700) !important;
 }
 </style>
