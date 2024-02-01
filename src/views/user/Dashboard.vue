@@ -204,11 +204,16 @@
     </div>
   </div>
   <div v-else>
-    <div class="flex flex-column gap-2 m-3">
-      <div>
+    <div class="flex flex-column gap-2 m-3 mt-4">
+      <div class="open-tasks-mobile">
         <router-link :to="{ name: 'myOpenTasksMobile' }">
           <Button label="My open tasks" size="large" class="w-full p-5" />
         </router-link>
+        <div class="open-tasks-mobile__badges flex gap-2">
+          <Badge value="2" severity="success"></Badge>
+          <Badge value="2" severity="warning"></Badge>
+          <Badge value="2" severity="danger"></Badge>
+        </div>
       </div>
       <router-link :to="{ name: 'myClosedTasksMobile' }">
         <Button label="My closed tasks" size="large" class="w-full p-5" />
@@ -295,4 +300,15 @@ const { width } = useWindowSize();
 // ]);
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.open-tasks-mobile {
+  position: relative;
+
+  &__badges {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateY(-50%);
+  }
+}
+</style>

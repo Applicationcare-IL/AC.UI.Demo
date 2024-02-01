@@ -4,7 +4,7 @@
     icon="pi pi-chevron-down"
     aria-haspopup="true"
     aria-controls="overlay_menu"
-    class="m-1 p-button-default"
+    class="m-1 p-button-default col-6"
     :disabled="selectedElements == 0"
     @click="toggleCommunicationsMenu"
   />
@@ -112,7 +112,7 @@ const message = ref("");
 
 const sendMessageDialogVisible = ref(false);
 
-const props = defineProps({
+defineProps({
   selectedElements: {
     type: Number,
     default: 0,

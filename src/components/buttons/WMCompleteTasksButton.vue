@@ -3,10 +3,11 @@
     class="m-1 col-6"
     name="done-white"
     icon="done"
-    @click="handleCompleteTasks"
     :disabled="selectedElements == 0 || !areTaskCompletable"
+    @click="handleCompleteTasks"
   >
-    {{ t("task.complete") }}
+    <span v-if="areTaskCompletable"> {{ t("task.complete") }} </span>
+    <span v-else> {{ t("task.completed") }} </span>
   </WMButton>
   <WMCompleteServiceDialog />
   <WMCompleteProjectDialog />
@@ -14,10 +15,10 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { useUtilsStore } from "@/stores/utils";
-import { useFormUtilsStore } from "@/stores/formUtils";
-
 import { useI18n } from "vue-i18n";
+
+import { useFormUtilsStore } from "@/stores/formUtils";
+import { useUtilsStore } from "@/stores/utils";
 
 const { t } = useI18n();
 

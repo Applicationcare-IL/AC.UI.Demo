@@ -1,10 +1,10 @@
 <template>
   <WMButton
-    @click="toggle"
     class="m-1 col-6"
     name="assign-white"
     icon="assign"
     :disabled="selectedElements == 0"
+    @click="toggle"
   >
     {{ $t("buttons.assign") }}
   </WMButton>
@@ -27,18 +27,18 @@
       <span>{{ $t("buttons.assign") }}</span>
       <div class="flex flex-row gap-2">
         <WMButton
-          @click="onAssignTo('employee')"
           class="m-1 col-6"
           :class="{ selected: assignTo == 'employee' }"
           name="basic-secondary"
+          @click="onAssignTo('employee')"
         >
           משתמש</WMButton
         >
         <WMButton
-          @click="onAssignTo('team')"
           class="m-1 col-6"
           :class="{ selected: assignTo == 'team' }"
           name="basic-secondary"
+          @click="onAssignTo('team')"
         >
           צוות</WMButton
         >
@@ -49,15 +49,15 @@
         :placeholder="$t('select', ['employee'])"
         type="input-search"
         :multiple="false"
-        @change="ownerChanged"
         width="248"
         :options="owners"
-        :searchFunction="searchOwner"
-        :modelValue="selectedOwner"
-        :selectedOption="selectedOwner"
+        :search-function="searchOwner"
+        :model-value="selectedOwner"
+        :selected-option="selectedOwner"
+        @change="ownerChanged"
       />
 
-      <WMButton @click="assignOwner" class="m-1 col-6" name="basic-secondary">
+      <WMButton class="m-1 col-6" name="basic-secondary" @click="assignOwner">
         {{ $t("buttons.assign") }}
       </WMButton>
     </div>
@@ -66,9 +66,10 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { useUtilsStore } from "@/stores/utils";
+
 import { useLayout } from "@/layout/composables/layout";
 import { OwnersService } from "@/service/OwnersService";
+import { useUtilsStore } from "@/stores/utils";
 
 const props = defineProps({
   entity: {
