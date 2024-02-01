@@ -5,7 +5,7 @@
   >
     <div class="flex-1 p-3 md:p-6">
       <div class="login-header flex flex-row gap-3 align-items-center">
-        <img src="@/assets/images/logo.png" alt="EasyMaze Logo small logo" />
+        <img src="@/assets/images/logo.png" alt="EasyMaze small logo" />
         <img
           src="@/assets/images/easymaze-title.png"
           style="padding-top: 10px; padding-bottom: 5px"

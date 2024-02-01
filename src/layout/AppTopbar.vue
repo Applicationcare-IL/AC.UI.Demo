@@ -1,94 +1,20 @@
-<script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
-
-import { useLayout } from "@/layout/composables/layout";
-import { useAuthStore } from "@/stores/auth";
-
-const authStore = useAuthStore();
-
-const emit = defineEmits(["topbar-item-click"]);
-
-const { layoutConfig, onMenuToggle, contextPath } = useLayout();
-
-const outsideClickListener = ref(null);
-const topbarMenuActive = ref(false);
-const router = useRouter();
-const searchValue = ref("");
-
-defineProps({
-  activeTopbarItem: String,
-});
-
-onMounted(() => {
-  bindOutsideClickListener();
-});
-
-onBeforeUnmount(() => {
-  unbindOutsideClickListener();
-});
-
-const logoUrl = computed(() => {
-  return `${contextPath}Logo.svg`;
-});
-
-const onTopBarMenuButton = () => {
-  topbarMenuActive.value = !topbarMenuActive.value;
-};
-
-const onTopbarItemClick = (event, item) => {
-  emit("topbar-item-click", { originalEvent: event, item: item });
-  event.preventDefault();
-};
-
-const onTopbarSubItemClick = (event) => {
-  emit("topbar-subitem-click", { originalEvent: event, item: item });
-  event.preventDefault();
-};
-
-const topbarMenuClasses = computed(() => {
-  return {
-    "layout-topbar-menu-mobile-active": topbarMenuActive.value,
-  };
-});
-
-const bindOutsideClickListener = () => {
-  if (!outsideClickListener.value) {
-    outsideClickListener.value = (event) => {
-      if (isOutsideClicked(event)) {
-        topbarMenuActive.value = false;
-      }
-    };
-    document.addEventListener("click", outsideClickListener.value);
-  }
-};
-const unbindOutsideClickListener = () => {
-  if (outsideClickListener.value) {
-    document.removeEventListener("click", outsideClickListener);
-    outsideClickListener.value = null;
-  }
-};
-const isOutsideClicked = (event) => {
-  if (!topbarMenuActive.value) return;
-
-  const sidebarEl = document.querySelector(".layout-topbar-menu");
-  const topbarEl = document.querySelector(".layout-topbar-menu-button");
-
-  return !(
-    sidebarEl.isSameNode(event.target) ||
-    sidebarEl.contains(event.target) ||
-    topbarEl.isSameNode(event.target) ||
-    topbarEl.contains(event.target)
-  );
-};
-</script>
-
 <template>
-  <div class="layout-topbar flex justify-content-between">
-    <div class="flex mx-3">
+  <div
+    class="layout-topbar flex justify-content-between flex-wrap md:flex-nowrap"
+  >
+    <div class="flex justify-content-between mx-3 w-full md:w-auto">
       <router-link to="/" class="layout-topbar-logo">
-        <img :src="logoUrl" alt="logo" />
+        <!-- <img :src="logoUrl" alt="logo" /> -->
+
+        <img src="@/assets/images/logo.png" alt="EasyMaze small logo" />
       </router-link>
+
+      <img
+        v-if="orgLogo"
+        :src="orgLogo"
+        alt="Client logo"
+        class="client-logo md:hidden"
+      />
 
       <!-- <div class="flex mx-4 gap-2">
         <div class="class px-3 flex align-items-center">
@@ -210,4 +136,97 @@ const isOutsideClicked = (event) => {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<script setup>
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+
+import { useLayout } from "@/layout/composables/layout";
+import { useAuthStore } from "@/stores/auth";
+
+const orgLogo =
+  import.meta.env.VITE_ADMIN_URL + "/storage/logos/login.png?cache=false";
+
+const authStore = useAuthStore();
+
+const emit = defineEmits(["topbar-item-click"]);
+
+const { layoutConfig, onMenuToggle, contextPath } = useLayout();
+
+const outsideClickListener = ref(null);
+const topbarMenuActive = ref(false);
+const router = useRouter();
+const searchValue = ref("");
+
+defineProps({
+  activeTopbarItem: String,
+});
+
+onMounted(() => {
+  bindOutsideClickListener();
+});
+
+onBeforeUnmount(() => {
+  unbindOutsideClickListener();
+});
+
+const logoUrl = computed(() => {
+  return `${contextPath}Logo.svg`;
+});
+
+const onTopBarMenuButton = () => {
+  topbarMenuActive.value = !topbarMenuActive.value;
+};
+
+const onTopbarItemClick = (event, item) => {
+  emit("topbar-item-click", { originalEvent: event, item: item });
+  event.preventDefault();
+};
+
+const onTopbarSubItemClick = (event) => {
+  emit("topbar-subitem-click", { originalEvent: event, item: item });
+  event.preventDefault();
+};
+
+const topbarMenuClasses = computed(() => {
+  return {
+    "layout-topbar-menu-mobile-active": topbarMenuActive.value,
+  };
+});
+
+const bindOutsideClickListener = () => {
+  if (!outsideClickListener.value) {
+    outsideClickListener.value = (event) => {
+      if (isOutsideClicked(event)) {
+        topbarMenuActive.value = false;
+      }
+    };
+    document.addEventListener("click", outsideClickListener.value);
+  }
+};
+const unbindOutsideClickListener = () => {
+  if (outsideClickListener.value) {
+    document.removeEventListener("click", outsideClickListener);
+    outsideClickListener.value = null;
+  }
+};
+const isOutsideClicked = (event) => {
+  if (!topbarMenuActive.value) return;
+
+  const sidebarEl = document.querySelector(".layout-topbar-menu");
+  const topbarEl = document.querySelector(".layout-topbar-menu-button");
+
+  return !(
+    sidebarEl.isSameNode(event.target) ||
+    sidebarEl.contains(event.target) ||
+    topbarEl.isSameNode(event.target) ||
+    topbarEl.contains(event.target)
+  );
+};
+</script>
+
+<style lang="scss" scoped>
+.client-logo {
+  max-width: 130px;
+  height: auto;
+}
+</style>
