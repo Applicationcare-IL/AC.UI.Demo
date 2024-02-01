@@ -2,10 +2,11 @@
   <div
     class="layout-topbar flex justify-content-between flex-wrap md:flex-nowrap"
   >
-    <div class="flex justify-content-between mx-3 w-full md:w-auto">
-      <router-link to="/" class="layout-topbar-logo">
+    <div
+      class="flex justify-content-between align-items-center mx-3 w-full md:w-auto"
+    >
+      <router-link :to="logoRedirectLink">
         <!-- <img :src="logoUrl" alt="logo" /> -->
-
         <img src="@/assets/images/logo.png" alt="EasyMaze small logo" />
       </router-link>
 
@@ -35,7 +36,7 @@
 
     <WMGlobalSearchBox v-model="searchValue" />
 
-    <div class="flex mx-6">
+    <div class="hidden md:flex mx-6">
       <div class="layout-topbar-menu" :class="topbarMenuClasses">
         <!-- <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle()">
                                 <i class="pi pi-bars"></i>
@@ -137,6 +138,7 @@
 </template>
 
 <script setup>
+import { useWindowSize } from "@vueuse/core";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -159,6 +161,16 @@ const searchValue = ref("");
 
 defineProps({
   activeTopbarItem: String,
+});
+
+const { width } = useWindowSize();
+
+const logoRedirectLink = computed(() => {
+  if (width.value < 768) {
+    return "/dashboard";
+  } else {
+    return "/";
+  }
 });
 
 onMounted(() => {

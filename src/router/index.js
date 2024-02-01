@@ -157,12 +157,12 @@ const router = createRouter({
         // FOR MOBILE VERSION ONLY
         {
           path: "/my-open-tasks",
-          name: "myOpenTasks",
+          name: "myOpenTasksMobile",
           component: () => import("@/views/mobile/MyOpenTasks.vue"),
         },
         {
           path: "/my-closed-tasks",
-          name: "myClosedTasks",
+          name: "myClosedTasksMobile",
           component: () => import("@/views/mobile/MyClosedTasks.vue"),
         },
         {

@@ -8,10 +8,14 @@
     left:auto;
 }
 
-.layout-rtl .layout-main-container{
-    margin-right: 72px;
-    margin-left: 0px;
+@media (min-width: 768px) {
+    .layout-rtl .layout-main-container{
+        margin-right: 72px;
+        margin-left: 0px;
+    }
 }
+
+
 
 .layout-rtl .layout-config-button{
     right: auto;

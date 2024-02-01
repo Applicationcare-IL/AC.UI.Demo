@@ -65,7 +65,7 @@
                   >
                     <i class="pi pi-inbox mr-2"></i>
                     <router-link
-                      to="/my-open-tasks"
+                      :to="{ name: 'myOpenTasksMobile' }"
                       class="nav-link"
                       @click="closeCallback"
                     >
@@ -79,7 +79,7 @@
                   >
                     <i class="pi pi-times mr-2"></i>
                     <router-link
-                      to="/my-closed-tasks"
+                      :to="{ name: 'myClosedTasksMobile' }"
                       class="nav-link"
                       @click="closeCallback"
                     >

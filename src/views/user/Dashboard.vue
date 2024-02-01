@@ -203,7 +203,26 @@
       </div>
     </div>
   </div>
-  <div v-else>Responsive</div>
+  <div v-else>
+    <div class="flex flex-column gap-2 m-3">
+      <div>
+        <router-link :to="{ name: 'myOpenTasksMobile' }">
+          <Button label="My open tasks" size="large" class="w-full p-5" />
+        </router-link>
+      </div>
+      <router-link :to="{ name: 'myClosedTasksMobile' }">
+        <Button label="My closed tasks" size="large" class="w-full p-5" />
+      </router-link>
+      <router-link :to="{ name: 'newServiceMobile' }">
+        <Button
+          label="New service"
+          size="large"
+          class="w-full p-5"
+          severity="success"
+        />
+      </router-link>
+    </div>
+  </div>
 </template>
 
 <script setup>
