@@ -150,7 +150,7 @@
 <script setup>
 import { ref } from "vue";
 
-import { i18n } from "@/i18n";
+import { i18n, loadLocaleMessages, setI18nLanguage } from "@/i18n";
 import { useLayout } from "@/layout/composables/layout";
 import { useAuthStore } from "@/stores/auth";
 

@@ -111,7 +111,7 @@ body {
 }
 
 .layout-wrapper {
-    height: 100vh;
+    min-hheight: 100vh;
     display: flex;
     flex-direction: column;
 }

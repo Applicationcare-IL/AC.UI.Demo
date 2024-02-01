@@ -40,7 +40,7 @@ const orgLogo =
 <style scoped>
 .side-design {
   background: url("@/assets/images/login-side-design.svg");
-  height: 100vh;
+  min-height: 100vh;
 }
 
 :deep(.form-container) {

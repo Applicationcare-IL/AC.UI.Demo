@@ -31,7 +31,7 @@
     v-model:visible="sendMessageDialogVisible"
     modal
     header="Header"
-    :style="{ minWidth: '640px' }"
+    :style="{ minWidth: '300px' }"
   >
     <template #header>
       <span class="h4">Send message to contacts</span>
