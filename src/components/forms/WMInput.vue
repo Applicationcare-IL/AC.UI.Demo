@@ -40,7 +40,7 @@
       :disabled="props.disabled"
       :placeholder="placeholder"
       :feedback="false"
-      style="width: 100%"
+      style="width: 100%; direction: ltr"
       @input="
         $emit('update:modelValue', $event.target.value);
         handleChange($event.target.value);
