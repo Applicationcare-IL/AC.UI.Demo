@@ -141,6 +141,7 @@
                     name="description"
                     :value="service.description"
                     disabled
+                    width="full"
                   />
                 </div>
               </div>

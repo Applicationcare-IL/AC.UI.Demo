@@ -125,7 +125,7 @@
       <h2 class="h2 mb-0">{{ $t("contact.notes") }}</h2>
 
       <div class="wm-form-row gap-5">
-        <WMInput id="notes" type="text-area" name="notes" />
+        <WMInput id="notes" type="text-area" name="notes" width="full" />
       </div>
     </div>
 

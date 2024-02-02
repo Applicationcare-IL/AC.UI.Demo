@@ -24,6 +24,7 @@
         :label="$t('project.project_description') + ':'"
         name="project-description"
         :required="true"
+        width="full"
       />
     </div>
   </div>

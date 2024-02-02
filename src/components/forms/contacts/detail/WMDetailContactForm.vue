@@ -139,6 +139,7 @@
                     :value="contact.notes"
                     type="text-area"
                     name="notes"
+                    width="full"
                   />
                 </div>
               </div>

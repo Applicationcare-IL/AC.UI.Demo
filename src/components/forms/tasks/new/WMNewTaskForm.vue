@@ -131,15 +131,12 @@
             :required="true"
             :label="$t('description') + ':'"
             :highlighted="true"
+            width="full"
           />
         </div>
       </div>
     </div>
-    <WMFormButtons
-      v-if="isSidebar"
-      @save-form="onSubmit()"
-      @cancel-form="onCancel()"
-    />
+    <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
   </div>
 </template>
 

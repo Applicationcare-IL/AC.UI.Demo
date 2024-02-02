@@ -6,9 +6,7 @@
     <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row align-items-center gap-4">
-          <h1 class="h1 mb-0">
-            {{ $t("customer.customer") }}: {{ customer.name }}
-          </h1>
+          <h1 class="h1 mb-0">{{ $t("customer.customer") }}: {{ customer.name }}</h1>
           <div
             :class="statusClass(customer.state)"
             class="status-label white-space-nowrap"
@@ -164,6 +162,7 @@
                     type="text-area"
                     name="notes"
                     :value="customer.notes"
+                    width="full"
                   />
                 </div>
               </div>
@@ -200,9 +199,7 @@
         </div>
         <div class="card-container flex-1 middle-info-card">
           <Card>
-            <template #title>
-              {{ $t("task.open") }} : {{ customer.open_tasks }}</template
-            >
+            <template #title> {{ $t("task.open") }} : {{ customer.open_tasks }}</template>
             <template #content>
               <div class="flex flex-column gap-3">
                 <div
@@ -227,10 +224,7 @@
         </div>
       </div>
       <div>
-        <WMContactsTable
-          :columns="contactColumns"
-          :customer-id="route.params.id"
-        />
+        <WMContactsTable :columns="contactColumns" :customer-id="route.params.id" />
       </div>
       <div>
         <WMServicesTable
@@ -404,8 +398,12 @@ onMounted(async () => {
 
 const { setSelectedContacts } = useContacts();
 
-const { getCustomerFromApi, updateCustomer, parseCustomer, existsCustomer } =
-  useCustomers();
+const {
+  getCustomerFromApi,
+  updateCustomer,
+  parseCustomer,
+  existsCustomer,
+} = useCustomers();
 
 const fetchData = async () => {
   await optionSetsStore
@@ -431,16 +429,10 @@ const fetchData = async () => {
       (rating) => rating.id == customer.value.rating.id
     );
 
-    selectedType.value = types.value.find(
-      (type) => type.id == customer.value.type.id
-    );
-    selectedStatus.value = t(
-      "option-set.customer_status." + customer.value.status.value
-    );
+    selectedType.value = types.value.find((type) => type.id == customer.value.type.id);
+    selectedStatus.value = t("option-set.customer_status." + customer.value.status.value);
 
-    statusConditionalStyle.value = getStatusConditionalStyle(
-      customer.value.status.value
-    );
+    statusConditionalStyle.value = getStatusConditionalStyle(customer.value.status.value);
     isProvider.value = yesNoOptions.find(
       (option) => option.value == customer.value.is_provider
     );

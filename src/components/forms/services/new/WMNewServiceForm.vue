@@ -192,7 +192,12 @@
       <div class="service-description flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">{{ $t("description") }}</h2>
         <div class="wm-form-row gap-5">
-          <WMInput id="description" type="text-area" name="description" />
+          <WMInput
+            id="description"
+            type="text-area"
+            name="description"
+            width="full"
+          />
         </div>
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" />

@@ -1,8 +1,8 @@
 <template>
   <div class="card-container top-info-card flex-1">
     <WMServicePreviewSidebar
-      :service="service"
       v-model:visible="isServicePreviewVisible"
+      :service="service"
     />
     <Card v-if="service">
       <template #title>
@@ -12,7 +12,7 @@
         </div>
       </template>
       <template #content>
-        <div class="flex flex-auto flex-column gap-5" v-if="service">
+        <div v-if="service" class="flex flex-auto flex-column gap-5">
           <div class="wm-form-row gap-5">
             <WMInput
               name="service-owner"
@@ -79,12 +79,13 @@
           </div>
           <div class="wm-form-row gap-5">
             <WMInput
-              type="text-area"
               id="description"
+              type="text-area"
               name="description"
               :label="$t('service.description') + ':'"
               :value="service.description"
               disabled
+              width="full"
             />
           </div>
         </div>

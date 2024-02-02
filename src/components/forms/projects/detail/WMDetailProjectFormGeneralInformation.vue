@@ -35,6 +35,7 @@
             :label="$t('project.project_description') + ':'"
             name="project-description"
             :value="project.project_description"
+            width="full"
           />
         </div>
         <div class="wm-form-row gap-2">

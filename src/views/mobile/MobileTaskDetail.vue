@@ -58,6 +58,7 @@
         :value="task.notes"
         type="text-area"
         name="notes"
+        width="full"
       />
 
       <Button label="Save notes" class="mt-2" />
