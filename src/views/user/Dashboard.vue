@@ -210,9 +210,9 @@
           <Button label="My open tasks" size="large" class="w-full p-5" />
         </router-link>
         <div class="open-tasks-mobile__badges flex gap-2">
-          <Badge value="2" severity="success"></Badge>
-          <Badge value="2" severity="warning"></Badge>
-          <Badge value="2" severity="danger"></Badge>
+          <Badge :value="numberOfTasksWithNoBreachSLA" severity="success" />
+          <Badge :value="numberOfTasksWithNearBreachedSLA" severity="warning" />
+          <Badge :value="numberOfTasksWithBreachedSLA" severity="danger" />
         </div>
       </div>
       <router-link :to="{ name: 'myClosedTasksMobile' }">
@@ -234,16 +234,50 @@
 import { useWindowSize } from "@vueuse/core";
 import { ref } from "vue";
 
+import { useAuthStore } from "@/stores/auth";
+
+const authStore = useAuthStore();
+
 const { getTaskColumns, getServiceColumns } = useListUtils();
 const { checkIfEntityIsActive } = useLicensing();
+const { getTasksFromApi } = useTasks();
 
 const taskColumns = ref(getTaskColumns());
 const serviceColumns = ref(getServiceColumns());
 
 const { width } = useWindowSize();
 
-// OLD CODE
+const tasks = ref([]);
+const numberOfTasksWithBreachedSLA = ref(0);
+const numberOfTasksWithNearBreachedSLA = ref(0);
+const numberOfTasksWithNoBreachSLA = ref(0);
 
+const fetchTasks = () => {
+  const params = {
+    employee: authStore.user.id,
+    per_page: 9999,
+  };
+
+  getTasksFromApi(params).then(({ data }) => {
+    tasks.value = data;
+
+    numberOfTasksWithBreachedSLA.value = data.filter(
+      (task) => task.sla.sla === "breached"
+    ).length;
+
+    numberOfTasksWithNearBreachedSLA.value = data.filter(
+      (task) => task.sla.sla === "near_breach"
+    ).length;
+
+    numberOfTasksWithNoBreachSLA.value = data.filter(
+      (task) => task.sla.sla === "no_breach"
+    ).length;
+  });
+};
+
+fetchTasks();
+
+// OLD CODE
 // const customers = ref();
 // const selectedCustomers = ref([]);
 
