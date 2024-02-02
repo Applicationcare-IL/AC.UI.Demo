@@ -20,11 +20,14 @@ const tasks = ref([]);
 
 const utilsStore = useUtilsStore();
 
+const OPEN_STATUS = 310;
+
 const fetchTasks = () => {
   utilsStore.entity = "task";
 
   const params = {
     employee: authStore.user.id,
+    status: OPEN_STATUS,
   };
 
   getTasksFromApi(params).then(({ data }) => {
@@ -33,31 +36,6 @@ const fetchTasks = () => {
 };
 
 fetchTasks();
-
-// const tasks = ref([
-//   {
-//     id: 1,
-//     contact: "test",
-//     address: "test",
-//     close_date: "test",
-//     request_1: "test",
-//     image: "test",
-//     type: "open",
-//     days_till_closure: 1,
-//     due_date: "test",
-//   },
-//   {
-//     id: 2,
-//     contact: "test",
-//     address: "test",
-//     close_date: "test",
-//     request_1: "test",
-//     image: "test",
-//     type: "closed",
-//     days_till_closure: 1,
-//     due_date: "test",
-//   },
-// ]);
 </script>
 
 <style scoped lang="scss"></style>

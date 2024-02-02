@@ -7,32 +7,35 @@
 <script setup>
 import { ref } from "vue";
 
+import { useAuthStore } from "@/stores/auth";
+import { useUtilsStore } from "@/stores/utils";
+
 import MobileTaskCardDetail from "./MobileTaskCardDetail.vue";
 
-const tasks = ref([
-  {
-    id: 1,
-    contact: "test",
-    address: "test",
-    close_date: "test",
-    request_1: "test",
-    image: "test",
-    type: "open",
-    days_till_closure: 1,
-    due_date: "test",
-  },
-  {
-    id: 2,
-    contact: "test",
-    address: "test",
-    close_date: "test",
-    request_1: "test",
-    image: "test",
-    type: "closed",
-    days_till_closure: 1,
-    due_date: "test",
-  },
-]);
+const authStore = useAuthStore();
+
+const { getTasksFromApi } = useTasks();
+
+const tasks = ref([]);
+
+const utilsStore = useUtilsStore();
+
+const COMPLETED_STATUS = 308;
+
+const fetchTasks = () => {
+  utilsStore.entity = "task";
+
+  const params = {
+    employee: authStore.user.id,
+    status: COMPLETED_STATUS,
+  };
+
+  getTasksFromApi(params).then(({ data }) => {
+    tasks.value = data;
+  });
+};
+
+fetchTasks();
 </script>
 
 <style scoped lang="scss"></style>

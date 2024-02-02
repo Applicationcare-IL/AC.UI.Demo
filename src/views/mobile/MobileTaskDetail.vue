@@ -33,14 +33,14 @@
         :value="task.task_type?.name"
         class="mb-3"
       />
-      <!-- <WMInput
+      <WMInput
         name="address"
         type="info"
         :highlighted="true"
-        :label="$t('task.type')"
-        :value="task.task_type.name"
+        :label="$t('address')"
+        value="address"
         class="mb-3"
-      /> -->
+      />
       <WMInput
         name="description"
         type="info"

@@ -5,12 +5,15 @@
         <div
           class="flex flex-row gap-3 justify-content-between align-items-start task-card-detail"
         >
-          <div>
-            <div><strong>ID:</strong> {{ task.id }}</div>
-            <div><strong>Contact:</strong> {{ task.contact }}</div>
+          <div
+            class="task-card-detail-list"
+            :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+          >
+            <div class="info"><strong>ID:</strong> {{ task.id }}</div>
+            <div><strong>Contact:</strong> {{ contactFullName }}</div>
             <div><strong>Address:</strong> {{ task.address }}</div>
 
-            <template v-if="type == 'open'">
+            <template v-if="task.status.value == 'open'">
               <div>
                 <strong>Days till closure:</strong>
                 {{ task.days_till_closure }}
@@ -18,14 +21,23 @@
               <div><strong>Due date:</strong> {{ task.due_date }}</div>
             </template>
 
-            <template v-if="type == 'closed'">
+            <template v-if="task.status.value == 'completed'">
               <div><strong>Close date:</strong> {{ task.close_date }}</div>
             </template>
-            <div><strong>Request 1:</strong> {{ task.service_request_1 }}</div>
+
+            <div v-if="task.service_request_1">
+              <strong>Request 1:</strong> {{ task.service_request_1 }}
+            </div>
           </div>
-          <div>IMAGE</div>
+          <div class="image-container">
+            <img src="https://placehold.co/200x400" />
+          </div>
           <div>
-            <i class="pi pi-clock font-bold" style="font-size: 1rem"></i>
+            <i
+              class="pi pi-clock font-bold"
+              :class="SLAStatusColor"
+              style="font-size: 1rem"
+            ></i>
           </div>
         </div>
       </router-link>
@@ -34,16 +46,70 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from "vue";
+
+import { useLayout } from "@/layout/composables/layout";
+const { layoutConfig } = useLayout();
+
+const props = defineProps({
   task: {
     type: Object,
     required: true,
   },
+});
+
+const contactFullName = computed(() => {
+  return `${props.task.contac?.name} ${props.task.contact?.surname}`;
+});
+
+const SLAStatusColor = computed(() => {
+  switch (props.task.sla.sla) {
+    case "no_breach":
+      return "green";
+    case "breached":
+      return "red";
+    case "near_breach":
+      return "orange";
+    default:
+      return "black";
+  }
 });
 </script>
 
 <style scoped lang="scss">
 .task-card-detail {
   color: var(--surface-700) !important;
+}
+
+.task-card-detail-list.layout-rtl {
+  > div {
+    text-align: right;
+    display: flex;
+    gap: 0.5em;
+  }
+}
+
+.image-container {
+  aspect-ratio: 9 / 16;
+  max-width: 80px;
+  max-height: 110px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.green {
+  color: var(--green-500) !important;
+}
+
+.red {
+  color: var(--red-500) !important;
+}
+
+.orange {
+  color: var(--orange-500) !important;
 }
 </style>
