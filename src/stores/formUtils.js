@@ -160,7 +160,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
           }),
       });
     },
-
+    getMobileTaskFormValidationSchema: () => {
+      return yup.object({
+        notes: yup.string().required(),
+      });
+    },
     getCustomerNewFormValidationSchema: (state) => {
       return yup.object({
         name: yup.string().required(),

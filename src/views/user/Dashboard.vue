@@ -209,7 +209,7 @@
         <router-link :to="{ name: 'myOpenTasksMobile' }">
           <Button label="My open tasks" size="large" class="w-full p-5" />
         </router-link>
-        <div class="open-tasks-mobile__badges flex gap-2">
+        <div v-if="!loadingBadges" class="open-tasks-mobile__badges flex gap-2">
           <Badge :value="numberOfTasksWithNoBreachSLA" severity="success" />
           <Badge :value="numberOfTasksWithNearBreachedSLA" severity="warning" />
           <Badge :value="numberOfTasksWithBreachedSLA" severity="danger" />
@@ -252,6 +252,8 @@ const numberOfTasksWithBreachedSLA = ref(0);
 const numberOfTasksWithNearBreachedSLA = ref(0);
 const numberOfTasksWithNoBreachSLA = ref(0);
 
+const loadingBadges = ref(true);
+
 const fetchTasks = () => {
   const params = {
     employee: authStore.user.id,
@@ -260,6 +262,7 @@ const fetchTasks = () => {
 
   getTasksFromApi(params).then(({ data }) => {
     tasks.value = data;
+    loadingBadges.value = false;
 
     numberOfTasksWithBreachedSLA.value = data.filter(
       (task) => task.sla.sla === "breached"

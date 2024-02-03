@@ -61,7 +61,7 @@
         width="full"
       />
 
-      <Button label="Save notes" class="mt-2" />
+      <Button label="Save notes" class="mt-6" @click="onSave" />
     </div>
     <div class="mobile-task-detail-footer flex flex-column gap-2 mx-3">
       <Button
@@ -125,13 +125,24 @@
 </template>
 
 <script setup>
+import { useForm } from "vee-validate";
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
+import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 const task = ref("");
+
+const formUtilsStore = useFormUtilsStore();
+
 const selectedElements = ref(0);
+
+const toast = useToast();
+
+const { handleSubmit } = useForm({
+  validationSchema: formUtilsStore.getMobileTaskFormValidationSchema,
+});
 
 // dialogs
 const showServiceDetail = ref(false);
@@ -143,7 +154,8 @@ const route = useRoute();
 const utilsStore = useUtilsStore();
 const { setSelectedContacts } = useContacts();
 
-const { getTaskFromApi, mapContactsFromTasks } = useTasks();
+const { getTaskFromApi, mapContactsFromTasks, updateTask, parseUpdateTask } =
+  useTasks();
 
 const fetchTasks = async (taskId) => {
   utilsStore.entity = "task";
@@ -157,6 +169,17 @@ const fetchTasks = async (taskId) => {
 };
 
 fetchTasks(route.params.id);
+
+const onSave = handleSubmit((values) => {
+  updateTask(route.params.id, parseUpdateTask(values))
+    .then(() => {
+      toast.success("Notes updated successfully!");
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Error updating notes");
+    });
+});
 
 // WATCHERS
 watch(
