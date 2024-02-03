@@ -13,10 +13,13 @@
     :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
   >
     <div class="flex flex-column gap-2">
-      <span>לקוחות נבחרים:</span>
+      <span> {{ $t("selected-contacts") }}: </span>
       <div class="flex flex-row gap-2">
         <Chip
-          v-for="item in utilsStore.selectedElements[props.entity]?.slice(0, 3)"
+          v-for="(item, index) in utilsStore.selectedElements[
+            props.entity
+          ]?.slice(0, 3)"
+          :key="index"
         >
           {{ item.name }}</Chip
         >
@@ -32,16 +35,16 @@
           name="basic-secondary"
           @click="onAssignTo('employee')"
         >
-          משתמש</WMButton
-        >
+          {{ $t("user") }}
+        </WMButton>
         <WMButton
           class="m-1 col-6"
           :class="{ selected: assignTo == 'team' }"
           name="basic-secondary"
           @click="onAssignTo('team')"
         >
-          צוות</WMButton
-        >
+          {{ $t("team") }}
+        </WMButton>
       </div>
 
       <WMInputSearch
@@ -98,6 +101,8 @@ const onAssignTo = (type) => {
 
 const toast = useToast();
 
+const emit = defineEmits(["ownerAssigned"]);
+
 const owners = ref([{}]);
 const selectedOwner = ref();
 
@@ -119,7 +124,8 @@ const assignOwner = () => {
     props.entity,
     selectedOwner.value.id,
     assignTo.value
-  ).then((data) => {
+  ).then(() => {
+    emit("ownerAssigned");
     isOpen.value.hide();
     toast.successAction("owner", "assigned");
   });

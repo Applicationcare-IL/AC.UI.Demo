@@ -12,6 +12,7 @@
   "role": "Role",
   "actions": "Actions",
   "owner": "Owner",
+  "user": "User",
   "first-name": "First Name",
   "last-name": "Last Name",
   "id": "System ID",
@@ -59,6 +60,7 @@
   "logs": "Logs",
   "rows-per-page": "Rows per page",
   "no-results": "No results have been found",
+  "selected-contacts": "Selected contacts",
   "buttons": {
     "link_contact": "Link contact",
     "link_customer": "Link customer",

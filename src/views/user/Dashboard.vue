@@ -204,12 +204,15 @@
     </div>
   </div>
   <div v-else>
-    <div class="flex flex-column gap-2 m-3 mt-4">
+    <div v-if="loadingBadges" class="w-full flex justify-content-center mt-5">
+      <ProgressSpinner />
+    </div>
+    <div v-else class="flex flex-column gap-2 m-3 mt-4">
       <div class="open-tasks-mobile">
         <router-link :to="{ name: 'myOpenTasksMobile' }">
           <Button label="My open tasks" size="large" class="w-full p-5" />
         </router-link>
-        <div v-if="!loadingBadges" class="open-tasks-mobile__badges flex gap-2">
+        <div class="open-tasks-mobile__badges flex gap-2">
           <Badge :value="numberOfTasksWithNoBreachSLA" severity="success" />
           <Badge :value="numberOfTasksWithNearBreachedSLA" severity="warning" />
           <Badge :value="numberOfTasksWithBreachedSLA" severity="danger" />

@@ -3,8 +3,14 @@
     <div
       class="mobile-task-detail-header my-2 ml-2 flex flex-row overflow-x-scroll"
     >
-      <WMCompleteTasksButton entity="task" />
-      <WMAssignOwnerButton entity="task" />
+      <WMCompleteTasksButton
+        entity="task"
+        @task-completed="fetchTask(route.params.id)"
+      />
+      <WMAssignOwnerButton
+        entity="task"
+        @owner-assigned="fetchTask(route.params.id)"
+      />
       <WMSendMessageButton :selected-elements="selectedElements" />
       <WMSendEmailButton :selected-elements="selectedElements" />
     </div>
@@ -157,7 +163,7 @@ const { setSelectedContacts } = useContacts();
 const { getTaskFromApi, mapContactsFromTasks, updateTask, parseUpdateTask } =
   useTasks();
 
-const fetchTasks = async (taskId) => {
+const fetchTask = async (taskId) => {
   utilsStore.entity = "task";
 
   await getTaskFromApi(taskId).then((data) => {
@@ -168,7 +174,7 @@ const fetchTasks = async (taskId) => {
   setSelectedContacts(mapContactsFromTasks(task.value));
 };
 
-fetchTasks(route.params.id);
+fetchTask(route.params.id);
 
 const onSave = handleSubmit((values) => {
   updateTask(route.params.id, parseUpdateTask(values))
