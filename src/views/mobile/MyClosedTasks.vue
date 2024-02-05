@@ -10,8 +10,6 @@ import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useUtilsStore } from "@/stores/utils";
 
-import MobileTaskCardDetail from "./MobileTaskCardDetail.vue";
-
 const authStore = useAuthStore();
 
 const { getTasksFromApi } = useTasks();

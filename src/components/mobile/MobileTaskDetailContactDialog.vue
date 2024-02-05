@@ -84,9 +84,9 @@
         header="Service detail"
         :dismissable-mask="true"
         :closable="true"
-        :style="{ width: '90%' }"
+        :style="{ width: '100%' }"
       >
-        <MobileTaskDetailServiceDialog :service="service" />
+        SERVICE DETAIL
       </Dialog>
 
       <Button
@@ -103,7 +103,7 @@
         header="Contact detail"
         :dismissable-mask="true"
         :closable="true"
-        :style="{ width: '90%' }"
+        :style="{ width: '100%' }"
       >
         CONTACT DETAIL
       </Dialog>
@@ -122,7 +122,7 @@
         header="Customer detail"
         :dismissable-mask="true"
         :closable="true"
-        :style="{ width: '90%' }"
+        :style="{ width: '100%' }"
       >
         CUSTOMER DETAIL
       </Dialog>
