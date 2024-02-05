@@ -105,7 +105,7 @@
         :closable="true"
         :style="{ width: '90%' }"
       >
-        CONTACT DETAIL
+        <MobileTaskDetailContactDialog :contact="contact" />
       </Dialog>
 
       <Button
@@ -124,7 +124,7 @@
         :closable="true"
         :style="{ width: '90%' }"
       >
-        CUSTOMER DETAIL
+        <MobileTaskDetailCustomerDialog :customer="customer" />
       </Dialog>
     </div>
   </div>
