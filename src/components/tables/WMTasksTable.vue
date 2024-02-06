@@ -34,6 +34,7 @@
           @task-completed="
             loadLazyData();
             clearSelectedTasks();
+            emit('taskCompleted');
           "
         />
       </div>
@@ -211,6 +212,8 @@ onMounted(() => {
 });
 
 const { getTasksFromApi } = useTasks();
+
+const emit = defineEmits(["taskCompleted"]);
 
 const loadLazyData = () => {
   const filters = utilsStore.filters["task"];

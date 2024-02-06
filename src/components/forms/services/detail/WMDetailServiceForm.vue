@@ -9,7 +9,10 @@
           <h1 class="h1 mb-0">
             {{ $t("service.service") }} {{ service.service_number }}
           </h1>
-          <div :class="statusClass(service.state)" class="status-label">
+          <div
+            :class="statusClass(service.state)"
+            class="status-label white-space-nowrap"
+          >
             {{ $t("statuses." + service.state) }}
           </div>
         </div>
@@ -245,6 +248,7 @@
           :related-entity-id="service.id"
           :columns="taskColumns"
           multiselect
+          @task-completed="fetchData"
         />
       </div>
 
