@@ -1,6 +1,6 @@
-import axiosConfig from "@/service/axiosConfig";
-
 import { defineStore } from "pinia";
+
+import axiosConfig from "@/service/axiosConfig";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
@@ -56,21 +56,28 @@ export const useContactsStore = defineStore("contacts", {
         });
     },
 
-    updateState(id, state) {
-      const params = {
-        state: optionSetsStore.getId("state", state),
-      };
-
+    activateContact(id) {
       return axiosConfig
-        .patch("/contacts/" + id, params)
+        .patch("/contacts/" + id + "/activate")
         .then((response) => {
           return response.data;
         })
         .catch((error) => {
           console.error(error);
-          throw error;
         });
     },
+
+    deactivateContact(id) {
+      return axiosConfig
+        .patch("/contacts/" + id + "/deactivate")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+
     // SELECTED CONTACTS
     setSelectedContacts(contacts) {
       this.selectedContacts = contacts;

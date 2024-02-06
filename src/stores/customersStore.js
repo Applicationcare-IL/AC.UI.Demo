@@ -1,6 +1,6 @@
-import axiosConfig from "@/service/axiosConfig";
-
 import { defineStore } from "pinia";
+
+import axiosConfig from "@/service/axiosConfig";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
@@ -53,13 +53,20 @@ export const useCustomersStore = defineStore("customers", {
         });
     },
 
-    updateState(id, state) {
-      const params = {
-        state: optionSetsStore.getId("state", state),
-      };
-
+    activateCustomer(id) {
       return axiosConfig
-        .patch("/customers/" + id, params)
+        .patch("/customers/" + id + "/activate")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
+    deactivateCustomer(id) {
+      return axiosConfig
+        .patch("/customers/" + id + "/deactivate")
         .then((response) => {
           return response.data;
         })

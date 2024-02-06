@@ -29,8 +29,12 @@ export function useCustomers() {
     return await customersStore.updateCustomer(id, customer);
   };
 
-  const updateState = async (id, state) => {
-    return await customersStore.updateState(id, state);
+  const activateCustomer = async (id) => {
+    return await customersStore.activateCustomer(id);
+  };
+
+  const deactivateCustomer = async (id) => {
+    return await customersStore.deactivateCustomer(id);
   };
 
   const existsCustomer = async (field, value) => {
@@ -123,7 +127,8 @@ export function useCustomers() {
     getCustomerFromApi,
     createCustomer,
     updateCustomer,
-    updateState,
+    activateCustomer,
+    deactivateCustomer,
     existsCustomer,
     assignContactToCustomer,
     unassignContactFromCustomer,

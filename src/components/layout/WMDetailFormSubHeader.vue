@@ -55,13 +55,7 @@
             v-if="showUpdateEntityStateButton"
             class="m-1 col-6"
             name="basic-secondary"
-            @click="
-              $emit(
-                'updateEntityState',
-                route.params.id,
-                isEntityActive ? 'not_active' : 'active'
-              )
-            "
+            @click="handleUpdateState()"
           >
             {{
               isEntityActive ? $t("buttons.deactivate") : $t("buttons.activate")
@@ -96,7 +90,7 @@ defineProps({
   formKey: String,
 });
 
-const emit = defineEmits(["saveForm", "updateEntityState"]);
+const emit = defineEmits(["saveForm", "activateEntity", "deactivateEntity"]);
 
 // REFS
 const { getFormMeta } = storeToRefs(formUtilsStore);
@@ -111,6 +105,14 @@ const showUpdateEntityStateButton = computed(() => {
 // COMPONENT METHODS
 const saveForm = () => {
   emit("saveForm");
+};
+
+const handleUpdateState = () => {
+  if (isEntityActive.value) {
+    emit("deactivateEntity");
+  } else {
+    emit("activateEntity");
+  }
 };
 
 // WATCHERS

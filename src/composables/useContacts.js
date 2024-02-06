@@ -32,8 +32,12 @@ export function useContacts() {
     return await contactsStore.updateContact(id, contact);
   };
 
-  const updateState = async (id, state) => {
-    return await contactsStore.updateState(id, state);
+  const activateContact = async (id) => {
+    return await contactsStore.activateContact(id);
+  };
+
+  const deactivateContact = async (id) => {
+    return await contactsStore.deactivateContact(id);
   };
 
   // UTILITIES
@@ -183,7 +187,8 @@ export function useContacts() {
     getContactFromApi,
     createContact,
     updateContact,
-    updateState,
+    activateContact,
+    deactivateContact,
 
     // SELECTED CONTACTS
     selectedContacts,

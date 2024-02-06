@@ -1,15 +1,15 @@
 <template>
   <WMDetailFormSubHeader
-    @save-form="saveForm()"
-    @updateEntityState="updateEntityState"
     :form-key="formKey"
+    @save-form="saveForm()"
+    @deactivate-entity="handleDeactivateCustomer"
+    @activate-entity="handleActivateCustomer"
   />
   <WMDetailCustomerForm ref="detailCustomerForm" :form-key="formKey" />
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 
 useHead({
   title: "Customer Detail",
@@ -22,11 +22,15 @@ const saveForm = () => {
   detailCustomerForm.value.onSave();
 };
 
-const { updateState } = useCustomers();
-const router = useRouter();
+const { activateCustomer, deactivateCustomer } = useCustomers();
 
-const updateEntityState = (id, state) => {
-  updateState(id, state);
-  router.go(); // refresh page
+const handleActivateCustomer = (id) => {
+  activateCustomer(id);
+  detailCustomerForm.value.fetchData();
+};
+
+const handleDeactivateCustomer = (id) => {
+  deactivateCustomer(id);
+  detailCustomerForm.value.fetchData();
 };
 </script>

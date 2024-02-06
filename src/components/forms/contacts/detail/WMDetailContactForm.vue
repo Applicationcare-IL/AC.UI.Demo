@@ -369,6 +369,8 @@ const documentsColumns = ref(getProjectDocumentColumns());
 
 // COMPONENT METHODS
 const fetchData = async () => {
+  console.log("fetchData", route.params.id);
+
   getContactFromApi(route.params.id).then((data) => {
     contact.value = data;
     utilsStore.selectedElements["contact"] = [contact.value];
@@ -415,6 +417,7 @@ provide("preselectedContact", contact);
 
 defineExpose({
   onSave,
+  fetchData,
 });
 
 // WATCHERS
