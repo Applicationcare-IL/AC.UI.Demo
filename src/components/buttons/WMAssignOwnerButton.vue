@@ -21,8 +21,8 @@
           ]?.slice(0, 3)"
           :key="index"
         >
-          {{ item.name }}</Chip
-        >
+          {{ item.name }}
+        </Chip>
         <div v-if="utilsStore.selectedElements[props.entity]?.length > 3">
           And {{ utilsStore.selectedElements[props.entity]?.length - 3 }} more
         </div>

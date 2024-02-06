@@ -71,10 +71,10 @@
     </div>
     <div class="mobile-task-detail-footer flex flex-column gap-2 mx-3">
       <Button
-        label="Service detail"
         size="large"
         class="w-full p-4"
         severity="success"
+        :label="serviceButtonLabel"
         @click="showServiceDetail = true"
       />
 
@@ -90,7 +90,7 @@
       </Dialog>
 
       <Button
-        label="Contact detail"
+        :label="`${contact.name}, ${contact.telephone}`"
         size="large"
         class="w-full p-4"
         severity="success"
@@ -109,7 +109,7 @@
       </Dialog>
 
       <Button
-        label="Customer detail"
+        :label="customer.name"
         size="large"
         class="w-full p-4"
         severity="success"
@@ -132,7 +132,7 @@
 
 <script setup>
 import { useForm } from "vee-validate";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -165,9 +165,23 @@ const { getServiceFromApi } = useServices();
 const { getTaskFromApi, mapContactsFromTasks, updateTask, parseUpdateTask } =
   useTasks();
 
+const { optionLabelWithLang } = useLanguages();
+
 const service = ref("");
 const contact = ref("");
 const customer = ref("");
+
+const serviceButtonLabel = computed(() => {
+  if (!service.value) {
+    return "";
+  }
+
+  return (
+    service.value.area[optionLabelWithLang.value] +
+    ", " +
+    service.value.type[optionLabelWithLang.value]
+  );
+});
 
 const fetchTaskInfo = async (taskId) => {
   utilsStore.entity = "task";
