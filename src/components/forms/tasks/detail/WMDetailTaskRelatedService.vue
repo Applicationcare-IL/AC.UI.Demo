@@ -44,21 +44,23 @@
               type="info"
               :highlighted="true"
               :label="$t('classification-1') + ':'"
-              :value="service.area?.value"
+              :value="service.area ? service.area[optionLabelWithLang] : ''"
             />
             <WMInput
               name="type"
               type="info"
               :highlighted="true"
               :label="$t('classification-2') + ':'"
-              :value="service.type?.value"
+              :value="service.type ? service.type[optionLabelWithLang] : ''"
             />
             <WMInput
               name="request1"
               type="info"
               :highlighted="true"
               :label="$t('classification-3') + ':'"
-              :value="service.request1?.value"
+              :value="
+                service.request1 ? service.request1[optionLabelWithLang] : ''
+              "
             />
           </div>
           <div class="wm-form-row gap-5">
@@ -67,14 +69,18 @@
               type="info"
               :highlighted="true"
               :label="$t('classification-4') + ':'"
-              :value="service.request2?.value"
+              :value="
+                service.request2 ? service.request2[optionLabelWithLang] : ''
+              "
             />
             <WMInput
               name="request3"
               type="info"
               :highlighted="true"
               :label="$t('classification-5') + ':'"
-              :value="service.request3?.value"
+              :value="
+                service.request3 ? service.request3[optionLabelWithLang] : ''
+              "
             />
           </div>
           <div class="wm-form-row gap-5">
@@ -99,6 +105,8 @@
 
 <script setup>
 import { ref } from "vue";
+
+const { optionLabelWithLang } = useLanguages();
 
 const { service } = defineProps({
   service: {
