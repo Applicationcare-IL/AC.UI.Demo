@@ -115,6 +115,16 @@ export const useFormUtilsStore = defineStore("formUtils", {
         //     .typeError({ key: 'validation.required-select', values: { label: 'site.contact' } }),
       });
     },
+    getMobileServiceFormValidationSchema: () => {
+      return yup.object({
+        "short-classification": yup.object().required(),
+        description: yup.string().required().default(null).nullable(),
+        "site-name": yup.object().required(),
+        "site-type": yup.object().required(),
+        "site-contact": yup.object().required(),
+        "site-contact-role": yup.object().required(),
+      });
+    },
     getTaskFormValidationSchema: () => {
       return yup.object({
         description: yup.string().required(),

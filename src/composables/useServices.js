@@ -70,6 +70,29 @@ export function useServices() {
     };
   };
 
+  const parseMobileService = (service) => {
+    return {
+      contact_id: service.contact.id,
+      customer_id: service.customer.id,
+      urgent: service.priority,
+      direction: service.direction,
+      channel: service.channel,
+      priority: service.priority,
+      description: service.description,
+      area: service.area,
+      type: service.subarea,
+      request_1: service.request1,
+      request_2: service.request2,
+      request_3: service.request3,
+      location: {
+        site: service["site-name"]?.id,
+        site_type: service["site-type"],
+        site_contact_relationship_role: service["site-contact-role"]?.id,
+        site_contact: service["site-contact-id"]?.id,
+      },
+    };
+  };
+
   const parseUpdateService = (service) => {
     return {
       request_2: service.request2?.id,
@@ -176,6 +199,7 @@ export function useServices() {
     getQuickCodes: servicesStore.getQuickCodes,
     // UTILITIES
     parseService,
+    parseMobileService,
     parseUpdateService,
     mapService,
     mapContactsFromServices,
