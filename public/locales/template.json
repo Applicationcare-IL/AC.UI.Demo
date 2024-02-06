@@ -82,9 +82,14 @@
     "customers": "Customers",
     "contacts": "Contacts",
     "services": "Services",
+    "new-service": "New Service",
     "tasks": "Tasks",
+    "my-open-tasks": "My Open Tasks",
+    "my-closed-tasks": "My Closed Tasks",
     "sales": "Sales",
-    "projects": "Projects"
+    "projects": "Projects",
+    "user": "User",
+    "logout": "Logout"
   },
   "dashboard": {
     "my-tasks": "My Tasks",
@@ -403,5 +408,8 @@
     "open-date": "Open date",
     "due-date": "Due date",
     "started-at": "Started at"
+  },
+  "mobile": {
+    "menu": "Menu",
   }
 }

@@ -34,7 +34,9 @@
           class="flex align-items-center justify-content-between px-4 pt-3 flex-shrink-0"
         >
           <span class="inline-flex align-items-center gap-2">
-            <span class="font-semibold text-2xl text-secondary">Menu</span>
+            <span class="font-semibold text-2xl text-secondary">{{
+              $t("mobile.menu")
+            }}</span>
           </span>
           <span>
             <Button
@@ -54,7 +56,7 @@
               <div
                 class="p-2 flex align-items-center justify-content-between text-600 cursor-pointer p-ripple"
               >
-                <span class="h5">TASKS</span>
+                <span class="h5">{{ $t("navigation.tasks") }}</span>
               </div>
               <ul
                 class="list-none pl-2 m-0 overflow-hidden flex flex-column gap-2"
@@ -69,7 +71,7 @@
                       class="nav-link"
                       @click="closeCallback"
                     >
-                      My open tasks
+                      {{ $t("navigation.my-open-tasks") }}
                     </router-link>
                   </a>
                 </li>
@@ -83,7 +85,7 @@
                       class="nav-link"
                       @click="closeCallback"
                     >
-                      My closed tasks
+                      {{ $t("navigation.my-closed-tasks") }}
                     </router-link>
                   </a>
                 </li>
@@ -95,7 +97,7 @@
               <div
                 class="p-2 flex align-items-center justify-content-between text-600 cursor-pointer p-ripple"
               >
-                <span class="h5">SERVICES</span>
+                <span class="h5">{{ $t("navigation.services") }}</span>
               </div>
               <ul
                 class="list-none pl-2 m-0 overflow-hidden flex flex-column gap-2"
@@ -111,7 +113,7 @@
                       class="nav-link"
                       @click="closeCallback"
                     >
-                      New service
+                      {{ $t("navigation.new-service") }}
                     </router-link>
                   </a>
                 </li>
@@ -123,7 +125,7 @@
               <div
                 class="p-2 flex align-items-center justify-content-between text-600 cursor-pointer p-ripple"
               >
-                <span class="h5">USER</span>
+                <span class="h5"> {{ $t("navigation.user") }} </span>
               </div>
               <ul
                 class="list-none pl-2 m-0 overflow-hidden flex flex-column gap-2"
@@ -134,7 +136,7 @@
                   >
                     <i class="pi pi-sign-out mr-2"></i>
                     <span class="font-medium" @click="authStore.logout">
-                      Logout
+                      {{ $t("navigation.logout") }}
                     </span>
                   </a>
                 </li>
