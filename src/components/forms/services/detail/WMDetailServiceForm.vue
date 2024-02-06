@@ -406,7 +406,9 @@ const fetchData = async () => {
 
   stages.value = data.stages.map((stage) => ({
     label: stage.name,
-    date: useDateFormat(stage.sla.due_date, "DD/MM/YY"),
+    date: stage.sla.due_date
+      ? useDateFormat(stage.sla.due_date, "DD/MM/YY")
+      : null,
   }));
 
   updateDropdown("service_request_2", data.request1?.id, "requests2");

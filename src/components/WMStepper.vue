@@ -23,7 +23,12 @@
         </div>
         <div class="label" :class="getStatus(index)">{{ step.label }}</div>
         <div v-if="showDate(index)" class="date" :class="getStatus(index)">
-          {{ step.completed_at ? step.completed_at : step.date }}
+          <template v-if="step.completed_at">
+            {{ step.completed_at }}
+          </template>
+          <template v-else-if="step.date">
+            {{ step.date }}
+          </template>
         </div>
       </div>
     </div>
