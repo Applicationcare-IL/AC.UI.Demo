@@ -9,24 +9,37 @@
             class="task-card-detail-list"
             :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
           >
-            <div class="info"><strong>ID:</strong> {{ task.id }}</div>
-            <div><strong>Contact:</strong> {{ contactFullName }}</div>
-            <div><strong>Address:</strong> {{ task.address }}</div>
+            <div class="info">
+              <strong>{{ $t("contact.id") }}:</strong> {{ task.id }}
+            </div>
+            <div>
+              <strong> {{ $t("contact.contact") }}:</strong>
+              {{ contactFullName }}
+            </div>
+            <div>
+              <strong>{{ $t("address.address") }}:</strong> {{ task.address }}
+            </div>
 
             <template v-if="task.status.value == 'open'">
               <div>
-                <strong>Days till closure:</strong>
-                {{ task.days_till_closure }}
+                <strong>{{ $t("task.days-till-closure") }}:</strong>
+                {{ daysTillClosure }}
               </div>
-              <div><strong>Due date:</strong> {{ task.due_date }}</div>
+              <div>
+                <strong>{{ $t("task.due_date") }}:</strong> {{ task.due_date }}
+              </div>
             </template>
 
             <template v-if="task.status.value == 'completed'">
-              <div><strong>Close date:</strong> {{ task.close_date }}</div>
+              <div>
+                <strong>{{ $t("task.close_date") }}e:</strong>
+                {{ task.close_date }}
+              </div>
             </template>
 
             <div v-if="task.service_request_1">
-              <strong>Request 1:</strong> {{ task.service_request_1 }}
+              <strong>{{ $("task.request-1") }}:</strong>
+              {{ task.service_request_1 }}
             </div>
           </div>
           <div class="image-container">
@@ -60,6 +73,14 @@ const props = defineProps({
 
 const contactFullName = computed(() => {
   return `${props.task.contac?.name} ${props.task.contact?.surname}`;
+});
+
+const daysTillClosure = computed(() => {
+  const dueDate = new Date(props.task.due_date);
+  const today = new Date();
+  const timeDiff = dueDate.getTime() - today.getTime();
+  const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  return daysDiff;
 });
 
 const SLAStatusColor = computed(() => {

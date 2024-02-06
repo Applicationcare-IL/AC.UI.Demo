@@ -6,7 +6,7 @@
     :disabled="selectedElements == 0 || !areTaskCompletable"
     @click="handleCompleteTasks"
   >
-    <span v-if="areTaskCompletable"> {{ t("task.complete") }} </span>
+    <span v-if="areTaskCompletable"> {{ t("buttons.complete") }} </span>
     <span v-else> {{ t("task.completed") }} </span>
   </WMButton>
   <WMCompleteServiceDialog />

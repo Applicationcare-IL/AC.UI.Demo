@@ -75,7 +75,8 @@
     "clear-all": "Clear all",
     "apply-filters": "Apply filters",
     "create-new-one": "Create new one",
-    "open": "Open"
+    "open": "Open",
+    "complete": "Complete"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -225,7 +226,8 @@
     "notification-created-header": "New Task Created",
     "notification-created-message": "The new task was successfully created! \n From now on he will appear in your tasks list",
     "notification-created-detail": "View Task",
-    "notification-created-list": "View List"
+    "notification-created-list": "View List",
+    "days-till-closure": "Days till closure"
   },
   "project": {
     "system-id": "System ID",

@@ -210,7 +210,11 @@
     <div v-else class="flex flex-column gap-2 m-3 mt-4">
       <div class="open-tasks-mobile">
         <router-link :to="{ name: 'myOpenTasksMobile' }">
-          <Button label="My open tasks" size="large" class="w-full p-5" />
+          <Button
+            :label="$t('navigation.my-open-tasks')"
+            size="large"
+            class="w-full p-5"
+          />
         </router-link>
         <div class="open-tasks-mobile__badges flex gap-2">
           <Badge :value="numberOfTasksWithNoBreachSLA" severity="success" />
@@ -219,11 +223,15 @@
         </div>
       </div>
       <router-link :to="{ name: 'myClosedTasksMobile' }">
-        <Button label="My closed tasks" size="large" class="w-full p-5" />
+        <Button
+          :label="$t('navigation.my-closed-tasks')"
+          size="large"
+          class="w-full p-5"
+        />
       </router-link>
       <router-link :to="{ name: 'newServiceMobile' }">
         <Button
-          label="New service"
+          :label="$t('navigation.new-service')"
           size="large"
           class="w-full p-5"
           severity="success"
