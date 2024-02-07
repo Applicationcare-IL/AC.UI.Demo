@@ -2,7 +2,6 @@
   <WMButton class="m-1 col-6" name="location" icon="location" @click="toggle">
     {{ $t("buttons.view_map") }}
   </WMButton>
-  {{ utilsStore.selectedElements[utilsStore.entity][0]["location"] }}
   <OverlayPanel ref="isOpen">
     <WMLocationMap
       :location="utilsStore.selectedElements[utilsStore.entity][0]['location']"
