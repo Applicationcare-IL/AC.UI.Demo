@@ -7,7 +7,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-    "format": "prettier .  --write"
+    "format": "prettier .  --write",
+    "story:dev": "histoire dev",
+    "story:build": "histoire build",
+    "story:preview": "histoire preview"
   },
   "dependencies": {
     "@fawmi/vue-google-maps": "^0.9.79",
@@ -20,7 +23,7 @@
     "chart.js": "^4.2.1",
     "maze-components": "^0.0.21",
     "pinia": "^2.0.36",
-    "primeflex": "^3.3.0",
+    "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
     "primevue": "^3.22.1",
     "quill-mention": "^4.1.0",
@@ -32,6 +35,7 @@
     "yup": "^1.1.1"
   },
   "devDependencies": {
+    "@histoire/plugin-vue": "^0.17.11",
     "@vitejs/plugin-vue": "^4.0.0",
     "autoprefixer": "^10.4.14",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
@@ -39,6 +43,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-vue": "^9.20.0",
+    "histoire": "^0.17.9",
     "postcss": "^8.4.21",
     "sass": "^1.55.0",
     "unplugin-auto-import": "^0.16.7",

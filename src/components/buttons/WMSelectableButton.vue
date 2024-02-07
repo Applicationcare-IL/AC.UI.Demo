@@ -3,8 +3,8 @@
     class="selectable-button border-round-2xl"
     :class="classes"
     :icon="icon"
-    @click="toggleCompleted"
     :label="label"
+    @click="toggleCompleted"
   >
   </Button>
 </template>
@@ -22,7 +22,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits();
+const emit = defineEmits(["update:modelValue"]);
 
 const toggleCompleted = () => {
   emit("update:modelValue", !props.modelValue);

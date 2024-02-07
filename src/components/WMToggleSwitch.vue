@@ -16,13 +16,16 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed, ref } from "vue";
 
 defineEmits(["update:modelValue"]);
 
 const props = defineProps({
   label: String,
-  modelValue: String,
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
   theme: {
     type: String,
     default: "blue",

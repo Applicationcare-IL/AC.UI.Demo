@@ -1,0 +1,27 @@
+<template>
+  <span>Base Component</span>
+</template>
+
+<script setup>
+// IMPORTS
+
+// DEPENDENCIES
+
+// INJECT
+
+// PROPS, EMITS
+
+// REFS
+
+// COMPUTED
+
+// COMPONENT METHODS
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+</script>
+
+<style scoped></style>

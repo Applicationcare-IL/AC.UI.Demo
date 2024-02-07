@@ -136,7 +136,11 @@
         </div>
       </div>
     </div>
-    <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSubmit()"
+      @cancel-form="onCancel()"
+    />
   </div>
 </template>
 
