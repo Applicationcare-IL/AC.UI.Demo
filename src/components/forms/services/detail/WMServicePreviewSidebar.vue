@@ -1,10 +1,10 @@
 <template>
   <Sidebar
     v-model:visible="visible"
-    @update:modelValue="updateModelValue"
     class="details-sidebar w-6"
-    :showCloseIcon="false"
+    :show-close-icon="false"
     :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+    @update:model-value="updateModelValue"
   >
     <div class="flex justify-content-between">
       <h2 class="h2">
@@ -17,7 +17,7 @@
         }"
         class="p-2"
       >
-        <Button> פתח לקוח</Button>
+        <Button> {{ $t("service.open-service") }} </Button>
       </router-link>
     </div>
 
@@ -56,29 +56,30 @@
 
     <WMStepper
       :steps="stages"
-      :currentStep="currentStage"
+      :current-step="currentStage"
       aria-label="Form Steps"
     />
 
     <WMTasksTable
-      relatedEntity="service"
-      :relatedEntityId="service.id"
+      related-entity="service"
+      :related-entity-id="service.id"
       :columns="taskPreviewTableColumns"
       :multiselect="false"
-      :showHeaderOptions="false"
+      :show-header-options="false"
       :rows="5"
       table-class="compact"
     />
 
-    <h4 class="h4">יומן</h4>
-    <WMJournalDataView class="mb-5" />
+    <h4 class="h4">{{ $t("journal") }}</h4>
+    <WMJournalDataView entity-type="service" :entity-id="service.id" />
   </Sidebar>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useLayout } from "@/layout/composables/layout";
 import { useDateFormat } from "@vueuse/core";
+import { computed, ref } from "vue";
+
+import { useLayout } from "@/layout/composables/layout";
 
 const props = defineProps({
   isVisible: {

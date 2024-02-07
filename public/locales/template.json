@@ -161,6 +161,7 @@
     "services": "Services",
     "assign": "Assign",
     "open": "Open Services",
+    "open-service": "Open Service",
     "breached": "Open Services",
     "number": "Service number",
     "open-date": "Open date",
