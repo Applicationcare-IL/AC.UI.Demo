@@ -17,16 +17,16 @@
           <div v-if="showAddressOptions">
             <div class="wm-form-row gap-5 mt-3">
               <WMInputSearch
+                v-model="selectedCity"
                 name="city"
                 :highlighted="true"
                 :required="true"
                 :label="$t('address.city') + ':'"
                 :options="cities"
-                :model-value="selectedCity"
                 width="152"
                 :placeholder="$t('select', ['addres.city'])"
                 :option-set="true"
-                @change="updateStreets"
+                @change="updateStreets($event), updateCityData($event)"
               />
 
               <div class="flex flex-row gap-5">
@@ -42,6 +42,7 @@
                   :placeholder="$t('select', ['address.street'])"
                   :option-set="true"
                   :disabled="!isCitySelected"
+                  @change="updateStreetData($event)"
                 />
                 <!-- <WMInput
                   name="neighborhood"
@@ -105,6 +106,8 @@
 import { onMounted, ref } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
+import { useUtilsStore } from "@/stores/utils";
+const utilsStore = useUtilsStore();
 
 const props = defineProps({
   project: {
@@ -153,11 +156,28 @@ const updateStreets = (event) => {
         streets.value = data;
       });
 
+    // clear the street value if the city is changed
+    selectedSteet.value = "";
+    // also clean it in the selected element
+    utilsStore.selectedElements[utilsStore.entity][0]["location"].street = "";
+
     isCitySelected.value = true;
   } else {
     selectedSteet.value = null;
     isCitySelected.value = false;
   }
+};
+
+// We use this function to update in "real time" the data of the selected elements,
+// that we use in WMLocationButton to show te map
+const updateCityData = (event) => {
+  utilsStore.selectedElements[utilsStore.entity][0]["location"].city =
+    event.value;
+};
+
+const updateStreetData = (event) => {
+  utilsStore.selectedElements[utilsStore.entity][0]["location"].street =
+    event.value;
 };
 </script>
 
