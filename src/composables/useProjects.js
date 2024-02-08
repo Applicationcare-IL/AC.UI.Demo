@@ -76,6 +76,26 @@ export function useProjects() {
     return await projectsStore.deleteProjectCustomer(projectId, data);
   };
 
+  // BUDGETS
+  const getProjectBudget = async (projectId) => {
+    const response = await projectsStore.getProjectBudget(projectId);
+
+    return response.data;
+  };
+
+  const getBudgetItems = async (projectId) => {
+    const response = await projectsStore.getBudgetItems(projectId);
+
+    return response;
+  };
+
+  // PAYMENTS
+  const getProjectPayments = async (projectId) => {
+    const response = await projectsStore.getProjectPayments(projectId);
+
+    return response;
+  };
+
   // UTILITIES
   const parseProject = (project) => {
     return {
@@ -307,6 +327,9 @@ export function useProjects() {
     createProjectCustomer,
     updateProjectCustomer,
     deleteProjectCustomer,
+    getProjectBudget,
+    getBudgetItems,
+    getProjectPayments,
 
     // UTILITIES
     parseProject,

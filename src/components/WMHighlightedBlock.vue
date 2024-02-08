@@ -3,7 +3,7 @@
     class="highlighted-block flex flex-column justify-content-center"
     :class="styleClasses"
   >
-    <div class="font-bold">{{ label }}:</div>
+    <div class="font-bold">{{ label }}</div>
     <WMInputCurrency v-model="modelValue" :read-only="!editable" />
   </div>
 </template>
@@ -107,8 +107,21 @@ const borderRadiusClass = computed(() => {
   }
 });
 
+const widthClass = computed(() => {
+  switch (props.size) {
+    case "big":
+      return "width-big";
+    case "small":
+      return "width-small";
+    case "xsmall":
+      return "width-xsmall";
+    default:
+      return "width-big";
+  }
+});
+
 const styleClasses = computed(() => {
-  return `highlighted-block ${styleBackgroundColorClass.value} ${styleFontSizeClass.value} ${paddingClass.value} ${borderRadiusClass.value} `;
+  return `highlighted-block ${styleBackgroundColorClass.value} ${styleFontSizeClass.value} ${paddingClass.value} ${borderRadiusClass.value} ${widthClass.value}`;
 });
 
 // COMPONENT METHODS
@@ -127,5 +140,14 @@ const styleClasses = computed(() => {
   padding: 16px;
   border-radius: 8px;
   color: var(--gray-800);
+}
+
+.width-big {
+  width: 224px;
+}
+
+.width-small,
+.width-xsmall {
+  width: 168px;
 }
 </style>

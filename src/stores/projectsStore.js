@@ -155,5 +155,37 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
+    // BUDGETS
+    getProjectBudget(projectId) {
+      return axiosConfig
+        .get("/projects/" + projectId + "/budget")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getBudgetItems(projectId) {
+      return axiosConfig
+        .get("/projects/" + projectId + "/budget-items")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    // PAYMENTS
+    getProjectPayments(projectId) {
+      return axiosConfig
+        .get("/projects/" + projectId + "/payments")
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

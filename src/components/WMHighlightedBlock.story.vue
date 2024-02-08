@@ -8,10 +8,32 @@
       />
     </template>
     <Variant title="Default">
-      <WMHighlightedBlock :background-color="state.backgroundColor" />
+      <WMHighlightedBlock
+        :background-color="state.backgroundColor"
+        v-model="state.quantity"
+      />
+    </Variant>
+    <Variant title="Default (editable)">
+      <WMHighlightedBlock
+        :background-color="state.backgroundColor"
+        v-model="state.quantity"
+        :editable="true"
+      />
     </Variant>
     <Variant title="Small">
-      <WMHighlightedBlock size="small" />
+      <WMHighlightedBlock
+        size="small"
+        v-model="state.quantity"
+        :background-color="state.backgroundColor"
+      />
+    </Variant>
+    <Variant title="Small (editable)">
+      <WMHighlightedBlock
+        size="small"
+        v-model="state.quantity"
+        :editable="true"
+        :background-color="state.backgroundColor"
+      />
     </Variant>
     <Variant title="All colors">
       <div class="flex gap-5 flex-wrap">
@@ -22,7 +44,7 @@
         />
       </div>
     </Variant>
-    <Variant title="All colors small">
+    <!-- <Variant title="All colors small">
       <div class="flex gap-5 flex-wrap">
         <WMHighlightedBlock
           v-for="(color, index) in Object.keys(backgroundColorOptions)"
@@ -31,8 +53,8 @@
           size="small"
         />
       </div>
-    </Variant>
-    <Variant title="All colors xsmall">
+    </Variant> -->
+    <!-- <Variant title="All colors xsmall">
       <div class="flex gap-5 flex-wrap">
         <WMHighlightedBlock
           v-for="(color, index) in Object.keys(backgroundColorOptions)"
@@ -41,7 +63,7 @@
           size="xsmall"
         />
       </div>
-    </Variant>
+    </Variant> -->
   </Story>
 </template>
 
@@ -50,6 +72,7 @@ import { reactive } from "vue";
 
 const state = reactive({
   backgroundColor: "blue-50",
+  quantity: 1000,
 });
 
 const backgroundColorOptions = {

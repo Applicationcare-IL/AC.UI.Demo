@@ -682,3 +682,17 @@ a {
         border-radius: 2px;
     }
 }
+
+// Others 
+pre {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    direction: ltr;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }

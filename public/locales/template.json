@@ -281,7 +281,13 @@
     "budget": "Budget",
     "budget-items": "Budget Items",
     "funding": "Funding",
-    "payments": "Payments"
+    "payments": "Payments",
+    "budget-details": "Budget Details",
+    "planned-non-contract": "Planned (Non-Contract)",
+    "planned-contract": "Planned (Contract)",
+    "management-fee": "Management Fee",
+    "unexpected": "Unexpected",
+    "total": "Total"
   },
   "organization": {
     "organization": "Organization",

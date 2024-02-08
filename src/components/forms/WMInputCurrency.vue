@@ -4,7 +4,7 @@
       <img
         class="input-currency__icon vertical-align-middle"
         src="/icons/shekel.svg"
-        alt=""
+        alt="shekel symbol"
       />
       <span class="vertical-align-middle">{{ modelValue }}</span>
     </div>
