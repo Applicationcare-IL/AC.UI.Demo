@@ -53,5 +53,6 @@ module.exports = {
     useUtils: true,
     useHead: true,
     useNavigationGuards: true,
+    useBudgets: true,
   },
 };

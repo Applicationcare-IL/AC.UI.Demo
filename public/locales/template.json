@@ -277,6 +277,12 @@
     "notification-created-detail": "View project",
     "notification-created-list": "View list"
   },
+  "budget": {
+    "budget": "Budget",
+    "budget-items": "Budget Items",
+    "funding": "Funding",
+    "payments": "Payments"
+  },
   "organization": {
     "organization": "Organization",
     "organization_name": "Organization name",

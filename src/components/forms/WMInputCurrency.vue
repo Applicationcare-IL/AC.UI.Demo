@@ -1,25 +1,40 @@
 <template>
-  <InputGroup>
-    <InputGroupAddon>
-      <img src="/icons/shekel.svg" alt="" class="vertical-align-middle" />
-    </InputGroupAddon>
-    <InputText
-      v-model="modelValue"
-      :class="[
-        {
-          'wm-input-error': !!errorMessage,
-        },
-      ]"
-    />
-  </InputGroup>
+  <template v-if="readOnly">
+    <div class="input-currency">
+      <img
+        class="input-currency__icon vertical-align-middle"
+        src="/icons/shekel.svg"
+        alt=""
+      />
+      <span class="vertical-align-middle">{{ modelValue }}</span>
+    </div>
+  </template>
+  <template v-else>
+    <div class="input-currency">
+      <img
+        class="input-currency__icon vertical-align-middle"
+        src="/icons/shekel.svg"
+        alt=""
+      />
+      <InputText
+        v-model="modelValue"
+        :class="[
+          {
+            'wm-input-error': !!errorMessage,
+          },
+          'w-full',
+        ]"
+      />
+    </div>
 
-  <span v-if="errorMessage" class="wm-validation-message">
-    {{
-      typeof errorMessage === "string"
-        ? $t(errorMessage)
-        : $t(errorMessage.key, errorMessage.values)
-    }}
-  </span>
+    <span v-if="errorMessage" class="wm-validation-message">
+      {{
+        typeof errorMessage === "string"
+          ? $t(errorMessage)
+          : $t(errorMessage.key, errorMessage.values)
+      }}
+    </span>
+  </template>
 </template>
 
 <script setup>
@@ -32,70 +47,7 @@ import { useField } from "vee-validate";
 const modelValue = defineModel();
 
 const props = defineProps({
-  value: {
-    type: String,
-    default: "",
-  },
-  to: {
-    type: String,
-    default: "",
-  },
-  type: {
-    type: String,
-    default: "text",
-  },
-  highlighted: {
-    type: Boolean,
-    default: false,
-  },
-  label: {
-    type: String,
-    required: false,
-    default: "",
-  },
-  name: {
-    type: String,
-    required: false,
-    default: "",
-  },
-  required: {
-    type: Boolean,
-    required: false,
-  },
-  disabled: {
-    type: Boolean,
-    required: false,
-  },
-  valid: {
-    type: Boolean,
-    default: true,
-    required: false,
-  },
-  validationMessage: {
-    type: String,
-    default: "",
-  },
-  placeholder: {
-    type: String,
-    default: "",
-  },
-  options: {
-    type: Array,
-    default: () => [],
-  },
-  width: {
-    type: String,
-    default: "120",
-  },
-  inline: {
-    type: Boolean,
-    default: false,
-  },
-  class: {
-    type: String,
-    default: "",
-  },
-  optionSet: {
+  readOnly: {
     type: Boolean,
     default: false,
   },
@@ -106,8 +58,8 @@ const props = defineProps({
 // COMPUTED
 
 // COMPONENT METHODS
-const { value: inputValue, errorMessage } = useField(name, undefined, {
-  initialValue: props.value,
+const { errorMessage } = useField(name, undefined, {
+  initialValue: modelValue,
 });
 
 // WATCHERS
@@ -115,4 +67,15 @@ const { value: inputValue, errorMessage } = useField(name, undefined, {
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.input-currency {
+  position: relative;
+
+  .input-currency__icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+  }
+}
+</style>

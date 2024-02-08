@@ -1,7 +1,10 @@
 <template>
-  <div class="highlighted-block" :class="styleClasses">
+  <div
+    class="highlighted-block flex flex-column justify-content-center"
+    :class="styleClasses"
+  >
     <div class="font-bold">{{ label }}:</div>
-    <WMInputCurrency v-model="modelValue" />
+    <WMInputCurrency v-model="modelValue" :read-only="!editable" />
   </div>
 </template>
 
@@ -17,6 +20,10 @@ import { computed } from "vue";
 const modelValue = defineModel();
 
 const props = defineProps({
+  editable: {
+    type: Boolean,
+    default: false,
+  },
   label: {
     type: String,
     default: "Highlighted Block",
