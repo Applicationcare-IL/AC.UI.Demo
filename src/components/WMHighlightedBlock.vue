@@ -1,6 +1,7 @@
 <template>
   <div class="highlighted-block" :class="styleClasses">
     <div class="font-bold">{{ label }}:</div>
+    <WMInputCurrency v-model="modelValue" />
   </div>
 </template>
 
@@ -13,6 +14,8 @@ import { computed } from "vue";
 // INJECT
 
 // PROPS, EMITS
+const modelValue = defineModel();
+
 const props = defineProps({
   label: {
     type: String,
