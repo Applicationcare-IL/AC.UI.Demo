@@ -109,9 +109,15 @@ const saveForm = () => {
 
 const handleUpdateState = () => {
   if (isEntityActive.value) {
-    emit("deactivateEntity");
+    emit(
+      "deactivateEntity",
+      utilsStore.selectedElements[utilsStore.entity][0].id
+    );
   } else {
-    emit("activateEntity");
+    emit(
+      "activateEntity",
+      utilsStore.selectedElements[utilsStore.entity][0].id
+    );
   }
 };
 
