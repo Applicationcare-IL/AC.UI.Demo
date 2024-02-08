@@ -55,7 +55,7 @@ export const useCustomersStore = defineStore("customers", {
 
     activateCustomer(id) {
       return axiosConfig
-        .patch("/customers/" + id + "/activate")
+        .post("/customers/" + id + "/activate")
         .then((response) => {
           return response.data;
         })
@@ -66,7 +66,7 @@ export const useCustomersStore = defineStore("customers", {
     },
     deactivateCustomer(id) {
       return axiosConfig
-        .patch("/customers/" + id + "/deactivate")
+        .post("/customers/" + id + "/deactivate")
         .then((response) => {
           return response.data;
         })

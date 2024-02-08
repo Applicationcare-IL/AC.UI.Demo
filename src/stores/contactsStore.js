@@ -58,7 +58,7 @@ export const useContactsStore = defineStore("contacts", {
 
     activateContact(id) {
       return axiosConfig
-        .patch("/contacts/" + id + "/activate")
+        .post("/contacts/" + id + "/activate")
         .then((response) => {
           return response.data;
         })
@@ -69,7 +69,7 @@ export const useContactsStore = defineStore("contacts", {
 
     deactivateContact(id) {
       return axiosConfig
-        .patch("/contacts/" + id + "/deactivate")
+        .post("/contacts/" + id + "/deactivate")
         .then((response) => {
           return response.data;
         })
