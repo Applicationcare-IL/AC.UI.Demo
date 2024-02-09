@@ -1,7 +1,7 @@
 <template>
   <div
-    class="wm-detail-form-container flex flex-column overflow-auto gap-5"
     v-if="budget"
+    class="wm-detail-form-container flex flex-column overflow-auto gap-5"
   >
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row justify-content-between">
@@ -98,14 +98,37 @@
               <div class="flex flex-row gap-5">
                 <WMHighlightedBlock
                   v-model="modelValue"
-                  background-color="green-200"
-                  label="Not editable"
+                  background-color="white"
+                  :label="$t('budget.approved-council') + ':'"
+                  size="small"
                 />
+                <PlusIcon />
                 <WMHighlightedBlock
                   v-model="modelValue"
-                  background-color="blue-200"
-                  :editable="true"
-                  label="Editable"
+                  background-color="white"
+                  :label="$t('budget.approved-ministry') + ':'"
+                  size="small"
+                />
+                <PlusIcon />
+                <WMHighlightedBlock
+                  v-model="modelValue"
+                  background-color="white"
+                  :label="$t('budget.management-fee') + ':'"
+                  size="small"
+                />
+                <PlusIcon />
+                <WMHighlightedBlock
+                  v-model="modelValue"
+                  background-color="white"
+                  :label="$t('budget.unexpected') + ':'"
+                  size="small"
+                />
+                <EqualIcon />
+
+                <WMHighlightedBalanceBlock
+                  :quantity="1000"
+                  :label="$t('budget.total') + ':'"
+                  size="small"
                 />
               </div>
             </div>
@@ -228,7 +251,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();

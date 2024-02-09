@@ -3,6 +3,10 @@
     class="highlighted-block flex flex-column justify-content-center"
     :class="styleClasses"
   >
+    <div class="highlighted-block__icon">
+      <PlusIcon v-if="tooltip === 'plus'" />
+      <MinusIcon v-if="tooltip === 'minus'" />
+    </div>
     <div class="font-bold">{{ label }}</div>
     <WMInputCurrency v-model="modelValue" :read-only="!editable" />
   </div>
@@ -45,6 +49,8 @@ const props = defineProps({
         "purple-100",
         "purple-200",
         "green-200",
+        "red-200",
+        "yellow-200",
       ].includes(value);
     },
   },
@@ -58,12 +64,19 @@ const props = defineProps({
   tooltip: {
     type: String,
     default: "",
+    validator: (value) => {
+      return ["", "tooltip", "plus", "minus"].includes(value);
+    },
   },
 });
 
 // REFS
 
 // COMPUTED
+const iconUrl = computed(() => {
+  return `@/assets/icons/${props.tooltip}.svg`;
+});
+
 const styleBackgroundColorClass = computed(() => {
   return `bg-${props.backgroundColor}`;
 });
@@ -133,13 +146,20 @@ const styleClasses = computed(() => {
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .highlighted-block {
   display: flex;
   gap: 6px;
   padding: 16px;
   border-radius: 8px;
   color: var(--gray-800);
+  position: relative;
+
+  &__icon {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+  }
 }
 
 .width-big {

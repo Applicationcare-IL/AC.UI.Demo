@@ -1,22 +1,22 @@
 <template>
   <template v-if="readOnly">
     <div class="input-currency">
+      <span class="vertical-align-middle">{{ shekelFormattedNumber }}</span>
       <img
-        class="input-currency__icon vertical-align-middle"
+        class="input-currency__icon vertical-align-middle mr-2"
         src="/icons/shekel.svg"
         alt="shekel symbol"
       />
-      <span class="vertical-align-middle">{{ modelValue }}</span>
     </div>
   </template>
   <template v-else>
-    <div class="input-currency">
+    <div class="input-currency input-currency--editable">
       <img
         class="input-currency__icon vertical-align-middle"
         src="/icons/shekel.svg"
         alt=""
       />
-      <InputText
+      <InputNumber
         v-model="modelValue"
         :class="[
           {
@@ -24,6 +24,8 @@
           },
           'w-full',
         ]"
+        locale="he-IL"
+        :min-fraction-digits="2"
       />
     </div>
 
@@ -40,6 +42,13 @@
 <script setup>
 // IMPORTS
 import { useField } from "vee-validate";
+import { computed } from "vue";
+
+const shekelFormattedNumber = computed(() => {
+  if (!modelValue.value) return "0.00";
+
+  return modelValue.value.toLocaleString("he-IL", { minimumFractionDigits: 2 });
+});
 
 // DEPENDENCIES
 
@@ -71,11 +80,17 @@ const { errorMessage } = useField(name, undefined, {
 .input-currency {
   position: relative;
 
-  .input-currency__icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 10px;
+  &--editable {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .input-currency__icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 10px;
+    }
   }
 }
 </style>

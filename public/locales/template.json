@@ -287,7 +287,9 @@
     "planned-contract": "Planned (Contract)",
     "management-fee": "Management Fee",
     "unexpected": "Unexpected",
-    "total": "Total"
+    "total": "Total",
+    "approved-council": "Approved (Council)",
+    "approved-ministry": "Approved (Ministry)"
   },
   "organization": {
     "organization": "Organization",
