@@ -140,20 +140,56 @@
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1">
         <Card>
-          <template #title> {{ $t("budget.budget-details") }} </template>
+          <template #title>
+            <div class="flex align-items-center gap-3">
+              {{ $t("budget.tbr-details") }}
+              <WMInput name="first-name" type="input-text" />
+            </div>
+          </template>
           <template #content>
-            <div class="flex flex-column gap-5">
-              <div class="flex flex-row gap-5">
+            <div class="flex flex-column gap-2">
+              <div class="flex flex-row align-items-center gap-2">
                 <WMHighlightedBlock
                   v-model="modelValue"
-                  background-color="green-200"
-                  label="Not editable"
+                  background-color="gray-100"
+                  :label="$t('budget.tbr-accepted') + ':'"
+                  size="small"
                 />
+                <PlusIcon />
                 <WMHighlightedBlock
                   v-model="modelValue"
-                  background-color="blue-200"
-                  :editable="true"
-                  label="Editable"
+                  background-color="gray-100"
+                  :label="$t('budget.tbr-expected') + ':'"
+                  size="small"
+                />
+                <EqualIcon />
+                <WMHighlightedBlock
+                  v-model="modelValue"
+                  background-color="gray-300"
+                  :label="$t('budget.tbr-funding') + ':'"
+                  size="small"
+                />
+              </div>
+              <Divider />
+              <div class="flex flex-row align-items-center gap-2">
+                <WMHighlightedBlock
+                  v-model="modelValue"
+                  background-color="white"
+                  :label="$t('budget.tbr-reported') + ':'"
+                  size="small"
+                />
+                <PlusIcon />
+                <WMHighlightedBlock
+                  v-model="modelValue"
+                  background-color="white"
+                  :label="$t('budget.tbr-municipality-expenses') + ':'"
+                  size="small"
+                />
+                <EqualIcon />
+                <WMHighlightedBalanceBlock
+                  :quantity="1000"
+                  :label="$t('budget.tbr-balance') + ':'"
+                  size="small"
                 />
               </div>
             </div>
@@ -161,21 +197,32 @@
         </Card>
       </div>
       <div class="flex-1">
-        <Card>
-          <template #title> {{ $t("budget.budget-details") }} </template>
+        <Card class="h-full">
+          <template #title>
+            {{ $t("budget.non-tbr-funding-details") }}
+          </template>
           <template #content>
-            <div class="flex flex-column gap-5">
-              <div class="flex flex-row gap-5">
+            <div class="flex flex-column gap-2">
+              <div class="flex flex-row align-items-center gap-2">
                 <WMHighlightedBlock
                   v-model="modelValue"
-                  background-color="green-200"
-                  label="Not editable"
+                  background-color="gray-100"
+                  :label="$t('budget.non-tbr-funds-accepted') + ':'"
+                  size="small"
                 />
+                <PlusIcon />
                 <WMHighlightedBlock
                   v-model="modelValue"
-                  background-color="blue-200"
-                  :editable="true"
-                  label="Editable"
+                  background-color="gray-100"
+                  :label="$t('budget.non-tbr-expected') + ':'"
+                  size="small"
+                />
+                <EqualIcon />
+                <WMHighlightedBlock
+                  v-model="modelValue"
+                  background-color="gray-300"
+                  :label="$t('budget.non-tbr-funding') + ':'"
+                  size="small"
                 />
               </div>
             </div>

@@ -289,7 +289,19 @@
     "unexpected": "Unexpected",
     "total": "Total",
     "approved-council": "Approved (Council)",
-    "approved-ministry": "Approved (Ministry)"
+    "approved-ministry": "Approved (Ministry)",
+    "tbr-details": "TBR Details",
+    "tbr-number": "TBR Number",
+    "tbr-accepted": "TBR Accepted",
+    "tbr-expected": "TBR Expected",
+    "tbr-funding": "TBR Funding",
+    "tbr-reported": "TBR Reported",
+    "tbr-minicipality-expenses": "TBR Municipality Expenses",
+    "tbr-balance": "TBR Balance",
+    "non-tbr-funding-details": "Non-TBR Funding Details",
+    "non-tbr-funds-accepted": "Funds Accepted (Non-TBR)",
+    "non-tbr-expected": "Expected (Non-TBR)",
+    "non-tbr-funding": "Funding (Non-TBR)"
   },
   "organization": {
     "organization": "Organization",
