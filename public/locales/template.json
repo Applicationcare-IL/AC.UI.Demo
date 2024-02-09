@@ -272,6 +272,7 @@
     "site-tour-needed": "Site tour needed",
     "site-tour-date": "Site tour date",
     "quality-committee-required": "Quality committee required",
+    "project-budget": "Project Budget",
     "notification-created-header": "New project created",
     "notification-created-message": "The new project was successfully created! \n From now on he will appear in your project list",
     "notification-created-detail": "View project",
@@ -301,7 +302,8 @@
     "non-tbr-funding-details": "Non-TBR Funding Details",
     "non-tbr-funds-accepted": "Funds Accepted (Non-TBR)",
     "non-tbr-expected": "Expected (Non-TBR)",
-    "non-tbr-funding": "Funding (Non-TBR)"
+    "non-tbr-funding": "Funding (Non-TBR)",
+    "open-budget": "Open budget"
   },
   "organization": {
     "organization": "Organization",

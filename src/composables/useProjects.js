@@ -247,6 +247,7 @@ export function useProjects() {
       contractor: project.contractor,
       last_activity: project.last_activity,
       network_folder: project.network_folder,
+      budget: project.budget,
       config: {
         tender: project.tender,
         site_tour: project.site_tour,
