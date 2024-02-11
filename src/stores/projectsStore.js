@@ -166,9 +166,9 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
-    getBudgetItems(projectId) {
+    getBudgetItems(projectId, params) {
       return axiosConfig
-        .get("/projects/" + projectId + "/budget-items")
+        .get("/projects/" + projectId + "/budget-items", { params })
         .then((response) => {
           return response.data;
         })

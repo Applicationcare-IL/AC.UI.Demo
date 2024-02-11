@@ -83,10 +83,13 @@ export function useProjects() {
     return response.data;
   };
 
-  const getBudgetItems = async (projectId) => {
-    const response = await projectsStore.getBudgetItems(projectId);
+  const getBudgetItems = async (projectId, params) => {
+    const response = await projectsStore.getBudgetItems(projectId, params);
 
-    return response;
+    const budgetItems = response.data;
+    const totalRecords = response.meta.total;
+
+    return { budgetItems, totalRecords };
   };
 
   // PAYMENTS

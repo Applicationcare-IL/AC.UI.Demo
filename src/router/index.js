@@ -160,6 +160,12 @@ const router = createRouter({
           component: () =>
             import("@/views/user/forms/detail/ProjectBudget.vue"),
         },
+        {
+          path: "/project/:id/budget-item/:budgetId",
+          name: "projectBudgetDetail",
+          component: () =>
+            import("@/views/user/forms/detail/ProjectBudget.vue"),
+        },
         // FOR MOBILE VERSION ONLY
         {
           path: "/my-open-tasks",

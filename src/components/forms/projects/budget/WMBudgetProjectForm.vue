@@ -232,7 +232,7 @@
 
     <Accordion>
       <AccordionTab :header="$t('budget.budget-items')">
-        <pre>{{ budgetItems }}</pre>
+        <WMBudgetItemsTable :project-id="projectId" />
       </AccordionTab>
     </Accordion>
 
@@ -308,10 +308,9 @@ const route = useRoute();
 
 const modelValue = ref(1000);
 
-const { getProjectBudget, getBudgetItems, getProjectPayments } = useProjects();
+const { getProjectBudget, getProjectPayments } = useProjects();
 
 const budget = ref(null);
-const budgetItems = ref();
 const payments = ref();
 
 const projectId = computed(() => {
@@ -320,10 +319,6 @@ const projectId = computed(() => {
 
 getProjectBudget(route.params.id).then((response) => {
   budget.value = response;
-});
-
-getBudgetItems(route.params.id).then((response) => {
-  budgetItems.value = response;
 });
 
 getProjectPayments(route.params.id).then((response) => {

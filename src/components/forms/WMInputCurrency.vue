@@ -55,7 +55,7 @@ const shekelFormattedNumber = computed(() => {
 // PROPS, EMITS
 const modelValue = defineModel();
 
-const props = defineProps({
+defineProps({
   readOnly: {
     type: Boolean,
     default: false,

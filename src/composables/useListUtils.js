@@ -414,6 +414,70 @@ export function useListUtils() {
     ];
   };
 
+  const getBudgetItemsTableColumns = () => {
+    return [
+      {
+        name: "budget-item-name",
+        type: "budget-item-link",
+      },
+      {
+        name: "planned-non-contract",
+        field: "planned_non_contract",
+        type: "currency",
+      },
+      {
+        name: "planned-contract",
+        field: "planned_contract",
+        type: "currency",
+      },
+      {
+        name: "estimate",
+        field: "estimate",
+        type: "currency",
+      },
+      {
+        name: "approved-council",
+        field: "approved_council",
+        type: "currency",
+      },
+      {
+        name: "approved-ministry",
+        field: "approved_ministry",
+        type: "currency",
+      },
+      {
+        name: "executed-payments",
+        field: "executed_payments",
+        type: "currency",
+      },
+      {
+        name: "balance",
+        field: "balance",
+        type: "balance",
+      },
+      {
+        name: "management-fee",
+        field: "management_fee",
+        type: "currency",
+      },
+      {
+        name: "unexpected",
+        field: "unexpected",
+        type: "currency",
+      },
+      {
+        name: "total",
+        field: "total_approved",
+        type: "currency",
+      },
+      {
+        name: "last-changed",
+        field: "last_changed",
+        type: "text",
+      },
+    ];
+  };
+
   const getProjectTeamColumns = () => {
     return [
       {
@@ -518,6 +582,7 @@ export function useListUtils() {
     getTaskColumns,
     getTaskPreviewColumns,
     getProjectDocumentColumns,
+    getBudgetItemsTableColumns,
     getTaskDocumentColumns,
     getServiceDocumentsColumns,
     getSignatureTaskColumns,

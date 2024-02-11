@@ -1,5 +1,6 @@
 <template>
-  <WMSidebar
+  <pre>{{ budgetItems }}</pre>
+  <!-- <WMSidebar
     :visible="isVisible"
     name="newTask"
     :data="{ relatedEntity: relatedEntity, relatedEntityId: relatedEntityId }"
@@ -14,30 +15,21 @@
         @new-task-created="loadLazyData"
       />
     </template>
-  </WMSidebar>
-
-  <h2 v-if="!hideTitle" class="h2">{{ $t("task.tasks") }}</h2>
-  <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
+  </WMSidebar> -->
+  <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMButton
+        <!-- <WMButton
           class="m-1 col-6"
           name="new"
           icon="new"
           icon-position="right"
           @click="toggleSidebarVisibility"
           >{{ t("new") }}</WMButton
-        >
-        <WMAssignOwnerButton entity="task" />
-        <WMButton
-          class="m-1 col-6"
-          name="basic-secondary"
-          @click="onSign"
-          :disabled="tasks.length === 0"
-          >{{ t("task.sign_button") }}
-        </WMButton>
+        > -->
+        <!-- <WMAssignOwnerButton entity="task" /> -->
       </div>
-      <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
+      <!-- <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMButton
           name="filter"
           icon="filter"
@@ -56,72 +48,62 @@
           <WMFilterForm entity="task" filter-form-name="task" />
         </WMSidebar>
         <WMOwnerToggle entity="task" />
-      </div>
+      </div> -->
     </div>
     <div class="flex flex-row gap-3">
-      <WMSearchBox entity="task" />
+      <!-- <WMSearchBox entity="task" /> -->
     </div>
   </div>
   <DataTable
-    v-model:selection="selectedTasks"
+    v-model:selection="selectedBudgetItems"
     lazy
-    :row-class="rowClass"
-    :value="tasks"
+    :value="budgetItems"
     data-key="task_number"
     table-style="min-width: 50rem"
     scrollable
     paginator
-    :rows="props.rows"
+    :rows="10"
     :first="0"
     :total-records="totalRecords"
     :class="`p-datatable-${tableClass}`"
     @page="onPage($event)"
-    @update:selection="onSelectionChanged"
   >
     <Column v-if="multiselect" style="width: 40px" selection-mode="multiple" />
     <Column
       v-for="column in columns"
       :key="column.name"
       :field="column.name"
-      :header="column.header ? $t(column.header) : $t(`task.${column.name}`)"
+      :header="column.header ? $t(column.header) : $t(`budget.${column.name}`)"
       :class="column.class"
     >
       <template #body="slotProps">
-        <template v-if="column.type === 'link'">
+        <template v-if="column.type === 'budget-item-link'">
           <router-link
             :to="{
-              name: 'taskDetail',
-              params: { id: slotProps.data.task_id },
+              name: 'projectBudgetDetail',
+              params: { id: projectId, budgetId: slotProps.data.id },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.task_id }}</router-link
           >
+            {{ slotProps.data.name }}
+          </router-link>
         </template>
-        <template v-if="column.type === 'detail'">
-          <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
-        </template>
-        <template v-if="column.type === 'sla'">
-          <WMSLATag
-            v-if="slotProps.data.sla"
-            :sla="slotProps.data.sla.sla"
-            :days-for-closing="slotProps.data.days_for_closing"
-            :state="slotProps.data.state"
+        <template v-if="column.type === 'currency'">
+          <WMInputCurrency
+            v-model="slotProps.data[column.field]"
+            class="flex align-items-center justify-content-between"
+            :read-only="true"
           />
         </template>
-        <template v-if="column.type === 'translate'">
-          {{ $t(column.prefix + "." + slotProps.data[column.name]) }}
-        </template>
-        <template v-if="column.type === 'optionset'">
-          <WMOptionSetValue :option-set="slotProps.data[column.name]" />
+        <template v-if="column.type === 'balance'">
+          <WMHighlightedBalanceBlock
+            size="small"
+            :quantity="slotProps.data[column.field]"
+            label=""
+          />
         </template>
         <template v-if="column.type === 'text'">
-          {{ slotProps.data[column.name] }}
-        </template>
-        <template v-if="column.type === 'sign_button'">
-          <WMSignTaskButton
-            :signature-id="slotProps.data.id"
-            @task-signed="loadLazyData"
-          />
+          {{ slotProps.data[column.field] }}
         </template>
       </template>
     </Column>
@@ -129,93 +111,53 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch, watchEffect } from "vue";
-import { useI18n } from "vue-i18n";
+import { onMounted, ref, watchEffect } from "vue";
 
-import { useUtilsStore } from "@/stores/utils";
+const { getBudgetItems } = useProjects();
 
-const { t } = useI18n();
-
-const selectedTasks = ref([]);
-const isFilterOpen = ref(false);
-const isFilterApplied = ref(false);
-
-const tasks = ref([]);
-const totalRecords = ref(0);
-const lazyParams = ref({});
-const searchValue = ref("");
-
-const utilsStore = useUtilsStore();
+const { getBudgetItemsTableColumns } = useListUtils();
 
 const props = defineProps({
-  rows: {
+  projectId: {
     type: Number,
-    default: 10,
-  },
-  columns: {
-    type: Array,
     required: true,
-  },
-  multiselect: {
-    type: Boolean,
-    default: true,
-  },
-  hideTitle: {
-    type: Boolean,
-    default: false,
-  },
-  relatedEntity: {
-    type: String,
-    default: null,
-  },
-  relatedEntityId: {
-    type: String,
-    default: null,
-  },
-  showHeaderOptions: {
-    type: Boolean,
-    default: true,
-  },
-  showFilters: {
-    type: Boolean,
-    default: true,
-  },
-  tableClass: {
-    type: String,
-    default: "",
   },
 });
 
-const toast = useToast();
+const selectedBudgetItems = ref([]);
+// const isFilterOpen = ref(false);
+// const isFilterApplied = ref(false);
 
-const emit = defineEmits(["documentSigned"]);
+const budgetItems = ref([]);
+const totalRecords = ref(0);
+const lazyParams = ref({});
+const searchValue = ref("");
+const columns = ref(getBudgetItemsTableColumns());
 
 onMounted(() => {
   loadLazyData();
 });
 
-const { getSignatureTaskFromApi, generateSignaturesDocument } = useTasks();
-
 const loadLazyData = () => {
-  const filters = utilsStore.filters["task"];
+  // const filters = utilsStore.filters["task"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
-  const selectedRowsPerPageParam = props.rows;
+  const selectedRowsPerPageParam = 10;
 
   // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams({
-    ...filters,
-    page: nextPage,
+    // ...filters,
+    page: nextPage ? nextPage : 1,
     per_page: selectedRowsPerPageParam,
     search: searchValueParam,
   });
 
-  params.append("entity_type", props.relatedEntity);
-  params.append("entity_id", props.relatedEntityId);
+  // params.append("entity_type", props.relatedEntity);
+  // params.append("entity_id", props.relatedEntityId);
 
-  getSignatureTaskFromApi(params).then((result) => {
-    tasks.value = result.data;
-    totalRecords.value = result.totalRecords;
+  getBudgetItems(props.projectId, params).then((response) => {
+    budgetItems.value = response.budgetItems;
+    totalRecords.value = response.totalRecords;
   });
 };
 
@@ -224,65 +166,32 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const rowClass = (data) => {
-  return [{ inactive_row: !data.is_open }];
-};
+// // first sidebar
+// const isVisible = ref(false);
 
-const onSelectionChanged = () => {
-  utilsStore.selectedElements["task"] = selectedTasks.value;
-};
+// function toggleSidebarVisibility() {
+//   isVisible.value = !isVisible.value;
+// }
 
-const clearSelectedTasks = () => {
-  selectedTasks.value = [];
-};
+// function closeSidebar() {
+//   isVisible.value = false;
+// }
 
-const onSign = () => {
-  generateSignaturesDocument(utilsStore.selectedElements["project"][0].id)
-    .then(() => {
-      toast.success("Document Signed");
-      emit("document-signed");
-    })
-    .catch((error) => {
-      console.error(error);
-      toast.error("Document not created");
-    });
-};
+// function openSidebar() {
+//   isVisible.value = true;
+// }
 
-// first sidebar
-const isVisible = ref(false);
+// const isFilterVisible = ref(false);
 
-function toggleSidebarVisibility() {
-  isVisible.value = !isVisible.value;
-}
+// function closeFilterSidebar() {
+//   isFilterVisible.value = false;
+// }
 
-function closeSidebar() {
-  isVisible.value = false;
-}
+// function openFilterSidebar() {
+//   isFilterVisible.value = true;
+// }
 
-function openSidebar() {
-  isVisible.value = true;
-}
-
-const isFilterVisible = ref(false);
-
-function closeFilterSidebar() {
-  isFilterVisible.value = false;
-}
-
-function openFilterSidebar() {
-  isFilterVisible.value = true;
-}
 watchEffect(() => {
   loadLazyData();
 });
-
-watch(
-  () => utilsStore.searchString["task"],
-  () => {
-    searchValue.value = utilsStore.searchString["task"];
-    utilsStore.debounceAction(() => {
-      loadLazyData();
-    });
-  }
-);
 </script>
