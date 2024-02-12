@@ -270,6 +270,13 @@ watch(
   }
 );
 
+watch(
+  () => refValue.value,
+  (newValue) => {
+    inputValue.value = newValue;
+  }
+);
+
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
   if (props.value) {

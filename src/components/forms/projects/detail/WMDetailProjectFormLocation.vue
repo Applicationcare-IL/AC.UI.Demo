@@ -17,7 +17,7 @@
           <div v-if="showAddressOptions">
             <div class="wm-form-row gap-5 mt-3">
               <WMInputSearch
-                v-model="selectedCity"
+                v-model="location.city"
                 name="city"
                 :highlighted="true"
                 :required="true"
@@ -26,23 +26,21 @@
                 width="152"
                 :placeholder="$t('select', ['addres.city'])"
                 :option-set="true"
-                @change="updateStreets($event), updateCityData($event)"
+                @change="updateStreets($event)"
               />
 
               <div class="flex flex-row gap-5">
                 <WMInputSearch
-                  v-model="selectedSteet"
+                  v-model="location.street"
                   name="street"
                   :required="true"
                   :highlighted="true"
                   :label="$t('address.street') + ':'"
                   :options="streets"
-                  :model-value="selectedSteet"
                   width="152"
                   :placeholder="$t('select', ['address.street'])"
                   :option-set="true"
                   :disabled="!isCitySelected"
-                  @change="updateStreetData($event)"
                 />
                 <!-- <WMInput
                   name="neighborhood"
@@ -54,13 +52,13 @@
                 /> -->
               </div>
               <WMInput
+                :value="location.house_number"
                 name="house-number"
                 type="input-text"
                 :highlighted="true"
                 :label="$t('address.house-number') + ':'"
                 :disabled="!isCitySelected"
                 required
-                :value="props.project.location?.house_number"
               />
             </div>
           </div>
@@ -103,11 +101,9 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, provide, ref } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { useUtilsStore } from "@/stores/utils";
-const utilsStore = useUtilsStore();
 
 const props = defineProps({
   project: {
@@ -121,9 +117,6 @@ const optionSetsStore = useOptionSetsStore();
 const showCityDataOptions = ref(false);
 const showAddressOptions = ref(false);
 
-const selectedCity = ref();
-const selectedSteet = ref();
-
 const isCitySelected = ref(false);
 
 const cities = ref(optionSetsStore.optionSets["service_city"]);
@@ -133,19 +126,13 @@ onMounted(() => {
   if (props.project.location?.street && props.project.location?.city) {
     showAddressOptions.value = true;
     isCitySelected.value = true;
-
-    selectedCity.value = cities.value.find(
-      (city) => city.id === props.project.location.city.id
-    );
-
-    selectedSteet.value = streets.value.find(
-      (street) => street.id === props.project.location.street.id
-    );
   }
 
   if (props.project.location?.block || props.project.location?.parcel) {
     showCityDataOptions.value = true;
   }
+
+  location.value = props.project.location;
 });
 
 const updateStreets = (event) => {
@@ -156,29 +143,15 @@ const updateStreets = (event) => {
         streets.value = data;
       });
 
-    // clear the street value if the city is changed
-    selectedSteet.value = "";
-    // also clean it in the selected element
-    utilsStore.selectedElements[utilsStore.entity][0]["location"].street = "";
-
     isCitySelected.value = true;
   } else {
-    selectedSteet.value = null;
     isCitySelected.value = false;
   }
 };
 
-// We use this function to update in "real time" the data of the selected elements,
-// that we use in WMLocationButton to show te map
-const updateCityData = (event) => {
-  utilsStore.selectedElements[utilsStore.entity][0]["location"].city =
-    event.value;
-};
+const location = ref("");
 
-const updateStreetData = (event) => {
-  utilsStore.selectedElements[utilsStore.entity][0]["location"].street =
-    event.value;
-};
+provide("location", { location });
 </script>
 
 <style scoped lang="scss"></style>
