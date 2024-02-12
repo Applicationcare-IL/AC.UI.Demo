@@ -15,6 +15,9 @@
           >
             {{ $t("statuses." + service.state) }}
           </div>
+          <div>
+            <WMAnnouncementsButton :id="route.params.id" entity="service" />
+          </div>
         </div>
         <div>
           <WMAnnouncementsButton
