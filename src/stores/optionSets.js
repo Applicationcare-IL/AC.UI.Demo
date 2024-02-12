@@ -184,6 +184,19 @@ export const useOptionSetsStore = defineStore("optionSets", {
         });
     },
 
+    //Get the id of a value from an option set and if it does not exist, create it
+    getOptionSetValueByName(optionSet, value, dependant) {
+      return axiosConfig
+        .post("/options-set/add", {
+          option_set: optionSet,
+          value: value,
+          depends_on: dependant,
+        })
+        .then((response) => {
+          return response.data.data;
+        });
+    },
+
     async preloadOptionSets() {
       //Iterate the option set to preload list to load them from the API
       for (const optionSet of this.optionSetsToPreload) {

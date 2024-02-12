@@ -3,17 +3,12 @@
     {{ $t("buttons.view_map") }}
   </WMButton>
   <OverlayPanel ref="isOpen">
-    <WMLocationMap
-      :location="utilsStore.selectedElements[utilsStore.entity][0]['location']"
-    />
+    <WMLocationMap />
   </OverlayPanel>
 </template>
 
 <script setup>
 import { ref } from "vue";
-
-import { useUtilsStore } from "@/stores/utils";
-const utilsStore = useUtilsStore();
 
 const isOpen = ref();
 
