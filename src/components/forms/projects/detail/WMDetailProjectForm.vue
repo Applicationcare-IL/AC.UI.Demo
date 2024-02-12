@@ -6,7 +6,9 @@
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row align-items-center gap-4">
-          <h1 class="h1 mb-0">{{ $t("project.project") }}: {{ project.project_name }}</h1>
+          <h1 class="h1 mb-0">
+            {{ $t("project.project") }}: {{ project.project_name }}
+          </h1>
           <div
             :class="statusClass(project.state.value)"
             class="status-label white-space-nowrap"
@@ -36,29 +38,30 @@
         <WMDetailProjectFormLocation :project="project" />
       </div>
 
-      <!-- <div class="flex-1 card-container">
-        <Card>
-          <template #title> Budget </template>
-          <template #content> Budget </template>
-        </Card>
-      </div> -->
-
-      <div class="flex-1 card-container">
-        <WMDetailProjectFormContractorSection
-          v-if="project.project_type.value === CONTRACTOR_PROJECT_ID"
-          :project="project"
-        />
+      <div v-if="project.budget" class="flex-1 card-container">
+        <WMDetailProjectFormBudget :project="project" />
       </div>
 
-      <div class="flex-1 card-container">
-        <WMDetailProjectFormTenderInformation
-          v-if="project.project_type.value === TENDER_PROJECT_ID"
-          :project="project"
-        />
+      <div
+        v-if="project.project_type.value === CONTRACTOR_PROJECT_ID"
+        class="flex-1 card-container"
+      >
+        <WMDetailProjectFormContractorSection :project="project" />
+      </div>
+
+      <div
+        v-if="project.project_type.value === TENDER_PROJECT_ID"
+        class="flex-1 card-container"
+      >
+        <WMDetailProjectFormTenderInformation :project="project" />
       </div>
 
       <div class="mt-5">
-        <WMStepper :steps="stages" :current-step="currentStage" aria-label="Form Steps" />
+        <WMStepper
+          :steps="stages"
+          :current-step="currentStage"
+          aria-label="Form Steps"
+        />
       </div>
 
       <Accordion>
@@ -69,7 +72,10 @@
 
       <Accordion>
         <AccordionTab :header="$t('journal')">
-          <WMJournalDataView entity-type="project" :entity-id="project.project_id" />
+          <WMJournalDataView
+            entity-type="project"
+            :entity-id="project.project_id"
+          />
         </AccordionTab>
       </Accordion>
 
@@ -89,7 +95,9 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion v-if="project.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID">
+      <Accordion
+        v-if="project.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID"
+      >
         <AccordionTab header="Round of signatures">
           <WMDetailProjectFormSignatureTasksTab
             :project="project"
@@ -210,7 +218,8 @@ const formUtilsStore = useFormUtilsStore();
 
 const route = useRoute();
 
-const { getStatusConditionalStyle, getPriorityConditionalStyle } = useListUtils();
+const { getStatusConditionalStyle, getPriorityConditionalStyle } =
+  useListUtils();
 
 onMounted(async () => {
   await fetchData();

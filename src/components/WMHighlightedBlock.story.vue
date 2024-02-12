@@ -20,6 +20,13 @@
         :editable="true"
       />
     </Variant>
+    <Variant title="Default (with tooltip)">
+      <WMHighlightedBlock
+        :background-color="state.backgroundColor"
+        v-model="state.quantity"
+        tooltip="minus"
+      />
+    </Variant>
     <Variant title="Small">
       <WMHighlightedBlock
         size="small"

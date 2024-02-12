@@ -3,7 +3,11 @@
     class="highlighted-block flex flex-column justify-content-center"
     :class="styleClasses"
   >
-    <div class="font-bold">{{ label }}</div>
+    <div class="highlighted-block__icon">
+      <PlusIcon v-if="tooltip === 'plus'" />
+      <MinusIcon v-if="tooltip === 'minus'" />
+    </div>
+    <div v-if="label && label !== ''" class="font-bold">{{ label }}</div>
     <WMInputCurrency v-model="modelValue" :read-only="!editable" />
   </div>
 </template>
@@ -45,6 +49,8 @@ const props = defineProps({
         "purple-100",
         "purple-200",
         "green-200",
+        "red-200",
+        "yellow-200",
       ].includes(value);
     },
   },
@@ -58,6 +64,9 @@ const props = defineProps({
   tooltip: {
     type: String,
     default: "",
+    validator: (value) => {
+      return ["", "tooltip", "plus", "minus"].includes(value);
+    },
   },
 });
 
@@ -68,60 +77,17 @@ const styleBackgroundColorClass = computed(() => {
   return `bg-${props.backgroundColor}`;
 });
 
-const styleFontSizeClass = computed(() => {
-  switch (props.size) {
-    case "big":
-      return "text-lg";
-    case "small":
-      return "text-sm";
-    case "xsmall":
-      return "text-xs";
-    default:
-      return "text-lg";
-  }
-});
-
-const paddingClass = computed(() => {
-  switch (props.size) {
-    case "big":
-      return "p-3";
-    case "small":
-      return "p-2";
-    case "xsmall":
-      return "p-1";
-    default:
-      return "p-3";
-  }
-});
-
-const borderRadiusClass = computed(() => {
-  switch (props.size) {
-    case "big":
-      return "border-round-lg";
-    case "small":
-      return "border-round-md";
-    case "xsmall":
-      return "border-round-sm";
-    default:
-      return "border-round-lg";
-  }
-});
-
-const widthClass = computed(() => {
-  switch (props.size) {
-    case "big":
-      return "width-big";
-    case "small":
-      return "width-small";
-    case "xsmall":
-      return "width-xsmall";
-    default:
-      return "width-big";
-  }
-});
-
 const styleClasses = computed(() => {
-  return `highlighted-block ${styleBackgroundColorClass.value} ${styleFontSizeClass.value} ${paddingClass.value} ${borderRadiusClass.value} ${widthClass.value}`;
+  switch (props.size) {
+    case "big":
+      return `text-lg p-3 border-round-lg width-big ${styleBackgroundColorClass.value}`;
+    case "small":
+      return `text-sm p-2 border-round-md width-small ${styleBackgroundColorClass.value}`;
+    case "xsmall":
+      return `text-xs p-1 border-round-sm width-xsmall ${styleBackgroundColorClass.value}`;
+    default:
+      return `text-lg p-3 border-round-lg width-big ${styleBackgroundColorClass.value}`;
+  }
 });
 
 // COMPONENT METHODS
@@ -133,13 +99,20 @@ const styleClasses = computed(() => {
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .highlighted-block {
   display: flex;
   gap: 6px;
   padding: 16px;
   border-radius: 8px;
   color: var(--gray-800);
+  position: relative;
+
+  &__icon {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+  }
 }
 
 .width-big {

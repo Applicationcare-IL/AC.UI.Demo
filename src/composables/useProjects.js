@@ -83,10 +83,13 @@ export function useProjects() {
     return response.data;
   };
 
-  const getBudgetItems = async (projectId) => {
-    const response = await projectsStore.getBudgetItems(projectId);
+  const getBudgetItems = async (projectId, params) => {
+    const response = await projectsStore.getBudgetItems(projectId, params);
 
-    return response;
+    const budgetItems = response.data;
+    const totalRecords = response.meta.total;
+
+    return { budgetItems, totalRecords };
   };
 
   // PAYMENTS
@@ -247,6 +250,7 @@ export function useProjects() {
       contractor: project.contractor,
       last_activity: project.last_activity,
       network_folder: project.network_folder,
+      budget: project.budget,
       config: {
         tender: project.tender,
         site_tour: project.site_tour,
