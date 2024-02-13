@@ -44,7 +44,7 @@ onMounted(() => {
   }
   if (!permissionsStore.isPermissionsLoaded) {
     permissionsStore
-      .getPermissions()
+      .getPermissionsFromApi()
       .then(() => (loadingPermissions.value = false));
   } else {
     loadingPermissions.value = false;

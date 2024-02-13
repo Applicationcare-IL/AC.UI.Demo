@@ -1,4 +1,6 @@
 <template>
+  <WMPaymentsTable :project-id="projectId"></WMPaymentsTable>
+
   <div
     v-if="budget"
     class="wm-detail-form-container flex flex-column overflow-auto gap-5"
@@ -242,7 +244,7 @@
 
     <Accordion>
       <AccordionTab :header="$t('budget.payments')">
-        <pre>{{ payments }}</pre>
+        <!-- <WMPaymentsTable :project-id="projectId"></WMPaymentsTable> -->
       </AccordionTab>
     </Accordion>
 
@@ -308,10 +310,9 @@ const route = useRoute();
 
 const modelValue = ref(1000);
 
-const { getProjectBudget, getProjectPayments } = useProjects();
+const { getProjectBudget } = useProjects();
 
 const budget = ref(null);
-const payments = ref();
 
 const projectId = computed(() => {
   return route.params.id;
@@ -319,10 +320,6 @@ const projectId = computed(() => {
 
 getProjectBudget(route.params.id).then((response) => {
   budget.value = response;
-});
-
-getProjectPayments(route.params.id).then((response) => {
-  payments.value = response;
 });
 </script>
 

@@ -290,6 +290,7 @@
     "management-fee": "Management Fee",
     "unexpected": "Unexpected",
     "total": "Total",
+    "approved": "Approved",
     "approved-council": "Approved (Council)",
     "approved-ministry": "Approved (Ministry)",
     "tbr-details": "TBR Details",
@@ -298,7 +299,9 @@
     "tbr-expected": "TBR Expected",
     "tbr-funding": "TBR Funding",
     "tbr-reported": "TBR Reported",
-    "tbr-minicipality-expenses": "TBR Municipality Expenses",
+    "tbr-municipality-expenses": "TBR Municipality Expenses",
+    "municipality-expenses": "Municipality expenses",
+    "balance": "Balance",
     "tbr-balance": "TBR Balance",
     "non-tbr-funding-details": "Non-TBR Funding Details",
     "non-tbr-funds-accepted": "Funds Accepted (Non-TBR)",
@@ -308,6 +311,9 @@
     "estimate": "Estimate",
     "executed-payments": "Executed (payments)",
     "last-changed": "Last changed"
+  },
+  "payments": {
+    "payment-number": "Payment Number"
   },
   "organization": {
     "organization": "Organization",
