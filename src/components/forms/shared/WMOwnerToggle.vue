@@ -1,5 +1,6 @@
 <template>
   <SelectButton
+    v-if="options.length > 1"
     v-model="selectedOption"
     :options="options"
     option-label="name"
