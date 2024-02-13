@@ -38,9 +38,12 @@
         <WMDetailProjectFormLocation :project="project" />
       </div>
 
-      <!-- <div v-if="project.budget" class="flex-1 card-container">
+      <div
+        v-if="project.budget && project.id === 269"
+        class="flex-1 card-container"
+      >
         <WMDetailProjectFormBudget :project="project" />
-      </div> -->
+      </div>
 
       <div
         v-if="project.project_type.value === CONTRACTOR_PROJECT_ID"

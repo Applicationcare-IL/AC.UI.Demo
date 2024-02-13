@@ -73,11 +73,7 @@
   >
     <Column v-if="multiselect" style="width: 40px" selection-mode="multiple" />
 
-    <Column
-      :row-editor="true"
-      style="width: 80px"
-      body-style="text-align:center"
-    ></Column>
+    <Column :row-editor="true" :frozen="true" align-frozen="right"></Column>
 
     <template v-for="column in columns">
       <!-- <Column

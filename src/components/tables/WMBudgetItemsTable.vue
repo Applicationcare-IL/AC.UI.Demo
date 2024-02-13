@@ -1,5 +1,5 @@
 <template>
-  <pre>{{ budgetItems }}</pre>
+  <!-- <pre>{{ budgetItems }}</pre> -->
   <!-- <WMSidebar
     :visible="isVisible"
     name="newTask"
