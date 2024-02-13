@@ -3,7 +3,6 @@
     :center="defaultCenter"
     :zoom="15"
     style="width: 355px; height: 196px"
-    :disableDefaultUI="false"
     ref="myMapRef"
   >
     <GMapMarker
@@ -12,13 +11,10 @@
       ref="myMarkerRef"
       :position="marker.position"
       :draggable="true"
+      :clickable="true"
       @dragend="updateCoordinates"
     />
   </GMapMap>
-  <!-- <pre>
-    {{ markers[0].position }}
-    {{ location }}
-  </pre> -->
 </template>
 
 <script setup>
@@ -32,8 +28,6 @@ const optionSetsStore = useOptionSetsStore();
 const myMapRef = ref(null);
 const myMarkerRef = ref(null);
 let geocoder;
-
-// const emit = defineEmits(["locationUpdated"]);
 
 const { location } = inject("location");
 
@@ -68,7 +62,6 @@ const reverseGeocode = async () => {
     geocoder.geocode(
       { location: markers.value[0].position },
       async (results) => {
-        //update the location object
         const address = results[0].address_components;
 
         const cityName = await findCityName(address);

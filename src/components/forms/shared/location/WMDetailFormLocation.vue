@@ -8,7 +8,7 @@
         </div>
       </template>
       <template #content>
-        <div class="flex flex-auto flex-column gap-5">
+        <div class="flex flex-auto flex-column gap-5" v-if="location">
           <div class="wm-form-row gap-5">
             <WMInputSearch
               v-if="editable"
@@ -18,7 +18,7 @@
               :options="cities"
               width="152"
               :placeholder="$t('select', ['address.city'])"
-              :modelValue="selectedCity"
+              v-model="location.city"
               :option-set="true"
               @change="updateStreets"
             />
@@ -28,8 +28,9 @@
               :type="formType"
               :highlighted="true"
               :label="$t('address.city') + ':'"
-              :value="location.city"
+              :value="location.city ? location.city[optionLabelWithLang] : ''"
             />
+
             <WMInputSearch
               v-if="editable"
               name="street"
@@ -38,8 +39,8 @@
               :options="streets"
               width="152"
               :placeholder="$t('select', ['address.street'])"
+              v-model="location.street"
               :option-set="true"
-              :modelValue="selectedSteet"
               :disabled="!isCitySelected"
             />
             <WMInput
@@ -48,7 +49,9 @@
               :type="formType"
               :highlighted="true"
               :label="$t('address.street') + ':'"
-              :value="location.street"
+              :value="
+                location.street ? location.street[optionLabelWithLang] : ''
+              "
             />
           </div>
           <div class="wm-form-row gap-5">
@@ -67,12 +70,21 @@
               :value="location.apartment"
             />
             <WMInput
+              v-if="editable"
               name="entrance"
               type="input-select"
               :label="$t('address.entrance') + ':'"
               :options="alphabet"
-              :value="selectedEntrance"
               width="60"
+              :value="location.entrance"
+            />
+            <WMInput
+              v-else
+              name="entrance"
+              :type="formType"
+              :highlighted="true"
+              :label="$t('address.entrance') + ':'"
+              :value="location.entrance"
             />
           </div>
           <div class="wm-form-row gap-5">
@@ -84,7 +96,6 @@
               width="80"
               :placeholder="$t('select', ['address.zip'])"
               :optionSet="true"
-              :modelValue="selectedZip"
             />
             <WMInput
               v-else
@@ -96,13 +107,14 @@
             />
           </div>
         </div>
+        <div v-else>No location Data</div>
       </template>
     </Card>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, provide } from "vue";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -119,6 +131,10 @@ const props = defineProps({
   },
 });
 
+const location = ref(props.location);
+
+provide("location", { location });
+
 const optionSetsStore = useOptionSetsStore();
 const alphabet = ref(formUtilsStore.getAlphabet);
 
@@ -134,6 +150,9 @@ const selectedCity = ref();
 const selectedSteet = ref();
 const isCitySelected = ref(false);
 const selectedZip = ref();
+
+const { optionLabelWithLang } = useLanguages();
+
 const selectedEntrance = computed(() => {
   return alphabet.value.find(
     (letter) => letter.value === props.location.entrance
@@ -144,15 +163,15 @@ onMounted(() => {
   if (props.location?.street && props.location?.city) {
     isCitySelected.value = true;
 
-    selectedCity.value = cities.value.find(
-      (city) => city.id === props.location.city?.id
-    );
+    // selectedCity.value = cities.value.find(
+    //   (city) => city.id === props.location.city?.id
+    // );
 
-    selectedSteet.value = streets.value.find(
-      (street) => street.id === props.location.street?.id
-    );
+    // selectedSteet.value = streets.value.find(
+    //   (street) => street.id === props.location.street?.id
+    // );
 
-    selectedZip.value = zips.value.find((zip) => zip.id === props.location.zip);
+    // selectedZip.value = zips.value.find((zip) => zip.id === props.location.zip);
   }
 });
 

@@ -4,10 +4,10 @@
     <div class="wm-form-row gap-5">
       <WMInputSearch
         name="site-name"
-        type="input-search"
         :label="$t('site.name') + ':'"
         width="152"
         :options="sites"
+        :option-set="true"
         :highlighted="true"
       />
       <WMInputSearch
@@ -17,6 +17,7 @@
         :label="$t('site.type') + ':'"
         width="152"
         :options="siteTypes"
+        :option-set="true"
         :highlighted="true"
       />
     </div>
@@ -37,9 +38,10 @@
           name="site-contact-role"
           placeholder="בחירת תפקיד"
           type="input-search"
-          :label="$t('site.type') + ':'"
+          :label="$t('site.contact_role') + ':'"
           width="152"
           :options="siteRoles"
+          :option-set="true"
           :highlighted="true"
         />
       </div>
