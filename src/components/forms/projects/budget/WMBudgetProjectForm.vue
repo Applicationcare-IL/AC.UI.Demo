@@ -1,6 +1,4 @@
 <template>
-  <WMPaymentsTable :project-id="projectId"></WMPaymentsTable>
-
   <div
     v-if="budget"
     class="wm-detail-form-container flex flex-column overflow-auto gap-5"
@@ -12,10 +10,10 @@
         </div>
       </div>
     </div>
-    <pre>
+    <!-- <pre>
   {{ budget }}
   </pre
-    >
+    > -->
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1 card-container top-info-card">
         <Card>
@@ -244,7 +242,7 @@
 
     <Accordion>
       <AccordionTab :header="$t('budget.payments')">
-        <!-- <WMPaymentsTable :project-id="projectId"></WMPaymentsTable> -->
+        <WMPaymentsTable :project-id="projectId"></WMPaymentsTable>
       </AccordionTab>
     </Accordion>
 

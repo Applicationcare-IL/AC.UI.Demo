@@ -313,7 +313,18 @@
     "last-changed": "Last changed"
   },
   "payments": {
-    "payment-number": "Payment Number"
+    "payment-number": "Payment Number",
+    "budget-item-number": "Budget Item",
+    "organization": "Organization",
+    "milestone": "Milestone",
+    "status": "Status",
+    "proforma-invoice-number": "Proforma Invoice Number",
+    "proforma-invoice-amount": "Proforma Invoice Amount",
+    "invoice-number": "Invoice Number",
+    "terms-of-payment": "Terms of Payment",
+    "amount-paid": "Amount Paid",
+    "amount-approved-to-be-paid": "Amount Approved to be Paid",
+    "batch-number": "Batch Number"
   },
   "organization": {
     "organization": "Organization",

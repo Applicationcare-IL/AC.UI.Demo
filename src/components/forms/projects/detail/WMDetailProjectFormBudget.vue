@@ -83,7 +83,7 @@
                 v-model="budget.tbr_municipality_expenses"
                 size="small"
                 background-color="gray-50"
-                :label="$t('budget.tbr-municipality_expenses') + ':'"
+                :label="$t('budget.tbr-municipality-expenses') + ':'"
               />
               <WMHighlightedBalanceBlock
                 size="small"
