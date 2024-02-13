@@ -2,34 +2,58 @@
   <GMapMap
     :center="defaultCenter"
     :zoom="15"
-    style="width: 355px; height: 196px"
+    :style="{
+      width: props.size === 'small' ? '355px' : '710px',
+      height: props.size === 'small' ? '196px' : '392px',
+    }"
     ref="myMapRef"
+    :options="{
+      zoomControl: false,
+      mapTypeControl: false,
+      scaleControl: false,
+      streetViewControl: false,
+      rotateControl: false,
+      fullscreenControl: true,
+      disableDefaultUi: false,
+    }"
   >
     <GMapMarker
+      v-if="location.city"
       v-for="(marker, index) in markers"
       :key="index"
       ref="myMarkerRef"
       :position="marker.position"
-      :draggable="true"
-      :clickable="true"
+      :draggable="props.editable"
       @dragend="updateCoordinates"
     />
   </GMapMap>
 </template>
 
 <script setup>
-import { inject, ref } from "vue";
+import { inject, ref, watch } from "vue";
 import { onMounted } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
 
+//Props editable
+const props = defineProps({
+  editable: {
+    type: Boolean,
+    default: true,
+  },
+  size: {
+    type: String,
+    default: "small",
+  },
+});
+
 const myMapRef = ref(null);
 const myMarkerRef = ref(null);
 let geocoder;
 
-const { location } = inject("location");
+const { location } = inject("location", {});
 
 const defaultCenter = ref({
   lat: 32.0853,
@@ -43,6 +67,7 @@ const markers = ref([
 ]);
 
 const geocode = () => {
+  if (!location) return;
   if (!location.value.street || !location.value.city) return;
   console.log("geocode 2");
   console.log(location.street);
@@ -111,9 +136,25 @@ const updateCoordinates = (e) => {
   reverseGeocode();
 };
 
+const getsize = () => {
+  if (props.size === "small") {
+    return "width: 355px; height: 196px";
+  } else {
+    return "width: 710px; height: 392px";
+  }
+};
+
 onMounted(() => {
   geocode();
 });
+
+//watch cont location value
+watch(
+  () => location.value,
+  () => {
+    geocode();
+  }
+);
 
 const getLocation = () => {
   if (!location.value.street || !location.value.city) return;
