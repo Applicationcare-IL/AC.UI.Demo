@@ -290,6 +290,7 @@
     "management-fee": "Management Fee",
     "unexpected": "Unexpected",
     "total": "Total",
+    "approved": "Approved",
     "approved-council": "Approved (Council)",
     "approved-ministry": "Approved (Ministry)",
     "tbr-details": "TBR Details",
@@ -310,6 +311,9 @@
     "estimate": "Estimate",
     "executed-payments": "Executed (payments)",
     "last-changed": "Last changed"
+  },
+  "payments": {
+    "payment-number": "Payment Number"
   },
   "organization": {
     "organization": "Organization",

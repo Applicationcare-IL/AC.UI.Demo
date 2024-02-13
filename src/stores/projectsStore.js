@@ -177,11 +177,11 @@ export const useProjectsStore = defineStore("projects", {
         });
     },
     // PAYMENTS
-    getProjectPayments(projectId) {
+    getProjectPayments(projectId, params) {
       return axiosConfig
-        .get("/projects/" + projectId + "/payments")
+        .get("/projects/" + projectId + "/payments", { params })
         .then((response) => {
-          return response;
+          return response.data;
         })
         .catch((error) => {
           console.error(error);

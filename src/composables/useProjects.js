@@ -93,10 +93,13 @@ export function useProjects() {
   };
 
   // PAYMENTS
-  const getProjectPayments = async (projectId) => {
-    const response = await projectsStore.getProjectPayments(projectId);
+  const getProjectPayments = async (projectId, params) => {
+    const response = await projectsStore.getProjectPayments(projectId, params);
 
-    return response;
+    const payments = response.data;
+    const totalRecords = response.meta.total;
+
+    return { payments, totalRecords };
   };
 
   // UTILITIES
