@@ -67,9 +67,8 @@ const getSelectedOptionBasedOnPermissions = () => {
   }
 };
 
-if (permissionsStore.permissions[pluralEntityName.value]?.all) {
-  delete utilsStore.filters[props.entity]["employee"];
-} else {
+// if the user has the all permision to false, set the filter to the current user, what its the same as 'my' option
+if (permissionsStore.permissions[pluralEntityName.value]?.all === false) {
   utilsStore.filters[props.entity] = { employee: authStore.user?.id };
 }
 
