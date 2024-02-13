@@ -1,5 +1,5 @@
 <template>
-  <!-- {{ permissionsStore.permissions[getEntityPlural()] }} -->
+  <!-- {{ permissionsStore.permissions[pluralEntityName] }} -->
   <SelectButton
     v-model="selectedOption"
     :options="options"
@@ -39,18 +39,28 @@ const getEntityPlural = () => {
   return props.entity + "." + props.entity + "s";
 };
 
-const getSelectFilterButtonValues = () => {
-  return [
-    { name: t("all-entities", { label: getEntityPlural() }), value: "all" },
+const pluralEntityName = computed(() => {
+  return props.entity + "s";
+});
+
+const options = computed(() => {
+  const options = [
     { name: t("my-entities", { label: getEntityPlural() }), value: "my" },
   ];
-};
 
-const options = ref(getSelectFilterButtonValues());
+  if (permissionsStore.permissions[pluralEntityName.value]?.all) {
+    options.push({
+      name: t("all-entities", { label: getEntityPlural() }),
+      value: "all",
+    });
+  }
+
+  return options;
+});
 
 // TEMPORAL FIX
 const getSelectedOptionBasedOnPermissions = () => {
-  if (permissionsStore.permissions[getEntityPlural()]?.all) {
+  if (permissionsStore.permissions[pluralEntityName.value]?.all) {
     return "all";
   } else {
     return "my";
