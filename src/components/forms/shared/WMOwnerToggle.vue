@@ -67,5 +67,11 @@ const getSelectedOptionBasedOnPermissions = () => {
   }
 };
 
+if (permissionsStore.permissions[pluralEntityName.value]?.all) {
+  delete utilsStore.filters[props.entity]["employee"];
+} else {
+  utilsStore.filters[props.entity] = { employee: authStore.user?.id };
+}
+
 const selectedOption = ref(getSelectedOptionBasedOnPermissions());
 </script>
