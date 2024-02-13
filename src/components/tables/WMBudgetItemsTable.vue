@@ -68,6 +68,16 @@
     :class="`p-datatable-${tableClass}`"
     @page="onPage($event)"
   >
+    <Column>
+      <template #body="slotProps">
+        <WMButton
+          name="edit"
+          icon="edit"
+          icon-position="right"
+          @click="openSidebarEditBudgetItemSidebar"
+        />
+      </template>
+    </Column>
     <Column v-if="multiselect" style="width: 40px" selection-mode="multiple" />
     <Column
       v-for="column in columns"
@@ -78,15 +88,15 @@
     >
       <template #body="slotProps">
         <template v-if="column.type === 'budget-item-link'">
-          <router-link
+          <!-- <router-link
             :to="{
               name: 'projectBudgetDetail',
               params: { id: projectId, budgetId: slotProps.data.id },
             }"
             class="vertical-align-middle"
-          >
-            {{ slotProps.data.name }}
-          </router-link>
+          > -->
+          {{ slotProps.data.name }}
+          <!-- </router-link> -->
         </template>
         <template v-if="column.type === 'currency'">
           <WMInputCurrency
@@ -108,12 +118,39 @@
       </template>
     </Column>
   </DataTable>
+
+  <WMSidebar
+    :visible="editBudgetItemSidebarVisibility"
+    name="editBudgetItemSidebar"
+    @close-sidebar="closeSidebarEditBudgetItemSidebar"
+    @open-sidebar="openSidebarEditBudgetItemSidebar"
+  >
+    <template #default="slotProps">
+      EDIT FORM
+      <!-- <WMNewTaskForm
+        :is-sidebar="true"
+        :related-entity="slotProps.props.data.relatedEntity"
+        :related-entity-id="slotProps.props.data.relatedEntityId"
+        @new-task-created="loadLazyData"
+      /> -->
+    </template>
+  </WMSidebar>
 </template>
 
 <script setup>
 import { onMounted, ref, watchEffect } from "vue";
 
 const { getBudgetItems } = useProjects();
+
+const editBudgetItemSidebarVisibility = ref(false);
+
+function closeSidebarEditBudgetItemSidebar() {
+  editBudgetItemSidebarVisibility.value = false;
+}
+
+function openSidebarEditBudgetItemSidebar() {
+  editBudgetItemSidebarVisibility.value = true;
+}
 
 const { getBudgetItemsTableColumns } = useListUtils();
 
