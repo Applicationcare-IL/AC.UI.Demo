@@ -1,5 +1,4 @@
 <template>
-  {{ permissionsStore.permissions }}
   <SelectButton
     v-model="selectedOption"
     :options="options"
