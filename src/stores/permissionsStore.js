@@ -26,7 +26,16 @@ export const usePermissionsStore = defineStore("permissions", {
       return this.permissions[entity][action];
     },
 
-    getPermissionsFromApi() {},
+    getPermissionsFromApi() {
+      return axiosConfig
+        .get("/auth/permissions")
+        .then((response) => {
+          this.permissions = response.data.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
 
     getPermissions() {
       const permissions = {

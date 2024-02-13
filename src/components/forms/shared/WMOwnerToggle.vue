@@ -1,19 +1,24 @@
 <template>
+  <!-- {{ permissionsStore.permissions[getEntityPlural()] }} -->
   <SelectButton
     v-model="selectedOption"
     :options="options"
-    optionLabel="name"
-    optionValue="value"
+    option-label="name"
+    option-value="value"
     class="flex flex-nowrap"
     @change="onChangeOwnerFilter"
   />
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useUtilsStore } from "@/stores/utils";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
+
 import { useAuthStore } from "@/stores/auth";
+import { usePermissionsStore } from "@/stores/permissionsStore";
+import { useUtilsStore } from "@/stores/utils";
+
+const permissionsStore = usePermissionsStore();
 
 const authStore = useAuthStore();
 
@@ -25,7 +30,6 @@ const props = defineProps({
 });
 
 const onChangeOwnerFilter = (event) => {
-  console.log(utilsStore.filters["task"]);
   if (event.value === "all")
     delete utilsStore.filters[props.entity]["employee"];
   else utilsStore.filters[props.entity] = { employee: authStore.user?.id };
@@ -43,5 +47,15 @@ const getSelectFilterButtonValues = () => {
 };
 
 const options = ref(getSelectFilterButtonValues());
-const selectedOption = ref("all");
+
+// TEMPORAL FIX
+const getSelectedOptionBasedOnPermissions = () => {
+  if (permissionsStore.permissions[getEntityPlural()]?.all) {
+    return "all";
+  } else {
+    return "my";
+  }
+};
+
+const selectedOption = ref(getSelectedOptionBasedOnPermissions());
 </script>
