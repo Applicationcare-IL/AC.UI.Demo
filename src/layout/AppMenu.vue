@@ -59,13 +59,17 @@ const model = ref([
         label: computed(() => t("navigation.services")),
         to: "/services",
         image: new URL("/icons/nav/services.svg", import.meta.url).href,
-        visibility: checkIfEntityIsActive("services"),
+        visibility:
+          checkIfEntityIsActive("services") &&
+          permissionsStore.permissions.services.read, // TEMPORAL FIX
       },
       {
         label: computed(() => t("navigation.tasks")),
         to: "/tasks",
         image: new URL("/icons/nav/tasks.svg", import.meta.url).href,
-        visibility: checkIfEntityIsActive("tasks"),
+        visibility:
+          checkIfEntityIsActive("tasks") &&
+          permissionsStore.permissions.tasks.read, // TEMPORAL FIX
       },
       {
         label: computed(() => t("navigation.sales")),
@@ -77,7 +81,9 @@ const model = ref([
         label: computed(() => t("navigation.projects")),
         to: "/projects",
         image: new URL("/icons/nav/projects.svg", import.meta.url).href,
-        visibility: checkIfEntityIsActive("projects"),
+        visibility:
+          checkIfEntityIsActive("projects") &&
+          permissionsStore.permissions.projects.read, // TEMPORAL FIX
       },
     ],
   },
