@@ -1,5 +1,5 @@
 <template>
-  <!-- {{ permissionsStore.permissions[pluralEntityName] }} -->
+  {{ permissionsStore.permissions }}
   <SelectButton
     v-model="selectedOption"
     :options="options"
