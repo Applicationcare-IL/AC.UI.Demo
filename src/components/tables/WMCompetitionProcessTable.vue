@@ -3,10 +3,6 @@
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMAssignCustomerButton @add-customers="addCustomers" />
-
-        <!-- <WMButton class="m-1 col-6" name="export-white" icon="export">
-          {{ $t("export") }}
-        </WMButton> -->
       </div>
     </div>
     <div class="flex flex-row gap-3">

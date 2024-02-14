@@ -2,10 +2,9 @@
 // import { useConfirm } from "primevue/useconfirm";
 import { createRouter, createWebHistory } from "vue-router";
 
+import { ENTITIES } from "@/constants";
 import AppLayout from "@/layout/AppLayout.vue";
 import { useAuthStore } from "@/stores/auth";
-// import { useFormUtilsStore } from "@/stores/formUtils";
-import { usePermissionsStore } from "@/stores/permissionsStore";
 
 function getEmail(string) {
   const regex = /email=([^&]+)/;
@@ -194,18 +193,18 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
-
-  // const permissionsStore = usePermissionsStore();
-  // if (to.meta.permissions) {
-  //   if (!permissionsStore.can(to.meta.permissions)) {
-  //     next("/dashboard");
-  //   }
-  // }
+  const { can } = usePermissions();
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next("/login");
   } else {
     next();
+  }
+
+  if (ENTITIES.includes(to.name)) {
+    if (!can(`${to.name}.read`)) {
+      next("/dashboard");
+    }
   }
 });
 

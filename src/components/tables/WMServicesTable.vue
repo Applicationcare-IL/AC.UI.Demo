@@ -25,9 +25,6 @@
           >{{ t("new") }}</WMButton
         >
         <WMAssignOwnerButton v-if="can('services.assign')" entity="service" />
-        <!-- <WMButton class="m-1 col-6" name="export-white" icon="export"
-          >ייצוא נתונים</WMButton
-        > -->
         <!-- <Divider layout="vertical" />
         <WMButtonMenu class="m-1" mode="light" :menu-items="menuItems"
           >הודעה</WMButtonMenu

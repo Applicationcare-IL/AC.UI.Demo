@@ -12,7 +12,12 @@
             {{ $t("buttons.new") }}
           </WMButton>
 
-          <WMButton class="m-1 col-6" name="export-white" icon="export">
+          <WMButton
+            v-if="can(utilsStore.pluralEntity + '.export')"
+            class="m-1 col-6"
+            name="export-white"
+            icon="export"
+          >
             {{ $t("export") }}
           </WMButton>
 
