@@ -19,7 +19,7 @@
       <span class="h4">Send email to contacts</span>
     </template>
 
-    <div v-if="selectedContacts" class="flex flex-column gap-2 my-5">
+    <div v-if="selectedContacts" class="flex flex-column gap-2">
       <div v-if="!multiple" class="flex flex-row gap-3">
         <span class="h6">To:</span>
         <Chip class="p-chip--purple">
@@ -53,7 +53,10 @@
 
       <Divider />
 
-      <WMCommunicationsEditor v-model="message" />
+      <WMCommunicationsEditor
+        v-model="message"
+        @update:attachments="updateAttachments"
+      />
 
       <Divider />
     </div>
@@ -76,10 +79,17 @@
 
 <script setup>
 import { onMounted, ref, watch } from "vue";
+const toast = useToast();
 
 const sendEmailDialogVisible = ref(false);
 
-const props = defineProps({
+const attachments = ref([]);
+
+const updateAttachments = (newAttachments) => {
+  attachments.value = newAttachments;
+};
+
+defineProps({
   selectedElements: {
     type: Number,
     default: 0,
@@ -186,9 +196,14 @@ const handleSendEmail = () => {
     body: message.value,
   };
 
-  sendEmail(params);
+  if (attachments.value.length > 0) {
+    params.attachments = attachments.value.map((attachment) => attachment.id);
+  }
 
-  sendEmailDialogVisible.value = false;
+  sendEmail(params).then(() => {
+    toast.success("Email sent successfully");
+    sendEmailDialogVisible.value = false;
+  });
 };
 </script>
 

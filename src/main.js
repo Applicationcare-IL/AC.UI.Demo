@@ -13,6 +13,7 @@ import PrimeVue from "primevue/config";
 import ConfirmationService from "primevue/confirmationservice";
 import ConfirmDialog from "primevue/confirmdialog";
 import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
+import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
 // OTHERS
 import { createApp, markRaw, reactive } from "vue";
@@ -40,6 +41,7 @@ const app = createApp(App)
     libraries: ["places"],
   })
   .component("ConfirmDialog", ConfirmDialog)
+  .component("Toast", Toast)
   .component("QuillEditor", QuillEditor)
   .component("DataViewLayoutOptions", DataViewLayoutOptions);
 
