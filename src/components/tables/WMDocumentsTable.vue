@@ -120,7 +120,7 @@
           <Dropdown
             v-if="editMode[slotProps.data.id]"
             v-model="slotProps.data.document_detail.id"
-            :options="optionSetsStore.optionSets[column.optionSet]"
+            :options="documentDetails"
             :option-label="optionLabelWithLang"
             option-value="id"
             class="w-full p-0"
@@ -141,6 +141,7 @@
             option-value="id"
             class="w-full p-0"
             :placeholder="$t('documents.select_type')"
+            @change="updateDocumentDetailOptions(slotProps.data)"
           >
           </Dropdown>
           <div v-else>
@@ -216,6 +217,8 @@ const toast = useToast();
 
 const optionSetsStore = useOptionSetsStore();
 const utilsStore = useUtilsStore();
+
+const documentDetails = ref([]);
 
 const {
   getDocumentsFromApi,
@@ -426,6 +429,23 @@ const updateDocumentRow = (id, document) => {
       console.error(error);
       // toast.error("customer", "not-updated");
     });
+};
+
+const updateDocumentDetailOptions = (document) => {
+  optionSetsStore
+    .getOptionSetValuesFromApiRaw("document_detail", document.document_type.id)
+    .then((data) => {
+      console.log(data);
+      documentDetails.value = data;
+    });
+
+  documents.value.filter((doc) => {
+    console.log(doc, document);
+    if (doc.id === document.id) {
+      console.log(doc.document_detail);
+      doc.document_detail.id = null;
+    }
+  });
 };
 
 const refreshTable = () => {
