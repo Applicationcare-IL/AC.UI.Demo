@@ -13,8 +13,13 @@
           >
             {{ $t("save") }}
           </WMButton>
+
           <Divider layout="vertical" />
-          <WMAssignOwnerButton :entity="utilsStore.entity" />
+
+          <WMAssignOwnerButton
+            v-if="can(utilsStore.pluralEntity + '.assign')"
+            :entity="utilsStore.entity"
+          />
 
           <WMSendMessageButton
             :selected-elements="selectedElements"

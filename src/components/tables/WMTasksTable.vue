@@ -28,7 +28,7 @@
           @click="toggleSidebarVisibility"
           >{{ t("new") }}
         </WMButton>
-        <WMAssignOwnerButton entity="task" />
+        <WMAssignOwnerButton v-if="can('tasks.assign')" entity="task" />
         <WMCompleteTasksButton
           entity="task"
           @task-completed="
@@ -160,6 +160,8 @@ const { getValueOf } = useUtils();
 const selectedTasks = ref([]);
 const isFilterOpen = ref(false);
 const isFilterApplied = ref(false);
+
+const { can } = usePermissions();
 
 const tasks = ref([]);
 const totalRecords = ref(0);

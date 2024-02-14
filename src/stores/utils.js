@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+
 import axiosConfig from "@/service/axiosConfig";
 
 export const useUtilsStore = defineStore("utils", {
@@ -11,6 +12,11 @@ export const useUtilsStore = defineStore("utils", {
     entity: "",
     dateFormat: "DD/MM/YY",
   }),
+  getters: {
+    pluralEntity: (state) => {
+      return state.entity + "s";
+    },
+  },
   actions: {
     getNextEntityID(params) {
       return axiosConfig

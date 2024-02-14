@@ -8,6 +8,7 @@
         @task-completed="fetchTaskInfo(route.params.id)"
       />
       <WMAssignOwnerButton
+        v-if="can(utilsStore.pluralEntity + '.assign')"
         entity="task"
         @owner-assigned="fetchTaskInfo(route.params.id)"
       />
