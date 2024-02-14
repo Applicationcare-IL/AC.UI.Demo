@@ -30,6 +30,8 @@ const app = createApp(App)
   .use(Vue3Signature)
   .use(VueGoogleMaps, {
     load: {
+      version: 3.53,
+
       key: import.meta.env.VITE_GMAPS_API_KEY,
       language: "iw",
       region: "IL",

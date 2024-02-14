@@ -43,7 +43,7 @@
           </div>
 
           <WMInput
-            v-model="location.house_number"
+            :value="location.house_number"
             name="house-number"
             type="input-text"
             :disabled="!isCitySelected"
@@ -85,7 +85,7 @@
 
 <script setup>
 import { useField } from "vee-validate";
-import { ref, watch } from "vue";
+import { provide, ref, watch } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -115,6 +115,8 @@ const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
 
 const location = ref({});
+
+provide("location", { location });
 
 const updateStreets = (event) => {
   if (event.value) {

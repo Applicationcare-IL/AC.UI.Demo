@@ -3,7 +3,7 @@
     {{ $t("buttons.view_map") }}
   </WMButton>
   <OverlayPanel ref="isOpen">
-    <WMLocationMap />
+    <WMLocationMap :editable="props.editable" size="large" />
   </OverlayPanel>
 </template>
 
@@ -15,4 +15,11 @@ const isOpen = ref();
 const toggle = (event) => {
   isOpen.value.toggle(event);
 };
+
+const props = defineProps({
+  editable: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
