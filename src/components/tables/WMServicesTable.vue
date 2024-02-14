@@ -24,10 +24,7 @@
           @click="toggleSidebarVisibility"
           >{{ t("new") }}</WMButton
         >
-        <WMAssignOwnerButton entity="service" />
-        <!-- <WMButton class="m-1 col-6" name="export-white" icon="export"
-          >ייצוא נתונים</WMButton
-        > -->
+        <WMAssignOwnerButton v-if="can('services.assign')" entity="service" />
         <!-- <Divider layout="vertical" />
         <WMButtonMenu class="m-1" mode="light" :menu-items="menuItems"
           >הודעה</WMButtonMenu
@@ -144,6 +141,8 @@ const selectedOption = ref(1);
 const searchValue = ref("");
 const lazyParams = ref({});
 const totalRecords = ref(0);
+
+const { can } = usePermissions();
 
 const utilsStore = useUtilsStore();
 

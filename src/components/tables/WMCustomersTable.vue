@@ -6,7 +6,7 @@
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMAssignCustomerButton @add-customers="addCustomers" />
-        <WMAssignOwnerButton entity="customer" />
+        <WMAssignOwnerButton v-if="can('customers.assign')" entity="customer" />
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -179,6 +179,8 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
+const { can } = usePermissions();
+
 const { t } = useI18n();
 const toast = useToast();
 const optionSetsStore = useOptionSetsStore();

@@ -28,12 +28,12 @@
           @click="toggleSidebarVisibility"
           >{{ t("new") }}</WMButton
         >
-        <WMAssignOwnerButton entity="task" />
+        <WMAssignOwnerButton v-if="can('tasks.assign')" entity="task" />
         <WMButton
           class="m-1 col-6"
           name="basic-secondary"
-          @click="onSign"
           :disabled="tasks.length === 0"
+          @click="onSign"
           >{{ t("task.sign_button") }}
         </WMButton>
       </div>
@@ -135,6 +135,8 @@ import { useI18n } from "vue-i18n";
 import { useUtilsStore } from "@/stores/utils";
 
 const { t } = useI18n();
+
+const { can } = usePermissions();
 
 const selectedTasks = ref([]);
 const isFilterOpen = ref(false);

@@ -13,8 +13,13 @@
           >
             {{ $t("save") }}
           </WMButton>
+
           <Divider layout="vertical" />
-          <WMAssignOwnerButton :entity="utilsStore.entity" />
+
+          <WMAssignOwnerButton
+            v-if="can(utilsStore.pluralEntity + '.assign')"
+            :entity="utilsStore.entity"
+          />
 
           <WMSendMessageButton
             :selected-elements="selectedElements"
@@ -31,6 +36,7 @@
           </WMButton> -->
 
           <WMSendEmailButton
+            v-if="can('global.mail')"
             :selected-elements="selectedElements"
             :multiple="false"
           />
@@ -82,6 +88,7 @@ const route = useRoute();
 const dialog = useDialog();
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
+const { can } = usePermissions();
 
 // PROPS, EMITS
 defineProps({

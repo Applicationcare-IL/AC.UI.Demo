@@ -12,7 +12,12 @@
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMAssignContactButton @add-contacts="addContacts" />
-        <WMButton class="m-1 col-6" name="export-white" icon="export">
+        <WMButton
+          v-if="can('contacts.export')"
+          class="m-1 col-6"
+          name="export-white"
+          icon="export"
+        >
           {{ $t("export") }}
         </WMButton>
       </div>
@@ -171,6 +176,7 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
+const { can } = usePermissions();
 const { t } = useI18n();
 const toast = useToast();
 const utilsStore = useUtilsStore();

@@ -7,3 +7,11 @@ export const SLAS = [
 ];
 
 export const LANGUAGES = [{ value: "he" }, { value: "en" }];
+
+export const ENTITIES = [
+  "tasks",
+  "services",
+  "customers",
+  "contacts",
+  "projects",
+];

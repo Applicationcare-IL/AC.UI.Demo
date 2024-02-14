@@ -12,7 +12,12 @@
             {{ $t("buttons.new") }}
           </WMButton>
 
-          <WMButton class="m-1 col-6" name="export-white" icon="export">
+          <WMButton
+            v-if="can(utilsStore.pluralEntity + '.export')"
+            class="m-1 col-6"
+            name="export-white"
+            icon="export"
+          >
             {{ $t("export") }}
           </WMButton>
 
@@ -24,7 +29,10 @@
             @task-completed="$emit('taskCompleted')"
           />
 
-          <WMAssignOwnerButton :entity="utilsStore.entity" />
+          <WMAssignOwnerButton
+            v-if="can(utilsStore.pluralEntity + '.assign')"
+            :entity="utilsStore.entity"
+          />
 
           <WMSendMessageButton
             :selected-elements="selectedElements"
@@ -41,6 +49,7 @@
           </WMButton> -->
 
           <WMSendEmailButton
+            v-if="can('global.mail')"
             :selected-elements="selectedElements"
             :multiple="true"
           />
@@ -97,6 +106,7 @@ import { ref, watch } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 const utilsStore = useUtilsStore();
+const { can } = usePermissions();
 
 const { listRowsPerPage, selectedRowsPerPage } = useListUtils();
 

@@ -1,5 +1,6 @@
 <template>
   <Button
+    v-if="can('global.sms') || can('global.whatsapp')"
     :label="$t('buttons.message')"
     icon="pi pi-chevron-down"
     aria-haspopup="true"
@@ -132,10 +133,24 @@ const toggleCommunicationsMenu = (event) => {
 };
 
 const optionSetsStore = useOptionSetsStore();
+const { can } = usePermissions();
 
-const communicationChannels = optionSetsStore.getOptionSetValues(
+let communicationChannels = optionSetsStore.getOptionSetValues(
   "communicationChannels"
 );
+
+// filter communication channels based on user permissions
+if (!can("global.sms")) {
+  communicationChannels = communicationChannels.filter(
+    (channel) => channel.value !== "sms"
+  );
+}
+
+if (!can("global.whatsapp")) {
+  communicationChannels = communicationChannels.filter(
+    (channel) => channel.value !== "whatsapp"
+  );
+}
 
 const { getContactsFromApi, selectedContacts } = useContacts();
 
@@ -182,9 +197,11 @@ const handleOverlayMenuClick = (action) => {
 const { sendSMS } = useCommunications();
 
 const handleSendMessage = () => {
+  let params;
+
   switch (selectedChannel.value.value) {
     case "sms":
-      const params = {
+      params = {
         ids: getContactsIds(selectedDropdownContacts.value),
         body: message.value,
       };
