@@ -11,6 +11,7 @@ import { createPinia } from "pinia";
 import BadgeDirective from "primevue/badgedirective";
 import PrimeVue from "primevue/config";
 import ConfirmationService from "primevue/confirmationservice";
+import ConfirmDialog from "primevue/confirmdialog";
 import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
 import ToastService from "primevue/toastservice";
 // OTHERS
@@ -38,6 +39,7 @@ const app = createApp(App)
     },
     libraries: ["places"],
   })
+  .component("ConfirmDialog", ConfirmDialog)
   .component("QuillEditor", QuillEditor)
   .component("DataViewLayoutOptions", DataViewLayoutOptions);
 
