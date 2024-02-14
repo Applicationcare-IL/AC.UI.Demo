@@ -195,16 +195,16 @@ router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
   const { can } = usePermissions();
 
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next("/login");
-  } else {
-    next();
-  }
-
   if (ENTITIES.includes(to.name)) {
     if (!can(`${to.name}.read`)) {
       next("/dashboard");
     }
+  }
+
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next("/login");
+  } else {
+    next();
   }
 });
 
