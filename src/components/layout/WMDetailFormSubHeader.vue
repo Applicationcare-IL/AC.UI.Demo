@@ -31,6 +31,7 @@
           </WMButton> -->
 
           <WMSendEmailButton
+            v-if="can('global.mail')"
             :selected-elements="selectedElements"
             :multiple="false"
           />
@@ -82,6 +83,7 @@ const route = useRoute();
 const dialog = useDialog();
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
+const { can } = usePermissions();
 
 // PROPS, EMITS
 defineProps({

@@ -41,6 +41,7 @@
           </WMButton> -->
 
           <WMSendEmailButton
+            v-if="can('global.mail')"
             :selected-elements="selectedElements"
             :multiple="true"
           />
@@ -97,6 +98,7 @@ import { ref, watch } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 const utilsStore = useUtilsStore();
+const { can } = usePermissions();
 
 const { listRowsPerPage, selectedRowsPerPage } = useListUtils();
 

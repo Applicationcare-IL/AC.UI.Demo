@@ -194,13 +194,13 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
-  const permissionsStore = usePermissionsStore();
 
-  if (to.meta.permissions) {
-    if (!permissionsStore.can(to.meta.permissions)) {
-      next("/dashboard");
-    }
-  }
+  // const permissionsStore = usePermissionsStore();
+  // if (to.meta.permissions) {
+  //   if (!permissionsStore.can(to.meta.permissions)) {
+  //     next("/dashboard");
+  //   }
+  // }
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next("/login");

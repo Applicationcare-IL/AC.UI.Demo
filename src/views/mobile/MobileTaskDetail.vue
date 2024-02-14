@@ -12,7 +12,11 @@
         @owner-assigned="fetchTaskInfo(route.params.id)"
       />
       <WMSendMessageButton :selected-elements="selectedElements" />
-      <WMSendEmailButton :selected-elements="selectedElements" />
+
+      <WMSendEmailButton
+        v-if="can('global.mail')"
+        :selected-elements="selectedElements"
+      />
     </div>
     <div class="mobile-task-detail-content mb-5 p-3 py-3">
       <WMInput
@@ -143,6 +147,7 @@ const task = ref("");
 const formUtilsStore = useFormUtilsStore();
 
 const selectedElements = ref(0);
+const { can } = usePermissions();
 
 const toast = useToast();
 
