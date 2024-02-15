@@ -70,7 +70,7 @@
     data-key="task_number"
     table-style="min-width: 50rem"
     scrollable
-    paginator
+    :paginator="showPagination"
     :rows="props.rows"
     :first="0"
     :total-records="totalRecords"
@@ -140,6 +140,33 @@
             />
           </div>
         </template>
+        <template v-if="column.type === 'related_entity'">
+          <Column field="related_entity" :header="$t('task.related_entity')">
+            <template #body="slotProps">
+              <router-link
+                :to="{
+                  name: slotProps.data.related_entity?.type + 'Detail',
+                  params: { id: slotProps.data.related_entity?.id },
+                }"
+                class="vertical-align-middle"
+              >
+                {{ slotProps.data.related_entity?.name }}
+              </router-link>
+            </template>
+          </Column>
+        </template>
+        <template v-if="column.type === 'contact'">
+          <router-link
+            v-if="slotProps.data.contact != null"
+            :to="{
+              name: 'contactDetail',
+              params: { id: slotProps.data.contact.id },
+            }"
+            class="vertical-align-middle"
+            >{{ slotProps.data.contact.name }}
+            {{ slotProps.data.contact.surname }}</router-link
+          >
+        </template>
         <template v-if="column.type === 'text'">
           {{ getValueOf(slotProps.data, column.name) }}
         </template>
@@ -203,9 +230,17 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  showPagination: {
+    type: Boolean,
+    default: true,
+  },
   tableClass: {
     type: String,
     default: "",
+  },
+  filters: {
+    type: Object,
+    default: null,
   },
 });
 
@@ -218,7 +253,7 @@ const { getTasksFromApi } = useTasks();
 const emit = defineEmits(["taskCompleted"]);
 
 const loadLazyData = () => {
-  const filters = utilsStore.filters["task"];
+  const filters = props.filters ? props.filters : utilsStore.filters["task"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = props.rows;

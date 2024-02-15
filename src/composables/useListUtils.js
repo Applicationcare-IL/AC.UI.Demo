@@ -348,6 +348,23 @@ export function useListUtils() {
     ];
   };
 
+  const getTaskSummaryColumns = () => {
+    return [
+      {
+        name: "task_number",
+        type: "link",
+        header: "task.number",
+        class: "link-col",
+      },
+      { name: "related", type: "related_entity" },
+      { name: "status", type: "optionset", prefix: "statuses" },
+      { name: "due_date", type: "text" },
+      { name: "contact", type: "contact", class: "link-col" },
+      { name: "sla", type: "sla", class: "sla" },
+      { name: "read", type: "text" },
+    ];
+  };
+
   const getProjectDocumentColumns = () => {
     return [
       {
@@ -684,6 +701,7 @@ export function useListUtils() {
     getServicePreviewColumns,
     getTaskColumns,
     getTaskPreviewColumns,
+    getTaskSummaryColumns,
     getProjectDocumentColumns,
     getBudgetItemsTableColumns,
     getPaymentsColumns,

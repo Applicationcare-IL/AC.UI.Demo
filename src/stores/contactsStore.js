@@ -1,9 +1,6 @@
 import { defineStore } from "pinia";
 
 import axiosConfig from "@/service/axiosConfig";
-import { useOptionSetsStore } from "@/stores/optionSets";
-
-const optionSetsStore = useOptionSetsStore();
 
 export const useContactsStore = defineStore("contacts", {
   state: () => ({

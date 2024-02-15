@@ -114,6 +114,7 @@ export function useTasks() {
       notes: task.notes,
       project_created: task.project_created,
       last_activity: task.last_activity,
+      read: task.read,
     };
   };
 

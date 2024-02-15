@@ -16,24 +16,8 @@
         alt="Client logo"
         class="client-logo md:hidden"
       />
-
-      <!-- <div class="flex mx-4 gap-2">
-        <div class="class px-3 flex align-items-center">
-          <span>תזכורות</span>
-          <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg text-white"
-            >0</span
-          >
-        </div>
-
-        <div class="class px-3 flex align-items-center">
-          <span>מעקבים</span>
-          <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg text-white"
-            >0</span
-          >
-        </div>
-      </div> -->
     </div>
-
+    <WMTopTaskSummary></WMTopTaskSummary>
     <WMGlobalSearchBox v-model="searchValue" />
 
     <div class="hidden md:flex mx-6">
