@@ -14,7 +14,7 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-
+const { can } = usePermissions();
 const { getProjectTeamColumns } = useListUtils();
 const projectTeamColumns = ref(getProjectTeamColumns());
 </script>

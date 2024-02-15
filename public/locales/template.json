@@ -463,5 +463,8 @@
   },
   "mobile": {
     "menu": "Menu"
+  },
+  "permissions": {
+    "you-dont-have-permission": "You don't have permission to do this action"
   }
 }

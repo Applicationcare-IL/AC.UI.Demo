@@ -17,8 +17,15 @@
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
   >
-    <WMNewEntityFormHeader entity="contact" name="newContact" />
-    <WMNewContactForm :is-sidebar="true" @close-sidebar="closeSidebar" />
+    <template v-if="can('contacts.create')">
+      <WMNewEntityFormHeader entity="contact" name="newContact" />
+      <WMNewContactForm :is-sidebar="true" @close-sidebar="closeSidebar" />
+    </template>
+    <template v-else>
+      <div class="m-5">
+        {{ $t("permissions.you-dont-have-permission") }}
+      </div>
+    </template>
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
