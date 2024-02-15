@@ -68,7 +68,7 @@
     :class="`p-datatable-${tableClass}`"
     @page="onPage($event)"
   >
-    <Column>
+    <!-- <Column>
       <template #body="slotProps">
         <WMButton
           name="edit"
@@ -77,7 +77,7 @@
           @click="openSidebarEditBudgetItemSidebar"
         />
       </template>
-    </Column>
+    </Column> -->
     <Column v-if="multiselect" style="width: 40px" selection-mode="multiple" />
     <Column
       v-for="column in columns"
@@ -88,21 +88,22 @@
     >
       <template #body="slotProps">
         <template v-if="column.type === 'budget-item-link'">
-          <!-- <router-link
+          <router-link
             :to="{
-              name: 'projectBudgetDetail',
+              name: 'projectBudgetItemDetail',
               params: { id: projectId, budgetId: slotProps.data.id },
             }"
             class="vertical-align-middle"
-          > -->
-          {{ slotProps.data.name }}
-          <!-- </router-link> -->
+          >
+            {{ slotProps.data.name }}
+          </router-link>
         </template>
         <template v-if="column.type === 'currency'">
           <WMInputCurrency
             v-model="slotProps.data[column.field]"
             class="flex align-items-center justify-content-between"
             :read-only="true"
+            name="currency"
           />
         </template>
         <template v-if="column.type === 'balance'">
@@ -126,7 +127,7 @@
     @open-sidebar="openSidebarEditBudgetItemSidebar"
   >
     <template #default="slotProps">
-      EDIT FORM
+      <WMNewBudgetItemForm />
       <!-- <WMNewTaskForm
         :is-sidebar="true"
         :related-entity="slotProps.props.data.relatedEntity"

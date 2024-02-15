@@ -60,6 +60,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  name: {
+    type: String,
+    required: true,
+  },
 });
 
 // REFS
