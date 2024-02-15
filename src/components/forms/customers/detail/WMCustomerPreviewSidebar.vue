@@ -1,10 +1,10 @@
 <template>
   <Sidebar
     v-model:visible="visible"
-    @update:modelValue="updateModelValue"
     class="details-sidebar w-6"
-    :showCloseIcon="false"
+    :show-close-icon="false"
     :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+    @update:model-value="updateModelValue"
   >
     <div class="flex justify-content-between">
       <h2 class="h2">שם של לקוח</h2>
@@ -49,30 +49,33 @@
     </div>
 
     <WMContactsTable
+      v-if="can('contacts.read')"
       :columns="contactPreviewTableColumns"
-      :customerId="customer.id"
-      :showHeaderOptions="false"
+      :customer-id="customer.id"
+      :show-header-options="false"
       :multiselect="false"
       :rows="5"
       table-class="compact"
     />
 
     <WMServicesTable
-      relatedEntity="customer"
-      :relatedEntityId="customer.id"
+      v-if="can('services.read')"
+      related-entity="customer"
+      :related-entity-id="customer.id"
       :columns="servicePreviewTableColumns"
       :multiselect="false"
-      :showHeaderOptions="false"
+      :show-header-options="false"
       :rows="5"
       table-class="compact"
     />
 
     <WMTasksTable
-      relatedEntity="customer"
-      :relatedEntityId="customer.id"
+      v-if="can('tasks.read')"
+      related-entity="customer"
+      :related-entity-id="customer.id"
       :columns="taskPreviewTableColumns"
       :multiselect="false"
-      :showHeaderOptions="false"
+      :show-header-options="false"
       :rows="5"
       table-class="compact"
     />
@@ -81,9 +84,12 @@
 
 <script setup>
 import { ref } from "vue";
+
 import { useLayout } from "@/layout/composables/layout";
 
-const props = defineProps({
+const { can } = usePermissions();
+
+defineProps({
   isVisible: {
     type: Boolean,
     default: false,

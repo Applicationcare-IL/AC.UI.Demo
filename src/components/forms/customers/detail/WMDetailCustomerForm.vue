@@ -229,13 +229,14 @@
       </div>
       <div>
         <WMContactsTable
+          v-if="can('contacts.read')"
           :columns="contactColumns"
           :customer-id="route.params.id"
         />
       </div>
       <div>
         <WMServicesTable
-          v-if="checkIfEntityIsActive('services')"
+          v-if="checkIfEntityIsActive('services') && can('services.read')"
           related-entity="customer"
           :related-entity-id="customer.id"
           :columns="serviceColumns"
@@ -244,6 +245,7 @@
       </div>
       <div>
         <WMTasksTable
+          v-if="can('tasks.read')"
           related-entity="customer"
           :related-entity-id="customer.id"
           :columns="taskColumns"
@@ -252,6 +254,7 @@
       </div>
       <div>
         <WMProjectsTable
+          v-if="can('projects.read')"
           related-entity="customer"
           :related-entity-id="customer.id"
           :multiselect="false"
@@ -339,6 +342,8 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 const { t } = useI18n();
+
+const { can } = usePermissions();
 
 const props = defineProps({
   formKey: {

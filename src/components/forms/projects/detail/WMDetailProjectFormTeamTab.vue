@@ -1,5 +1,6 @@
 <template>
   <WMContactsTable
+    v-if="can('contacts.read')"
     :columns="projectTeamColumns"
     :project-id="route.params.id"
     related-entity="project"

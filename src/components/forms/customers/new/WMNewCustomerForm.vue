@@ -149,6 +149,7 @@
           </WMSidebar>
         </div>
         <WMContactsTable
+          v-if="can('contacts.read')"
           :contacts="selectedContacts"
           :columns="getSelectedContactsForNewCustomerColumns()"
           :show-controls="false"

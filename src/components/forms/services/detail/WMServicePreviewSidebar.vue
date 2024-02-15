@@ -61,6 +61,7 @@
     />
 
     <WMTasksTable
+      v-if="can('tasks.read')"
       related-entity="service"
       :related-entity-id="service.id"
       :columns="taskPreviewTableColumns"
@@ -80,6 +81,8 @@ import { useDateFormat } from "@vueuse/core";
 import { computed, ref } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
+
+const { can } = usePermissions();
 
 const props = defineProps({
   isVisible: {

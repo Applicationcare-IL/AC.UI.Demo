@@ -67,7 +67,7 @@
         />
       </div>
 
-      <Accordion>
+      <Accordion v-if="can('tasks.read')">
         <AccordionTab :header="$t('task.tasks')">
           <WMDetailProjectFormTasksTab :project="project" />
         </AccordionTab>
@@ -181,12 +181,14 @@ import { useDateFormat } from "@vueuse/core";
 import { useForm } from "vee-validate";
 import { onMounted, ref, watch } from "vue";
 import { provide } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
+const { can } = usePermissions();
 const { setSelectedContacts } = useContacts();
+
 const {
   getProjectFromApi,
   updateProject,

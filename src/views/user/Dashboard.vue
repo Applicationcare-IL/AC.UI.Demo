@@ -48,7 +48,10 @@
   </div> -->
 
   <div v-if="width > 768" class="dashboard-content">
-    <div v-if="checkIfEntityIsActive('services')" class="dashboard-column">
+    <div
+      v-if="checkIfEntityIsActive('services') && can('services.read')"
+      class="dashboard-column"
+    >
       <!-- Services -->
       <div class="h1 mb-5">{{ $t("dashboard.my-services") }}</div>
 
@@ -124,6 +127,7 @@
         <Card>
           <template #content>
             <WMServicesTable
+              v-if="can('services.read')"
               :columns="serviceColumns"
               :hide-title="true"
               multiselect
@@ -133,7 +137,7 @@
       </div>
     </div>
     <div
-      v-if="checkIfEntityIsActive('tasks')"
+      v-if="checkIfEntityIsActive('tasks') && can('tasks.read')"
       class="dashboard-column card-container"
     >
       <!-- Tasks -->
@@ -194,6 +198,7 @@
         <Card>
           <template #content>
             <WMTasksTable
+              v-if="can('tasks.read')"
               :columns="taskColumns"
               multiselect
               :hide-title="true"
@@ -246,6 +251,8 @@ import { useWindowSize } from "@vueuse/core";
 import { ref } from "vue";
 
 import { useAuthStore } from "@/stores/auth";
+
+const { can } = usePermissions();
 
 const authStore = useAuthStore();
 
