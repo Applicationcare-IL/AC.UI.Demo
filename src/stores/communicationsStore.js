@@ -6,7 +6,7 @@ export const useCommunicationsStore = defineStore("communications", {
   actions: {
     sendSMS(params) {
       return axiosConfig
-        .post("/comunications/sms", params)
+        .post("/communications/sms", params)
         .then((response) => {
           const data = response.data.data;
           return { data };
@@ -17,7 +17,7 @@ export const useCommunicationsStore = defineStore("communications", {
     },
     sendEmail(params) {
       return axiosConfig
-        .post("/comunications/email", params)
+        .post("/communications/email", params)
         .then((response) => {
           const data = response.data.data;
           return { data };
@@ -28,7 +28,7 @@ export const useCommunicationsStore = defineStore("communications", {
     },
     addAttachmentToEmail(formData) {
       return axiosConfig
-        .post("/comunications/attachments", formData, {
+        .post("/communications/attachments", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -43,7 +43,7 @@ export const useCommunicationsStore = defineStore("communications", {
     },
     deleteAttachment(attachmentId) {
       return axiosConfig
-        .delete(`/comunications/attachments/${attachmentId}`)
+        .delete(`/communications/attachments/${attachmentId}`)
         .then((response) => {
           const data = response.data.data;
           return { data };
