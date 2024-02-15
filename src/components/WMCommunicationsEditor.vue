@@ -110,10 +110,8 @@ const uploadAttachmentToAPI = () => {
     const formData = new FormData();
 
     formData.append("file", file);
-    formData.append("filename", file.name);
 
     addAttachmentToEmail(formData).then((response) => {
-      console.log("doc subido con éxito", response);
       attachmentList.value.push({
         id: response.data.id,
         name: file.name,
