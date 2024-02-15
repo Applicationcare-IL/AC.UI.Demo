@@ -1,5 +1,6 @@
 <template>
   <WMContactsTable
+    v-if="can('contacts.read')"
     :columns="projectTeamColumns"
     :project-id="route.params.id"
     related-entity="project"
@@ -13,7 +14,7 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-
+const { can } = usePermissions();
 const { getProjectTeamColumns } = useListUtils();
 const projectTeamColumns = ref(getProjectTeamColumns());
 </script>

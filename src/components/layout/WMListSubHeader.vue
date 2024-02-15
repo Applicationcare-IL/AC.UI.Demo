@@ -4,6 +4,7 @@
       <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
         <div class="flex flex-row flex-wrap">
           <WMButton
+            v-if="can(utilsStore.pluralEntity + '.create')"
             class="m-1 col-6"
             name="new"
             icon="new"

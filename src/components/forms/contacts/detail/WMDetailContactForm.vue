@@ -224,6 +224,7 @@
       </div>
       <div>
         <WMCustomersTable
+          v-if="can('customers.read')"
           :contact-id="contact.id"
           :columns="customerColumns"
           related-entity="contact"
@@ -231,7 +232,7 @@
       </div>
       <div>
         <WMServicesTable
-          v-if="checkIfEntityIsActive('services')"
+          v-if="checkIfEntityIsActive('services') && can('services.read')"
           related-entity="contact"
           :related-entity-id="contact.id"
           :columns="serviceColumns"
@@ -240,6 +241,7 @@
       </div>
       <div>
         <WMTasksTable
+          v-if="can('tasks.read')"
           related-entity="contact"
           :related-entity-id="contact.id"
           :columns="taskColumns"
@@ -248,6 +250,7 @@
       </div>
       <div>
         <WMProjectsTable
+          v-if="can('projects.read')"
           related-entity="contact"
           :related-entity-id="contact.id"
           :multiselect="false"
@@ -327,6 +330,7 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const { getTasksFromApi } = useTasks();
 const { checkIfEntityIsActive } = useLicensing();
+const { can } = usePermissions();
 
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();

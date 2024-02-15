@@ -244,6 +244,7 @@
 
       <div>
         <WMTasksTable
+          v-if="can('tasks.read')"
           related-entity="service"
           :related-entity-id="service.id"
           :columns="taskColumns"
@@ -337,6 +338,7 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const { optionLabelWithLang } = useLanguages();
 const { getServiceDocumentsColumns } = useListUtils();
+const { can } = usePermissions();
 
 const { getTasksFromApi } = useTasks();
 const { setSelectedContacts, getContactFromApi } = useContacts();

@@ -48,6 +48,7 @@
     </div>
 
     <WMCustomersTable
+      v-if="can('customers.read')"
       :contact-id="contact.id"
       :columns="customerPreviewTableColumns"
       :show-controls="false"
@@ -57,6 +58,7 @@
     />
 
     <WMServicesTable
+      v-if="can('services.read')"
       related-entity="contact"
       :related-entity-id="contact.id"
       :columns="servicePreviewTableColumns"
@@ -67,6 +69,7 @@
     />
 
     <WMTasksTable
+      v-if="can('tasks.read')"
       related-entity="contact"
       :related-entity-id="contact.id"
       :columns="taskPreviewTableColumns"
@@ -82,6 +85,8 @@
 import { ref } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
+
+const { can } = usePermissions();
 
 defineProps({
   isVisible: {

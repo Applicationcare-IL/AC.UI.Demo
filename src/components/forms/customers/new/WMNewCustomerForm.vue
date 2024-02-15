@@ -139,16 +139,24 @@
             @close-sidebar="closeNewContactSidebar"
             @open-sidebar="openSidebar"
           >
-            <WMNewEntityFormHeader entity="contact" name="newContact" />
-            <WMNewContactForm
-              :is-sidebar="true"
-              :show-confirm-dialog="false"
-              @close-sidebar="closeNewContactSidebar"
-              @contact-created="handleContactCreated"
-            />
+            <template v-if="can('contacts.create')">
+              <WMNewEntityFormHeader entity="contact" name="newContact" />
+              <WMNewContactForm
+                :is-sidebar="true"
+                :show-confirm-dialog="false"
+                @close-sidebar="closeNewContactSidebar"
+                @contact-created="handleContactCreated"
+              />
+            </template>
+            <template v-else>
+              <div class="m-5">
+                {{ $t("permissions.you-dont-have-permission") }}
+              </div>
+            </template>
           </WMSidebar>
         </div>
         <WMContactsTable
+          v-if="can('contacts.read')"
           :contacts="selectedContacts"
           :columns="getSelectedContactsForNewCustomerColumns()"
           :show-controls="false"

@@ -1,5 +1,6 @@
 <template>
   <WMTasksTable
+    v-if="can('tasks.read')"
     related-entity="project"
     :related-entity-id="project.project_id"
     :columns="taskColumns"
@@ -13,6 +14,7 @@
 import { ref } from "vue";
 
 const { getTaskColumns } = useListUtils();
+const { can } = usePermissions();
 
 const taskColumns = ref(getTaskColumns());
 
