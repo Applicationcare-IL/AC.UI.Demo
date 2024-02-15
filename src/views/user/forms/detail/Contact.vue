@@ -25,12 +25,15 @@ const saveForm = () => {
 const { activateContact, deactivateContact } = useContacts();
 
 const handleActivateContact = (id) => {
-  activateContact(id);
-  detailContactForm.value.fetchData();
+  activateContact(id).then(() => {
+    detailContactForm.value.fetchData();
+  });
 };
 
 const handleDeactivateContact = (id) => {
-  deactivateContact(id);
-  detailContactForm.value.fetchData();
+  console.log("handleDeactivateContact");
+  deactivateContact(id).then(() => {
+    detailContactForm.value.fetchData();
+  });
 };
 </script>

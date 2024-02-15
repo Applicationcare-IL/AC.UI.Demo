@@ -4,6 +4,7 @@
       <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
         <div class="flex flex-row flex-wrap gap-2 align-items-center">
           <WMButton
+            v-if="can(utilsStore.pluralEntity + '.update')"
             name="save"
             icon="save"
             type="specialSave"
@@ -58,14 +59,29 @@
           </WMButton>
 
           <WMButton
-            v-if="showUpdateEntityStateButton"
+            v-if="
+              showUpdateEntityStateButton &&
+              !isEntityActive &&
+              can(utilsStore.pluralEntity + '.activate')
+            "
             class="m-1 col-6"
             name="basic-secondary"
-            @click="handleUpdateState()"
+            @click="activateEntity()"
           >
-            {{
-              isEntityActive ? $t("buttons.deactivate") : $t("buttons.activate")
-            }}
+            {{ $t("buttons.activate") }}
+          </WMButton>
+
+          <WMButton
+            v-if="
+              showUpdateEntityStateButton &&
+              isEntityActive &&
+              can(utilsStore.pluralEntity + '.deactivate')
+            "
+            class="m-1 col-6"
+            name="basic-secondary"
+            @click="deactivateEntity()"
+          >
+            {{ $t("buttons.deactivate") }}
           </WMButton>
         </div>
       </div>
@@ -97,7 +113,7 @@ defineProps({
   formKey: String,
 });
 
-const emit = defineEmits(["saveForm", "activateEntity", "deactivateEntity"]);
+const emit = defineEmits(["saveForm", "deactivateEntity", "activateEntity"]);
 
 // REFS
 const { getFormMeta } = storeToRefs(formUtilsStore);
@@ -114,18 +130,15 @@ const saveForm = () => {
   emit("saveForm");
 };
 
-const handleUpdateState = () => {
-  if (isEntityActive.value) {
-    emit(
-      "deactivateEntity",
-      utilsStore.selectedElements[utilsStore.entity][0].id
-    );
-  } else {
-    emit(
-      "activateEntity",
-      utilsStore.selectedElements[utilsStore.entity][0].id
-    );
-  }
+const activateEntity = () => {
+  emit("activateEntity", utilsStore.selectedElements[utilsStore.entity][0].id);
+};
+
+const deactivateEntity = () => {
+  emit(
+    "deactivateEntity",
+    utilsStore.selectedElements[utilsStore.entity][0].id
+  );
 };
 
 // WATCHERS
@@ -133,6 +146,11 @@ watch(
   () => utilsStore.selectedElements[utilsStore.entity],
   (value) => {
     selectedElements.value = value?.length;
+
+    console.log(
+      "utilsStore.selectedElements[utilsStore.entity][0].state",
+      utilsStore.selectedElements[utilsStore.entity][0].state
+    );
 
     isEntityActive.value =
       utilsStore.selectedElements[utilsStore.entity][0].state === "active";
