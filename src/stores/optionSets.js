@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import { LANGUAGES } from "@/constants";
 import { i18n } from "@/i18n";
 import axiosConfig from "@/service/axiosConfig";
+import { useTasksStore } from "@/stores/tasksStore";
 
 // const i18n = useI18n();
 
@@ -40,6 +41,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
       "zip",
     ],
     optionSets: {},
+    taskTypes: {},
     optionSetsPreloaded: false,
 
     gender: [
@@ -204,6 +206,12 @@ export const useOptionSetsStore = defineStore("optionSets", {
           this.optionSets[optionSet] = data;
         });
       }
+
+      const tasksStore = useTasksStore();
+      await tasksStore.getTasksTypesFromApi().then((data) => {
+        this.taskTypes = data.data;
+      });
+
       return Promise.resolve();
     },
 
