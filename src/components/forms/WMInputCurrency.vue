@@ -17,7 +17,8 @@
         alt=""
       />
       <InputNumber
-        v-model="modelValue"
+        v-model="field.value"
+        :name="name"
         :class="[
           {
             'wm-input-error': !!errorMessage,
@@ -42,7 +43,7 @@
 <script setup>
 // IMPORTS
 import { useField } from "vee-validate";
-import { computed } from "vue";
+import { computed, reactive } from "vue";
 
 const shekelFormattedNumber = computed(() => {
   if (!modelValue.value) return "0.00";
@@ -55,7 +56,7 @@ const shekelFormattedNumber = computed(() => {
 // PROPS, EMITS
 const modelValue = defineModel();
 
-defineProps({
+const props = defineProps({
   readOnly: {
     type: Boolean,
     default: false,
@@ -71,9 +72,11 @@ defineProps({
 // COMPUTED
 
 // COMPONENT METHODS
-const { errorMessage } = useField(name, undefined, {
-  initialValue: modelValue,
-});
+const field = reactive(
+  useField(props.name, undefined, {
+    initialValue: modelValue,
+  })
+);
 
 // WATCHERS
 
