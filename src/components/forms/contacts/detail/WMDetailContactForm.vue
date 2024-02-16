@@ -4,12 +4,6 @@
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
     <div class="contact-data flex flex-auto flex-column gap-5 mb-5">
-      <div class="flex flex-row align-items-center gap-4">
-        <h1 class="h1 mb-0">{{ $t("contact.contact") }}: {{ contact.name }}</h1>
-        <div :class="statusClass(contact.status)" class="status-label">
-          {{ $t("statuses." + contact.status) }}
-        </div>
-      </div>
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="flex-1 card-container top-info-card">
           <Card>
@@ -342,7 +336,6 @@ const {
   getCustomerColumns,
   getServiceColumns,
   getTaskColumns,
-  getStatusConditionalStyle,
   getProjectDocumentColumns,
 } = useListUtils();
 
@@ -406,10 +399,6 @@ const onSave = handleSubmit((values) => {
       toast.error("customer", "not-updated");
     });
 });
-
-const statusClass = (data) => {
-  return getStatusConditionalStyle(data);
-};
 
 formUtilsStore.$reset();
 formUtilsStore.save = onSave;

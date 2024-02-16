@@ -1,6 +1,43 @@
 <template>
-  <div class="wm-subheader shadow-1 flex-none">
-    <div class="flex flex-column gap-5">
+  <div class="wm-subheader shadow-1 flex-none" v-if="entityObject">
+    <div class="flex flex-column">
+      <div class="flex flex-row justify-content-between align-items-center">
+        <div class="flex flex-row align-items-center gap-4">
+          <h1 class="h1 mb-0">
+            {{ $t(entityType + "." + entityType) }}: {{ entityObject.title }}
+          </h1>
+
+          <div
+            v-if="entityType === 'project'"
+            :class="statusClass(entityObject.state.value)"
+            class="status-label white-space-nowrap"
+          >
+            <WMOptionSetValue :option-set="entityObject.state" />
+          </div>
+          <div
+            v-else
+            :class="statusClass(entityObject.state)"
+            class="status-label white-space-nowrap"
+          >
+            {{ $t("statuses." + entityObject.state) }}
+          </div>
+        </div>
+        <div>
+          <WMButton
+            v-if="
+              showUpdateEntityStateButton &&
+              isEntityActive &&
+              can(utilsStore.pluralEntity + '.deactivate')
+            "
+            class="m-1 col-6"
+            name="basic-secondary"
+            @click="deactivateEntity()"
+          >
+            {{ $t("buttons.deactivate") }}
+          </WMButton>
+        </div>
+      </div>
+      <Divider />
       <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
         <div class="flex flex-row flex-wrap gap-2 align-items-center">
           <WMButton
@@ -70,19 +107,11 @@
           >
             {{ $t("buttons.activate") }}
           </WMButton>
-
-          <WMButton
-            v-if="
-              showUpdateEntityStateButton &&
-              isEntityActive &&
-              can(utilsStore.pluralEntity + '.deactivate')
-            "
-            class="m-1 col-6"
-            name="basic-secondary"
-            @click="deactivateEntity()"
-          >
-            {{ $t("buttons.deactivate") }}
-          </WMButton>
+          <WMAnnouncementsButton
+            v-if="['customer', 'service'].includes(entityType)"
+            :id="route.params.id"
+            :entity="entityType"
+          />
         </div>
       </div>
     </div>
@@ -102,9 +131,12 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const route = useRoute();
 const dialog = useDialog();
+const entityObject = ref(null);
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
+const entityType = ref("");
 const { can } = usePermissions();
+const { getStatusConditionalStyle } = useListUtils();
 
 // PROPS, EMITS
 defineProps({
@@ -141,6 +173,10 @@ const deactivateEntity = () => {
   );
 };
 
+const statusClass = (data) => {
+  return getStatusConditionalStyle(data);
+};
+
 // WATCHERS
 watch(
   () => utilsStore.selectedElements[utilsStore.entity],
@@ -154,6 +190,9 @@ watch(
 
     isEntityActive.value =
       utilsStore.selectedElements[utilsStore.entity][0].state === "active";
+
+    entityObject.value = utilsStore.selectedElements[utilsStore.entity][0];
+    entityType.value = utilsStore.entity;
   }
 );
 

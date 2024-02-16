@@ -48,6 +48,7 @@ export function useContacts() {
 
     return {
       id: contact.id,
+      title: contactFullName,
       contact_id: contact.id,
       name: contactFullName,
       firstName: contact.name,

@@ -4,23 +4,6 @@
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
     <div class="flex flex-auto flex-column gap-5 mb-5">
-      <div class="flex flex-row justify-content-between">
-        <div class="flex flex-row align-items-center gap-4">
-          <h1 class="h1 mb-0">
-            {{ $t("project.project") }}: {{ project.project_name }}
-          </h1>
-          <div
-            :class="statusClass(project.state.value)"
-            class="status-label white-space-nowrap"
-          >
-            <WMOptionSetValue :option-set="project.state" />
-          </div>
-        </div>
-        <div>
-          <!-- <WMAnnouncementsButton entity="projects" :id="route.params.id" /> -->
-        </div>
-      </div>
-
       <div class="flex gap-5">
         <div class="flex-1 card-container">
           <WMDetailProjectFormGeneralInformation :project="project" />
@@ -223,9 +206,6 @@ const formUtilsStore = useFormUtilsStore();
 
 const route = useRoute();
 
-const { getStatusConditionalStyle, getPriorityConditionalStyle } =
-  useListUtils();
-
 onMounted(async () => {
   await fetchData();
   const mappedContacts = mapContactsFromProjects(project.value);
@@ -312,10 +292,6 @@ formUtilsStore.$reset();
 formUtilsStore.save = onSave;
 formUtilsStore.formEntity = "project";
 utilsStore.entity = "project";
-
-const statusClass = (data) => {
-  return getStatusConditionalStyle(data);
-};
 
 defineExpose({
   onSave,

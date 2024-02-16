@@ -4,22 +4,6 @@
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
     <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
-      <div class="flex flex-row justify-content-between">
-        <div class="flex flex-row align-items-center gap-4">
-          <h1 class="h1 mb-0">
-            {{ $t("customer.customer") }}: {{ customer.name }}
-          </h1>
-          <div
-            :class="statusClass(customer.state)"
-            class="status-label white-space-nowrap"
-          >
-            {{ $t("statuses." + customer.state) }}
-          </div>
-        </div>
-        <div>
-          <WMAnnouncementsButton :id="route.params.id" entity="customer" />
-        </div>
-      </div>
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="flex-1 card-container top-info-card">
           <Card>
@@ -374,10 +358,7 @@ const ratings = ref();
 const selectedType = ref("");
 const selectedRating = ref();
 const selectedStatus = ref();
-const selectedEntrance = ref("");
 const statusConditionalStyle = ref("");
-
-const alphabet = formUtilsStore.getAlphabet;
 
 provide("preselectedCustomer", customer);
 
@@ -464,7 +445,7 @@ const fetchData = async () => {
   tasks.value = tasksData.data;
 };
 
-const { errors, handleSubmit, setFieldError, meta, resetForm } = useForm({
+const { handleSubmit, setFieldError, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getCustomerDetailFormValidationSchema,
 });
 
@@ -478,7 +459,7 @@ const onSave = handleSubmit((values) => {
   }
 
   updateCustomer(route.params.id, parseCustomer(values))
-    .then((data) => {
+    .then(() => {
       toast.successAction("customer", "updated");
       fetchData();
       resetForm({ values: values });
@@ -523,10 +504,6 @@ defineExpose({
   onSave,
   fetchData,
 });
-
-const statusClass = (data) => {
-  return getStatusConditionalStyle(data);
-};
 </script>
 
 <style scoped lang="scss"></style>

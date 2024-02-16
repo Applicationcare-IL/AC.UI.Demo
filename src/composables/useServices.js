@@ -103,6 +103,7 @@ export function useServices() {
   const mapService = (service) => {
     return {
       id: service.id,
+      title: service.id,
       name: service.id,
       service_number: service.id,
       contact: service.contact.name,

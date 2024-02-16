@@ -4,17 +4,6 @@
     class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
   >
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
-      <div class="flex flex-row align-items-center gap-4">
-        <h1 class="h1 mb-0">
-          <h1 class="h1 mb-0">{{ $t("task.task") }} {{ task.task_number }}</h1>
-        </h1>
-        <div
-          :class="statusClass(task.state)"
-          class="status-label white-space-nowrap"
-        >
-          {{ $t("statuses." + task.state) }}
-        </div>
-      </div>
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="card-container top-info-card flex-1">
           <Card>
@@ -295,7 +284,6 @@ const route = useRoute();
 const { getServiceFromApi } = useServices();
 const { setSelectedContacts } = useContacts();
 const { getProjectFromApi } = useProjects();
-const { getStatusConditionalStyle } = useListUtils();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -344,10 +332,6 @@ const onSave = handleSubmit((values) => {
       toast.error("service", "not-updated");
     });
 });
-
-const statusClass = (data) => {
-  return getStatusConditionalStyle(data);
-};
 
 formUtilsStore.formEntity = "task";
 utilsStore.entity = "task";
