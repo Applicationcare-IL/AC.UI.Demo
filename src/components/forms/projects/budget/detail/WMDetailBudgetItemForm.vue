@@ -3,7 +3,7 @@
     v-if="budgetItem"
     class="wm-detail-form-container flex flex-column overflow-auto gap-5"
   >
-    <pre>{{ budgetItem }}</pre>
+    <pre style="min-height: 50vh">{{ budgetItem }}</pre>
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row align-items-center gap-4">
@@ -21,29 +21,23 @@
           <template #title> {{ $t("general-details") }} </template>
           <template #content>
             <div class="flex flex-auto flex-column gap-5">
-              <div class="wm-form-row align-items-start gap-5">
-                <!-- <WMInput
-                  name="id"
-                  type="info"
-                  :highlighted="true"
-                  :label="$t('id') + ':'"
-                  :value="budget.id"
-                />
+              <div class="wm-form-row align-items-start flex-column gap-5">
                 <WMInput
-                  name="owner"
-                  type="info"
-                  :highlighted="true"
-                  :label="$t('owner') + ':'"
-                  :value="null"
-                />
-                <WMInput
-                  name="project"
+                  name="budget"
                   type="info-link"
                   :highlighted="true"
-                  :label="$t('project.project') + ':'"
-                  :value="projectId"
-                  :to="'/project/' + projectId"
-                /> -->
+                  :label="$t('budget.budget') + ':'"
+                  :value="'גן הפקאן - שלב ב’: הוספת קומה לבניין'"
+                  :to="'/project/' + projectId + '/budget'"
+                />
+
+                <WMInput
+                  id="budget-item-name"
+                  type="input-text"
+                  :label="$t('budget.budget-item-name') + ':'"
+                  name="budget-item-name"
+                  :value="budgetItem.name"
+                />
               </div>
             </div>
           </template>
@@ -76,6 +70,15 @@
           </template>
           <template #content>
             <div class="flex flex-column gap-5">
+              <WMHighlightedBlock
+                id="planned_non_contract"
+                v-model="budgetItem.estimate"
+                name="planned_non_contract"
+                background-color="blue-100"
+                :label="$t('budget.planned-non-contract') + ':'"
+                editable
+              />
+
               <!-- <div class="flex flex-row gap-5">
                 <WMHighlightedBlock
                   v-model="budget.planned_contract"
@@ -107,6 +110,7 @@
         </Card>
       </div>
     </div>
+    <pre style="min-height: 50vh">{{ values }}</pre>
   </div>
 </template>
 
@@ -133,7 +137,7 @@ const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } =
 
 const budgetItem = ref(null);
 
-const { handleSubmit, values, meta, resetForm } = useForm({});
+const { handleSubmit, values, meta, resetForm } = useForm();
 
 // const projectId = computed(() => {
 //   return route.params.id;

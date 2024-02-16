@@ -169,7 +169,7 @@ export function useProjects() {
       approved: 123,
       planned_contract: 1,
       executed_payments: null,
-      planned_non_contract: null,
+      planned_non_contract: budgetItem.planned_non_contract,
       unexpected: null,
       management_fee: 298878,
       total: null,
