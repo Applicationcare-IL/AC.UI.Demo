@@ -280,6 +280,7 @@
   },
   "budget": {
     "budget": "Budget",
+    "budget-item": "Budget Item",
     "budget-items": "Budget Items",
     "budget-item-name": "Name",
     "funding": "Funding",

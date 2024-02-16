@@ -92,6 +92,16 @@ export function useProjects() {
     return { budgetItems, totalRecords };
   };
 
+  const getBudgetItem = async (projectId, budgetItemId) => {
+    const response = await projectsStore.getBudgetItem(projectId, budgetItemId);
+
+    return response.data;
+  };
+
+  const updateBudgetItem = async (projectId, budgetItemId, data) => {
+    return await projectsStore.updateBudgetItem(projectId, budgetItemId, data);
+  };
+
   // PAYMENTS
   const getProjectPayments = async (projectId, params) => {
     const response = await projectsStore.getProjectPayments(projectId, params);
@@ -146,6 +156,25 @@ export function useProjects() {
       tbr_number: project["tbr-number"],
       request_number: project["request-number"],
       network_folder: project["network-folder"],
+    };
+  };
+
+  const parseUpdateBudgetItem = (budgetItem) => {
+    console.log("parseUpdateBudgetItem", budgetItem);
+
+    return {
+      name: "placeat",
+      description: budgetItem.description,
+      estimate: 65940171,
+      approved: 123,
+      planned_contract: 1,
+      executed_payments: null,
+      planned_non_contract: null,
+      unexpected: null,
+      management_fee: 298878,
+      total: null,
+      balance: null,
+      deficit: 51659255,
     };
   };
 
@@ -337,10 +366,13 @@ export function useProjects() {
     deleteProjectCustomer,
     getProjectBudget,
     getBudgetItems,
+    getBudgetItem,
+    updateBudgetItem,
     getProjectPayments,
 
     // UTILITIES
     parseProject,
+    parseUpdateBudgetItem,
     parseUpdateProject,
     parseProjectCustomer,
     parseUpdateProjectConfig,
