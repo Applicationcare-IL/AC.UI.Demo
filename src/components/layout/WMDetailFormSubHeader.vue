@@ -35,6 +35,18 @@
           >
             {{ $t("buttons.deactivate") }}
           </WMButton>
+          <WMButton
+            v-if="
+              showUpdateEntityStateButton &&
+              !isEntityActive &&
+              can(utilsStore.pluralEntity + '.activate')
+            "
+            class="m-1 col-6"
+            name="basic-secondary"
+            @click="activateEntity()"
+          >
+            {{ $t("buttons.activate") }}
+          </WMButton>
         </div>
       </div>
       <Divider />
@@ -93,19 +105,6 @@
             @click="dialog.cancelService(route.params.id)"
           >
             Cancel
-          </WMButton>
-
-          <WMButton
-            v-if="
-              showUpdateEntityStateButton &&
-              !isEntityActive &&
-              can(utilsStore.pluralEntity + '.activate')
-            "
-            class="m-1 col-6"
-            name="basic-secondary"
-            @click="activateEntity()"
-          >
-            {{ $t("buttons.activate") }}
           </WMButton>
           <WMAnnouncementsButton
             v-if="['customer', 'service'].includes(entityType)"
