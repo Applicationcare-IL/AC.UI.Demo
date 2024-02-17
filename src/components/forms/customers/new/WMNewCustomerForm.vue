@@ -190,6 +190,7 @@ const authStore = useAuthStore();
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
+const { can } = usePermissions();
 
 const { getSelectedContactsForNewCustomerColumns } = useListUtils();
 const { createCustomer, parseCustomer, existsCustomer } = useCustomers();

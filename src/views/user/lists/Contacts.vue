@@ -148,7 +148,8 @@
 <script setup>
 import { onMounted, ref, watch, watchEffect } from "vue";
 
-import { useLayout } from "@/layout/composables/layout";
+const { can } = usePermissions();
+
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { usePermissionsStore } from "@/stores/permissionsStore";
 import { useUtilsStore } from "@/stores/utils";

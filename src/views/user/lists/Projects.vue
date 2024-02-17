@@ -3,7 +3,7 @@
 
   <WMSidebar
     :visible="isVisible"
-    name="newTask"
+    name="newProject"
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
   >
