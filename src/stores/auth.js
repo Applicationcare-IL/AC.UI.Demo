@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { useRouter } from "vue-router";
 
 import { AuthService } from "@/service/AuthService";
+import { useOptionSetsStore } from "@/stores/optionSets";
+import { usePermissionsStore } from "@/stores/permissionsStore";
 
 const router = useRouter();
 
@@ -21,13 +23,19 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     login(email, password) {
+      const optionSetsStore = useOptionSetsStore();
+      const permissionsStore = usePermissionsStore();
+
       return Promise.resolve(
         AuthService.login(email, password)
-          .then((response) => {
+          .then(async (response) => {
             this.isAuthenticated = true;
             this.token = response.data.data.token;
             localStorage.setItem("token", this.token);
             localStorage.setItem("isAuthenticated", true);
+
+            await optionSetsStore.preloadOptionSets();
+            await permissionsStore.getPermissionsFromApi();
           })
           .catch((error) => {
             console.error(error);

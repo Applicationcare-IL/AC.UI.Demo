@@ -16,8 +16,11 @@
 import { computed, onMounted, ref } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
+import { useAuthStore } from "@/stores/auth";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { usePermissionsStore } from "@/stores/permissionsStore";
+
+const authStore = useAuthStore();
 
 const { layoutConfig } = useLayout();
 
@@ -33,20 +36,28 @@ const loading = computed(
 );
 
 onMounted(() => {
-  getLicensing();
+  console.log("authStore.isAuthenticated", authStore.isAuthenticated);
 
-  if (!optionSetsStore.isOptionSetsPreloaded) {
-    optionSetsStore
-      .preloadOptionSets()
-      .then(() => (loadingOptionSets.value = false));
+  if (authStore.isAuthenticated) {
+    getLicensing();
+
+    if (!optionSetsStore.isOptionSetsPreloaded) {
+      optionSetsStore
+        .preloadOptionSets()
+        .then(() => (loadingOptionSets.value = false));
+    } else {
+      loadingOptionSets.value = false;
+    }
+
+    if (!permissionsStore.isPermissionsLoaded) {
+      permissionsStore
+        .getPermissionsFromApi()
+        .then(() => (loadingPermissions.value = false));
+    } else {
+      loadingPermissions.value = false;
+    }
   } else {
     loadingOptionSets.value = false;
-  }
-  if (!permissionsStore.isPermissionsLoaded) {
-    permissionsStore
-      .getPermissionsFromApi()
-      .then(() => (loadingPermissions.value = false));
-  } else {
     loadingPermissions.value = false;
   }
 });

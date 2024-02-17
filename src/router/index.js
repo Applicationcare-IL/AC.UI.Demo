@@ -197,7 +197,6 @@ router.beforeEach((to, from, next) => {
 
   if (ENTITIES.includes(to.name)) {
     if (!can(`${to.name}.read`)) {
-      console.log("no puedo entrar a tasks");
       next("/dashboard");
     }
   }

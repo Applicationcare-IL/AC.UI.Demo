@@ -30,7 +30,11 @@
           name="new"
           type="submit"
           @click="handleLogin"
-          >{{ $t("login.submit") }}
+        >
+          <span v-if="loading"> Loading... </span>
+          <span v-else>
+            {{ $t("login.submit") }}
+          </span>
         </WMButton>
       </div>
     </div>
@@ -53,7 +57,11 @@ const { fetchLicensing } = useLicensing();
 const router = useRouter();
 const error = ref("");
 
+const loading = ref(false);
+
 const handleLogin = handleSubmit((values) => {
+  loading.value = true;
+
   useAuthStore()
     .login(values.email, values.password)
     .then(() => {
@@ -61,10 +69,12 @@ const handleLogin = handleSubmit((values) => {
         useAuthStore()
           .userData()
           .then(async () => {
+            loading.value = false;
             await fetchLicensing();
             router.push("/dashboard");
           })
           .catch(() => {
+            loading.value = false;
             error.value = "User Data not found";
           });
       } else {
