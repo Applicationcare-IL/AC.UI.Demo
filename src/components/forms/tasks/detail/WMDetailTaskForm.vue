@@ -8,7 +8,10 @@
         <h1 class="h1 mb-0">
           <h1 class="h1 mb-0">{{ $t("task.task") }} {{ task.task_number }}</h1>
         </h1>
-        <div :class="statusClass(task.state)" class="status-label white-space-nowrap">
+        <div
+          :class="statusClass(task.state)"
+          class="status-label white-space-nowrap"
+        >
           {{ $t("statuses." + task.state) }}
         </div>
       </div>
@@ -160,7 +163,12 @@
             <template #content>
               <div class="task-description flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <Textarea v-model="task.description" auto-resize rows="5" disabled />
+                  <Textarea
+                    v-model="task.description"
+                    auto-resize
+                    rows="5"
+                    disabled
+                  />
                 </div>
               </div>
             </template>
@@ -261,11 +269,11 @@
         </TabView>
       </div>
 
-      <Accordion>
+      <!-- <Accordion>
         <AccordionTab :header="$t('attachments')">
           <WMAttachmentsTable />
         </AccordionTab>
-      </Accordion>
+      </Accordion> -->
     </div>
   </div>
   <div v-else>Loading...</div>
@@ -282,7 +290,8 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const toast = useToast();
-const { updateTask, parseUpdateTask, getTaskFromApi, mapContactsFromTasks } = useTasks();
+const { updateTask, parseUpdateTask, getTaskFromApi, mapContactsFromTasks } =
+  useTasks();
 const { optionLabelWithLang } = useLanguages();
 const { handleRouteChangeWithUnsavedFormChanges } = useNavigationGuards();
 const formUtilsStore = useFormUtilsStore();
