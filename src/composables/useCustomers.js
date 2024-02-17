@@ -58,6 +58,7 @@ export function useCustomers() {
   const mapCustomer = (customer) => {
     return {
       name: customer.name,
+      title: customer.name,
       type: customer.type,
       state: customer.state?.value,
       status: customer.status,

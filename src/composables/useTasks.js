@@ -86,6 +86,7 @@ export function useTasks() {
   const mapTask = (task) => {
     return {
       id: task.id,
+      title: task.id,
       name: task.id,
       task_number: task.id,
       process_number: "10",

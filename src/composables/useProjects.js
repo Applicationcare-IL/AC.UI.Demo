@@ -253,6 +253,7 @@ export function useProjects() {
   const mapProject = (project) => {
     return {
       id: project.id,
+      title: project.name,
       name: project.name,
       project_id: project.id,
       project_number: project.number,

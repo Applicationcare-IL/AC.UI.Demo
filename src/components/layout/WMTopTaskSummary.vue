@@ -11,17 +11,21 @@
         ref="isRemindersOpen"
         :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
       >
-        <Button class="my-2 text-white">
-          <router-link to="/tasks" class="text-white">{{
-            $t("task.all-reminders")
-          }}</router-link>
-        </Button>
+        <WMButton
+          v-if="can('tasks.create')"
+          class="m-1 col-6"
+          name="new"
+          icon="new"
+          @click="toggleSidebarVisibility"
+        >
+          {{ $t("buttons.new") }}
+        </WMButton>
         <WMTasksTable
           :columns="taskSummaryColumns"
           :hide-title="true"
           :show-header-options="false"
           :show-pagination="false"
-          :rows="5"
+          :rows="15"
           :multiselect="false"
           :filters="reminderFilters"
         />
@@ -39,23 +43,35 @@
         ref="isFollowUpOpen"
         :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
       >
-        <Button class="my-2">
-          <router-link to="/tasks" class="text-white">{{
-            $t("task.all-follow-ups")
-          }}</router-link>
-        </Button>
+        <WMButton
+          v-if="can('tasks.create')"
+          class="m-1 col-6"
+          name="new"
+          icon="new"
+          @click="toggleSidebarVisibility"
+        >
+          {{ $t("buttons.new") }}
+        </WMButton>
         <WMTasksTable
           :columns="taskSummaryColumns"
           :hide-title="true"
           :show-header-options="false"
           :show-pagination="false"
-          :rows="5"
+          :rows="15"
           :multiselect="false"
           :filters="followUpFilters"
         />
       </OverlayPanel>
     </div>
   </div>
+  <WMSidebar
+    :visible="isVisible"
+    name="newTask"
+    @close-sidebar="closeSidebar"
+    @open-sidebar="openSidebar"
+  >
+    <WMNewTaskForm :is-sidebar="true" @new-task-created="closeSidebar" />
+  </WMSidebar>
 </template>
 
 <script setup>
@@ -69,6 +85,8 @@ const { layoutConfig } = useLayout();
 const { getTasksFromApi } = useTasks();
 
 const optionSetsStore = useOptionSetsStore();
+
+const { can } = usePermissions();
 
 onMounted(() => {
   fillTasksCounters();
@@ -141,4 +159,19 @@ const isFollowUpOpen = ref();
 const toggleFollowUps = (event) => {
   isFollowUpOpen.value.toggle(event);
 };
+
+//Display sidebars
+const isVisible = ref(false);
+
+function toggleSidebarVisibility() {
+  isVisible.value = !isVisible.value;
+}
+
+function closeSidebar() {
+  isVisible.value = false;
+}
+
+function openSidebar() {
+  isVisible.value = true;
+}
 </script>
