@@ -61,6 +61,8 @@
   "rows-per-page": "Rows per page",
   "no-results": "No results have been found",
   "selected-contacts": "Selected contacts",
+  "options": "Options",
+  "filename": "Filename",
   "buttons": {
     "link_contact": "Link contact",
     "link_customer": "Link customer",
@@ -467,5 +469,9 @@
   },
   "permissions": {
     "you-dont-have-permission": "You don't have permission to do this action"
+  },
+  "attachments": {
+    "attachments": "Attachments",
+    "upload-attachment": "Upload Attachment"
   }
 }

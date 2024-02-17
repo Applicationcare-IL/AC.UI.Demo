@@ -104,8 +104,6 @@ const removeAttachment = (id) => {
 };
 
 const uploadAttachmentToAPI = () => {
-  console.log(files.value);
-
   files.value.forEach((file) => {
     const formData = new FormData();
 
