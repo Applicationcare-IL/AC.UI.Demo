@@ -36,8 +36,6 @@ const loading = computed(
 );
 
 onMounted(() => {
-  console.log("authStore.isAuthenticated", authStore.isAuthenticated);
-
   if (authStore.isAuthenticated) {
     getLicensing();
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="wm-subheader shadow-1 flex-none" v-if="entityObject">
+  <div v-if="entityObject" class="wm-subheader shadow-1 flex-none">
     <div class="flex flex-column">
       <div class="flex flex-row justify-content-between align-items-center">
         <div class="flex flex-row align-items-center gap-4">
@@ -14,8 +14,9 @@
           >
             <WMOptionSetValue :option-set="entityObject.state" />
           </div>
+
           <div
-            v-else
+            v-else-if="entityObject.state"
             :class="statusClass(entityObject.state)"
             class="status-label white-space-nowrap"
           >
@@ -72,6 +73,7 @@
           />
 
           <WMSendMessageButton
+            v-if="showMessageButton"
             :selected-elements="selectedElements"
             :multiple="false"
           />
@@ -86,7 +88,7 @@
           </WMButton> -->
 
           <WMSendEmailButton
-            v-if="can('global.mail')"
+            v-if="can('global.mail') && showEmailButton"
             :selected-elements="selectedElements"
             :multiple="false"
           />
@@ -139,9 +141,18 @@ const { getStatusConditionalStyle } = useListUtils();
 
 // PROPS, EMITS
 defineProps({
-  activeButtons: Boolean,
-  defaultOption: Object,
-  formKey: String,
+  formKey: {
+    type: String,
+    required: true,
+  },
+  showMessageButton: {
+    type: Boolean,
+    default: true,
+  },
+  showEmailButton: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(["saveForm", "deactivateEntity", "activateEntity"]);
@@ -181,11 +192,6 @@ watch(
   () => utilsStore.selectedElements[utilsStore.entity],
   (value) => {
     selectedElements.value = value?.length;
-
-    console.log(
-      "utilsStore.selectedElements[utilsStore.entity][0].state",
-      utilsStore.selectedElements[utilsStore.entity][0].state
-    );
 
     isEntityActive.value =
       utilsStore.selectedElements[utilsStore.entity][0].state === "active";

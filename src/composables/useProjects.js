@@ -2,7 +2,6 @@ import { useProjectsStore } from "@/stores/projectsStore";
 
 export function useProjects() {
   const projectsStore = useProjectsStore();
-  const { getLocalizedValue } = useLanguages();
 
   // ACTIONS
   const getProjectsFromApi = async (params) => {
@@ -86,7 +85,10 @@ export function useProjects() {
   const getBudgetItems = async (projectId, params) => {
     const response = await projectsStore.getBudgetItems(projectId, params);
 
-    const budgetItems = response.data;
+    const budgetItems = response.data.map((budgetItem) => {
+      return mapBudgetItem(budgetItem);
+    });
+
     const totalRecords = response.meta.total;
 
     return { budgetItems, totalRecords };
@@ -95,7 +97,7 @@ export function useProjects() {
   const getBudgetItem = async (projectId, budgetItemId) => {
     const response = await projectsStore.getBudgetItem(projectId, budgetItemId);
 
-    return response.data;
+    return mapBudgetItem(response.data);
   };
 
   const updateBudgetItem = async (projectId, budgetItemId, data) => {
@@ -299,6 +301,13 @@ export function useProjects() {
     }
 
     return subprojects.map(mapProject);
+  };
+
+  const mapBudgetItem = (budgetItem) => {
+    return {
+      title: budgetItem.name,
+      ...budgetItem,
+    };
   };
 
   /**

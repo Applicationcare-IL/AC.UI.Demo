@@ -3,13 +3,6 @@
     v-if="budget"
     class="wm-detail-form-container flex flex-column overflow-auto gap-5"
   >
-    <div class="flex flex-auto flex-column gap-5 mb-5">
-      <div class="flex flex-row justify-content-between">
-        <div class="flex flex-row align-items-center gap-4">
-          <h1 class="h1 mb-0">{{ $t("budget.budget") }}: BUDGET</h1>
-        </div>
-      </div>
-    </div>
     <!-- <pre>
   {{ budget }}
   </pre
@@ -297,12 +290,52 @@
 </template>
 
 <script setup>
+import { useForm } from "vee-validate";
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
+
+import { useFormUtilsStore } from "@/stores/formUtils";
+import { useUtilsStore } from "@/stores/utils";
+
+const utilsStore = useUtilsStore();
+const formUtilsStore = useFormUtilsStore();
 
 useHead({
   title: "Project Budget",
 });
+
+// const { handleSubmit, resetForm } = useForm({
+//   validationSchema: formUtilsStore.getServiceDetailFormValidationSchema,
+// });
+
+// const onSave = handleSubmit((values) => {
+//   updateProject(route.params.id, parseUpdateProject(values))
+//     .then(() => {
+//       toast.successAction("project", "updated");
+//       resetForm({ values: values });
+//       fetchData();
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       toast.error("project", "not-updated");
+//     });
+
+//   // for now this is only for contractor project type
+//   if (
+//     project.value.project_type.value === CONTRACTOR_PROJECT_ID &&
+//     project.value.status.value === "pending_configuration"
+//   ) {
+//     updateProjectConfig(route.params.id, parseUpdateProjectConfig(values))
+//       .then(() => {
+//         toast.success("Project configuration updated");
+//         fetchData();
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//         toast.error("project", "not-updated");
+//       });
+//   }
+// });
 
 const route = useRoute();
 
@@ -319,6 +352,9 @@ const projectId = computed(() => {
 getProjectBudget(route.params.id).then((response) => {
   budget.value = response;
 });
+
+formUtilsStore.formEntity = "project-budget";
+utilsStore.entity = "project-budget";
 </script>
 
 <style scoped lang="scss"></style>

@@ -4,17 +4,6 @@
     class="wm-detail-form-container flex flex-column overflow-auto gap-5"
   >
     <pre style="min-height: 50vh">{{ budgetItem }}</pre>
-    <div class="flex flex-auto flex-column gap-5 mb-5">
-      <div class="flex flex-row justify-content-between">
-        <div class="flex flex-row align-items-center gap-4">
-          <h1 class="h1 mb-0">{{ $t("budget.budget") }}: BUDGET ITEM</h1>
-        </div>
-      </div>
-    </div>
-    <!-- <pre>
-  {{ budget }}
-  </pre
-    > -->
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1 card-container top-info-card">
         <Card>
@@ -70,14 +59,54 @@
           </template>
           <template #content>
             <div class="flex flex-column gap-5">
-              <WMHighlightedBlock
-                id="planned_non_contract"
-                v-model="budgetItem.estimate"
-                name="planned_non_contract"
-                background-color="blue-100"
-                :label="$t('budget.planned-non-contract') + ':'"
-                editable
-              />
+              <div
+                class="flex align-items-center justify-content-between gap-2"
+              >
+                <WMHighlightedBlock
+                  id="planned_non_contract"
+                  v-model="budgetItem.planned_non_contract"
+                  name="planned_non_contract"
+                  background-color="blue-100"
+                  :label="$t('budget.planned-non-contract') + ':'"
+                  editable
+                />
+                <PlusIcon />
+                <WMHighlightedBlock
+                  id="planned_contract"
+                  v-model="budgetItem.planned_contract"
+                  name="planned_contract"
+                  background-color="blue-100"
+                  :label="$t('budget.planned-contract') + ':'"
+                />
+                <PlusIcon />
+                <WMHighlightedBlock
+                  id="unexpected"
+                  v-model="budgetItem.unexpected"
+                  name="unexpected"
+                  background-color="blue-100"
+                  :label="$t('budget.unexpected') + ':'"
+                  editable
+                />
+                <PlusIcon />
+
+                <WMHighlightedBlock
+                  id="unexpected"
+                  v-model="budgetItem.unexpected"
+                  name="unexpected"
+                  background-color="blue-100"
+                  :label="$t('budget.unexpected') + ':'"
+                  editable
+                />
+                <EqualIcon />
+                <WMHighlightedBlock
+                  id="total"
+                  v-model="budgetItem.total_approved"
+                  name="total"
+                  background-color="blue-200"
+                  :label="$t('budget.total') + ':'"
+                  editable
+                />
+              </div>
 
               <!-- <div class="flex flex-row gap-5">
                 <WMHighlightedBlock
@@ -115,14 +144,25 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { useForm } from "vee-validate";
-import { computed, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useUtilsStore } from "@/stores/utils";
 
+// DEPENDENCIES
+const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
+const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } =
+  useProjects();
+const route = useRoute();
+const toast = useToast();
 
+// INJECT
+
+// PROPS, EMITS
 const props = defineProps({
   formKey: {
     type: String,
@@ -130,26 +170,18 @@ const props = defineProps({
   },
 });
 
-const route = useRoute();
-
-const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } =
-  useProjects();
-
+// REFS
 const budgetItem = ref(null);
 
-const { handleSubmit, values, meta, resetForm } = useForm();
+// COMPUTED
 
-// const projectId = computed(() => {
-//   return route.params.id;
-// });
+// COMPONENT METHODS
+const { handleSubmit, values, meta, resetForm } = useForm();
 
 getBudgetItem(route.params.id, route.params.budgetId).then((response) => {
   budgetItem.value = response;
+  utilsStore.selectedElements["budget-item"] = [budgetItem.value];
 });
-
-formUtilsStore.formEntity = "budget-item";
-
-const toast = useToast();
 
 const onSave = handleSubmit((values) => {
   updateBudgetItem(
@@ -167,11 +199,17 @@ const onSave = handleSubmit((values) => {
     });
 });
 
-// EXPOSE
+formUtilsStore.$reset();
+formUtilsStore.save = onSave;
+formUtilsStore.formEntity = "budget-item";
+utilsStore.entity = "budget-item";
+
+// PROVIDE, EXPOSE
 defineExpose({
   onSave,
 });
 
+// WATCHERS
 watch(
   () => meta.value,
   (value) => {
@@ -179,6 +217,8 @@ watch(
     formUtilsStore.setFormMetas(value, props.formKey);
   }
 );
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
 <style scoped lang="scss"></style>

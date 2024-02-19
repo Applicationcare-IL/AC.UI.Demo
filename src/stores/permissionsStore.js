@@ -33,6 +33,22 @@ export const usePermissionsStore = defineStore("permissions", {
 
       return this.permissions[entity][action];
     },
+    permissionExists(permission) {
+      const permissions = permission.split(".");
+
+      const entity = permissions[0];
+      const action = permissions[1];
+
+      if (this.permissions[entity] === undefined) {
+        return false;
+      }
+
+      if (this.permissions[entity][action] === undefined) {
+        return false;
+      }
+
+      return true;
+    },
     getPermissionsFromApi() {
       return axiosConfig
         .get("/auth/permissions")
