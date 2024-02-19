@@ -315,6 +315,9 @@
     "executed-payments": "Executed (payments)",
     "last-changed": "Last changed"
   },
+  "budget-item": {
+    "budget-item": "Budget Item"
+  },
   "payments": {
     "payment-number": "Payment Number",
     "budget-item-number": "Budget Item",
