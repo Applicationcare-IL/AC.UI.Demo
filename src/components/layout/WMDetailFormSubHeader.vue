@@ -177,10 +177,7 @@ const activateEntity = () => {
 };
 
 const deactivateEntity = () => {
-  emit(
-    "deactivateEntity",
-    utilsStore.selectedElements[utilsStore.entity][0].id
-  );
+  emit("deactivateEntity", utilsStore.selectedElements[utilsStore.entity][0].id);
 };
 
 const statusClass = (data) => {

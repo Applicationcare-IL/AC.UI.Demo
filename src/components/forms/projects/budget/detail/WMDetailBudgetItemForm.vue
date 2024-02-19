@@ -3,7 +3,7 @@
     v-if="budgetItem"
     class="wm-detail-form-container flex flex-column overflow-auto gap-5"
   >
-    <pre style="min-height: 50vh">{{ budgetItem }}</pre>
+    <!-- <pre style="min-height: 50vh">{{ budgetItem }}</pre> -->
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1 card-container top-info-card">
         <Card>
@@ -16,8 +16,8 @@
                   type="info-link"
                   :highlighted="true"
                   :label="$t('budget.budget') + ':'"
-                  :value="'גן הפקאן - שלב ב’: הוספת קומה לבניין'"
-                  :to="'/project/' + projectId + '/budget'"
+                  :value="budgetItem.budget?.name"
+                  :to="'/project/' + budgetItem.project?.id + '/budget'"
                 />
 
                 <WMInput
@@ -160,7 +160,6 @@
         </Card>
       </div>
     </div>
-    <pre style="min-height: 50vh">{{ values }}</pre>
   </div>
 </template>
 
