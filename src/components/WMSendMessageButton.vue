@@ -37,7 +37,6 @@
     <template #header>
       <span class="h4">Send message to contacts</span>
     </template>
-
     <div v-if="selectedContacts" class="flex flex-column gap-2 my-5">
       <div v-if="!multiple" class="flex flex-row gap-3">
         <span class="h6">To:</span>
@@ -113,7 +112,7 @@ const message = ref("");
 
 const sendMessageDialogVisible = ref(false);
 
-defineProps({
+const props = defineProps({
   selectedElements: {
     type: Number,
     default: 0,
@@ -202,7 +201,9 @@ const handleSendMessage = () => {
   switch (selectedChannel.value.value) {
     case "sms":
       params = {
-        ids: getContactsIds(selectedDropdownContacts.value),
+        ids: props.multiple
+          ? getContactsIds(selectedDropdownContacts.value)
+          : getContactsIds(selectedContacts.value),
         body: message.value,
       };
 
