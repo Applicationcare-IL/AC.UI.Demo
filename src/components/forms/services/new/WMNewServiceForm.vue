@@ -149,9 +149,7 @@
             :placeholder="$t('select', ['classification-2'])"
             required
             option-set
-            @change="
-              updateDropdown('service_request_1', $event.value.id, 'requests1')
-            "
+            @change="updateDropdown('service_request_1', $event.value.id, 'requests1')"
           />
           <WMInputSearch
             v-model="selectedRequest1"
@@ -163,9 +161,7 @@
             option-set
             :placeholder="$t('select', ['classification-3'])"
             required
-            @change="
-              updateDropdown('service_request_2', $event.value.id, 'requests2')
-            "
+            @change="updateDropdown('service_request_2', $event.value.id, 'requests2')"
           />
         </div>
 
@@ -179,9 +175,7 @@
             width="152"
             option-set
             :placeholder="$t('select', ['classification-4'])"
-            @change="
-              updateDropdown('service_request_3', $event.value.id, 'requests3')
-            "
+            @change="updateDropdown('service_request_3', $event.value.id, 'requests3')"
           />
           <WMInputSearch
             v-model="selectedRequest3"
@@ -199,12 +193,7 @@
       <div class="service-description flex flex-auto flex-column gap-5">
         <h2 class="h2 mb-0">{{ $t("description") }}</h2>
         <div class="wm-form-row gap-5">
-          <WMInput
-            id="description"
-            type="text-area"
-            name="description"
-            width="full"
-          />
+          <WMInput id="description" type="text-area" name="description" width="full" />
         </div>
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" />
@@ -212,11 +201,7 @@
       <Divider class="mt-5 mb-0" layout="horizontal" />
       <WMNewServiceFormSite />
     </div>
-    <WMFormButtons
-      v-if="isSidebar"
-      @save-form="onSubmit()"
-      @cancel-form="onCancel()"
-    />
+    <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
   </div>
 </template>
 
@@ -236,6 +221,7 @@ const formUtilsStore = useFormUtilsStore();
 const { getCustomersFromApi, getCustomerFromApi } = useCustomers();
 const { getContactsFromApi, getContactFromApi } = useContacts();
 const { createService, parseService, getQuickCodes } = useServices();
+const { can } = usePermissions();
 
 // INJECT
 const isFormDirty = inject("isFormDirty");
@@ -404,11 +390,7 @@ function handleQuickCodeChange(quickCode) {
       return setType(quickCode);
     })
     .then(() => {
-      return updateDropdown(
-        "service_request_1",
-        quickCode.value.type.id,
-        "requests1"
-      );
+      return updateDropdown("service_request_1", quickCode.value.type.id, "requests1");
     })
     .then(() => {
       return setRequest1(quickCode);

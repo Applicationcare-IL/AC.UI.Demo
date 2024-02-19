@@ -59,9 +59,7 @@
           </template>
           <template #content>
             <div class="flex flex-column gap-5">
-              <div
-                class="flex align-items-center justify-content-between gap-2"
-              >
+              <div class="flex align-items-center justify-content-between gap-2">
                 <WMHighlightedBlock
                   id="planned_non_contract"
                   v-model="budgetItem.planned_non_contract"
@@ -79,15 +77,6 @@
                   :label="$t('budget.planned-contract') + ':'"
                 />
                 <PlusIcon />
-                <WMHighlightedBlock
-                  id="unexpected"
-                  v-model="budgetItem.unexpected"
-                  name="unexpected"
-                  background-color="blue-100"
-                  :label="$t('budget.unexpected') + ':'"
-                  editable
-                />
-                <PlusIcon />
 
                 <WMHighlightedBlock
                   id="unexpected"
@@ -97,6 +86,16 @@
                   :label="$t('budget.unexpected') + ':'"
                   editable
                 />
+                <PlusIcon />
+                <WMHighlightedBlock
+                  id="management_fee"
+                  v-model="budgetItem.management_fee"
+                  name="management_fee"
+                  background-color="blue-100"
+                  :label="$t('budget.management-fee') + ':'"
+                  editable
+                />
+
                 <EqualIcon />
                 <WMHighlightedBlock
                   id="total"
@@ -104,36 +103,58 @@
                   name="total"
                   background-color="blue-200"
                   :label="$t('budget.total') + ':'"
+                />
+              </div>
+
+              <Divider />
+
+              <div class="flex align-items-center gap-4">
+                <WMHighlightedBlock
+                  id="estimate"
+                  v-model="budgetItem.estimate"
+                  name="estimate"
+                  background-color="purple-100"
+                  :label="$t('budget.estimate') + ':'"
+                  editable
+                />
+
+                <WMHighlightedBlock
+                  id="approved_council"
+                  v-model="budgetItem.approved_council"
+                  name="approved_council"
+                  background-color="white"
+                  :label="$t('budget.approved-council') + ':'"
+                  editable
+                />
+
+                <WMHighlightedBlock
+                  id="approved_ministry"
+                  v-model="budgetItem.approved_ministry"
+                  name="approved_ministry"
+                  background-color="white"
+                  :label="$t('budget.approved-ministry') + ':'"
                   editable
                 />
               </div>
 
-              <!-- <div class="flex flex-row gap-5">
+              <Divider />
+
+              <div class="flex align-items-center gap-4">
                 <WMHighlightedBlock
-                  v-model="budget.planned_contract"
-                  background-color="blue-100"
-                  :label="$t('budget.planned-contract') + ':'"
+                  id="executed-payments"
+                  v-model="budgetItem.executed_payments"
+                  name="executed-payments"
+                  background-color="white"
+                  :label="$t('budget.executed-payments') + ':'"
                 />
-                <PlusIcon />
-                <WMHighlightedBlock
-                  v-model="budget.management_fee"
-                  background-color="blue-100"
-                  :label="$t('budget.management-fee') + ':'"
+
+                <WMHighlightedBalanceBlock
+                  id="balance"
+                  name="balance"
+                  :quantity="budgetItem.balance_approved"
+                  :label="$t('budget.balance') + ':'"
                 />
-                <PlusIcon />
-                <WMHighlightedBlock
-                  v-model="budget.unexpected"
-                  background-color="blue-100"
-                  :label="$t('budget.unexpected') + ':'"
-                />
-                <EqualIcon />
-                <WMHighlightedBlock
-                  v-model="budget.total_planned"
-                  background-color="blue-200"
-                  :label="$t('budget.total') + ':'"
-                />
-              </div> -->
-              <Divider></Divider>
+              </div>
             </div>
           </template>
         </Card>
@@ -155,8 +176,7 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
-const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } =
-  useProjects();
+const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } = useProjects();
 const route = useRoute();
 const toast = useToast();
 
@@ -178,20 +198,21 @@ const budgetItem = ref(null);
 // COMPONENT METHODS
 const { handleSubmit, values, meta, resetForm } = useForm();
 
-getBudgetItem(route.params.id, route.params.budgetId).then((response) => {
-  budgetItem.value = response;
-  utilsStore.selectedElements["budget-item"] = [budgetItem.value];
-});
+const fetchData = () => {
+  getBudgetItem(route.params.id, route.params.budgetId).then((response) => {
+    budgetItem.value = response;
+    utilsStore.selectedElements["budget-item"] = [budgetItem.value];
+  });
+};
+
+fetchData();
 
 const onSave = handleSubmit((values) => {
-  updateBudgetItem(
-    route.params.id,
-    route.params.budgetId,
-    parseUpdateBudgetItem(values)
-  )
+  updateBudgetItem(route.params.id, route.params.budgetId, parseUpdateBudgetItem(values))
     .then(() => {
       toast.successAction("budget item", "updated");
       resetForm({ values: values });
+      fetchData();
     })
     .catch((error) => {
       console.error(error);

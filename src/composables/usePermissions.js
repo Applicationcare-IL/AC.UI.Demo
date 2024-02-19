@@ -11,7 +11,6 @@ export function usePermissions() {
    */
   function can(permission) {
     if (!permissionsStore.permissionExists(permission)) {
-      console.log(`Permission ${permission} does not exist`);
       return true;
     }
 

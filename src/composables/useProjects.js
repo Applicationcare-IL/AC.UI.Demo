@@ -162,21 +162,19 @@ export function useProjects() {
   };
 
   const parseUpdateBudgetItem = (budgetItem) => {
-    console.log("parseUpdateBudgetItem", budgetItem);
-
     return {
-      name: "placeat",
+      name: budgetItem["budget-item-name"],
       description: budgetItem.description,
-      estimate: 65940171,
-      approved: 123,
-      planned_contract: 1,
-      executed_payments: null,
+      estimate: budgetItem.estimate,
+      // approved: DUDA,
+      planned_contract: budgetItem.planned_contract,
+      executed_payments: budgetItem["executed-payments"],
       planned_non_contract: budgetItem.planned_non_contract,
-      unexpected: null,
-      management_fee: 298878,
-      total: null,
-      balance: null,
-      deficit: 51659255,
+      unexpected: budgetItem.unexpected,
+      management_fee: budgetItem.management_fee,
+      total: budgetItem.total,
+      balance: budgetItem.balance,
+      // deficit: duda
     };
   };
 
