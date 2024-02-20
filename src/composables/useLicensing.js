@@ -1,16 +1,18 @@
-import { useLicensingStore } from "@/stores/licensingStore";
 import { storeToRefs } from "pinia";
+
+import { useLicensingStore } from "@/stores/licensingStore";
 
 export function useLicensing() {
   const licensingStore = useLicensingStore();
   const { licensing } = storeToRefs(licensingStore);
 
+  // NOTE: deactivated to force the refresh of the licensing
   const getLicensing = () => {
-    if (checkIfLicensingLocalStorageExistAndItsNotEmpty()) {
-      licensing.value = JSON.parse(localStorage.getItem("licensing"));
-    } else {
-      fetchLicensing();
-    }
+    // if (checkIfLicensingLocalStorageExistAndItsNotEmpty()) {
+    //   licensing.value = JSON.parse(localStorage.getItem("licensing"));
+    // } else {
+    fetchLicensing();
+    // }
   };
 
   const checkIfLicensingLocalStorageExistAndItsNotEmpty = () => {
@@ -21,7 +23,6 @@ export function useLicensing() {
   };
 
   const fetchLicensing = async () => {
-    console.log("fetching licensing");
     await licensingStore.fetchLicensing();
     localStorage.setItem("licensing", JSON.stringify(licensing.value));
   };
