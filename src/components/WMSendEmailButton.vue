@@ -53,7 +53,11 @@
 
       <Divider />
 
-      <WMCommunicationsEditor v-model="message" @update:attachments="updateAttachments" />
+      <WMCommunicationsEditor
+        v-model="message"
+        @update:attachments="updateAttachments"
+        @update:subject="handleUpdateSubject"
+      />
 
       <Divider />
     </div>
@@ -81,6 +85,11 @@ const toast = useToast();
 const sendEmailDialogVisible = ref(false);
 
 const attachments = ref([]);
+const subject = ref("");
+
+const handleUpdateSubject = (newSubject) => {
+  subject.value = newSubject;
+};
 
 const updateAttachments = (newAttachments) => {
   attachments.value = newAttachments;
@@ -189,7 +198,7 @@ const handleSendEmail = () => {
     ids: props.multiple
       ? getContactsIds(selectedDropdownContacts.value)
       : [selectedContacts.value.id],
-    subject: "subject",
+    subject: subject.value,
     body: message.value,
   };
 

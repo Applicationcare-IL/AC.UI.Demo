@@ -12,6 +12,15 @@
     <span>To add a variable, write + or click on the Add variable button.</span>
   </div> -->
 
+  <WMInput
+    v-if="!hideSubject"
+    v-model="subject"
+    type="input-text"
+    name="subject"
+    label="Subject"
+    @change="emit('update:subject', subject)"
+  />
+
   <QuillEditor
     ref="myQuillEditor"
     v-model:content="content"
@@ -118,7 +127,7 @@ const uploadAttachmentToAPI = () => {
   });
 };
 
-const emit = defineEmits(["update:modelValue", "update:attachments"]);
+const emit = defineEmits(["update:modelValue", "update:attachments", "update:subject"]);
 
 // const addVariableToEditor = (selectedOption) => {
 //   myQuillEditor.value.getQuill().getModule("mention").insertItem(
@@ -135,6 +144,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hideSubject: {
+    type: Boolean,
+    default: false,
+  },
   modelValue: {
     type: String,
     default: "",
@@ -142,6 +155,7 @@ const props = defineProps({
 });
 
 const content = ref(props.modelValue);
+const subject = ref("");
 
 const editorClasses = computed(() => {
   return props.hideToolbar ? "toolbar-hidden" : "";
