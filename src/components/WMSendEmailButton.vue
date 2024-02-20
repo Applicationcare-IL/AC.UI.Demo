@@ -53,10 +53,7 @@
 
       <Divider />
 
-      <WMCommunicationsEditor
-        v-model="message"
-        @update:attachments="updateAttachments"
-      />
+      <WMCommunicationsEditor v-model="message" @update:attachments="updateAttachments" />
 
       <Divider />
     </div>
@@ -157,20 +154,16 @@ watch(
   }
 );
 
-const fillSelectedContactDropdownWithSelectedContacts = (
-  newSelectedContacts
-) => {
+const fillSelectedContactDropdownWithSelectedContacts = (newSelectedContacts) => {
   if (newSelectedContacts?.length == 0 || !contactOptions.value?.data) {
     return;
   }
 
   const newSelectedContactsIds = getContactsIds(newSelectedContacts);
 
-  const filteredContactOptions = contactOptions.value?.data.filter(
-    (contact) => {
-      return newSelectedContactsIds.includes(contact.id);
-    }
-  );
+  const filteredContactOptions = contactOptions.value?.data.filter((contact) => {
+    return newSelectedContactsIds.includes(contact.id);
+  });
 
   selectedDropdownContacts.value = filteredContactOptions;
 
@@ -180,6 +173,8 @@ const fillSelectedContactDropdownWithSelectedContacts = (
 };
 
 const getContactsIds = (contacts) => {
+  console.log(contacts, "contacts");
+
   if (!Array.isArray(contacts)) {
     return [contacts.id];
   }
