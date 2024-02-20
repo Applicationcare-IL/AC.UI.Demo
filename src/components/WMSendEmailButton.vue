@@ -19,8 +19,6 @@
       <span class="h4">Send email to contacts</span>
     </template>
 
-    selectedDropdownContacts: {{ selectedDropdownContacts }}
-
     <div v-if="selectedContacts" class="flex flex-column gap-2">
       <div v-if="!multiple" class="flex flex-row gap-3">
         <span class="h6">To:</span>
@@ -88,7 +86,7 @@ const updateAttachments = (newAttachments) => {
   attachments.value = newAttachments;
 };
 
-defineProps({
+const props = defineProps({
   selectedElements: {
     type: Number,
     default: 0,
@@ -188,7 +186,9 @@ const { sendEmail } = useCommunications();
 
 const handleSendEmail = () => {
   const params = {
-    ids: getContactsIds(selectedDropdownContacts.value),
+    ids: props.multiple
+      ? getContactsIds(selectedDropdownContacts.value)
+      : [selectedContacts.value.id],
     subject: "subject",
     body: message.value,
   };
