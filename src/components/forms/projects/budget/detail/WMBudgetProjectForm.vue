@@ -128,6 +128,7 @@
                 v-model="budget.tbr_number"
                 name="tbr_number"
                 type="input-text"
+                :value="budget.tbr_number"
               />
             </div>
           </template>
