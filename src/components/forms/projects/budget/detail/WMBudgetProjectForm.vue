@@ -123,12 +123,17 @@
           <template #title>
             <div class="flex align-items-center gap-3">
               {{ $t("budget.tbr-details") }}
-              <WMInput v-model="budget.tbr" name="first-name" type="input-text" />
+              <WMInput
+                id="tbr_number"
+                v-model="budget.tbr_number"
+                name="tbr_number"
+                type="input-text"
+              />
             </div>
           </template>
           <template #content>
             <div class="flex flex-column gap-2">
-              <div class="flex flex-row align-items-center justify-content-between gap-2">
+              <div class="flex flex-row align-items-center justify-content-start gap-2">
                 <WMHighlightedBlock
                   v-model="budget.tbr_accepted"
                   background-color="gray-100"
@@ -151,7 +156,7 @@
                 />
               </div>
               <Divider />
-              <div class="flex flex-row align-items-center gap-4 justify-content-between">
+              <div class="flex flex-row align-items-center gap-4 justify-content-start">
                 <WMHighlightedBlock
                   v-model="budget.tbr_reported"
                   background-color="white"
@@ -176,7 +181,7 @@
           </template>
         </Card>
       </div>
-      <div class="flex-1">
+      <!-- <div class="flex-1">
         <Card class="h-full">
           <template #title>
             {{ $t("budget.non-tbr-funding-details") }}
@@ -208,7 +213,7 @@
             </div>
           </template>
         </Card>
-      </div>
+      </div> -->
     </div>
 
     <Accordion>
@@ -278,71 +283,88 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { useForm } from "vee-validate";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
-const utilsStore = useUtilsStore();
-const formUtilsStore = useFormUtilsStore();
-
-useHead({
-  title: "Project Budget",
-});
-
-// const { handleSubmit, resetForm } = useForm({
-//   validationSchema: formUtilsStore.getServiceDetailFormValidationSchema,
-// });
-
-// const onSave = handleSubmit((values) => {
-//   updateProject(route.params.id, parseUpdateProject(values))
-//     .then(() => {
-//       toast.successAction("project", "updated");
-//       resetForm({ values: values });
-//       fetchData();
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       toast.error("project", "not-updated");
-//     });
-
-//   // for now this is only for contractor project type
-//   if (
-//     project.value.project_type.value === CONTRACTOR_PROJECT_ID &&
-//     project.value.status.value === "pending_configuration"
-//   ) {
-//     updateProjectConfig(route.params.id, parseUpdateProjectConfig(values))
-//       .then(() => {
-//         toast.success("Project configuration updated");
-//         fetchData();
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//         toast.error("project", "not-updated");
-//       });
-//   }
-// });
-
+// DEPENDENCIES
+const { getProjectBudget, updateBudget, parseBudget } = useProjects();
 const route = useRoute();
 
+const utilsStore = useUtilsStore();
+const toast = useToast();
+const formUtilsStore = useFormUtilsStore();
+
+// INJECT
+
+// PROPS, EMITS
+const props = defineProps({
+  formKey: {
+    type: String,
+    required: true,
+  },
+});
+
+// REFS
 const modelValue = ref(1000);
-
-const { getProjectBudget } = useProjects();
-
 const budget = ref(null);
 
+// COMPUTED
 const projectId = computed(() => {
   return route.params.id;
 });
 
-getProjectBudget(route.params.id).then((response) => {
-  budget.value = response;
+// COMPONENT METHODS
+useHead({
+  title: "Project Budget",
 });
+
+const { handleSubmit, meta, resetForm } = useForm();
+
+const onSave = handleSubmit((values) => {
+  updateBudget(route.params.id, parseBudget(values))
+    .then(() => {
+      toast.successAction("budget", "updated");
+      resetForm({ values: values });
+      fetchData();
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("budget", "not-updated");
+    });
+});
+
+const fetchData = () => {
+  getProjectBudget(route.params.id).then((response) => {
+    budget.value = response;
+    utilsStore.selectedElements["project-budget"] = [budget.value];
+  });
+};
+
+fetchData();
 
 formUtilsStore.formEntity = "project-budget";
 utilsStore.entity = "project-budget";
+
+// PROVIDE, EXPOSE
+defineExpose({
+  onSave,
+});
+
+// WATCHERS
+watch(
+  () => meta.value,
+  (value) => {
+    formUtilsStore.formMeta = value;
+    formUtilsStore.setFormMetas(value, props.formKey);
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
 <style scoped lang="scss"></style>

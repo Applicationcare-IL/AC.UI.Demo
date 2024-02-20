@@ -82,6 +82,10 @@ export function useProjects() {
     return response.data;
   };
 
+  const updateBudget = async (projectId, data) => {
+    return await projectsStore.updateBudget(projectId, data);
+  };
+
   const getBudgetItems = async (projectId, params) => {
     const response = await projectsStore.getBudgetItems(projectId, params);
 
@@ -162,6 +166,12 @@ export function useProjects() {
       tbr_number: project["tbr-number"],
       request_number: project["request-number"],
       network_folder: project["network-folder"],
+    };
+  };
+
+  const parseBudget = (budget) => {
+    return {
+      tbr_number: budget.tbr_number,
     };
   };
 
@@ -379,9 +389,11 @@ export function useProjects() {
     updateBudgetItem,
     getProjectPayments,
     createBudgetItem,
+    updateBudget,
 
     // UTILITIES
     parseProject,
+    parseBudget,
     parseUpdateBudgetItem,
     parseUpdateProject,
     parseProjectCustomer,

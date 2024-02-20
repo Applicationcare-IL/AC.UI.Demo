@@ -1,5 +1,10 @@
 <template>
-  <WMDetailFormSubHeader :form-key="formKey" @save-form="saveForm()" />
+  <WMDetailFormSubHeader
+    :form-key="formKey"
+    :show-message-button="false"
+    :show-email-button="false"
+    @save-form="saveForm()"
+  />
   <WMBudgetProjectForm ref="detailProjectBudgetForm" :form-key="formKey" />
 </template>
 

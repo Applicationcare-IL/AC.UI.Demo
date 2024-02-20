@@ -195,7 +195,7 @@ const budgetItem = ref(null);
 // COMPUTED
 
 // COMPONENT METHODS
-const { handleSubmit, values, meta, resetForm } = useForm();
+const { handleSubmit, meta, resetForm } = useForm();
 
 const fetchData = () => {
   getBudgetItem(route.params.id, route.params.budgetId).then((response) => {

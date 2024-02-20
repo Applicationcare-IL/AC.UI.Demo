@@ -156,6 +156,16 @@ export const useProjectsStore = defineStore("projects", {
         });
     },
     // BUDGETS
+    updateBudget(projectId, data) {
+      return axiosConfig
+        .patch("/projects/" + projectId + "/budget", data)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     getProjectBudget(projectId) {
       return axiosConfig
         .get("/projects/" + projectId + "/budget")
