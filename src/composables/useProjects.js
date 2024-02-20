@@ -100,6 +100,10 @@ export function useProjects() {
     return mapBudgetItem(response.data);
   };
 
+  const createBudgetItem = async (projectId, data) => {
+    return await projectsStore.createBudgetItem(projectId, data);
+  };
+
   const updateBudgetItem = async (projectId, budgetItemId, data) => {
     return await projectsStore.updateBudgetItem(projectId, budgetItemId, data);
   };
@@ -166,7 +170,6 @@ export function useProjects() {
       name: budgetItem["budget-item-name"],
       description: budgetItem.description,
       estimate: budgetItem.estimate,
-      // approved: DUDA,
       planned_contract: budgetItem.planned_contract,
       executed_payments: budgetItem["executed-payments"],
       planned_non_contract: budgetItem.planned_non_contract,
@@ -174,7 +177,6 @@ export function useProjects() {
       management_fee: budgetItem.management_fee,
       total: budgetItem.total,
       balance: budgetItem.balance,
-      // deficit: duda
     };
   };
 
@@ -376,6 +378,7 @@ export function useProjects() {
     getBudgetItem,
     updateBudgetItem,
     getProjectPayments,
+    createBudgetItem,
 
     // UTILITIES
     parseProject,

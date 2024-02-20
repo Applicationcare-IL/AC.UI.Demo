@@ -1,5 +1,4 @@
 <template>
-  <pre>{{ budgetItems }}</pre>
   <WMSidebar
     :visible="isVisible"
     name="newBudgetItem"
@@ -7,15 +6,12 @@
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
   >
-    <template #default="slotProps">
-      <WMNewBudgetItemForm />
-
-      <!-- <WMNewTaskForm
+    <template #default>
+      <WMNewBudgetItemForm
+        :related-budget="relatedBudget"
         :is-sidebar="true"
-        :related-entity="slotProps.props.data.relatedEntity"
-        :related-entity-id="slotProps.props.data.relatedEntityId"
-        @new-task-created="loadLazyData"
-      /> -->
+        @new-budget-item-created="loadLazyData"
+      />
     </template>
   </WMSidebar>
   <div class="flex flex-column gap-3 mb-3">
@@ -155,6 +151,10 @@ const { getBudgetItemsTableColumns } = useListUtils();
 const props = defineProps({
   projectId: {
     type: Number,
+    required: true,
+  },
+  relatedBudget: {
+    type: Object,
     required: true,
   },
 });

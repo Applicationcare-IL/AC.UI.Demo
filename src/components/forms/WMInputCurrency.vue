@@ -21,7 +21,7 @@
         :name="name"
         :class="[
           {
-            'wm-input-error': !!errorMessage,
+            'wm-input-error': !!field.errorMessage,
           },
           'w-full',
         ]"
@@ -30,11 +30,11 @@
       />
     </div>
 
-    <span v-if="errorMessage" class="wm-validation-message">
+    <span v-if="field.errorMessage" class="wm-validation-message">
       {{
-        typeof errorMessage === "string"
-          ? $t(errorMessage)
-          : $t(errorMessage.key, errorMessage.values)
+        typeof field.errorMessage === "string"
+          ? $t(field.errorMessage)
+          : $t(field.errorMessage.key, field.errorMessage.values)
       }}
     </span>
   </template>

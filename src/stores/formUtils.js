@@ -297,6 +297,20 @@ export const useFormUtilsStore = defineStore("formUtils", {
         //   .required(),
       });
     },
+
+    getNewBudgetItemFormValidationSchema: () => {
+      return yup.object({
+        "budget-item-name": yup.string().required(),
+        description: yup.string().required(),
+        planned_non_contract: yup.number().required(),
+        planned_contract: yup.number().required(),
+        unexpected: yup.number().required(),
+        management_fee: yup.number().required(),
+        estimate: yup.number().required(),
+        approved_council: yup.number().required(),
+        approved_ministry: yup.number().required(),
+      });
+    },
     // getContactDetailFormValidationSchema: (state) => {
     //   return yup.object({
     //     "first-name": yup.string().required(),

@@ -48,9 +48,7 @@
           <template #title> {{ $t("budget.budget-details") }} </template>
           <template #content>
             <div class="flex flex-column gap-5">
-              <div
-                class="flex flex-row gap-5 align-items-center justify-content-between"
-              >
+              <div class="flex flex-row gap-5 align-items-center justify-content-between">
                 <WMHighlightedBlock
                   v-model="budget.planned_non_contract"
                   background-color="blue-100"
@@ -125,18 +123,12 @@
           <template #title>
             <div class="flex align-items-center gap-3">
               {{ $t("budget.tbr-details") }}
-              <WMInput
-                v-model="budget.tbr"
-                name="first-name"
-                type="input-text"
-              />
+              <WMInput v-model="budget.tbr" name="first-name" type="input-text" />
             </div>
           </template>
           <template #content>
             <div class="flex flex-column gap-2">
-              <div
-                class="flex flex-row align-items-center justify-content-between gap-2"
-              >
+              <div class="flex flex-row align-items-center justify-content-between gap-2">
                 <WMHighlightedBlock
                   v-model="budget.tbr_accepted"
                   background-color="gray-100"
@@ -159,9 +151,7 @@
                 />
               </div>
               <Divider />
-              <div
-                class="flex flex-row align-items-center gap-4 justify-content-between"
-              >
+              <div class="flex flex-row align-items-center gap-4 justify-content-between">
                 <WMHighlightedBlock
                   v-model="budget.tbr_reported"
                   background-color="white"
@@ -193,9 +183,7 @@
           </template>
           <template #content>
             <div class="flex flex-column gap-2">
-              <div
-                class="flex flex-row align-items-center justify-content-between gap-2"
-              >
+              <div class="flex flex-row align-items-center justify-content-between gap-2">
                 <WMHighlightedBlock
                   v-model="modelValue"
                   background-color="gray-100"
@@ -225,7 +213,7 @@
 
     <Accordion>
       <AccordionTab :header="$t('budget.budget-items')">
-        <WMBudgetItemsTable :project-id="projectId" />
+        <WMBudgetItemsTable :project-id="projectId" :related-budget="budget" />
       </AccordionTab>
     </Accordion>
 
@@ -235,7 +223,7 @@
 
     <Accordion>
       <AccordionTab :header="$t('budget.payments')">
-        <WMPaymentsTable :project-id="projectId"></WMPaymentsTable>
+        <!-- <WMPaymentsTable :project-id="projectId"></WMPaymentsTable> -->
       </AccordionTab>
     </Accordion>
 

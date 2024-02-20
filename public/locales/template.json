@@ -313,7 +313,8 @@
     "open-budget": "Open budget",
     "estimate": "Estimate",
     "executed-payments": "Executed (payments)",
-    "last-changed": "Last changed"
+    "last-changed": "Last changed",
+    "budget-items-components-details": "Budget Items Components Details"
   },
   "budget-item": {
     "budget-item": "Budget Item"

@@ -5,16 +5,32 @@
         {{ $t("new", ["budget.budget-item"]) }}
       </h1>
       <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
-      <div class="wm-form-row align-items-end gap-5">
-        <div class="wm-form-row gap-5">
-          <!-- <WMInput
-            name="contractor"
+      <div class="wm-form-row gap-5">
+        <div class="wm-form-row flex-column align-items-start gap-5">
+          <WMInput
+            name="budget"
             type="info-link"
             :highlighted="true"
             :label="$t('budget.budget') + ':'"
-            :value="project.contractor?.name"
-            :to="'/customer/' + project.contractor?.id"
-          /> -->
+            :value="relatedBudget.id"
+            :to="'/project/' + relatedBudget.project?.id + '/budget'"
+          />
+
+          <WMInput
+            id="budget-item-name"
+            type="input-text"
+            :label="$t('budget.budget-item-name') + ':'"
+            name="budget-item-name"
+            required
+          />
+
+          <WMInput
+            id="description"
+            :label="$t('description') + ':'"
+            type="text-area"
+            name="description"
+            width="full"
+          />
         </div>
       </div>
       <Divider />
@@ -23,26 +39,182 @@
       </h2>
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
-          <WMHighlightedBlock
-            size="small"
-            background-color="blue-200"
-            :label="$t('budget.total') + ':'"
-          />
+          <div class="flex flex-column gap-5">
+            <div class="flex align-items-center justify-content-between gap-2">
+              <WMHighlightedBlock
+                id="planned_non_contract"
+                name="planned_non_contract"
+                background-color="blue-100"
+                :label="$t('budget.planned-non-contract') + ':'"
+                editable
+              />
+              <PlusIcon />
+              <WMHighlightedBlock
+                id="planned_contract"
+                name="planned_contract"
+                background-color="blue-100"
+                :label="$t('budget.planned-contract') + ':'"
+                editable
+              />
+              <PlusIcon />
+
+              <WMHighlightedBlock
+                id="unexpected"
+                name="unexpected"
+                background-color="blue-100"
+                :label="$t('budget.unexpected') + ':'"
+                editable
+              />
+              <PlusIcon />
+              <WMHighlightedBlock
+                id="management_fee"
+                name="management_fee"
+                background-color="blue-100"
+                :label="$t('budget.management-fee') + ':'"
+                editable
+              />
+
+              <EqualIcon />
+              <WMHighlightedBlock
+                id="total"
+                name="total"
+                background-color="blue-200"
+                :label="$t('budget.total') + ':'"
+              />
+            </div>
+
+            <Divider />
+
+            <div class="flex align-items-center gap-4">
+              <WMHighlightedBlock
+                id="estimate"
+                name="estimate"
+                background-color="purple-100"
+                :label="$t('budget.estimate') + ':'"
+                editable
+              />
+
+              <WMHighlightedBlock
+                id="approved_council"
+                name="approved_council"
+                background-color="white"
+                :label="$t('budget.approved-council') + ':'"
+                editable
+              />
+
+              <WMHighlightedBlock
+                id="approved_ministry"
+                name="approved_ministry"
+                background-color="white"
+                :label="$t('budget.approved-ministry') + ':'"
+                editable
+              />
+            </div>
+
+            <Divider />
+
+            <div class="flex align-items-center gap-4">
+              <WMHighlightedBlock
+                id="executed_payments"
+                name="executed_payments"
+                background-color="white"
+                :label="$t('budget.executed-payments') + ':'"
+              />
+
+              <WMHighlightedBalanceBlock
+                id="balance"
+                name="balance"
+                :quantity="1"
+                :label="$t('budget.balance') + ':'"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <WMFormButtons
-      v-if="isSidebar"
-      @save-form="onSubmit()"
-      @cancel-form="onCancel()"
-    />
+    <div class="my-4"></div>
+    <WMFormButtons v-if="isSidebar" @save-form="onSave()" @cancel-form="onCancel()" />
   </div>
 </template>
 
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { computed, inject, onMounted, ref, watch } from "vue";
+import { inject, watch } from "vue";
+import { useRoute } from "vue-router";
+
+import { useFormUtilsStore } from "@/stores/formUtils";
+
+// DEPENDENCIES
+const toast = useToast();
+const route = useRoute();
+const { createBudgetItem, parseUpdateBudgetItem } = useProjects();
+const formUtilsStore = useFormUtilsStore();
+
+// INJECT
+const isFormDirty = inject("isFormDirty");
+const closeSidebar = inject("closeSidebar");
+
+// PROPS, EMITS
+const props = defineProps({
+  relatedBudget: {
+    type: Object,
+    required: true,
+  },
+  isSidebar: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const emit = defineEmits(["newBudgetItemCreated"]);
+
+// REFS
+
+// COMPUTED
+
+// COMPONENT METHODS
+const { handleSubmit, meta, resetForm } = useForm({
+  validationSchema: formUtilsStore.getNewBudgetItemFormValidationSchema,
+});
+
+const onSave = handleSubmit((values) => {
+  createBudgetItem(route.params.id, parseUpdateBudgetItem(values))
+    .then(() => {
+      toast.successAction("budget item", "updated");
+
+      emit("newBudgetItemCreated");
+      resetForm({ values: values });
+
+      isFormDirty.value = false;
+
+      closeSidebar();
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("budget item", "not-updated");
+    });
+});
+
+const onCancel = () => {
+  closeSidebar();
+};
+
+// PROVIDE, EXPOSE
+defineExpose({
+  onSave,
+  onCancel,
+});
+
+// WATCHERS
+watch(
+  () => meta.value,
+  (value) => {
+    isFormDirty.value = value.dirty;
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
 <style scoped lang="scss"></style>
