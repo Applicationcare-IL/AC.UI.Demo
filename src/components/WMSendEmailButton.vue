@@ -19,7 +19,7 @@
       <span class="h4">Send email to contacts</span>
     </template>
 
-    {{ selectedDropdownContacts }}
+    selectedDropdownContacts: {{ selectedDropdownContacts }}
 
     <div v-if="selectedContacts" class="flex flex-column gap-2">
       <div v-if="!multiple" class="flex flex-row gap-3">
