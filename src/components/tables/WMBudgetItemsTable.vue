@@ -1,33 +1,34 @@
 <template>
-  <!-- <pre>{{ budgetItems }}</pre> -->
-  <!-- <WMSidebar
+  <pre>{{ budgetItems }}</pre>
+  <WMSidebar
     :visible="isVisible"
-    name="newTask"
+    name="newBudgetItem"
     :data="{ relatedEntity: relatedEntity, relatedEntityId: relatedEntityId }"
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
   >
     <template #default="slotProps">
-      <WMNewTaskForm
+      <WMNewBudgetItemForm />
+
+      <!-- <WMNewTaskForm
         :is-sidebar="true"
         :related-entity="slotProps.props.data.relatedEntity"
         :related-entity-id="slotProps.props.data.relatedEntityId"
         @new-task-created="loadLazyData"
-      />
+      /> -->
     </template>
-  </WMSidebar> -->
+  </WMSidebar>
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <!-- <WMButton
+        <WMButton
           class="m-1 col-6"
           name="new"
           icon="new"
           icon-position="right"
           @click="toggleSidebarVisibility"
           >{{ t("new") }}</WMButton
-        > -->
-        <!-- <WMAssignOwnerButton entity="task" /> -->
+        >
       </div>
       <!-- <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -120,7 +121,7 @@
     </Column>
   </DataTable>
 
-  <WMSidebar
+  <!-- <WMSidebar
     :visible="editBudgetItemSidebarVisibility"
     name="editBudgetItemSidebar"
     @close-sidebar="closeSidebarEditBudgetItemSidebar"
@@ -128,20 +129,16 @@
   >
     <template #default="slotProps">
       <WMNewBudgetItemForm />
-      <!-- <WMNewTaskForm
-        :is-sidebar="true"
-        :related-entity="slotProps.props.data.relatedEntity"
-        :related-entity-id="slotProps.props.data.relatedEntityId"
-        @new-task-created="loadLazyData"
-      /> -->
     </template>
-  </WMSidebar>
+  </WMSidebar> -->
 </template>
 
 <script setup>
 import { onMounted, ref, watchEffect } from "vue";
+import { useI18n } from "vue-i18n";
 
 const { getBudgetItems } = useProjects();
+const { t } = useI18n();
 
 const editBudgetItemSidebarVisibility = ref(false);
 
@@ -205,19 +202,19 @@ const onPage = (event) => {
 };
 
 // // first sidebar
-// const isVisible = ref(false);
+const isVisible = ref(false);
 
-// function toggleSidebarVisibility() {
-//   isVisible.value = !isVisible.value;
-// }
+function toggleSidebarVisibility() {
+  isVisible.value = !isVisible.value;
+}
 
-// function closeSidebar() {
-//   isVisible.value = false;
-// }
+function closeSidebar() {
+  isVisible.value = false;
+}
 
-// function openSidebar() {
-//   isVisible.value = true;
-// }
+function openSidebar() {
+  isVisible.value = true;
+}
 
 // const isFilterVisible = ref(false);
 

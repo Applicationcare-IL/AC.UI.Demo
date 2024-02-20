@@ -572,7 +572,7 @@ export function useListUtils() {
       },
       {
         name: "balance",
-        field: "balance",
+        field: "balance_approved",
         type: "balance",
       },
       {

@@ -119,6 +119,13 @@ const styleClasses = computed(() => {
   }
 }
 
+.highlighted-block.text-sm {
+  .highlighted-block__icon {
+    top: 2px;
+    left: 2px;
+  }
+}
+
 .width-big {
   width: 224px;
 }
