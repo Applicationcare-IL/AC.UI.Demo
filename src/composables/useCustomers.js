@@ -119,6 +119,7 @@ export function useCustomers() {
         apartment_number: customer["apartment"],
         house_entrance: customer.entrance?.value,
         zip: customer["zip"]?.id,
+        neighborhood: customer["neighborhood"]?.id,
       },
     };
   };

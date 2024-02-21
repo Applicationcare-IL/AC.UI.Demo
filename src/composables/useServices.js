@@ -66,6 +66,7 @@ export function useServices() {
         apartment: service["apartment"],
         entrance: service["entrance"]?.value,
         zip: service["zip"]?.id,
+        neighborhood: service["neighborhood"]?.id,
       },
     };
   };
@@ -144,6 +145,7 @@ export function useServices() {
         city: service.location?.city,
         country: service.location?.country,
         zip: service.location?.zip?.id,
+        neighborhood: service.location?.neighborhood,
       },
       site: {
         name: service.location?.site,
