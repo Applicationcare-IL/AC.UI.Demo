@@ -15,18 +15,26 @@
         @change="updateStreets"
       />
 
-      <div class="flex flex-row">
-        <WMInputSearch
-          name="street"
-          :highlighted="true"
-          :label="$t('address.street') + ':'"
-          :options="streets"
-          width="152"
-          :placeholder="$t('select', ['address.street'])"
-          :option-set="true"
-          :required="isStreetRequired"
-        />
-      </div>
+      <WMInputSearch
+        name="street"
+        :highlighted="true"
+        :label="$t('address.street') + ':'"
+        :options="streets"
+        width="152"
+        :placeholder="$t('select', ['address.street'])"
+        :option-set="true"
+        :required="isStreetRequired"
+      />
+
+      <WMInputSearch
+        name="neighborhood"
+        :highlighted="true"
+        :label="$t('address.neighborhood') + ':'"
+        :options="neighborhoods"
+        width="152"
+        :placeholder="$t('select', ['address.neighborhood'])"
+        :option-set="true"
+      />
     </div>
     <div class="wm-form-row gap-5">
       <WMInput
@@ -91,6 +99,8 @@ const isStreetRequired = computed(() => {
 
 const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
+const neighborhoods = ref(optionSetsStore.optionSets["service_neighborhood"]);
+
 const zips = ref(optionSetsStore.optionSets["zip"]);
 
 const updateStreets = (city) => {
@@ -99,6 +109,12 @@ const updateStreets = (city) => {
       .getOptionSetValuesFromApiRaw("service_street", city.value.id)
       .then((data) => {
         streets.value = data;
+      });
+
+    optionSetsStore
+      .getOptionSetValuesFromApiRaw("service_neighborhood", city.value.id)
+      .then((data) => {
+        neighborhoods.value = data;
       });
   }
 };

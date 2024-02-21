@@ -27,30 +27,34 @@
                 :placeholder="$t('select', ['addres.city'])"
                 :option-set="true"
                 @change="updateStreets($event)"
+                @blur="handleCityBlur"
               />
 
-              <div class="flex flex-row gap-5">
-                <WMInputSearch
-                  v-model="location.street"
-                  name="street"
-                  :required="true"
-                  :highlighted="true"
-                  :label="$t('address.street') + ':'"
-                  :options="streets"
-                  width="152"
-                  :placeholder="$t('select', ['address.street'])"
-                  :option-set="true"
-                  :disabled="!isCitySelected"
-                />
-                <!-- <WMInput
-                  name="neighborhood"
-                  type="info"
-                  :highlighted="true"
-                  label="שכונה:"
-                  value="שם של שכונה"
-                  class="is-mocked"
-                /> -->
-              </div>
+              <WMInputSearch
+                v-model="location.street"
+                name="street"
+                :required="true"
+                :highlighted="true"
+                :label="$t('address.street') + ':'"
+                :options="streets"
+                width="152"
+                :placeholder="$t('select', ['address.street'])"
+                :option-set="true"
+                :disabled="!isCitySelected"
+              />
+
+              <WMInputSearch
+                v-model="location.neighborhood"
+                name="neighborhood"
+                :highlighted="true"
+                :label="$t('address.neighborhood') + ':'"
+                :options="neighborhoods"
+                :disabled="!isCitySelected"
+                width="152"
+                :placeholder="$t('select', ['address.neighborhood'])"
+                :option-set="true"
+              />
+
               <WMInput
                 :value="location.house_number"
                 name="house-number"
@@ -121,6 +125,7 @@ const isCitySelected = ref(false);
 
 const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
+const neighborhoods = ref(optionSetsStore.optionSets["service_neighborhood"]);
 
 onMounted(() => {
   if (props.project.location?.street && props.project.location?.city) {
@@ -136,6 +141,7 @@ onMounted(() => {
 });
 
 const updateStreets = (event) => {
+  console.log(event.value);
   if (event.value) {
     optionSetsStore
       .getOptionSetValuesFromApiRaw("service_street", event.value.id)
@@ -143,8 +149,20 @@ const updateStreets = (event) => {
         streets.value = data;
       });
 
+    optionSetsStore
+      .getOptionSetValuesFromApiRaw("service_neighborhood", event.value.id)
+      .then((data) => {
+        neighborhoods.value = data;
+      });
+
     isCitySelected.value = true;
   } else {
+    isCitySelected.value = false;
+  }
+};
+
+const handleCityBlur = () => {
+  if (!location.value.city) {
     isCitySelected.value = false;
   }
 };

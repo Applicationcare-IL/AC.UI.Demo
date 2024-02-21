@@ -27,20 +27,31 @@
             :option-set="true"
             @change="updateStreets($event)"
           />
-          <div class="flex flex-row gap-5 mt-2 mb-2">
-            <WMInputSearch
-              v-model="location.street"
-              name="street"
-              :required="true"
-              :highlighted="true"
-              :label="$t('address.street') + ':'"
-              :options="streets"
-              width="152"
-              :placeholder="$t('select', ['address.street'])"
-              :option-set="true"
-              :disabled="!isCitySelected"
-            />
-          </div>
+
+          <WMInputSearch
+            v-model="location.street"
+            name="street"
+            :required="true"
+            :highlighted="true"
+            :label="$t('address.street') + ':'"
+            :options="streets"
+            width="152"
+            :placeholder="$t('select', ['address.street'])"
+            :option-set="true"
+            :disabled="!isCitySelected"
+          />
+
+          <WMInputSearch
+            v-model="location.neighborhood"
+            name="neighborhood"
+            :highlighted="true"
+            :label="$t('address.neighborhood') + ':'"
+            :options="neighborhoods"
+            :disabled="!isCitySelected"
+            width="152"
+            :placeholder="$t('select', ['address.neighborhood'])"
+            :option-set="true"
+          />
 
           <WMInput
             :value="location.house_number"
@@ -113,6 +124,7 @@ const isCitySelected = ref(false);
 
 const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
+const neighborhoods = ref(optionSetsStore.optionSets["service_neighborhood"]);
 
 const location = ref({});
 
@@ -125,6 +137,13 @@ const updateStreets = (event) => {
       .then((data) => {
         streets.value = data;
       });
+
+    optionSetsStore
+      .getOptionSetValuesFromApiRaw("service_neighborhood", event.value.id)
+      .then((data) => {
+        neighborhoods.value = data;
+      });
+
     isCitySelected.value = true;
   } else {
     isCitySelected.value = false;

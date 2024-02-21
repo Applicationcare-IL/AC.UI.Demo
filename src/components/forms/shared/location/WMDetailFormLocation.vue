@@ -8,17 +8,17 @@
         </div>
       </template>
       <template #content>
-        <div class="flex flex-auto flex-column gap-5" v-if="location">
+        <div v-if="location" class="flex flex-auto flex-column gap-5">
           <div class="wm-form-row gap-5">
             <WMInputSearch
               v-if="editable"
+              v-model="location.city"
               name="city"
               :highlighted="true"
               :label="$t('address.city') + ':'"
               :options="cities"
               width="152"
               :placeholder="$t('select', ['address.city'])"
-              v-model="location.city"
               :option-set="true"
               @change="updateStreets"
             />
@@ -33,16 +33,17 @@
 
             <WMInputSearch
               v-if="editable"
+              v-model="location.street"
               name="street"
               :highlighted="true"
               :label="$t('address.street') + ':'"
               :options="streets"
               width="152"
               :placeholder="$t('select', ['address.street'])"
-              v-model="location.street"
               :option-set="true"
               :disabled="!isCitySelected"
             />
+
             <WMInput
               v-else
               name="street"
@@ -51,6 +52,31 @@
               :label="$t('address.street') + ':'"
               :value="
                 location.street ? location.street[optionLabelWithLang] : ''
+              "
+            />
+
+            <WMInputSearch
+              v-if="editable"
+              v-model="location.neighborhood"
+              name="neighborhood"
+              :highlighted="true"
+              :label="$t('address.neighborhood') + ':'"
+              :options="neighborhoods"
+              width="152"
+              :placeholder="$t('select', ['address.neighborhood'])"
+              :option-set="true"
+            />
+
+            <WMInput
+              v-else
+              name="neighborhood"
+              :type="formType"
+              :highlighted="true"
+              :label="$t('address.neighborhood') + ':'"
+              :value="
+                location.neighborhood
+                  ? location.neighborhood[optionLabelWithLang]
+                  : ''
               "
             />
           </div>
@@ -95,7 +121,7 @@
               :options="zips"
               width="80"
               :placeholder="$t('select', ['address.zip'])"
-              :optionSet="true"
+              :option-set="true"
             />
             <WMInput
               v-else
@@ -114,9 +140,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, provide } from "vue";
-import { useOptionSetsStore } from "@/stores/optionSets";
+import { computed, onMounted, provide, ref } from "vue";
+
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 const formUtilsStore = useFormUtilsStore();
 
@@ -144,6 +171,7 @@ const formType = computed(() => {
 
 const cities = ref(optionSetsStore.optionSets["service_city"]);
 const streets = ref(optionSetsStore.optionSets["service_street"]);
+const neighborhoods = ref(optionSetsStore.optionSets["service_neighborhood"]);
 const zips = ref(optionSetsStore.optionSets["zip"]);
 
 const selectedCity = ref();
@@ -181,6 +209,12 @@ const updateStreets = (city) => {
       .getOptionSetValuesFromApiRaw("service_street", city.value.id)
       .then((data) => {
         streets.value = data;
+      });
+
+    optionSetsStore
+      .getOptionSetValuesFromApiRaw("service_neighborhood", city.value.id)
+      .then((data) => {
+        neighborhoods.value = data;
       });
 
     isCitySelected.value = true;

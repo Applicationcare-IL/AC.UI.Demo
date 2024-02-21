@@ -26,6 +26,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
       "service_site_type",
       "service_city",
       "service_street",
+      "service_neighborhood",
       "service_site_contact_relationship_role",
       "service_priority",
       "service_urgent",
