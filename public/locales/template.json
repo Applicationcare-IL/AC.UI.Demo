@@ -64,6 +64,8 @@
   "options": "Options",
   "filename": "Filename",
   "buttons": {
+    "save": "Save",
+    "cancel": "Cancel",
     "link_contact": "Link contact",
     "link_customer": "Link customer",
     "assign": "Assign",

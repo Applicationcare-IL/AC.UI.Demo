@@ -7,7 +7,7 @@
       icon-position="left"
       @click="saveForm()"
     >
-      שמירה
+      {{ $t("buttons.save") }}
     </WMButton>
     <WMButton
       name="cancel"
@@ -15,16 +15,13 @@
       icon-position="left"
       @click="cancelForm()"
     >
-      ביטול
+      {{ $t("buttons.cancel") }}
     </WMButton>
   </div>
 </template>
 
 <script setup>
-import { useLayout } from "@/layout/composables/layout";
-
 const emit = defineEmits(["saveForm", "cancelForm"]);
-const { layoutConfig } = useLayout();
 
 const saveForm = () => {
   emit("saveForm");
