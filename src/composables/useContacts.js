@@ -85,6 +85,7 @@ export function useContacts() {
         apartment: contact.location?.apartment_number,
         entrance: contact.location?.house_entrance,
         zip: contact.location?.zip?.id,
+        neighborhood: contact.location?.neighborhood,
       },
       last_activity: contact.last_activity,
     };
@@ -106,6 +107,7 @@ export function useContacts() {
       street_number: contact["house-number"],
       city: contact["city"]?.id,
       zipcode: contact["zipcode"],
+      neighborhood: contact["neighborhood"]?.id,
       land_line: contact["landline"],
       notes: contact["notes"],
       contact_number: contact["contact-number"],
@@ -116,6 +118,7 @@ export function useContacts() {
         apartment_number: contact["apartment"],
         house_entrance: contact.entrance?.value,
         zip: contact["zip"]?.id,
+        neighborhood: contact["neighborhood"]?.id,
       },
     };
   };
