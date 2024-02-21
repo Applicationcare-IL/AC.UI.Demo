@@ -227,7 +227,7 @@
         "header": "New Task Created",
         "message": "The new task was successfully created! \n From now on he will appear in your tasks list",
         "detail": "View Task",
-        "list": "View List"
+        "list": "Close"
       }
     }
   },

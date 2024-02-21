@@ -106,7 +106,7 @@
         "header": "New Contact Created",
         "message": "The new contact was successfully created! \n From now on he will appear in your contacts list",
         "detail": "View contact",
-        "list": "View List"
+        "list": "Close"
       }
     },
     "toast": {
@@ -144,7 +144,7 @@
         "header": "New Customer Created",
         "message": "The new customer was successfully created! \n From now on he will appear in your customer list",
         "detail": "View Customer",
-        "list": "View List"
+        "list": "Close"
       }
     },
     "toast": {
@@ -188,7 +188,7 @@
         "header": "New service Created",
         "message": "The new service was successfully created! \n From now on he will appear in your customer list",
         "detail": "View service",
-        "list": "View List"
+        "list": "Close"
       }
     },
     "toast": {
@@ -227,7 +227,7 @@
         "header": "New Task Created",
         "message": "The new task was successfully created! \n From now on he will appear in your tasks list",
         "detail": "View Task",
-        "list": "View List"
+        "list": "Close"
       }
     }
   },
@@ -278,7 +278,7 @@
         "header": "New project created",
         "message": "The new project was successfully created! \n From now on he will appear in your project list",
         "detail": "View project",
-        "list": "View list"
+        "list": "Close"
       }
     }
   },
