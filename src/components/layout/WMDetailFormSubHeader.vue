@@ -68,7 +68,11 @@
           <Divider layout="vertical" />
 
           <WMAssignOwnerButton
-            v-if="can(utilsStore.pluralEntity + '.assign')"
+            v-if="
+              can(utilsStore.pluralEntity + '.assign') &&
+              utilsStore.entity !== 'budget-item' &&
+              utilsStore.entity !== 'project-budget'
+            "
             :entity="utilsStore.entity"
           />
 
@@ -177,7 +181,10 @@ const activateEntity = () => {
 };
 
 const deactivateEntity = () => {
-  emit("deactivateEntity", utilsStore.selectedElements[utilsStore.entity][0].id);
+  emit(
+    "deactivateEntity",
+    utilsStore.selectedElements[utilsStore.entity][0].id
+  );
 };
 
 const statusClass = (data) => {

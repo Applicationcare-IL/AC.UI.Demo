@@ -183,6 +183,8 @@ export function useProjects() {
       planned_contract: budgetItem.planned_contract,
       executed_payments: budgetItem["executed-payments"],
       planned_non_contract: budgetItem.planned_non_contract,
+      approved_ministry: budgetItem.approved_ministry,
+      approved_council: budgetItem.approved_council,
       unexpected: budgetItem.unexpected,
       management_fee: budgetItem.management_fee,
       total: budgetItem.total,

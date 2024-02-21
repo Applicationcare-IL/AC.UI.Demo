@@ -16,7 +16,7 @@
                   type="info-link"
                   :highlighted="true"
                   :label="$t('budget.budget') + ':'"
-                  :value="budgetItem.budget?.name"
+                  :value="budgetItem.budget?.id"
                   :to="'/project/' + budgetItem.project?.id + '/budget'"
                 />
 
@@ -59,7 +59,9 @@
           </template>
           <template #content>
             <div class="flex flex-column gap-5">
-              <div class="flex align-items-center justify-content-between gap-2">
+              <div
+                class="flex align-items-center justify-content-between gap-2"
+              >
                 <WMHighlightedBlock
                   id="planned_non_contract"
                   v-model="budgetItem.planned_non_contract"
@@ -167,6 +169,7 @@
 // IMPORTS
 import { useForm } from "vee-validate";
 import { ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -175,9 +178,11 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
-const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } = useProjects();
+const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } =
+  useProjects();
 const route = useRoute();
 const toast = useToast();
+const { t } = useI18n();
 
 // INJECT
 
@@ -207,15 +212,19 @@ const fetchData = () => {
 fetchData();
 
 const onSave = handleSubmit((values) => {
-  updateBudgetItem(route.params.id, route.params.budgetId, parseUpdateBudgetItem(values))
+  updateBudgetItem(
+    route.params.id,
+    route.params.budgetId,
+    parseUpdateBudgetItem(values)
+  )
     .then(() => {
-      toast.successAction("budget item", "updated");
+      toast.success(t("toast.budget-item-updated"));
       resetForm({ values: values });
       fetchData();
     })
     .catch((error) => {
       console.error(error);
-      toast.error("budget item", "not-updated");
+      toast.error(t("toast.error"));
     });
 });
 

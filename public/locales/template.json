@@ -316,6 +316,9 @@
     "last-changed": "Last changed",
     "budget-items-components-details": "Budget Items Components Details"
   },
+  "project-budget": {
+    "project-budget": "Project Budget"
+  },
   "budget-item": {
     "budget-item": "Budget Item"
   },
@@ -444,10 +447,11 @@
   },
   "toast": {
     "success": "Success",
-    "error": "Error",
     "warning": "Warning",
     "info": "Info",
-    "successful-action": "{0} successfully {1}"
+    "successful-action": "{0} successfully {1}",
+    "error": "An error occurred",
+    "budget-item-updated": "Budget item updated"
   },
   "communication-channels": {
     "sms": "SMS",
