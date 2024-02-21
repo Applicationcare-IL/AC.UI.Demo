@@ -9,7 +9,7 @@
       </template>
       <template #content>
         <div v-if="location" class="flex flex-auto flex-column gap-5">
-          <div class="wm-form-row gap-5">
+          <div class="wm-form-row gap-5 align-items-start">
             <WMInputSearch
               v-if="editable"
               v-model="location.city"
@@ -80,7 +80,7 @@
               "
             />
           </div>
-          <div class="wm-form-row gap-5">
+          <div class="wm-form-row gap-5 align-items-start">
             <WMInput
               name="house-number"
               :type="formType"
