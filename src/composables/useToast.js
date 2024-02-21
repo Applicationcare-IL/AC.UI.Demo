@@ -19,10 +19,7 @@ export function useToast() {
     toast.add({
       severity: "success",
       summary: i18n.t("toast.success"),
-      detail: i18n.t("toast.successful-action", {
-        entity: entityKey,
-        action: action,
-      }),
+      detail: `${i18n.t(entityKey)} succesfully ${i18n.t(action)}`,
       life: 3000,
     });
   };

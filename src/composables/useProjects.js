@@ -114,6 +114,8 @@ export function useProjects() {
 
   // PAYMENTS
   const getProjectPayments = async (projectId, params) => {
+    console.log("getProjectPayments", projectId, params);
+
     const response = await projectsStore.getProjectPayments(projectId, params);
 
     const payments = response.data;

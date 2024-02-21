@@ -6,7 +6,9 @@
     :disabled="selectedElements == 0 || !areTaskCompletable"
     @click="handleCompleteTasks"
   >
-    <span v-if="areTaskCompletable"> {{ t("buttons.complete") }} </span>
+    <span v-if="areTaskCompletable || selectedElements == 0">
+      {{ t("buttons.complete") }}
+    </span>
     <span v-else> {{ t("task.completed") }} </span>
   </WMButton>
   <WMCompleteServiceDialog />
@@ -14,21 +16,24 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
+// DEPENDENCIES
 const { t } = useI18n();
-
 const { completeTasks } = useTasks();
-
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
-
 const dialog = useDialog();
 const toast = useToast();
+
+// INJECT
+
+// PROPS, EMITS
 const props = defineProps({
   entity: {
     type: String,
@@ -38,16 +43,13 @@ const props = defineProps({
 
 const emit = defineEmits(["taskCompleted"]);
 
+// REFS
 const selectedElements = ref(0);
 const areTaskCompletable = ref(false);
 
-watch(
-  () => utilsStore.selectedElements[props.entity],
-  (value) => {
-    selectedElements.value = value.length;
-    areTaskCompletable.value = checkIfTasksAreCompletable(value);
-  }
-);
+// COMPUTED
+
+// COMPONENT METHODS
 
 const checkIfTasksAreCompletable = (tasks) => {
   if (tasks.length == 0) {
@@ -76,6 +78,19 @@ const checkIfTasksAreCompletable = (tasks) => {
   return tasks.every((x) => x.state == "active");
 };
 
+const updateStates = () => {
+  if (!utilsStore.selectedElements[props.entity]) {
+    return;
+  }
+
+  selectedElements.value = utilsStore.selectedElements[props.entity]?.length;
+  areTaskCompletable.value = checkIfTasksAreCompletable(
+    utilsStore.selectedElements[props.entity]
+  );
+};
+
+updateStates();
+
 const handleCompleteTasks = () => {
   // We need to assume that all the tasks to be completed share the same related entity type (service or project at the moment)
   const relatedEntity = utilsStore.selectedElements["task"][0].related_entity;
@@ -84,6 +99,7 @@ const handleCompleteTasks = () => {
     .then(() => {
       toast.successAction("task", "completed");
       emit("taskCompleted");
+      console.log("emto el evento");
     })
     .catch((error) => {
       if (error.response.status == 422) {
@@ -126,6 +142,19 @@ const completeProject = (id) => {
 };
 
 formUtilsStore.completeService = completeService;
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+watch(
+  () => utilsStore.selectedElements[props.entity],
+  () => {
+    updateStates();
+  },
+  { deep: true }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
 <style scoped></style>

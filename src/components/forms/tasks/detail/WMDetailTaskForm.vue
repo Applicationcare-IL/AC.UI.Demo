@@ -348,9 +348,18 @@ utilsStore.entity = "task";
 
 handleRouteChangeWithUnsavedFormChanges(meta);
 
+const loadTask = async () => {
+  await getTaskFromApi(route.params.id).then((data) => {
+    task.value = data;
+
+    utilsStore.selectedElements["task"] = [task.value];
+  });
+};
+
 // EXPOSE
 defineExpose({
   onSave,
+  loadTask,
 });
 
 // WATCHERS
@@ -364,10 +373,7 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
-  await getTaskFromApi(route.params.id).then((data) => {
-    task.value = data;
-    utilsStore.selectedElements["task"] = [task.value];
-  });
+  await loadTask();
 
   if (task.value.related_entity?.type === "service") {
     getServiceFromApi(task.value.related_entity.id).then((data) => {

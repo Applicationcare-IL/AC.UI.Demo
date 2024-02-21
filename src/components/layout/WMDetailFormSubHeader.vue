@@ -100,7 +100,11 @@
           <WMCompleteTasksButton
             v-if="utilsStore.entity == 'task'"
             :entity="utilsStore.entity"
-          ></WMCompleteTasksButton>
+            @task-completed="
+              $emit('taskCompleted');
+              console.log('task completed subheader');
+            "
+          />
         </div>
         <div>
           <WMButton
@@ -159,7 +163,12 @@ defineProps({
   },
 });
 
-const emit = defineEmits(["saveForm", "deactivateEntity", "activateEntity"]);
+const emit = defineEmits([
+  "saveForm",
+  "deactivateEntity",
+  "activateEntity",
+  "taskCompleted",
+]);
 
 // REFS
 const { getFormMeta } = storeToRefs(formUtilsStore);

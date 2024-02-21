@@ -451,7 +451,7 @@
     "success": "Success",
     "warning": "Warning",
     "info": "Info",
-    "successful-action": "{0} successfully {1}",
+    "successful-action": "{{entity}} successfully {{action}}",
     "error": "An error occurred",
     "budget-item-updated": "Budget item updated"
   },

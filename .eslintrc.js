@@ -14,6 +14,7 @@ module.exports = {
       {
         ignores: [
           "Services",
+          "Task",
           "Tasks",
           "Customers",
           "Customer",

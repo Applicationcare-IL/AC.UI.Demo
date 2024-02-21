@@ -236,7 +236,7 @@
 
     <Accordion>
       <AccordionTab :header="$t('budget.payments')">
-        <!-- <WMPaymentsTable :project-id="projectId"></WMPaymentsTable> -->
+        <WMPaymentsTable :project-id="projectId"></WMPaymentsTable>
       </AccordionTab>
     </Accordion>
 
