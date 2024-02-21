@@ -62,7 +62,7 @@
             <Divider></Divider>
             <div class="flex flex-row justify-content-between gap-3">
               <h3 class="h3 mb-0">
-                {{ project.tbr_number + " " + $t("budget.tbr-number") }}
+                {{ budget.tbr_number + " " + $t("budget.tbr-number") }}
               </h3>
             </div>
             <div class="flex flex-row gap-7">
