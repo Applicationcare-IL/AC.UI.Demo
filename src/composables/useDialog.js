@@ -17,7 +17,7 @@ export function useDialog() {
       message: i18n.t("customer.notification-created-message"),
       header: i18n.t("customer.notification-created-header"),
       acceptLabel: i18n.t("customer.notification-created-detail"),
-      rejectLabel: i18n.t("customer.notification-created-list"),
+      rejectLabel: i18n.t("customer.notification-created-close"),
       accept: () => {
         formUtilsStore.goToDetail(id);
       },
@@ -32,7 +32,7 @@ export function useDialog() {
       message: i18n.t("contact.notification-created-message"),
       header: i18n.t("contact.notification-created-header"),
       acceptLabel: i18n.t("contact.notification-created-detail"),
-      rejectLabel: i18n.t("contact.notification-created-list"),
+      rejectLabel: i18n.t("contact.notification-created-close"),
       accept: () => {
         formUtilsStore.goToDetail(id);
       },
@@ -47,7 +47,7 @@ export function useDialog() {
       message: i18n.t("task.notification-created-message"),
       header: i18n.t("task.notification-created-header"),
       acceptLabel: i18n.t("task.notification-created-detail"),
-      rejectLabel: i18n.t("task.notification-created-list"),
+      rejectLabel: i18n.t("task.notification-created-close"),
       accept: () => {
         formUtilsStore.goToDetail(id, "task");
       },
@@ -64,7 +64,7 @@ export function useDialog() {
       message: i18n.t("service.notification-created-message"),
       header: i18n.t("service.notification-created-header"),
       acceptLabel: i18n.t("service.notification-created-detail"),
-      rejectLabel: i18n.t("service.notification-created-list"),
+      rejectLabel: i18n.t("service.notification-created-close"),
       accept: () => {
         formUtilsStore.goToDetail(id);
       },
@@ -107,7 +107,7 @@ export function useDialog() {
       message: i18n.t("project.notification-created-message"),
       header: i18n.t("project.notification-created-header"),
       acceptLabel: i18n.t("project.notification-created-detail"),
-      rejectLabel: i18n.t("project.notification-created-list"),
+      rejectLabel: i18n.t("project.notification-created-close"),
       accept: () => {
         formUtilsStore.goToDetail(id, "project");
         router.push({

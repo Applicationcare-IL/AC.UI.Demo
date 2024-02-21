@@ -21,8 +21,12 @@
       @item-unselect="onRemove"
       @input="$emit('update:value', $event.target.value)"
       @item-select="onItemSelected"
-      @change="emit('update:modelValue', value)"
+      @change="
+        emit('update:modelValue', value);
+        handleChange($event);
+      "
       @blur="emit('blur')"
+      @click="handleClick"
     >
       <template v-if="props.relatedSidebar" #empty>
         <div
@@ -245,6 +249,22 @@ const search = (event) => {
         if (returnValue) return option.name;
       });
   }, 250);
+};
+
+// select all the text in the input when the user clicks on it for UX purposes
+const handleClick = (e) => {
+  if (!e.srcElement) return;
+
+  e.srcElement.focus();
+  e.srcElement.select();
+};
+
+// we need to reset the focus to show the options when we delete the selected option
+const handleChange = (event) => {
+  if (event.value === "") {
+    event.originalEvent.srcElement.blur();
+    event.originalEvent.srcElement.focus();
+  }
 };
 
 const onRemove = (event) => {

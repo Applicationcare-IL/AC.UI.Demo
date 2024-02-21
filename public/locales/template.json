@@ -120,7 +120,7 @@
     "notification-created-header": "New Contact Created",
     "notification-created-message": "The new contact was successfully created! \n From now on he will appear in your contacts list",
     "notification-created-detail": "View contact",
-    "notification-created-list": "View List",
+    "notification-created-close": "View List",
     "toast": {
       "created": "A new contact was created",
       "error": "An error occurred"
@@ -154,7 +154,7 @@
     "notification-created-header": "New Customer Created",
     "notification-created-message": "The new customer was successfully created! \n From now on he will appear in your customer list",
     "notification-created-detail": "View Customer",
-    "notification-created-list": "View List",
+    "notification-created-close": "View List",
     "toast": {
       "created": "New Customer Created",
       "error": "An error occurred"
@@ -195,7 +195,7 @@
     "notification-created-header": "New service Created",
     "notification-created-message": "The new service was successfully created! \n From now on he will appear in your customer list",
     "notification-created-detail": "View service",
-    "notification-created-list": "View List",
+    "notification-created-close": "View List",
     "toast": {
       "created": "New service Created",
       "error": "An error occurred"
@@ -231,7 +231,7 @@
     "notification-created-header": "New Task Created",
     "notification-created-message": "The new task was successfully created! \n From now on he will appear in your tasks list",
     "notification-created-detail": "View Task",
-    "notification-created-list": "View List",
+    "notification-created-close": "View List",
     "days-till-closure": "Days till closure"
   },
   "project": {
@@ -280,7 +280,7 @@
     "notification-created-header": "New project created",
     "notification-created-message": "The new project was successfully created! \n From now on he will appear in your project list",
     "notification-created-detail": "View project",
-    "notification-created-list": "View list"
+    "notification-created-close": "View list"
   },
   "budget": {
     "budget": "Budget",
