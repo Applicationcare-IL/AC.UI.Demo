@@ -66,7 +66,7 @@
   </div>
   <WMSidebar
     :visible="isVisible"
-    name="newTask"
+    name="WMTopTaskSummary.newTask"
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
   >
