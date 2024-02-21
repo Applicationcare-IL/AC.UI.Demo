@@ -21,12 +21,13 @@
                   :label="$t('id') + ':'"
                   :value="budget.id"
                 />
+
                 <WMInput
                   name="owner"
                   type="info"
                   :highlighted="true"
                   :label="$t('owner') + ':'"
-                  :value="null"
+                  :value="budget.owner.name"
                 />
                 <WMInput
                   name="project"
@@ -48,7 +49,9 @@
           <template #title> {{ $t("budget.budget-details") }} </template>
           <template #content>
             <div class="flex flex-column gap-5">
-              <div class="flex flex-row gap-5 align-items-center justify-content-between">
+              <div
+                class="flex flex-row gap-5 align-items-center justify-content-between"
+              >
                 <WMHighlightedBlock
                   v-model="budget.planned_non_contract"
                   background-color="blue-100"
@@ -134,7 +137,9 @@
           </template>
           <template #content>
             <div class="flex flex-column gap-2">
-              <div class="flex flex-row align-items-center justify-content-start gap-2">
+              <div
+                class="flex flex-row align-items-center justify-content-start gap-2"
+              >
                 <WMHighlightedBlock
                   v-model="budget.tbr_accepted"
                   background-color="gray-100"
@@ -157,7 +162,9 @@
                 />
               </div>
               <Divider />
-              <div class="flex flex-row align-items-center gap-4 justify-content-start">
+              <div
+                class="flex flex-row align-items-center gap-4 justify-content-start"
+              >
                 <WMHighlightedBlock
                   v-model="budget.tbr_reported"
                   background-color="white"
