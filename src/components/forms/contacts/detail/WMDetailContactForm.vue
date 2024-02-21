@@ -59,7 +59,11 @@
                       type="input-select"
                       :label="$t('gender') + ':'"
                       :options="genders"
-                      :value="genders.find((gender) => gender.id === contact.gender?.id)"
+                      :value="
+                        genders.find(
+                          (gender) => gender.id === contact.gender?.id
+                        )
+                      "
                       :placeholder="$t('select', ['gender'])"
                       width="130"
                       option-set
@@ -176,7 +180,9 @@
         </div>
         <div class="card-container flex-1 middle-info-card">
           <Card>
-            <template #title> {{ $t("task.open") }} : {{ contact.open_tasks }}</template>
+            <template #title>
+              {{ $t("task.open") }} : {{ contact.open_tasks }}</template
+            >
             <template #content>
               <div class="flex flex-column gap-3">
                 <div
@@ -238,7 +244,7 @@
       </div>
       <div>
         <WMProjectsTable
-          v-if="can('projects.read')"
+          v-if="can('projects.read') && checkIfEntityIsActive('projects')"
           related-entity="contact"
           :related-entity-id="contact.id"
           :multiselect="false"
@@ -333,12 +339,8 @@ const {
   getProjectDocumentColumns,
 } = useListUtils();
 
-const {
-  getContactFromApi,
-  updateContact,
-  parseContact,
-  setSelectedContacts,
-} = useContacts();
+const { getContactFromApi, updateContact, parseContact, setSelectedContacts } =
+  useContacts();
 
 // PROPS, EMITS
 const props = defineProps({

@@ -229,7 +229,7 @@
       </div>
       <div>
         <WMTasksTable
-          v-if="can('tasks.read')"
+          v-if="can('tasks.read') && checkIfEntityIsActive('tasks')"
           related-entity="customer"
           :related-entity-id="customer.id"
           :columns="taskColumns"
@@ -238,7 +238,7 @@
       </div>
       <div>
         <WMProjectsTable
-          v-if="can('projects.read')"
+          v-if="can('projects.read') && checkIfEntityIsActive('projects')"
           related-entity="customer"
           :related-entity-id="customer.id"
           :multiselect="false"

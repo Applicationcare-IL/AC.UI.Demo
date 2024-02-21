@@ -50,7 +50,8 @@
           <router-link
             v-if="
               slotProps.data.task_family?.value === 'subproject' &&
-              slotProps.data.project_created
+              slotProps.data.project_created &&
+              checkIfEntityIsActive('projects')
             "
             :to="{
               name: 'projectDetail',
@@ -71,7 +72,11 @@
           >
         </template>
       </Column>
-      <Column field="project_name" :header="$t('project.project_name')">
+      <Column
+        v-if="checkIfEntityIsActive('projects')"
+        field="project_name"
+        :header="$t('project.project_name')"
+      >
         <template #body="slotProps">
           <router-link
             v-if="slotProps.data.related_entity?.type === 'project'"
@@ -93,7 +98,8 @@
             <img
               v-if="
                 slotProps.data.task_family?.value === 'subproject' &&
-                slotProps.data.project_created
+                slotProps.data.project_created &&
+                checkIfEntityIsActive('projects')
               "
               src="/icons/format_list_bulleted.svg"
               class="vertical-align-middle"
@@ -143,30 +149,47 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
+// DEPENDENCIES
+const { getTasksFromApi, mapContactsFromTasks } = useTasks();
+const { checkIfEntityIsActive } = useLicensing();
+const { setSelectedContacts, resetSelectedContacts } = useContacts();
+const utilsStore = useUtilsStore();
+const { selectedRowsPerPage } = useListUtils();
+
+// INJECT
+
+// PROPS, EMITS
+
+// REFS
+const searchValue = ref("");
+
+const dt = ref();
+const loading = ref(false);
+const totalRecords = ref(0);
+
+const lazyParams = ref({
+  page: 0,
+});
+
+const tasks = ref();
+const selectedTasks = ref([]);
+
+const isVisible = ref(false);
+
+// COMPUTED
+const isAnyRowSelected = computed(() => {
+  return selectedTasks?.value.length > 0;
+});
+
+// COMPONENT METHODS
 useHead({
   title: "Tasks",
 });
-
-const { getTasksFromApi, mapContactsFromTasks } = useTasks();
-
-const utilsStore = useUtilsStore();
-const searchValue = ref("");
-const { setSelectedContacts, resetSelectedContacts } = useContacts();
-
-onMounted(() => {
-  utilsStore.entity = "task";
-
-  loading.value = true;
-  loadLazyData();
-
-  resetSelectedContacts();
-});
-
-const { selectedRowsPerPage } = useListUtils();
 
 const loadLazyData = () => {
   loading.value = true;
@@ -196,20 +219,6 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const dt = ref();
-const loading = ref(false);
-const totalRecords = ref(0);
-
-const lazyParams = ref({
-  page: 0,
-});
-
-const tasks = ref();
-const selectedTasks = ref([]);
-
-// first sidebar
-const isVisible = ref(false);
-
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
 }
@@ -233,17 +242,16 @@ const onSelectionChanged = () => {
   utilsStore.selectedElements["task"] = selectedTasks.value;
 };
 
-const isAnyRowSelected = computed(() => {
-  return selectedTasks?.value.length > 0;
-});
-
-watchEffect(() => {
-  loadLazyData();
-});
-
 const rowClass = (data) => {
   return [{ inactive_row: !data.is_open }];
 };
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+watchEffect(() => {
+  loadLazyData();
+});
 
 watch(
   () => utilsStore.searchString["task"],
@@ -254,6 +262,16 @@ watch(
     });
   }
 );
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  utilsStore.entity = "task";
+
+  loading.value = true;
+  loadLazyData();
+
+  resetSelectedContacts();
+});
 </script>
 
 <style scoped lang="scss"></style>

@@ -130,7 +130,10 @@
           :service="service"
         />
         <WMDetailTaskRelatedProject
-          v-if="task.related_entity?.type == 'project'"
+          v-if="
+            task.related_entity?.type == 'project' &&
+            checkIfEntityIsActive('projects')
+          "
           :project="project"
         />
         <div
@@ -290,6 +293,7 @@ const route = useRoute();
 const { getServiceFromApi } = useServices();
 const { setSelectedContacts } = useContacts();
 const { getProjectFromApi } = useProjects();
+const { checkIfEntityIsActive } = useLicensing();
 
 // PROPS, EMITS
 const props = defineProps({
