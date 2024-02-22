@@ -217,6 +217,26 @@ export const useProjectsStore = defineStore("projects", {
         });
     },
     // PAYMENTS
+    createProjectPayment(projectId, data) {
+      return axiosConfig
+        .post("/projects/" + projectId + "/payments", data)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    updateProjectPayment(projectId, paymentId, data) {
+      return axiosConfig
+        .patch("/projects/" + projectId + "/payments/" + paymentId, data)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     getProjectPayments(projectId, params) {
       return axiosConfig
         .get("/projects/" + projectId + "/payments", { params })

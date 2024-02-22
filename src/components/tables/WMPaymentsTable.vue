@@ -1,7 +1,6 @@
 <template>
-  <pre>paymentStatuses: {{ paymentStatuses }}</pre>
-
-  <pre>payments: {{ payments }}</pre>
+  <!-- <pre>paymentStatuses: {{ paymentStatuses }}</pre>
+  <pre>payments: {{ payments }}</pre> -->
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
@@ -15,6 +14,7 @@
         >
           {{ t("new") }}
         </WMButton>
+        <button @click="handleNewPayment">temporal create</button>
       </div>
       <!-- <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -53,10 +53,11 @@
     :rows="10"
     :first="0"
     :total-records="totalRecords"
-    :class="`p-datatable-${tableClass}`"
+    :class="`p-datatable-payments js-datatable-payments`"
     edit-mode="row"
     @page="onPage($event)"
     @row-edit-save="onRowEditSave"
+    @row-edit-cancel="onRowEditCancel"
   >
     <Column v-if="multiselect" style="width: 40px" selection-mode="multiple" />
 
@@ -247,7 +248,6 @@
         </template>
       </Column>
     </template>
-
     <!-- <Column
       v-for="column in columns"
       :key="column.name"
@@ -264,22 +264,52 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { formatDate } from "@vueuse/core";
-import { onMounted, ref, watchEffect } from "vue";
+import { nextTick, onMounted, ref, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
-const { getProjectPayments, getBudgetItems } = useProjects();
+// DEPENDENCIES
+const {
+  getProjectPayments,
+  getBudgetItems,
+  updateProjectPayment,
+  createProjectPayment,
+} = useProjects();
 const { getPaymentsColumns } = useListUtils();
-
+const toast = useToast();
 const { t } = useI18n();
-
 const optionSetsStore = useOptionSetsStore();
 const { optionLabelWithLang } = useLanguages();
+const { getCustomersFromApi } = useCustomers();
 
+// INJECT
+
+// PROPS, EMITS
+const props = defineProps({
+  projectId: {
+    type: Number,
+    required: true,
+  },
+});
+
+// REFS
+const selectedPayments = ref([]);
+const payments = ref([]);
+const totalRecords = ref(0);
+const lazyParams = ref({});
+const searchValue = ref("");
+const columns = ref(getPaymentsColumns());
+const editingRows = ref([]);
 const paymentStatuses = ref([]);
+const budgetItems = ref([]);
+const customers = ref([]);
 
+// COMPUTED
+
+// COMPONENT METHODS
 optionSetsStore.getOptionSetValuesFromApi("payment_status").then((data) => {
   paymentStatuses.value = data;
 });
@@ -287,13 +317,6 @@ optionSetsStore.getOptionSetValuesFromApi("payment_status").then((data) => {
 const getColumHeader = (column) => {
   return column.header ? t(column.header) : t(`payments.${column.name}`);
 };
-
-const props = defineProps({
-  projectId: {
-    type: Number,
-    required: true,
-  },
-});
 
 const getBudgetItemName = (id) => {
   const budgetItem = budgetItems.value.find((item) => item.id === id);
@@ -304,8 +327,6 @@ const getCustomerName = (id) => {
   const customer = customers.value.find((item) => item.id === id);
   return customer ? customer.name : "";
 };
-
-const selectedPayments = ref([]);
 
 const getStatus = (id) => {
   const status = paymentStatuses.value.find((item) => item.id === id);
@@ -328,25 +349,41 @@ const getStatusLabel = (status) => {
   }
 };
 
-const payments = ref([]);
-const totalRecords = ref(0);
-const lazyParams = ref({});
-const searchValue = ref("");
-const columns = ref(getPaymentsColumns());
-const editingRows = ref([]);
-
-onMounted(() => {
-  loadLazyData();
-});
-
-const handleNewPayment = () => {
-  console.log("new payment");
+const paymentTemplate = {
+  mode: "create",
+  budget_item_id: "",
+  customer_id: 1273,
+  milestone_id: 1,
+  proforma_invoice_number: "PRO-12345",
+  proforma_invoice_date: new Date(),
+  proforma_invoice_amount: 100000,
+  invoice_number: "INV-67890",
+  invoice_date: new Date(),
+  payment_date: new Date(),
+  amount_paid: 80000,
+  reported: true,
+  reported_date: new Date(),
+  reported_to_id: 1273,
+  amount_approved: 80000,
+  batch_number: "BATCH-2024-02-12",
+  terms_of_payment_id: "",
 };
 
-const budgetItems = ref([]);
-const customers = ref([]);
+const handleNewPayment = async () => {
+  payments.value = [paymentTemplate, ...payments.value];
 
-const { getCustomersFromApi } = useCustomers();
+  await nextTick();
+
+  const firstRow = document.querySelector(
+    ".js-datatable-payments .p-datatable-tbody tr:first-child"
+  );
+
+  const editButton = firstRow.querySelector(".p-row-editor-init");
+
+  if (editButton) {
+    editButton.click();
+  }
+};
 
 const loadLazyData = () => {
   // const filters = utilsStore.filters["task"];
@@ -383,36 +420,80 @@ const onPage = (event) => {
 
 const onRowEditSave = (event) => {
   let { newData, index } = event;
+  const paymentId = newData.id;
 
-  payments.value[index] = newData;
+  if (!validateForm(newData)) {
+    toast.error("Please fill all the required fields");
+    editingRows.value = [...editingRows.value, newData]; // keep the rows in edit mode
+    return;
+  }
+
+  if (newData.mode === "create") {
+    createProjectPayment(props.projectId, newData)
+      .then(() => {
+        toast.successAction("payment", "created");
+      })
+      .catch(() => {
+        toast.errorAction("payment", "not_created");
+      });
+
+    return;
+  }
+
+  updateProjectPayment(props.projectId, paymentId, newData).then(() => {
+    payments.value[index] = newData;
+    toast.successAction("payment", "updated");
+  });
 };
 
-// // first sidebar
-// const isVisible = ref(false);
+const validateForm = (obj) => {
+  const requiredFields = [
+    "budget_item_id",
+    "customer_id",
+    "milestone_id",
+    "proforma_invoice_number",
+    "proforma_invoice_date",
+    "proforma_invoice_amount",
+    "invoice_number",
+    "invoice_date",
+    "payment_date",
+    "amount_paid",
+    "reported",
+    "reported_date",
+    "reported_to_id",
+    "amount_approved",
+    "batch_number",
+    "terms_of_payment_id",
+  ];
 
-// function toggleSidebarVisibility() {
-//   isVisible.value = !isVisible.value;
-// }
+  for (const field of requiredFields) {
+    if (!obj.hasOwnProperty(field) || obj[field] === "") {
+      return false;
+    }
+  }
 
-// function closeSidebar() {
-//   isVisible.value = false;
-// }
+  return true;
+};
 
-// function openSidebar() {
-//   isVisible.value = true;
-// }
+const onRowEditCancel = (event) => {
+  let { data } = event;
 
-// const isFilterVisible = ref(false);
+  if (data.mode === "create") {
+    payments.value.shift();
+  }
+};
 
-// function closeFilterSidebar() {
-//   isFilterVisible.value = false;
-// }
+// PROVIDE, EXPOSE
 
-// function openFilterSidebar() {
-//   isFilterVisible.value = true;
-// }
+// WATCHERS
 
 watchEffect(() => {
+  loadLazyData();
+});
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+
+onMounted(() => {
   loadLazyData();
 });
 </script>

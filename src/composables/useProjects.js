@@ -126,6 +126,14 @@ export function useProjects() {
     return { payments: payments[0], totalRecords };
   };
 
+  const createProjectPayment = async (projectId, data) => {
+    return await projectsStore.createProjectPayment(projectId, data);
+  };
+
+  const updateProjectPayment = async (projectId, paymentId, data) => {
+    return await projectsStore.updateProjectPayment(projectId, paymentId, data);
+  };
+
   // UTILITIES
   const parseProject = (project) => {
     return {
@@ -270,6 +278,12 @@ export function useProjects() {
     return result;
   };
 
+  const parseProjectPayment = (payment) => {
+    return {
+      ...payment,
+    };
+  };
+
   const mapProject = (project) => {
     return {
       id: project.id,
@@ -409,6 +423,8 @@ export function useProjects() {
     getBudgetItem,
     updateBudgetItem,
     getProjectPayments,
+    createProjectPayment,
+    updateProjectPayment,
     createBudgetItem,
     updateBudget,
 
@@ -419,6 +435,7 @@ export function useProjects() {
     parseUpdateProject,
     parseProjectCustomer,
     parseUpdateProjectConfig,
+    parseProjectPayment,
     mapProject,
     mapContactsFromProjects,
     mapProjectCustomer,
