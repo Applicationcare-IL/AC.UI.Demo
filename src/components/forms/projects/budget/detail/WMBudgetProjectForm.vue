@@ -86,13 +86,13 @@
               <Divider></Divider>
               <div class="flex flex-row justify-content-between gap-3">
                 <WMHighlightedBlock
-                  v-model="modelValue"
+                  v-model="budget.approved_council"
                   background-color="white"
                   :label="$t('budget.approved-council') + ':'"
                 />
 
                 <WMHighlightedBlock
-                  v-model="modelValue"
+                  v-model="budget.approved_ministry"
                   background-color="white"
                   :label="$t('budget.approved-ministry') + ':'"
                 />
