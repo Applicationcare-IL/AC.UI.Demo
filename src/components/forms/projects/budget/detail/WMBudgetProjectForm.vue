@@ -49,15 +49,6 @@
           <template #title> {{ $t("budget.budget-details") }} </template>
           <template #content>
             <div class="flex flex-column gap-5">
-              <div
-                class="flex flex-row gap-5 align-items-center justify-content-between"
-              >
-                <WMHighlightedBlock
-                  v-model="budget.planned_non_contract"
-                  background-color="blue-100"
-                  :label="$t('budget.planned-non-contract') + ':'"
-                />
-              </div>
               <div class="flex flex-row gap-5">
                 <WMHighlightedBlock
                   v-model="budget.planned_contract"

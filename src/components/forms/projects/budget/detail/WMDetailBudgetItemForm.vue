@@ -63,15 +63,6 @@
                 class="flex align-items-center justify-content-between gap-2"
               >
                 <WMHighlightedBlock
-                  id="planned_non_contract"
-                  v-model="budgetItem.planned_non_contract"
-                  name="planned_non_contract"
-                  background-color="blue-100"
-                  :label="$t('budget.planned-non-contract') + ':'"
-                  editable
-                />
-                <PlusIcon />
-                <WMHighlightedBlock
                   id="planned_contract"
                   v-model="budgetItem.planned_contract"
                   name="planned_contract"

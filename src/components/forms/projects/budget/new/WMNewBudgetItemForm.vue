@@ -42,14 +42,6 @@
           <div class="flex flex-column gap-5">
             <div class="flex align-items-center justify-content-between gap-2">
               <WMHighlightedBlock
-                id="planned_non_contract"
-                name="planned_non_contract"
-                background-color="blue-100"
-                :label="$t('budget.planned-non-contract') + ':'"
-                editable
-              />
-              <PlusIcon />
-              <WMHighlightedBlock
                 id="planned_contract"
                 name="planned_contract"
                 background-color="blue-100"
@@ -133,7 +125,11 @@
       </div>
     </div>
     <div class="my-4"></div>
-    <WMFormButtons v-if="isSidebar" @save-form="onSave()" @cancel-form="onCancel()" />
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSave()"
+      @cancel-form="onCancel()"
+    />
   </div>
 </template>
 

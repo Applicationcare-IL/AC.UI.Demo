@@ -302,7 +302,6 @@ export const useFormUtilsStore = defineStore("formUtils", {
       return yup.object({
         "budget-item-name": yup.string().required(),
         description: yup.string().required(),
-        planned_non_contract: yup.number().required(),
         planned_contract: yup.number().required(),
         unexpected: yup.number().required(),
         management_fee: yup.number().required(),
