@@ -441,96 +441,96 @@ export function useListUtils() {
       },
       {
         name: "budget-item-number",
-        type: "text",
-        field: "budget_item_id",
-        editable: false,
-      },
-      {
-        name: "organization",
-        type: "organization-link",
-        field: "organization",
+        type: "budget-item",
+        editable: true,
+        field: "budget_item",
       },
       // {
-      //   name: "milestone",
-      //   type: "dropdown",
-      //   field: "milestone",
-      //   optionset: "milestone_type",
+      //   name: "organization",
+      //   type: "organization-link",
+      //   field: "organization",
       // },
-      {
-        name: "status",
-        type: "status",
-        field: "payment_status_id",
-      },
-      {
-        name: "proforma-invoice-number",
-        type: "text",
-        field: "proforma_invoice_number",
-        editable: true,
-      },
-      {
-        name: "proforma-invoice-date",
-        type: "calendar",
-        field: "proforma_invoice_date",
-        editable: true,
-      },
-      {
-        name: "proforma-invoice-amount",
-        type: "currency",
-        field: "proforma_invoice_amount",
-      },
-      {
-        name: "invoice-number",
-        type: "text",
-        field: "invoice_number",
-        editable: true,
-      },
-      {
-        name: "invoice-date",
-        type: "calendar",
-        field: "invoice_date",
-        editable: true,
-      },
-      {
-        name: "terms-of-payment",
-        type: "dropdown",
-        field: "terms_of_payment_id",
-        optionset: "terms_of_payment",
-      },
-      {
-        name: "amount-paid",
-        type: "currency",
-        field: "amount_paid",
-      },
-      {
-        name: "payment-date",
-        type: "calendar",
-        field: "payment_date",
-        editable: true,
-      },
-      {
-        name: "reported",
-        type: "checkbox",
-        field: "reported",
-        editable: true,
-      },
-      // reported to
-      {
-        name: "date-reported-date",
-        type: "calendar",
-        field: "report_date",
-        editable: true,
-      },
-      {
-        name: "amount-approved-to-be-paid",
-        type: "currency",
-        field: "amount_approved",
-      },
-      {
-        name: "batch-number",
-        type: "text",
-        field: "batch_number",
-        editable: true,
-      },
+      // // {
+      // //   name: "milestone",
+      // //   type: "dropdown",
+      // //   field: "milestone",
+      // //   optionset: "milestone_type",
+      // // },
+      // {
+      //   name: "status",
+      //   type: "status",
+      //   field: "payment_status_id",
+      // },
+      // {
+      //   name: "proforma-invoice-number",
+      //   type: "text",
+      //   field: "proforma_invoice_number",
+      //   editable: true,
+      // },
+      // {
+      //   name: "proforma-invoice-date",
+      //   type: "calendar",
+      //   field: "proforma_invoice_date",
+      //   editable: true,
+      // },
+      // {
+      //   name: "proforma-invoice-amount",
+      //   type: "currency",
+      //   field: "proforma_invoice_amount",
+      // },
+      // {
+      //   name: "invoice-number",
+      //   type: "text",
+      //   field: "invoice_number",
+      //   editable: true,
+      // },
+      // {
+      //   name: "invoice-date",
+      //   type: "calendar",
+      //   field: "invoice_date",
+      //   editable: true,
+      // },
+      // {
+      //   name: "terms-of-payment",
+      //   type: "dropdown",
+      //   field: "terms_of_payment_id",
+      //   optionset: "terms_of_payment",
+      // },
+      // {
+      //   name: "amount-paid",
+      //   type: "currency",
+      //   field: "amount_paid",
+      // },
+      // {
+      //   name: "payment-date",
+      //   type: "calendar",
+      //   field: "payment_date",
+      //   editable: true,
+      // },
+      // {
+      //   name: "reported",
+      //   type: "checkbox",
+      //   field: "reported",
+      //   editable: true,
+      // },
+      // // reported to
+      // {
+      //   name: "date-reported-date",
+      //   type: "calendar",
+      //   field: "report_date",
+      //   editable: true,
+      // },
+      // {
+      //   name: "amount-approved-to-be-paid",
+      //   type: "currency",
+      //   field: "amount_approved",
+      // },
+      // {
+      //   name: "batch-number",
+      //   type: "text",
+      //   field: "batch_number",
+      //   editable: true,
+      // },
     ];
   };
 

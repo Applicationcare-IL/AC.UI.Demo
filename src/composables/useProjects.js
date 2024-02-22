@@ -114,14 +114,14 @@ export function useProjects() {
 
   // PAYMENTS
   const getProjectPayments = async (projectId, params) => {
-    console.log("getProjectPayments", projectId, params);
-
     const response = await projectsStore.getProjectPayments(projectId, params);
 
-    const payments = response.data;
+    const payments = response.data.map((payment) => {
+      return mapPayment(payment);
+    });
     const totalRecords = response.meta.total;
 
-    return { payments, totalRecords };
+    return { payments: payments[0], totalRecords };
   };
 
   // UTILITIES
@@ -323,6 +323,13 @@ export function useProjects() {
     return {
       title: budgetItem.name,
       ...budgetItem,
+    };
+  };
+
+  const mapPayment = (payment) => {
+    return {
+      ...payment,
+      budget_item: payment.budget_item.id,
     };
   };
 

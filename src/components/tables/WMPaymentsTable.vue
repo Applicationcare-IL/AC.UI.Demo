@@ -1,33 +1,20 @@
 <template>
+  <pre>budgetItems: {{ budgetItems }}</pre>
+
   <pre>payments: {{ payments }}</pre>
-  <!-- <WMSidebar
-    :visible="isVisible"
-    name="newTask"
-    :data="{ relatedEntity: relatedEntity, relatedEntityId: relatedEntityId }"
-    @close-sidebar="closeSidebar"
-    @open-sidebar="openSidebar"
-  >
-    <template #default="slotProps">
-      <WMNewTaskForm
-        :is-sidebar="true"
-        :related-entity="slotProps.props.data.relatedEntity"
-        :related-entity-id="slotProps.props.data.relatedEntityId"
-        @new-task-created="loadLazyData"
-      />
-    </template>
-  </WMSidebar> -->
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <!-- <WMButton
+        <WMButton
           class="m-1 col-6"
           name="new"
           icon="new"
           icon-position="right"
-          @click="toggleSidebarVisibility"
-          >{{ t("new") }}</WMButton
-        > -->
-        <!-- <WMAssignOwnerButton entity="task" /> -->
+          :disabled="budgetItems.length < 1"
+          @click="handleNewPayment"
+        >
+          {{ t("new") }}
+        </WMButton>
       </div>
       <!-- <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -162,6 +149,31 @@
       </Column>
 
       <Column
+        v-if="column.type == 'budget-item'"
+        :key="column.name"
+        :field="column.field"
+        :header="getColumHeader(column)"
+        :class="column.class"
+      >
+        <template #editor="{ data, field }">
+          <Dropdown
+            v-model="data[field]"
+            :options="budgetItems"
+            option-label="name"
+            option-value="id"
+            placeholder="Select a budget item"
+          >
+            <template #option="slotProps">
+              {{ slotProps.option.name }}
+            </template>
+          </Dropdown>
+        </template>
+        <template #body="slotProps">
+          {{ getBudgetItemName(slotProps.data[column.field]) }}
+        </template>
+      </Column>
+
+      <Column
         v-if="column.type == 'status'"
         :key="column.name"
         field="payment_status_id"
@@ -214,7 +226,7 @@ import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
-const { getProjectPayments } = useProjects();
+const { getProjectPayments, getBudgetItems } = useProjects();
 const { getPaymentsColumns } = useListUtils();
 
 const { t } = useI18n();
@@ -239,6 +251,11 @@ const props = defineProps({
     required: true,
   },
 });
+
+const getBudgetItemName = (id) => {
+  const budgetItem = budgetItems.value.find((item) => item.id === id);
+  return budgetItem ? budgetItem.name : "";
+};
 
 const selectedPayments = ref([]);
 // const isFilterOpen = ref(false);
@@ -272,6 +289,12 @@ onMounted(() => {
   loadLazyData();
 });
 
+const handleNewPayment = () => {
+  console.log("new payment");
+};
+
+const budgetItems = ref([]);
+
 const loadLazyData = () => {
   // const filters = utilsStore.filters["task"];
   const nextPage = lazyParams.value.page + 1;
@@ -286,13 +309,13 @@ const loadLazyData = () => {
     search: searchValueParam,
   });
 
-  // params.append("entity_type", props.relatedEntity);
-  // params.append("entity_id", props.relatedEntityId);
-
   getProjectPayments(props.projectId, params).then((response) => {
-    console.log("response", response);
-    payments.value = [response.payments[0]];
+    payments.value = [response.payments];
     totalRecords.value = response.totalRecords;
+  });
+
+  getBudgetItems(props.projectId).then((response) => {
+    budgetItems.value = response.budgetItems;
   });
 };
 
