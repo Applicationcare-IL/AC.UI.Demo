@@ -1,3 +1,5 @@
+import { formatDate } from "@vueuse/core";
+
 import { useProjectsStore } from "@/stores/projectsStore";
 
 export function useProjects() {
@@ -329,6 +331,12 @@ export function useProjects() {
     return {
       ...payment,
       budget_item: payment.budget_item.id,
+      customer: payment.customer.id,
+      payment_status: payment.payment_status.id,
+      proforma_invoice_date: formatDate(
+        new Date(payment.proforma_invoice_date),
+        "DD/MM/YY"
+      ),
     };
   };
 

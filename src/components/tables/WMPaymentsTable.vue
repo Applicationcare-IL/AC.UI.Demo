@@ -1,5 +1,5 @@
 <template>
-  <pre>budgetItems: {{ budgetItems }}</pre>
+  <pre>paymentStatuses: {{ paymentStatuses }}</pre>
 
   <pre>payments: {{ payments }}</pre>
   <div class="flex flex-column gap-3 mb-3">
@@ -174,9 +174,34 @@
       </Column>
 
       <Column
+        v-if="column.type == 'customer'"
+        :key="column.name"
+        :field="column.field"
+        :header="getColumHeader(column)"
+        :class="column.class"
+      >
+        <template #editor="{ data, field }">
+          <Dropdown
+            v-model="data[field]"
+            :options="customers"
+            option-label="name"
+            option-value="id"
+            placeholder="Select a customer"
+          >
+            <template #option="slotProps">
+              {{ slotProps.option.name }}
+            </template>
+          </Dropdown>
+        </template>
+        <template #body="slotProps">
+          {{ getCustomerName(slotProps.data[column.field]) }}
+        </template>
+      </Column>
+
+      <Column
         v-if="column.type == 'status'"
         :key="column.name"
-        field="payment_status_id"
+        :field="column.field"
         :header="getColumHeader(column)"
         :class="column.class"
       >
@@ -190,7 +215,7 @@
           >
             <template #option="slotProps">
               <Tag
-                :value="slotProps.option.value"
+                :value="slotProps.option[optionLabelWithLang]"
                 :severity="getStatusLabel(slotProps.option.value)"
               />
             </template>
@@ -198,9 +223,27 @@
         </template>
         <template #body="slotProps">
           <Tag
-            :value="slotProps.data[column.field]"
+            :value="
+              getStatus(slotProps.data[column.field])[optionLabelWithLang]
+            "
             :severity="getStatusLabel(slotProps.data[column.field])"
           />
+        </template>
+      </Column>
+
+      <Column
+        v-if="column.type == 'calendar'"
+        :key="column.name"
+        :field="column.field"
+        :header="getColumHeader(column)"
+        :class="column.class"
+      >
+        <template #editor="{ data, field }">
+          <Calendar v-model="data[field]" show-icon />
+        </template>
+        <template #body="slotProps">
+          {{ formatDate(new Date(slotProps.data[column.field]), "DD/MM/YY") }}
+          <i class="pi pi-calendar"></i>
         </template>
       </Column>
     </template>
@@ -221,6 +264,7 @@
 </template>
 
 <script setup>
+import { formatDate } from "@vueuse/core";
 import { onMounted, ref, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
@@ -231,7 +275,6 @@ const { getPaymentsColumns } = useListUtils();
 
 const { t } = useI18n();
 
-// DEPENDENCIES
 const optionSetsStore = useOptionSetsStore();
 const { optionLabelWithLang } = useLanguages();
 
@@ -257,12 +300,19 @@ const getBudgetItemName = (id) => {
   return budgetItem ? budgetItem.name : "";
 };
 
+const getCustomerName = (id) => {
+  const customer = customers.value.find((item) => item.id === id);
+  return customer ? customer.name : "";
+};
+
 const selectedPayments = ref([]);
-// const isFilterOpen = ref(false);
-// const isFilterApplied = ref(false);
+
+const getStatus = (id) => {
+  const status = paymentStatuses.value.find((item) => item.id === id);
+  return status ? status : "";
+};
 
 const getStatusLabel = (status) => {
-  console.log("status", status);
   switch (status) {
     case "INSTOCK":
       return "success";
@@ -294,6 +344,9 @@ const handleNewPayment = () => {
 };
 
 const budgetItems = ref([]);
+const customers = ref([]);
+
+const { getCustomersFromApi } = useCustomers();
 
 const loadLazyData = () => {
   // const filters = utilsStore.filters["task"];
@@ -316,6 +369,10 @@ const loadLazyData = () => {
 
   getBudgetItems(props.projectId).then((response) => {
     budgetItems.value = response.budgetItems;
+  });
+
+  getCustomersFromApi().then((response) => {
+    customers.value = response.data;
   });
 };
 

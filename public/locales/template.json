@@ -332,6 +332,7 @@
     "status": "Status",
     "proforma-invoice-number": "Proforma Invoice Number",
     "proforma-invoice-amount": "Proforma Invoice Amount",
+    "proforma-invoice-date": "Proforma Invoice Date",
     "invoice-number": "Invoice Number",
     "terms-of-payment": "Terms of Payment",
     "amount-paid": "Amount Paid",
