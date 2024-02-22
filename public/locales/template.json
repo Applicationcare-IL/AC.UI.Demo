@@ -316,7 +316,8 @@
     "executed-payments": "Executed (payments)",
     "last-changed": "Last changed",
     "budget-items-components": "Budget Items Components",
-    "budget-items-components-details": "Budget Items Components Details"
+    "budget-items-components-details": "Budget Items Components Details",
+    "deficit": "Deficit"
   },
   "project-budget": {
     "project-budget": "Project Budget"

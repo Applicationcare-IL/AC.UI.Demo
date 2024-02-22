@@ -119,6 +119,14 @@ const styleClasses = computed(() => {
   }
 }
 
+.highlighted-block {
+  :deep(.p-inputnumber-input),
+  :deep(.p-inputnumber),
+  :deep(.p-inputtext) {
+    width: 100%;
+  }
+}
+
 .highlighted-block.text-sm {
   .highlighted-block__icon {
     top: 2px;

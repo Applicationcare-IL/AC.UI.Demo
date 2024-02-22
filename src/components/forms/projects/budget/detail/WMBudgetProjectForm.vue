@@ -27,7 +27,7 @@
                   type="info"
                   :highlighted="true"
                   :label="$t('owner') + ':'"
-                  :value="budget.owner.name"
+                  :value="budget.owner?.name"
                 />
                 <WMInput
                   name="project"
@@ -49,7 +49,14 @@
           <template #title> {{ $t("budget.budget-details") }} </template>
           <template #content>
             <div class="flex flex-column gap-5">
-              <div class="flex flex-row gap-5">
+              <div class="flex flex-row justify-content-between gap-3">
+                <WMHighlightedBlock
+                  v-model="budget.estimate"
+                  background-color="purple-100"
+                  :label="$t('budget.estimate') + ':'"
+                />
+
+                <Divider layout="vertical" />
                 <WMHighlightedBlock
                   v-model="budget.planned_contract"
                   background-color="blue-100"
@@ -57,15 +64,15 @@
                 />
                 <PlusIcon />
                 <WMHighlightedBlock
-                  v-model="budget.management_fee"
-                  background-color="blue-100"
-                  :label="$t('budget.management-fee') + ':'"
-                />
-                <PlusIcon />
-                <WMHighlightedBlock
                   v-model="budget.unexpected"
                   background-color="blue-100"
                   :label="$t('budget.unexpected') + ':'"
+                />
+                <PlusIcon />
+                <WMHighlightedBlock
+                  v-model="budget.management_fee"
+                  background-color="blue-100"
+                  :label="$t('budget.management-fee') + ':'"
                 />
                 <EqualIcon />
                 <WMHighlightedBlock
@@ -75,34 +82,38 @@
                 />
               </div>
               <Divider></Divider>
-              <div class="flex flex-row justify-content-between gap-3">
+              <div class="flex flex-row justify-content-between gap-2">
                 <WMHighlightedBlock
                   v-model="budget.approved_council"
-                  background-color="white"
+                  background-color="green-100"
                   :label="$t('budget.approved-council') + ':'"
                 />
 
+                <ArrowIcon />
+
                 <WMHighlightedBlock
                   v-model="budget.approved_ministry"
-                  background-color="white"
+                  background-color="green-100"
                   :label="$t('budget.approved-ministry') + ':'"
                 />
 
+                <Divider layout="vertical" />
+
                 <WMHighlightedBlock
-                  v-model="budget.management_fee"
+                  v-model="budget.executed_payments"
                   background-color="white"
-                  :label="$t('budget.management-fee') + ':'"
+                  :label="$t('budget.executed-payments') + ':'"
                 />
 
                 <WMHighlightedBlock
-                  v-model="budget.unexpected"
+                  v-model="budget.deficit"
                   background-color="white"
-                  :label="$t('budget.unexpected') + ':'"
+                  :label="$t('budget.deficit') + ':'"
                 />
 
                 <WMHighlightedBalanceBlock
-                  :quantity="budget.total_approved"
-                  :label="$t('budget.total') + ':'"
+                  :quantity="budget.balance_approved"
+                  :label="$t('budget.balance') + ':'"
                 />
               </div>
             </div>
@@ -110,7 +121,6 @@
         </Card>
       </div>
     </div>
-
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1">
         <Card>
@@ -136,13 +146,16 @@
                   background-color="gray-100"
                   :label="$t('budget.tbr-accepted') + ':'"
                   size="small"
+                  editable
                 />
                 <PlusIcon />
+
                 <WMHighlightedBlock
                   v-model="budget.tbr_expected"
                   background-color="gray-100"
                   :label="$t('budget.tbr-expected') + ':'"
                   size="small"
+                  editable
                 />
                 <EqualIcon />
                 <WMHighlightedBlock
@@ -154,13 +167,14 @@
               </div>
               <Divider />
               <div
-                class="flex flex-row align-items-center gap-4 justify-content-start"
+                class="flex flex-row align-items-center gap-5 justify-content-start"
               >
                 <WMHighlightedBlock
                   v-model="budget.tbr_reported"
                   background-color="white"
                   :label="$t('budget.tbr-reported') + ':'"
                   size="small"
+                  editable
                 />
 
                 <WMHighlightedBlock
@@ -168,12 +182,15 @@
                   background-color="white"
                   :label="$t('budget.tbr-municipality-expenses') + ':'"
                   size="small"
+                  editable
+                  class="mr-2"
                 />
 
                 <WMHighlightedBalanceBlock
                   :quantity="budget.tbr_balance"
                   :label="$t('budget.tbr-balance') + ':'"
                   size="small"
+                  class="mr-2"
                 />
               </div>
             </div>
@@ -310,7 +327,7 @@ const props = defineProps({
 
 // REFS
 const modelValue = ref(1000);
-const budget = ref(null);
+const budget = ref({});
 
 // COMPUTED
 const projectId = computed(() => {
