@@ -541,11 +541,6 @@ export function useListUtils() {
         type: "budget-item-link",
       },
       {
-        name: "planned-non-contract",
-        field: "planned_non_contract",
-        type: "currency",
-      },
-      {
         name: "planned-contract",
         field: "planned_contract",
         type: "currency",
