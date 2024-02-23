@@ -1,6 +1,6 @@
 <template>
-  <!-- <pre>paymentStatuses: {{ paymentStatuses }}</pre>
-  <pre>payments: {{ payments }}</pre> -->
+  <!-- <pre>isSomePaymentInCreateMode: {{ isSomePaymentInCreateMode }}</pre> -->
+  <pre>payments: {{ payments }}</pre>
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
@@ -9,12 +9,14 @@
           name="new"
           icon="new"
           icon-position="right"
-          :disabled="budgetItems.length < 1"
+          :disabled="budgetItems.length < 1 || isSomePaymentInCreateMode"
           @click="handleNewPayment"
         >
           {{ t("new") }}
         </WMButton>
-        <button @click="handleNewPayment">temporal create</button>
+        <button :disabled="isSomePaymentInCreateMode" @click="handleNewPayment">
+          temporal create
+        </button>
       </div>
       <!-- <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -55,6 +57,7 @@
     :total-records="totalRecords"
     :class="`p-datatable-payments js-datatable-payments`"
     edit-mode="row"
+    :row-class="rowClass"
     @page="onPage($event)"
     @row-edit-save="onRowEditSave"
     @row-edit-cancel="onRowEditCancel"
@@ -83,6 +86,7 @@
           {{ slotProps.data[column.field] }}
         </template>
         <template v-if="column.editable" #editor="{ data }">
+          {{ data[column.field] }}
           <InputText v-model="data[column.field]" />
         </template>
       </Column>
@@ -112,15 +116,23 @@
       <Column
         v-if="column.type == 'currency'"
         :key="column.name"
-        :field="column.name"
+        :field="column.field"
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template #body="{ data, field }">
-          <WMInputCurrency v-model="data[field]" :read-only="true" />
+        <template #body="slotProps">
+          <WMInputCurrency
+            v-model="slotProps.data[column.field]"
+            :read-only="true"
+            :name="column.name"
+          />
         </template>
-        <template #editor="{ data, field }">
-          <WMInputCurrency v-model="data[field]" :read-only="false" />
+        <template #editor="{ data }">
+          <WMInputCurrency
+            v-model="data[column.field]"
+            :name="column.field"
+            :read-only="false"
+          />
         </template>
       </Column>
 
@@ -266,7 +278,8 @@
 <script setup>
 // IMPORTS
 import { formatDate } from "@vueuse/core";
-import { nextTick, onMounted, ref, watchEffect } from "vue";
+import { v4 as uuidv4 } from "uuid";
+import { computed, nextTick, onMounted, ref, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -296,6 +309,8 @@ const props = defineProps({
 });
 
 // REFS
+const testNumber = ref(100);
+
 const selectedPayments = ref([]);
 const payments = ref([]);
 const totalRecords = ref(0);
@@ -308,6 +323,9 @@ const budgetItems = ref([]);
 const customers = ref([]);
 
 // COMPUTED
+const isSomePaymentInCreateMode = computed(() => {
+  return payments.value.some((payment) => payment.mode === "create");
+});
 
 // COMPONENT METHODS
 optionSetsStore.getOptionSetValuesFromApi("payment_status").then((data) => {
@@ -349,28 +367,35 @@ const getStatusLabel = (status) => {
   }
 };
 
-const paymentTemplate = {
-  mode: "create",
-  budget_item_id: "",
-  customer_id: 1273,
-  milestone_id: 1,
-  proforma_invoice_number: "PRO-12345",
-  proforma_invoice_date: new Date(),
-  proforma_invoice_amount: 100000,
-  invoice_number: "INV-67890",
-  invoice_date: new Date(),
-  payment_date: new Date(),
-  amount_paid: 80000,
-  reported: true,
-  reported_date: new Date(),
-  reported_to_id: 1273,
-  amount_approved: 80000,
-  batch_number: "BATCH-2024-02-12",
-  terms_of_payment_id: "",
+const getPaymentTemplate = () => {
+  return {
+    temp_id: uuidv4(),
+    mode: "create",
+    budget_item: "",
+    customer: "",
+    milestone_id: 1,
+    proforma_invoice_number: "PRO-12345",
+    proforma_invoice_date: new Date(),
+    proforma_invoice_amount: 100000,
+    invoice_number: "INV-67890",
+    invoice_date: new Date(),
+    payment_date: new Date(),
+    amount_paid: 80000,
+    reported: true,
+    reported_date: new Date(),
+    reported_to_id: 1273,
+    amount_approved: 80000,
+    batch_number: "BATCH-2024-02-12",
+    terms_of_payment_id: "",
+  };
+};
+
+const rowClass = (data) => {
+  return [{ "bg-new-row": data.mode === "create" }];
 };
 
 const handleNewPayment = async () => {
-  payments.value = [paymentTemplate, ...payments.value];
+  payments.value = [getPaymentTemplate(), ...payments.value];
 
   await nextTick();
 
@@ -448,26 +473,27 @@ const onRowEditSave = (event) => {
 
 const validateForm = (obj) => {
   const requiredFields = [
-    "budget_item_id",
-    "customer_id",
-    "milestone_id",
+    // "budget_item_id",
+    "customer",
+    // "milestone_id",
     "proforma_invoice_number",
     "proforma_invoice_date",
     "proforma_invoice_amount",
-    "invoice_number",
-    "invoice_date",
-    "payment_date",
-    "amount_paid",
-    "reported",
-    "reported_date",
-    "reported_to_id",
-    "amount_approved",
-    "batch_number",
-    "terms_of_payment_id",
+    // "invoice_number",
+    // "invoice_date",
+    // "payment_date",
+    // "amount_paid",
+    // "reported",
+    // "reported_date",
+    // "reported_to_id",
+    // "amount_approved",
+    // "batch_number",
+    // "terms_of_payment_id",
   ];
 
   for (const field of requiredFields) {
     if (!obj.hasOwnProperty(field) || obj[field] === "") {
+      console.log(`required field: ${field}`);
       return false;
     }
   }

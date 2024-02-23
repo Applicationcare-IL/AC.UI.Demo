@@ -27,6 +27,10 @@
         ]"
         locale="he-IL"
         :min-fraction-digits="2"
+        @input="
+          $emit('update:modelValue', $event.value);
+          input.handleChange($event.value);
+        "
       />
     </div>
 
@@ -55,6 +59,8 @@ const shekelFormattedNumber = computed(() => {
 
 // PROPS, EMITS
 const modelValue = defineModel();
+
+defineEmits(["update:modelValue"]);
 
 const props = defineProps({
   readOnly: {

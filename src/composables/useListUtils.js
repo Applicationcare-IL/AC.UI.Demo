@@ -439,12 +439,12 @@ export function useListUtils() {
         field: "id",
         editable: false,
       },
-      {
-        name: "budget-item-number",
-        type: "budget-item",
-        editable: true,
-        field: "budget_item",
-      },
+      // {
+      //   name: "budget-item-number",
+      //   type: "budget-item",
+      //   editable: true,
+      //   field: "budget_item",
+      // },
       {
         name: "customer",
         type: "customer",
@@ -474,11 +474,11 @@ export function useListUtils() {
         field: "proforma_invoice_date",
         editable: true,
       },
-      // {
-      //   name: "proforma-invoice-amount",
-      //   type: "currency",
-      //   field: "proforma_invoice_amount",
-      // },
+      {
+        name: "proforma-invoice-amount",
+        type: "currency",
+        field: "proforma_invoice_amount",
+      },
       // {
       //   name: "invoice-number",
       //   type: "text",
