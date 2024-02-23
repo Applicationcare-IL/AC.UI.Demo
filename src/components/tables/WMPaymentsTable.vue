@@ -133,31 +133,6 @@
       </Column>
 
       <Column
-        v-if="column.type == 'dropdown'"
-        :key="column.name"
-        :field="column.name"
-        :header="getColumHeader(column)"
-        :class="column.class"
-      >
-        <template #editor="{ data }">
-          <Dropdown
-            v-model="data[field]"
-            :options="paymentStatuses"
-            :option-label="optionLabelWithLang"
-            option-value="value"
-            placeholder="Select"
-          >
-            <template #option="slotProps">
-              {{ slotProps.option.value }}
-            </template>
-          </Dropdown>
-        </template>
-        <template #body="slotProps">
-          {{ slotProps.data[column.field] }}
-        </template>
-      </Column>
-
-      <Column
         v-if="column.type == 'budget-item'"
         :key="column.name"
         :field="column.field"
@@ -255,6 +230,33 @@
           <i class="pi pi-calendar"></i>
         </template>
       </Column>
+
+      <Column
+        v-if="column.type == 'terms-of-payment'"
+        :key="column.name"
+        :field="column.field"
+        :header="getColumHeader(column)"
+        :class="column.class"
+      >
+        <template #editor="{ data, field }">
+          <Dropdown
+            v-model="data[field]"
+            :options="termsOfPayment"
+            :option-label="optionLabelWithLang"
+            option-value="id"
+            placeholder="Select an option"
+          >
+            <template #option="slotProps">
+              {{ slotProps.option[optionLabelWithLang] }}
+            </template>
+          </Dropdown>
+        </template>
+        <template #body="slotProps">
+          {{
+            getTermOfPayment(slotProps.data[column.field])[optionLabelWithLang]
+          }}
+        </template>
+      </Column>
     </template>
     <!-- <Column
       v-for="column in columns"
@@ -318,6 +320,7 @@ const editingRows = ref([]);
 const paymentStatuses = ref([]);
 const budgetItems = ref([]);
 const customers = ref([]);
+const termsOfPayment = ref([]);
 
 // COMPUTED
 const isSomePaymentInCreateMode = computed(() => {
@@ -327,6 +330,10 @@ const isSomePaymentInCreateMode = computed(() => {
 // COMPONENT METHODS
 optionSetsStore.getOptionSetValuesFromApi("payment_status").then((data) => {
   paymentStatuses.value = data;
+});
+
+optionSetsStore.getOptionSetValuesFromApi("terms_of_payment").then((data) => {
+  termsOfPayment.value = data;
 });
 
 const getColumHeader = (column) => {
@@ -346,6 +353,11 @@ const getCustomerName = (id) => {
 const getStatus = (id) => {
   const status = paymentStatuses.value.find((item) => item.id === id);
   return status ? status : "";
+};
+
+const getTermOfPayment = (id) => {
+  const term = termsOfPayment.value.find((item) => item.id === id);
+  return term ? term : "";
 };
 
 const getStatusLabel = (status) => {
@@ -485,14 +497,13 @@ const validateForm = (obj) => {
     "proforma_invoice_amount",
     "invoice_number",
     "invoice_date",
-    // "payment_date",
-    // "amount_paid",
-    // "reported",
-    // "reported_date",
-    // "reported_to_id",
-    // "amount_approved",
-    // "batch_number",
-    // "terms_of_payment_id",
+    "payment_date",
+    "amount_paid",
+    "reported_date",
+    "reported_on",
+    "amount_approved",
+    "batch_number",
+    "terms_of_payment_id",
   ];
 
   for (const field of requiredFields) {

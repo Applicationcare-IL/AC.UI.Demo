@@ -491,47 +491,45 @@ export function useListUtils() {
         field: "invoice_date",
         editable: true,
       },
-      // {
-      //   name: "terms-of-payment",
-      //   type: "dropdown",
-      //   field: "terms_of_payment_id",
-      //   optionset: "terms_of_payment",
-      // },
-      // {
-      //   name: "amount-paid",
-      //   type: "currency",
-      //   field: "amount_paid",
-      // },
-      // {
-      //   name: "payment-date",
-      //   type: "calendar",
-      //   field: "payment_date",
-      //   editable: true,
-      // },
-      // {
-      //   name: "reported",
-      //   type: "checkbox",
-      //   field: "reported",
-      //   editable: true,
-      // },
-      // // reported to
-      // {
-      //   name: "date-reported-date",
-      //   type: "calendar",
-      //   field: "report_date",
-      //   editable: true,
-      // },
-      // {
-      //   name: "amount-approved-to-be-paid",
-      //   type: "currency",
-      //   field: "amount_approved",
-      // },
-      // {
-      //   name: "batch-number",
-      //   type: "text",
-      //   field: "batch_number",
-      //   editable: true,
-      // },
+      {
+        name: "terms-of-payment",
+        type: "terms-of-payment",
+        field: "terms_of_payment_id",
+      },
+      {
+        name: "amount-paid",
+        type: "currency",
+        field: "amount_paid",
+      },
+      {
+        name: "payment-date",
+        type: "calendar",
+        field: "payment_date",
+        editable: true,
+      },
+      {
+        name: "reported",
+        type: "checkbox",
+        field: "reported",
+        editable: true,
+      },
+      {
+        name: "date-reported-date",
+        type: "calendar",
+        field: "report_date",
+        editable: true,
+      },
+      {
+        name: "amount-approved-to-be-paid",
+        type: "currency",
+        field: "amount_approved",
+      },
+      {
+        name: "batch-number",
+        type: "text",
+        field: "batch_number",
+        editable: true,
+      },
     ];
   };
 

@@ -325,6 +325,9 @@
   "budget-item": {
     "budget-item": "Budget Item"
   },
+  "payment": {
+    "payment": "Payment"
+  },
   "payments": {
     "payment-number": "Payment Number",
     "budget-item-number": "Budget Item",
@@ -339,7 +342,9 @@
     "amount-paid": "Amount Paid",
     "amount-approved-to-be-paid": "Amount Approved to be Paid",
     "batch-number": "Batch Number",
-    "invoice-date": "Invoice Date"
+    "invoice-date": "Invoice Date",
+    "payment-date": "Payment Date",
+    "date-reported-date": "Date Reported"
   },
   "organization": {
     "organization": "Organization",
