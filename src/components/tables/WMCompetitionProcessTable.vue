@@ -140,7 +140,7 @@
           />
 
           <span v-else-if="slotProps.data[column.name]">
-            {{ formatearFecha(slotProps.data[column.name]) }}
+            {{ formatDate(slotProps.data[column.name]) }}
           </span>
         </template>
 
@@ -291,23 +291,21 @@ const parseDate = (date) => {
   return date;
 };
 
-function formatearFecha(fechaString) {
-  // Crear un objeto de fecha
-  var fecha = new Date(fechaString);
+function formatDate(dateString) {
+  var date = new Date(dateString);
 
-  // Obtener los componentes de la fecha
-  var dia = fecha.getDate();
-  var mes = fecha.getMonth() + 1; // ¡Recuerda que los meses comienzan desde 0!
-  var año = fecha.getFullYear();
+  var dia = date.getDate();
+  var mes = date.getMonth() + 1; // months are zero based
+  var año = date.getFullYear();
 
-  // Agregar ceros a la izquierda si es necesario
+  // add zeros to the left if necessary
   dia = dia < 10 ? "0" + dia : dia;
   mes = mes < 10 ? "0" + mes : mes;
 
-  // Formatear la fecha como DD/MM/YYYY
-  var fechaFormateada = dia + "/" + mes + "/" + año;
+  // return formatted date as DD/MM/YYYY
+  var dateFormateada = dia + "/" + mes + "/" + año;
 
-  return fechaFormateada;
+  return dateFormateada;
 }
 
 const loadLazyData = () => {

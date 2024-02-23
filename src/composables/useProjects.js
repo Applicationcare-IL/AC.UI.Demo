@@ -119,6 +119,7 @@ export function useProjects() {
     const response = await projectsStore.getProjectPayments(projectId, params);
 
     const payments = response.data.map((payment) => {
+      console.log("mapping payment", payment);
       return mapPayment(payment);
     });
     const totalRecords = response.meta.total;
@@ -260,9 +261,9 @@ export function useProjects() {
     const month = newDate.getMonth() + 1; // Note: months are 0-based
     const day = newDate.getDate();
 
-    const dateISO = `
-    ${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}
-    `;
+    const dateISO = `${year}-${month < 10 ? "0" : ""}${month}-${
+      day < 10 ? "0" : ""
+    }${day}`;
 
     return dateISO;
   }
@@ -283,8 +284,12 @@ export function useProjects() {
   };
 
   const parseProjectPayment = (payment) => {
+    console.log("parseProjectPayment", payment);
     return {
       ...payment,
+      budget_item_id: payment.budget_item,
+      customer_id: payment.customer,
+      proforma_invoice_date: parseDate(payment.proforma_invoice_date),
     };
   };
 
@@ -349,9 +354,9 @@ export function useProjects() {
   const mapPayment = (payment) => {
     return {
       ...payment,
-      budget_item: payment.budget_item.id,
+      budget_item: payment.budget_item?.id,
       customer: payment.customer.id,
-      payment_status: payment.payment_status.id,
+      payment_status: payment.payment_status?.id,
       proforma_invoice_date: formatDate(
         new Date(payment.proforma_invoice_date),
         "DD/MM/YY"

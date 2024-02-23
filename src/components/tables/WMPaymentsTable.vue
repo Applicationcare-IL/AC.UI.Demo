@@ -83,7 +83,6 @@
           {{ slotProps.data[column.field] }}
         </template>
         <template v-if="column.editable" #editor="{ data }">
-          {{ data[column.field] }}
           <InputText v-model="data[column.field]" />
         </template>
       </Column>
@@ -287,6 +286,7 @@ const {
   getBudgetItems,
   updateProjectPayment,
   createProjectPayment,
+  parseProjectPayment,
 } = useProjects();
 const { getPaymentsColumns } = useListUtils();
 const toast = useToast();
@@ -450,9 +450,12 @@ const onRowEditSave = (event) => {
     return;
   }
 
+  console.log("newData", newData);
+
   if (newData.mode === "create") {
-    createProjectPayment(props.projectId, newData)
+    createProjectPayment(props.projectId, parseProjectPayment(newData))
       .then(() => {
+        payments.value[index] = newData;
         toast.successAction("payment", "created");
       })
       .catch(() => {
@@ -462,7 +465,11 @@ const onRowEditSave = (event) => {
     return;
   }
 
-  updateProjectPayment(props.projectId, paymentId, newData).then(() => {
+  updateProjectPayment(
+    props.projectId,
+    paymentId,
+    parseProjectPayment(newData)
+  ).then(() => {
     payments.value[index] = newData;
     toast.successAction("payment", "updated");
   });
@@ -470,7 +477,7 @@ const onRowEditSave = (event) => {
 
 const validateForm = (obj) => {
   const requiredFields = [
-    // "budget_item_id",
+    "budget_item",
     "customer",
     // "milestone_id",
     "proforma_invoice_number",
@@ -509,10 +516,6 @@ const onRowEditCancel = (event) => {
 // PROVIDE, EXPOSE
 
 // WATCHERS
-
-watchEffect(() => {
-  loadLazyData();
-});
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 
