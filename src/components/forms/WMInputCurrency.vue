@@ -18,7 +18,7 @@
       />
 
       <InputNumber
-        v-model="field.value"
+        v-model="modelValue"
         :name="name"
         :class="[
           {
@@ -30,7 +30,7 @@
         :min-fraction-digits="2"
         @input="
           $emit('update:modelValue', $event.value);
-          input.handleChange($event.value);
+          field.handleChange($event.value);
         "
       />
     </div>

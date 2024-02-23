@@ -3,10 +3,6 @@
     v-if="budget"
     class="wm-detail-form-container flex flex-column overflow-auto gap-5"
   >
-    <!-- <pre>
-  {{ budget }}
-  </pre
-    > -->
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1 card-container top-info-card">
         <Card>
@@ -44,7 +40,7 @@
       </div>
     </div>
     <div class="flex flex-row gap-5 flex-wrap">
-      <div class="flex-1">
+      <div class="flex-1 w-full">
         <Card>
           <template #title> {{ $t("budget.budget-details") }} </template>
           <template #content>
@@ -137,11 +133,15 @@
             </div>
           </template>
           <template #content>
+            <!-- <pre style="min-height: 50vh">
+  {{ values }}
+  {{ budget.tbr_accepted }}
+  </pre
+            > -->
             <div class="flex flex-column gap-2">
               <div
                 class="flex flex-row align-items-center justify-content-start gap-2"
               >
-                {{ budget.tbr_accepted }}
                 <WMHighlightedBlock
                   v-model="budget.tbr_accepted"
                   name="tbr_accepted"
@@ -345,7 +345,7 @@ useHead({
   title: "Project Budget",
 });
 
-const { handleSubmit, meta, resetForm } = useForm();
+const { handleSubmit, meta, resetForm, values } = useForm();
 
 const onSave = handleSubmit((values) => {
   updateBudget(route.params.id, parseBudget(values))
