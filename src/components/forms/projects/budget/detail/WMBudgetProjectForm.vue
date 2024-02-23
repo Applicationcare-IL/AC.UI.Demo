@@ -78,7 +78,7 @@
                 />
               </div>
               <Divider></Divider>
-              <div class="flex flex-row justify-content-between gap-2">
+              <div class="flex flex-row justify-content-start gap-2">
                 <WMHighlightedBlock
                   v-model="budget.approved_council"
                   background-color="green-100"
@@ -99,12 +99,6 @@
                   v-model="budget.executed_payments"
                   background-color="white"
                   :label="$t('budget.executed-payments') + ':'"
-                />
-
-                <WMHighlightedBlock
-                  v-model="budget.deficit"
-                  background-color="white"
-                  :label="$t('budget.deficit') + ':'"
                 />
 
                 <WMHighlightedBalanceBlock

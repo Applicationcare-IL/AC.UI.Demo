@@ -3,7 +3,6 @@
     v-if="budgetItem"
     class="wm-detail-form-container flex flex-column overflow-auto gap-5"
   >
-    <!-- <pre style="min-height: 50vh">{{ budgetItem }}</pre> -->
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1 card-container top-info-card">
         <Card>
@@ -51,28 +50,29 @@
         </Card>
       </div>
     </div>
-    <div class="flex flex-row gap-5 flex-wrap">
-      <div class="flex-1">
+    <div class="flex flex-row gap-5 flex-wrap mb-6">
+      <div class="flex-1 w-full">
         <Card>
           <template #title>
             {{ $t("budget.budget-items-components") }}
           </template>
           <template #content>
             <div class="flex flex-column gap-5">
-              <div
-                class="flex align-items-center justify-content-between gap-2"
-              >
+              <div class="flex flex-row justify-content-between gap-3">
                 <WMHighlightedBlock
-                  id="planned_contract"
+                  v-model="budgetItem.estimate"
+                  background-color="purple-100"
+                  :label="$t('budget.estimate') + ':'"
+                />
+
+                <Divider layout="vertical" />
+                <WMHighlightedBlock
                   v-model="budgetItem.planned_contract"
-                  name="planned_contract"
                   background-color="blue-100"
                   :label="$t('budget.planned-contract') + ':'"
                 />
                 <PlusIcon />
-
                 <WMHighlightedBlock
-                  id="unexpected"
                   v-model="budgetItem.unexpected"
                   name="unexpected"
                   background-color="blue-100"
@@ -81,19 +81,15 @@
                 />
                 <PlusIcon />
                 <WMHighlightedBlock
-                  id="management_fee"
                   v-model="budgetItem.management_fee"
-                  name="management_fee"
                   background-color="blue-100"
                   :label="$t('budget.management-fee') + ':'"
                   editable
+                  name="management_fee"
                 />
-
                 <EqualIcon />
                 <WMHighlightedBlock
-                  id="total"
-                  v-model="budgetItem.total_approved"
-                  name="total"
+                  v-model="budgetItem.total_planned"
                   background-color="blue-200"
                   :label="$t('budget.total') + ':'"
                 />
@@ -101,49 +97,34 @@
 
               <Divider />
 
-              <div class="flex align-items-center gap-4">
+              <div class="flex flex-row justify-content-start gap-2">
                 <WMHighlightedBlock
-                  id="estimate"
-                  v-model="budgetItem.estimate"
-                  name="estimate"
-                  background-color="purple-100"
-                  :label="$t('budget.estimate') + ':'"
-                  editable
-                />
-
-                <WMHighlightedBlock
-                  id="approved_council"
                   v-model="budgetItem.approved_council"
-                  name="approved_council"
-                  background-color="white"
+                  background-color="green-100"
                   :label="$t('budget.approved-council') + ':'"
                   editable
+                  name="approved_council"
                 />
 
+                <ArrowIcon />
+
                 <WMHighlightedBlock
-                  id="approved_ministry"
                   v-model="budgetItem.approved_ministry"
-                  name="approved_ministry"
-                  background-color="white"
+                  background-color="green-100"
                   :label="$t('budget.approved-ministry') + ':'"
                   editable
+                  name="approved_ministry"
                 />
-              </div>
 
-              <Divider />
+                <Divider layout="vertical" />
 
-              <div class="flex align-items-center gap-4">
                 <WMHighlightedBlock
-                  id="executed-payments"
                   v-model="budgetItem.executed_payments"
-                  name="executed-payments"
                   background-color="white"
                   :label="$t('budget.executed-payments') + ':'"
                 />
 
                 <WMHighlightedBalanceBlock
-                  id="balance"
-                  name="balance"
                   :quantity="budgetItem.balance_approved"
                   :label="$t('budget.balance') + ':'"
                 />
@@ -191,7 +172,7 @@ const budgetItem = ref(null);
 // COMPUTED
 
 // COMPONENT METHODS
-const { handleSubmit, meta, resetForm } = useForm();
+const { handleSubmit, meta, resetForm, values } = useForm();
 
 const fetchData = () => {
   getBudgetItem(route.params.id, route.params.budgetId).then((response) => {
