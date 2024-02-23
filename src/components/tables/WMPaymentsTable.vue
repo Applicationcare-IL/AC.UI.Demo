@@ -483,8 +483,8 @@ const validateForm = (obj) => {
     "proforma_invoice_number",
     "proforma_invoice_date",
     "proforma_invoice_amount",
-    // "invoice_number",
-    // "invoice_date",
+    "invoice_number",
+    "invoice_date",
     // "payment_date",
     // "amount_paid",
     // "reported",
@@ -518,7 +518,6 @@ const onRowEditCancel = (event) => {
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-
 onMounted(() => {
   loadLazyData();
 });

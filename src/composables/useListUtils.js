@@ -479,18 +479,18 @@ export function useListUtils() {
         type: "currency",
         field: "proforma_invoice_amount",
       },
-      // {
-      //   name: "invoice-number",
-      //   type: "text",
-      //   field: "invoice_number",
-      //   editable: true,
-      // },
-      // {
-      //   name: "invoice-date",
-      //   type: "calendar",
-      //   field: "invoice_date",
-      //   editable: true,
-      // },
+      {
+        name: "invoice-number",
+        type: "text",
+        field: "invoice_number",
+        editable: true,
+      },
+      {
+        name: "invoice-date",
+        type: "calendar",
+        field: "invoice_date",
+        editable: true,
+      },
       // {
       //   name: "terms-of-payment",
       //   type: "dropdown",

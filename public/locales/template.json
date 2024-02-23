@@ -338,7 +338,8 @@
     "terms-of-payment": "Terms of Payment",
     "amount-paid": "Amount Paid",
     "amount-approved-to-be-paid": "Amount Approved to be Paid",
-    "batch-number": "Batch Number"
+    "batch-number": "Batch Number",
+    "invoice-date": "Invoice Date"
   },
   "organization": {
     "organization": "Organization",

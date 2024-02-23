@@ -681,7 +681,13 @@ a {
         border: 1px solid #ced4db;
         border-radius: 2px;
     }
+
+    .p-frozen-column{
+        z-index: 1;
+    }
 }
+
+
 
 // Others 
 pre {

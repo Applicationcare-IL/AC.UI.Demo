@@ -290,6 +290,7 @@ export function useProjects() {
       budget_item_id: payment.budget_item,
       customer_id: payment.customer,
       proforma_invoice_date: parseDate(payment.proforma_invoice_date),
+      invoice_date: parseDate(payment.invoice_date),
     };
   };
 
