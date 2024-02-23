@@ -16,6 +16,7 @@
         src="/icons/shekel.svg"
         alt=""
       />
+
       <InputNumber
         v-model="field.value"
         :name="name"
@@ -80,7 +81,7 @@ const props = defineProps({
 // COMPONENT METHODS
 const field = reactive(
   useField(props.name, undefined, {
-    initialValue: modelValue,
+    initialValue: modelValue.value,
   })
 );
 

@@ -8,6 +8,7 @@
       <MinusIcon v-if="tooltip === 'minus'" />
     </div>
     <div v-if="label && label !== ''" class="font-bold">{{ label }}</div>
+
     <WMInputCurrency v-model="modelValue" :read-only="!editable" :name="name" />
   </div>
 </template>

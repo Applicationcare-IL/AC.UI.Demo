@@ -141,8 +141,10 @@
               <div
                 class="flex flex-row align-items-center justify-content-start gap-2"
               >
+                {{ budget.tbr_accepted }}
                 <WMHighlightedBlock
                   v-model="budget.tbr_accepted"
+                  name="tbr_accepted"
                   background-color="gray-100"
                   :label="$t('budget.tbr-accepted') + ':'"
                   size="small"
@@ -152,6 +154,7 @@
 
                 <WMHighlightedBlock
                   v-model="budget.tbr_expected"
+                  name="tbr_expected"
                   background-color="gray-100"
                   :label="$t('budget.tbr-expected') + ':'"
                   size="small"
@@ -160,6 +163,7 @@
                 <EqualIcon />
                 <WMHighlightedBlock
                   v-model="budget.tbr_funding"
+                  name="tbr_funding"
                   background-color="gray-300"
                   :label="$t('budget.tbr-funding') + ':'"
                   size="small"
@@ -171,6 +175,7 @@
               >
                 <WMHighlightedBlock
                   v-model="budget.tbr_reported"
+                  name="tbr_reported"
                   background-color="white"
                   :label="$t('budget.tbr-reported') + ':'"
                   size="small"
@@ -179,6 +184,7 @@
 
                 <WMHighlightedBlock
                   v-model="budget.tbr_municipality_expenses"
+                  name="tbr_municipality_expenses"
                   background-color="white"
                   :label="$t('budget.tbr-municipality-expenses') + ':'"
                   size="small"
@@ -187,6 +193,7 @@
                 />
 
                 <WMHighlightedBalanceBlock
+                  name="tbr_balance"
                   :quantity="budget.tbr_balance"
                   :label="$t('budget.tbr-balance') + ':'"
                   size="small"
@@ -326,7 +333,6 @@ const props = defineProps({
 });
 
 // REFS
-const modelValue = ref(1000);
 const budget = ref({});
 
 // COMPUTED

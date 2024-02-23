@@ -14,9 +14,6 @@
         >
           {{ t("new") }}
         </WMButton>
-        <button :disabled="isSomePaymentInCreateMode" @click="handleNewPayment">
-          temporal create
-        </button>
       </div>
       <!-- <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMButton

@@ -184,9 +184,12 @@ export function useProjects() {
   };
 
   const parseBudget = (budget) => {
-    console.log("budget", budget);
     return {
       tbr_number: budget.tbr_number,
+      tbr_accepted: budget.tbr_accepted,
+      tbr_expected: budget.tbr_expected,
+      tbr_municipality_expenses: budget.tbr_municipality_expenses,
+      tbr_reported: budget.tbr_reported,
     };
   };
 
