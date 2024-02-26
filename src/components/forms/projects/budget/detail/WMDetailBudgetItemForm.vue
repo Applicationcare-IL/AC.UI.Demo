@@ -106,7 +106,9 @@
                   name="approved_council"
                 />
 
-                <ArrowIcon />
+                <ArrowIcon
+                  :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
+                />
 
                 <WMHighlightedBlock
                   v-model="budgetItem.approved_ministry"
@@ -144,8 +146,11 @@ import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
+import { useLayout } from "@/layout/composables/layout";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
+
+const { layoutConfig } = useLayout();
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
@@ -172,7 +177,7 @@ const budgetItem = ref(null);
 // COMPUTED
 
 // COMPONENT METHODS
-const { handleSubmit, meta, resetForm, values } = useForm();
+const { handleSubmit, meta, resetForm } = useForm();
 
 const fetchData = () => {
   getBudgetItem(route.params.id, route.params.budgetId).then((response) => {

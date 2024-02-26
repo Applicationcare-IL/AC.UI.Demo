@@ -85,7 +85,9 @@
                   :label="$t('budget.approved-council') + ':'"
                 />
 
-                <ArrowIcon />
+                <ArrowIcon
+                  :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
+                />
 
                 <WMHighlightedBlock
                   v-model="budget.approved_ministry"
@@ -305,13 +307,14 @@ import { useForm } from "vee-validate";
 import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
+import { useLayout } from "@/layout/composables/layout";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { getProjectBudget, updateBudget, parseBudget } = useProjects();
 const route = useRoute();
-
+const { layoutConfig } = useLayout();
 const utilsStore = useUtilsStore();
 const toast = useToast();
 const formUtilsStore = useFormUtilsStore();
