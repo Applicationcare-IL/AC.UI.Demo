@@ -11,7 +11,11 @@ export function useAttachments() {
 
     const response = await attachmentStore.getAttachmentsFromApi(params);
 
-    return response.data.data;
+    const attachments = response.data.data.map((attachment) => {
+      return mapAttachment(attachment);
+    });
+
+    return attachments;
   };
 
   const uploadAttachment = async (formData) => {
@@ -23,21 +27,20 @@ export function useAttachments() {
     }
   };
 
-  //   const mapAttachment = (attachment) => {
-  //     return {
-  //       id: attachment.id,
-
-  //       name: attachment.name,
-  //       url: attachment.url,
-  //     };
-
-  //     id: 1,
-  // //     img_url: "https://placehold.co/600x400/EEE/31343C",
-  // //     name: "File 1",
-  //   };
+  const mapAttachment = (attachment) => {
+    return {
+      id: attachment.id,
+      name: attachment.filename,
+      img_url: attachment.url,
+      is_image: attachment.is_image,
+      thumbnail_url: attachment.thumbnail,
+      download_url: attachment.download,
+    };
+  };
 
   return {
     getAttachmentsFromApi,
     uploadAttachment,
+    mapAttachment,
   };
 }

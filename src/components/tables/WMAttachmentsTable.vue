@@ -19,11 +19,10 @@
     />
   </div>
   <div ref="dropZoneRef" :class="{ 'dropzone-active': isOverDropZone }">
-    <pre>{{ fileList }}</pre>
     <DataTable :value="fileList" paginator :rows="5">
       <Column field="img_url" header="">
         <template #body="slotProps">
-          <div class="overflow-hidden">
+          <div v-if="slotProps.data.is_image === 1" class="overflow-hidden">
             <div
               class="bg-auto bg-no-repeat bg-center bg-primary border-round h-9rem w-16rem"
               :style="{ backgroundImage: `url(${slotProps.data.img_url})` }"
@@ -36,7 +35,8 @@
         <template #body="slotProps">
           <div class="flex flex-row gap-2">
             <a
-              :href="slotProps.data.img_url"
+              v-if="slotProps.data.download_url"
+              :href="slotProps.data.download_url"
               download
               class="no-underline"
               target="_blank"
@@ -81,10 +81,14 @@ const props = defineProps({
 
 const { getAttachmentsFromApi, uploadAttachment } = useAttachments();
 
-onMounted(() => {
+const loadAttachments = () => {
   getAttachmentsFromApi(props.entityType, props.entityId).then((response) => {
-    fileList.value = response.data;
+    fileList.value = response;
   });
+};
+
+onMounted(() => {
+  loadAttachments();
 });
 
 function openUploadAttachment() {
@@ -110,12 +114,8 @@ const uploadAttachmentToAPI = () => {
     formData.append("entity_type", props.entityType);
     formData.append("entity_id", props.entityId);
 
-    uploadAttachment(formData).then((response) => {
-      console.log("uploadAttachment", response);
-      // fileList.value.push({
-      //   id: response.data.id,
-      //   name: file.name,
-      // });
+    uploadAttachment(formData).then(() => {
+      loadAttachments();
     });
   });
 };
