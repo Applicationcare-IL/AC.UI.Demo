@@ -119,12 +119,12 @@ export function useProjects() {
     const response = await projectsStore.getProjectPayments(projectId, params);
 
     const payments = response.data.map((payment) => {
-      console.log("mapping payment", payment);
       return mapPayment(payment);
     });
+
     const totalRecords = response.meta.total;
 
-    return { payments: payments[0], totalRecords };
+    return { payments: payments, totalRecords };
   };
 
   const createProjectPayment = async (projectId, data) => {
@@ -185,7 +185,6 @@ export function useProjects() {
   };
 
   const parseBudget = (budget) => {
-    console.log("budget", budget);
     return {
       tbr_number: budget.tbr_number,
       tbr_accepted: budget.tbr_accepted,
@@ -284,7 +283,6 @@ export function useProjects() {
   };
 
   const parseProjectPayment = (payment) => {
-    console.log("parseProjectPayment", payment);
     return {
       ...payment,
       proforma_invoice_date: parseDate(payment.proforma_invoice_date),

@@ -392,7 +392,7 @@ const getPaymentTemplate = () => {
     amount_paid: 80000,
     reported: true,
     reported_date: new Date(),
-    reported_to_id: 1273,
+    // reported_to_id: 1273,
     amount_approved: 80000,
     batch_number: "BATCH-2024-02-12",
     terms_of_payment_id: "",
@@ -434,7 +434,7 @@ const loadLazyData = () => {
   });
 
   getProjectPayments(props.projectId, params).then((response) => {
-    payments.value = [response.payments];
+    payments.value = response.payments;
     totalRecords.value = response.totalRecords;
   });
 
@@ -467,6 +467,7 @@ const onRowEditSave = (event) => {
   if (newData.mode === "create") {
     createProjectPayment(props.projectId, parseProjectPayment(newData))
       .then(() => {
+        delete newData.mode;
         payments.value[index] = newData;
         toast.successAction("payment", "created");
       })
@@ -499,8 +500,7 @@ const validateForm = (obj) => {
     "invoice_date",
     "payment_date",
     "amount_paid",
-    "reported_date",
-    "reported_on",
+    "report_date",
     "amount_approved",
     "batch_number",
     "terms_of_payment_id",
