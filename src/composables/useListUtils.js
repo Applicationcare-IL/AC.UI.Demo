@@ -540,24 +540,43 @@ export function useListUtils() {
         type: "budget-item-link",
       },
       {
+        name: "estimate",
+        field: "estimate",
+        type: "currency",
+      },
+      {
         name: "planned-contract",
         field: "planned_contract",
         type: "currency",
       },
       {
-        name: "estimate",
-        field: "estimate",
+        name: "unexpected",
+        field: "unexpected",
+        type: "currency",
+        editable: true,
+      },
+      {
+        name: "management-fee",
+        field: "management_fee",
+        type: "currency",
+        editable: true,
+      },
+      {
+        name: "total",
+        field: "total_approved",
         type: "currency",
       },
       {
         name: "approved-council",
         field: "approved_council",
         type: "currency",
+        editable: true,
       },
       {
         name: "approved-ministry",
         field: "approved_ministry",
         type: "currency",
+        editable: true,
       },
       {
         name: "executed-payments",
@@ -568,26 +587,6 @@ export function useListUtils() {
         name: "balance",
         field: "balance_approved",
         type: "balance",
-      },
-      {
-        name: "management-fee",
-        field: "management_fee",
-        type: "currency",
-      },
-      {
-        name: "unexpected",
-        field: "unexpected",
-        type: "currency",
-      },
-      {
-        name: "total",
-        field: "total_approved",
-        type: "currency",
-      },
-      {
-        name: "last-changed",
-        field: "last_changed",
-        type: "text",
       },
     ];
   };

@@ -64,14 +64,6 @@
     <Column :row-editor="true" :frozen="true" align-frozen="right"></Column>
 
     <template v-for="column in columns">
-      <!-- <Column
-      v-for="column in columns"
-      :key="column.name"
-      :field="column.name"
-      :header="column.header ? $t(column.header) : $t(`budget.${column.name}`)"
-      :class="column.class"
-    > -->
-
       <Column
         v-if="column.type == 'text'"
         :key="column.name"
@@ -87,28 +79,6 @@
         </template>
       </Column>
 
-      <!-- <Column
-        v-if="column.type == 'organization-link'"
-        :key="column.name"
-        :field="column.name"
-        :header="getColumHeader(column)"
-        :class="column.class"
-      >
-        <template #body="slotProps">
-          <router-link
-            :to="{
-              name: 'projectBudgetDetail',
-              params: {
-                id: projectId,
-              },
-            }"
-            target="_blank"
-          >
-            Link
-          </router-link>
-        </template>
-      </Column> -->
-
       <Column
         v-if="column.type == 'currency'"
         :key="column.name"
@@ -123,7 +93,7 @@
             :name="column.name"
           />
         </template>
-        <template #editor="{ data }">
+        <template v-if="column.editable" #editor="{ data }">
           <WMInputCurrency
             v-model="data[column.field]"
             :name="column.field"
@@ -139,7 +109,7 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template #editor="{ data, field }">
+        <template v-if="column.editable" #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
             :options="budgetItems"
@@ -164,7 +134,7 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template #editor="{ data, field }">
+        <template v-if="column.editable" #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
             :options="customers"
@@ -189,7 +159,7 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template #editor="{ data, field }">
+        <template v-if="column.editable" #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
             :options="paymentStatuses"
@@ -222,7 +192,7 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template #editor="{ data, field }">
+        <template v-if="column.editable" #editor="{ data, field }">
           <Calendar v-model="data[field]" show-icon />
         </template>
         <template #body="slotProps">
@@ -238,7 +208,7 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template #editor="{ data, field }">
+        <template v-if="column.editable" #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
             :options="termsOfPayment"
@@ -258,18 +228,6 @@
         </template>
       </Column>
     </template>
-    <!-- <Column
-      v-for="column in columns"
-      :key="column.name"
-      :field="column.name"
-      :header="column.header ? $t(column.header) : $t(`budget.${column.name}`)"
-      :class="column.class"
-    >
-      <template v-if="column.type === 'text'">
-        {{ slotProps.data[column.field] }}
-      </template>
-      
-    </Column> -->
   </DataTable>
 </template>
 
@@ -277,7 +235,7 @@
 // IMPORTS
 import { formatDate } from "@vueuse/core";
 import { v4 as uuidv4 } from "uuid";
-import { computed, nextTick, onMounted, ref, watchEffect } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -308,8 +266,6 @@ const props = defineProps({
 });
 
 // REFS
-const testNumber = ref(100);
-
 const selectedPayments = ref([]);
 const payments = ref([]);
 const totalRecords = ref(0);
@@ -461,8 +417,6 @@ const onRowEditSave = (event) => {
     editingRows.value = [...editingRows.value, newData]; // keep the rows in edit mode
     return;
   }
-
-  console.log("newData", newData);
 
   if (newData.mode === "create") {
     createProjectPayment(props.projectId, parseProjectPayment(newData))

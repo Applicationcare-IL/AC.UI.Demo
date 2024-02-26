@@ -17,7 +17,10 @@
 // IMPORTS
 import { computed } from "vue";
 
+import { useLayout } from "@/layout/composables/layout";
+
 // DEPENDENCIES
+const { layoutConfig } = useLayout();
 
 // INJECT
 
@@ -83,15 +86,17 @@ const styleBackgroundColorClass = computed(() => {
 });
 
 const styleClasses = computed(() => {
+  const sharedClases = layoutConfig.isRTL.value ? "layout-rtl" : "";
+
   switch (props.size) {
     case "big":
-      return `text-lg p-3 border-round-lg width-big ${styleBackgroundColorClass.value}`;
+      return `text-lg p-3 border-round-lg width-big ${styleBackgroundColorClass.value} ${sharedClases}`;
     case "small":
-      return `text-sm p-2 border-round-md width-small ${styleBackgroundColorClass.value}`;
+      return `text-sm p-2 border-round-md width-small ${styleBackgroundColorClass.value} ${sharedClases}`;
     case "xsmall":
-      return `text-xs p-1 border-round-sm width-xsmall ${styleBackgroundColorClass.value}`;
+      return `text-xs p-1 border-round-sm width-xsmall ${styleBackgroundColorClass.value} ${sharedClases}`;
     default:
-      return `text-lg p-3 border-round-lg width-big ${styleBackgroundColorClass.value}`;
+      return `text-lg p-3 border-round-lg width-big ${styleBackgroundColorClass.value} ${sharedClases}`;
   }
 });
 
@@ -116,7 +121,14 @@ const styleClasses = computed(() => {
   &__icon {
     position: absolute;
     top: 16px;
-    left: 16px;
+    right: 16px;
+  }
+
+  &.layout-rtl {
+    .highlighted-block__icon {
+      left: 16px;
+      right: auto;
+    }
   }
 }
 
