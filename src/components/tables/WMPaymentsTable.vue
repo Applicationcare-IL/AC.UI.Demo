@@ -1,6 +1,6 @@
 <template>
   <!-- <pre>isSomePaymentInCreateMode: {{ isSomePaymentInCreateMode }}</pre> -->
-  <pre>payments: {{ payments }}</pre>
+  <!-- <pre>payments: {{ payments }}</pre> -->
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
