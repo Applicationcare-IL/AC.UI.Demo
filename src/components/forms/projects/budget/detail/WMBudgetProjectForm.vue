@@ -200,26 +200,32 @@
           </template>
         </Card>
       </div>
-      <!-- <div class="flex-1">
+      <div class="flex-1">
         <Card class="h-full">
           <template #title>
             {{ $t("budget.non-tbr-funding-details") }}
           </template>
           <template #content>
             <div class="flex flex-column gap-2">
-              <div class="flex flex-row align-items-center justify-content-between gap-2">
+              <div
+                class="flex flex-row align-items-center justify-content-between gap-2"
+              >
                 <WMHighlightedBlock
-                  v-model="modelValue"
+                  v-model="budget.non_tbr_funds_accepted"
+                  name="non_tbr_accepted"
                   background-color="gray-100"
                   :label="$t('budget.non-tbr-funds-accepted') + ':'"
                   size="small"
+                  editable
                 />
                 <PlusIcon />
                 <WMHighlightedBlock
                   v-model="modelValue"
+                  name="non_tbr_expected"
                   background-color="gray-100"
                   :label="$t('budget.non-tbr-expected') + ':'"
                   size="small"
+                  editable
                 />
                 <EqualIcon />
                 <WMHighlightedBlock
@@ -232,7 +238,7 @@
             </div>
           </template>
         </Card>
-      </div> -->
+      </div>
     </div>
 
     <Accordion>
