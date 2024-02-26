@@ -19,6 +19,7 @@
     />
   </div>
   <div ref="dropZoneRef" :class="{ 'dropzone-active': isOverDropZone }">
+    <pre>{{ fileList }}</pre>
     <DataTable :value="fileList" paginator :rows="5">
       <Column field="img_url" header="">
         <template #body="slotProps">
@@ -60,11 +61,31 @@
 
 <script setup>
 import { useDropZone } from "@vueuse/core";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const dropZoneRef = ref(null);
 const files = ref();
 const fileInput = ref(null);
+const fileList = ref([]);
+
+const props = defineProps({
+  entityType: {
+    type: String,
+    required: true,
+  },
+  entityId: {
+    type: Number,
+    required: true,
+  },
+});
+
+const { getAttachmentsFromApi, uploadAttachment } = useAttachments();
+
+onMounted(() => {
+  getAttachmentsFromApi(props.entityType, props.entityId).then((response) => {
+    fileList.value = response.data;
+  });
+});
 
 function openUploadAttachment() {
   fileInput.value.click();
@@ -86,13 +107,16 @@ const uploadAttachmentToAPI = () => {
     const formData = new FormData();
 
     formData.append("file", file);
+    formData.append("entity_type", props.entityType);
+    formData.append("entity_id", props.entityId);
 
-    // addAttachmentToEmail(formData).then((response) => {
-    //   attachmentList.value.push({
-    //     id: response.data.id,
-    //     name: file.name,
-    //   });
-    // });
+    uploadAttachment(formData).then((response) => {
+      console.log("uploadAttachment", response);
+      // fileList.value.push({
+      //   id: response.data.id,
+      //   name: file.name,
+      // });
+    });
   });
 };
 
@@ -102,33 +126,33 @@ const removeAttachment = (id) => {
 
 const { isOverDropZone } = useDropZone(dropZoneRef, onDrop);
 
-const fileList = ref([
-  {
-    id: 1,
-    img_url: "https://placehold.co/600x400/EEE/31343C",
-    name: "File 1",
-  },
-  {
-    id: 2,
-    img_url: "https://placehold.co/600x400/EEE/31343C",
-    name: "File 2",
-  },
-  {
-    id: 3,
-    img_url: "https://placehold.co/600x400/EEE/31343C",
-    name: "File 3",
-  },
-  {
-    id: 4,
-    img_url: "https://placehold.co/600x400/EEE/31343C",
-    name: "File 4",
-  },
-  {
-    id: 5,
-    img_url: "https://placehold.co/600x400/EEE/31343C",
-    name: "File 5",
-  },
-]);
+// const fileList = ref([
+//   {
+//     id: 1,
+//     img_url: "https://placehold.co/600x400/EEE/31343C",
+//     name: "File 1",
+//   },
+//   {
+//     id: 2,
+//     img_url: "https://placehold.co/600x400/EEE/31343C",
+//     name: "File 2",
+//   },
+//   {
+//     id: 3,
+//     img_url: "https://placehold.co/600x400/EEE/31343C",
+//     name: "File 3",
+//   },
+//   {
+//     id: 4,
+//     img_url: "https://placehold.co/600x400/EEE/31343C",
+//     name: "File 4",
+//   },
+//   {
+//     id: 5,
+//     img_url: "https://placehold.co/600x400/EEE/31343C",
+//     name: "File 5",
+//   },
+// ]);
 </script>
 
 <style scoped lang="scss">

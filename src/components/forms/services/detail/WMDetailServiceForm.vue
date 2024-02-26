@@ -251,6 +251,15 @@
         </AccordionTab>
       </Accordion>
 
+      <Accordion>
+        <AccordionTab :header="$t('attachments.attachments')">
+          <WMAttachmentsTable
+            :entity-id="route.params.id"
+            entity-type="service"
+          />
+        </AccordionTab>
+      </Accordion>
+
       <div class="flex flex-row gap-5 flex-wrap mt-5">
         <div class="flex-1 tabs-container">
           <TabView>

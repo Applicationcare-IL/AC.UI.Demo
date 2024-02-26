@@ -213,7 +213,18 @@
         </Accordion>
       </div>
 
-      <div class="flex-1 tabs-container">
+      <div class="flex flex-row flex-wrap mb-5">
+        <Accordion>
+          <AccordionTab :header="$t('attachments.attachments')">
+            <WMAttachmentsTable
+              :entity-id="route.params.id"
+              entity-type="task"
+            />
+          </AccordionTab>
+        </Accordion>
+      </div>
+
+      <div class="flex-1 tabs-container mt-5">
         <TabView>
           <TabPanel :header="$t('additional-information')">
             <div class="flex flex-column gap-5 m-2">
@@ -260,12 +271,6 @@
           </TabPanel>
         </TabView>
       </div>
-
-      <!-- <Accordion>
-        <AccordionTab :header="$t('attachments')">
-          <WMAttachmentsTable />
-        </AccordionTab>
-      </Accordion> -->
     </div>
   </div>
   <div v-else>Loading...</div>

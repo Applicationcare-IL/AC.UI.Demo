@@ -56,5 +56,6 @@ module.exports = {
     usePermissions: true,
     useNavigationGuards: true,
     useBudgets: true,
+    useAttachments: true,
   },
 };
