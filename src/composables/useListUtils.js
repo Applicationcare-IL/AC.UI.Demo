@@ -465,6 +465,7 @@ export function useListUtils() {
         type: "customer",
         field: "customer",
         header: "customer.customer",
+        editable: true,
       },
       // {
       //   name: "milestone",
@@ -476,6 +477,7 @@ export function useListUtils() {
         name: "status",
         type: "status",
         field: "payment_status",
+        editable: true,
       },
       {
         name: "proforma-invoice-number",
@@ -493,6 +495,7 @@ export function useListUtils() {
         name: "proforma-invoice-amount",
         type: "currency",
         field: "proforma_invoice_amount",
+        editable: true,
       },
       {
         name: "invoice-number",
@@ -510,11 +513,13 @@ export function useListUtils() {
         name: "terms-of-payment",
         type: "terms-of-payment",
         field: "terms_of_payment_id",
+        editable: true,
       },
       {
         name: "amount-paid",
         type: "currency",
         field: "amount_paid",
+        editable: true,
       },
       {
         name: "payment-date",
@@ -538,6 +543,7 @@ export function useListUtils() {
         name: "amount-approved-to-be-paid",
         type: "currency",
         field: "amount_approved",
+        editable: true,
       },
       {
         name: "batch-number",
@@ -558,11 +564,13 @@ export function useListUtils() {
         name: "estimate",
         field: "estimate",
         type: "currency",
+        editable: true,
       },
       {
         name: "planned-contract",
         field: "planned_contract",
         type: "currency",
+        editable: true,
       },
       {
         name: "unexpected",
