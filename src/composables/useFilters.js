@@ -162,7 +162,7 @@ export function useFilters() {
       },
       {
         type: "sla_status",
-        name: "sla_status",
+        name: "sla",
         label: i18n.t("filters.service-sla-status") + ":",
       },
       {
@@ -210,7 +210,7 @@ export function useFilters() {
       },
       {
         type: "sla_status",
-        name: "sla_status",
+        name: "sla",
         optionSet: "task_sla",
         label: i18n.t("filters.service-sla-status") + ":",
       },
