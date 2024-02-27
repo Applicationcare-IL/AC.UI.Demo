@@ -2,8 +2,8 @@
   <span class="p-input-icon-left">
     <i class="pi pi-search" />
     <InputText
+      v-model="modelValue"
       class="w-30rem"
-      v-model="searchValue"
       placeholder="Search"
       @input="input"
     />
@@ -11,12 +11,11 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { useUtilsStore } from "../stores/utils";
 
 const utilsStore = useUtilsStore();
 
-const searchValue = ref("");
+const modelValue = defineModel();
 
 const props = defineProps({
   entity: String,

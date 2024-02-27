@@ -127,7 +127,7 @@
                 />
 
                 <WMHighlightedBalanceBlock
-                  :quantity="budgetItem.balance_approved"
+                  :quantity="budgetItem.balance"
                   :label="$t('budget.balance') + ':'"
                 />
               </div>

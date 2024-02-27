@@ -41,6 +41,13 @@
         <WMOwnerToggle entity="contact" />
       </div>
     </div>
+    <div v-if="showOnlySearch" class="flex flex-row gap-3">
+      searchValue {{ searchValue }}
+      <WMSearchBox v-model="searchValue" entity="contact" />
+    </div>
+  </div>
+
+  <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="contact" />
     </div>
@@ -239,6 +246,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showOnlySearch: {
+    type: Boolean,
+    default: false,
+  },
   tableClass: {
     type: String,
     default: "",
@@ -246,6 +257,10 @@ const props = defineProps({
   relatedEntity: {
     type: String,
     default: "customer",
+  },
+  searchValue: {
+    type: String,
+    default: "",
   },
 });
 
@@ -264,7 +279,7 @@ const totalRecords = ref(0);
 const editMode = ref([]);
 const contacts = ref([]);
 const customer = ref();
-const searchValue = ref("");
+const searchValue = ref(props.searchValue);
 const lazyParams = ref({});
 const isFilterVisible = ref(false);
 

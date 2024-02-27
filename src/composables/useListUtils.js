@@ -86,6 +86,20 @@ export function useListUtils() {
     ];
   };
 
+  const getContactIncomingCallsColumns = () => {
+    return [
+      {
+        name: "name",
+        type: "link",
+        to: "contact",
+        linkParameter: "id",
+        class: "link-col",
+      },
+      { name: "telephone", type: "text" },
+      { name: "email", type: "text" },
+    ];
+  };
+
   const getSelectedContactsForNewCustomerColumns = () => {
     return [
       {
@@ -585,7 +599,7 @@ export function useListUtils() {
       },
       {
         name: "balance",
-        field: "balance_approved",
+        field: "balance",
         type: "balance",
       },
     ];
@@ -703,6 +717,7 @@ export function useListUtils() {
     getSignatureTaskColumns,
     getProjectTeamColumns,
     getCompetitionProcessColumns,
+    getContactIncomingCallsColumns,
     // METHODS
     getAlertCellConditionalStyle,
     getStatusConditionalStyle,
