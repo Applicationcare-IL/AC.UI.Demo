@@ -586,7 +586,7 @@ export function useListUtils() {
       },
       {
         name: "total",
-        field: "total_approved",
+        field: "total",
         type: "currency",
       },
       {
