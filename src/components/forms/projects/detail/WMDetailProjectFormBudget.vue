@@ -22,7 +22,7 @@
           <div class="flex flex-column gap-4">
             <div class="flex flex-row gap-7 align-items-center">
               <WMHighlightedBlock
-                v-model="budget.total_planned"
+                v-model="budget.total_approved"
                 size="small"
                 background-color="blue-200"
                 :label="$t('budget.total') + ':'"
@@ -34,7 +34,7 @@
                 :label="$t('budget.estimate') + ':'"
               />
               <WMHighlightedBlock
-                v-model="budget.non_tbr_funding"
+                v-model="budget.funding_non_tbr"
                 size="small"
                 background-color="gray-200"
                 :label="$t('budget.non-tbr-funding') + ':'"
@@ -42,7 +42,7 @@
             </div>
             <div class="flex flex-row gap-7">
               <WMHighlightedBlock
-                v-model="budget.approved"
+                v-model="budget.approved_ministry"
                 size="small"
                 background-color="gray-50"
                 :label="$t('budget.approved') + ':'"

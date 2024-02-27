@@ -89,7 +89,7 @@
                 />
                 <EqualIcon />
                 <WMHighlightedBlock
-                  v-model="budgetItem.total_planned"
+                  v-model="budgetItem.total_approved"
                   background-color="blue-200"
                   :label="$t('budget.total') + ':'"
                 />
