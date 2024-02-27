@@ -10,9 +10,15 @@
   <router-view v-else />
   <ConfirmDialog :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''" />
   <!-- why is this here? https://stackoverflow.com/questions/74525054/primevue-confirmdialog-opens-multiple-times -->
+  <WMIncomingCallDialog
+    v-if="showIncomingCallDialog"
+    v-model="showIncomingCallDialog"
+    :call-data="callData"
+  />
 </template>
 
 <script setup>
+// IMPORTS
 import { computed, onMounted, ref } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
@@ -20,25 +26,46 @@ import { useAuthStore } from "@/stores/auth";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { usePermissionsStore } from "@/stores/permissionsStore";
 
-window.Echo.channel(`employee.12345678`).listen(".call.incoming", (e) => {
-  console.log(e);
-});
+import WMIncomingCallDialog from "./components/dialogs/WMIncomingCallDialog.vue";
 
+// DEPENDENCIES
 const authStore = useAuthStore();
-
 const { layoutConfig } = useLayout();
-
 const { getLicensing } = useLicensing();
-
 const optionSetsStore = useOptionSetsStore();
 const permissionsStore = usePermissionsStore();
+
+// INJECT
+
+// PROPS, EMITS
+
+// REFS
 const loadingOptionSets = ref(true);
 const loadingPermissions = ref(true);
+const showIncomingCallDialog = ref(false);
+const callData = ref(null);
 
+// COMPUTED
 const loading = computed(
   () => loadingOptionSets.value || loadingPermissions.value
 );
 
+// COMPONENT METHODS
+if (window.Echo) {
+  window.Echo.channel(`employee.${authStore.user?.virtual_extension}`).listen(
+    ".call.incoming",
+    (data) => {
+      showIncomingCallDialog.value = true;
+      callData.value = data;
+    }
+  );
+}
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
   if (authStore.isAuthenticated) {
     getLicensing();

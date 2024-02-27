@@ -26,9 +26,9 @@ import i18nInstance from "@/i18n";
 import App from "./App.vue";
 import router from "./router";
 
-window.Pusher = Pusher;
-
 if (import.meta.env.VITE_PUSHER_APP_KEY) {
+  window.Pusher = Pusher;
+
   window.Echo = new Echo({
     broadcaster: "pusher",
     key: import.meta.env.VITE_PUSHER_APP_KEY,
