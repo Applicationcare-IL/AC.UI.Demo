@@ -121,6 +121,8 @@
     "notification-created-message": "The new contact was successfully created! \n From now on he will appear in your contacts list",
     "notification-created-detail": "View contact",
     "notification-created-close": "Close",
+    "incoming-call": "",
+    "take-call": "Take call",
     "toast": {
       "created": "A new contact was created",
       "error": "An error occurred"

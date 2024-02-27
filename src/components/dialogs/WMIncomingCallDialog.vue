@@ -5,9 +5,9 @@
     header="Incoming call"
     :style="{ width: '40vw' }"
   >
-    <div class="flex align-items-center gap-3 mb-5">
-      <pre>{{ callData.value }}</pre>
-    </div>
+    <!-- <div class="flex align-items-center gap-3 mb-5">
+      <pre>{{ callData }}</pre>
+    </div> -->
     <div class="flex align-items-center flex-column gap-3 mb-5">
       <WMContactsTable
         v-if="can('contacts.read')"
@@ -19,6 +19,7 @@
         :rows="5"
         table-class="compact"
         :search-value="callData.value"
+        :call-id="callData.call_id"
       />
     </div>
     <div class="flex justify-content-end gap-2">

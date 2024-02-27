@@ -97,6 +97,7 @@ export function useListUtils() {
       },
       { name: "telephone", type: "text" },
       { name: "email", type: "text" },
+      { name: "incoming-call", type: "take-call-btn" },
     ];
   };
 

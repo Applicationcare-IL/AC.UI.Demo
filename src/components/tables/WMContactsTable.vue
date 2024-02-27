@@ -168,6 +168,18 @@
         <template v-if="column.type === 'address'">
           {{ formatAddress(slotProps.data.location) }}
         </template>
+        <template v-if="column.type === 'address'">
+          {{ formatAddress(slotProps.data.location) }}
+        </template>
+        <template v-if="column.type === 'take-call-btn'">
+          <Button
+            type="button"
+            label="Take call"
+            icon="pi pi-phone"
+            severity="primary"
+            @click="takeCall(slotProps.data)"
+          />
+        </template>
       </template>
     </Column>
   </DataTable>
@@ -258,6 +270,10 @@ const props = defineProps({
     default: "customer",
   },
   searchValue: {
+    type: String,
+    default: "",
+  },
+  callId: {
     type: String,
     default: "",
   },
@@ -482,6 +498,10 @@ const getDefaultRole = () => {
   if (props.relatedEntity === "project") {
     return unref(optionSetsStore.optionSets["contact_project_role"][0]);
   }
+};
+
+const takeCall = (contact) => {
+  console.log("Take call of contact", contact);
 };
 
 // WATCHERS
