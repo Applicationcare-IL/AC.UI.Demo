@@ -27,6 +27,18 @@ export function useAttachments() {
     }
   };
 
+  const deleteAttachment = async (attachmentId, params) => {
+    try {
+      const response = await attachmentStore.deleteAttachment(
+        attachmentId,
+        params
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const mapAttachment = (attachment) => {
     return {
       id: attachment.id,
@@ -42,5 +54,6 @@ export function useAttachments() {
     getAttachmentsFromApi,
     uploadAttachment,
     mapAttachment,
+    deleteAttachment,
   };
 }

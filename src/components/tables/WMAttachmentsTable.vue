@@ -79,7 +79,8 @@ const props = defineProps({
   },
 });
 
-const { getAttachmentsFromApi, uploadAttachment } = useAttachments();
+const { getAttachmentsFromApi, uploadAttachment, deleteAttachment } =
+  useAttachments();
 
 const loadAttachments = () => {
   getAttachmentsFromApi(props.entityType, props.entityId).then((response) => {
@@ -95,14 +96,16 @@ function openUploadAttachment() {
   fileInput.value.click();
 }
 
-function onDrop(files) {
-  console.log(files);
-  // upload file
+function onDrop(filesToUpload) {
+  files.value = filesToUpload;
+  setTimeout(() => {
+    console.log("onDrop called!", files.value);
+    uploadAttachmentToAPI();
+  }, 500);
 }
 
 const handleFileChange = () => {
   files.value = Array.from(fileInput.value.files);
-
   uploadAttachmentToAPI();
 };
 
@@ -121,38 +124,17 @@ const uploadAttachmentToAPI = () => {
 };
 
 const removeAttachment = (id) => {
-  //   deleteAttachment(id);
+  const params = {
+    entity_type: props.entityType,
+    entity_id: props.entityId,
+  };
+
+  deleteAttachment(id, params).then(() => {
+    loadAttachments();
+  });
 };
 
 const { isOverDropZone } = useDropZone(dropZoneRef, onDrop);
-
-// const fileList = ref([
-//   {
-//     id: 1,
-//     img_url: "https://placehold.co/600x400/EEE/31343C",
-//     name: "File 1",
-//   },
-//   {
-//     id: 2,
-//     img_url: "https://placehold.co/600x400/EEE/31343C",
-//     name: "File 2",
-//   },
-//   {
-//     id: 3,
-//     img_url: "https://placehold.co/600x400/EEE/31343C",
-//     name: "File 3",
-//   },
-//   {
-//     id: 4,
-//     img_url: "https://placehold.co/600x400/EEE/31343C",
-//     name: "File 4",
-//   },
-//   {
-//     id: 5,
-//     img_url: "https://placehold.co/600x400/EEE/31343C",
-//     name: "File 5",
-//   },
-// ]);
 </script>
 
 <style scoped lang="scss">

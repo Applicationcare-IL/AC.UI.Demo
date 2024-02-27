@@ -35,5 +35,15 @@ export const useAttachmentStore = defineStore("attachment", {
           console.error(error);
         });
     },
+    deleteAttachment(attachmentId, params) {
+      return axiosConfig
+        .delete(`/entity-attachments/${attachmentId}`, { params })
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });
