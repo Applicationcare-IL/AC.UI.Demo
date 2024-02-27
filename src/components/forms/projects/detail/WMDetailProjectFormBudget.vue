@@ -56,7 +56,7 @@
               <WMHighlightedBalanceBlock
                 size="small"
                 :quantity="budget.balance"
-                :label="$t('budget.total') + ':'"
+                :label="$t('budget.balance') + ':'"
               />
             </div>
             <Divider></Divider>

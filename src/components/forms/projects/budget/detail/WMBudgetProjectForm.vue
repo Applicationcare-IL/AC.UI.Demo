@@ -78,7 +78,7 @@
                 />
               </div>
               <Divider></Divider>
-              <div class="flex flex-row justify-content-start gap-2">
+              <div class="flex flex-row justify-content-between gap-2">
                 <WMHighlightedBlock
                   v-model="budget.approved_council"
                   background-color="green-100"
@@ -211,8 +211,8 @@
                 class="flex flex-row align-items-center justify-content-between gap-2"
               >
                 <WMHighlightedBlock
-                  v-model="budget.non_tbr_funds_accepted"
-                  name="non_tbr_accepted"
+                  v-model="budget.funds_accepted_non_tbr"
+                  name="funds_accepted_non_tbr"
                   background-color="gray-100"
                   :label="$t('budget.non-tbr-funds-accepted') + ':'"
                   size="small"
@@ -220,8 +220,8 @@
                 />
                 <PlusIcon />
                 <WMHighlightedBlock
-                  v-model="modelValue"
-                  name="non_tbr_expected"
+                  v-model="budget.expected_non_tbr"
+                  name="expected_non_tbr"
                   background-color="gray-100"
                   :label="$t('budget.non-tbr-expected') + ':'"
                   size="small"
@@ -229,7 +229,7 @@
                 />
                 <EqualIcon />
                 <WMHighlightedBlock
-                  v-model="modelValue"
+                  v-model="budget.funding_non_tbr"
                   background-color="gray-300"
                   :label="$t('budget.non-tbr-funding') + ':'"
                   size="small"
@@ -348,7 +348,7 @@ useHead({
   title: "Project Budget",
 });
 
-const { handleSubmit, meta, resetForm, values } = useForm();
+const { handleSubmit, meta, resetForm } = useForm();
 
 const onSave = handleSubmit((values) => {
   updateBudget(route.params.id, parseBudget(values))

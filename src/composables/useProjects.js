@@ -191,6 +191,8 @@ export function useProjects() {
       tbr_expected: budget.tbr_expected,
       tbr_municipality_expenses: budget.tbr_municipality_expenses,
       tbr_reported: budget.tbr_reported,
+      funds_accepted_non_tbr: budget.funds_accepted_non_tbr,
+      expected_non_tbr: budget.expected_non_tbr,
     };
   };
 
