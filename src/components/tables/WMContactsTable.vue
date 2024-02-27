@@ -41,15 +41,14 @@
         <WMOwnerToggle entity="contact" />
       </div>
     </div>
-    <div v-if="showOnlySearch" class="flex flex-row gap-3">
-      searchValue {{ searchValue }}
+    <div class="flex flex-row gap-3">
       <WMSearchBox v-model="searchValue" entity="contact" />
     </div>
   </div>
 
-  <div class="flex flex-column gap-3 mb-3">
+  <div v-if="showOnlySearch" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row gap-3">
-      <WMSearchBox entity="contact" />
+      <WMSearchBox v-model="searchValue" entity="contact" />
     </div>
   </div>
 
