@@ -8,14 +8,13 @@
       <MinusIcon v-if="tooltip === 'minus'" />
     </div>
     <div v-if="label && label !== ''" class="font-bold">{{ label }}</div>
-
     <WMInputCurrency v-model="modelValue" :read-only="!editable" :name="name" />
   </div>
 </template>
 
 <script setup>
 // IMPORTS
-import { computed } from "vue";
+import { computed, watch } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
 
@@ -26,6 +25,8 @@ const { layoutConfig } = useLayout();
 
 // PROPS, EMITS
 const modelValue = defineModel();
+
+const emit = defineEmits(["change"]);
 
 const props = defineProps({
   name: {
@@ -105,6 +106,13 @@ const styleClasses = computed(() => {
 // PROVIDE, EXPOSE
 
 // WATCHERS
+watch(
+  () => modelValue,
+  (newValue) => {
+    emit("change", newValue);
+  },
+  { deep: true }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

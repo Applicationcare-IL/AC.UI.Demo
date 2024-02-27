@@ -20,6 +20,10 @@ import { useAuthStore } from "@/stores/auth";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { usePermissionsStore } from "@/stores/permissionsStore";
 
+window.Echo.channel(`employee.12345678`).listen(".call.incoming", (e) => {
+  console.log(e);
+});
+
 const authStore = useAuthStore();
 
 const { layoutConfig } = useLayout();

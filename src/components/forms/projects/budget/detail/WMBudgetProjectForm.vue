@@ -145,6 +145,7 @@
                   :label="$t('budget.tbr-accepted') + ':'"
                   size="small"
                   editable
+                  @change="recalculateBudget"
                 />
                 <PlusIcon />
 
@@ -155,6 +156,7 @@
                   :label="$t('budget.tbr-expected') + ':'"
                   size="small"
                   editable
+                  @change="recalculateBudget"
                 />
                 <EqualIcon />
                 <WMHighlightedBlock
@@ -176,6 +178,7 @@
                   :label="$t('budget.tbr-reported') + ':'"
                   size="small"
                   editable
+                  @change="recalculateBudget"
                 />
 
                 <WMHighlightedBlock
@@ -186,6 +189,7 @@
                   size="small"
                   editable
                   class="mr-2"
+                  @change="recalculateBudget"
                 />
 
                 <WMHighlightedBalanceBlock
@@ -217,6 +221,7 @@
                   :label="$t('budget.non-tbr-funds-accepted') + ':'"
                   size="small"
                   editable
+                  @change="recalculateBudget"
                 />
                 <PlusIcon />
                 <WMHighlightedBlock
@@ -226,6 +231,7 @@
                   :label="$t('budget.non-tbr-expected') + ':'"
                   size="small"
                   editable
+                  @change="recalculateBudget"
                 />
                 <EqualIcon />
                 <WMHighlightedBlock
@@ -309,6 +315,7 @@
 
 <script setup>
 // IMPORTS
+import { useDebounceFn } from "@vueuse/core";
 import { useForm } from "vee-validate";
 import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
@@ -318,7 +325,8 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getProjectBudget, updateBudget, parseBudget } = useProjects();
+const { getProjectBudget, updateBudget, calculateBudget, parseBudget } =
+  useProjects();
 const route = useRoute();
 const { layoutConfig } = useLayout();
 const utilsStore = useUtilsStore();
@@ -348,7 +356,20 @@ useHead({
   title: "Project Budget",
 });
 
-const { handleSubmit, meta, resetForm } = useForm();
+const { handleSubmit, meta, resetForm, values } = useForm();
+
+const recalculateBudget = useDebounceFn(() => {
+  calculateBudget(route.params.id, parseBudget(values))
+    .then((response) => {
+      budget.value = {
+        ...budget.value,
+        ...response,
+      };
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}, 200);
 
 const onSave = handleSubmit((values) => {
   updateBudget(route.params.id, parseBudget(values))

@@ -6,6 +6,7 @@ import VueGoogleMaps from "@fawmi/vue-google-maps";
 // import 'maze-components/dist/index.css'
 import { createHead } from "@unhead/vue";
 import { QuillEditor } from "@vueup/vue-quill";
+import Echo from "laravel-echo";
 import mazeComponents from "maze-components";
 import { createPinia } from "pinia";
 import BadgeDirective from "primevue/badgedirective";
@@ -15,6 +16,7 @@ import ConfirmDialog from "primevue/confirmdialog";
 import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
 import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
+import Pusher from "pusher-js";
 // OTHERS
 import { createApp, markRaw, reactive } from "vue";
 import Vue3Signature from "vue3-signature";
@@ -23,6 +25,15 @@ import i18nInstance from "@/i18n";
 
 import App from "./App.vue";
 import router from "./router";
+
+window.Pusher = Pusher;
+
+window.Echo = new Echo({
+  broadcaster: "pusher",
+  key: import.meta.env.VITE_PUSHER_APP_KEY,
+  cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+  forceTLS: true,
+});
 
 const app = createApp(App)
   .use(PrimeVue, { ripple: true })

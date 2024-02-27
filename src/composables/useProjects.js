@@ -114,6 +114,10 @@ export function useProjects() {
     return await projectsStore.updateBudgetItem(projectId, budgetItemId, data);
   };
 
+  const calculateBudget = async (projectId, data) => {
+    return await projectsStore.calculateBudget(projectId, data);
+  };
+
   // PAYMENTS
   const getProjectPayments = async (projectId, params) => {
     const response = await projectsStore.getProjectPayments(projectId, params);
@@ -439,6 +443,7 @@ export function useProjects() {
     updateProjectPayment,
     createBudgetItem,
     updateBudget,
+    calculateBudget,
 
     // UTILITIES
     parseProject,
