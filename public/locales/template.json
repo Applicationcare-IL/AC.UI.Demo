@@ -455,7 +455,10 @@
   },
   "sla": {
     "days_left": "{0} Days left",
-    "days_passed": "{0} Days passed"
+    "days_passed": "{0} Days passed",
+    "breached": "Breached",
+    "near_breach": "Near Breach",
+    "no_breach": "No Breach"
   },
   "toast": {
     "success": "Success",

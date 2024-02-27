@@ -38,9 +38,7 @@
     <!-- DATES -->
     <div v-if="type == 'date'" class="flex flex-row gap-2 p-2">
       <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label">
-          {{ $t("from") }}:
-        </label>
+        <label v-if="label != ''" class="wm-form-label"> {{ $t("from") }}: </label>
         <Calendar
           v-model="fromDate"
           show-icon
@@ -48,15 +46,23 @@
         />
       </div>
       <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label">
-          {{ $t("to") }}:
-        </label>
+        <label v-if="label != ''" class="wm-form-label"> {{ $t("to") }}: </label>
         <Calendar
           v-model="toDate"
           show-icon
           @update:model-value="onDateChanged($event, 'to')"
         />
       </div>
+    </div>
+    <!-- SLA -->
+    <div v-if="type == 'sla_status'" class="flex flex-row gap-2 p-2">
+      <WMSelectableButton
+        v-for="(option, index) in SLAoptions"
+        :key="index"
+        v-model="isButtonSelected[index]"
+        :label="option[optionLabelWithLang]"
+        @update:model-value="onButtonChanged($event, option)"
+      />
     </div>
 
     <Button link @click="clear">
@@ -69,11 +75,13 @@
 <script setup>
 import { useDateFormat } from "@vueuse/core";
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 const emits = defineEmits(["update:filter"]);
+const { t } = useI18n();
 
 const { type, optionSet, placeholder, filterName, label } = defineProps({
   entity: String,
@@ -84,6 +92,20 @@ const { type, optionSet, placeholder, filterName, label } = defineProps({
   label: String,
   searchFunction: Function,
 });
+
+const SLAoptions = [
+  { id: "breached", value_en: t("sla.breached"), value_he: t("sla.breached") },
+  {
+    id: "near_breach",
+    value_en: t("sla.near_breach"),
+    value_he: t("sla.near_breach"),
+  },
+  {
+    id: "no_breach",
+    value_en: t("sla.no_breach"),
+    value_he: t("sla.no_breach"),
+  },
+];
 
 const { optionLabelWithLang } = useLanguages();
 
@@ -113,8 +135,7 @@ const onDropdownChanged = (value) => {
 
 const onButtonChanged = (value, option) => {
   if (value) selectedButtons.value.push(option.id);
-  else
-    selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
+  else selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
 
   emits("update:filter", {
     name: filterName,
@@ -129,12 +150,8 @@ const onDateChanged = (value, type) => {
   emits("update:filter", {
     name: filterName,
     value: [
-      fromDate.value
-        ? useDateFormat(fromDate.value, utilsStore.dateFormat).value
-        : null,
-      toDate.value
-        ? useDateFormat(toDate.value, utilsStore.dateFormat).value
-        : null,
+      fromDate.value ? useDateFormat(fromDate.value, utilsStore.dateFormat).value : null,
+      toDate.value ? useDateFormat(toDate.value, utilsStore.dateFormat).value : null,
     ],
   });
 };

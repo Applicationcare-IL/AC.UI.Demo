@@ -33,7 +33,6 @@ export function useFilters() {
       {
         type: "buttons",
         name: "service_sla_status",
-        optionSet: "service_sla",
         label: i18n.t("filters.service-sla-status") + ":",
       },
       {
@@ -59,7 +58,6 @@ export function useFilters() {
       {
         type: "buttons",
         name: "service_sla_status",
-        optionSet: "service_sla",
         label: i18n.t("filters.service-sla-status") + ":",
       },
       {
@@ -97,7 +95,6 @@ export function useFilters() {
       {
         type: "buttons",
         name: "service_sla_status",
-        optionSet: "service_sla",
         label: i18n.t("filters.service-sla-status") + ":",
       },
       {
@@ -141,7 +138,6 @@ export function useFilters() {
       {
         type: "buttons",
         name: "service_sla_status",
-        optionSet: "service_sla",
         label: i18n.t("filters.service-sla-status") + ":",
       },
       {
@@ -165,9 +161,8 @@ export function useFilters() {
         label: i18n.t("service.service-type-placeholder") + ":",
       },
       {
-        type: "buttons",
+        type: "sla_status",
         name: "sla_status",
-        optionSet: "service_sla",
         label: i18n.t("filters.service-sla-status") + ":",
       },
       {
@@ -214,7 +209,7 @@ export function useFilters() {
         searchFunction: searchTaskTypes,
       },
       {
-        type: "buttons",
+        type: "sla_status",
         name: "sla_status",
         optionSet: "task_sla",
         label: i18n.t("filters.service-sla-status") + ":",
