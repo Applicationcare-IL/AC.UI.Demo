@@ -213,7 +213,6 @@ const refreshDocumentsTable = ref(false);
 provide("refreshDocumentsTable", refreshDocumentsTable);
 
 const onDocumentSigned = () => {
-  console.log("document signed");
   refreshDocumentsTable.value = true;
 };
 

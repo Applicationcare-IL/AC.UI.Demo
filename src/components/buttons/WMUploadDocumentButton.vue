@@ -62,8 +62,6 @@ const customBase64Uploader = async (event) => {
     const arrayBuffer = reader.result;
     const base64data = arrayBufferToBase64(arrayBuffer);
 
-    console.log("base64data", base64data);
-
     const params = {
       extension: file.name.split(".").pop(),
       file: base64data,

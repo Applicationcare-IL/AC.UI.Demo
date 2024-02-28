@@ -2,11 +2,11 @@ import { defineStore } from "pinia";
 
 import axiosConfig from "@/service/axiosConfig";
 
-export const useAnnouncementsStore = defineStore("announcements", {
+export const useCallsStore = defineStore("calls", {
   actions: {
-    getAnnouncements(params) {
+    takeCall(callId, params) {
       return axiosConfig
-        .get("/messages", { params })
+        .post("/call/" + callId + "/take", params)
         .then((response) => {
           const data = response.data.data;
           return { data };

@@ -115,7 +115,6 @@ const { checked, handleChange } = useField("showAddressOptions", undefined, {
 watch(
   () => showAddressOptionsRef.value,
   (value) => {
-    console.log("watch", value);
     handleChange(value);
   }
 );

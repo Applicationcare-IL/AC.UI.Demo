@@ -99,7 +99,6 @@ const handleCompleteTasks = () => {
     .then(() => {
       toast.successAction("task", "completed");
       emit("taskCompleted");
-      console.log("emto el evento");
     })
     .catch((error) => {
       if (error.response.status == 422) {

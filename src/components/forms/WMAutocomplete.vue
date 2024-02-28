@@ -171,7 +171,6 @@ const search = (event) => {
     if (props.searchFunction) {
       props.searchFunction(event.query.toLowerCase()).then((result) => {
         return (filteredOptions.value = result.data.filter((option) => {
-          console.log(option);
           return option.name;
         }));
       });

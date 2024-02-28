@@ -62,6 +62,7 @@
     :paginator="showControls"
     :rows="props.rows"
     :total-records="totalRecords"
+    class="w-full"
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
@@ -177,7 +178,7 @@
             label="Take call"
             icon="pi pi-phone"
             severity="primary"
-            @click="takeCall(slotProps.data)"
+            @click="handleTakeCall(slotProps.data)"
           />
         </template>
       </template>
@@ -189,11 +190,13 @@
 // IMPORTS
 import { computed, onMounted, ref, unref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
+const router = useRouter();
 const { can } = usePermissions();
 const { t } = useI18n();
 const toast = useToast();
@@ -208,6 +211,7 @@ const {
   unassignContactFromCustomer,
 } = useCustomers();
 const { assignContactToProject, unassignContactFromProject } = useProjects();
+const { takeCall } = useCalls();
 
 const { formatAddress } = useUtils();
 
@@ -273,7 +277,7 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  callId: {
+  taskCall: {
     type: String,
     default: "",
   },
@@ -284,6 +288,7 @@ const emit = defineEmits([
   "unlink",
   "update:mainContact",
   "change:selectedContacts",
+  "closeDialog",
 ]);
 
 // REFS
@@ -500,8 +505,23 @@ const getDefaultRole = () => {
   }
 };
 
-const takeCall = (contact) => {
-  console.log("Take call of contact", contact);
+const handleTakeCall = (contact) => {
+  const params = {
+    entity_type: "contact",
+    entity_id: contact.contact_id,
+  };
+
+  takeCall(props.taskCall, params).then(() => {
+    emit("closeDialog");
+
+    toast.success("Call taken successfully");
+
+    router.push({
+      name: "contactDetail",
+      params: { id: contact.contact_id },
+      force: true,
+    });
+  });
 };
 
 // WATCHERS

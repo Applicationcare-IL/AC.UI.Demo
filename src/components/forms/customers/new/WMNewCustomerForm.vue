@@ -323,8 +323,6 @@ const unlinkContact = (id) => {
 };
 
 const onContactselected = (newContact) => {
-  console.log("onContactselected", newContact);
-
   if (
     selectedContacts.value.some((contact) => contact.id === newContact.value.id)
   ) {

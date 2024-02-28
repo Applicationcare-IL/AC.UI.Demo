@@ -141,7 +141,6 @@ onMounted(() => {
 });
 
 const updateStreets = (event) => {
-  console.log(event.value);
   if (event.value) {
     optionSetsStore
       .getOptionSetValuesFromApiRaw("service_street", event.value.id)
