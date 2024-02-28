@@ -20,7 +20,7 @@
   </div>
   <div ref="dropZoneRef" :class="{ 'dropzone-active': isOverDropZone }">
     <DataTable :value="fileList" paginator :rows="5">
-      <Column field="img_url" header="">
+      <Column field="img_url" :header="$t('attachments.preview')">
         <template #body="slotProps">
           <div v-if="slotProps.data.is_image === 1" class="overflow-hidden">
             <div
