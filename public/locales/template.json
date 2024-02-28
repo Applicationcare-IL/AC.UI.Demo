@@ -500,7 +500,7 @@
   "attachments": {
     "attachments": "Attachments",
     "upload-attachment": "Upload attachment",
-    "preview": "Preview",
+    "preview": "Preview"
   },
   "password": {
     "alread_in_use": "Password already in use"

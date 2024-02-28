@@ -1,11 +1,8 @@
 import { defineStore } from "pinia";
-import { useRouter } from "vue-router";
 
 import { AuthService } from "@/service/AuthService";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { usePermissionsStore } from "@/stores/permissionsStore";
-
-const router = useRouter();
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
