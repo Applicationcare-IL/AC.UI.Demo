@@ -22,7 +22,15 @@
         }}</router-link>
 
         <div v-if="error != ''" class="bg-red-100 text-red-700 p-2">
-          {{ $t(error) }}
+          <template v-if="error === 'login.password_expired'">
+            {{ $t("login.password_expired") }}
+            <span class="underline">{{
+              $t("login.send-email-reset-password")
+            }}</span>
+          </template>
+          <template v-else>
+            {{ $t(error) }}
+          </template>
         </div>
 
         <WMButton
@@ -64,7 +72,7 @@ const handleLogin = handleSubmit((values) => {
 
   useAuthStore()
     .login(values.email, values.password)
-    .then(() => {
+    .then((response) => {
       if (useAuthStore().isAuthenticated == true) {
         useAuthStore()
           .userData()
@@ -78,12 +86,11 @@ const handleLogin = handleSubmit((values) => {
             error.value = "User Data not found";
           });
       } else {
-        console.error("ERROR");
-        error.value = "login.invalid_credentials";
+        error.value = `login.${response.data.message}`;
       }
     })
-    .catch(() => {
-      error.value = "login.invalid_credentials";
+    .catch((error) => {
+      error.value = `login.${error.data.message}`;
     });
 });
 </script>

@@ -451,7 +451,10 @@
     "forgot-password-dialog-title": "We sent you an email!",
     "forgot-password-dialog-instructions": "Click on the link in your email to reset your password and login to EasyMaze.",
     "reset-password-dialog-title": "Your password has been updated!",
-    "reset-password-dialog-instructions": "You can login by entering your email address and the new password."
+    "reset-password-dialog-instructions": "You can login by entering your email address and the new password.",
+    "login.password_expired": "Your password has expired",
+    "login.login.user_locked": "Your account has been locked",
+    "login.send-email-reset-password": "Send email to reset password"
   },
   "sla": {
     "days_left": "{0} Days left",

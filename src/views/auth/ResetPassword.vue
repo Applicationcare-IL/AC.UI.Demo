@@ -32,8 +32,7 @@
         />
 
         <div v-if="error" class="bg-red-100 text-red-700 p-2">
-          firstError: {{ firstError }}
-          <!-- {{ $t(firstError) }} -->
+          {{ $t(firstError) }}
         </div>
 
         <WMButton
@@ -109,7 +108,7 @@ const visible = ref(false);
 
 const firstError = computed(() => {
   if (errors.value) {
-    return Object.values(errors.value)[0];
+    return Object.values(errors.value)[0][0];
   }
   return "";
 });
