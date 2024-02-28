@@ -345,11 +345,7 @@ const {
 const toast = useToast();
 const route = useRoute();
 
-const {
-  getTaskColumns,
-  getStatusConditionalStyle,
-  getPriorityConditionalStyle,
-} = useListUtils();
+const { getTaskColumns, getPriorityConditionalStyle } = useListUtils();
 
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
@@ -489,6 +485,7 @@ provide("preselectedCustomer", customer);
 
 defineExpose({
   onSave,
+  fetchData,
 });
 
 // WATCHERS

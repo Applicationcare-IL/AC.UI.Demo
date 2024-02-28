@@ -4,6 +4,7 @@
     @save-form="saveForm()"
     @deactivate-entity="handleDeactivateCustomer"
     @activate-entity="handleActivateCustomer"
+    @refresh-table="refreshTable"
   />
   <WMDetailCustomerForm ref="detailCustomerForm" :form-key="formKey" />
 </template>
@@ -31,6 +32,10 @@ const handleActivateCustomer = (id) => {
 
 const handleDeactivateCustomer = (id) => {
   deactivateCustomer(id);
+  detailCustomerForm.value.fetchData();
+};
+
+const refreshTable = () => {
   detailCustomerForm.value.fetchData();
 };
 </script>

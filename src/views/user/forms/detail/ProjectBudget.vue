@@ -4,6 +4,7 @@
     :show-message-button="false"
     :show-email-button="false"
     @save-form="saveForm()"
+    @refresh-table="refreshTable"
   />
   <WMBudgetProjectForm ref="detailProjectBudgetForm" :form-key="formKey" />
 </template>
@@ -21,5 +22,9 @@ const detailProjectBudgetForm = ref(null);
 
 const saveForm = () => {
   detailProjectBudgetForm.value.onSave();
+};
+
+const refreshTable = () => {
+  detailProjectBudgetForm.value.fetchData();
 };
 </script>

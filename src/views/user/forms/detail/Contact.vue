@@ -4,6 +4,7 @@
     @save-form="saveForm()"
     @deactivate-entity="handleDeactivateContact"
     @activate-entity="handleActivateContact"
+    @refresh-table="refreshTable"
   />
   <WMDetailContactForm ref="detailContactForm" :form-key="formKey" />
 </template>
@@ -34,5 +35,9 @@ const handleDeactivateContact = (id) => {
   deactivateContact(id).then(() => {
     detailContactForm.value.fetchData();
   });
+};
+
+const refreshTable = () => {
+  detailContactForm.value.fetchData();
 };
 </script>

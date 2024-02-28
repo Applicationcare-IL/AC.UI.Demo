@@ -40,11 +40,7 @@
       </div>
 
       <div class="mt-5">
-        <WMStepper
-          :steps="stages"
-          :current-step="currentStage"
-          aria-label="Form Steps"
-        />
+        <WMStepper :steps="stages" :current-step="currentStage" aria-label="Form Steps" />
       </div>
 
       <Accordion v-if="can('tasks.read')">
@@ -55,10 +51,7 @@
 
       <Accordion>
         <AccordionTab :header="$t('journal')">
-          <WMJournalDataView
-            entity-type="project"
-            :entity-id="project.project_id"
-          />
+          <WMJournalDataView entity-type="project" :entity-id="project.project_id" />
         </AccordionTab>
       </Accordion>
 
@@ -78,9 +71,7 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion
-        v-if="project.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID"
-      >
+      <Accordion v-if="project.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID">
         <AccordionTab header="Round of signatures">
           <WMDetailProjectFormSignatureTasksTab
             :project="project"
@@ -291,6 +282,7 @@ utilsStore.entity = "project";
 
 defineExpose({
   onSave,
+  fetchData,
 });
 
 watch(

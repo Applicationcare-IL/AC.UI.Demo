@@ -213,6 +213,7 @@ utilsStore.entity = "budget-item";
 // PROVIDE, EXPOSE
 defineExpose({
   onSave,
+  fetchData,
 });
 
 // WATCHERS

@@ -1,5 +1,9 @@
 <template>
-  <WMDetailFormSubHeader :form-key="formKey" @save-form="saveForm()" />
+  <WMDetailFormSubHeader
+    :form-key="formKey"
+    @save-form="saveForm()"
+    @refresh-table="refreshTable"
+  />
   <WMDetailProjectForm ref="detailProjectForm" :form-key="formKey" />
 </template>
 
@@ -16,5 +20,9 @@ const detailProjectForm = ref(null);
 
 const saveForm = () => {
   detailProjectForm.value.onSave();
+};
+
+const refreshTable = () => {
+  detailProjectForm.value.fetchData();
 };
 </script>

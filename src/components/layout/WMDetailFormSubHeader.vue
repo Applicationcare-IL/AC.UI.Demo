@@ -74,6 +74,7 @@
               utilsStore.entity !== 'project-budget'
             "
             :entity="utilsStore.entity"
+            @owner-assigned="$emit('refreshTable')"
           />
 
           <WMSendMessageButton
@@ -165,6 +166,7 @@ const emit = defineEmits([
   "deactivateEntity",
   "activateEntity",
   "taskCompleted",
+  "refreshTable",
 ]);
 
 // REFS

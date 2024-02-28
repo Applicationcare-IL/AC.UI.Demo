@@ -2,7 +2,8 @@
   <WMDetailFormSubHeader
     :form-key="formKey"
     @save-form="saveForm()"
-    @task-completed="refreshTask()"
+    @task-completed="refreshTask"
+    @refresh-table="refreshTask"
   />
   <WMDetailTaskForm ref="detailTaskForm" :form-key="formKey" />
 </template>

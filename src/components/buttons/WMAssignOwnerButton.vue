@@ -107,11 +107,15 @@ const owners = ref([{}]);
 const selectedOwner = ref();
 
 const selectedElements = ref(0);
+
 watch(
   () => utilsStore.selectedElements[props.entity],
   (value) => {
+    if (!value) return;
+
     selectedElements.value = value.length;
-  }
+  },
+  { immediate: true }
 );
 
 const searchOwner = (query) => {

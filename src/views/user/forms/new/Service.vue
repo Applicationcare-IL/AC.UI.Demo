@@ -1,11 +1,10 @@
 <template>
   <WMNewFormSubHeader @save-form="saveForm()" @cancel-form="cancelForm()" />
-  <WMNewServiceForm ref="newContactForm" />
+  <WMNewServiceForm ref="newServiceForm" />
 </template>
 
 <script setup>
 import { ref } from "vue";
-
 import { useRouter } from "vue-router";
 const router = useRouter();
 
