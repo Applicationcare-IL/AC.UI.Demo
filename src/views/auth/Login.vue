@@ -24,13 +24,20 @@
         <div v-if="error != ''" class="bg-red-100 text-red-700 p-2">
           <template v-if="error === 'login.password_expired'">
             {{ $t("login.password-expired") }}
-            <span class="underline" @click="handleResetExpiredPassword">
+            <span
+              class="underline cursor-pointer"
+              @click="handleResetExpiredPassword"
+            >
               {{ $t("login.send-email-reset-password") }}
             </span>
           </template>
           <template v-else>
             {{ $t(error) }}
           </template>
+        </div>
+
+        <div v-if="message != ''" class="bg-green-100 text-green-700 p-2">
+          {{ message }}
         </div>
 
         <WMButton
@@ -62,12 +69,13 @@ import AuthLayout from "./AuthLayout.vue";
 const { handleSubmit, values, resetForm } = useForm();
 
 const toast = useToast();
-const i18n = useI18n();
+const { t } = useI18n();
 
 const { fetchLicensing } = useLicensing();
 
 const router = useRouter();
 const error = ref("");
+const message = ref("");
 
 const loading = ref(false);
 
@@ -102,7 +110,8 @@ const handleResetExpiredPassword = () => {
   useAuthStore()
     .forgotPassword(values.email)
     .then(() => {
-      toast.success(i18n.t("login.expired-password-reset-email-sent"));
+      error.value = "";
+      message.value = t("login.expired-password-reset-email-sent");
       resetForm();
     })
     .catch((error) => {
