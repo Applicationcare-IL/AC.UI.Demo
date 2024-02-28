@@ -46,7 +46,7 @@ export function useAttachments() {
       img_url: attachment.url,
       is_image: attachment.is_image,
       thumbnail_url: attachment.thumbnail,
-      download_url: attachment.download,
+      download_url: attachment.download_url,
     };
   };
 

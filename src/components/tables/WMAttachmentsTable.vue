@@ -22,10 +22,13 @@
     <DataTable :value="fileList" paginator :rows="5">
       <Column field="img_url" header="">
         <template #body="slotProps">
+          {{ slotProps.data }}
           <div v-if="slotProps.data.is_image === 1" class="overflow-hidden">
             <div
               class="bg-auto bg-no-repeat bg-center bg-primary border-round h-9rem w-16rem"
-              :style="{ backgroundImage: `url(${slotProps.data.img_url})` }"
+              :style="{
+                backgroundImage: `url(${slotProps.data.thumbnail_url})`,
+              }"
             ></div>
           </div>
         </template>
