@@ -23,7 +23,6 @@ const saveForm = () => {
 };
 
 const refreshTask = () => {
-  console.log("entro en refresh task");
   detailTaskForm.value.loadTask();
 };
 </script>

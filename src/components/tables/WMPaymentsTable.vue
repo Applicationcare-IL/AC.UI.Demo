@@ -462,7 +462,6 @@ const validateForm = (obj) => {
 
   for (const field of requiredFields) {
     if (!obj.hasOwnProperty(field) || obj[field] === "") {
-      console.log(`required field: ${field}`);
       return false;
     }
   }

@@ -324,7 +324,6 @@ const handleNewDocument = () => {
     document.project_id = props.projectId;
   }
 
-  console.log("document", document);
   createDocument(document)
     .then(({ data }) => {
       loadLazyData();
@@ -435,14 +434,11 @@ const updateDocumentDetailOptions = (document) => {
   optionSetsStore
     .getOptionSetValuesFromApiRaw("document_detail", document.document_type.id)
     .then((data) => {
-      console.log(data);
       documentDetails.value = data;
     });
 
   documents.value.filter((doc) => {
-    console.log(doc, document);
     if (doc.id === document.id) {
-      console.log(doc.document_detail);
       doc.document_detail.id = null;
     }
   });

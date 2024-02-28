@@ -100,10 +100,7 @@
           <WMCompleteTasksButton
             v-if="utilsStore.entity == 'task'"
             :entity="utilsStore.entity"
-            @task-completed="
-              $emit('taskCompleted');
-              console.log('task completed subheader');
-            "
+            @task-completed="$emit('taskCompleted')"
           />
         </div>
         <div>

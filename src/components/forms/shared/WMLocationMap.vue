@@ -1,12 +1,12 @@
 <template>
   <GMapMap
+    ref="myMapRef"
     :center="defaultCenter"
     :zoom="15"
     :style="{
       width: props.size === 'small' ? '355px' : '710px',
       height: props.size === 'small' ? '196px' : '392px',
     }"
-    ref="myMapRef"
     :options="{
       zoomControl: false,
       mapTypeControl: false,
@@ -18,8 +18,8 @@
     }"
   >
     <GMapMarker
-      v-if="location.city"
       v-for="(marker, index) in markers"
+      v-if="location.city"
       :key="index"
       ref="myMarkerRef"
       :position="marker.position"
@@ -69,8 +69,7 @@ const markers = ref([
 const geocode = () => {
   if (!location) return;
   if (!location.value.street || !location.value.city) return;
-  console.log("geocode 2");
-  console.log(location.street);
+
   myMapRef.value.$mapPromise.then((map) => {
     geocoder = new window.google.maps.Geocoder();
     geocoder.geocode({ address: getLocation() }, (results) => {

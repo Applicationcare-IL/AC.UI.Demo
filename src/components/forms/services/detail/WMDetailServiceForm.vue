@@ -421,7 +421,6 @@ const fetchData = async () => {
  * @param {number} contactId
  */
 const setContact = (contactId) => {
-  console.log("setContact", contactId);
   getContactFromApi(contactId).then((data) => {
     contact.value = data;
   });

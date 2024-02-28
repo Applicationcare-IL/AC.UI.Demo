@@ -31,7 +31,6 @@ const handleActivateContact = (id) => {
 };
 
 const handleDeactivateContact = (id) => {
-  console.log("handleDeactivateContact");
   deactivateContact(id).then(() => {
     detailContactForm.value.fetchData();
   });

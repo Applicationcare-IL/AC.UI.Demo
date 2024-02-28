@@ -99,7 +99,6 @@ function openUploadAttachment() {
 function onDrop(filesToUpload) {
   files.value = filesToUpload;
   setTimeout(() => {
-    console.log("onDrop called!", files.value);
     uploadAttachmentToAPI();
   }, 500);
 }

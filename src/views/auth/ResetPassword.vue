@@ -124,7 +124,7 @@ const handleLogin = handleSubmit((values) => {
       error.value = false;
     })
     .catch((error) => {
-      console.log("ERROR", error);
+      console.error("ERROR", error);
     });
 });
 
