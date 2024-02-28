@@ -24,9 +24,9 @@
         <div v-if="error != ''" class="bg-red-100 text-red-700 p-2">
           <template v-if="error === 'login.password_expired'">
             {{ $t("login.password_expired") }}
-            <span class="underline">{{
-              $t("login.send-email-reset-password")
-            }}</span>
+            <span class="underline" @click="handleResetExpiredPassword">
+              {{ $t("login.send-email-reset-password") }}
+            </span>
           </template>
           <template v-else>
             {{ $t(error) }}
@@ -52,13 +52,17 @@
 <script setup>
 import { useForm } from "vee-validate";
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 
 import { useAuthStore } from "@/stores/auth";
 
 import AuthLayout from "./AuthLayout.vue";
 
-const { handleSubmit } = useForm();
+const { handleSubmit, values, resetForm } = useForm();
+
+const toast = useToast();
+const i18n = useI18n();
 
 const { fetchLicensing } = useLicensing();
 
@@ -93,4 +97,16 @@ const handleLogin = handleSubmit((values) => {
       error.value = `login.${error.data.message}`;
     });
 });
+
+const handleResetExpiredPassword = () => {
+  useAuthStore()
+    .forgotPassword(values.email)
+    .then(() => {
+      toast.success(i18n.t("login.expired-password-reset-email-sent"));
+      resetForm();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 </script>
