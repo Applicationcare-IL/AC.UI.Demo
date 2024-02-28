@@ -496,5 +496,8 @@
   "attachments": {
     "attachments": "Attachments",
     "upload-attachment": "Upload attachment"
+  },
+  "password": {
+    "alread_in_use": "Password already in use"
   }
 }

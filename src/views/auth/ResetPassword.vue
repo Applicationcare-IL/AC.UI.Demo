@@ -32,7 +32,8 @@
         />
 
         <div v-if="error" class="bg-red-100 text-red-700 p-2">
-          {{ error }}
+          firstError: {{ firstError }}
+          <!-- {{ $t(firstError) }} -->
         </div>
 
         <WMButton
@@ -67,7 +68,7 @@
 
 <script setup>
 import { useForm } from "vee-validate";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import { useAuthStore } from "@/stores/auth";
@@ -103,7 +104,15 @@ if (!props.token || !props.email) {
 }
 
 const error = ref(false);
+const errors = ref(false);
 const visible = ref(false);
+
+const firstError = computed(() => {
+  if (errors.value) {
+    return Object.values(errors.value)[0];
+  }
+  return "";
+});
 
 const handleLogin = handleSubmit((values) => {
   useAuthStore()
@@ -116,6 +125,7 @@ const handleLogin = handleSubmit((values) => {
     .then((response) => {
       if (response.errors) {
         error.value = response.message;
+        errors.value = response.errors;
         return;
       }
 
