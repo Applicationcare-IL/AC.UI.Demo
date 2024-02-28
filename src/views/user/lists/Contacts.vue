@@ -3,6 +3,10 @@
     v-if="permissions.contacts.read"
     entity="contact"
     @new="toggleSidebarVisibility"
+    @refresh-table="
+      loadLazyData();
+      clearSelectedContacts();
+    "
   >
   </WMListSubHeader>
 
@@ -214,6 +218,11 @@ const onPage = (event) => {
   loadLazyData();
 };
 
+const clearSelectedContacts = () => {
+  selectedContacts.value = [];
+  onSelectionChanged();
+};
+
 //Display sidebars
 const isVisible = ref(false);
 
@@ -236,9 +245,6 @@ const displayDetails = (data) => {
 };
 
 const isDetailsVisible = ref(false);
-const displayNewForm = () => {
-  formUtilsStore.expandSidebar = "newContact";
-};
 
 //Move to Store
 const highlightCellClass = (data) => {

@@ -192,6 +192,7 @@ useHead({
 const handleRefreshTable = () => {
   clearSelectedTasks();
   loadLazyData();
+  onSelectionChanged();
 };
 
 const loadLazyData = () => {

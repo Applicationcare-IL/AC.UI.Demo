@@ -1,5 +1,12 @@
 <template>
-  <WMListSubHeader entity="project" @new="toggleSidebarVisibility" />
+  <WMListSubHeader
+    entity="project"
+    @new="toggleSidebarVisibility"
+    @refresh-table="
+      loadLazyData();
+      clearSelectedProjects();
+    "
+  />
 
   <WMSidebar
     :visible="isVisible"
@@ -225,6 +232,11 @@ const loadLazyData = () => {
 const onPage = (event) => {
   lazyParams.value = event;
   loadLazyData();
+};
+
+const clearSelectedProjects = () => {
+  selectedProjects.value = [];
+  onSelectionChanged();
 };
 
 //Manage selected rows

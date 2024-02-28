@@ -1,5 +1,12 @@
 <template>
-  <WMListSubHeader entity="customer" @new="toggleSidebarVisibility" />
+  <WMListSubHeader
+    entity="customer"
+    @new="toggleSidebarVisibility"
+    @refresh-table="
+      loadLazyData();
+      clearSelectedCustomers();
+    "
+  />
 
   <WMCustomerPreviewSidebar
     v-model:visible="isDetailsVisible"
@@ -190,7 +197,6 @@ const { selectedRowsPerPage } = useListUtils();
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const customers = ref();
-const tasks = ref();
 const loading = ref(false);
 const dt = ref();
 const searchValue = ref("");
@@ -238,6 +244,11 @@ function closeSidebar() {
 function openSidebar() {
   isVisible.value = true;
 }
+
+const clearSelectedCustomers = () => {
+  selectedCustomers.value = [];
+  onSelectionChanged();
+};
 
 // Display sidebars
 const customerDetail = ref(null);

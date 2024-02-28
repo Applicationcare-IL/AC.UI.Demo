@@ -1,5 +1,12 @@
 <template>
-  <WMListSubHeader entity="service" @new="toggleSidebarVisibility">
+  <WMListSubHeader
+    entity="service"
+    @new="toggleSidebarVisibility"
+    @refresh-table="
+      loadLazyData();
+      clearSelectedServices();
+    "
+  >
   </WMListSubHeader>
 
   <WMServicePreviewSidebar
@@ -188,6 +195,11 @@ const selectedServices = ref([]);
 useHead({
   title: "Services",
 });
+
+const clearSelectedServices = () => {
+  selectedServices.value = [];
+  onSelectionChanged();
+};
 
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
