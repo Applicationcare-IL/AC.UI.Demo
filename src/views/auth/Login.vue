@@ -23,7 +23,7 @@
 
         <div v-if="error != ''" class="bg-red-100 text-red-700 p-2">
           <template v-if="error === 'login.password_expired'">
-            {{ $t("login.password_expired") }}
+            {{ $t("login.password-expired") }}
             <span class="underline" @click="handleResetExpiredPassword">
               {{ $t("login.send-email-reset-password") }}
             </span>
