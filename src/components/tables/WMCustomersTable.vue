@@ -6,7 +6,14 @@
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMAssignCustomerButton @add-customers="addCustomers" />
-        <WMAssignOwnerButton v-if="can('customers.assign')" entity="customer" />
+        <WMAssignOwnerButton
+          v-if="can('customers.assign')"
+          entity="customer"
+          @owner-assigned="
+            loadLazyData();
+            clearSelectedCustomers();
+          "
+        />
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -244,6 +251,10 @@ const defaultRole = computed(() => {
 });
 
 // COMPONENT METHODS
+const clearSelectedCustomers = () => {
+  selectedCustomers.value = [];
+};
+
 const loadLazyData = () => {
   const filters = utilsStore.filters["customer"];
   const nextPage = lazyParams.value.page + 1;

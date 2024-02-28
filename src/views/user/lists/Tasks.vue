@@ -3,10 +3,8 @@
     :active-buttons="isAnyRowSelected"
     entity="task"
     @new="toggleSidebarVisibility"
-    @task-completed="
-      clearSelectedTasks();
-      loadLazyData();
-    "
+    @task-completed="handleRefreshTable"
+    @refresh-table="handleRefreshTable"
   />
 
   <WMSidebar
@@ -190,6 +188,11 @@ const isAnyRowSelected = computed(() => {
 useHead({
   title: "Tasks",
 });
+
+const handleRefreshTable = () => {
+  clearSelectedTasks();
+  loadLazyData();
+};
 
 const loadLazyData = () => {
   loading.value = true;

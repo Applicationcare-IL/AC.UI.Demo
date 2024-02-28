@@ -24,7 +24,14 @@
           @click="toggleSidebarVisibility"
           >{{ t("new") }}</WMButton
         >
-        <WMAssignOwnerButton v-if="can('services.assign')" entity="service" />
+        <WMAssignOwnerButton
+          v-if="can('services.assign')"
+          entity="service"
+          @owner-assigned="
+            loadLazyData();
+            clearSelectedServices();
+          "
+        />
         <!-- <Divider layout="vertical" />
         <WMButtonMenu class="m-1" mode="light" :menu-items="menuItems"
           >הודעה</WMButtonMenu
@@ -213,6 +220,10 @@ const loadLazyData = async () => {
     services.value = result.data;
     totalRecords.value = result.totalRecords;
   });
+};
+
+const clearSelectedServices = () => {
+  selectedServices.value = [];
 };
 
 const onPage = (event) => {

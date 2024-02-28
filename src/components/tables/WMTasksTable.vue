@@ -28,7 +28,14 @@
           @click="toggleSidebarVisibility"
           >{{ t("new") }}
         </WMButton>
-        <WMAssignOwnerButton v-if="can('tasks.assign')" entity="task" />
+        <WMAssignOwnerButton
+          v-if="can('tasks.assign')"
+          entity="task"
+          @owner-assigned="
+            loadLazyData();
+            clearSelectedTasks();
+          "
+        />
         <WMCompleteTasksButton
           entity="task"
           @task-completed="

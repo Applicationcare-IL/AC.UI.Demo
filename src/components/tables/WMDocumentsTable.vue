@@ -12,7 +12,13 @@
         >
           {{ $t("documents.new_document") }}
         </WMButton>
-        <WMAssignOwnerButton entity="document" />
+        <WMAssignOwnerButton
+          entity="document"
+          @owner-assigned="
+            loadLazyData();
+            clearSelectedDocuments();
+          "
+        />
         <!-- <WMButton
           class="m-1 col-6"
           name="mail-white"
@@ -383,6 +389,10 @@ const loadLazyData = () => {
   });
 
   loading.value = false;
+};
+
+const clearSelectedDocuments = () => {
+  selectedDocuments.value = [];
 };
 
 const onPage = (event) => {

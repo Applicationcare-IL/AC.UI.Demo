@@ -33,6 +33,7 @@
           <WMAssignOwnerButton
             v-if="can(utilsStore.pluralEntity + '.assign')"
             :entity="utilsStore.entity"
+            @owner-assigned="$emit('refreshTable')"
           />
 
           <WMSendMessageButton
@@ -121,7 +122,7 @@ const props = defineProps({
   entity: String,
 });
 
-defineEmits(["new", "taskCompleted"]);
+defineEmits(["new", "taskCompleted", "refreshTable"]);
 
 const isFilterVisible = ref(false);
 const isFilterApplied = ref(false);

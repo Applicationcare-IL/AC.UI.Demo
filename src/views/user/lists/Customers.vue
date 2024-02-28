@@ -157,7 +157,7 @@
         </template>
       </Column>
       <Column field="number" :header="$t('customer.number')"></Column>
-      <Column field="owner.name" :header="$t('owner')" frozen></Column>
+      <Column field="owner.name" :header="$t('owner.owner')" frozen></Column>
     </DataTable>
   </div>
 </template>

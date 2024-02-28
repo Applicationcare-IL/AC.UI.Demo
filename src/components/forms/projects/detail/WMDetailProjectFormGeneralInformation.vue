@@ -8,7 +8,7 @@
             name="owner"
             type="info"
             :highlighted="true"
-            :label="$t('owner') + ':'"
+            :label="$t('owner.owner') + ':'"
             :value="project.owner"
           />
           <WMInput
