@@ -24,7 +24,7 @@
         <template #body="slotProps">
           <div v-if="slotProps.data.is_image === 1" class="overflow-hidden">
             <div
-              class="bg-auto bg-no-repeat bg-center bg-primary border-round h-9rem w-16rem"
+              class="bg-auto bg-no-repeat bg-center border-round h-9rem w-16rem"
               :style="{
                 backgroundImage: `url(${slotProps.data.thumbnail_url})`,
               }"
