@@ -167,23 +167,23 @@ export function useFilters() {
     ],
     task: [
       {
-        type: "dropdown",
+        type: "entity",
         name: "task_type",
         optionSet: "task_type",
         label: i18n.t("task.type") + ":",
         placeholder: i18n.t("task.task-type-placeholder") + ":",
-      },
-      {
-        type: "entity",
-        name: "task_type",
-        optionSet: "task_type",
-        label: i18n.t("task.task-type-placeholder") + ":",
         searchFunction: searchTaskTypes,
       },
+      // {
+      //   type: "dropdown",
+      //   name: "task_family",
+      //   optionSet: "task_family",
+      //   label: i18n.t("task.family") + ":",
+      //   placeholder: i18n.t("task.task-family-placeholder") + ":",
+      // },
       {
         type: "sla_status",
         name: "sla",
-        optionSet: "task_sla",
         label: i18n.t("filters.service-sla-status") + ":",
       },
       {
