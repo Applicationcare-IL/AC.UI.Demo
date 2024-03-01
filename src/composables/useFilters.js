@@ -30,17 +30,6 @@ export function useFilters() {
         optionSet: "state",
         label: i18n.t("status") + ":",
       },
-      {
-        type: "buttons",
-        name: "service_sla_status",
-        label: i18n.t("filters.service-sla-status") + ":",
-      },
-      {
-        type: "buttons",
-        name: "task_sla_status",
-        optionSet: "task_sla",
-        label: i18n.t("filters.task-sla-status") + ":",
-      },
     ],
     contactDetail: [
       {
@@ -92,17 +81,6 @@ export function useFilters() {
         optionSet: "customer_status",
         label: i18n.t("status") + ":",
       },
-      {
-        type: "buttons",
-        name: "service_sla_status",
-        label: i18n.t("filters.service-sla-status") + ":",
-      },
-      {
-        type: "buttons",
-        name: "task_sla_status",
-        optionSet: "task_sla",
-        label: i18n.t("filters.task-sla-status") + ":",
-      },
     ],
     customerDetail: [
       {
@@ -134,17 +112,6 @@ export function useFilters() {
         name: "status",
         optionSet: "customer_status",
         label: i18n.t("status") + ":",
-      },
-      {
-        type: "buttons",
-        name: "service_sla_status",
-        label: i18n.t("filters.service-sla-status") + ":",
-      },
-      {
-        type: "buttons",
-        name: "task_sla_status",
-        optionSet: "task_sla",
-        label: i18n.t("filters.task-sla-status") + ":",
       },
     ],
     service: [
@@ -201,13 +168,14 @@ export function useFilters() {
     task: [
       {
         type: "dropdown",
-        name: "area",
-        optionSet: "task_family",
-        label: i18n.t("task.task-family-placeholder") + ":",
+        name: "task_type",
+        optionSet: "task_type",
+        label: i18n.t("task.type") + ":",
+        placeholder: i18n.t("task.task-type-placeholder") + ":",
       },
       {
         type: "entity",
-        name: "type",
+        name: "task_type",
         optionSet: "task_type",
         label: i18n.t("task.task-type-placeholder") + ":",
         searchFunction: searchTaskTypes,
