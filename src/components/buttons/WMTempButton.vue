@@ -1,6 +1,10 @@
 <template>
-  <Button class="gap-2" :class="classes">
-    <i class="pi" :class="icon"></i>
+  <Button
+    class="gap-1 align-items-center justify-content-center"
+    :class="classes"
+  >
+    <i v-if="icon" class="pi" :class="icon"></i>
+    <slot name="customIcon"></slot>
     <span>{{ text }}</span>
   </Button>
 </template>
@@ -42,6 +46,10 @@ const classes = computed(() => {
   color: var(--blue-700);
   border: none;
   font-weight: 700;
+
+  :deep(svg path) {
+    fill: var(--blue-700);
+  }
 
   &:hover {
     background-color: var(--blue-200);
