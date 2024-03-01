@@ -187,11 +187,15 @@ export function useFilters() {
         type: "date",
         name: "open",
         label: i18n.t("filters.open-date") + ":",
+        from: "opened_from",
+        to: "opened_to",
       },
       {
         type: "date",
         name: "goal",
         label: i18n.t("filters.due-date") + ":",
+        from: "due_date_from",
+        to: "due_date_to",
       },
     ],
     task: [
@@ -224,11 +228,15 @@ export function useFilters() {
         type: "date",
         name: "open",
         label: i18n.t("filters.open-date") + ":",
+        from: "opened_from",
+        to: "opened_to",
       },
       {
         type: "date",
         name: "goal",
         label: i18n.t("filters.due-date") + ":",
+        from: "due_date_from",
+        to: "due_date_to",
       },
     ],
     project: [

@@ -14,6 +14,7 @@
       :option-set="optionSet"
       @update:model-value="onDropdownChanged"
     />
+
     <!-- ENTITY -->
     <WMAutocomplete
       v-if="type == 'entity'"
@@ -25,6 +26,7 @@
       :search-function="searchFunction"
       @update:model-value="onDropdownChanged"
     />
+
     <!-- BUTTONS -->
     <div v-if="type == 'buttons'" class="flex flex-row gap-2 p-2">
       <WMSelectableButton
@@ -35,10 +37,13 @@
         @update:model-value="onButtonChanged($event, option)"
       />
     </div>
+
     <!-- DATES -->
     <div v-if="type == 'date'" class="flex flex-row gap-2 p-2">
       <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label"> {{ $t("from") }}: </label>
+        <label v-if="label != ''" class="wm-form-label">
+          {{ $t("from") }}:
+        </label>
         <Calendar
           v-model="fromDate"
           show-icon
@@ -46,7 +51,9 @@
         />
       </div>
       <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label"> {{ $t("to") }}: </label>
+        <label v-if="label != ''" class="wm-form-label">
+          {{ $t("to") }}:
+        </label>
         <Calendar
           v-model="toDate"
           show-icon
@@ -54,6 +61,7 @@
         />
       </div>
     </div>
+
     <!-- SLA -->
     <div v-if="type == 'sla_status'" class="flex flex-row gap-2 p-2">
       <WMSelectableButton
@@ -83,15 +91,17 @@ import { useUtilsStore } from "@/stores/utils";
 const emits = defineEmits(["update:filter"]);
 const { t } = useI18n();
 
-const { type, optionSet, placeholder, filterName, label } = defineProps({
-  entity: String,
-  type: String,
-  optionSet: String,
-  placeholder: String,
-  filterName: String,
-  label: String,
-  searchFunction: Function,
-});
+const { type, optionSet, placeholder, filterName, label, filterData } =
+  defineProps({
+    entity: String,
+    type: String,
+    optionSet: String,
+    placeholder: String,
+    filterName: String,
+    label: String,
+    searchFunction: Function,
+    filterData: Object,
+  });
 
 const SLAoptions = [
   { id: "breached", value_en: t("sla.breached"), value_he: t("sla.breached") },
@@ -135,7 +145,8 @@ const onDropdownChanged = (value) => {
 
 const onButtonChanged = (value, option) => {
   if (value) selectedButtons.value.push(option.id);
-  else selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
+  else
+    selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
 
   emits("update:filter", {
     name: filterName,
@@ -144,15 +155,22 @@ const onButtonChanged = (value, option) => {
 };
 
 const onDateChanged = (value, type) => {
-  if (type == "from") fromDate.value = value;
-  else toDate.value = value;
+  let dateFilterName;
+  let date;
+
+  if (type == "from") {
+    dateFilterName = filterData.from;
+    fromDate.value = value;
+    date = fromDate.value;
+  } else {
+    dateFilterName = filterData.to;
+    toDate.value = value;
+    date = toDate.value;
+  }
 
   emits("update:filter", {
-    name: filterName,
-    value: [
-      fromDate.value ? useDateFormat(fromDate.value, utilsStore.dateFormat).value : null,
-      toDate.value ? useDateFormat(toDate.value, utilsStore.dateFormat).value : null,
-    ],
+    name: dateFilterName,
+    value: useDateFormat(date, "YYYY-MM-DD").value,
   });
 };
 

@@ -27,6 +27,7 @@
         :filter-name="filter.name"
         :option-set="filter.optionSet"
         :search-function="filter.searchFunction"
+        :filter-data="filter"
         @update:filter="addFilter"
       />
     </div>
