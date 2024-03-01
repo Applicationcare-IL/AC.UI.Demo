@@ -9,6 +9,8 @@
   >
   </WMListSubHeader>
 
+  <!-- <pre>{{ services }}</pre> -->
+
   <WMServicePreviewSidebar
     v-model:visible="isDetailsVisible"
     :service="serviceDetail"
@@ -125,11 +127,21 @@
         <template #body="slotProps">
           <WMSLATag
             v-if="slotProps.data.sla"
-            :sla="slotProps.data.sla"
+            :sla="slotProps.data.sla.sla"
             :days-for-closing="slotProps.data.days_for_closing"
             :state="slotProps.data.state"
           >
           </WMSLATag>
+        </template>
+      </Column>
+      <Column field="status" :header="$t('service.status')">
+        <template #body="slotProps">
+          <WMOptionSetValue :option-set="slotProps.data.status" />
+        </template>
+      </Column>
+      <Column field="state" :header="$t('service.state')">
+        <template #body="slotProps">
+          <WMOptionSetValue :option-set="slotProps.data.state" />
         </template>
       </Column>
       <Column
@@ -252,14 +264,19 @@ const rowClass = (data) => {
 };
 
 const priorityClass = (data) => {
-  return [
-    "text-blue-600",
-    {
-      "bg-blue-75": data.priority === 1 && data.is_active,
-      "bg-blue-50": data.priority === 2 && data.is_active,
-      "bg-blue-25": data.priority === 3 && data.is_active,
-    },
-  ];
+  const classes = "text-blue-600";
+
+  console.log("priorityClass", data, classes, data.priority, data.is_active);
+
+  if (data.priority == 1 && data.is_active) {
+    return classes + " bg-blue-75";
+  } else if (data.priority == 2 && data.is_active) {
+    return classes + " bg-blue-50";
+  } else if (data.priority == 3 && data.is_active) {
+    return classes + " bg-blue-25";
+  }
+
+  return classes;
 };
 
 // Manage selected rows

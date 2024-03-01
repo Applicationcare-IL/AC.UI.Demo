@@ -135,8 +135,8 @@ export function useServices() {
       team: service.owner.default_team,
       is_active: service.state?.value == "active" ? true : false,
       description: service.description,
-      status: service.status?.value,
-      state: service.state?.value,
+      status: service.status,
+      state: service.state,
       location: {
         house_number: service.location?.house_number,
         appartment: service.location?.apartment,

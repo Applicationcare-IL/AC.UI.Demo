@@ -176,6 +176,7 @@
     "sla": "SLA",
     "owner": "Owner",
     "status": "Status",
+    "state": "State",
     "notes": "Notes",
     "duration": "Duration",
     "team": "Team",

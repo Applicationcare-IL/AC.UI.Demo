@@ -114,11 +114,8 @@
         </WMSLATag>
       </template>
       <template v-if="column.type === 'priority'" #body="slotProps">
-        <div
-          v-if="slotProps.data.status == 'open'"
-          :class="priorityClass(slotProps.data)"
-        >
-          {{ slotProps.data.priority }}
+        <div :class="priorityClass(slotProps.data)">
+          {{ slotProps.data.is_active ? slotProps.data.priority : "-" }}
         </div>
       </template>
       <template v-if="column.type === 'translate'" #body="slotProps">
@@ -231,14 +228,24 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const { getPriorityConditionalStyle } = useListUtils();
-
 const rowClass = (data) => {
   return [{ inactive_row: !data.is_active }];
 };
 
 const priorityClass = (data) => {
-  return getPriorityConditionalStyle(data);
+  const classes = "text-blue-600";
+
+  console.log("priorityClass", data, classes, data.priority, data.is_active);
+
+  if (data.priority == 1 && data.is_active) {
+    return classes + " bg-blue-75";
+  } else if (data.priority == 2 && data.is_active) {
+    return classes + " bg-blue-50";
+  } else if (data.priority == 3 && data.is_active) {
+    return classes + " bg-blue-25";
+  }
+
+  return classes;
 };
 
 const onSelectionChanged = () => {
