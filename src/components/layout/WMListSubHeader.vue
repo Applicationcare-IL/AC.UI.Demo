@@ -67,15 +67,10 @@
         <div class="flex flex-row gap-3">
           <WMSearchBox :entity="entity" />
 
-          <WMButton
-            name="filter"
-            icon="filter"
-            :open="isFilterVisible"
-            :applied="isFilterApplied"
+          <WMFilterButton
+            :is-active="isFilterApplied || isFilterVisible"
             @click="openFilterSidebar"
-          >
-            {{ $t("filter") }}
-          </WMButton>
+          />
         </div>
         <div class="flex flex-row align-items-center gap-3">
           <span>{{ $t("rows-per-page") + ":" }}</span>
@@ -103,7 +98,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
@@ -125,7 +120,11 @@ const props = defineProps({
 defineEmits(["new", "taskCompleted", "refreshTable"]);
 
 const isFilterVisible = ref(false);
-const isFilterApplied = ref(false);
+
+const isFilterApplied = computed(() => {
+  if (!utilsStore.filters[props.entity]) return 0;
+  return Object.keys(utilsStore.filters[props.entity]).length;
+});
 
 const onChange = (event) => {
   selectedRowsPerPage.value = event.value;

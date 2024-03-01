@@ -252,7 +252,6 @@ export function useFilters() {
   };
 
   return {
-    // ACTIONS
     filterList,
   };
 }
