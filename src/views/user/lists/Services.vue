@@ -266,8 +266,6 @@ const rowClass = (data) => {
 const priorityClass = (data) => {
   const classes = "text-blue-600";
 
-  console.log("priorityClass", data, classes, data.priority, data.is_active);
-
   if (data.priority == 1 && data.is_active) {
     return classes + " bg-blue-75";
   } else if (data.priority == 2 && data.is_active) {
