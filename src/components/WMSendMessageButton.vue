@@ -10,7 +10,12 @@
     @click="toggleCommunicationsMenu"
   />
 
-  <Menu id="overlay_menu" ref="menu" :model="communicationChannels" :popup="true">
+  <Menu
+    id="overlay_menu"
+    ref="menu"
+    :model="communicationChannels"
+    :popup="true"
+  >
     <template #item="slotProps">
       <button
         class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2 w-full"
@@ -133,7 +138,9 @@ const toggleCommunicationsMenu = (event) => {
 const optionSetsStore = useOptionSetsStore();
 const { can } = usePermissions();
 
-let communicationChannels = optionSetsStore.getOptionSetValues("communicationChannels");
+let communicationChannels = optionSetsStore.getOptionSetValues(
+  "communicationChannels"
+);
 
 // filter communication channels based on user permissions
 if (!can("global.sms")) {
@@ -231,7 +238,9 @@ watch(
   }
 );
 
-const fillSelectedContactDropdownWithSelectedContacts = (newSelectedContacts) => {
+const fillSelectedContactDropdownWithSelectedContacts = (
+  newSelectedContacts
+) => {
   if (newSelectedContacts?.length == 0 || !contactOptions.value) {
     return;
   }

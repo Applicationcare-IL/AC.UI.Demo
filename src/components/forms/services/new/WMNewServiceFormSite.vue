@@ -50,21 +50,29 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
 
-const sites = ref(optionSetsStore.optionSets["service_site"]);
-const siteTypes = ref(optionSetsStore.optionSets["service_site_type"]);
-const siteRoles = ref(
-  optionSetsStore.optionSets["service_site_contact_relationship_role"]
-);
+const sites = ref();
+const siteTypes = ref();
+const siteRoles = ref();
 
 const { getContactsFromApi } = useContacts();
 
 const searchSiteContact = (query) => {
   return getContactsFromApi({ search: query });
 };
+
+onMounted(async () => {
+  sites.value = await optionSetsStore.getOptionSetValues("service_site");
+  siteTypes.value = await optionSetsStore.getOptionSetValues(
+    "service_site_type"
+  );
+  siteRoles.value = await optionSetsStore.getOptionSetValues(
+    "service_site_contact_relationship_role"
+  );
+});
 </script>

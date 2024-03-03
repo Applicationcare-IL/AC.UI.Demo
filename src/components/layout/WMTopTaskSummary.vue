@@ -82,7 +82,7 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 
 const { layoutConfig } = useLayout();
 
-const { getTasksFromApi } = useTasks();
+const { getTasksFromApi, getTaskTypes } = useTasks();
 
 const optionSetsStore = useOptionSetsStore();
 
@@ -92,7 +92,7 @@ onMounted(() => {
   fillTasksCounters();
 });
 
-const taskTypes = ref(optionSetsStore.taskTypes);
+const taskTypes = ref();
 const reminderIds = ref();
 const followUpIds = ref();
 const reminders = ref();
@@ -104,10 +104,9 @@ const { getTaskSummaryColumns } = useListUtils();
 
 const taskSummaryColumns = ref(getTaskSummaryColumns());
 
-const fillTasksCounters = () => {
-  const activeStateId = optionSetsStore.optionSets["state"].find(
-    (state) => state.value === "active"
-  )["id"];
+const fillTasksCounters = async () => {
+  const activeStateId = await optionSetsStore.getValueId("state", "active");
+  taskTypes.value = await getTaskTypes();
 
   reminderIds.value = taskTypes.value
     .filter((type) => {

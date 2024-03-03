@@ -123,11 +123,17 @@ const showAddressOptions = ref(false);
 
 const isCitySelected = ref(false);
 
-const cities = ref(optionSetsStore.optionSets["service_city"]);
-const streets = ref(optionSetsStore.optionSets["service_street"]);
-const neighborhoods = ref(optionSetsStore.optionSets["service_neighborhood"]);
+const cities = ref();
+const streets = ref();
+const neighborhoods = ref();
 
-onMounted(() => {
+onMounted(async () => {
+  cities.value = await optionSetsStore.getOptionSetValues("service_city");
+  streets.value = await optionSetsStore.getOptionSetValues("service_street");
+  neighborhoods.value = await optionSetsStore.getOptionSetValues(
+    "service_neighborhood"
+  );
+
   if (props.project.location?.street && props.project.location?.city) {
     showAddressOptions.value = true;
     isCitySelected.value = true;

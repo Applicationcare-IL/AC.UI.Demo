@@ -169,10 +169,10 @@ const formType = computed(() => {
   return props.editable ? "input-text" : "info";
 });
 
-const cities = ref(optionSetsStore.optionSets["service_city"]);
-const streets = ref(optionSetsStore.optionSets["service_street"]);
-const neighborhoods = ref(optionSetsStore.optionSets["service_neighborhood"]);
-const zips = ref(optionSetsStore.optionSets["zip"]);
+const cities = ref();
+const streets = ref();
+const neighborhoods = ref();
+const zips = ref();
 
 const selectedCity = ref();
 const selectedSteet = ref();
@@ -187,9 +187,16 @@ const selectedEntrance = computed(() => {
   );
 });
 
-onMounted(() => {
+onMounted(async () => {
   if (props.location?.street && props.location?.city) {
     isCitySelected.value = true;
+
+    cities.value = await optionSetsStore.getOptionSetValues("service_city");
+    streets.value = await optionSetsStore.getOptionSetValues("service_street");
+    neighborhoods.value = await optionSetsStore.getOptionSetValues(
+      "service_neighborhood"
+    );
+    zips.value = await optionSetsStore.getOptionSetValues("zip");
 
     // selectedCity.value = cities.value.find(
     //   (city) => city.id === props.location.city?.id

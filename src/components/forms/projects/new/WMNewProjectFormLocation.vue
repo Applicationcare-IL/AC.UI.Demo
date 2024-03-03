@@ -96,7 +96,7 @@
 
 <script setup>
 import { useField } from "vee-validate";
-import { provide, ref, watch } from "vue";
+import { onMounted, provide, ref, watch } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -121,13 +121,21 @@ watch(
 
 const isCitySelected = ref(false);
 
-const cities = ref(optionSetsStore.optionSets["service_city"]);
-const streets = ref(optionSetsStore.optionSets["service_street"]);
-const neighborhoods = ref(optionSetsStore.optionSets["service_neighborhood"]);
+const cities = ref();
+const streets = ref();
+const neighborhoods = ref();
 
 const location = ref({});
 
 provide("location", { location });
+
+onMounted(async () => {
+  cities.value = await optionSetsStore.getOptionSetValues("service_city");
+  streets.value = await optionSetsStore.getOptionSetValues("service_street");
+  neighborhoods.value = await optionSetsStore.getOptionSetValues(
+    "service_neighborhood"
+  );
+});
 
 const updateStreets = (event) => {
   if (event.value) {

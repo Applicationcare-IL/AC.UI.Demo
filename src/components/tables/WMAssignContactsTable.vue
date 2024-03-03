@@ -31,7 +31,7 @@
       <template v-if="column.type === 'role_project'" #body="slotProps">
         <Dropdown
           v-if="editMode[slotProps.index]"
-          :options="optionSetsStore.optionSets[column.optionSet]"
+          :options="optionSets[column.optionSet]"
           :optionLabel="optionLabelWithLang"
           optionValue="id"
           class="w-full p-0"
@@ -79,11 +79,12 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, computed, watchEffect } from "vue";
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
+
 import { useFormUtilsStore } from "@/stores/formUtils";
-import { useUtilsStore } from "@/stores/utils";
 import { useOptionSetsStore } from "@/stores/optionSets";
+import { useUtilsStore } from "@/stores/utils";
 
 const { t } = useI18n();
 
@@ -148,6 +149,7 @@ const isSourceExternal = computed(() => {
 });
 
 onMounted(() => {
+  loadOptionSets();
   if (isSourceExternal.value) {
     contacts.value = props.contacts;
     totalRecords.value = props.contacts?.length;
@@ -155,6 +157,19 @@ onMounted(() => {
     loadLazyData();
   }
 });
+
+const optionSets = ref([]);
+
+const loadOptionSets = async () => {
+  //for each option set in columns, get the option set values
+  props.columns.forEach(async (column) => {
+    console.log(column.optionSet);
+    if (column.optionSet) {
+      optionSets.value[column.optionSet] =
+        await optionSetsStore.getOptionSetValues(column.optionSet);
+    }
+  });
+};
 
 const { getAlertCellConditionalStyle } = useListUtils();
 
@@ -231,15 +246,12 @@ const onPage = (event) => {
 
 const defaultRole = computed(() => {
   if (props.relatedEntity === "customer") {
-    return optionSetsStore.optionSets["contact_customer_role"][0];
-    // return optionSetsStore.optionSets["contact_customer_role"].find(
-    //   (role) => role.value === "employee"
-    // );
+    return optionSets.value["contact_customer_role"][0];
   }
 
   if (props.relatedEntity === "project") {
     // set the first role as default
-    return optionSetsStore.optionSets["contact_project_role"][0];
+    return optionSets.value["contact_project_role"][0];
   }
 });
 

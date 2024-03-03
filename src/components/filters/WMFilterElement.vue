@@ -82,7 +82,7 @@
 
 <script setup>
 import { useDateFormat } from "@vueuse/core";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -122,7 +122,7 @@ const { optionLabelWithLang } = useLanguages();
 const utilsStore = useUtilsStore();
 
 const optionSetsStore = useOptionSetsStore();
-const options = ref(optionSetsStore.optionSets[optionSet]);
+const options = ref();
 
 const selectedButtons = ref([]);
 const isButtonSelected = ref([]);
@@ -195,4 +195,8 @@ const clear = () => {
 };
 
 defineExpose({ clear });
+
+onMounted(async () => {
+  options.value = await optionSetsStore.getOptionSetValues(optionSet);
+});
 </script>

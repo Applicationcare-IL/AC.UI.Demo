@@ -4,7 +4,6 @@
     class="flex flex-column justify-content-center h-screen align-items-center"
   >
     <ProgressSpinner />
-    <p v-if="loadingOptionSets" class="ml-2">Preloading option sets</p>
     <p v-if="loadingPermissions" class="ml-2">Preloading permissions</p>
   </div>
   <router-view v-else />
@@ -23,7 +22,6 @@ import { computed, onMounted, ref } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
 import { useAuthStore } from "@/stores/auth";
-import { useOptionSetsStore } from "@/stores/optionSets";
 import { usePermissionsStore } from "@/stores/permissionsStore";
 
 import WMIncomingCallDialog from "./components/dialogs/WMIncomingCallDialog.vue";
@@ -32,7 +30,6 @@ import WMIncomingCallDialog from "./components/dialogs/WMIncomingCallDialog.vue"
 const authStore = useAuthStore();
 const { layoutConfig } = useLayout();
 const { getLicensing } = useLicensing();
-const optionSetsStore = useOptionSetsStore();
 const permissionsStore = usePermissionsStore();
 
 // INJECT
@@ -40,15 +37,12 @@ const permissionsStore = usePermissionsStore();
 // PROPS, EMITS
 
 // REFS
-const loadingOptionSets = ref(true);
 const loadingPermissions = ref(true);
 const showIncomingCallDialog = ref(false);
 const callData = ref(null);
 
 // COMPUTED
-const loading = computed(
-  () => loadingOptionSets.value || loadingPermissions.value
-);
+const loading = computed(() => loadingPermissions.value);
 
 // COMPONENT METHODS
 if (window.Echo) {
@@ -70,14 +64,6 @@ onMounted(() => {
   if (authStore.isAuthenticated) {
     getLicensing();
 
-    if (!optionSetsStore.isOptionSetsPreloaded) {
-      optionSetsStore
-        .preloadOptionSets()
-        .then(() => (loadingOptionSets.value = false));
-    } else {
-      loadingOptionSets.value = false;
-    }
-
     if (!permissionsStore.isPermissionsLoaded) {
       permissionsStore
         .getPermissionsFromApi()
@@ -86,7 +72,6 @@ onMounted(() => {
       loadingPermissions.value = false;
     }
   } else {
-    loadingOptionSets.value = false;
     loadingPermissions.value = false;
   }
 });

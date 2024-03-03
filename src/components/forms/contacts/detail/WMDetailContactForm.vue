@@ -59,11 +59,7 @@
                       type="input-select"
                       :label="$t('gender') + ':'"
                       :options="genders"
-                      :value="
-                        genders.find(
-                          (gender) => gender.id === contact.gender?.id
-                        )
-                      "
+                      :value="genderSelected"
                       :placeholder="$t('select', ['gender'])"
                       width="130"
                       option-set
@@ -354,7 +350,8 @@ const props = defineProps({
 const contact = ref();
 const tasks = ref();
 
-const genders = ref(optionSetsStore.optionSets["gender"]);
+const genders = ref();
+const genderSelected = ref();
 const loaded = ref(false);
 
 const customerColumns = ref(getCustomerColumns());
@@ -422,6 +419,12 @@ onMounted(async () => {
   await fetchData();
 
   setSelectedContacts(contact.value);
+
+  genders.value = await optionSetsStore.getOptionSetValues("gender");
+
+  genderSelected.value = genders.value.find(
+    (gender) => gender.id === contact.value.gender?.id
+  );
 });
 </script>
 

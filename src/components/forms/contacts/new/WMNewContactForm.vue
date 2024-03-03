@@ -45,6 +45,7 @@
           :options="genders"
           :placeholder="$t('select', ['gender'])"
           width="130"
+          option-set
         />
       </div>
 
@@ -140,7 +141,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { inject, ref, watch } from "vue";
+import { inject, onMounted, ref, watch } from "vue";
 
 import { useAuthStore } from "@/stores/auth";
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -177,7 +178,7 @@ const emit = defineEmits(["contactCreated"]);
 
 // REFS
 const isNewCustomerSidebarVisible = ref(false);
-const genders = ref(optionSetsStore.optionSets["gender"]);
+const genders = ref();
 const selectedCustomers = ref([]);
 
 // COMPUTED
@@ -237,6 +238,11 @@ function handleCustomerCreated(customerId) {
     closeNewCustomerSidebar();
   });
 }
+
+onMounted(async () => {
+  genders.value = await optionSetsStore.getOptionSetValues("gender");
+  console.log(genders.value);
+});
 
 formUtilsStore.formEntity = "contact";
 

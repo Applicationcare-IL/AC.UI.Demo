@@ -220,9 +220,10 @@ const props = defineProps({
 const emit = defineEmits(["customerCreated"]);
 
 // REFS
-const types = ref(optionSetsStore.optionSets["customer_type"]);
-const ratings = ref(optionSetsStore.optionSets["customer_rating"]);
-const serviceAreas = ref(optionSetsStore.optionSets["service_area"]);
+const types = ref();
+const ratings = ref();
+const serviceAreas = ref();
+let defaultRole;
 
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
 const selectedContacts = ref([]);
@@ -354,8 +355,6 @@ function handleContactCreated(contactId) {
   });
 }
 
-const defaultRole = optionSetsStore.optionSets["contact_customer_role"][0];
-
 formUtilsStore.formEntity = "customer";
 
 // PROVIDE, EXPOSE
@@ -374,7 +373,15 @@ watch(
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(() => {
+onMounted(async () => {
+  types.value = await optionSetsStore.getOptionSetValues("customer_type");
+  console.log(types.value);
+  ratings.value = await optionSetsStore.getOptionSetValues("customer_rating");
+  serviceAreas.value = await optionSetsStore.getOptionSetValues("service_area");
+  defaultRole = await optionSetsStore.getOptionSetValues(
+    "contact_customer_role"
+  )[0];
+
   optionSetsStore
     .getOptionSetValuesFromApi("service_area")
     .then((data) => (serviceAreas.value = data));

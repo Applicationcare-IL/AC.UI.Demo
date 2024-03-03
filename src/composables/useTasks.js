@@ -41,6 +41,12 @@ export function useTasks() {
     return await tasksStore.getTasksTypesFromApi(params);
   };
 
+  const getTaskTypes = async () => {
+    return await getTasksTypesFromApi().then((data) => {
+      return data.data;
+    });
+  };
+
   /**
    * This function is used to get signature tasks from the API and maps the response to the required format
    * @param {*} params
@@ -191,6 +197,7 @@ export function useTasks() {
   return {
     // API
     getTasksFromApi,
+    getTaskTypes,
     getTasksTypesFromApi,
     getTaskFromApi,
     getSignatureTaskFromApi,

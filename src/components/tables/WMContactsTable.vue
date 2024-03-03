@@ -111,7 +111,7 @@
           <Dropdown
             v-if="editMode[slotProps.index]"
             v-model="slotProps.data.role"
-            :options="optionSetsStore.optionSets[column.optionSet]"
+            :options="optionSets[column.optionSet]"
             :option-label="optionLabelWithLang"
             class="w-full p-0"
           />
@@ -123,7 +123,7 @@
           <Dropdown
             v-if="editMode[slotProps.index]"
             v-model="slotProps.data.role_project"
-            :options="optionSetsStore.optionSets[column.optionSet]"
+            :options="optionSets[column.optionSet]"
             :option-label="optionLabelWithLang"
             class="w-full p-0"
           />
@@ -497,11 +497,11 @@ function openFilterSidebar() {
 
 const getDefaultRole = () => {
   if (props.relatedEntity === "customer") {
-    return unref(optionSetsStore.optionSets["contact_customer_role"][0]);
+    return unref(optionSets.value["contact_customer_role"][0]);
   }
 
   if (props.relatedEntity === "project") {
-    return unref(optionSetsStore.optionSets["contact_project_role"][0]);
+    return unref(optionSets.value["contact_project_role"][0]);
   }
 };
 
@@ -566,6 +566,7 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
+  loadOptionSets();
   if (isSourceExternal.value) {
     contacts.value = props.contacts;
     totalRecords.value = props.contacts?.length;
@@ -573,4 +574,18 @@ onMounted(() => {
     loadLazyData();
   }
 });
+
+const optionSets = ref([]);
+
+const loadOptionSets = async () => {
+  props.columns.forEach(async (column) => {
+    console.log(column.optionSet);
+    if (column.optionSet) {
+      optionSets.value[column.optionSet] =
+        await optionSetsStore.getOptionSetValues(column.optionSet);
+    }
+  });
+
+  console.log(optionSets.value);
+};
 </script>

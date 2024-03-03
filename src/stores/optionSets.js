@@ -45,72 +45,6 @@ export const useOptionSetsStore = defineStore("optionSets", {
     taskTypes: {},
     optionSetsPreloaded: false,
 
-    gender: [
-      { value: "male", translationKey: "genders.male" },
-      { value: "female", translationKey: "genders.female" },
-      { value: "other", translationKey: "genders.other" },
-    ],
-    status: [
-      { value: "open", translationKey: "statuses.open" },
-      { value: "closed", translationKey: "statuses.closed" },
-      { value: "active", translationKey: "statuses.active" },
-      { value: "not_active", translationKey: "statuses.not_active" },
-    ],
-    type: [
-      { value: "private", translationKey: "customer-type.private" },
-      { value: "business", translationKey: "customer-type.business" },
-    ],
-    rating: [
-      { value: "vip", translationKey: "customer-rating.vip" },
-      { value: "regular", translationKey: "customer-rating.regular" },
-    ],
-    area: [
-      { value: "water_service", translationKey: "area.water_service" },
-      { value: "funeral_service", translationKey: "area.funeral_service" },
-      { value: "municipality", translationKey: "area.municipality" },
-    ],
-    classification1: [
-      {
-        value: "urban-architect",
-        translationKey: "classification1.urban-architect",
-      },
-      {
-        value: "sharp-internet-jokes",
-        translationKey: "classification1.sharp-internet-jokes",
-      },
-      {
-        value: "people-named-robert",
-        translationKey: "classification1.people-named-robert",
-      },
-    ],
-    classification4: [
-      {
-        value: "urban-architect",
-        translationKey: "classification1.urban-architect",
-      },
-      {
-        value: "sharp-internet-jokes",
-        translationKey: "classification1.sharp-internet-jokes",
-      },
-      {
-        value: "people-named-robert",
-        translationKey: "classification1.people-named-robert",
-      },
-    ],
-    classification5: [
-      {
-        value: "urban-architect",
-        translationKey: "classification1.urban-architect",
-      },
-      {
-        value: "sharp-internet-jokes",
-        translationKey: "classification1.sharp-internet-jokes",
-      },
-      {
-        value: "people-named-robert",
-        translationKey: "classification1.people-named-robert",
-      },
-    ],
     yesNo: [
       { value: true, translationKey: "yes" },
       { value: false, translationKey: "no" },
@@ -128,13 +62,27 @@ export const useOptionSetsStore = defineStore("optionSets", {
     },
   },
   actions: {
-    getOptionSetValues(optionSet) {
-      return this[optionSet].map((option) => ({
-        value: option.value,
-        name: i18n.global.t(option.translationKey),
-        label: i18n.global.t(option.translationKey),
-      }));
+    getValueId(optionSet, optionSetValue) {
+      return this.getOptionSetValuesFromApi(optionSet).then((data) => {
+        return data.find((option) => option.value === optionSetValue).id;
+      });
     },
+
+    getOptionSetValues(optionSet) {
+      //If the option set is defined in the store, return it otherwise get it from API
+      if (this[optionSet]) {
+        return this[optionSet].map((option) => ({
+          value: option.value,
+          name: i18n.global.t(option.translationKey),
+          label: i18n.global.t(option.translationKey),
+          value_en: i18n.global.t(option.translationKey),
+          value_he: i18n.global.t(option.translationKey),
+        }));
+      }
+
+      return this.getOptionSetValuesFromApi(optionSet);
+    },
+
     getOptionSetValuesFromApi(optionSet) {
       return axiosConfig
         .get("/options-set", { params: { name: optionSet } })

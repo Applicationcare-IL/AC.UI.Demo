@@ -155,7 +155,7 @@
           <Dropdown
             v-if="editMode[slotProps.index]"
             v-model="slotProps.data.role"
-            :options="optionSetsStore.optionSets[column.optionSet]"
+            :options="optionSets[column.optionSet]"
             :option-label="optionLabelWithLang"
             class="w-full p-0"
           />
@@ -247,7 +247,7 @@ const editMode = ref([]);
 
 // COMPUTED
 const defaultRole = computed(() => {
-  return optionSetsStore.optionSets["contact_customer_role"][0];
+  return optionSets.value["contact_customer_role"][0];
 });
 
 // COMPONENT METHODS
@@ -376,6 +376,21 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
+  loadOptionSets();
   loadLazyData();
 });
+const optionSets = ref([]);
+
+const loadOptionSets = async () => {
+  //for each option set in columns, get the option set values
+  props.columns.forEach(async (column) => {
+    console.log(column.optionSet);
+    if (column.optionSet) {
+      optionSets.value[column.optionSet] =
+        await optionSetsStore.getOptionSetValues(column.optionSet);
+    }
+  });
+
+  console.log(optionSets.value);
+};
 </script>

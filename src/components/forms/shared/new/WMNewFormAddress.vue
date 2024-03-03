@@ -74,7 +74,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -97,11 +97,20 @@ const isStreetRequired = computed(() => {
   return props.requiredFields?.includes("street");
 });
 
-const cities = ref(optionSetsStore.optionSets["service_city"]);
-const streets = ref(optionSetsStore.optionSets["service_street"]);
-const neighborhoods = ref(optionSetsStore.optionSets["service_neighborhood"]);
+const cities = ref();
+const streets = ref();
+const neighborhoods = ref();
 
-const zips = ref(optionSetsStore.optionSets["zip"]);
+const zips = ref();
+
+onMounted(async () => {
+  cities.value = await optionSetsStore.getOptionSetValues("service_city");
+  streets.value = await optionSetsStore.getOptionSetValues("service_street");
+  neighborhoods.value = await optionSetsStore.getOptionSetValues(
+    "service_neighborhood"
+  );
+  zips.value = await optionSetsStore.getOptionSetValues("zip");
+});
 
 const updateStreets = (city) => {
   if (city) {

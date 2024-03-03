@@ -142,7 +142,7 @@
           <Dropdown
             v-if="editMode[slotProps.data.id]"
             v-model="slotProps.data.document_type.id"
-            :options="optionSetsStore.optionSets[column.optionSet]"
+            :options="optionSets[column.optionSet]"
             :option-label="optionLabelWithLang"
             option-value="id"
             class="w-full p-0"
@@ -472,6 +472,21 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
+  loadOptionSets();
   loadLazyData();
 });
+const optionSets = ref([]);
+
+const loadOptionSets = async () => {
+  //for each option set in columns, get the option set values
+  props.columns.forEach(async (column) => {
+    console.log(column.optionSet);
+    if (column.optionSet) {
+      optionSets.value[column.optionSet] =
+        await optionSetsStore.getOptionSetValues(column.optionSet);
+    }
+  });
+
+  console.log(optionSets.value);
+};
 </script>

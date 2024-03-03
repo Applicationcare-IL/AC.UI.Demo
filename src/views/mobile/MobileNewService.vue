@@ -137,11 +137,9 @@ optionSetsStore.getOptionSetValuesFromApi("service_channel").then((data) => {
   );
 });
 
-const sites = ref(optionSetsStore.optionSets["service_site"]);
-const siteTypes = ref(optionSetsStore.optionSets["service_site_type"]);
-const siteRoles = ref(
-  optionSetsStore.optionSets["service_site_contact_relationship_role"]
-);
+const sites = ref();
+const siteTypes = ref();
+const siteRoles = ref();
 
 // QUICK CODE VALUES
 const area = ref("");
@@ -158,7 +156,7 @@ const handleQuickCodeChange = (data) => {
   request3.value = data.value.request_3?.id;
 };
 
-onMounted(() => {
+onMounted(async () => {
   optionSetsStore.getOptionSetValuesFromApi("service_urgent").then((data) => {
     urgencies.value = data;
     selectedUrgency.value = data[0];
@@ -167,6 +165,14 @@ onMounted(() => {
   getQuickCodes().then((data) => {
     quickCodes.value = data.data;
   });
+
+  sites.value = await optionSetsStore.getOptionSetValues("service_site");
+  siteTypes.value = await optionSetsStore.getOptionSetValues(
+    "service_site_type"
+  );
+  siteRoles.value = await optionSetsStore.getOptionSetValues(
+    "service_site_contact_relationship_role"
+  );
 });
 
 const { getContactsFromApi } = useContacts();
