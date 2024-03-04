@@ -87,6 +87,10 @@ const sendEmailDialogVisible = ref(false);
 const attachments = ref([]);
 const subject = ref("");
 
+const encodeMessage = (message) => {
+  return message.replace(/\n/g, "<br>");
+};
+
 const handleUpdateSubject = (newSubject) => {
   subject.value = newSubject;
 };
@@ -201,7 +205,7 @@ const handleSendEmail = () => {
       ? getContactsIds(selectedDropdownContacts.value)
       : [selectedContacts.value.id],
     subject: subject.value,
-    body: message.value,
+    body: encodeMessage(message.value),
   };
 
   if (attachments.value.length > 0) {
