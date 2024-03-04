@@ -52,7 +52,7 @@ const router = createRouter({
           name: "index",
           // exact: true,
           redirect: () => {
-            return "/tasks";
+            return "/dashboard";
           },
           // component: () => import("@/views/user/Dashboard.vue"),
         },

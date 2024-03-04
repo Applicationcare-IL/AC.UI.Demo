@@ -76,6 +76,7 @@
     </div>
     <div class="mobile-task-detail-footer flex flex-column gap-2 mx-3">
       <Button
+        v-if="serviceButtonLabel"
         size="large"
         class="w-full p-4"
         severity="success"

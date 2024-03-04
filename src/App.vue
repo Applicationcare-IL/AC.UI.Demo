@@ -4,7 +4,7 @@
     class="flex flex-column justify-content-center h-screen align-items-center"
   >
     <ProgressSpinner />
-    <p v-if="loadingPermissions" class="ml-2">Preloading permissions</p>
+    <!-- <p v-if="loadingPermissions" class="ml-2">Loading...</p> -->
   </div>
   <router-view v-else />
   <ConfirmDialog :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''" />
