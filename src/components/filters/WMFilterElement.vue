@@ -82,26 +82,25 @@
 
 <script setup>
 import { useDateFormat } from "@vueuse/core";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { useUtilsStore } from "@/stores/utils";
 
 const emits = defineEmits(["update:filter"]);
 const { t } = useI18n();
 
-const { type, optionSet, placeholder, filterName, label, filterData } =
-  defineProps({
-    entity: String,
-    type: String,
-    optionSet: String,
-    placeholder: String,
-    filterName: String,
-    label: String,
-    searchFunction: Function,
-    filterData: Object,
-  });
+const props = defineProps({
+  entity: String,
+  type: String,
+  optionSet: String,
+  placeholder: String,
+  filterName: String,
+  label: String,
+  searchFunction: Function,
+  filterData: Object,
+  appliedFilters: Object,
+});
 
 const SLAoptions = [
   { id: "breached", value_en: t("sla.breached"), value_he: t("sla.breached") },
@@ -118,8 +117,6 @@ const SLAoptions = [
 ];
 
 const { optionLabelWithLang } = useLanguages();
-
-const utilsStore = useUtilsStore();
 
 const optionSetsStore = useOptionSetsStore();
 const options = ref();
@@ -138,7 +135,7 @@ const toDate = ref(null);
 
 const onDropdownChanged = (value) => {
   emits("update:filter", {
-    name: filterName,
+    name: props.filterName,
     value: value.map((x) => x.id),
   });
 };
@@ -149,7 +146,7 @@ const onButtonChanged = (value, option) => {
     selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
 
   emits("update:filter", {
-    name: filterName,
+    name: props.filterName,
     value: selectedButtons.value,
   });
 };
@@ -159,11 +156,11 @@ const onDateChanged = (value, type) => {
   let date;
 
   if (type == "from") {
-    dateFilterName = filterData.from;
+    dateFilterName = props.filterData.from;
     fromDate.value = value;
     date = fromDate.value;
   } else {
-    dateFilterName = filterData.to;
+    dateFilterName = props.filterData.to;
     toDate.value = value;
     date = toDate.value;
   }
@@ -175,28 +172,103 @@ const onDateChanged = (value, type) => {
 };
 
 const clear = () => {
-  if (type == "date") {
+  if (props.type == "date") {
     fromDate.value = null;
     toDate.value = null;
   }
-  if (type == "dropdown") {
+
+  if (props.type == "dropdown") {
     selectedOptions.value = [];
   }
-  if (type == "buttons") {
+
+  if (props.type == "buttons") {
     selectedButtons.value = [];
     isButtonSelected.value = [];
     forceRerender();
   }
 
   emits("update:filter", {
-    name: filterName,
+    name: props.filterName,
     value: null,
   });
 };
 
+const handleSelectedSLAs = () => {
+  if (props.appliedFilters && props.type == "sla_status") {
+    if (props.appliedFilters[props.filterName]) {
+      const selected = props.appliedFilters[props.filterName];
+      selected.forEach((element) => {
+        const index = SLAoptions.findIndex((x) => x.id == element);
+        isButtonSelected.value[index] = true;
+      });
+    }
+  }
+};
+
+const handleSelectedDates = () => {
+  if (props.appliedFilters && props.type == "date") {
+    if (props.appliedFilters[props.filterData.from]) {
+      fromDate.value = props.appliedFilters[props.filterData.from];
+    }
+
+    if (props.appliedFilters[props.filterData.to]) {
+      toDate.value = props.appliedFilters[props.filterData.to];
+    }
+  }
+};
+
+const handleSelectedButtons = () => {
+  if (props.appliedFilters && props.type == "buttons") {
+    if (props.appliedFilters[props.filterName]) {
+      selectedButtons.value = props.appliedFilters[props.filterName];
+      selectedButtons.value.forEach((element) => {
+        const index = options.value.findIndex((x) => x.id == element);
+        isButtonSelected.value[index] = true;
+      });
+    }
+  }
+};
+
+const handleSelectedEntity = () => {
+  if (props.appliedFilters && props.type == "entity") {
+    if (props.appliedFilters[props.filterName]) {
+      selectedOptions.value = props.appliedFilters[props.filterName];
+    }
+  }
+};
+
+const handleSelectedDropdown = () => {
+  if (props.appliedFilters && props.type == "dropdown") {
+    if (props.appliedFilters[props.filterName]) {
+      selectedOptions.value = props.appliedFilters[props.filterName];
+    }
+  }
+};
+
+function handleSelectedFilters() {
+  handleSelectedSLAs();
+  handleSelectedDates();
+  handleSelectedButtons();
+  handleSelectedEntity();
+  handleSelectedDropdown();
+}
+
 defineExpose({ clear });
 
 onMounted(async () => {
-  options.value = await optionSetsStore.getOptionSetValues(optionSet);
+  if (props.optionSet) {
+    options.value = await optionSetsStore.getOptionSetValues(props.optionSet);
+  }
+
+  handleSelectedFilters();
 });
+
+watch(
+  () => props.appliedFilters,
+  (newValue, oldValue) => {
+    console.log("newValue", newValue);
+    console.log("oldValue", oldValue);
+  },
+  { deep: true }
+);
 </script>

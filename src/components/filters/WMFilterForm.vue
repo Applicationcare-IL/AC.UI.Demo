@@ -1,14 +1,14 @@
 <template>
   <div class="filter-header flex flex-row justify-content-between p-4">
-    <Button @click="applyFilter">{{ $t("buttons.apply-filters") }}</Button>
+    <Button @click="closeSidebar()">{{ $t("buttons.close-filters") }}</Button>
     <div class="flex flex-column align-items-center">
       <div class="h3">
         {{ translatedTitle }}
       </div>
-      <span v-if="appliedFilters == 0">
+      <span v-if="numberOfAppliedFilters == 0">
         {{ $t("filters.no-filters-applied") }}
       </span>
-      <span v-else>הופעלו {{ appliedFilters }} סננים </span>
+      <span v-else>הופעלו {{ numberOfAppliedFilters }} סננים </span>
     </div>
 
     <Button link @click="clear">{{ $t("buttons.clear-all") }}</Button>
@@ -28,6 +28,7 @@
         :option-set="filter.optionSet"
         :search-function="filter.searchFunction"
         :filter-data="filter"
+        :applied-filters="appliedFilters"
         @update:filter="addFilter"
       />
     </div>
@@ -66,19 +67,30 @@ const translatedTitle = computed(() => {
 });
 
 const appliedFilters = computed(() => {
+  return utilsStore.filters[entity];
+});
+
+const numberOfAppliedFilters = computed(() => {
   if (!utilsStore.filters[entity]) return 0;
   return Object.keys(utilsStore.filters[entity]).length;
 });
 
 // COMPONENT METHODS
-const addFilter = (filter) => {
-  if (filter.value == null) delete filters.value[filter.name];
-  else filters.value[filter.name] = filter.value;
+const applyFilters = () => {
+  utilsStore.filters[entity] = { ...filters.value };
 };
 
-const applyFilter = () => {
-  utilsStore.filters[entity] = { ...filters.value };
-  closeSidebar();
+const addFilter = (filter) => {
+  if (typeof filters.value === "undefined") {
+    filters.value = {};
+  }
+
+  if (filter.value == null) {
+    delete filters.value[filter.name];
+  }
+
+  filters.value[filter.name] = filter.value;
+  applyFilters();
 };
 
 const clear = () => {
@@ -88,6 +100,8 @@ const clear = () => {
   filters.value = {};
   delete utilsStore.filters[entity];
 };
+
+filters.value = utilsStore.filters[entity];
 
 // EXPOSE
 // WATCHERS

@@ -79,7 +79,8 @@
     "apply-filters": "Apply filters",
     "create-new-one": "Create new one",
     "open": "Open",
-    "complete": "Complete"
+    "complete": "Complete",
+    "close-filters": "Close filters"
   },
   "navigation": {
     "dashboard": "Dashboard",
