@@ -73,6 +73,10 @@
       />
 
       <Button label="Save notes" class="mt-6" @click="onSave" />
+
+      <Divider />
+
+      <WMAttachmentsTable :entity-id="route.params.id" entity-type="task" />
     </div>
     <div class="mobile-task-detail-footer flex flex-column gap-2 mx-3">
       <Button
