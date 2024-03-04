@@ -82,7 +82,7 @@
 
 <script setup>
 import { useDateFormat } from "@vueuse/core";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -262,13 +262,4 @@ onMounted(async () => {
 
   handleSelectedFilters();
 });
-
-watch(
-  () => props.appliedFilters,
-  (newValue, oldValue) => {
-    console.log("newValue", newValue);
-    console.log("oldValue", oldValue);
-  },
-  { deep: true }
-);
 </script>
