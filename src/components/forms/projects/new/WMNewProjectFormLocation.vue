@@ -105,7 +105,7 @@ const optionSetsStore = useOptionSetsStore();
 const showAddressOptionsRef = ref(false);
 const showCityDataOptionsRef = ref(false);
 
-const { checked, handleChange } = useField("showAddressOptions", undefined, {
+const { handleChange } = useField("showAddressOptions", undefined, {
   type: "checkbox",
   valueProp: showAddressOptionsRef.value,
   initialValue: false,
@@ -125,7 +125,9 @@ const cities = ref();
 const streets = ref();
 const neighborhoods = ref();
 
-const location = ref({});
+const location = ref({
+  house_number: 1, // default is always 1 https://app.clickup.com/t/86bxqdq6b
+});
 
 provide("location", { location });
 
