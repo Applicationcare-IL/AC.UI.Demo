@@ -188,14 +188,14 @@ const selectedEntrance = computed(() => {
 });
 
 onMounted(async () => {
+  cities.value = await optionSetsStore.getOptionSetValues("service_city");
+  streets.value = await optionSetsStore.getOptionSetValues("service_street");
+  neighborhoods.value = await optionSetsStore.getOptionSetValues(
+    "service_neighborhood"
+  );
   if (props.location?.street && props.location?.city) {
     isCitySelected.value = true;
 
-    cities.value = await optionSetsStore.getOptionSetValues("service_city");
-    streets.value = await optionSetsStore.getOptionSetValues("service_street");
-    neighborhoods.value = await optionSetsStore.getOptionSetValues(
-      "service_neighborhood"
-    );
     zips.value = await optionSetsStore.getOptionSetValues("zip");
 
     // selectedCity.value = cities.value.find(

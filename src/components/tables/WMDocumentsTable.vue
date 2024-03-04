@@ -480,13 +480,10 @@ const optionSets = ref([]);
 const loadOptionSets = async () => {
   //for each option set in columns, get the option set values
   props.columns.forEach(async (column) => {
-    console.log(column.optionSet);
     if (column.optionSet) {
       optionSets.value[column.optionSet] =
         await optionSetsStore.getOptionSetValues(column.optionSet);
     }
   });
-
-  console.log(optionSets.value);
 };
 </script>
