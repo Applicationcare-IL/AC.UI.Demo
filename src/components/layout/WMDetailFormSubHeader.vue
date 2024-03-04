@@ -8,7 +8,7 @@
           </h1>
 
           <div
-            v-if="entityType === 'project'"
+            v-if="entityType === 'project' || entityType === 'service'"
             :class="statusClass(entityObject.state.value)"
             class="status-label white-space-nowrap"
           >
