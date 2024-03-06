@@ -349,6 +349,9 @@
     "payment-date": "Payment Date",
     "date-reported-date": "Date Reported"
   },
+  "milestones": {
+    "milestones": "Milestones"
+  },
   "organization": {
     "organization": "Organization",
     "organization_name": "Organization name",

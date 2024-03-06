@@ -257,5 +257,15 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
+    getProjectMilestones(projectId, params) {
+      return axiosConfig
+        .get("/projects/" + projectId + "/milestones", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

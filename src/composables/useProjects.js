@@ -1,5 +1,3 @@
-import { formatDate } from "@vueuse/core";
-
 import { useProjectsStore } from "@/stores/projectsStore";
 
 export function useProjects() {
@@ -137,6 +135,11 @@ export function useProjects() {
 
   const updateProjectPayment = async (projectId, paymentId, data) => {
     return await projectsStore.updateProjectPayment(projectId, paymentId, data);
+  };
+
+  // MILESTONES
+  const getProjectMilestones = async (projectId) => {
+    return await projectsStore.getProjectMilestones(projectId);
   };
 
   // UTILITIES
@@ -444,6 +447,7 @@ export function useProjects() {
     createBudgetItem,
     updateBudget,
     calculateBudget,
+    getProjectMilestones,
 
     // UTILITIES
     parseProject,
