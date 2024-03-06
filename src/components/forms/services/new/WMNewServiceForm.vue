@@ -82,7 +82,7 @@
           name="direction"
           type="input-select"
           :highlighted="true"
-          :label="$t('direction') + ':'"
+          :label="$t('service.direction') + ':'"
           width="80"
           :options="directions"
           option-set
