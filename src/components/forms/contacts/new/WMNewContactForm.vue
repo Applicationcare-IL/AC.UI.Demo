@@ -10,7 +10,7 @@
           name="owner"
           type="info"
           :highlighted="true"
-          :label="$t('owner.owner') + ':'"
+          :label="$t('owner') + ':'"
           :value="authStore.userFullName"
         ></WMInput>
       </div>

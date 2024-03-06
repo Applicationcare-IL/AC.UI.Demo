@@ -164,7 +164,7 @@
         </template>
       </Column>
       <Column field="number" :header="$t('customer.number')"></Column>
-      <Column field="owner.name" :header="$t('owner.owner')" frozen></Column>
+      <Column field="owner.name" :header="$t('owner')" frozen></Column>
     </DataTable>
   </div>
 </template>
@@ -178,7 +178,8 @@ useHead({
   title: "Customers",
 });
 
-const { setSelectedContacts, resetSelectedContacts } = useContacts();
+const { setSelectedContacts, resetSelectedContacts, getContactsFromApi } =
+  useContacts();
 const { optionLabelWithLang } = useLanguages();
 const { formatAddress } = useUtils();
 
@@ -280,6 +281,14 @@ const onSelectionChanged = () => {
  * @param {*} selectedCustomers
  */
 const setSelectedContacsFromCustomers = (selectedCustomers) => {
+  // let params = {
+  //   per_page: 99999,
+  //   customer_id: selectedCustomers,
+  // };
+  // }
+
+  // const selectedContacts = getContactsFromApi(selectedCustomers);
+
   let selectedContacts = selectedCustomers.map((customer) => {
     return customer.main_contact;
   });

@@ -37,7 +37,7 @@
         name="owner"
         type="info"
         :highlighted="true"
-        :label="$t('owner.owner') + ':'"
+        :label="$t('owner') + ':'"
         :value="service.owner.name"
         width="200"
       />

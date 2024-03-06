@@ -18,7 +18,7 @@
               name="service-owner"
               type="info"
               :highlighted="true"
-              :label="$t('owner.owner')"
+              :label="$t('owner')"
               :value="service.owner.name"
             />
             <WMInput

@@ -32,7 +32,7 @@
         name="owner"
         type="info"
         :highlighted="true"
-        :label="$t('owner.owner')"
+        :label="$t('owner')"
         :value="task.owner"
         class="mb-3"
       />

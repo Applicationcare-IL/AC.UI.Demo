@@ -137,7 +137,7 @@
         </template>
       </Column>
       <Column field="contact_id" :header="$t('contact.system-id')"></Column>
-      <Column field="owner.name" :header="$t('owner.owner')"></Column>
+      <Column field="owner.name" :header="$t('owner')"></Column>
       <Column field="status" :header="$t('status')" class="numeric">
         <template #body="slotProps">
           <div :class="highlightStatusClass(slotProps.data.status)">
