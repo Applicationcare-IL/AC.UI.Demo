@@ -386,10 +386,17 @@ utilsStore.resetElements();
 onMounted(async () => {
   await fetchData();
 
-  setSelectedContacts(customer.value.main_contact);
+  let params = {
+    per_page: 99999,
+    customer_id: route.params.id,
+  };
+
+  const selectedContacts = await getContactsFromApi(params);
+
+  setSelectedContacts(selectedContacts.data);
 });
 
-const { setSelectedContacts } = useContacts();
+const { setSelectedContacts, getContactsFromApi } = useContacts();
 
 const { getCustomerFromApi, updateCustomer, parseCustomer, existsCustomer } =
   useCustomers();

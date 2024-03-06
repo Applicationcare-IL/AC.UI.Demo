@@ -280,21 +280,25 @@ const onSelectionChanged = () => {
  * It's used for SMS and Email communications
  * @param {*} selectedCustomers
  */
-const setSelectedContacsFromCustomers = (selectedCustomers) => {
-  // let params = {
-  //   per_page: 99999,
-  //   customer_id: selectedCustomers,
-  // };
-  // }
+const setSelectedContacsFromCustomers = async (selectedCustomers) => {
+  const selectedCustomersIds = selectedCustomers
+    .map((customer) => customer.id)
+    .join(",");
 
-  // const selectedContacts = getContactsFromApi(selectedCustomers);
+  if (!selectedCustomersIds) {
+    setSelectedContacts([]);
+    return;
+  }
 
-  let selectedContacts = selectedCustomers.map((customer) => {
-    return customer.main_contact;
-  });
+  let params = {
+    per_page: 99999,
+    customer_id: selectedCustomersIds,
+  };
+
+  const selectedContacts = await getContactsFromApi(params);
 
   // filter duplicated selected contacts based on ids and check if they are not null
-  const uniqueSelectedContacts = selectedContacts.filter(
+  const uniqueSelectedContacts = selectedContacts.data.filter(
     (contact, index, self) =>
       contact && index === self.findIndex((t) => t.id === contact.id)
   );
