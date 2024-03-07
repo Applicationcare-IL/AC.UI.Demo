@@ -352,7 +352,13 @@
     "date-reported-date": "Date Reported"
   },
   "milestones": {
-    "milestones": "Milestones"
+    "milestones": "Milestones",
+    "milestone-id": "Milestone ID",
+    "milestone-name": "Milestone Name",
+    "planned-date": "Milestone Date",
+    "base-date": "Base Date",
+    "actual-date": "Actual Date",
+    "description": "Description"
   },
   "organization": {
     "organization": "Organization",

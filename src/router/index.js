@@ -160,6 +160,12 @@ const router = createRouter({
             import("@/views/user/forms/detail/ProjectBudget.vue"),
         },
         {
+          path: "/project/:id/milestone/:milestoneId",
+          name: "projectMilestoneDetail",
+          component: () =>
+            import("@/views/user/forms/detail/ProjectMilestone.vue"),
+        },
+        {
           path: "/project/:id/budget-item/:budgetId",
           name: "projectBudgetItemDetail",
           component: () =>

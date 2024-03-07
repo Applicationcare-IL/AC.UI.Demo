@@ -556,6 +556,53 @@ export function useListUtils() {
     ];
   };
 
+  const getMilestonesTableColumns = () => {
+    return [
+      {
+        name: "milestone-id",
+        type: "milestone-link",
+        field: "id",
+        editable: false,
+      },
+      {
+        name: "milestone-name",
+        type: "text",
+        field: "name",
+        editable: false,
+      },
+      {
+        name: "planned-date",
+        type: "text",
+        field: "planned_date",
+        editable: false,
+      },
+      {
+        name: "base-date",
+        type: "text",
+        field: "base_date",
+        editable: false,
+      },
+      {
+        name: "actual-date",
+        type: "text",
+        field: "actual_date",
+        editable: false,
+      },
+      {
+        name: "status",
+        type: "status",
+        field: "milestone_status",
+        editable: false,
+      },
+      {
+        name: "description",
+        type: "text",
+        field: "description",
+        editable: false,
+      },
+    ];
+  };
+
   const getBudgetItemsTableColumns = () => {
     return [
       {
@@ -729,6 +776,7 @@ export function useListUtils() {
     getProjectTeamColumns,
     getCompetitionProcessColumns,
     getContactIncomingCallsColumns,
+    getMilestonesTableColumns,
     // METHODS
     getAlertCellConditionalStyle,
     getStatusConditionalStyle,

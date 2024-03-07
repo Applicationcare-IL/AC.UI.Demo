@@ -95,11 +95,11 @@
         </AccordionTab>
       </Accordion>
 
-      <!-- <Accordion>
+      <Accordion v-if="project.id === 271">
         <AccordionTab :header="$t('milestones.milestones')">
           <WMMilestonesTable :project-id="project.project_id" />
         </AccordionTab>
-      </Accordion> -->
+      </Accordion>
 
       <Divider />
 
