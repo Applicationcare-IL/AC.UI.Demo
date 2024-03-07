@@ -572,19 +572,19 @@ export function useListUtils() {
       },
       {
         name: "planned-date",
-        type: "text",
+        type: "date",
         field: "planned_date",
         editable: false,
       },
       {
         name: "base-date",
-        type: "text",
+        type: "date",
         field: "base_date",
         editable: false,
       },
       {
         name: "actual-date",
-        type: "text",
+        type: "date",
         field: "actual_date",
         editable: false,
       },

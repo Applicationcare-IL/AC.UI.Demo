@@ -138,6 +138,10 @@ export function useProjects() {
   };
 
   // MILESTONES
+  const createMilestone = async (projectId, data) => {
+    return await projectsStore.createMilestone(projectId, data);
+  };
+
   const getProjectMilestones = async (projectId) => {
     return await projectsStore.getProjectMilestones(projectId);
   };
@@ -303,6 +307,19 @@ export function useProjects() {
     };
   };
 
+  const parseMilestone = (milestone) => {
+    console.log("parseMilestone", milestone);
+    return {
+      name: milestone["milestone-name"],
+      project_id: milestone.project_id,
+      milestone_type: milestone.type.id,
+      description: milestone.description,
+      planned_date: parseDate(milestone.plannedDate),
+      actual_date: parseDate(milestone.actualDate),
+      base_date: parseDate(milestone.baseDate),
+    };
+  };
+
   const mapProject = (project) => {
     return {
       id: project.id,
@@ -448,6 +465,7 @@ export function useProjects() {
     updateBudget,
     calculateBudget,
     getProjectMilestones,
+    createMilestone,
 
     // UTILITIES
     parseProject,
@@ -457,6 +475,7 @@ export function useProjects() {
     parseProjectCustomer,
     parseUpdateProjectConfig,
     parseProjectPayment,
+    parseMilestone,
     mapProject,
     mapContactsFromProjects,
     mapProjectCustomer,

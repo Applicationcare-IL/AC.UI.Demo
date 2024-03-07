@@ -257,6 +257,17 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
+    createMilestone(projectId, data) {
+      return axiosConfig
+        .post("/projects/" + projectId + "/milestones", data)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
     getProjectMilestones(projectId, params) {
       return axiosConfig
         .get("/projects/" + projectId + "/milestones", { params })

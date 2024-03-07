@@ -5,7 +5,13 @@
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
   >
-    <template #default> NEW MILESTONE FORM </template>
+    <template #default>
+      <WMNewProjectMilestoneForm
+        :related-project="project"
+        :is-sidebar="true"
+        @new-project-milestone-created="fetchData"
+      />
+    </template>
   </WMSidebar>
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
@@ -55,6 +61,18 @@
       </Column>
 
       <Column
+        v-if="column.type == 'date'"
+        :key="column.name"
+        :field="column.name"
+        :header="getColumHeader(column)"
+        :class="column.class"
+      >
+        <template #body="slotProps">
+          {{ formatDate(new Date(slotProps.data[column.field]), "DD/MM/YY") }}
+        </template>
+      </Column>
+
+      <Column
         v-if="column.type == 'milestone-link'"
         :key="column.name"
         :field="column.name"
@@ -75,17 +93,18 @@
       </Column>
     </template>
   </DataTable>
-  <pre>{{ milestones }}</pre>
+  <!-- <pre>{{ milestones }}</pre> -->
 </template>
 
 <script setup>
+import { formatDate } from "@vueuse/core";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
 const props = defineProps({
-  projectId: {
+  project: {
     type: Number,
     required: true,
   },
@@ -96,7 +115,6 @@ const { getMilestonesTableColumns } = useListUtils();
 const selectedMilestones = ref([]);
 const totalRecords = ref(0);
 const milestones = ref([]);
-const editingRows = ref([]);
 const columns = ref(getMilestonesTableColumns());
 const isVisible = ref(false);
 
@@ -114,9 +132,13 @@ function openSidebar() {
   isVisible.value = true;
 }
 
-getProjectMilestones(props.projectId).then((response) => {
-  milestones.value = response.data;
-});
+const fetchData = () => {
+  getProjectMilestones(props.project.id).then((response) => {
+    milestones.value = response.data;
+  });
+};
+
+fetchData();
 
 const getColumHeader = (column) => {
   return column.header ? t(column.header) : t(`milestones.${column.name}`);
