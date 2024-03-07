@@ -1,6 +1,6 @@
 <template>
   <div class="filter-header flex flex-row justify-content-between p-4">
-    <Button @click="closeSidebar()">{{ $t("buttons.close-filters") }}</Button>
+    <Button @click="applyFilters()">{{ $t("buttons.apply-filters") }}</Button>
     <div class="flex flex-column align-items-center">
       <div class="h3">
         {{ translatedTitle }}
@@ -18,7 +18,7 @@
     <div>
       <WMFilterElement
         v-for="(filter, index) in filterElements"
-        :key="index"
+        :key="index + forceRerender"
         ref="filterElementRefs"
         :placeholder="filter.placeholder"
         :label="filter.label"
@@ -60,6 +60,7 @@ const { entity, filterFormName } = defineProps({
 const filters = ref({});
 const filterElementRefs = ref([]);
 const filterElements = ref(filterList[filterFormName]);
+const forceRerender = ref(0);
 
 // COMPUTED
 const translatedTitle = computed(() => {
@@ -78,6 +79,7 @@ const numberOfAppliedFilters = computed(() => {
 // COMPONENT METHODS
 const applyFilters = () => {
   utilsStore.filters[entity] = { ...filters.value };
+  closeSidebar();
 };
 
 const addFilter = (filter) => {
@@ -90,15 +92,22 @@ const addFilter = (filter) => {
   }
 
   filters.value[filter.name] = filter.value;
-  applyFilters();
+};
+
+const forceRerenderFilterElements = () => {
+  forceRerender.value++;
 };
 
 const clear = () => {
   filterElementRefs.value.forEach((filterElement) => {
     filterElement.clear();
   });
+
   filters.value = {};
+
   delete utilsStore.filters[entity];
+
+  forceRerenderFilterElements();
 };
 
 filters.value = utilsStore.filters[entity];

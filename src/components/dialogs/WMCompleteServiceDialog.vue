@@ -17,7 +17,7 @@
             :highlighted="true"
             :label="$t('Complete1') + ':'"
             :options="completeReason1"
-            @update:selectedItem="onCompleteReason1Change"
+            @update:selected-item="onCompleteReason1Change"
           />
           <WMInput
             name="completeReason2"
@@ -25,7 +25,7 @@
             :highlighted="true"
             :label="$t('Complete2') + ':'"
             :options="completeReason2"
-            @update:selectedItem="onCompleteReason2Change"
+            @update:selected-item="onCompleteReason2Change"
           />
         </div>
       </div>
@@ -34,10 +34,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { useOptionSetsStore } from "@/stores/optionSets";
+import { onMounted, ref } from "vue";
+
 import { useLayout } from "@/layout/composables/layout";
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 const { layoutConfig } = useLayout();
 
