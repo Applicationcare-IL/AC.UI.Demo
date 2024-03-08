@@ -90,7 +90,7 @@
             }"
             class="vertical-align-middle"
           >
-            {{ slotProps.data.customer.surname }}
+            {{ slotProps.data.customer_full_name }}
           </router-link>
         </template>
       </Column>

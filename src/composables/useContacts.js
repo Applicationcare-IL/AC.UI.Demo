@@ -1,6 +1,7 @@
 import { storeToRefs } from "pinia";
 
 import { useContactsStore } from "@/stores/contactsStore";
+import { get } from "@vueuse/core";
 
 export function useContacts() {
   const contactsStore = useContactsStore();
@@ -67,6 +68,9 @@ export function useContacts() {
       gender: contact.gender, //is_male ? 'male' : 'female',
       is_main: contact.main_contact_for != null,
       customer: contact.main_contact_for,
+      customer_full_name: contact.main_contact_for
+        ? getFullName(contact.main_contact_for)
+        : null,
       role: contact.role,
       role_project: contact.role_project,
       notes: contact.notes,
@@ -89,6 +93,13 @@ export function useContacts() {
       },
       last_activity: contact.last_activity,
     };
+  };
+
+  const getFullName = (customer) => {
+    if (customer.name == null && customer.surname == null) return "";
+    if (customer.name == null) return customer.surname;
+    if (customer.surname == null) return customer.name;
+    return `${customer.name} ${customer.surname}`;
   };
 
   // used to send data to the API
