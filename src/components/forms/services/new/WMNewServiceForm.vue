@@ -260,6 +260,8 @@ const urgencies = ref();
 const selectedContact = ref();
 const selectedCustomer = ref();
 
+const ACTIVE_STATE_ID = ref();
+
 const quickCodes = ref([]);
 const areas = ref([]);
 const types = ref([]);
@@ -311,13 +313,11 @@ const searchCustomer = (query) => {
   });
 };
 
-const ACTIVE_STATE_ID = 291;
-
 const searchContact = (query) => {
   return getContactsFromApi({
     search: query,
     customer_id: values.customer?.id,
-    state: ACTIVE_STATE_ID,
+    state: ACTIVE_STATE_ID.value,
   });
 };
 
@@ -531,6 +531,10 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
+  optionSetsStore.getOptionSetValuesFromApi("state").then((data) => {
+    ACTIVE_STATE_ID.value = data.find((state) => state.value === "active").id;
+  });
+
   const serviceDirectionOptionSets = optionSetsStore
     .getOptionSetValuesFromApi("service_direction")
     .then((data) => {
