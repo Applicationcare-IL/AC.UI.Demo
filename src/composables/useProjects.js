@@ -146,6 +146,10 @@ export function useProjects() {
     return await projectsStore.getProjectMilestones(projectId);
   };
 
+  const getProjectMilestone = async (projectId, milestoneId) => {
+    return await projectsStore.getProjectMilestone(projectId, milestoneId);
+  };
+
   // UTILITIES
   const parseProject = (project) => {
     return {
@@ -308,7 +312,6 @@ export function useProjects() {
   };
 
   const parseMilestone = (milestone) => {
-    console.log("parseMilestone", milestone);
     return {
       name: milestone["milestone-name"],
       project_id: milestone.project_id,
@@ -464,6 +467,7 @@ export function useProjects() {
     createBudgetItem,
     updateBudget,
     calculateBudget,
+    getProjectMilestone,
     getProjectMilestones,
     createMilestone,
 

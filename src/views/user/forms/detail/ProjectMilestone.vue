@@ -1,29 +1,33 @@
 <template>
-  milestone detail
-  <!-- <WMDetailFormSubHeader
+  <WMDetailFormSubHeader
     :form-key="formKey"
+    :show-message-button="false"
+    :show-email-button="false"
     @save-form="saveForm()"
     @refresh-table="refreshTable"
   />
-  <WMDetailProjectForm ref="detailProjectForm" :form-key="formKey" /> -->
+  <WMDetailProjectMilestoneForm
+    ref="projectMilestoneForm"
+    :form-key="formKey"
+  />
 </template>
 
 <script setup>
-// import { ref } from "vue";
+import { ref } from "vue";
 
-// useHead({
-//   title: "Project Detail",
-// });
+useHead({
+  title: "Project milestone Detail",
+});
 
-// const formKey = ref("projectDetailForm");
+const formKey = ref("budgetItemDetailForm");
 
-// const detailProjectForm = ref(null);
+const projectMilestoneForm = ref(null);
 
-// const saveForm = () => {
-//   detailProjectForm.value.onSave();
-// };
+const saveForm = () => {
+  projectMilestoneForm.value.onSave();
+};
 
-// const refreshTable = () => {
-//   detailProjectForm.value.fetchData();
-// };
+const refreshTable = () => {
+  projectMilestoneForm.value.fetchData();
+};
 </script>

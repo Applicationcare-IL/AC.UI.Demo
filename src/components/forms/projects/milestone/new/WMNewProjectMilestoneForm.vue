@@ -2,7 +2,7 @@
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
       <h1 v-if="isSidebar" class="h1 mb-0">
-        {{ $t("new", ["milestones.milestone"]) }}
+        {{ $t("new", ["milestone.milestone"]) }}
         <Divider />
       </h1>
       <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
@@ -18,7 +18,7 @@
           <WMInput
             id="milestone-name"
             type="input-text"
-            :label="$t('milestones.milestone-name') + ':'"
+            :label="$t('milestone.milestone-name') + ':'"
             name="milestone-name"
             required
           />
@@ -28,7 +28,7 @@
             name="type"
             type="input-select-button"
             :highlighted="true"
-            :label="$t('milestones.milestone-type') + ':'"
+            :label="$t('milestone.milestone-type') + ':'"
             :options="milestoneTypes"
             :selected-option="milestoneTypes[1]"
             width="80"
@@ -38,19 +38,19 @@
           <WMInput
             name="plannedDate"
             type="date"
-            :label="$t('milestones.planned-date') + ':'"
+            :label="$t('milestone.planned-date') + ':'"
           />
 
           <WMInput
             name="baseDate"
             type="date"
-            :label="$t('milestones.base-date') + ':'"
+            :label="$t('milestone.base-date') + ':'"
           />
 
           <WMInput
             name="actualDate"
             type="date"
-            :label="$t('milestones.actual-date') + ':'"
+            :label="$t('milestone.actual-date') + ':'"
           />
 
           <WMInput

@@ -134,13 +134,13 @@ function openSidebar() {
 
 const fetchData = () => {
   getProjectMilestones(props.project.id).then((response) => {
-    milestones.value = response.data;
+    milestone.value = response.data;
   });
 };
 
 fetchData();
 
 const getColumHeader = (column) => {
-  return column.header ? t(column.header) : t(`milestones.${column.name}`);
+  return column.header ? t(column.header) : t(`milestone.${column.name}`);
 };
 </script>

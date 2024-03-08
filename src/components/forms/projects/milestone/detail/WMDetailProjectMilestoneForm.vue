@@ -1,6 +1,7 @@
 <template>
+  <pre>{{ milestone }}</pre>
   <div
-    v-if="budgetItem"
+    v-if="milestone"
     class="wm-detail-form-container flex flex-column overflow-auto gap-5"
   >
     <div class="flex flex-row gap-5 flex-wrap">
@@ -10,7 +11,7 @@
           <template #content>
             <div class="flex flex-auto flex-column gap-5">
               <div class="wm-form-row align-items-start flex-column gap-5">
-                <WMInput
+                <!-- <WMInput
                   name="budget"
                   type="info-link"
                   :highlighted="true"
@@ -20,12 +21,12 @@
                 />
 
                 <WMInput
-                  id="budget-item-name"
+                  id="milestone-name"
                   type="input-text"
-                  :label="$t('budget.budget-item-name') + ':'"
-                  name="budget-item-name"
+                  :label="$t('budget.milestone-name') + ':'"
+                  name="milestone-name"
                   :value="budgetItem.name"
-                />
+                /> -->
               </div>
             </div>
           </template>
@@ -41,94 +42,8 @@
                   id="description"
                   type="text-area"
                   name="description"
-                  :value="budgetItem.description"
+                  :value="milestone.description"
                   width="full"
-                />
-              </div>
-            </div>
-          </template>
-        </Card>
-      </div>
-    </div>
-    <div class="flex flex-row gap-5 flex-wrap mb-6">
-      <div class="flex-1 w-full">
-        <Card>
-          <template #title>
-            {{ $t("budget.budget-items-components") }}
-          </template>
-          <template #content>
-            <div class="flex flex-column gap-5">
-              <div class="flex flex-row justify-content-between gap-3">
-                <WMHighlightedBlock
-                  v-model="budgetItem.estimate"
-                  background-color="purple-100"
-                  :label="$t('budget.estimate') + ':'"
-                />
-
-                <Divider layout="vertical" />
-                <WMHighlightedBlock
-                  v-model="budgetItem.planned_contract"
-                  background-color="blue-100"
-                  :label="$t('budget.planned-contract') + ':'"
-                />
-                <PlusIcon />
-                <WMHighlightedBlock
-                  v-model="budgetItem.unexpected"
-                  name="unexpected"
-                  background-color="blue-100"
-                  :label="$t('budget.unexpected') + ':'"
-                  editable
-                />
-                <PlusIcon />
-                <WMHighlightedBlock
-                  v-model="budgetItem.management_fee"
-                  background-color="blue-100"
-                  :label="$t('budget.management-fee') + ':'"
-                  editable
-                  name="management_fee"
-                />
-                <EqualIcon />
-                <WMHighlightedBlock
-                  v-model="budgetItem.total_approved"
-                  background-color="blue-200"
-                  :label="$t('budget.total') + ':'"
-                />
-              </div>
-
-              <Divider />
-
-              <div class="flex flex-row justify-content-start gap-2">
-                <WMHighlightedBlock
-                  v-model="budgetItem.approved_council"
-                  background-color="green-100"
-                  :label="$t('budget.approved-council') + ':'"
-                  editable
-                  name="approved_council"
-                />
-
-                <ArrowIcon
-                  :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
-                />
-
-                <WMHighlightedBlock
-                  v-model="budgetItem.approved_ministry"
-                  background-color="green-100"
-                  :label="$t('budget.approved-ministry') + ':'"
-                  editable
-                  name="approved_ministry"
-                />
-
-                <Divider layout="vertical" />
-
-                <WMHighlightedBlock
-                  v-model="budgetItem.executed_payments"
-                  background-color="white"
-                  :label="$t('budget.executed-payments') + ':'"
-                />
-
-                <WMHighlightedBalanceBlock
-                  :quantity="budgetItem.balance"
-                  :label="$t('budget.balance') + ':'"
                 />
               </div>
             </div>
@@ -146,17 +61,16 @@ import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
-import { useLayout } from "@/layout/composables/layout";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
-
-const { layoutConfig } = useLayout();
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
-const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } =
+
+const { getProjectMilestone, updateBudgetItem, parseUpdateBudgetItem } =
   useProjects();
+
 const route = useRoute();
 const toast = useToast();
 const { t } = useI18n();
@@ -172,7 +86,7 @@ const props = defineProps({
 });
 
 // REFS
-const budgetItem = ref(null);
+const milestone = ref(null);
 
 // COMPUTED
 
@@ -180,10 +94,12 @@ const budgetItem = ref(null);
 const { handleSubmit, meta, resetForm } = useForm();
 
 const fetchData = () => {
-  getBudgetItem(route.params.id, route.params.budgetId).then((response) => {
-    budgetItem.value = response;
-    utilsStore.selectedElements["budget-item"] = [budgetItem.value];
-  });
+  getProjectMilestone(route.params.id, route.params.milestoneId).then(
+    (response) => {
+      milestone.value = response;
+      utilsStore.selectedElements["milestone"] = [milestone.value];
+    }
+  );
 };
 
 fetchData();
@@ -195,7 +111,7 @@ const onSave = handleSubmit((values) => {
     parseUpdateBudgetItem(values)
   )
     .then(() => {
-      toast.success(t("toast.budget-item-updated"));
+      toast.success(t("toast.milestone-updated"));
       resetForm({ values: values });
       fetchData();
     })
@@ -207,8 +123,8 @@ const onSave = handleSubmit((values) => {
 
 formUtilsStore.$reset();
 formUtilsStore.save = onSave;
-formUtilsStore.formEntity = "budget-item";
-utilsStore.entity = "budget-item";
+formUtilsStore.formEntity = "milestone";
+utilsStore.entity = "milestone";
 
 // PROVIDE, EXPOSE
 defineExpose({
