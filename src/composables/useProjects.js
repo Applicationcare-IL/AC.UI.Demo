@@ -150,6 +150,14 @@ export function useProjects() {
     return await projectsStore.getProjectMilestone(projectId, milestoneId);
   };
 
+  const updateProjectMilestone = async (projectId, milestoneId, data) => {
+    return await projectsStore.updateProjectMilestone(
+      projectId,
+      milestoneId,
+      data
+    );
+  };
+
   // UTILITIES
   const parseProject = (project) => {
     return {
@@ -470,7 +478,7 @@ export function useProjects() {
     getProjectMilestone,
     getProjectMilestones,
     createMilestone,
-
+    updateProjectMilestone,
     // UTILITIES
     parseProject,
     parseBudget,
@@ -480,6 +488,7 @@ export function useProjects() {
     parseUpdateProjectConfig,
     parseProjectPayment,
     parseMilestone,
+    // maps
     mapProject,
     mapContactsFromProjects,
     mapProjectCustomer,

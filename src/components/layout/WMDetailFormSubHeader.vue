@@ -1,6 +1,4 @@
 <template>
-  utilsStore.selectedElements[utilsStore.entity]
-  {{ utilsStore.selectedElements[utilsStore.entity] }}
   <div v-if="entityObject" class="wm-subheader shadow-1 flex-none">
     <div class="flex flex-column">
       <div class="flex flex-row justify-content-between align-items-center">
@@ -73,7 +71,8 @@
             v-if="
               can(utilsStore.pluralEntity + '.assign') &&
               utilsStore.entity !== 'budget-item' &&
-              utilsStore.entity !== 'project-budget'
+              utilsStore.entity !== 'project-budget' &&
+              utilsStore.entity !== 'milestone'
             "
             :entity="utilsStore.entity"
             @owner-assigned="$emit('refreshTable')"

@@ -68,7 +68,7 @@ import { useUtilsStore } from "@/stores/utils";
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
 
-const { getProjectMilestone, updateBudgetItem, parseUpdateBudgetItem } =
+const { getProjectMilestone, updateProjectMilestone, parseMilestone } =
   useProjects();
 
 const route = useRoute();
@@ -105,10 +105,10 @@ const fetchData = () => {
 fetchData();
 
 const onSave = handleSubmit((values) => {
-  updateBudgetItem(
+  updateProjectMilestone(
     route.params.id,
     route.params.budgetId,
-    parseUpdateBudgetItem(values)
+    parseMilestone(values)
   )
     .then(() => {
       toast.success(t("toast.milestone-updated"));
