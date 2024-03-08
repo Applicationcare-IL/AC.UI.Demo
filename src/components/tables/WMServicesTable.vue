@@ -127,26 +127,21 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
 
-const { t, locale } = useI18n();
-const i18n = useI18n();
-
-const services = ref([]);
-const selectedServices = ref(null);
-const isFilterOpen = ref(false);
-const selectedOption = ref(1);
-const searchValue = ref("");
-const lazyParams = ref({});
-const totalRecords = ref(0);
-
+// DEPENDENCIES
+const { t } = useI18n();
 const { can } = usePermissions();
-
 const utilsStore = useUtilsStore();
+const { getServicesFromApi } = useServices();
 
+// INJECT
+
+// PROPS, EMITS
 const props = defineProps({
   // services: Array,
   rows: {
@@ -183,17 +178,23 @@ const props = defineProps({
   },
 });
 
-onMounted(() => {
-  loadLazyData();
-});
+// REFS
+const services = ref([]);
+const selectedServices = ref(null);
+const isFilterOpen = ref(false);
+const searchValue = ref("");
+const lazyParams = ref({});
+const totalRecords = ref(0);
+const isVisible = ref(false);
+const isFilterVisible = ref(false);
 
+// COMPUTED
 const isFilterApplied = computed(() => {
   if (!utilsStore.filters["service"]) return 0;
   return Object.keys(utilsStore.filters["service"]).length;
 });
 
-const { getServicesFromApi } = useServices();
-
+// COMPONENT METHODS
 const loadLazyData = async () => {
   const filters = utilsStore.filters["service"];
   const nextPage = lazyParams.value.page + 1;
@@ -252,9 +253,6 @@ const onSelectionChanged = () => {
   utilsStore.selectedElements["service"] = selectedServices.value;
 };
 
-// first sidebar
-const isVisible = ref(false);
-
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
 }
@@ -267,8 +265,6 @@ function openSidebar() {
   isVisible.value = true;
 }
 
-const isFilterVisible = ref(false);
-
 function closeFilterSidebar() {
   isFilterVisible.value = false;
 }
@@ -277,6 +273,9 @@ function openFilterSidebar() {
   isFilterVisible.value = true;
 }
 
+// PROVIDE, EXPOSE
+
+// WATCHERS
 watchEffect(() => {
   loadLazyData();
 });
@@ -290,4 +289,9 @@ watch(
     });
   }
 );
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  loadLazyData();
+});
 </script>
