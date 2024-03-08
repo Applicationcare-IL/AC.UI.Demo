@@ -5,7 +5,7 @@
       name="owner"
       type="info"
       :highlighted="true"
-      :label="$t('owner.owner')"
+      :label="$t('owner')"
       value="Me"
       class="mb-3"
     />

@@ -164,7 +164,7 @@
         </template>
       </Column>
       <Column field="number" :header="$t('customer.number')"></Column>
-      <Column field="owner.name" :header="$t('owner.owner')" frozen></Column>
+      <Column field="owner.name" :header="$t('owner')" frozen></Column>
     </DataTable>
   </div>
 </template>
@@ -178,7 +178,8 @@ useHead({
   title: "Customers",
 });
 
-const { setSelectedContacts, resetSelectedContacts } = useContacts();
+const { setSelectedContacts, resetSelectedContacts, getContactsFromApi } =
+  useContacts();
 const { optionLabelWithLang } = useLanguages();
 const { formatAddress } = useUtils();
 
@@ -279,13 +280,25 @@ const onSelectionChanged = () => {
  * It's used for SMS and Email communications
  * @param {*} selectedCustomers
  */
-const setSelectedContacsFromCustomers = (selectedCustomers) => {
-  let selectedContacts = selectedCustomers.map((customer) => {
-    return customer.main_contact;
-  });
+const setSelectedContacsFromCustomers = async (selectedCustomers) => {
+  const selectedCustomersIds = selectedCustomers
+    .map((customer) => customer.id)
+    .join(",");
+
+  if (!selectedCustomersIds) {
+    setSelectedContacts([]);
+    return;
+  }
+
+  let params = {
+    per_page: 99999,
+    customer_id: selectedCustomersIds,
+  };
+
+  const selectedContacts = await getContactsFromApi(params);
 
   // filter duplicated selected contacts based on ids and check if they are not null
-  const uniqueSelectedContacts = selectedContacts.filter(
+  const uniqueSelectedContacts = selectedContacts.data.filter(
     (contact, index, self) =>
       contact && index === self.findIndex((t) => t.id === contact.id)
   );

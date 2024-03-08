@@ -310,6 +310,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
         approved_ministry: yup.number().required(),
       });
     },
+    getNewMilestoneFormValidationSchema: () => {
+      return yup.object({
+        "milestone-name": yup.string().required(),
+      });
+    },
     // getContactDetailFormValidationSchema: (state) => {
     //   return yup.object({
     //     "first-name": yup.string().required(),

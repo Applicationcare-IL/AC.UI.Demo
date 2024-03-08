@@ -52,7 +52,7 @@ const router = createRouter({
           name: "index",
           // exact: true,
           redirect: () => {
-            return "/tasks";
+            return "/dashboard";
           },
           // component: () => import("@/views/user/Dashboard.vue"),
         },
@@ -158,6 +158,12 @@ const router = createRouter({
           name: "projectBudget",
           component: () =>
             import("@/views/user/forms/detail/ProjectBudget.vue"),
+        },
+        {
+          path: "/project/:id/milestone/:milestoneId",
+          name: "projectMilestoneDetail",
+          component: () =>
+            import("@/views/user/forms/detail/ProjectMilestone.vue"),
         },
         {
           path: "/project/:id/budget-item/:budgetId",

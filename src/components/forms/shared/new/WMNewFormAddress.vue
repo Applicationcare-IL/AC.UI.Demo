@@ -43,6 +43,7 @@
         :highlighted="true"
         :label="$t('address.house-number') + ':'"
         width="48"
+        value="1"
       />
       <WMInput
         name="apartment"

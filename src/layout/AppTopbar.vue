@@ -17,10 +17,12 @@
         class="client-logo md:hidden"
       />
     </div>
-    <WMTopTaskSummary></WMTopTaskSummary>
+    <div class="hidden md:flex">
+      <WMTopTaskSummary />
+    </div>
     <WMGlobalSearchBox v-model="searchValue" />
 
-    <div class="hidden md:flex mx-6">
+    <div class="hidden md:block mx-6">
       <div class="layout-topbar-menu" :class="topbarMenuClasses">
         <!-- <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle()">
                                 <i class="pi pi-bars"></i>

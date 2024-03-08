@@ -22,7 +22,7 @@
                   name="owner"
                   type="info"
                   :highlighted="true"
-                  :label="$t('owner.owner') + ':'"
+                  :label="$t('owner') + ':'"
                   :value="budget.owner?.name"
                 />
                 <WMInput
@@ -85,7 +85,9 @@
                   :label="$t('budget.approved-council') + ':'"
                 />
 
-                <ArrowIcon :class="layoutConfig.isRTL.value ? '' : 'rotate-180'" />
+                <ArrowIcon
+                  :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
+                />
 
                 <WMHighlightedBlock
                   v-model="budget.approved_ministry"
@@ -133,7 +135,9 @@
   </pre
             > -->
             <div class="flex flex-column gap-2">
-              <div class="flex flex-row align-items-center justify-content-start gap-2">
+              <div
+                class="flex flex-row align-items-center justify-content-start gap-2"
+              >
                 <WMHighlightedBlock
                   v-model="budget.tbr_accepted"
                   name="tbr_accepted"
@@ -164,7 +168,9 @@
                 />
               </div>
               <Divider />
-              <div class="flex flex-row align-items-center gap-5 justify-content-start">
+              <div
+                class="flex flex-row align-items-center gap-5 justify-content-start"
+              >
                 <WMHighlightedBlock
                   v-model="budget.tbr_reported"
                   name="tbr_reported"
@@ -205,7 +211,9 @@
           </template>
           <template #content>
             <div class="flex flex-column gap-2">
-              <div class="flex flex-row align-items-center justify-content-between gap-2">
+              <div
+                class="flex flex-row align-items-center justify-content-between gap-2"
+              >
                 <WMHighlightedBlock
                   v-model="budget.funds_accepted_non_tbr"
                   name="funds_accepted_non_tbr"
@@ -317,7 +325,8 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getProjectBudget, updateBudget, calculateBudget, parseBudget } = useProjects();
+const { getProjectBudget, updateBudget, calculateBudget, parseBudget } =
+  useProjects();
 const route = useRoute();
 const { layoutConfig } = useLayout();
 const utilsStore = useUtilsStore();

@@ -127,7 +127,7 @@
         <template #body="slotProps">
           <WMSLATag
             v-if="slotProps.data.sla"
-            :sla="slotProps.data.sla.sla"
+            :sla="slotProps.data.sla"
             :days-for-closing="slotProps.data.days_for_closing"
             :state="slotProps.data.state"
           >

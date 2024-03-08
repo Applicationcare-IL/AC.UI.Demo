@@ -37,6 +37,8 @@ const getSLAText = computed(() => {
     return "חריגה " + Math.abs(props.daysForClosing) + " ימים";
   if (props.sla !== "breached") return "עמד ביעד";
   if (props.sla === "breached") return "הסתיים בחריגה";
+
+  return "";
 });
 </script>
 

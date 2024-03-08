@@ -169,7 +169,6 @@ export function useFilters() {
       {
         type: "entity",
         name: "task_type",
-        optionSet: "task_type",
         label: i18n.t("task.type") + ":",
         placeholder: i18n.t("task.task-type-placeholder") + ":",
         searchFunction: searchTaskTypes,

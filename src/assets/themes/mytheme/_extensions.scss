@@ -148,6 +148,12 @@ body {
     overflow: hidden;
 }
 
+@media (max-width: 991px) {
+    .layout-main{
+        overflow: auto;
+    }
+}
+
 // Multi select Button 
 
 .p-selectbutton.p-buttonset .p-button:first-of-type {

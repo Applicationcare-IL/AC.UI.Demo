@@ -87,6 +87,10 @@ const sendEmailDialogVisible = ref(false);
 const attachments = ref([]);
 const subject = ref("");
 
+const encodeMessage = (message) => {
+  return message.replace(/\n/g, "<br>");
+};
+
 const handleUpdateSubject = (newSubject) => {
   subject.value = newSubject;
 };
@@ -170,7 +174,8 @@ const fillSelectedContactDropdownWithSelectedContacts = (
     return;
   }
 
-  const newSelectedContactsIds = getContactsIds(newSelectedContacts);
+  const newSelectedContactsIds =
+    getContactsIdsFromSelectedContacts(newSelectedContacts);
 
   const filteredContactOptions = contactOptions.value?.data.filter(
     (contact) => {
@@ -185,23 +190,39 @@ const fillSelectedContactDropdownWithSelectedContacts = (
   }
 };
 
-const getContactsIds = (contacts) => {
+const getContactsIdsFromSelectedContacts = (contacts) => {
   if (!Array.isArray(contacts)) {
     return [contacts.id];
   }
 
   return contacts.map((contact) => contact.id);
 };
+/**
+ * We have three cases
+ * 1. We have the multiple prop as true, so we need to get the ids from the selectedDropdownContacts
+ * 2. We have the multiple prop as false, but we have an array of selectedContacts, so we need to get the ids from the selectedContacts
+ *    This case happens for example in the customer detial, were we need to be able to send an email to the customer contacts, who can be multiple
+ * 3. We have the multiple prop as false, and we have a single selectedContact, so we need to get the id from the selectedContact
+ */
+const getContactIds = () => {
+  if (props.multiple) {
+    return getContactsIdsFromSelectedContacts(selectedDropdownContacts.value);
+  }
+
+  if (Array.isArray(selectedContacts.value)) {
+    return getContactsIdsFromSelectedContacts(selectedContacts.value);
+  }
+
+  return [selectedContacts.value.id];
+};
 
 const { sendEmail } = useCommunications();
 
 const handleSendEmail = () => {
   const params = {
-    ids: props.multiple
-      ? getContactsIds(selectedDropdownContacts.value)
-      : [selectedContacts.value.id],
+    ids: getContactIds(),
     subject: subject.value,
-    body: message.value,
+    body: encodeMessage(message.value),
   };
 
   if (attachments.value.length > 0) {

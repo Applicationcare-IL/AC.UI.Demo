@@ -31,6 +31,7 @@
   "rating": "Rating",
   "general-information": "General information",
   "team": "Team",
+  "owner": "Owner",
   "orientation": "Orientation",
   "channel": "Channel",
   "priority": "Priority",
@@ -79,7 +80,8 @@
     "apply-filters": "Apply filters",
     "create-new-one": "Create new one",
     "open": "Open",
-    "complete": "Complete"
+    "complete": "Complete",
+    "close-filters": "Close filters"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -198,6 +200,7 @@
     "notification-created-message": "The new service was successfully created! \n From now on he will appear in your customer list",
     "notification-created-detail": "View service",
     "notification-created-close": "Close",
+    "direction": "Direction",
     "toast": {
       "created": "New service Created",
       "error": "An error occurred"
@@ -348,6 +351,17 @@
     "payment-date": "Payment Date",
     "date-reported-date": "Date Reported"
   },
+  "milestone": {
+    "milestone": "Milestone",
+    "milestones": "Milestones",
+    "milestone-id": "Milestone ID",
+    "milestone-name": "Milestone Name",
+    "planned-date": "Milestone Date",
+    "base-date": "Base Date",
+    "actual-date": "Actual Date",
+    "description": "Description",
+    "milestone-type": "Milestone Type"
+  },
   "organization": {
     "organization": "Organization",
     "organization_name": "Organization name",
@@ -470,7 +484,8 @@
     "info": "Info",
     "successful-action": "{{entity}} successfully {{action}}",
     "error": "An error occurred",
-    "budget-item-updated": "Budget item updated"
+    "budget-item-updated": "Budget item updated",
+    "milestone-updated": "Milestone updated"
   },
   "communication-channels": {
     "sms": "SMS",
@@ -504,8 +519,5 @@
   },
   "password": {
     "alread_in_use": "Password already in use"
-  },
-  "owner": {
-    "owner": "Owner"
   }
 }

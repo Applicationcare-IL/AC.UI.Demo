@@ -32,7 +32,7 @@
         name="owner"
         type="info"
         :highlighted="true"
-        :label="$t('owner.owner')"
+        :label="$t('owner')"
         :value="task.owner"
         class="mb-3"
       />
@@ -73,9 +73,14 @@
       />
 
       <Button label="Save notes" class="mt-6" @click="onSave" />
+
+      <Divider />
+
+      <WMAttachmentsTable :entity-id="route.params.id" entity-type="task" />
     </div>
     <div class="mobile-task-detail-footer flex flex-column gap-2 mx-3">
       <Button
+        v-if="serviceButtonLabel"
         size="large"
         class="w-full p-4"
         severity="success"

@@ -8,7 +8,7 @@
           </h1>
 
           <div
-            v-if="entityType === 'project'"
+            v-if="entityType === 'project' || entityType === 'service'"
             :class="statusClass(entityObject.state.value)"
             class="status-label white-space-nowrap"
           >
@@ -71,7 +71,8 @@
             v-if="
               can(utilsStore.pluralEntity + '.assign') &&
               utilsStore.entity !== 'budget-item' &&
-              utilsStore.entity !== 'project-budget'
+              utilsStore.entity !== 'project-budget' &&
+              utilsStore.entity !== 'milestone'
             "
             :entity="utilsStore.entity"
             @owner-assigned="$emit('refreshTable')"

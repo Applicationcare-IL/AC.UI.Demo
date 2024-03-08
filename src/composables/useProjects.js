@@ -1,5 +1,3 @@
-import { formatDate } from "@vueuse/core";
-
 import { useProjectsStore } from "@/stores/projectsStore";
 
 export function useProjects() {
@@ -137,6 +135,27 @@ export function useProjects() {
 
   const updateProjectPayment = async (projectId, paymentId, data) => {
     return await projectsStore.updateProjectPayment(projectId, paymentId, data);
+  };
+
+  // MILESTONES
+  const createMilestone = async (projectId, data) => {
+    return await projectsStore.createMilestone(projectId, data);
+  };
+
+  const getProjectMilestones = async (projectId) => {
+    return await projectsStore.getProjectMilestones(projectId);
+  };
+
+  const getProjectMilestone = async (projectId, milestoneId) => {
+    return await projectsStore.getProjectMilestone(projectId, milestoneId);
+  };
+
+  const updateProjectMilestone = async (projectId, milestoneId, data) => {
+    return await projectsStore.updateProjectMilestone(
+      projectId,
+      milestoneId,
+      data
+    );
   };
 
   // UTILITIES
@@ -300,6 +319,18 @@ export function useProjects() {
     };
   };
 
+  const parseMilestone = (milestone) => {
+    return {
+      name: milestone["milestone-name"],
+      project_id: milestone.project_id,
+      milestone_type: milestone.type.id,
+      description: milestone.description,
+      planned_date: parseDate(milestone.plannedDate),
+      actual_date: parseDate(milestone.actualDate),
+      base_date: parseDate(milestone.baseDate),
+    };
+  };
+
   const mapProject = (project) => {
     return {
       id: project.id,
@@ -444,7 +475,10 @@ export function useProjects() {
     createBudgetItem,
     updateBudget,
     calculateBudget,
-
+    getProjectMilestone,
+    getProjectMilestones,
+    createMilestone,
+    updateProjectMilestone,
     // UTILITIES
     parseProject,
     parseBudget,
@@ -453,6 +487,8 @@ export function useProjects() {
     parseProjectCustomer,
     parseUpdateProjectConfig,
     parseProjectPayment,
+    parseMilestone,
+    // maps
     mapProject,
     mapContactsFromProjects,
     mapProjectCustomer,

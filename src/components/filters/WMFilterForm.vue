@@ -1,14 +1,14 @@
 <template>
   <div class="filter-header flex flex-row justify-content-between p-4">
-    <Button @click="applyFilter">{{ $t("buttons.apply-filters") }}</Button>
+    <Button @click="applyFilters()">{{ $t("buttons.apply-filters") }}</Button>
     <div class="flex flex-column align-items-center">
       <div class="h3">
         {{ translatedTitle }}
       </div>
-      <span v-if="appliedFilters == 0">
+      <span v-if="numberOfAppliedFilters == 0">
         {{ $t("filters.no-filters-applied") }}
       </span>
-      <span v-else>הופעלו {{ appliedFilters }} סננים </span>
+      <span v-else>הופעלו {{ numberOfAppliedFilters }} סננים </span>
     </div>
 
     <Button link @click="clear">{{ $t("buttons.clear-all") }}</Button>
@@ -18,7 +18,7 @@
     <div>
       <WMFilterElement
         v-for="(filter, index) in filterElements"
-        :key="index"
+        :key="index + forceRerender"
         ref="filterElementRefs"
         :placeholder="filter.placeholder"
         :label="filter.label"
@@ -28,6 +28,7 @@
         :option-set="filter.optionSet"
         :search-function="filter.searchFunction"
         :filter-data="filter"
+        :applied-filters="appliedFilters"
         @update:filter="addFilter"
       />
     </div>
@@ -36,7 +37,7 @@
 
 <script setup>
 // IMPORTS
-import { computed, inject, ref } from "vue";
+import { computed, inject, ref, toRaw } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -59,6 +60,7 @@ const { entity, filterFormName } = defineProps({
 const filters = ref({});
 const filterElementRefs = ref([]);
 const filterElements = ref(filterList[filterFormName]);
+const forceRerender = ref(0);
 
 // COMPUTED
 const translatedTitle = computed(() => {
@@ -66,28 +68,63 @@ const translatedTitle = computed(() => {
 });
 
 const appliedFilters = computed(() => {
+  return utilsStore.filters[entity];
+});
+
+const numberOfAppliedFilters = computed(() => {
   if (!utilsStore.filters[entity]) return 0;
   return Object.keys(utilsStore.filters[entity]).length;
 });
 
 // COMPONENT METHODS
-const addFilter = (filter) => {
-  if (filter.value == null) delete filters.value[filter.name];
-  else filters.value[filter.name] = filter.value;
+const applyFilters = () => {
+  utilsStore.filters[entity] = { ...filters.value };
+
+  if (checkIfFiltersKeysAreEmpty()) {
+    clear();
+  }
+
+  closeSidebar();
 };
 
-const applyFilter = () => {
-  utilsStore.filters[entity] = { ...filters.value };
-  closeSidebar();
+const checkIfFiltersKeysAreEmpty = () => {
+  return Object.values(filters.value).every((filter) => {
+    return Object.keys(filter).length === 0;
+  });
+};
+
+const addFilter = (filter) => {
+  if (typeof filters.value === "undefined") {
+    filters.value = {};
+  }
+
+  if (filter.value == null) {
+    delete filters.value[filter.name];
+  }
+
+  filters.value[filter.name] = filter.value;
+};
+
+const forceRerenderFilterElements = () => {
+  forceRerender.value++;
 };
 
 const clear = () => {
   filterElementRefs.value.forEach((filterElement) => {
     filterElement.clear();
   });
+
   filters.value = {};
+
   delete utilsStore.filters[entity];
+
+  forceRerenderFilterElements();
 };
+
+// fill the filters with the current filters to keep the "active" states
+if (utilsStore.filters[entity]) {
+  filters.value = JSON.parse(JSON.stringify(utilsStore.filters[entity]));
+}
 
 // EXPOSE
 // WATCHERS

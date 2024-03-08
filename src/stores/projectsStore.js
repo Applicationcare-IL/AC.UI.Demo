@@ -257,5 +257,46 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
+    createMilestone(projectId, data) {
+      return axiosConfig
+        .post("/projects/" + projectId + "/milestones", data)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
+    getProjectMilestone(projectId, milestoneId) {
+      return axiosConfig
+        .get("/projects/" + projectId + "/milestones/" + milestoneId)
+        .then((response) => {
+          return response.data.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getProjectMilestones(projectId, params) {
+      return axiosConfig
+        .get("/projects/" + projectId + "/milestones", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    updateProjectMilestone(projectId, milestoneId, data) {
+      return axiosConfig
+        .patch("/projects/" + projectId + "/milestones/" + milestoneId, data)
+        .then((response) => {
+          return response.data.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });
