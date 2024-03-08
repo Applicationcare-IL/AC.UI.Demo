@@ -37,7 +37,7 @@
 
 <script setup>
 // IMPORTS
-import { computed, inject, ref } from "vue";
+import { computed, inject, ref, toRaw } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -79,7 +79,18 @@ const numberOfAppliedFilters = computed(() => {
 // COMPONENT METHODS
 const applyFilters = () => {
   utilsStore.filters[entity] = { ...filters.value };
+
+  if (checkIfFiltersKeysAreEmpty()) {
+    clear();
+  }
+
   closeSidebar();
+};
+
+const checkIfFiltersKeysAreEmpty = () => {
+  return Object.values(filters.value).every((filter) => {
+    return Object.keys(filter).length === 0;
+  });
 };
 
 const addFilter = (filter) => {
@@ -110,7 +121,10 @@ const clear = () => {
   forceRerenderFilterElements();
 };
 
-filters.value = utilsStore.filters[entity];
+// fill the filters with the current filters to keep the "active" states
+if (utilsStore.filters[entity]) {
+  filters.value = JSON.parse(JSON.stringify(utilsStore.filters[entity]));
+}
 
 // EXPOSE
 // WATCHERS

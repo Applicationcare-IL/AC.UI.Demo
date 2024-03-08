@@ -41,14 +41,11 @@
         </WMButton> -->
       </div>
       <div class="flex flex-row align-items-center gap-3">
-        <WMButton
-          name="filter"
-          icon="filter"
-          :open="isFilterOpen"
-          :applied="isFilterApplied"
+        <WMFilterButton
+          :is-active="isFilterApplied || isFilterOpen"
           @click="openFilterSidebar"
-          >{{ t("filter") }}
-        </WMButton>
+        />
+
         <WMSidebar
           :visible="isFilterVisible"
           name="filterService"
@@ -57,6 +54,7 @@
         >
           <WMFilterForm entity="service" filter-form-name="service" />
         </WMSidebar>
+
         <WMOwnerToggle entity="service" />
       </div>
     </div>
@@ -129,7 +127,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch, watchEffect } from "vue";
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -140,7 +138,6 @@ const i18n = useI18n();
 const services = ref([]);
 const selectedServices = ref(null);
 const isFilterOpen = ref(false);
-const isFilterApplied = ref(false);
 const selectedOption = ref(1);
 const searchValue = ref("");
 const lazyParams = ref({});
@@ -188,6 +185,11 @@ const props = defineProps({
 
 onMounted(() => {
   loadLazyData();
+});
+
+const isFilterApplied = computed(() => {
+  if (!utilsStore.filters["service"]) return 0;
+  return Object.keys(utilsStore.filters["service"]).length;
 });
 
 const { getServicesFromApi } = useServices();
@@ -274,6 +276,7 @@ function closeFilterSidebar() {
 function openFilterSidebar() {
   isFilterVisible.value = true;
 }
+
 watchEffect(() => {
   loadLazyData();
 });
