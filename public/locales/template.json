@@ -484,7 +484,8 @@
     "info": "Info",
     "successful-action": "{{entity}} successfully {{action}}",
     "error": "An error occurred",
-    "budget-item-updated": "Budget item updated"
+    "budget-item-updated": "Budget item updated",
+    "milestone-updated": "Milestone updated"
   },
   "communication-channels": {
     "sms": "SMS",
