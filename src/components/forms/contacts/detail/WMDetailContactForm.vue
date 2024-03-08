@@ -15,7 +15,7 @@
                     name="owner"
                     type="info"
                     :highlighted="true"
-                    :label="$t('owner') + ':'"
+                    :label="$t('owner.owner') + ':'"
                     :value="contact.owner.name"
                   />
                   <WMInput
