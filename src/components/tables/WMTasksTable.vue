@@ -46,14 +46,11 @@
         />
       </div>
       <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
-        <WMButton
-          name="filter"
-          icon="filter"
-          :open="isFilterOpen"
-          :applied="isFilterApplied"
+        <WMFilterButton
+          :is-active="isFilterApplied || isFilterOpen"
           @click="openFilterSidebar"
-          >{{ t("filter") }}
-        </WMButton>
+        />
+
         <WMSidebar
           :visible="isFilterVisible"
           name="filterTask"
@@ -183,27 +180,22 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch, watchEffect } from "vue";
+// IMPORTS
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
 
+// DEPENDENCIES
 const { t } = useI18n();
 const { getValueOf } = useUtils();
-
-const selectedTasks = ref([]);
-const isFilterOpen = ref(false);
-const isFilterApplied = ref(false);
-
 const { can } = usePermissions();
-
-const tasks = ref([]);
-const totalRecords = ref(0);
-const lazyParams = ref({});
-const searchValue = ref("");
-
 const utilsStore = useUtilsStore();
+const { getTasksFromApi } = useTasks();
 
+// INJECT
+
+// PROPS, EMITS
 const props = defineProps({
   rows: {
     type: Number,
@@ -251,14 +243,26 @@ const props = defineProps({
   },
 });
 
-onMounted(() => {
-  loadLazyData();
-});
-
-const { getTasksFromApi } = useTasks();
-
 const emit = defineEmits(["taskCompleted"]);
 
+// REFS
+const selectedTasks = ref([]);
+const isFilterOpen = ref(false);
+const tasks = ref([]);
+const totalRecords = ref(0);
+const lazyParams = ref({});
+const searchValue = ref("");
+
+const isVisible = ref(false);
+const isFilterVisible = ref(false);
+
+// COMPUTED
+const isFilterApplied = computed(() => {
+  if (!utilsStore.filters["service"]) return 0;
+  return Object.keys(utilsStore.filters["service"]).length;
+});
+
+// COMPONENT METHODS
 const loadLazyData = () => {
   const filters = props.filters ? props.filters : utilsStore.filters["task"];
   const nextPage = lazyParams.value.page + 1;
@@ -305,9 +309,6 @@ const clearSelectedTasks = () => {
   selectedTasks.value = [];
 };
 
-// first sidebar
-const isVisible = ref(false);
-
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
 }
@@ -320,8 +321,6 @@ function openSidebar() {
   isVisible.value = true;
 }
 
-const isFilterVisible = ref(false);
-
 function closeFilterSidebar() {
   isFilterVisible.value = false;
 }
@@ -329,6 +328,10 @@ function closeFilterSidebar() {
 function openFilterSidebar() {
   isFilterVisible.value = true;
 }
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
 watchEffect(() => {
   loadLazyData();
 });
@@ -342,4 +345,9 @@ watch(
     });
   }
 );
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  loadLazyData();
+});
 </script>
