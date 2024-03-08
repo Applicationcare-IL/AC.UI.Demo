@@ -107,7 +107,7 @@ fetchData();
 const onSave = handleSubmit((values) => {
   updateProjectMilestone(
     route.params.id,
-    route.params.budgetId,
+    route.params.milestoneId,
     parseMilestone(values)
   )
     .then(() => {

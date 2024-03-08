@@ -323,7 +323,7 @@ export function useProjects() {
     return {
       name: milestone["milestone-name"],
       project_id: milestone.project_id,
-      milestone_type: milestone.type.id,
+      milestone_type: milestone.type?.id,
       description: milestone.description,
       planned_date: parseDate(milestone.plannedDate),
       actual_date: parseDate(milestone.actualDate),
