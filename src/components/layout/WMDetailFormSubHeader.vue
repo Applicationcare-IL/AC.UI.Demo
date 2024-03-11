@@ -8,12 +8,12 @@
           </h1>
 
           <div class="flex align-items-center gap-1">
-            <span class="font-bold">State: </span>
+            <span class="font-bold">{{ $t("state.state") }}: </span>
             <div
-              :class="statusClass(entityObject.state)"
+              :class="statusClass(entityObject.state.value)"
               class="status-label white-space-nowrap"
             >
-              {{ $t("state." + entityObject.state) }}
+              <WMOptionSetValue :option-set="entityObject.state" />
             </div>
           </div>
 
@@ -21,7 +21,7 @@
             v-if="entityObject.status"
             class="flex align-items-center gap-1 font-bold"
           >
-            <span>Status:</span>
+            <span>{{ $t("status") }}:</span>
             <div
               :class="highlightStatusClass(entityObject.status.value)"
               class="status-label white-space-nowrap"

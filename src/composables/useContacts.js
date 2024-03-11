@@ -63,7 +63,7 @@ export function useContacts() {
       open_tasks: contact.open_tasks,
       breached_tasks: contact.breached_tasks,
       status: contact.status,
-      state: contact.state?.value,
+      state: contact.state,
       owner: contact.owner,
       gender: contact.gender, //is_male ? 'male' : 'female',
       is_main: contact.main_contact_for != null,
