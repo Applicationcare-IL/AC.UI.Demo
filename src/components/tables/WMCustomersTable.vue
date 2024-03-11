@@ -172,6 +172,9 @@
         <template v-if="column.type === 'text'">
           {{ slotProps.data[column.name] }}
         </template>
+        <template v-if="column.type === 'state'">
+          <WMStateField :state="slotProps.data[column.name]" />
+        </template>
       </template>
     </Column>
   </DataTable>

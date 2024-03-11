@@ -49,6 +49,7 @@ export function useListUtils() {
         optionSet: "contact_customer_role",
         class: "p-0",
       },
+
       {
         name: "actions",
         type: "actions",
@@ -241,6 +242,18 @@ export function useListUtils() {
         header: "role",
         optionSet: "contact_customer_role",
         class: "p-0",
+      },
+      {
+        name: "status",
+        type: "option-set",
+        header: "status",
+        class: "p-0 text-center",
+      },
+      {
+        name: "state",
+        type: "state",
+        header: "state.state",
+        class: "p-0 text-center",
       },
       {
         name: "actions",
