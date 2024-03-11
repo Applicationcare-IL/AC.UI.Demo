@@ -471,9 +471,10 @@ export function useListUtils() {
       },
       // {
       //   name: "milestone",
-      //   type: "dropdown",
+      //   type: "milestone",
       //   field: "milestone",
-      //   optionset: "milestone_type",
+      //   header: "milestone.milestone",
+      //   editable: true,
       // },
       {
         name: "status",

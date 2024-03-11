@@ -1,6 +1,8 @@
 <template>
   <!-- <pre>isSomePaymentInCreateMode: {{ isSomePaymentInCreateMode }}</pre> -->
-  <!-- <pre>payments: {{ payments }}</pre> -->
+  <!-- <pre>milestones: {{ milestones }}</pre> -->
+  <pre>payments: {{ payments }}</pre>
+
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
@@ -153,6 +155,31 @@
       </Column>
 
       <Column
+        v-if="column.type == 'milestone'"
+        :key="column.name"
+        :field="column.field"
+        :header="getColumHeader(column)"
+        :class="column.class"
+      >
+        <template v-if="column.editable" #editor="{ data, field }">
+          <Dropdown
+            v-model="data[field].id"
+            :options="milestones"
+            option-label="name"
+            option-value="id"
+            placeholder="Select a milestone"
+          >
+            <template #option="slotProps">
+              {{ slotProps.option.name }}
+            </template>
+          </Dropdown>
+        </template>
+        <template #body="slotProps">
+          {{ getMilestoneName(slotProps.data[column.field].id) }}
+        </template>
+      </Column>
+
+      <Column
         v-if="column.type == 'status'"
         :key="column.name"
         :field="column.field"
@@ -247,6 +274,7 @@ const {
   updateProjectPayment,
   createProjectPayment,
   parseProjectPayment,
+  getProjectMilestones,
 } = useProjects();
 const { getPaymentsColumns } = useListUtils();
 const toast = useToast();
@@ -260,6 +288,10 @@ const { getCustomersFromApi } = useCustomers();
 // PROPS, EMITS
 const props = defineProps({
   projectId: {
+    type: Number,
+    required: true,
+  },
+  milestoneId: {
     type: Number,
     required: true,
   },
@@ -277,6 +309,7 @@ const paymentStatuses = ref([]);
 const budgetItems = ref([]);
 const customers = ref([]);
 const termsOfPayment = ref([]);
+const milestones = ref([]);
 
 // COMPUTED
 const isSomePaymentInCreateMode = computed(() => {
@@ -304,6 +337,11 @@ const getBudgetItemName = (id) => {
 const getCustomerName = (id) => {
   const customer = customers.value.find((item) => item.id === id);
   return customer ? customer.name : "";
+};
+
+const getMilestoneName = (id) => {
+  const milestone = milestones.value.find((item) => item.id === id);
+  return milestone ? milestone.name : "";
 };
 
 const getStatus = (id) => {
@@ -389,6 +427,10 @@ const loadLazyData = () => {
     search: searchValueParam,
   });
 
+  if (props.milestoneId) {
+    params.append("milestone", props.milestoneId);
+  }
+
   getProjectPayments(props.projectId, params).then((response) => {
     payments.value = response.payments;
     totalRecords.value = response.totalRecords;
@@ -400,6 +442,10 @@ const loadLazyData = () => {
 
   getCustomersFromApi().then((response) => {
     customers.value = response.data;
+  });
+
+  getProjectMilestones(props.projectId).then((response) => {
+    milestones.value = response;
   });
 };
 
@@ -420,8 +466,9 @@ const onRowEditSave = (event) => {
 
   if (newData.mode === "create") {
     createProjectPayment(props.projectId, parseProjectPayment(newData))
-      .then(() => {
+      .then((response) => {
         delete newData.mode;
+        newData.id = response.id;
         payments.value[index] = newData;
         toast.successAction("payment", "created");
       })
