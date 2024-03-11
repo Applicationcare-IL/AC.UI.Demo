@@ -94,13 +94,6 @@
           </router-link>
         </template>
       </Column>
-      <Column field="status" :header="$t('status')">
-        <template #body="slotProps">
-          <div :class="highlightCellClass(slotProps.data.status)">
-            <WMOptionSetValue :option-set="slotProps.data.status" />
-          </div>
-        </template>
-      </Column>
       <Column field="address" :header="$t('address.address')">
         <template #body="slotProps">
           {{ formatAddress(slotProps.data.location) }}
@@ -165,6 +158,18 @@
       </Column>
       <Column field="number" :header="$t('customer.number')"></Column>
       <Column field="owner.name" :header="$t('owner')" frozen></Column>
+      <Column field="status" :header="$t('status')">
+        <template #body="slotProps">
+          <div :class="highlightCellClass(slotProps.data.status)">
+            <WMOptionSetValue :option-set="slotProps.data.status" />
+          </div>
+        </template>
+      </Column>
+      <Column field="state" class="p-0 filled-td" :header="$t('state')">
+        <template #body="slotProps">
+          <WMStateField :state="slotProps.data.state" />
+        </template>
+      </Column>
     </DataTable>
   </div>
 </template>

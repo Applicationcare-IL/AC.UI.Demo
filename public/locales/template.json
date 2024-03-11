@@ -435,6 +435,11 @@
     "completed": "Completed",
     "terminated": "Terminated"
   },
+  "state": {
+    "state": "State",
+    "active": "Active",
+    "not-active": "Not Active"
+  },
   "classification1": {
     "urban-architect": "Urban Architect",
     "sharp-internet-jokes": "Sharp Internet Jokes",

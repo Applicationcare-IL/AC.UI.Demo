@@ -295,8 +295,8 @@ textarea {
     white-space: nowrap;
 }
 
-//Status
-
+// Status and State
+.state-label,
 .status-label{
     display: flex;
     height: 24px;
@@ -305,5 +305,4 @@ textarea {
     align-items: center;
     gap: 10px;
     font-weight: 700;
-
 }
