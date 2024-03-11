@@ -140,8 +140,8 @@
       <Column field="owner.name" :header="$t('owner')"></Column>
       <Column field="status" :header="$t('status')" class="numeric">
         <template #body="slotProps">
-          <div :class="highlightStatusClass(slotProps.data.status)">
-            {{ $t("statuses." + slotProps.data.status) }}
+          <div :class="highlightStatusClass(slotProps.data.status.value)">
+            <WMOptionSetValue :option-set="slotProps.data.status" />
           </div>
         </template>
       </Column>
@@ -159,7 +159,6 @@ import { onMounted, ref, watch, watchEffect } from "vue";
 
 const { can } = usePermissions();
 
-import { useFormUtilsStore } from "@/stores/formUtils";
 import { usePermissionsStore } from "@/stores/permissionsStore";
 import { useUtilsStore } from "@/stores/utils";
 
@@ -182,15 +181,12 @@ onMounted(() => {
   resetSelectedContacts();
 });
 
-const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 
 //Pagination and table content
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const contacts = ref();
-const services = ref();
-const tasks = ref();
 const loading = ref(false);
 const dt = ref();
 const searchValue = ref("");

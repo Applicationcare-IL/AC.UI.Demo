@@ -438,7 +438,8 @@
   "state": {
     "state": "State",
     "active": "Active",
-    "not-active": "Not Active"
+    "not-active": "Not Active",
+    "not_active": "Not Active"
   },
   "classification1": {
     "urban-architect": "Urban Architect",

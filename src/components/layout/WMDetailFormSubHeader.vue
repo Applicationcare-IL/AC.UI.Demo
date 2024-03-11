@@ -7,20 +7,27 @@
             {{ $t(entityType + "." + entityType) }}: {{ entityObject.title }}
           </h1>
 
-          <div
-            v-if="entityType === 'project' || entityType === 'service'"
-            :class="statusClass(entityObject.state.value)"
-            class="status-label white-space-nowrap"
-          >
-            <WMOptionSetValue :option-set="entityObject.state" />
+          <div class="flex align-items-center gap-1">
+            <span class="font-bold">State: </span>
+            <div
+              :class="statusClass(entityObject.state)"
+              class="status-label white-space-nowrap"
+            >
+              {{ $t("state." + entityObject.state) }}
+            </div>
           </div>
 
           <div
-            v-else-if="entityObject.state"
-            :class="statusClass(entityObject.state)"
-            class="status-label white-space-nowrap"
+            v-if="entityObject.status"
+            class="flex align-items-center gap-1 font-bold"
           >
-            {{ $t("statuses." + entityObject.state) }}
+            <span>Status:</span>
+            <div
+              :class="highlightStatusClass(entityObject.status.value)"
+              class="status-label white-space-nowrap"
+            >
+              <WMOptionSetValue :option-set="entityObject.status" />
+            </div>
           </div>
         </div>
         <div>
@@ -144,7 +151,7 @@ const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 const entityType = ref("");
 const { can } = usePermissions();
-const { getStatusConditionalStyle } = useListUtils();
+const { getStatusConditionalStyle, highlightStatusClass } = useListUtils();
 
 // PROPS, EMITS
 defineProps({
