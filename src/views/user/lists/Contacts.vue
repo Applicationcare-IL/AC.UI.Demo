@@ -173,7 +173,7 @@ const { formatAddress } = useUtils();
 
 const { getContactsFromApi, setSelectedContacts, resetSelectedContacts } =
   useContacts();
-const { selectedRowsPerPage } = useListUtils();
+const { selectedRowsPerPage, highlightStatusClass } = useListUtils();
 
 onMounted(() => {
   utilsStore.entity = "contact";
@@ -254,16 +254,6 @@ const isDetailsVisible = ref(false);
 //Move to Store
 const highlightCellClass = (data) => {
   return [{ "bg-red-100 text-red-600": data > 0 }];
-};
-
-// TODO: move to a SLA related composable
-const highlightStatusClass = (status) => {
-  return [
-    {
-      "bg-green-200 text-green-900": status === "active",
-      "bg-yellow-100 text-gray-900": status === "terminated",
-    },
-  ];
 };
 
 //Manage selected rows

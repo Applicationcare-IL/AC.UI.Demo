@@ -134,11 +134,6 @@
           </WMSLATag>
         </template>
       </Column>
-      <Column field="status" :header="$t('service.status')">
-        <template #body="slotProps">
-          <WMOptionSetValue :option-set="slotProps.data.status" />
-        </template>
-      </Column>
       <Column field="state" :header="$t('service.state')">
         <template #body="slotProps">
           <WMOptionSetValue :option-set="slotProps.data.state" />
@@ -168,6 +163,16 @@
       <Column field="last_change" :header="$t('service.last-change')"></Column>
       <Column field="closed" :header="$t('service.date-closed')"></Column>
       <Column field="stage" :header="$t('service.stage')"></Column>
+      <Column field="status" :header="$t('service.status')">
+        <template #body="slotProps">
+          <WMOptionSetValue :option-set="slotProps.data.status" />
+        </template>
+      </Column>
+      <Column field="state" class="p-0 filled-td" :header="$t('state.state')">
+        <template #body="slotProps">
+          <WMStateField :state="slotProps.data.state" />
+        </template>
+      </Column>
     </DataTable>
   </div>
 </template>

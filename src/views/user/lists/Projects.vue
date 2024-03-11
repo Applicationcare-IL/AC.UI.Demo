@@ -150,7 +150,7 @@
         field="status"
         :header="$t('project.status')"
         class="p-0 filled-td"
-        style="width: 30px"
+        style="width: 20px"
       >
         <template #body="slotProps">
           <div
@@ -159,6 +159,17 @@
           >
             <WMOptionSetValue :option-set="slotProps.data.state" />
           </div>
+        </template>
+      </Column>
+
+      <Column
+        style="width: 20px"
+        field="state"
+        class="p-0 filled-td"
+        :header="$t('state.state')"
+      >
+        <template #body="slotProps">
+          <WMStateField :state="slotProps.data.state" />
         </template>
       </Column>
 

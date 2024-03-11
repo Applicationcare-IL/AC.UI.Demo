@@ -158,10 +158,14 @@
       </Column>
       <Column field="number" :header="$t('customer.number')"></Column>
       <Column field="owner.name" :header="$t('owner')" frozen></Column>
-      <Column field="status" :header="$t('status')">
+      <Column field="status" :header="$t('status')" class="numeric">
         <template #body="slotProps">
-          <div :class="highlightCellClass(slotProps.data.status)">
-            <WMOptionSetValue :option-set="slotProps.data.status" />
+          <div
+            :class="
+              highlightStatusClass(slotProps.data.status.value.toLowerCase())
+            "
+          >
+            {{ $t("statuses." + slotProps.data.status.value.toLowerCase()) }}
           </div>
         </template>
       </Column>
@@ -197,7 +201,7 @@ onMounted(() => {
 
 const utilsStore = useUtilsStore();
 
-const { selectedRowsPerPage } = useListUtils();
+const { selectedRowsPerPage, highlightStatusClass } = useListUtils();
 
 // Pagination and table content
 const totalRecords = ref(0);
@@ -265,7 +269,6 @@ const displayDetails = (data) => {
 
 const isDetailsVisible = ref(false);
 
-// TODO: Move to Store
 const highlightCellClass = (data) => {
   return [{ "bg-red-100 text-red-600": data > 0 }];
 };
