@@ -5,6 +5,7 @@
     icon="done"
     :disabled="selectedElements == 0 || !areTaskCompletable"
     @click="handleCompleteTasks"
+    @confirm="doCompleteTasks"
   >
     <span v-if="areTaskCompletable || selectedElements == 0">
       {{ t("buttons.complete") }}
@@ -63,7 +64,7 @@ const checkIfTasksAreCompletable = (tasks) => {
 
   // check if the selected task is active
   if (tasks.length == 1) {
-    return tasks[0].state == "active";
+    return tasks[0].state.value == "active";
   }
 
   // prevent complete when some of the selected tasks are subproject tasks
@@ -75,7 +76,7 @@ const checkIfTasksAreCompletable = (tasks) => {
   }
 
   // check if all the selected tasks are active
-  return tasks.every((x) => x.state == "active");
+  return tasks.every((x) => x.state.value == "active");
 };
 
 const updateStates = () => {
@@ -91,39 +92,38 @@ const updateStates = () => {
 
 updateStates();
 
-const handleCompleteTasks = () => {
-  // We need to assume that all the tasks to be completed share the same related entity type (service or project at the moment)
-  const relatedEntity = utilsStore.selectedElements["task"][0].related_entity;
+const handleCompleteTasks = async () => {
+  if (utilsStore.selectedElements["task"].length == 1) doCompleteTasks();
 
-  completeTasks(utilsStore.selectedElements["task"].map((x) => x.task_number))
-    .then(() => {
-      toast.successAction("task", "completed");
-      emit("taskCompleted");
-    })
-    .catch((error) => {
-      if (error.response.status == 422) {
-        if (relatedEntity.type == "service")
-          dialog.completeService(relatedEntity.id);
-        if (relatedEntity.type == "project")
-          dialog.completeProject(relatedEntity.id);
-      } else {
-        toast.errorAction("task", "not_completed");
-      }
-    });
+  if (utilsStore.selectedElements["task"].length > 1) {
+    let result = await dialog.confirmCompleteTasks();
+    if (result) {
+      doCompleteTasks();
+    }
+  }
 };
 
-const completeService = (id) => {
+// const completeService = () => {
+//   completeTasks(
+//     utilsStore.selectedElements["task"].map((x) => x.task_number),
+//     formUtilsStore.completeServiceReasons
+//   )
+//     .then((data) => {
+//       toast.successAction("service", "completed");
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       toast.error("service", "not-completed");
+//     });
+// };
+
+const doCompleteTasks = () => {
   completeTasks(
-    utilsStore.selectedElements["task"].map((x) => x.task_number),
-    formUtilsStore.completeServiceReasons
-  )
-    .then((data) => {
-      toast.successAction("service", "completed");
-    })
-    .catch((error) => {
-      console.error(error);
-      toast.error("service", "not-completed");
-    });
+    utilsStore.selectedElements["task"].map((x) => x.task_number)
+  ).then(() => {
+    toast.successAction("task", "completed");
+    emit("taskCompleted");
+  });
 };
 
 const completeProject = (id) => {
@@ -140,7 +140,7 @@ const completeProject = (id) => {
     });
 };
 
-formUtilsStore.completeService = completeService;
+// formUtilsStore.completeService = completeService;
 
 // PROVIDE, EXPOSE
 

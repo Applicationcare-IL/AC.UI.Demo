@@ -42,18 +42,6 @@ const slaClasses = computed(() => {
     },
   ];
 });
-
-const getSLAText = computed(() => {
-  if (props.sla === null) return;
-  if (props.state === "active" && props.sla !== "breached")
-    return t("sla.days_left", { days: Math.abs(props.daysForClosing) });
-  if (props.state === "active" && props.sla === "breached")
-    return t("sla.days_passed", { days: 2 });
-  if (props.sla !== "breached") return t("sla.whithin_sla");
-  if (props.sla === "breached") return t("sla.ended_breach");
-
-  return "";
-});
 </script>
 
 <style scoped lang="scss">

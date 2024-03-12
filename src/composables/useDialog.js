@@ -89,16 +89,21 @@ export function useDialog() {
     });
   };
 
-  const completeService = (id) => {
-    confirm.require({
-      group: "completeService",
-      header: "ביטול שירות" + id,
-      acceptLabel: "ביטול תהליך",
-      rejectLabel: "חזור",
-      accept: () => {
-        formUtilsStore.completeService(id);
-      },
-      reject: () => {},
+  const confirmCompleteTasks = () => {
+    return new Promise((resolve) => {
+      confirm.require({
+        group: "completeService",
+        message: i18n.t("service.notification-complete-service-message"),
+        header: i18n.t("service.notification-complete-service-header"),
+        acceptLabel: i18n.t("buttons.continue"),
+        rejectLabel: i18n.t("buttons.cancel"),
+        accept: () => {
+          resolve(true);
+        },
+        reject: () => {
+          resolve(false);
+        },
+      });
     });
   };
 
@@ -154,7 +159,7 @@ export function useDialog() {
     confirmNewService,
     confirmNewProject,
     cancelService,
-    completeService,
+    confirmCompleteTasks,
     confirmCancelDialog,
   };
 }

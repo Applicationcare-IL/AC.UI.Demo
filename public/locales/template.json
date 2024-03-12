@@ -67,7 +67,9 @@
   "response": "Response",
   "buttons": {
     "save": "Save button",
+    "accept": "Accept",
     "cancel": "Cancel",
+    "continue": "Continue",
     "link_contact": "Link contact",
     "link_customer": "Link customer",
     "assign": "Assign",
@@ -203,6 +205,9 @@
     "notification-created-message": "The new service was successfully created! \n From now on he will appear in your customer list",
     "notification-created-detail": "View service",
     "notification-created-close": "Close",
+    "notification-complete-service-header": "Complete Tasks ",
+    "notification-complete-service-message": "Complete Tasks ",
+
     "direction": "Direction",
     "toast": {
       "created": "New service Created",
