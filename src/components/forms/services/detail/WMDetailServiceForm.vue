@@ -81,7 +81,7 @@
                         v-if="service.sla"
                         :sla="service.sla"
                         :days-for-closing="service.days_for_closing"
-                        :state="service.state"
+                        :state="service.state.value"
                       >
                       </WMSLATag>
                     </div>
