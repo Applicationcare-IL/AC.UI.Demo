@@ -97,8 +97,6 @@ export function useContacts() {
   };
 
   const getFullName = (customer) => {
-    console.log(customer);
-
     if (customer.name == null && customer.surname == null) return "";
     if (customer.name == null) return customer.surname;
     if (customer.surname == null) return customer.name;
