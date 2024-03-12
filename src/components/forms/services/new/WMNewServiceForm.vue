@@ -241,6 +241,8 @@ const { can } = usePermissions();
 // INJECT
 const isFormDirty = inject("isFormDirty");
 const closeSidebar = inject("closeSidebar");
+const preselectedContact = inject("preselectedContact", null);
+const preselectedCustomer = inject("preselectedCustomer", null);
 
 // PROPS, EMITS
 const props = defineProps({
@@ -531,6 +533,14 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
+  if (preselectedContact) {
+    selectedContact.value = preselectedContact.value;
+  }
+
+  if (preselectedCustomer) {
+    selectedCustomer.value = preselectedCustomer.value;
+  }
+
   optionSetsStore.getOptionSetValuesFromApi("state").then((data) => {
     ACTIVE_STATE_ID.value = data.find((state) => state.value === "active").id;
   });

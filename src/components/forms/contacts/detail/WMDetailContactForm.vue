@@ -359,6 +359,8 @@ const serviceColumns = ref(getServiceColumns());
 const taskColumns = ref(getTaskColumns());
 const documentsColumns = ref(getProjectDocumentColumns());
 
+const firstRelatedCustomer = ref(null);
+
 // COMPUTED
 
 // COMPONENT METHODS
@@ -367,8 +369,14 @@ const fetchData = async () => {
     contact.value = data;
     utilsStore.selectedElements["contact"] = [contact.value];
     setSelectedContacts(contact.value);
+
+    if (data.customers.length > 0) {
+      firstRelatedCustomer.value = data.customers[0];
+    }
+
     loaded.value = true;
   });
+
   const tasksData = await getTasksFromApi({
     customer_id: route.params.id,
   });
@@ -399,6 +407,7 @@ utilsStore.entity = "contact";
 
 // PROVIDE, EXPOSE
 provide("preselectedContact", contact);
+provide("preselectedCustomer", firstRelatedCustomer);
 
 defineExpose({
   onSave,
