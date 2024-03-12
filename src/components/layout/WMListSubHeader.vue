@@ -37,7 +37,7 @@
           />
 
           <WMSendMessageButton
-            :selected-elements="selectedElements"
+            :selected-elements="selectedElements.length"
             :multiple="true"
           />
 
@@ -52,12 +52,18 @@
 
           <WMSendEmailButton
             v-if="can('global.mail')"
-            :selected-elements="selectedElements"
+            :selected-elements="selectedElements.length"
             :multiple="true"
           />
 
-          <!-- <Divider layout="vertical" /> -->
-          <!-- <WMButton class="m-1 col-6 " name="basic-secondary">כפתור </WMButton> -->
+          <Divider v-if="scopes && scopes.length" layout="vertical" />
+
+          <WMActionBuilderDropdowns
+            v-if="scopes && scopes.length"
+            :scopes="scopes"
+            :selected-elements="selectedElements"
+            @post-action-executed="$emit('refreshTable')"
+          />
         </div>
         <div class="flex flex-row align-items-center gap-3">
           <WMOwnerToggle :entity="entity" />
@@ -98,18 +104,21 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { computed, ref, watch } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
+// DEPENDENCIES
 const utilsStore = useUtilsStore();
 const { can } = usePermissions();
-
 const { listRowsPerPage, selectedRowsPerPage } = useListUtils();
+const { getScopes } = useActionBuilder();
 
-const numberOfRows = ref(
-  listRowsPerPage.find((x) => x.value === selectedRowsPerPage.value)
-);
+// INJECT
+
+// PROPS, EMITS
+defineEmits(["new", "taskCompleted", "refreshTable"]);
 
 const props = defineProps({
   activeButtons: Boolean,
@@ -117,27 +126,25 @@ const props = defineProps({
   entity: String,
 });
 
-defineEmits(["new", "taskCompleted", "refreshTable"]);
+// REFS
+const numberOfRows = ref(
+  listRowsPerPage.find((x) => x.value === selectedRowsPerPage.value)
+);
 
+const scopes = ref();
+const selectedElements = ref([]);
 const isFilterVisible = ref(false);
 
+// COMPUTED
 const isFilterApplied = computed(() => {
   if (!utilsStore.filters[props.entity]) return 0;
   return Object.keys(utilsStore.filters[props.entity]).length;
 });
 
+// COMPONENT METHODS
 const onChange = (event) => {
   selectedRowsPerPage.value = event.value;
 };
-
-const selectedElements = ref(0);
-
-watch(
-  () => utilsStore.selectedElements[props.entity],
-  (value) => {
-    selectedElements.value = value.length;
-  }
-);
 
 function closeFilterSidebar() {
   isFilterVisible.value = false;
@@ -146,4 +153,20 @@ function closeFilterSidebar() {
 function openFilterSidebar() {
   isFilterVisible.value = true;
 }
+
+getScopes(props.entity, "list").then((data) => {
+  scopes.value = data;
+});
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+watch(
+  () => utilsStore.selectedElements[props.entity],
+  (value) => {
+    selectedElements.value = value;
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

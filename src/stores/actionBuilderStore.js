@@ -8,11 +8,21 @@ export const useActionBuilderStore = defineStore("actionBuilder", {
       return axiosConfig
         .get("/url-action-builder/scopes", { params })
         .then((response) => {
-          const data = response.data.data;
-          return { data };
+          return response.data.data;
         })
         .catch((error) => {
           console.error(error);
+        });
+    },
+    executeAction(params) {
+      return axiosConfig
+        .post("/url-action-builder", params)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
         });
     },
   },

@@ -424,7 +424,7 @@ a {
     }
 }
 
-//Buttons
+// Buttons
 .p-button{
     cursor: pointer;
     width: -moz-fit-content;
@@ -482,6 +482,11 @@ a {
 
 .p-selectbutton.p-buttonset.p-component.form-select-button {
     height: 24px;
+}
+
+.p-button .p-button-icon-left{
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .p-button-only-icon{
