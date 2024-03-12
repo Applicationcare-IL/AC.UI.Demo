@@ -53,6 +53,7 @@
   "day": "day",
   "future": "Future",
   "now": "Now",
+  "entity": "Entity",
   "export": "Export",
   "journal": "Journal",
   "customer-name": "Customer Name",
@@ -63,6 +64,7 @@
   "selected-contacts": "Selected contacts",
   "options": "Options",
   "filename": "Filename",
+  "response": "Response",
   "buttons": {
     "save": "Save button",
     "cancel": "Cancel",
@@ -81,7 +83,8 @@
     "create-new-one": "Create new one",
     "open": "Open",
     "complete": "Complete",
-    "close-filters": "Close filters"
+    "close-filters": "Close filters",
+    "close": "Close"
   },
   "navigation": {
     "dashboard": "Dashboard",
