@@ -83,15 +83,21 @@
       >
         <template #body="slotProps">
           <router-link
-            v-if="slotProps.data.customer?.id"
+            v-if="slotProps.data.customers.length === 1"
             :to="{
               name: 'customerDetail',
-              params: { id: slotProps.data.customer?.id },
+              params: { id: slotProps.data.customers[0]?.id },
             }"
             class="vertical-align-middle"
           >
-            {{ slotProps.data.customer_full_name }}
+            {{ slotProps.data.first_customer_full_name }}
           </router-link>
+          <span
+            v-if="slotProps.data.customers.length > 1"
+            class="w-full text-center font-bold block"
+          >
+            ...
+          </span>
         </template>
       </Column>
       <Column field="telephone" :header="$t('contact.telephone')"></Column>

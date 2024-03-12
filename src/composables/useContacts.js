@@ -68,8 +68,9 @@ export function useContacts() {
       gender: contact.gender, //is_male ? 'male' : 'female',
       is_main: contact.main_contact_for != null,
       customer: contact.main_contact_for,
-      customer_full_name: contact.main_contact_for
-        ? getFullName(contact.main_contact_for)
+      customers: contact.customers,
+      first_customer_full_name: contact.customers[0]
+        ? getFullName(contact.customers[0])
         : null,
       role: contact.role,
       role_project: contact.role_project,
@@ -96,6 +97,8 @@ export function useContacts() {
   };
 
   const getFullName = (customer) => {
+    console.log(customer);
+
     if (customer.name == null && customer.surname == null) return "";
     if (customer.name == null) return customer.surname;
     if (customer.surname == null) return customer.name;
