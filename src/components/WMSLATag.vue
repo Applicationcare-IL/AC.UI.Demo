@@ -6,6 +6,9 @@
 
 <script setup>
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+
+const i18n = useI18n();
 
 const props = defineProps({
   sla: String,
@@ -32,11 +35,11 @@ const slaClasses = computed(() => {
 const getSLAText = computed(() => {
   if (props.sla === null) return;
   if (props.state === "active" && props.sla !== "breached")
-    return "נותרו " + Math.abs(props.daysForClosing) + " ימים";
+    return i18n.t("days_left", Math.abs(props.daysForClosing));
   if (props.state === "active" && props.sla === "breached")
-    return "חריגה " + Math.abs(props.daysForClosing) + " ימים";
-  if (props.sla !== "breached") return "עמד ביעד";
-  if (props.sla === "breached") return "הסתיים בחריגה";
+    return i18n.t("days_passed", Math.abs(props.daysForClosing));
+  if (props.sla !== "breached") return i18n.t("whithin_sla");
+  if (props.sla === "breached") return i18n.t("ended_breach");
 
   return "";
 });
