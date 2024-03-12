@@ -478,8 +478,8 @@
     "expired-password-reset-email-sent": "An email has been sent to you with a link to reset your password"
   },
   "sla": {
-    "days_left": "{0} Days left",
-    "days_passed": "{0} Days passed",
+    "days_left": "{days} Days left",
+    "days_passed": "{days} Days passed",
     "breached": "Breached",
     "near_breach": "Near Breach",
     "no_breach": "No Breach",

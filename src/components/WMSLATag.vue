@@ -35,11 +35,11 @@ const slaClasses = computed(() => {
 const getSLAText = computed(() => {
   if (props.sla === null) return;
   if (props.state === "active" && props.sla !== "breached")
-    return i18n.t("days_left", Math.abs(props.daysForClosing));
+    return i18n.t("sla.days_left", { days: Math.abs(props.daysForClosing) });
   if (props.state === "active" && props.sla === "breached")
-    return i18n.t("days_passed", Math.abs(props.daysForClosing));
-  if (props.sla !== "breached") return i18n.t("whithin_sla");
-  if (props.sla === "breached") return i18n.t("ended_breach");
+    return i18n.t("sla.days_passed", { days: Math.abs(props.daysForClosing) });
+  if (props.sla !== "breached") return i18n.t("sla.whithin_sla");
+  if (props.sla === "breached") return i18n.t("sla.ended_breach");
 
   return "";
 });
