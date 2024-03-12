@@ -1,6 +1,17 @@
 <template>
   <div class="sla-tag" :class="slaClasses">
-    {{ getSLAText }}
+    <span v-if="props.state === 'active' && props.sla !== 'breached'">
+      {{ t("sla.days_left", { days: Math.abs(props.daysForClosing) }) }}
+    </span>
+    <span v-if="props.state === 'active' && props.sla === 'breached'">
+      {{ t("sla.days_passed", { days: Math.abs(props.daysForClosing) }) }}
+    </span>
+    <span v-if="props.state !== 'active' && props.sla !== 'breached'">
+      {{ t("sla.whithin_sla") }}
+    </span>
+    <span v-if="props.state !== 'active' && props.sla === 'breached'">
+      {{ t("sla.ended_breach") }}
+    </span>
   </div>
 </template>
 
@@ -8,7 +19,7 @@
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 
-const i18n = useI18n();
+const { t } = useI18n();
 
 const props = defineProps({
   sla: String,
@@ -35,11 +46,11 @@ const slaClasses = computed(() => {
 const getSLAText = computed(() => {
   if (props.sla === null) return;
   if (props.state === "active" && props.sla !== "breached")
-    return i18n.t("sla.days_left", { days: Math.abs(props.daysForClosing) });
+    return t("sla.days_left", { days: Math.abs(props.daysForClosing) });
   if (props.state === "active" && props.sla === "breached")
-    return i18n.t("sla.days_passed", { days: Math.abs(props.daysForClosing) });
-  if (props.sla !== "breached") return i18n.t("sla.whithin_sla");
-  if (props.sla === "breached") return i18n.t("sla.ended_breach");
+    return t("sla.days_passed", { days: 2 });
+  if (props.sla !== "breached") return t("sla.whithin_sla");
+  if (props.sla === "breached") return t("sla.ended_breach");
 
   return "";
 });

@@ -120,7 +120,7 @@
             v-if="slotProps.data.sla"
             :sla="slotProps.data.sla.sla"
             :days-for-closing="slotProps.data.days_for_closing"
-            :state="slotProps.data.state"
+            :state="slotProps.data.state.value"
           />
         </template>
       </Column>

@@ -60,7 +60,7 @@
                       v-if="task.sla"
                       :sla="task.sla.sla"
                       :days-for-closing="task.days_for_closing"
-                      :state="task.state"
+                      :state="task.state.value"
                     />
                   </WMInput>
                 </div>
