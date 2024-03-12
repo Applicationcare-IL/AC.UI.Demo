@@ -308,6 +308,8 @@ export function useProjects() {
   };
 
   const parseProjectPayment = (payment) => {
+    console.log("parseProjectPayment", payment);
+
     return {
       ...payment,
       proforma_invoice_date: parseDate(payment.proforma_invoice_date),
@@ -315,7 +317,8 @@ export function useProjects() {
       payment_date: parseDate(payment.payment_date),
       report_date: parseDate(payment.report_date),
       terms_of_payment: payment.terms_of_payment_id,
-      milestone: 2,
+      milestone_id: 2,
+      // milestone_id: payment.milestone?.id,
     };
   };
 
@@ -323,7 +326,7 @@ export function useProjects() {
     return {
       name: milestone["milestone-name"],
       project_id: milestone.project_id,
-      milestone_type: milestone.type.id,
+      milestone_type: milestone.type?.id,
       description: milestone.description,
       planned_date: parseDate(milestone.plannedDate),
       actual_date: parseDate(milestone.actualDate),

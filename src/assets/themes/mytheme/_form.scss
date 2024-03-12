@@ -295,15 +295,14 @@ textarea {
     white-space: nowrap;
 }
 
-//Status
-
+// Status and State
+.state-label,
 .status-label{
     display: flex;
     height: 24px;
     padding: 10px 8px;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     gap: 10px;
     font-weight: 700;
-
 }

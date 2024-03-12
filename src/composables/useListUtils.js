@@ -49,6 +49,7 @@ export function useListUtils() {
         optionSet: "contact_customer_role",
         class: "p-0",
       },
+
       {
         name: "actions",
         type: "actions",
@@ -242,6 +243,18 @@ export function useListUtils() {
         optionSet: "contact_customer_role",
         class: "p-0",
       },
+      // {
+      //   name: "status",
+      //   type: "option-set",
+      //   header: "status",
+      //   class: "p-0 text-center",
+      // },
+      // {
+      //   name: "state",
+      //   type: "state",
+      //   header: "state.state",
+      //   class: "p-0 text-center",
+      // },
       {
         name: "actions",
         type: "actions",
@@ -471,9 +484,10 @@ export function useListUtils() {
       },
       // {
       //   name: "milestone",
-      //   type: "dropdown",
+      //   type: "milestone",
       //   field: "milestone",
-      //   optionset: "milestone_type",
+      //   header: "milestone.milestone",
+      //   editable: true,
       // },
       {
         name: "status",
@@ -751,6 +765,15 @@ export function useListUtils() {
     ];
   };
 
+  const highlightStatusClass = (status) => {
+    return [
+      {
+        "bg-green-200 text-green-900": status === "active",
+        "bg-yellow-100 text-gray-900": status === "terminated",
+      },
+    ];
+  };
+
   return {
     listRowsPerPage,
     selectedRowsPerPage,
@@ -781,5 +804,6 @@ export function useListUtils() {
     getAlertCellConditionalStyle,
     getStatusConditionalStyle,
     getPriorityConditionalStyle,
+    highlightStatusClass,
   };
 }

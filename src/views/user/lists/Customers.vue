@@ -94,13 +94,6 @@
           </router-link>
         </template>
       </Column>
-      <Column field="status" :header="$t('status')">
-        <template #body="slotProps">
-          <div :class="highlightCellClass(slotProps.data.status)">
-            <WMOptionSetValue :option-set="slotProps.data.status" />
-          </div>
-        </template>
-      </Column>
       <Column field="address" :header="$t('address.address')">
         <template #body="slotProps">
           {{ formatAddress(slotProps.data.location) }}
@@ -165,6 +158,22 @@
       </Column>
       <Column field="number" :header="$t('customer.number')"></Column>
       <Column field="owner.name" :header="$t('owner')" frozen></Column>
+      <Column field="status" :header="$t('status')" class="numeric">
+        <template #body="slotProps">
+          <div
+            :class="
+              highlightStatusClass(slotProps.data.status.value.toLowerCase())
+            "
+          >
+            {{ $t("statuses." + slotProps.data.status.value.toLowerCase()) }}
+          </div>
+        </template>
+      </Column>
+      <Column field="state" class="p-0 filled-td" :header="$t('state.state')">
+        <template #body="slotProps">
+          <WMStateField :state="slotProps.data.state" />
+        </template>
+      </Column>
     </DataTable>
   </div>
 </template>
@@ -192,7 +201,7 @@ onMounted(() => {
 
 const utilsStore = useUtilsStore();
 
-const { selectedRowsPerPage } = useListUtils();
+const { selectedRowsPerPage, highlightStatusClass } = useListUtils();
 
 // Pagination and table content
 const totalRecords = ref(0);
@@ -260,7 +269,6 @@ const displayDetails = (data) => {
 
 const isDetailsVisible = ref(false);
 
-// TODO: Move to Store
 const highlightCellClass = (data) => {
   return [{ "bg-red-100 text-red-600": data > 0 }];
 };

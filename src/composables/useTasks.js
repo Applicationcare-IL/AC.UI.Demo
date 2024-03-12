@@ -103,7 +103,7 @@ export function useTasks() {
       days_for_closing: task.sla?.days_for_closing,
       contact: task.contact,
       contact_id: task.contact?.id,
-      state: task.state?.value,
+      state: task.state,
       status: task.status,
       is_open: task.status?.value == "open",
       due_date: task.sla?.due_date,

@@ -140,9 +140,14 @@
       <Column field="owner.name" :header="$t('owner')"></Column>
       <Column field="status" :header="$t('status')" class="numeric">
         <template #body="slotProps">
-          <div :class="highlightStatusClass(slotProps.data.status)">
-            {{ $t("statuses." + slotProps.data.status) }}
+          <div :class="highlightStatusClass(slotProps.data.status.value)">
+            <WMOptionSetValue :option-set="slotProps.data.status" />
           </div>
+        </template>
+      </Column>
+      <Column field="state" class="p-0 filled-td" :header="$t('state.state')">
+        <template #body="slotProps">
+          <WMStateField :state="slotProps.data.state" />
         </template>
       </Column>
     </DataTable>
@@ -154,7 +159,6 @@ import { onMounted, ref, watch, watchEffect } from "vue";
 
 const { can } = usePermissions();
 
-import { useFormUtilsStore } from "@/stores/formUtils";
 import { usePermissionsStore } from "@/stores/permissionsStore";
 import { useUtilsStore } from "@/stores/utils";
 
@@ -168,7 +172,7 @@ const { formatAddress } = useUtils();
 
 const { getContactsFromApi, setSelectedContacts, resetSelectedContacts } =
   useContacts();
-const { selectedRowsPerPage } = useListUtils();
+const { selectedRowsPerPage, highlightStatusClass } = useListUtils();
 
 onMounted(() => {
   utilsStore.entity = "contact";
@@ -177,15 +181,12 @@ onMounted(() => {
   resetSelectedContacts();
 });
 
-const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 
 //Pagination and table content
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const contacts = ref();
-const services = ref();
-const tasks = ref();
 const loading = ref(false);
 const dt = ref();
 const searchValue = ref("");
@@ -249,16 +250,6 @@ const isDetailsVisible = ref(false);
 //Move to Store
 const highlightCellClass = (data) => {
   return [{ "bg-red-100 text-red-600": data > 0 }];
-};
-
-// TODO: move to a SLA related composable
-const highlightStatusClass = (status) => {
-  return [
-    {
-      "bg-green-200 text-green-900": status === "active",
-      "bg-yellow-100 text-gray-900": status === "terminated",
-    },
-  ];
 };
 
 //Manage selected rows

@@ -60,7 +60,7 @@ export function useCustomers() {
       name: customer.name,
       title: customer.name,
       type: customer.type,
-      state: customer.state?.value,
+      state: customer.state,
       status: customer.status,
       open_services: customer.open_services,
       breached_services: customer.breached_services,

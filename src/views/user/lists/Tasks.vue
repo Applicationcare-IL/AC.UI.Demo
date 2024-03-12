@@ -134,14 +134,17 @@
           {{ slotProps.data.last_change }}
         </template>
       </Column>
-
+      <Column field="notes" :header="$t('task.notes')"></Column>
       <Column field="status" :header="$t('task.status')">
         <template #body="slotProps">
           <WMOptionSetValue :option-set="slotProps.data.status" />
         </template>
       </Column>
-
-      <Column field="notes" :header="$t('task.notes')"></Column>
+      <Column field="state" class="p-0 filled-td" :header="$t('state.state')">
+        <template #body="slotProps">
+          <WMStateField :state="slotProps.data.state" />
+        </template>
+      </Column>
     </DataTable>
   </div>
 </template>

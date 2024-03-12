@@ -1,5 +1,5 @@
 <template>
-  <pre>{{ milestone }}</pre>
+  <!-- <pre>{{ milestone }}</pre> -->
   <div
     v-if="milestone"
     class="wm-detail-form-container flex flex-column overflow-auto gap-5"
@@ -10,23 +10,91 @@
           <template #title> {{ $t("general-details") }} </template>
           <template #content>
             <div class="flex flex-auto flex-column gap-5">
-              <div class="wm-form-row align-items-start flex-column gap-5">
+              <div class="wm-form-row gap-5 align-items-start">
                 <!-- <WMInput
-                  name="budget"
-                  type="info-link"
+                  name="owner"
+                  type="info"
                   :highlighted="true"
-                  :label="$t('budget.budget') + ':'"
-                  :value="budgetItem.budget?.id"
-                  :to="'/project/' + budgetItem.project?.id + '/budget'"
+                  :label="$t('owner') + ':'"
+                  :value="milestone.owner"
+                /> -->
+                <WMInput
+                  name="system_id"
+                  type="info"
+                  :highlighted="true"
+                  :label="$t('milestone.system-id') + ':'"
+                  :value="milestone.id"
                 />
 
+                <div class="wm-input flex flex-column">
+                  <label class="wm-form-label highlighted">
+                    {{ $t("milestone.status") + ":" }}
+                  </label>
+                  <span class="" style="width: 120px">
+                    {{ milestone.milestone_status }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="wm-form-row align-items-start gap-5">
+                <WMInput
+                  name="project"
+                  type="info-link"
+                  :highlighted="true"
+                  :label="$t('project.project') + ':'"
+                  :value="milestone.project_id"
+                  :to="'/project/' + milestone.project_id"
+                />
+              </div>
+
+              <div class="wm-form-row align-items-start gap-5">
                 <WMInput
                   id="milestone-name"
                   type="input-text"
-                  :label="$t('budget.milestone-name') + ':'"
+                  :label="$t('milestone.milestone-name') + ':'"
                   name="milestone-name"
-                  :value="budgetItem.name"
-                /> -->
+                  :value="milestone.name"
+                />
+
+                <WMInput
+                  name="type"
+                  :highlighted="true"
+                  type="input-select"
+                  :label="$t('milestone.milestone-type') + ':'"
+                  :options="milestoneTypes"
+                  :value="selectedMilestoneType"
+                  :placeholder="$t('select', ['milestone.milestone'])"
+                  width="130"
+                  option-set
+                />
+              </div>
+              <div class="wm-form-row align-items-start gap-5">
+                <WMInput
+                  name="plannedDate"
+                  type="date"
+                  :label="$t('milestone.planned-date') + ':'"
+                  :value="
+                    formatDate(new Date(milestone.planned_date), 'DD/MM/YYYY')
+                  "
+                />
+
+                <WMInput
+                  name="baseDate"
+                  type="date"
+                  :label="$t('milestone.base-date') + ':'"
+                  :value="
+                    formatDate(new Date(milestone.base_date), 'DD/MM/YYYY')
+                  "
+                />
+
+                <WMInput
+                  name="actualDate"
+                  type="date"
+                  :label="$t('milestone.actual-date') + ':'"
+                  :value="
+                    formatDate(new Date(milestone.actual_date), 'DD/MM/YYYY')
+                  "
+                />
               </div>
             </div>
           </template>
@@ -56,17 +124,20 @@
 
 <script setup>
 // IMPORTS
+import { formatDate } from "@vueuse/core";
 import { useForm } from "vee-validate";
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
+const optionSetsStore = useOptionSetsStore();
 
 const { getProjectMilestone, updateProjectMilestone, parseMilestone } =
   useProjects();
@@ -87,6 +158,9 @@ const props = defineProps({
 
 // REFS
 const milestone = ref(null);
+const milestoneTypes = ref([]);
+const selectedMilestoneType = ref(null);
+const refreshInput = ref(0);
 
 // COMPUTED
 
@@ -107,7 +181,7 @@ fetchData();
 const onSave = handleSubmit((values) => {
   updateProjectMilestone(
     route.params.id,
-    route.params.budgetId,
+    route.params.milestoneId,
     parseMilestone(values)
   )
     .then(() => {
@@ -142,6 +216,15 @@ watch(
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  milestoneTypes.value = await optionSetsStore.getOptionSetValuesFromApi(
+    "milestone_type"
+  );
+
+  selectedMilestoneType.value = milestoneTypes.value.find(
+    (type) => type.id === milestone.value.milestone_type.id
+  );
+});
 </script>
 
 <style scoped lang="scss"></style>

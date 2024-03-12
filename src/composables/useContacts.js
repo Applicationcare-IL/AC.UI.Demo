@@ -1,7 +1,7 @@
+import { get } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 
 import { useContactsStore } from "@/stores/contactsStore";
-import { get } from "@vueuse/core";
 
 export function useContacts() {
   const contactsStore = useContactsStore();
@@ -62,8 +62,8 @@ export function useContacts() {
       breached_services: contact.breached_services,
       open_tasks: contact.open_tasks,
       breached_tasks: contact.breached_tasks,
-      status: contact.status?.value,
-      state: contact.state?.value,
+      status: contact.status,
+      state: contact.state,
       owner: contact.owner,
       gender: contact.gender, //is_male ? 'male' : 'female',
       is_main: contact.main_contact_for != null,
