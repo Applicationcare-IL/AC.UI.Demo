@@ -1,14 +1,24 @@
-import { useActionBuilderStore } from "@/stores/callsStore";
+import { useActionBuilderStore } from "@/stores/actionBuilderStore";
 
 export function useActionBuilder() {
-  const callsStore = useActionBuilderStore();
+  const actionBuilderStore = useActionBuilderStore();
 
-  const takeCall = (callId, params) => {
-    return callsStore.takeCall(callId, params);
+  const getScopes = (entityType, view) => {
+    const params = {
+      entity_type: entityType,
+      view,
+    };
+
+    return actionBuilderStore.getScopes(params);
+  };
+
+  const executeAction = async (params) => {
+    return await actionBuilderStore.executeAction(params);
   };
 
   return {
     // ACTIONS
-    takeCall,
+    getScopes,
+    executeAction,
   };
 }
