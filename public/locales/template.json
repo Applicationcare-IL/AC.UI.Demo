@@ -476,7 +476,9 @@
     "days_passed": "{0} Days passed",
     "breached": "Breached",
     "near_breach": "Near Breach",
-    "no_breach": "No Breach"
+    "no_breach": "No Breach",
+    "whithin_sla": "Within SLA",
+    "ended_breach": "Ended Breach"
   },
   "toast": {
     "success": "Success",
