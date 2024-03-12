@@ -62,6 +62,8 @@ const getIdsOfSelectedElements = () => {
 };
 
 const handleOverlayMenuClick = (action) => {
+  console.log("action", action);
+
   const params = {
     url_action_builder: action.id,
     entity_ids: getIdsOfSelectedElements(),
@@ -77,8 +79,8 @@ const handleOverlayMenuClick = (action) => {
       handlePostAction(params);
       break;
 
-    case "redirect":
-      handleRedirectAction(params);
+    case "redirect_to":
+      handleRedirectToAction(params);
       break;
 
     default:
@@ -107,9 +109,17 @@ const handlePostAction = (params) => {
     });
 };
 
-const handleRedirectAction = (params) => {
-  console.log("redirect action", params);
-  executeAction(params);
+const handleRedirectToAction = (params) => {
+  executeAction(params).then((response) => {
+    response.data.forEach((element) => {
+      openLinkInNewTab(element.result.redirect_to);
+    });
+  });
+};
+
+const openLinkInNewTab = (url) => {
+  const win = window.open(url, "_blank");
+  win.focus();
 };
 
 // COMPUTED
