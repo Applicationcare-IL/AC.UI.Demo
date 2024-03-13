@@ -171,6 +171,16 @@ const router = createRouter({
           component: () =>
             import("@/views/user/forms/detail/ProjectBudgetItem.vue"),
         },
+        {
+          path: "/assets",
+          name: "assets",
+          component: () => import("@/views/user/lists/Assets.vue"),
+        },
+        {
+          path: "/asset/:id",
+          name: "assetDetail",
+          component: () => import("@/views/user/forms/detail/Asset.vue"),
+        },
         // FOR MOBILE VERSION ONLY
         {
           path: "/my-open-tasks",
