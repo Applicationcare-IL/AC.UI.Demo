@@ -313,6 +313,8 @@ const milestones = ref([]);
 
 // COMPUTED
 const isSomePaymentInCreateMode = computed(() => {
+  if (payments.value.length < 1) return false;
+
   return payments.value.some((payment) => payment.mode === "create");
 });
 
@@ -376,7 +378,12 @@ const getPaymentTemplate = () => {
     mode: "create",
     budget_item: "",
     customer: "",
-    milestone_id: 1,
+    status: {
+      ...paymentStatuses.value[0],
+    },
+    milestone: {
+      ...milestones.value[0],
+    },
     proforma_invoice_number: "PRO-12345",
     proforma_invoice_date: new Date(),
     proforma_invoice_amount: 100000,
@@ -386,7 +393,6 @@ const getPaymentTemplate = () => {
     amount_paid: 80000,
     reported: true,
     reported_date: new Date(),
-    // reported_to_id: 1273,
     amount_approved: 80000,
     batch_number: "BATCH-2024-02-12",
     terms_of_payment_id: "",
@@ -493,7 +499,6 @@ const validateForm = (obj) => {
   const requiredFields = [
     "budget_item",
     "customer",
-    // "milestone_id",
     "proforma_invoice_number",
     "proforma_invoice_date",
     "proforma_invoice_amount",
@@ -509,6 +514,7 @@ const validateForm = (obj) => {
 
   for (const field of requiredFields) {
     if (!obj.hasOwnProperty(field) || obj[field] === "") {
+      console.log("field", field);
       return false;
     }
   }
@@ -524,7 +530,14 @@ const onRowEditCancel = (event) => {
   }
 };
 
+const refreshTable = () => {
+  loadLazyData();
+};
+
 // PROVIDE, EXPOSE
+defineExpose({
+  refreshTable,
+});
 
 // WATCHERS
 

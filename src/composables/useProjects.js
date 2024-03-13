@@ -315,7 +315,7 @@ export function useProjects() {
       payment_date: parseDate(payment.payment_date),
       report_date: parseDate(payment.report_date),
       terms_of_payment: payment.terms_of_payment_id,
-      milestone_id: payment.milestone?.id,
+      milestone: payment.milestone?.id,
     };
   };
 

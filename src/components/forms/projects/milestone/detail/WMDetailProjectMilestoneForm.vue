@@ -11,13 +11,6 @@
           <template #content>
             <div class="flex flex-auto flex-column gap-5">
               <div class="wm-form-row gap-5 align-items-start">
-                <!-- <WMInput
-                  name="owner"
-                  type="info"
-                  :highlighted="true"
-                  :label="$t('owner') + ':'"
-                  :value="milestone.owner"
-                /> -->
                 <WMInput
                   name="system_id"
                   type="info"
