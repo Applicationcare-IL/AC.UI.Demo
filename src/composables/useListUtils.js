@@ -482,13 +482,13 @@ export function useListUtils() {
         header: "customer.customer",
         editable: true,
       },
-      // {
-      //   name: "milestone",
-      //   type: "milestone",
-      //   field: "milestone",
-      //   header: "milestone.milestone",
-      //   editable: true,
-      // },
+      {
+        name: "milestone",
+        type: "milestone",
+        field: "milestone",
+        header: "milestone.milestone",
+        editable: true,
+      },
       {
         name: "status",
         type: "status",

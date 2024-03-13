@@ -363,7 +363,9 @@
     "base-date": "Base Date",
     "actual-date": "Actual Date",
     "description": "Description",
-    "milestone-type": "Milestone Type"
+    "milestone-type": "Milestone Type",
+    "status": "Status",
+    "system-id": "System ID"
   },
   "organization": {
     "organization": "Organization",

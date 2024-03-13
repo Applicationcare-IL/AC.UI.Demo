@@ -31,7 +31,9 @@
                     {{ $t("milestone.status") + ":" }}
                   </label>
                   <span class="" style="width: 120px">
-                    {{ milestone.milestone_status }}
+                    <WMOptionSetValue
+                      :option-set="milestone.milestone_status"
+                    />
                   </span>
                 </div>
               </div>
@@ -42,8 +44,8 @@
                   type="info-link"
                   :highlighted="true"
                   :label="$t('project.project') + ':'"
-                  :value="milestone.project_id"
-                  :to="'/project/' + milestone.project_id"
+                  :value="milestone.project_id?.name"
+                  :to="'/project/' + milestone.project_id?.id"
                 />
               </div>
 
@@ -167,16 +169,15 @@ const refreshInput = ref(0);
 // COMPONENT METHODS
 const { handleSubmit, meta, resetForm } = useForm();
 
-const fetchData = () => {
-  getProjectMilestone(route.params.id, route.params.milestoneId).then(
-    (response) => {
-      milestone.value = response;
-      utilsStore.selectedElements["milestone"] = [milestone.value];
-    }
+const fetchData = async () => {
+  const response = await getProjectMilestone(
+    route.params.id,
+    route.params.milestoneId
   );
-};
 
-fetchData();
+  milestone.value = response;
+  utilsStore.selectedElements["milestone"] = [response];
+};
 
 const onSave = handleSubmit((values) => {
   updateProjectMilestone(
@@ -217,13 +218,17 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
+  await fetchData();
+
   milestoneTypes.value = await optionSetsStore.getOptionSetValuesFromApi(
     "milestone_type"
   );
 
-  selectedMilestoneType.value = milestoneTypes.value.find(
-    (type) => type.id === milestone.value.milestone_type.id
-  );
+  if (milestone.value.milestone_type) {
+    selectedMilestoneType.value = milestoneTypes.value.find(
+      (type) => type.id === milestone.value.milestone_type.id
+    );
+  }
 });
 </script>
 

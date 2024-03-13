@@ -95,7 +95,7 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion v-if="project.id === 271">
+      <Accordion v-if="project.id === 272">
         <AccordionTab :header="$t('milestone.milestones')">
           <WMMilestonesTable :project="project" />
         </AccordionTab>

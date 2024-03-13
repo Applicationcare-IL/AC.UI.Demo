@@ -7,7 +7,7 @@
             {{ $t(entityType + "." + entityType) }}: {{ entityObject.title }}
           </h1>
 
-          <div class="flex align-items-center gap-1">
+          <div v-if="entityObject.state" class="flex align-items-center gap-1">
             <span class="font-bold">{{ $t("state.state") }}: </span>
             <div
               :class="statusClass(entityObject.state.value)"
