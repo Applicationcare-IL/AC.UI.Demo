@@ -215,6 +215,9 @@ const loadLazyData = async () => {
   if (props.relatedEntity == "contact") {
     params.append("contact", props.relatedEntityId);
   }
+  if (props.relatedEntity == "asset") {
+    params.append("asset", props.relatedEntityId);
+  }
 
   getServicesFromApi(params).then((result) => {
     services.value = result.data;
