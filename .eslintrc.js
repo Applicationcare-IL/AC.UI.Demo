@@ -37,6 +37,7 @@ module.exports = {
   globals: {
     // Composables
     useAnnouncements: true,
+    useAssets: true,
     useCommunications: true,
     useContacts: true,
     useCustomers: true,

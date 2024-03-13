@@ -215,6 +215,8 @@
         </div>
       </div>
 
+      <WMDetailFormAsset v-if="service.asset" :asset="service.asset" />
+
       <div class="mt-5">
         <WMStepper
           :steps="stages"

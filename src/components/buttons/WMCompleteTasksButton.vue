@@ -103,27 +103,15 @@ const handleCompleteTasks = async () => {
   }
 };
 
-// const completeService = () => {
-//   completeTasks(
-//     utilsStore.selectedElements["task"].map((x) => x.task_number),
-//     formUtilsStore.completeServiceReasons
-//   )
-//     .then((data) => {
-//       toast.successAction("service", "completed");
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       toast.error("service", "not-completed");
-//     });
-// };
-
 const doCompleteTasks = () => {
-  completeTasks(
-    utilsStore.selectedElements["task"].map((x) => x.task_number)
-  ).then(() => {
-    toast.successAction("task", "completed");
-    emit("taskCompleted");
-  });
+  completeTasks(utilsStore.selectedElements["task"].map((x) => x.task_number))
+    .then(() => {
+      toast.successAction("task", "completed");
+      emit("taskCompleted");
+    })
+    .catch((error) => {
+      toast.error(error.response.data.message);
+    });
 };
 
 const completeProject = (id) => {
