@@ -10,6 +10,7 @@
           <div v-if="entityObject.state" class="flex align-items-center gap-1">
             <span class="font-bold">{{ $t("state.state") }}: </span>
             <div
+              v-if="entityType === 'project' || entityType === 'asset'"
               :class="statusClass(entityObject.state.value)"
               class="status-label white-space-nowrap"
             >
@@ -57,8 +58,11 @@
           </WMButton>
         </div>
       </div>
-      <Divider />
-      <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
+      <Divider v-if="utilsStore.entity != 'asset'" />
+      <div
+        v-if="utilsStore.entity != 'asset'"
+        class="flex flex-row justify-content-between flex-wrap row-gap-4"
+      >
         <div class="flex flex-row flex-wrap gap-2 align-items-center">
           <WMButton
             v-if="can(utilsStore.pluralEntity + '.update')"

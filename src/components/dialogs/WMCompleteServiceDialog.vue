@@ -5,29 +5,7 @@
   >
     <template #message="slotProps">
       <div class="flex flex-column p-5">
-        <p>כדי לבטל את התהליך יש למלא פרטים אחרונים.</p>
-        <p>
-          פעולה זו תבטל גם את כל המשימות המקושרות לשירות זה! לא ניתן לבטל את
-          המשימה מבלי למלא את הפרטים.
-        </p>
-        <div class="flex flex-row gap-4">
-          <WMInput
-            name="completeReason1"
-            type="input-select"
-            :highlighted="true"
-            :label="$t('Complete1') + ':'"
-            :options="completeReason1"
-            @update:selected-item="onCompleteReason1Change"
-          />
-          <WMInput
-            name="completeReason2"
-            type="input-select"
-            :highlighted="true"
-            :label="$t('Complete2') + ':'"
-            :options="completeReason2"
-            @update:selected-item="onCompleteReason2Change"
-          />
-        </div>
+        {{ $t("service.notification-complete-service-message") }}
       </div>
     </template>
   </ConfirmDialog>

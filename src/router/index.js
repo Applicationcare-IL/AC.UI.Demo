@@ -171,6 +171,17 @@ const router = createRouter({
           component: () =>
             import("@/views/user/forms/detail/ProjectBudgetItem.vue"),
         },
+        //The path assets is reserved, so we can't use it
+        {
+          path: "/assets_list",
+          name: "assets",
+          component: () => import("@/views/user/lists/Assets.vue"),
+        },
+        {
+          path: "/asset/:id",
+          name: "assetDetail",
+          component: () => import("@/views/user/forms/detail/Asset.vue"),
+        },
         // FOR MOBILE VERSION ONLY
         {
           path: "/my-open-tasks",

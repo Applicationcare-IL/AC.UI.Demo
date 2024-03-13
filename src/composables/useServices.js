@@ -157,6 +157,7 @@ export function useServices() {
         type: service.location?.site_type?.value || "",
       },
       last_activity: service.last_activity,
+      asset: service.asset,
     };
   };
 

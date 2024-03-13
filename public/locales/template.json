@@ -67,7 +67,9 @@
   "response": "Response",
   "buttons": {
     "save": "Save button",
+    "accept": "Accept",
     "cancel": "Cancel",
+    "continue": "Continue",
     "link_contact": "Link contact",
     "link_customer": "Link customer",
     "assign": "Assign",
@@ -203,11 +205,26 @@
     "notification-created-message": "The new service was successfully created! \n From now on he will appear in your customer list",
     "notification-created-detail": "View service",
     "notification-created-close": "Close",
+    "complete-service-dialog-header": "Complete Task: {0}",
+    "complete-service-dialog-message": "This is the last task in service no. {0} . Completing this task will close the service. Fill in the needed details to close the service.\nExiting this window without filling-in the details will cancel the completion of the task.",
+    "complete-service-dialog-accept": "Complete task",
+    "complete-service-dialog-cancel": "Cancel and return",
+
     "direction": "Direction",
     "toast": {
       "created": "New service Created",
       "error": "An error occurred"
     }
+  },
+  "asset": {
+    "asset": "Asset",
+    "assets": "Assets",
+    "asset-type": "Asset Type",
+    "deactivate": "Deactivate",
+    "service-emergency-area": "Service Emergency Area",
+    "service-area": "Service Area",
+    "service-collection-area": "Service Collection Area",
+    "service-tax-area": "Service Tax Area"
   },
   "task": {
     "task": "Task",
@@ -265,6 +282,7 @@
     "role_in_project": "Role in Project",
     "execution_information": "Execution Information",
     "general_information": "General Information",
+    "service_information": "Service Information",
     "request_no": "Request No.",
     "tbr_no": "TBR No.",
     "architect": "Architect",

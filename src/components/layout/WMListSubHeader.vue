@@ -30,14 +30,24 @@
             @task-completed="$emit('taskCompleted')"
           />
 
+          <WMDeactivateAssetButton
+            v-if="utilsStore.entity == 'asset'"
+            :entity="utilsStore.entity"
+            @asset-deactivated="$emit('assetDeactivated')"
+          />
+
           <WMAssignOwnerButton
-            v-if="can(utilsStore.pluralEntity + '.assign')"
+            v-if="
+              can(utilsStore.pluralEntity + '.assign') &&
+              utilsStore.entity != 'asset'
+            "
             :entity="utilsStore.entity"
             @owner-assigned="$emit('refreshTable')"
           />
 
           <WMSendMessageButton
-            :selected-elements="selectedElements.length"
+            v-if="utilsStore.entity != 'asset'"
+            :selected-elements="selectedElements"
             :multiple="true"
           />
 
@@ -51,8 +61,8 @@
           </WMButton> -->
 
           <WMSendEmailButton
-            v-if="can('global.mail')"
-            :selected-elements="selectedElements.length"
+            v-if="can('global.mail') && utilsStore.entity != 'asset'"
+            :selected-elements="selectedElements"
             :multiple="true"
           />
 
