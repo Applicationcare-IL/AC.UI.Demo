@@ -171,8 +171,9 @@ const router = createRouter({
           component: () =>
             import("@/views/user/forms/detail/ProjectBudgetItem.vue"),
         },
+        //The path assets is reserved, so we can't use it
         {
-          path: "/assets",
+          path: "/assets_list",
           name: "assets",
           component: () => import("@/views/user/lists/Assets.vue"),
         },
