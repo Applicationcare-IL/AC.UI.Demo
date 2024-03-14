@@ -161,7 +161,10 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template v-if="column.editable" #editor="{ data, field }">
+        <template
+          v-if="column.editable && !props.milestoneId"
+          #editor="{ data, field }"
+        >
           <Dropdown
             v-model="data[field].id"
             :options="milestones"
@@ -262,10 +265,11 @@
 // IMPORTS
 import { formatDate } from "@vueuse/core";
 import { v4 as uuidv4 } from "uuid";
-import { computed, nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const {
@@ -282,6 +286,7 @@ const { t } = useI18n();
 const optionSetsStore = useOptionSetsStore();
 const { optionLabelWithLang } = useLanguages();
 const { getCustomersFromApi } = useCustomers();
+const utilsStore = useUtilsStore();
 
 // INJECT
 
@@ -540,6 +545,14 @@ defineExpose({
 });
 
 // WATCHERS
+// watch payments
+watch(
+  () => payments.value,
+  () => {
+    utilsStore.selectedElements["payments"] = selectedPayments.value;
+  },
+  { deep: true }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {

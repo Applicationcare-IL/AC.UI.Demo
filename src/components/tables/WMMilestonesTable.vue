@@ -133,7 +133,9 @@ function openSidebar() {
 }
 
 const fetchData = () => {
-  getProjectMilestones(props.project.id).then((response) => {
+  const params = {};
+
+  getProjectMilestones(props.project.id, params).then((response) => {
     milestones.value = response;
   });
 };

@@ -115,6 +115,8 @@
             :entity="utilsStore.entity"
             @task-completed="$emit('taskCompleted')"
           />
+
+          <slot name="custom-buttons" />
         </div>
         <div>
           <WMButton

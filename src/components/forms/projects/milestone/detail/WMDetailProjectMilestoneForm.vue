@@ -53,13 +53,10 @@
 
                 <WMInput
                   name="type"
+                  type="info"
                   :highlighted="true"
-                  type="input-select"
                   :label="$t('milestone.milestone-type') + ':'"
-                  :options="milestoneTypes"
                   :value="selectedMilestoneType"
-                  :placeholder="$t('select', ['milestone.milestone'])"
-                  width="130"
                   option-set
                 />
               </div>
@@ -114,6 +111,17 @@
         </Card>
       </div>
     </div>
+    <div class="flex flex-row gap-5 flex-wrap">
+      <Accordion>
+        <AccordionTab :header="$t('budget.payments')">
+          <WMPaymentsTable
+            ref="paymentsTableRef"
+            :project-id="route.params.id"
+            :milestone-id="route.params.milestoneId"
+          />
+        </AccordionTab>
+      </Accordion>
+    </div>
   </div>
 </template>
 
@@ -167,6 +175,8 @@ const fetchData = async () => {
     route.params.id,
     route.params.milestoneId
   );
+
+  console.log("response", response);
 
   milestone.value = response;
   utilsStore.selectedElements["milestone"] = [response];

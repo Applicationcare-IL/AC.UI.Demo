@@ -142,12 +142,17 @@ export function useProjects() {
     return await projectsStore.createMilestone(projectId, data);
   };
 
-  const getProjectMilestones = async (projectId) => {
-    return await projectsStore.getProjectMilestones(projectId);
+  const getProjectMilestones = async (projectId, params) => {
+    return await projectsStore.getProjectMilestones(projectId, params);
   };
 
   const getProjectMilestone = async (projectId, milestoneId) => {
-    return await projectsStore.getProjectMilestone(projectId, milestoneId);
+    const response = await projectsStore.getProjectMilestone(
+      projectId,
+      milestoneId
+    );
+
+    return mapMilestone(response);
   };
 
   const updateProjectMilestone = async (projectId, milestoneId, data) => {
@@ -450,6 +455,14 @@ export function useProjects() {
     };
   };
 
+  const mapMilestone = (milestone) => {
+    console.log("mapMilestone", milestone);
+    return {
+      ...milestone,
+      title: milestone.name,
+    };
+  };
+
   return {
     // ACTIONS
     getProjectsFromApi,
@@ -492,5 +505,6 @@ export function useProjects() {
     mapProject,
     mapContactsFromProjects,
     mapProjectCustomer,
+    mapMilestone,
   };
 }
