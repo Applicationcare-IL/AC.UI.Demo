@@ -187,8 +187,6 @@ const fetchData = async () => {
     route.params.milestoneId
   );
 
-  console.log("response", response);
-
   milestone.value = response;
   utilsStore.selectedElements["milestone"] = [response];
 };

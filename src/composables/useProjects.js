@@ -166,28 +166,20 @@ export function useProjects() {
   };
 
   const completeMilestone = async (projectId, milestoneId) => {
-    console.log("completeMilestone", projectId, milestoneId);
-
     const completeMilestoneStatusId = await optionSetsStore.getValueId(
       "milestone_status",
       "complete"
     );
-
-    console.log("completeMilestoneStatusId", completeMilestoneStatusId);
 
     const inactiveStateId = await optionSetsStore.getValueId(
       "state",
       "not_active"
     );
 
-    console.log("inactiveStateId", inactiveStateId);
-
     const data = {
       milestone_status: completeMilestoneStatusId,
       state: inactiveStateId,
     };
-
-    console.log("data", data);
 
     return await projectsStore.updateProjectMilestone(
       projectId,
@@ -489,7 +481,6 @@ export function useProjects() {
   };
 
   const mapMilestone = (milestone) => {
-    console.log("mapMilestone", milestone);
     return {
       ...milestone,
       title: milestone.name,
