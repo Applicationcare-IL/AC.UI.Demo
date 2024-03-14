@@ -549,7 +549,7 @@ defineExpose({
 watch(
   () => payments.value,
   () => {
-    utilsStore.selectedElements["payments"] = selectedPayments.value;
+    utilsStore.selectedElements["payments"] = payments.value;
   },
   { deep: true }
 );

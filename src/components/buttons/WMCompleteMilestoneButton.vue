@@ -7,31 +7,28 @@
     @click="handleCompleteMilestone"
     @confirm="doCompleteTasks"
   >
-    <span v-if="isMilestoneCompletable || selectedElements == 0">
+    <span v-if="isMilestoneCompleted"> {{ t("milestone.completed") }} </span>
+    <span v-else>
       {{ t("buttons.complete") }}
     </span>
-    <span v-else> {{ t("milestone.completed") }} </span>
   </WMButton>
-  <!--
-    <pre>
-    isMilestoneCompletable {{ isMilestoneCompletable }}
-  {{ selectedElements == 0 || !isMilestoneCompletable }}
-  </pre>
-  -->
-  <!-- <pre> {{ selectedMilestone.milestone_status.value }}</pre> -->
 </template>
 
 <script setup>
 // IMPORTS
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
+import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { t } = useI18n();
 const { completeMilestone } = useProjects();
+
+const optionSetsStore = useOptionSetsStore();
 const utilsStore = useUtilsStore();
+
 const dialog = useDialog();
 const toast = useToast();
 
@@ -42,15 +39,19 @@ const emit = defineEmits(["milestoneCompleted"]);
 
 // REFS
 const selectedElements = ref(0);
-const isMilestoneCompletable = ref(false);
+const paymentStatusCompleteId = ref();
 
 // COMPUTED
 const selectedMilestone = computed(() => {
   return utilsStore.selectedElements["milestone"]?.[0];
 });
 
+const isMilestoneCompleted = computed(() => {
+  return selectedMilestone.value.milestone_status.value == "complete";
+});
+
 // COMPONENT METHODS
-const checkIfMilestoneIsCompletable = (payments) => {
+const isMilestoneCompletable = computed(() => {
   // check if selected milestone status is complete
   if (selectedMilestone.value.milestone_status.value == "complete") {
     return false;
@@ -66,15 +67,25 @@ const checkIfMilestoneIsCompletable = (payments) => {
     }
   }
 
+  const payments = utilsStore.selectedElements["payments"];
+
   // if milestone is of type payment but we dont have payments
   if (!payments) {
     return false;
   }
 
-  // check if all payments are completed
+  // check if all payments have the status complete
+  if (
+    selectedMilestone.value.milestone_type.value == "payment" &&
+    payments.length
+  ) {
+    return payments.every((payment) => {
+      return payment.payment_status == paymentStatusCompleteId.value;
+    });
+  }
 
   return false;
-};
+});
 
 const updateStates = () => {
   if (!utilsStore.selectedElements["milestone"]) {
@@ -82,13 +93,7 @@ const updateStates = () => {
   }
 
   selectedElements.value = utilsStore.selectedElements["milestone"]?.length;
-
-  isMilestoneCompletable.value = checkIfMilestoneIsCompletable(
-    utilsStore.selectedElements["payments"]
-  );
 };
-
-updateStates();
 
 const handleCompleteMilestone = async () => {
   let result = await dialog.confirmCompleteMilestone();
@@ -128,6 +133,14 @@ watch(
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  paymentStatusCompleteId.value = await optionSetsStore.getValueId(
+    "payment_status",
+    "complete"
+  );
+
+  updateStates();
+});
 </script>
 
 <style scoped></style>

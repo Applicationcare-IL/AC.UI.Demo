@@ -49,6 +49,7 @@
                   :label="$t('milestone.milestone-name') + ':'"
                   name="milestone-name"
                   :value="milestone.name"
+                  :disabled="isMilestoneCompleted"
                 />
 
                 <WMInput
@@ -68,6 +69,7 @@
                   :value="
                     formatDate(new Date(milestone.planned_date), 'DD/MM/YYYY')
                   "
+                  :disabled="isMilestoneCompleted"
                 />
 
                 <WMInput
@@ -77,6 +79,7 @@
                   :value="
                     formatDate(new Date(milestone.base_date), 'DD/MM/YYYY')
                   "
+                  :disabled="isMilestoneCompleted"
                 />
 
                 <WMInput
@@ -86,6 +89,7 @@
                   :value="
                     formatDate(new Date(milestone.actual_date), 'DD/MM/YYYY')
                   "
+                  :disabled="isMilestoneCompleted"
                 />
               </div>
             </div>
@@ -104,6 +108,7 @@
                   name="description"
                   :value="milestone.description"
                   width="full"
+                  :disabled="isMilestoneCompleted"
                 />
               </div>
             </div>
@@ -133,7 +138,7 @@
 // IMPORTS
 import { formatDate } from "@vueuse/core";
 import { useForm } from "vee-validate";
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
@@ -167,9 +172,11 @@ const props = defineProps({
 const milestone = ref(null);
 const milestoneTypes = ref([]);
 const selectedMilestoneType = ref(null);
-const refreshInput = ref(0);
 
 // COMPUTED
+const isMilestoneCompleted = computed(() => {
+  return milestone.value.milestone_status.value == "complete";
+});
 
 // COMPONENT METHODS
 const { handleSubmit, meta, resetForm } = useForm();

@@ -630,8 +630,13 @@ a {
     }
 
     &.p-calendar-disabled{
-        background: var(--gray-100);
+        background: var(--gray-200);
         cursor: not-allowed;
+
+        .p-datepicker-trigger,
+        .p-inputtext{
+            background-color: var(--gray-200);
+        }
     }
 }
 
