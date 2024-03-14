@@ -37,8 +37,8 @@
                   type="info-link"
                   :highlighted="true"
                   :label="$t('project.project') + ':'"
-                  :value="milestone.project_id?.name"
-                  :to="'/project/' + milestone.project_id?.id"
+                  :value="milestone.project?.name"
+                  :to="'/project/' + milestone.project?.id"
                 />
               </div>
 
@@ -111,7 +111,11 @@
         </Card>
       </div>
     </div>
-    <div class="flex flex-row gap-5 flex-wrap">
+
+    <div
+      v-if="milestone.milestone_type.value === 'payment'"
+      class="flex flex-row gap-5 flex-wrap"
+    >
       <Accordion>
         <AccordionTab :header="$t('budget.payments')">
           <WMPaymentsTable

@@ -383,7 +383,11 @@
     "milestone-type": "Milestone Type",
     "status": "Status",
     "system-id": "System ID",
-    "completed": "Completed"
+    "completed": "Completed",
+    "notification-complete-milestone-message": "Once a milestone is completed, it can’t be edited.",
+    "notification-complete-milestone-header": "Complete milestone",
+    "return": "Return",
+    "complete-milestone": "Complete milestone"
   },
   "organization": {
     "organization": "Organization",

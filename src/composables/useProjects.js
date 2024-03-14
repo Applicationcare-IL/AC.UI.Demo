@@ -1,7 +1,9 @@
+import { useOptionSetsStore } from "@/stores/optionSets";
 import { useProjectsStore } from "@/stores/projectsStore";
 
 export function useProjects() {
   const projectsStore = useProjectsStore();
+  const optionSetsStore = useOptionSetsStore();
 
   // ACTIONS
   const getProjectsFromApi = async (params) => {
@@ -156,6 +158,37 @@ export function useProjects() {
   };
 
   const updateProjectMilestone = async (projectId, milestoneId, data) => {
+    return await projectsStore.updateProjectMilestone(
+      projectId,
+      milestoneId,
+      data
+    );
+  };
+
+  const completeMilestone = async (projectId, milestoneId) => {
+    console.log("completeMilestone", projectId, milestoneId);
+
+    const completeMilestoneStatusId = await optionSetsStore.getValueId(
+      "milestone_status",
+      "complete"
+    );
+
+    console.log("completeMilestoneStatusId", completeMilestoneStatusId);
+
+    const inactiveStateId = await optionSetsStore.getValueId(
+      "state",
+      "not_active"
+    );
+
+    console.log("inactiveStateId", inactiveStateId);
+
+    const data = {
+      milestone_status: completeMilestoneStatusId,
+      state: inactiveStateId,
+    };
+
+    console.log("data", data);
+
     return await projectsStore.updateProjectMilestone(
       projectId,
       milestoneId,
@@ -492,6 +525,7 @@ export function useProjects() {
     getProjectMilestones,
     createMilestone,
     updateProjectMilestone,
+    completeMilestone,
     // UTILITIES
     parseProject,
     parseBudget,

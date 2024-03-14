@@ -7,7 +7,7 @@
     @refresh-table="refreshTable"
   >
     <template #custom-buttons>
-      <WMCompleteMilestoneButton />
+      <WMCompleteMilestoneButton @milestone-completed="refreshTable" />
     </template>
   </WMDetailFormSubHeader>
 

@@ -585,6 +585,12 @@ export function useListUtils() {
         editable: false,
       },
       {
+        name: "milestone-type",
+        type: "optionSet",
+        field: "milestone_type",
+        editable: false,
+      },
+      {
         name: "planned-date",
         type: "date",
         field: "planned_date",

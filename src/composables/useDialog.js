@@ -152,6 +152,23 @@ export function useDialog() {
     });
   };
 
+  const confirmCompleteMilestone = () => {
+    return new Promise((resolve) => {
+      confirm.require({
+        message: i18n.t("milestone.notification-complete-milestone-message"),
+        header: i18n.t("milestone.notification-complete-milestone-header"),
+        acceptLabel: i18n.t("milestone.complete-milestone"),
+        rejectLabel: i18n.t("milestone.return"),
+        accept: () => {
+          resolve(true);
+        },
+        reject: () => {
+          resolve(false);
+        },
+      });
+    });
+  };
+
   return {
     confirmNewCustomer,
     confirmNewContact,
@@ -161,6 +178,7 @@ export function useDialog() {
     cancelService,
     confirmCompleteTasks,
     confirmCancelDialog,
+    confirmCompleteMilestone,
   };
 }
 

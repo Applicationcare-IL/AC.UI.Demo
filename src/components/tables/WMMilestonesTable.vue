@@ -91,18 +91,52 @@
           </router-link>
         </template>
       </Column>
+
+      <Column
+        v-if="column.type == 'status'"
+        :key="column.name"
+        :field="column.field"
+        :header="getColumHeader(column)"
+        :class="column.class"
+      >
+        <template #body="slotProps">
+          <Tag
+            class="w-full"
+            :value="slotProps.data[column.field][optionLabelWithLang]"
+          />
+          <!-- :severity="getStatusLabel(slotProps.data[column.field])" -->
+        </template>
+      </Column>
+      <Column
+        v-if="column.type == 'optionSet'"
+        :key="column.name"
+        :field="column.field"
+        :header="getColumHeader(column)"
+        :class="column.class"
+      >
+        <template #body="slotProps">
+          <WMOptionSetValue :option-set="slotProps.data[column.field]" />
+        </template>
+      </Column>
     </template>
   </DataTable>
-  <!-- <pre>{{ milestones }}</pre> -->
 </template>
 
 <script setup>
+// IMPORTS
 import { formatDate } from "@vueuse/core";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
+// DEPENDENCIES
 const { t } = useI18n();
+const { optionLabelWithLang } = useLanguages();
+const { getMilestonesTableColumns } = useListUtils();
+const { getProjectMilestones } = useProjects();
 
+// INJECT
+
+// PROPS, EMITS
 const props = defineProps({
   project: {
     type: Number,
@@ -110,16 +144,16 @@ const props = defineProps({
   },
 });
 
-const { getMilestonesTableColumns } = useListUtils();
-
+// REFS
 const selectedMilestones = ref([]);
 const totalRecords = ref(0);
 const milestones = ref([]);
 const columns = ref(getMilestonesTableColumns());
 const isVisible = ref(false);
 
-const { getProjectMilestones } = useProjects();
+// COMPUTED
 
+// COMPONENT METHODS
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
 }
@@ -145,4 +179,15 @@ fetchData();
 const getColumHeader = (column) => {
   return column.header ? t(column.header) : t(`milestone.${column.name}`);
 };
+
+const getStatus = (id) => {
+  const status = milestones.value.find((item) => item.id === id);
+  return status ? status : "";
+};
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
