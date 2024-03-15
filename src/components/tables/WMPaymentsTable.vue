@@ -188,6 +188,7 @@
         :field="column.field"
         :header="getColumHeader(column)"
         :class="column.class"
+        class="p-0"
       >
         <template v-if="column.editable" #editor="{ data, field }">
           <Dropdown
@@ -196,22 +197,26 @@
             :option-label="optionLabelWithLang"
             option-value="id"
             placeholder="Select a Status"
+            :class="`p-dropdown-payment-status p-dropdown-payment-status--${
+              getStatus(data[field]).value
+            }`"
           >
             <template #option="slotProps">
-              <Tag
-                :value="slotProps.option[optionLabelWithLang]"
-                :severity="getStatusLabel(slotProps.option.value)"
-              />
+              {{ slotProps.option[optionLabelWithLang] }}
             </template>
           </Dropdown>
         </template>
         <template #body="slotProps">
-          <Tag
-            :value="
-              getStatus(slotProps.data[column.field])[optionLabelWithLang]
-            "
-            :severity="getStatusLabel(slotProps.data[column.field])"
-          />
+          <div
+            class="w-full p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+            :class="`p-dropdown-payment-status p-dropdown-payment-status--${
+              getStatus(slotProps.data[column.field]).value
+            }`"
+          >
+            <span class="p-dropdown-label p-inputtext cursor-text">
+              {{ getStatus(slotProps.data[column.field])[optionLabelWithLang] }}
+            </span>
+          </div>
         </template>
       </Column>
 
@@ -359,22 +364,6 @@ const getStatus = (id) => {
 const getTermOfPayment = (id) => {
   const term = termsOfPayment.value.find((item) => item.id === id);
   return term ? term : "";
-};
-
-const getStatusLabel = (status) => {
-  switch (status) {
-    case "INSTOCK":
-      return "success";
-
-    case "LOWSTOCK":
-      return "warning";
-
-    case "OUTOFSTOCK":
-      return "danger";
-
-    default:
-      return null;
-  }
 };
 
 const getPaymentTemplate = () => {
