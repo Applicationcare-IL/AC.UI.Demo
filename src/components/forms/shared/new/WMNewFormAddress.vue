@@ -9,7 +9,7 @@
         :label="$t('address.city') + ':'"
         :options="cities"
         width="152"
-        :placeholder="$t('select', ['addres.city'])"
+        :placeholder="$t('select', ['address.city'])"
         :option-set="true"
         :required="isCityRequired"
         @change="updateStreets"
@@ -67,7 +67,7 @@
         :label="$t('address.zip') + ':'"
         :options="zips"
         width="80"
-        :placeholder="$t('select', ['addres.zip'])"
+        :placeholder="$t('select', ['address.zip'])"
         :option-set="true"
       />
     </div>
