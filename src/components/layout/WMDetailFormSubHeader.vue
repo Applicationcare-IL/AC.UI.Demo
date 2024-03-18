@@ -7,10 +7,14 @@
             {{ $t(entityType + "." + entityType) }}: {{ entityObject.title }}
           </h1>
 
-          <div class="flex align-items-center gap-1">
+          <div v-if="entityObject.state" class="flex align-items-center gap-1">
             <span class="font-bold">{{ $t("state.state") }}: </span>
             <div
-              v-if="entityType === 'project' || entityType === 'asset'"
+              v-if="
+                entityType === 'project' ||
+                entityType === 'asset' ||
+                entityType === 'milestone'
+              "
               :class="statusClass(entityObject.state.value)"
               class="status-label white-space-nowrap"
             >
@@ -115,6 +119,8 @@
             :entity="utilsStore.entity"
             @task-completed="$emit('taskCompleted')"
           />
+
+          <slot name="custom-buttons" />
         </div>
         <div>
           <WMButton

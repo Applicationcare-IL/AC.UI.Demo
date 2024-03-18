@@ -10,7 +10,7 @@
       <WMNewBudgetItemForm
         :related-budget="relatedBudget"
         :is-sidebar="true"
-        @new-budget-item-created="loadLazyData"
+        @new-budget-item-created="handleNewBudgetItemCreated"
       />
     </template>
   </WMSidebar>
@@ -183,7 +183,9 @@
         </template>
         <template #body="slotProps">
           <Tag
-            :value="getStatus(slotProps.data[column.field])[optionLabelWithLang]"
+            :value="
+              getStatus(slotProps.data[column.field])[optionLabelWithLang]
+            "
             :severity="getStatusLabel(slotProps.data[column.field])"
           />
         </template>
@@ -226,7 +228,9 @@
           </Dropdown>
         </template>
         <template #body="slotProps">
-          {{ getTermOfPayment(slotProps.data[column.field])[optionLabelWithLang] }}
+          {{
+            getTermOfPayment(slotProps.data[column.field])[optionLabelWithLang]
+          }}
         </template>
       </Column>
     </template>
@@ -239,7 +243,8 @@ import { onMounted, ref, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
-const { getBudgetItems, updateBudgetItem, parseUpdateBudgetItem } = useProjects();
+const { getBudgetItems, updateBudgetItem, parseUpdateBudgetItem } =
+  useProjects();
 const { t } = useI18n();
 const { getBudgetItemsTableColumns } = useListUtils();
 const toast = useToast();
@@ -257,6 +262,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(["new-budget-item-created"]);
 
 // REFS
 const selectedBudgetItems = ref([]);
@@ -332,12 +339,19 @@ const onRowEditSave = (event) => {
     return;
   }
 
-  updateBudgetItem(props.projectId, budgetItemId, parseUpdateBudgetItem(newData)).then(
-    () => {
-      budgetItems.value[index] = newData;
-      toast.successAction("budget item", "updated");
-    }
-  );
+  updateBudgetItem(
+    props.projectId,
+    budgetItemId,
+    parseUpdateBudgetItem(newData)
+  ).then(() => {
+    budgetItems.value[index] = newData;
+    toast.successAction("budget item", "updated");
+  });
+};
+
+const handleNewBudgetItemCreated = () => {
+  loadLazyData();
+  emit("new-budget-item-created");
 };
 
 // PROVIDE, EXPOSE

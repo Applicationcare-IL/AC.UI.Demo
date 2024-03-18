@@ -249,7 +249,11 @@
 
     <Accordion>
       <AccordionTab :header="$t('budget.budget-items')">
-        <WMBudgetItemsTable :project-id="projectId" :related-budget="budget" />
+        <WMBudgetItemsTable
+          :project-id="projectId"
+          :related-budget="budget"
+          @new-budget-item-created="handleNewBudgetItemCreated()"
+        />
       </AccordionTab>
     </Accordion>
 
@@ -259,7 +263,7 @@
 
     <Accordion>
       <AccordionTab :header="$t('budget.payments')">
-        <WMPaymentsTable :project-id="projectId"></WMPaymentsTable>
+        <WMPaymentsTable ref="paymentsTableRef" :project-id="projectId" />
       </AccordionTab>
     </Accordion>
 
@@ -345,6 +349,7 @@ const props = defineProps({
 
 // REFS
 const budget = ref({});
+const paymentsTableRef = ref();
 
 // COMPUTED
 const projectId = computed(() => {
@@ -395,6 +400,11 @@ fetchData();
 
 formUtilsStore.formEntity = "project-budget";
 utilsStore.entity = "project-budget";
+
+const handleNewBudgetItemCreated = () => {
+  paymentsTableRef.value.refreshTable();
+  fetchData();
+};
 
 // PROVIDE, EXPOSE
 defineExpose({

@@ -528,13 +528,13 @@ export function useListUtils() {
         header: "customer.customer",
         editable: true,
       },
-      // {
-      //   name: "milestone",
-      //   type: "milestone",
-      //   field: "milestone",
-      //   header: "milestone.milestone",
-      //   editable: true,
-      // },
+      {
+        name: "milestone",
+        type: "milestone",
+        field: "milestone",
+        header: "milestone.milestone",
+        editable: true,
+      },
       {
         name: "status",
         type: "status",
@@ -628,6 +628,12 @@ export function useListUtils() {
         name: "milestone-name",
         type: "text",
         field: "name",
+        editable: false,
+      },
+      {
+        name: "milestone-type",
+        type: "optionSet",
+        field: "milestone_type",
         editable: false,
       },
       {

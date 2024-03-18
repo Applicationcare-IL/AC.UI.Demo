@@ -241,7 +241,6 @@ function handleCustomerCreated(customerId) {
 
 onMounted(async () => {
   genders.value = await optionSetsStore.getOptionSetValues("gender");
-  console.log(genders.value);
 });
 
 formUtilsStore.formEntity = "contact";

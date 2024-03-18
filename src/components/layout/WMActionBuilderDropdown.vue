@@ -92,8 +92,6 @@ const getIdsOfSelectedElements = () => {
 };
 
 const handleOverlayMenuClick = (action) => {
-  console.log("action", action);
-
   const params = {
     url_action_builder: action.id,
     entity_ids: getIdsOfSelectedElements(),
@@ -125,7 +123,7 @@ const handleGetAction = (params) => {
       visible.value = true;
     })
     .catch((error) => {
-      console.log("ERROR", error);
+      console.error("ERROR", error);
     });
 };
 
@@ -136,7 +134,7 @@ const handlePostAction = (params) => {
       emit("postActionExecuted");
     })
     .catch((error) => {
-      console.log("ERROR", error);
+      console.error("ERROR", error);
     });
 };
 

@@ -375,7 +375,6 @@ watch(
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   types.value = await optionSetsStore.getOptionSetValues("customer_type");
-  console.log(types.value);
   ratings.value = await optionSetsStore.getOptionSetValues("customer_rating");
   serviceAreas.value = await optionSetsStore.getOptionSetValues("service_area");
   defaultRole = await optionSetsStore.getOptionSetValues(

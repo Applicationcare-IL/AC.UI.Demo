@@ -210,7 +210,6 @@
     "complete-service-dialog-message": "This is the last task in service no. {0} . Completing this task will close the service. Fill in the needed details to close the service.\nExiting this window without filling-in the details will cancel the completion of the task.",
     "complete-service-dialog-accept": "Complete task",
     "complete-service-dialog-cancel": "Cancel and return",
-
     "direction": "Direction",
     "toast": {
       "created": "New service Created",
@@ -407,7 +406,14 @@
     "base-date": "Base Date",
     "actual-date": "Actual Date",
     "description": "Description",
-    "milestone-type": "Milestone Type"
+    "milestone-type": "Milestone Type",
+    "status": "Status",
+    "system-id": "System ID",
+    "completed": "Completed",
+    "notification-complete-milestone-message": "Once a milestone is completed, it can’t be edited.",
+    "notification-complete-milestone-header": "Complete milestone",
+    "return": "Return",
+    "complete-milestone": "Complete milestone"
   },
   "organization": {
     "organization": "Organization",

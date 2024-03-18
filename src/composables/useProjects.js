@@ -1,7 +1,9 @@
+import { useOptionSetsStore } from "@/stores/optionSets";
 import { useProjectsStore } from "@/stores/projectsStore";
 
 export function useProjects() {
   const projectsStore = useProjectsStore();
+  const optionSetsStore = useOptionSetsStore();
 
   // ACTIONS
   const getProjectsFromApi = async (params) => {
@@ -142,15 +144,43 @@ export function useProjects() {
     return await projectsStore.createMilestone(projectId, data);
   };
 
-  const getProjectMilestones = async (projectId) => {
-    return await projectsStore.getProjectMilestones(projectId);
+  const getProjectMilestones = async (projectId, params) => {
+    return await projectsStore.getProjectMilestones(projectId, params);
   };
 
   const getProjectMilestone = async (projectId, milestoneId) => {
-    return await projectsStore.getProjectMilestone(projectId, milestoneId);
+    const response = await projectsStore.getProjectMilestone(
+      projectId,
+      milestoneId
+    );
+
+    return mapMilestone(response);
   };
 
   const updateProjectMilestone = async (projectId, milestoneId, data) => {
+    return await projectsStore.updateProjectMilestone(
+      projectId,
+      milestoneId,
+      data
+    );
+  };
+
+  const completeMilestone = async (projectId, milestoneId) => {
+    const completeMilestoneStatusId = await optionSetsStore.getValueId(
+      "milestone_status",
+      "complete"
+    );
+
+    const inactiveStateId = await optionSetsStore.getValueId(
+      "state",
+      "not_active"
+    );
+
+    const data = {
+      milestone_status: completeMilestoneStatusId,
+      state: inactiveStateId,
+    };
+
     return await projectsStore.updateProjectMilestone(
       projectId,
       milestoneId,
@@ -308,8 +338,6 @@ export function useProjects() {
   };
 
   const parseProjectPayment = (payment) => {
-    console.log("parseProjectPayment", payment);
-
     return {
       ...payment,
       proforma_invoice_date: parseDate(payment.proforma_invoice_date),
@@ -317,8 +345,7 @@ export function useProjects() {
       payment_date: parseDate(payment.payment_date),
       report_date: parseDate(payment.report_date),
       terms_of_payment: payment.terms_of_payment_id,
-      milestone_id: 2,
-      // milestone_id: payment.milestone?.id,
+      milestone: payment.milestone?.id,
     };
   };
 
@@ -453,6 +480,13 @@ export function useProjects() {
     };
   };
 
+  const mapMilestone = (milestone) => {
+    return {
+      ...milestone,
+      title: milestone.name,
+    };
+  };
+
   return {
     // ACTIONS
     getProjectsFromApi,
@@ -482,6 +516,7 @@ export function useProjects() {
     getProjectMilestones,
     createMilestone,
     updateProjectMilestone,
+    completeMilestone,
     // UTILITIES
     parseProject,
     parseBudget,
@@ -495,5 +530,6 @@ export function useProjects() {
     mapProject,
     mapContactsFromProjects,
     mapProjectCustomer,
+    mapMilestone,
   };
 }

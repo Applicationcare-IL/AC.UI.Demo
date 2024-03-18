@@ -1,7 +1,7 @@
 <template>
   <!-- <pre>isSomePaymentInCreateMode: {{ isSomePaymentInCreateMode }}</pre> -->
   <!-- <pre>milestones: {{ milestones }}</pre> -->
-  <pre>payments: {{ payments }}</pre>
+  <!-- <pre>payments: {{ payments }}</pre> -->
 
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
@@ -161,7 +161,10 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template v-if="column.editable" #editor="{ data, field }">
+        <template
+          v-if="column.editable && !props.milestoneId"
+          #editor="{ data, field }"
+        >
           <Dropdown
             v-model="data[field].id"
             :options="milestones"
@@ -185,6 +188,7 @@
         :field="column.field"
         :header="getColumHeader(column)"
         :class="column.class"
+        class="p-0"
       >
         <template v-if="column.editable" #editor="{ data, field }">
           <Dropdown
@@ -193,22 +197,26 @@
             :option-label="optionLabelWithLang"
             option-value="id"
             placeholder="Select a Status"
+            :class="`p-dropdown-payment-status p-dropdown-payment-status--${
+              getStatus(data[field]).value
+            }`"
           >
             <template #option="slotProps">
-              <Tag
-                :value="slotProps.option[optionLabelWithLang]"
-                :severity="getStatusLabel(slotProps.option.value)"
-              />
+              {{ slotProps.option[optionLabelWithLang] }}
             </template>
           </Dropdown>
         </template>
         <template #body="slotProps">
-          <Tag
-            :value="
-              getStatus(slotProps.data[column.field])[optionLabelWithLang]
-            "
-            :severity="getStatusLabel(slotProps.data[column.field])"
-          />
+          <div
+            class="w-full p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+            :class="`p-dropdown-payment-status p-dropdown-payment-status--${
+              getStatus(slotProps.data[column.field]).value
+            }`"
+          >
+            <span class="p-dropdown-label p-inputtext cursor-text">
+              {{ getStatus(slotProps.data[column.field])[optionLabelWithLang] }}
+            </span>
+          </div>
         </template>
       </Column>
 
@@ -262,10 +270,11 @@
 // IMPORTS
 import { formatDate } from "@vueuse/core";
 import { v4 as uuidv4 } from "uuid";
-import { computed, nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const {
@@ -282,6 +291,7 @@ const { t } = useI18n();
 const optionSetsStore = useOptionSetsStore();
 const { optionLabelWithLang } = useLanguages();
 const { getCustomersFromApi } = useCustomers();
+const utilsStore = useUtilsStore();
 
 // INJECT
 
@@ -313,6 +323,8 @@ const milestones = ref([]);
 
 // COMPUTED
 const isSomePaymentInCreateMode = computed(() => {
+  if (payments.value.length < 1) return false;
+
   return payments.value.some((payment) => payment.mode === "create");
 });
 
@@ -354,29 +366,18 @@ const getTermOfPayment = (id) => {
   return term ? term : "";
 };
 
-const getStatusLabel = (status) => {
-  switch (status) {
-    case "INSTOCK":
-      return "success";
-
-    case "LOWSTOCK":
-      return "warning";
-
-    case "OUTOFSTOCK":
-      return "danger";
-
-    default:
-      return null;
-  }
-};
-
 const getPaymentTemplate = () => {
   return {
     temp_id: uuidv4(),
     mode: "create",
     budget_item: "",
     customer: "",
-    milestone_id: 1,
+    status: {
+      ...paymentStatuses.value[0],
+    },
+    milestone: {
+      ...milestones.value[0],
+    },
     proforma_invoice_number: "PRO-12345",
     proforma_invoice_date: new Date(),
     proforma_invoice_amount: 100000,
@@ -386,7 +387,6 @@ const getPaymentTemplate = () => {
     amount_paid: 80000,
     reported: true,
     reported_date: new Date(),
-    // reported_to_id: 1273,
     amount_approved: 80000,
     batch_number: "BATCH-2024-02-12",
     terms_of_payment_id: "",
@@ -493,7 +493,6 @@ const validateForm = (obj) => {
   const requiredFields = [
     "budget_item",
     "customer",
-    // "milestone_id",
     "proforma_invoice_number",
     "proforma_invoice_date",
     "proforma_invoice_amount",
@@ -509,6 +508,7 @@ const validateForm = (obj) => {
 
   for (const field of requiredFields) {
     if (!obj.hasOwnProperty(field) || obj[field] === "") {
+      console.log("field", field);
       return false;
     }
   }
@@ -524,9 +524,24 @@ const onRowEditCancel = (event) => {
   }
 };
 
+const refreshTable = () => {
+  loadLazyData();
+};
+
 // PROVIDE, EXPOSE
+defineExpose({
+  refreshTable,
+});
 
 // WATCHERS
+// watch payments
+watch(
+  () => payments.value,
+  () => {
+    utilsStore.selectedElements["payments"] = payments.value;
+  },
+  { deep: true }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {

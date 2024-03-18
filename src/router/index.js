@@ -231,7 +231,6 @@ router.beforeEach((to, from, next) => {
 //   const { formMeta } = storeToRefs(formUtilsStore);
 
 //   // check if there's some dirty forms and show confirm dialog
-//   console.log("formMeta", formMeta.value.dirty);
 //   if (formMeta.value.dirty) {
 //     confirmCancelDialog();
 //   }
