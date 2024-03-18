@@ -253,6 +253,14 @@
           :show-header-options="true"
         />
       </div>
+
+      <div>
+        <WMAssetsTable
+          :columns="assetColumns"
+          related-entity="customer"
+          :related-entity-id="route.params.id"
+        />
+      </div>
       <div class="flex flex-row gap-5 flex-wrap mt-5">
         <div class="flex-1 card-container">
           <Card>
@@ -368,12 +376,14 @@ const {
   getTaskColumns,
   getStatusConditionalStyle,
   getProjectDocumentColumns,
+  getAssetColumnsforCustomerDetail,
 } = useListUtils();
 
 const contactColumns = ref(getContactColumns());
 const serviceColumns = ref(getServiceColumns());
 const documentsColumns = ref(getProjectDocumentColumns());
 const taskColumns = ref(getTaskColumns());
+const assetColumns = ref(getAssetColumnsforCustomerDetail());
 
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
 const isProvider = ref("");

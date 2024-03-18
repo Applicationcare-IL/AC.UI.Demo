@@ -158,7 +158,7 @@
           <AccordionTab :header="$t('asset.organizations')">
             <WMCustomersTable
               v-if="can('customers.read')"
-              :asset-id="asset.id"
+              :related-entity-id="asset.id"
               :columns="customerColumns"
               related-entity="asset"
             />
@@ -191,12 +191,7 @@ const utilsStore = useUtilsStore();
 const route = useRoute();
 const toast = useToast();
 
-const {
-  getCustomerColumns,
-  getServiceColumns,
-  getTaskColumns,
-  getProjectDocumentColumns,
-} = useListUtils();
+const { getCustomerColumnsForAssets, getServiceColumns } = useListUtils();
 
 const { getAssetFromApi, updateAsset, parseAsset, setSelectedAssets } =
   useAssets();
@@ -217,10 +212,8 @@ const genders = ref();
 const genderSelected = ref();
 const loaded = ref(false);
 
-const customerColumns = ref(getCustomerColumns());
+const customerColumns = ref(getCustomerColumnsForAssets());
 const serviceColumns = ref(getServiceColumns());
-const taskColumns = ref(getTaskColumns());
-const documentsColumns = ref(getProjectDocumentColumns());
 
 // COMPUTED
 

@@ -30,11 +30,6 @@ export function useAssets() {
 
   // UTILITIES
   const mapAsset = (asset) => {
-    // const assetFullName = asset.surname
-    //   ? `${asset.name} ${asset.surname}`
-    //   : asset.name;
-    console.log(asset);
-
     return {
       id: asset.id,
       number: asset.number,

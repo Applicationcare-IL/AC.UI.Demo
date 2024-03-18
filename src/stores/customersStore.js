@@ -104,5 +104,37 @@ export const useCustomersStore = defineStore("customers", {
           throw error;
         });
     },
+    assignAssetToCustomer(customerId, asset) {
+      const params = {
+        customer_id: customerId,
+        ...asset,
+      };
+
+      return axiosConfig
+        .post("/customers/assets", params)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
+    unassignAssetFromCustomer(customerId, assetId) {
+      const params = {
+        customer_id: customerId,
+        asset_id: assetId,
+      };
+
+      return axiosConfig
+        .delete("/customers/assets", { data: params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });

@@ -6,14 +6,14 @@
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMAssignCustomerButton @add-customers="addCustomers" />
-        <WMAssignOwnerButton
-          v-if="can('customers.assign')"
-          entity="customer"
-          @owner-assigned="
-            loadLazyData();
-            clearSelectedCustomers();
-          "
-        />
+
+        <WMButton
+          v-if="env.DEV"
+          name="refresh"
+          class="m-1 col-6"
+          @click="loadLazyData"
+          >Refresh
+        </WMButton>
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMButton
@@ -67,7 +67,6 @@
         column.header ? $t(column.header) : $t(`customer.${column.name}`)
       "
       :class="column.class"
-      :frozen="column.type === 'actions'"
     >
       <template #body="slotProps">
         <template v-if="column.type === 'alert'">
@@ -83,6 +82,16 @@
             }"
             class="vertical-align-middle"
             >{{ slotProps.data[column.name] }}</router-link
+          >
+        </template>
+        <template v-if="column.type === 'contact-link'">
+          <router-link
+            :to="{
+              name: 'customerDetail',
+              params: { id: slotProps.data[column.name].id },
+            }"
+            class="vertical-align-middle"
+            >{{ slotProps.data[column.name].name }}</router-link
           >
         </template>
         <template v-if="column.type === 'detail'">
@@ -163,6 +172,18 @@
             <WMOptionSetValue :option-set="slotProps.data.role" />
           </div>
         </template>
+        <template v-if="column.type === 'asset_role'">
+          <Dropdown
+            v-if="editMode[slotProps.index]"
+            v-model="slotProps.data.asset_role"
+            :options="optionSets[column.optionSet]"
+            :option-label="optionLabelWithLang"
+            class="w-full p-0"
+          />
+          <div v-else>
+            <WMOptionSetValue :option-set="slotProps.data.asset_role" />
+          </div>
+        </template>
         <template v-if="column.type === 'option-set'">
           <WMOptionSetValue :option-set="slotProps.data[column.name]" />
         </template>
@@ -171,6 +192,9 @@
         </template>
         <template v-if="column.type === 'text'">
           {{ slotProps.data[column.name] }}
+        </template>
+        <template v-if="column.type === 'contact-text'">
+          {{ slotProps.data.main_contact[column.name] }}
         </template>
         <template v-if="column.type === 'state'">
           <WMStateField :state="slotProps.data[column.name]" />
@@ -199,6 +223,8 @@ const {
   getCustomersFromApi,
   unassignContactFromCustomer,
   assignContactToCustomer,
+  unassignAssetFromCustomer,
+  assignAssetToCustomer,
 } = useCustomers();
 const { getAlertCellConditionalStyle } = useListUtils();
 const { optionLabelWithLang } = useLanguages();
@@ -221,8 +247,8 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  contactId: {
-    type: Object,
+  relatedEntityId: {
+    type: String,
     default: null,
   },
   tableClass: {
@@ -250,7 +276,13 @@ const editMode = ref([]);
 
 // COMPUTED
 const defaultRole = computed(() => {
-  return optionSets.value["contact_customer_role"][0];
+  if (props.relatedEntity === "contact") {
+    return optionSets.value["contact_customer_role"][0];
+  }
+  if (props.relatedEntity === "asset") {
+    return optionSets.value["asset_customer_role"][0];
+  }
+  return null;
 });
 
 // COMPONENT METHODS
@@ -263,7 +295,10 @@ const loadLazyData = () => {
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = props.rows;
-  const contactParam = props.contactId;
+  const entityParam =
+    props.relatedEntity == "contact"
+      ? { contact_id: props.relatedEntityId }
+      : { asset_id: props.relatedEntityId };
 
   // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams({
@@ -271,7 +306,7 @@ const loadLazyData = () => {
     page: nextPage,
     per_page: selectedRowsPerPageParam,
     search: searchValueParam,
-    contact_id: contactParam,
+    ...entityParam,
   });
 
   getCustomersFromApi(params).then((result) => {
@@ -305,50 +340,80 @@ const addCustomers = (addedCustomers) => {
   addedCustomers.forEach((customer) => {
     if (customers.value.find((c) => c.customer_id === customer.id)) return;
 
+    console.log(customer);
     customer.main = false;
     customer.role = defaultRole.value;
+    customer.asset_role = defaultRole.value;
     customers.value.push(customer);
     editMode.value[customers.value.length - 1] = true;
   });
 };
 
 const saveRow = (customer) => {
-  const contactParams = {
-    contact_id: props.contactId,
-    role: customer.role.id,
-  };
+  if (props.relatedEntity === "contact") {
+    const contactParams = {
+      contact_id: props.relatedEntityId,
+      role: customer.role.id,
+    };
 
-  assignContactToCustomer(customer.id, contactParams)
-    .then(() => {
-      // loadLazyData();
-      toast.success("Contact successfully linked");
-    })
-    .catch(() => {
-      toast.error("Contact link failed");
-    });
+    assignContactToCustomer(customer.id, contactParams)
+      .then(() => {
+        // loadLazyData();
+        toast.success("Contact successfully linked");
+      })
+      .catch(() => {
+        toast.error("Contact link failed");
+      });
+  }
+  if (props.relatedEntity === "asset") {
+    const assetParams = {
+      asset_id: props.relatedEntityId,
+      role: customer.asset_role.id,
+    };
+    assignAssetToCustomer(customer.id, assetParams)
+      .then(() => {
+        // loadLazyData();
+        toast.success("Asset successfully linked");
+      })
+      .catch(() => {
+        toast.error("Asset link failed");
+      });
+  }
 };
 
 const unlinkCustomer = (customerId) => {
-  unassignContactFromCustomer(customerId, props.contactId)
-    .then(() => {
-      loadLazyData();
-      toast.success("Contact Successfully unlinked");
-    })
-    .catch(() => {
-      toast.error("Contact unlink Failed");
-    });
+  if (props.relatedentity === "contact") {
+    unassignContactFromCustomer(customerId, props.relatedEntityId)
+      .then(() => {
+        loadLazyData();
+        toast.success("Contact Successfully unlinked");
+      })
+      .catch(() => {
+        toast.error("Contact unlink Failed");
+      });
+  }
+  if (props.relatedEntity === "asset") {
+    unassignAssetFromCustomer(customerId, props.relatedEntityId)
+      .then(() => {
+        loadLazyData();
+        toast.success("Asset Successfully unlinked");
+      })
+      .catch(() => {
+        toast.error("Asset unlink Failed");
+      });
+  }
 };
 
 const isMainContact = (customer) => {
-  return customer.main_contact?.id == props.contactId;
+  return customer.main_contact?.id == props.relatedEntityId;
 };
 
 const onStarClicked = (customerId) => {
-  emit("update:mainContact", props.contactId);
+  emit("update:mainContact", props.relatedEntityId);
 
   if (props.relatedEntity === "contact") {
     const contactParams = {
-      contact_id: props.contactId,
+      contact_id: props.relatedEntityId,
       main: true,
       role: defaultRole.value.id,
     };
@@ -393,4 +458,7 @@ const loadOptionSets = async () => {
     }
   });
 };
+
+// Dev tools
+const env = import.meta.env;
 </script>

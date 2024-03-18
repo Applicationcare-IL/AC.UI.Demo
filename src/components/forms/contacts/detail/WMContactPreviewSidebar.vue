@@ -49,7 +49,8 @@
 
     <WMCustomersTable
       v-if="can('customers.read')"
-      :contact-id="contact.id"
+      :related-entity-id="contact.id"
+      related-entity="contact"
       :columns="customerPreviewTableColumns"
       :show-controls="false"
       :multiselect="false"

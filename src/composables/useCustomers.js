@@ -54,6 +54,14 @@ export function useCustomers() {
     );
   };
 
+  const assignAssetToCustomer = async (customerId, asset) => {
+    return await customersStore.assignAssetToCustomer(customerId, asset);
+  };
+
+  const unassignAssetFromCustomer = async (customerId, assetId) => {
+    return await customersStore.unassignAssetFromCustomer(customerId, assetId);
+  };
+
   // UTILITIES
   const mapCustomer = (customer) => {
     return {
@@ -78,6 +86,7 @@ export function useCustomers() {
       email: customer.email,
       phone: customer.phone,
       role: customer.role,
+      asset_role: customer.asset_role,
       location: {
         city: customer.location?.city,
         street: customer.location?.street,
@@ -135,6 +144,8 @@ export function useCustomers() {
     existsCustomer,
     assignContactToCustomer,
     unassignContactFromCustomer,
+    assignAssetToCustomer,
+    unassignAssetFromCustomer,
 
     //UTILITIES
     mapCustomer,

@@ -215,9 +215,9 @@
       <div>
         <WMCustomersTable
           v-if="can('customers.read')"
-          :contact-id="contact.id"
-          :columns="customerColumns"
+          :related-entity-id="contact.id"
           related-entity="contact"
+          :columns="customerColumns"
         />
       </div>
       <div>

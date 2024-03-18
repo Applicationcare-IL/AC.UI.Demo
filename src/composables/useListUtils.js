@@ -287,6 +287,52 @@ export function useListUtils() {
     ];
   };
 
+  const getCustomerColumnsForAssets = () => {
+    return [
+      {
+        name: "name",
+        type: "link",
+        header: "asset.organization",
+        class: "link-col",
+      },
+      {
+        name: "main_contact",
+        type: "contact-link",
+        header: "customer.main-contact",
+        class: "link-col",
+      },
+      {
+        name: "phone",
+        type: "contact-text",
+        header: "contact.phone",
+      },
+      {
+        name: "landline",
+        type: "contact-text",
+        header: "contact.landline",
+      },
+      {
+        name: "email",
+        type: "contact-text",
+        header: "contact.email",
+      },
+      {
+        name: "asset_role",
+        type: "asset_role",
+        header: "role",
+        optionSet: "asset_customer_role",
+        class: "p-0",
+      },
+      {
+        name: "actions",
+        type: "actions",
+        header: "actions",
+        class: "buttons",
+        buttons: ["unlink", "edit"],
+      },
+    ];
+  };
+
   const getServiceColumns = () => {
     return [
       {
@@ -738,6 +784,77 @@ export function useListUtils() {
     ];
   };
 
+  const getAssetColumnsforCustomerDetail = () => {
+    return [
+      {
+        name: "number",
+        type: "text",
+        header: "asset.number",
+      },
+      {
+        name: "type",
+        type: "optionset",
+        header: "asset.type",
+        optionSet: "asset_type",
+      },
+      {
+        name: "owner",
+        type: "link",
+        header: "asset.owner",
+      },
+      {
+        name: "payer",
+        type: "link",
+        header: "asset.payer",
+      },
+      {
+        name: "consumer",
+        type: "link",
+        header: "asset.consumer",
+      },
+      {
+        name: "usage_start_date",
+        type: "date",
+        header: "asset.usage-start-date",
+      },
+      {
+        name: "state",
+        type: "state",
+        header: "asset.state",
+        class: "p-0",
+      },
+      {
+        name: "open_services",
+        type: "text",
+        header: "asset.open-services",
+        class: "numeric",
+      },
+      {
+        name: "breached_services",
+        type: "alert",
+        header: "asset.breached-services",
+        class: "numeric",
+      },
+      {
+        name: "open_tasks",
+        type: "text",
+        header: "asset.open-tasks",
+        class: "numeric",
+      },
+      {
+        name: "breached_tasks",
+        type: "alert",
+        header: "asset.breached-tasks",
+        class: "numeric",
+      },
+      {
+        name: "address",
+        type: "text",
+        header: "address",
+      },
+    ];
+  };
+
   // METHODS
   const getAlertCellConditionalStyle = (data) => {
     return [{ "bg-red-100 text-red-600": data > 0 }];
@@ -784,6 +901,7 @@ export function useListUtils() {
     getSelectedContactsForNewProjectColumns,
     getContactDetailColumns,
     getCustomerColumns,
+    getCustomerColumnsForAssets,
     getCustomerPreviewColumns,
     getServiceColumns,
     getServicePreviewColumns,
@@ -800,6 +918,7 @@ export function useListUtils() {
     getCompetitionProcessColumns,
     getContactIncomingCallsColumns,
     getMilestonesTableColumns,
+    getAssetColumnsforCustomerDetail,
     // METHODS
     getAlertCellConditionalStyle,
     getStatusConditionalStyle,

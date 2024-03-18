@@ -100,7 +100,8 @@
     "sales": "Sales",
     "projects": "Projects",
     "user": "User",
-    "logout": "Logout"
+    "logout": "Logout",
+    "assets": "Assets"
   },
   "dashboard": {
     "my-tasks": "My Tasks",
@@ -217,14 +218,39 @@
     }
   },
   "asset": {
+    "system_id": "System ID",
+    "type": "Type",
+    "owner": "Owner",
+    "payer": "Payer",
+    "consumer": "Consumer",
     "asset": "Asset",
     "assets": "Assets",
+    "number": "Number",
     "asset-type": "Asset Type",
     "deactivate": "Deactivate",
     "service-emergency-area": "Service Emergency Area",
     "service-area": "Service Area",
     "service-collection-area": "Service Collection Area",
-    "service-tax-area": "Service Tax Area"
+    "service-tax-area": "Service Tax Area",
+    "usage_start_date": "Usage Start Date",
+    "usage_end_date": "Usage End Date",
+    "last_inspection_date": "Last Inspection Date",
+    "open_services": "Open Services",
+    "open_tasks": "Open Tasks",
+    "breached_services": "Breached Services",
+    "breached_tasks": "Breached Tasks",
+    "collection_area": "Collection Area",
+    "tax_area": "Tax Area",
+    "water_meter_number": "Water Meter Number",
+    "water_meter_type": "Water Meter Type",
+    "water_meter_installation_date": "Water Meter Installation Date",
+    "water_meter_status": "Water Meter Status",
+    "water_meter_reading": "Water Meter Reading",
+    "water_meter_reading_date": "Water Meter Reading Date",
+    "water_meter_brand": "Water Meter Brand",
+    "water_meter_location": "Water Meter Location",
+    "organizations": "Organizations",
+    "organization": "Organization"
   },
   "task": {
     "task": "Task",
