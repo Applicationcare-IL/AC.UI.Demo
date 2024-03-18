@@ -226,5 +226,6 @@ const isOutsideClicked = (event) => {
 .client-logo {
   max-width: 130px;
   height: auto;
+  max-height: 60px;
 }
 </style>

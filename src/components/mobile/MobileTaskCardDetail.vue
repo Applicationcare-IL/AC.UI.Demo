@@ -72,7 +72,7 @@ const props = defineProps({
 });
 
 const contactFullName = computed(() => {
-  return `${props.task.contac?.name} ${props.task.contact?.surname}`;
+  return `${props.task.contact?.name} ${props.task.contact?.surname}`;
 });
 
 const daysTillClosure = computed(() => {
