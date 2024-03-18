@@ -10,11 +10,6 @@
           <div v-if="entityObject.state" class="flex align-items-center gap-1">
             <span class="font-bold">{{ $t("state.state") }}: </span>
             <div
-              v-if="
-                entityType === 'project' ||
-                entityType === 'asset' ||
-                entityType === 'milestone'
-              "
               :class="statusClass(entityObject.state.value)"
               class="status-label white-space-nowrap"
             >
