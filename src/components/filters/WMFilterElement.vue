@@ -73,6 +73,17 @@
       />
     </div>
 
+    <!-- CREATED/ASSIGNED BY ME -->
+    <div v-if="type == 'created_assigned'" class="flex flex-row gap-2 p-2">
+      <WMSelectableButton
+        v-for="(option, index) in createdAssignedOptions"
+        :key="index"
+        v-model="isButtonSelected[index]"
+        :label="option[optionLabelWithLang]"
+        @update:model-value="onButtonChanged($event, option)"
+      />
+    </div>
+
     <Button link @click="clear">
       {{ $t("buttons.clear") }}
     </Button>
@@ -113,6 +124,19 @@ const SLAoptions = [
     id: "no_breach",
     value_en: t("sla.no_breach"),
     value_he: t("sla.no_breach"),
+  },
+];
+
+const createdAssignedOptions = [
+  {
+    id: "created_by_me",
+    value_en: t("created_by_me"),
+    value_he: t("created_by_me"),
+  },
+  {
+    id: "assigned_to_me",
+    value_en: t("assigned_to_me"),
+    value_he: t("assigned_to_me"),
   },
 ];
 

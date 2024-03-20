@@ -567,7 +567,8 @@
     "select-street": "Select street",
     "open-date": "Open date",
     "due-date": "Due date",
-    "started-at": "Started at"
+    "started-at": "Started at",
+    "created-assigned": "Created/Assigned"
   },
   "mobile": {
     "menu": "Menu"

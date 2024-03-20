@@ -132,6 +132,11 @@ export function useFilters() {
         name: "sla",
         label: i18n.t("filters.service-sla-status") + ":",
       },
+      // {
+      //   type: "created_by",
+      //   name: "created_by",
+      //   label: i18n.t("filters.created_by") + ":",
+      // },
       {
         type: "buttons",
         name: "status",
