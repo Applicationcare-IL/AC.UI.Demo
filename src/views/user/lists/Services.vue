@@ -134,11 +134,6 @@
           </WMSLATag>
         </template>
       </Column>
-      <Column field="state" :header="$t('service.state')">
-        <template #body="slotProps">
-          <WMOptionSetValue :option-set="slotProps.data.state" />
-        </template>
-      </Column>
       <Column
         field="priority"
         :header="$t('service.priority')"
