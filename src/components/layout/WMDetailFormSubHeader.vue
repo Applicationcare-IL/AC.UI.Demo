@@ -219,7 +219,8 @@ watch(
     selectedElements.value = value?.length;
 
     isEntityActive.value =
-      utilsStore.selectedElements[utilsStore.entity][0].state === "active";
+      utilsStore.selectedElements[utilsStore.entity][0].state.value ===
+      "active";
 
     entityObject.value = utilsStore.selectedElements[utilsStore.entity][0];
     entityType.value = utilsStore.entity;
