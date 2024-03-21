@@ -13,6 +13,7 @@
 
     <Button link @click="clear">{{ $t("buttons.clear-all") }}</Button>
   </div>
+
   <Divider></Divider>
   <div class="filter-body p-4">
     <div>
@@ -26,6 +27,7 @@
         :entity="entity"
         :filter-name="filter.name"
         :option-set="filter.optionSet"
+        :options="filter.options"
         :search-function="filter.searchFunction"
         :filter-data="filter"
         :applied-filters="appliedFilters"
@@ -80,26 +82,28 @@ const numberOfAppliedFilters = computed(() => {
 const applyFilters = () => {
   utilsStore.filters[entity] = { ...filters.value };
 
-  if (checkIfFiltersKeysAreEmpty()) {
+  if (checkIfFiltersArrayKeysAreEmpty()) {
     clear();
   }
 
   closeSidebar();
 };
 
-const checkIfFiltersKeysAreEmpty = () => {
-  return Object.values(filters.value).every((filter) => {
-    return Object.keys(filter).length === 0;
+const checkIfFiltersArrayKeysAreEmpty = () => {
+  return Object.keys(filters.value).every((key) => {
+    return filters.value[key] == null;
   });
 };
 
 const addFilter = (filter) => {
   if (typeof filters.value === "undefined") {
     filters.value = {};
+    return;
   }
 
-  if (filter.value == null) {
+  if (filter.value === null) {
     delete filters.value[filter.name];
+    return;
   }
 
   filters.value[filter.name] = filter.value;

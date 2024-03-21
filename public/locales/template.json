@@ -568,7 +568,10 @@
     "open-date": "Open date",
     "due-date": "Due date",
     "started-at": "Started at",
-    "created-assigned": "Created/Assigned"
+    "created-assigned": "Created/Assigned",
+    "created-by-me": "Created by me",
+    "assigned-by-me": "Assigned by me",
+    "all": "All"
   },
   "mobile": {
     "menu": "Menu"
