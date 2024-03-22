@@ -193,8 +193,7 @@ const toast = useToast();
 
 const { getCustomerColumnsForAssets, getServiceColumns } = useListUtils();
 
-const { getAssetFromApi, updateAsset, parseAsset, setSelectedAssets } =
-  useAssets();
+const { getAssetFromApi, updateAsset, parseAsset, setSelectedAssets } = useAssets();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -265,8 +264,10 @@ defineExpose({
 watch(
   () => meta.value,
   (value) => {
-    formUtilsStore.formMeta = value;
-    formUtilsStore.setFormMetas(value, props.formKey);
+    if (value.touched) {
+      formUtilsStore.formMeta = value;
+      formUtilsStore.setFormMetas(value, props.formKey);
+    }
   }
 );
 

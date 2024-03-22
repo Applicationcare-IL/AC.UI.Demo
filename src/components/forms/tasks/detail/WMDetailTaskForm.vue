@@ -131,8 +131,7 @@
         />
         <WMDetailTaskRelatedProject
           v-if="
-            task.related_entity?.type == 'project' &&
-            checkIfEntityIsActive('projects')
+            task.related_entity?.type == 'project' && checkIfEntityIsActive('projects')
           "
           :project="project"
         />
@@ -155,12 +154,7 @@
             <template #content>
               <div class="task-description flex flex-auto flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <Textarea
-                    v-model="task.description"
-                    auto-resize
-                    rows="5"
-                    disabled
-                  />
+                  <Textarea v-model="task.description" auto-resize rows="5" disabled />
                 </div>
               </div>
             </template>
@@ -216,10 +210,7 @@
       <div class="flex flex-row flex-wrap mb-5">
         <Accordion>
           <AccordionTab :header="$t('attachments.attachments')">
-            <WMAttachmentsTable
-              :entity-id="route.params.id"
-              entity-type="task"
-            />
+            <WMAttachmentsTable :entity-id="route.params.id" entity-type="task" />
           </AccordionTab>
         </Accordion>
       </div>
@@ -287,8 +278,7 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const toast = useToast();
-const { updateTask, parseUpdateTask, getTaskFromApi, mapContactsFromTasks } =
-  useTasks();
+const { updateTask, parseUpdateTask, getTaskFromApi, mapContactsFromTasks } = useTasks();
 const { optionLabelWithLang } = useLanguages();
 const { handleRouteChangeWithUnsavedFormChanges } = useNavigationGuards();
 const formUtilsStore = useFormUtilsStore();
@@ -371,8 +361,10 @@ defineExpose({
 watch(
   () => meta.value,
   (value) => {
-    formUtilsStore.formMeta = value;
-    formUtilsStore.setFormMetas(value, props.formKey);
+    if (value.touched) {
+      formUtilsStore.formMeta = value;
+      formUtilsStore.setFormMetas(value, props.formKey);
+    }
   }
 );
 

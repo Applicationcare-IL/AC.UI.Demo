@@ -106,9 +106,7 @@
                   name="approved_council"
                 />
 
-                <ArrowIcon
-                  :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
-                />
+                <ArrowIcon :class="layoutConfig.isRTL.value ? '' : 'rotate-180'" />
 
                 <WMHighlightedBlock
                   v-model="budgetItem.approved_ministry"
@@ -155,8 +153,7 @@ const { layoutConfig } = useLayout();
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
-const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } =
-  useProjects();
+const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } = useProjects();
 const route = useRoute();
 const toast = useToast();
 const { t } = useI18n();
@@ -189,11 +186,7 @@ const fetchData = () => {
 fetchData();
 
 const onSave = handleSubmit((values) => {
-  updateBudgetItem(
-    route.params.id,
-    route.params.budgetId,
-    parseUpdateBudgetItem(values)
-  )
+  updateBudgetItem(route.params.id, route.params.budgetId, parseUpdateBudgetItem(values))
     .then(() => {
       toast.success(t("toast.budget-item-updated"));
       resetForm({ values: values });
@@ -220,8 +213,10 @@ defineExpose({
 watch(
   () => meta.value,
   (value) => {
-    formUtilsStore.formMeta = value;
-    formUtilsStore.setFormMetas(value, props.formKey);
+    if (value.touched) {
+      formUtilsStore.formMeta = value;
+      formUtilsStore.setFormMetas(value, props.formKey);
+    }
   }
 );
 

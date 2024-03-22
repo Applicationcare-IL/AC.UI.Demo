@@ -17,10 +17,7 @@
             </div>
           </div>
 
-          <div
-            v-if="entityObject.status"
-            class="flex align-items-center gap-1 font-bold"
-          >
+          <div v-if="entityObject.status" class="flex align-items-center gap-1 font-bold">
             <span>{{ $t("status") }}:</span>
             <div
               :class="highlightStatusClass(entityObject.status.value)"
@@ -63,17 +60,12 @@
         class="flex flex-row justify-content-between flex-wrap row-gap-4"
       >
         <div class="flex flex-row flex-wrap gap-2 align-items-center">
-          <WMButton
+          <WMSaveButton
             v-if="can(utilsStore.pluralEntity + '.update')"
-            name="save"
-            icon="save"
-            type="specialSave"
-            icon-position="left"
-            :disabled="!getFormMeta(formKey)?.dirty"
+            :is-disabled="!isFormDirty"
+            :is-saved="isFormSaved && !isFormDirty"
             @click="saveForm"
-          >
-            {{ $t("save") }}
-          </WMButton>
+          />
 
           <Divider layout="vertical" />
 
@@ -159,7 +151,7 @@ const { can } = usePermissions();
 const { getStatusConditionalStyle, highlightStatusClass } = useListUtils();
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   formKey: {
     type: String,
     required: true,
@@ -183,7 +175,7 @@ const emit = defineEmits([
 ]);
 
 // REFS
-const { getFormMeta } = storeToRefs(formUtilsStore);
+const { getFormMeta, isFormSaved } = storeToRefs(formUtilsStore);
 const selectedElements = ref(0);
 const isEntityActive = ref(false);
 
@@ -192,8 +184,17 @@ const showUpdateEntityStateButton = computed(() => {
   return ["customer", "contact"].includes(utilsStore.entity);
 });
 
+const isFormDirty = computed(() => {
+  return getFormMeta.value(props.formKey)?.dirty;
+});
+
 // COMPONENT METHODS
 const saveForm = () => {
+  if (!isFormDirty.value) {
+    return;
+  }
+
+  isFormSaved.value = true;
   emit("saveForm");
 };
 
@@ -202,10 +203,7 @@ const activateEntity = () => {
 };
 
 const deactivateEntity = () => {
-  emit(
-    "deactivateEntity",
-    utilsStore.selectedElements[utilsStore.entity][0].id
-  );
+  emit("deactivateEntity", utilsStore.selectedElements[utilsStore.entity][0].id);
 };
 
 const statusClass = (data) => {
@@ -219,8 +217,7 @@ watch(
     selectedElements.value = value?.length;
 
     isEntityActive.value =
-      utilsStore.selectedElements[utilsStore.entity][0].state.value ===
-      "active";
+      utilsStore.selectedElements[utilsStore.entity][0].state.value === "active";
 
     entityObject.value = utilsStore.selectedElements[utilsStore.entity][0];
     entityType.value = utilsStore.entity;
