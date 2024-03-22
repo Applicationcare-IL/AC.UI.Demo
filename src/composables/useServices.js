@@ -39,6 +39,16 @@ export function useServices() {
     return await servicesStore.cancelService(id, reasons);
   };
 
+  const getServicesSLADistribution = async (params) => {
+    const response = await servicesStore.getSLADistribution(params);
+    return response;
+  };
+
+  const getServicesTrendingAreas = async (params) => {
+    const response = await servicesStore.getTrendingAreas(params);
+    return response.data;
+  };
+
   // UTILITIES
   const parseService = (service) => {
     return {
@@ -201,6 +211,8 @@ export function useServices() {
     updateService,
     cancelService,
     getQuickCodes: servicesStore.getQuickCodes,
+    getServicesSLADistribution,
+    getServicesTrendingAreas,
     // UTILITIES
     parseService,
     parseMobileService,

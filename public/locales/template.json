@@ -106,7 +106,8 @@
   },
   "dashboard": {
     "my-tasks": "My Tasks",
-    "my-services": "My Services"
+    "my-services": "My Services",
+    "trending-service-areas": "Trending Service Areas"
   },
   "contact": {
     "contact": "Contact",
