@@ -88,6 +88,11 @@ export function useTasks() {
     return await tasksStore.generateSignaturesDocument(projectId);
   };
 
+  const getTopTaskFamilies = async (params) => {
+    const response = await tasksStore.getTopTaskFamilies(params);
+    return response.data;
+  };
+
   // UTILITIES
   const mapTask = (task) => {
     return {
@@ -207,6 +212,7 @@ export function useTasks() {
     completeTask,
     completeTasks,
     signTask,
+    getTopTaskFamilies,
     // UTILITIES
     mapTask,
     parseTask,

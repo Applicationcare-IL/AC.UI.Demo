@@ -116,5 +116,15 @@ export const useTasksStore = defineStore("tasks", {
           throw error;
         });
     },
+    getTopTaskFamilies(params) {
+      return axiosConfig
+        .get("/tasks/trending-areas", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

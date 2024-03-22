@@ -65,6 +65,8 @@
   "options": "Options",
   "filename": "Filename",
   "response": "Response",
+  "data-not-found": "Data not found",
+  "data-not-available": "Data not available",
   "buttons": {
     "save": "Save",
     "saved": "Saved",
@@ -107,7 +109,8 @@
   "dashboard": {
     "my-tasks": "My Tasks",
     "my-services": "My Services",
-    "trending-service-areas": "Trending Service Areas"
+    "trending-service-areas": "Trending Service Areas",
+    "top-task-families": "Top Task Families"
   },
   "contact": {
     "contact": "Contact",

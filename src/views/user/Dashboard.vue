@@ -95,8 +95,8 @@
         </Card> -->
         <!-- /END TEAM CARD -->
         <div class="flex flex-row gap-5">
-          <div class="flex-1">
-            <!-- <Card>
+          <!-- <div class="flex-1">
+          <Card>
               <template #title>
               התפלגות תהליכים לפי SLA:
               </template>
@@ -108,13 +108,16 @@
                   class="w-full md:w-30rem"
                 />
               </template>
-            </Card> -->
-          </div>
+            </Card> 
+          </div> -->
           <div class="" style="flex: 2">
             <Card v-if="servicesTrendingAreas">
               <template #title> {{ $t("dashboard.trending-service-areas") }}</template>
               <template #content>
-                <TrendingAreasList :data="servicesTrendingAreas" />
+                <TrendingList
+                  v-if="servicesTrendingAreas.length"
+                  :data="servicesTrendingAreas"
+                />
               </template>
             </Card>
           </div>
@@ -162,8 +165,8 @@
             </div>
           </template>
         </Card> -->
-        <!-- <div class="flex flex-row gap-5">
-          <div class="flex-1">
+        <div class="flex flex-row gap-5">
+          <!-- <div class="flex-1">
             <Card>
               <template #title>התפלגות תהליכים לפי SLA:</template>
               <template #content>
@@ -175,21 +178,17 @@
                 />
               </template>
             </Card>
-          </div>
+          </div> -->
           <div class="" style="flex: 2">
             <Card>
-              <template #title> משפחות מובילות </template>
+              <template #title> {{ $t("dashboard.top-task-families") }}</template>
               <template #content>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Inventore sed consequuntur error repudiandae numquam deserunt
-                  quisquam repellat libero asperiores earum nam nobis, culpa
-                  ratione quam perferendis esse, cupiditate neque quas!
-                </p>
+                <TrendingList v-if="topTaskFamilies.length" :data="topTaskFamilies" />
+                <span v-else> {{ $t("data-not-available") }}</span>
               </template>
             </Card>
           </div>
-        </div> -->
+        </div>
         <Card>
           <template #content>
             <WMTasksTable
@@ -247,8 +246,6 @@ import { onMounted, ref } from "vue";
 
 import { useAuthStore } from "@/stores/auth";
 
-import TrendingAreasList from "../../components/TrendingAreasList.vue";
-
 const { can } = usePermissions();
 
 const authStore = useAuthStore();
@@ -261,6 +258,7 @@ const taskColumns = ref(getTaskColumns());
 const serviceColumns = ref(getServiceColumns());
 
 const { getServicesTrendingAreas } = useServices();
+const { getTopTaskFamilies } = useTasks();
 
 const { width } = useWindowSize();
 
@@ -270,6 +268,7 @@ const numberOfTasksWithNearBreachedSLA = ref(0);
 const numberOfTasksWithNoBreachSLA = ref(0);
 
 const servicesTrendingAreas = ref([]);
+const topTaskFamilies = ref([]);
 
 const loadingBadges = ref(true);
 
@@ -353,6 +352,7 @@ const setChartData = () => {
 onMounted(async () => {
   chartData.value = setChartData();
   servicesTrendingAreas.value = await getServicesTrendingAreas();
+  topTaskFamilies.value = await getTopTaskFamilies();
 });
 </script>
 
