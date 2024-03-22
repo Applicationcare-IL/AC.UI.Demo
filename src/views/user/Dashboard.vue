@@ -111,7 +111,7 @@
             </Card> -->
           </div>
           <div class="" style="flex: 2">
-            <Card>
+            <Card v-if="servicesTrendingAreas">
               <template #title> {{ $t("dashboard.trending-service-areas") }}</template>
               <template #content>
                 <TrendingAreasList :data="servicesTrendingAreas" />
