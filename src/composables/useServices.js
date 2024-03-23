@@ -49,6 +49,10 @@ export function useServices() {
     return response.data;
   };
 
+  const exportServices = async (params) => {
+    return await servicesStore.exportServices(params);
+  };
+
   // UTILITIES
   const parseService = (service) => {
     return {
@@ -213,6 +217,7 @@ export function useServices() {
     getQuickCodes: servicesStore.getQuickCodes,
     getServicesSLADistribution,
     getServicesTrendingAreas,
+    exportServices,
     // UTILITIES
     parseService,
     parseMobileService,

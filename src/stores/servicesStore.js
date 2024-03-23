@@ -88,5 +88,15 @@ export const useServicesStore = defineStore("services", {
           console.error(error);
         });
     },
+    exportServices(params) {
+      return axiosConfig
+        .get("/services/export", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });
