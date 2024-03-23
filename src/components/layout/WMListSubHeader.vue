@@ -18,6 +18,7 @@
             class="m-1 col-6"
             name="export-white"
             icon="export"
+            @click="$emit('export')"
           >
             {{ $t("export") }}
           </WMButton>
@@ -38,8 +39,7 @@
 
           <WMAssignOwnerButton
             v-if="
-              can(utilsStore.pluralEntity + '.assign') &&
-              utilsStore.entity != 'asset'
+              can(utilsStore.pluralEntity + '.assign') && utilsStore.entity != 'asset'
             "
             :entity="utilsStore.entity"
             @owner-assigned="$emit('refreshTable')"
@@ -128,7 +128,7 @@ const { getScopes } = useActionBuilder();
 // INJECT
 
 // PROPS, EMITS
-defineEmits(["new", "taskCompleted", "refreshTable"]);
+defineEmits(["new", "taskCompleted", "refreshTable", "assetDeactivated", "export"]);
 
 const props = defineProps({
   activeButtons: Boolean,

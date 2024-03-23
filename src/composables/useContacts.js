@@ -41,6 +41,10 @@ export function useContacts() {
     return await contactsStore.deactivateContact(id);
   };
 
+  const exportContacts = async (params) => {
+    return await contactsStore.exportContacts(params);
+  };
+
   // UTILITIES
   const mapContact = (contact) => {
     const contactFullName = contact.surname
@@ -205,6 +209,7 @@ export function useContacts() {
     updateContact,
     activateContact,
     deactivateContact,
+    exportContacts,
 
     // SELECTED CONTACTS
     selectedContacts,

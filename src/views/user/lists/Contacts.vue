@@ -7,6 +7,7 @@
       loadLazyData();
       clearSelectedContacts();
     "
+    @export="handleExportContacts"
   >
   </WMListSubHeader>
 
@@ -154,8 +155,13 @@ const permissionsStore = usePermissionsStore();
 const permissions = permissionsStore.permissions;
 const { formatAddress } = useUtils();
 
-const { getContactsFromApi, setSelectedContacts, resetSelectedContacts } = useContacts();
-const { selectedRowsPerPage, highlightStatusClass } = useListUtils();
+const {
+  getContactsFromApi,
+  setSelectedContacts,
+  resetSelectedContacts,
+  exportContacts,
+} = useContacts();
+const { selectedRowsPerPage } = useListUtils();
 
 onMounted(() => {
   utilsStore.entity = "contact";
@@ -229,6 +235,16 @@ const displayDetails = (data) => {
 };
 
 const isDetailsVisible = ref(false);
+
+const { handleExport } = useExports();
+
+const handleExportContacts = async () => {
+  handleExport({
+    filters: utilsStore.filters["contact"],
+    searchValue: searchValue.value,
+    exportFunction: exportContacts,
+  });
+};
 
 //Move to Store
 const highlightCellClass = (data) => {
