@@ -1,4 +1,3 @@
-import { get } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 
 import { useContactsStore } from "@/stores/contactsStore";

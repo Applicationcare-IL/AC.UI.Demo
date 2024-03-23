@@ -136,5 +136,15 @@ export const useCustomersStore = defineStore("customers", {
           throw error;
         });
     },
+    exportCustomers(params) {
+      return axiosConfig
+        .get("/customers/export", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

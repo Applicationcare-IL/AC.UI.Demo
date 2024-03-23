@@ -6,6 +6,7 @@
       loadLazyData();
       clearSelectedCustomers();
     "
+    @export="handleExportCustomers"
   />
 
   <WMCustomerPreviewSidebar
@@ -54,11 +55,7 @@
       </Column>
       <Column style="width: 40px" selection-mode="multiple"></Column>
 
-      <Column
-        field="id"
-        :header="$t('customer.number-abbreviation')"
-        class="link-col"
-      >
+      <Column field="id" :header="$t('customer.number-abbreviation')" class="link-col">
         <template #body="slotProps">
           <router-link
             :to="{ name: 'customerDetail', params: { id: slotProps.data.id } }"
@@ -76,11 +73,7 @@
           </div>
         </template>
       </Column>
-      <Column
-        field="main_contact"
-        :header="$t('customer.main-contact')"
-        class="link-col"
-      >
+      <Column field="main_contact" :header="$t('customer.main-contact')" class="link-col">
         <template #body="slotProps">
           <router-link
             v-if="slotProps.data.main_contact?.id != null"
@@ -134,11 +127,7 @@
       <Column field="rating" :header="$t('customer.rating')">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.rating)">
-            {{
-              slotProps.data.rating
-                ? slotProps.data.rating[optionLabelWithLang]
-                : ""
-            }}
+            {{ slotProps.data.rating ? slotProps.data.rating[optionLabelWithLang] : "" }}
           </div>
         </template>
       </Column>
@@ -160,11 +149,7 @@
       <Column field="owner.name" :header="$t('owner')" frozen></Column>
       <Column field="status" :header="$t('status')" class="numeric">
         <template #body="slotProps">
-          <div
-            :class="
-              highlightStatusClass(slotProps.data.status.value.toLowerCase())
-            "
-          >
+          <div :class="highlightStatusClass(slotProps.data.status.value.toLowerCase())">
             {{ $t("statuses." + slotProps.data.status.value.toLowerCase()) }}
           </div>
         </template>
@@ -187,8 +172,7 @@ useHead({
   title: "Customers",
 });
 
-const { setSelectedContacts, resetSelectedContacts, getContactsFromApi } =
-  useContacts();
+const { setSelectedContacts, resetSelectedContacts, getContactsFromApi } = useContacts();
 const { optionLabelWithLang } = useLanguages();
 const { formatAddress } = useUtils();
 
@@ -211,7 +195,7 @@ const loading = ref(false);
 const dt = ref();
 const searchValue = ref("");
 
-const { getCustomersFromApi } = useCustomers();
+const { getCustomersFromApi, exportCustomers } = useCustomers();
 
 const loadLazyData = () => {
   loading.value = true;
@@ -233,6 +217,16 @@ const loadLazyData = () => {
     customers.value = result.data;
     totalRecords.value = result.totalRecords;
     loading.value = false;
+  });
+};
+
+const { handleExport } = useExports();
+
+const handleExportCustomers = async () => {
+  handleExport({
+    filters: utilsStore.filters["customer"],
+    searchValue: searchValue.value,
+    exportFunction: exportCustomers,
   });
 };
 
@@ -289,9 +283,7 @@ const onSelectionChanged = () => {
  * @param {*} selectedCustomers
  */
 const setSelectedContacsFromCustomers = async (selectedCustomers) => {
-  const selectedCustomersIds = selectedCustomers
-    .map((customer) => customer.id)
-    .join(",");
+  const selectedCustomersIds = selectedCustomers.map((customer) => customer.id).join(",");
 
   if (!selectedCustomersIds) {
     setSelectedContacts([]);
