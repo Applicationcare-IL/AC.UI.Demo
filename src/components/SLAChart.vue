@@ -5,7 +5,7 @@
     :options="chartOptions"
     :plugins="[ChartDataLabels]"
     class="w-full"
-    style="height: 200px"
+    style="height: 250px"
   />
 </template>
 
@@ -42,7 +42,7 @@ const chartOptions = ref({
       left: 0,
       right: 30,
       top: 10,
-      bottom: 10,
+      bottom: 20,
     },
   },
   cutout: "70%",
@@ -101,40 +101,36 @@ const getSLAStatusLabels = (data) => {
 };
 
 const calculateSLAPercentages = (data) => {
-  const SLAStatus = data.map((item) => item.sla_status);
+  const breached = data.filter((item) => item.sla_status === "breached")[0];
+  const nearBreach = data.filter(
+    (item) => item.sla_status === "near_breach"
+  )[0];
+  const noBreach = data.filter((item) => item.sla_status === "no_breach")[0];
 
-  const filteredSLAStatus = SLAStatus.filter((item) =>
-    availableStatus.value.includes(item)
-  );
-
-  const breached = filteredSLAStatus.filter(
-    (status) => status === "breached"
-  ).length;
-
-  const nearBreach = filteredSLAStatus.filter(
-    (status) => status === "near_breach"
-  ).length;
-
-  const noBreach = filteredSLAStatus.filter(
-    (status) => status === "no_breach"
-  ).length;
-
-  const total = breached + nearBreach + noBreach;
+  const totalValue =
+    (breached ? breached.value : 0) +
+    (nearBreach ? nearBreach.value : 0) +
+    (noBreach ? noBreach.value : 0);
 
   const percentages = {
-    breached: ((breached / total) * 100).toFixed(2),
-    nearBreach: ((nearBreach / total) * 100).toFixed(2),
-    noBreach: ((noBreach / total) * 100).toFixed(2),
+    breached: breached ? ((breached.value / totalValue) * 100).toFixed(2) : 0,
+    nearBreach: nearBreach
+      ? ((nearBreach.value / totalValue) * 100).toFixed(2)
+      : 0,
+    noBreach: noBreach ? ((noBreach.value / totalValue) * 100).toFixed(2) : 0,
   };
 
-  const clearPercentages = Object.keys(percentages).reduce((acc, key) => {
-    if (percentages[key] !== "0.00") {
-      acc[key] = percentages[key];
-    }
-    return acc;
-  }, {});
+  const filteredPercetagesWithZero = Object.entries(percentages).reduce(
+    (acc, [key, value]) => {
+      if (value !== 0) {
+        acc[key] = value;
+      }
+      return acc;
+    },
+    {}
+  );
 
-  return Object.values(clearPercentages);
+  return Object.values(filteredPercetagesWithZero);
 };
 
 const getBackgroundColorsByStatus = (data) => {

@@ -136,5 +136,15 @@ export const useTasksStore = defineStore("tasks", {
           console.error(error);
         });
     },
+    getSLADistribution(params) {
+      return axiosConfig
+        .get("/tasks/by-sla", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

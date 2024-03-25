@@ -97,6 +97,11 @@ export function useTasks() {
     return await tasksStore.exportTasks(params);
   };
 
+  const getTasksSLADistribution = async (params) => {
+    const response = await tasksStore.getSLADistribution(params);
+    return response.data;
+  };
+
   // UTILITIES
   const mapTask = (task) => {
     return {
@@ -225,6 +230,7 @@ export function useTasks() {
     signTask,
     getTopTaskFamilies,
     exportTasks,
+    getTasksSLADistribution,
     // UTILITIES
     mapTask,
     parseTask,

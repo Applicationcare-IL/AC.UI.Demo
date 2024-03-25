@@ -104,7 +104,7 @@
                   <span>
                     {{ $t("dashboard.tasks-distribution-by-sla") }}
                   </span>
-                  <i class="pi pi-ellipsis-v"></i>
+                  <!-- <i class="pi pi-ellipsis-v"></i> -->
                 </div>
               </template>
               <template #content>
@@ -113,7 +113,7 @@
             </Card>
           </div>
           <div style="width: 35%">
-            <Card v-if="servicesTrendingAreas">
+            <Card v-if="servicesTrendingAreas" class="h-full">
               <template #title>
                 {{ $t("dashboard.trending-service-areas") }}</template
               >
@@ -179,16 +179,16 @@
                   <span>
                     {{ $t("dashboard.services-distribution-by-sla") }}
                   </span>
-                  <i class="pi pi-ellipsis-v"></i>
+                  <!-- <i class="pi pi-ellipsis-v"></i> -->
                 </div>
               </template>
               <template #content>
-                <SLAChart v-if="servicesSLAData" :data="servicesSLAData" />
+                <SLAChart v-if="tasksSLAData" :data="tasksSLAData" />
               </template>
             </Card>
           </div>
           <div style="width: 35%">
-            <Card>
+            <Card class="h-full">
               <template #title>
                 {{ $t("dashboard.top-task-families") }}</template
               >
@@ -265,7 +265,7 @@ const authStore = useAuthStore();
 
 const { getTaskColumns, getServiceColumns } = useListUtils();
 const { checkIfEntityIsActive } = useLicensing();
-const { getTasksFromApi } = useTasks();
+const { getTasksFromApi, getTasksSLADistribution } = useTasks();
 
 const taskColumns = ref(getTaskColumns());
 const serviceColumns = ref(getServiceColumns());
@@ -284,6 +284,7 @@ const servicesTrendingAreas = ref([]);
 const servicesSLAData = ref(null);
 
 const topTaskFamilies = ref([]);
+const tasksSLAData = ref(null);
 
 const loadingBadges = ref(true);
 
@@ -326,6 +327,7 @@ onMounted(async () => {
   servicesSLAData.value = await getServicesSLADistribution();
 
   topTaskFamilies.value = await getTopTaskFamilies();
+  tasksSLAData.value = await getTasksSLADistribution();
 });
 </script>
 

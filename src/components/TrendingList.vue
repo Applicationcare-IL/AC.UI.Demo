@@ -13,13 +13,14 @@
 
 <script setup>
 // IMPORTS
+import { ref } from "vue";
 
 // DEPENDENCIES
 
 // INJECT
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   data: {
     type: Array,
     required: true,
@@ -29,6 +30,9 @@ defineProps({
 // REFS
 
 // COMPUTED
+
+// limit data to 5 items
+const data = ref(props.data.slice(0, 5));
 
 // COMPONENT METHODS
 
