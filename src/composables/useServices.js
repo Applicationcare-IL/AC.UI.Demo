@@ -40,8 +40,9 @@ export function useServices() {
   };
 
   const getServicesSLADistribution = async (params) => {
+    console.log("entro");
     const response = await servicesStore.getSLADistribution(params);
-    return response;
+    return response.data;
   };
 
   const getServicesTrendingAreas = async (params) => {
