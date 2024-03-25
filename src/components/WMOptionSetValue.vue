@@ -1,5 +1,7 @@
 <template>
-  <span>{{ translatedValue }}</span>
+  <span v-tooltip.top="optionSet.attributes">
+    {{ translatedValue }}
+  </span>
 </template>
 
 <script setup>
