@@ -40,14 +40,13 @@ export function useServices() {
   };
 
   const getServicesSLADistribution = async (params) => {
-    console.log("entro");
     const response = await servicesStore.getSLADistribution(params);
     return response.data;
   };
 
   const getServicesTrendingAreas = async (params) => {
     const response = await servicesStore.getTrendingAreas(params);
-    return response.data;
+    return response.data.map(mapTrendingAreas);
   };
 
   const exportServices = async (params) => {
@@ -206,6 +205,13 @@ export function useServices() {
     );
 
     return uniqueContacts;
+  };
+
+  const mapTrendingAreas = (trendingArea) => {
+    return {
+      ...trendingArea,
+      value: trendingArea.area_value,
+    };
   };
 
   return {

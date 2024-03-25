@@ -97,7 +97,16 @@
         <div class="flex flex-row gap-5">
           <div style="width: 65%">
             <Card>
-              <template #title> התפלגות תהליכים לפי SLA: </template>
+              <template #title>
+                <div
+                  class="w-full flex align-items-center justify-content-between"
+                >
+                  <span>
+                    {{ $t("dashboard.tasks-distribution-by-sla") }}
+                  </span>
+                  <i class="pi pi-ellipsis-v"></i>
+                </div>
+              </template>
               <template #content>
                 <SLAChart v-if="servicesSLAData" :data="servicesSLAData" />
               </template>
@@ -161,28 +170,24 @@
           </template>
         </Card> -->
         <div class="flex flex-row gap-5">
-          <div class="flex-1">
+          <div style="width: 65%">
             <Card class="h-full">
               <template #title>
                 <div
                   class="w-full flex align-items-center justify-content-between"
                 >
-                  <span>SLA:</span>
+                  <span>
+                    {{ $t("dashboard.services-distribution-by-sla") }}
+                  </span>
                   <i class="pi pi-ellipsis-v"></i>
                 </div>
               </template>
               <template #content>
-                <!-- <Chart
-                  type="doughnut"
-                  :data="chartData"
-                  :options="chartOptions"
-                  :plugins="[ChartDataLabels]"
-                  class="w-full md:w-30rem"
-                /> -->
+                <SLAChart v-if="servicesSLAData" :data="servicesSLAData" />
               </template>
             </Card>
           </div>
-          <div class="" style="flex: 2">
+          <div style="width: 35%">
             <Card>
               <template #title>
                 {{ $t("dashboard.top-task-families") }}</template
@@ -318,7 +323,6 @@ fetchTasks();
 
 onMounted(async () => {
   servicesTrendingAreas.value = await getServicesTrendingAreas();
-  console.log("entro aquí");
   servicesSLAData.value = await getServicesSLADistribution();
 
   topTaskFamilies.value = await getTopTaskFamilies();

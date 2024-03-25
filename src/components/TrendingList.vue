@@ -2,7 +2,7 @@
   <div class="trending-area-list">
     <div v-for="item in data" :key="item.id" class="trending-item">
       <div class="trending-item__info">
-        <span>{{ item.area_value }}</span>
+        <span>{{ truncate(item.value) }}</span>
         <span class="font-bold trending-item__number">{{ item.actual }}</span>
       </div>
 
@@ -31,6 +31,11 @@ defineProps({
 // COMPUTED
 
 // COMPONENT METHODS
+
+const truncate = (text) => {
+  const maxLength = 12;
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+};
 
 // PROVIDE, EXPOSE
 

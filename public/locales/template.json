@@ -110,7 +110,9 @@
     "my-tasks": "My Tasks",
     "my-services": "My Services",
     "trending-service-areas": "Trending Service Areas",
-    "top-task-families": "Top Task Families"
+    "top-task-families": "Top Task Families",
+    "services-distribution-by-sla": "Services distribution by SLA",
+    "tasks-distribution-by-sla": "Tasks distribution by SLA"
   },
   "contact": {
     "contact": "Contact",

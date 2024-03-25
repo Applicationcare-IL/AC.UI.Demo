@@ -90,7 +90,7 @@ export function useTasks() {
 
   const getTopTaskFamilies = async (params) => {
     const response = await tasksStore.getTopTaskFamilies(params);
-    return response.data;
+    return response.data.map(mapTopTaskFamilies);
   };
 
   const exportTasks = async (params) => {
@@ -149,6 +149,13 @@ export function useTasks() {
       open_date: task.last_activity?.creator?.at,
       state: task.state?.value,
       is_open: task.status?.value == "open",
+    };
+  };
+
+  const mapTopTaskFamilies = (task) => {
+    return {
+      ...task,
+      value: task.task_family_value,
     };
   };
 
