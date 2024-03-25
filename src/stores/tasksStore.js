@@ -126,5 +126,15 @@ export const useTasksStore = defineStore("tasks", {
           console.error(error);
         });
     },
+    exportTasks(params) {
+      return axiosConfig
+        .get("/tasks/export", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

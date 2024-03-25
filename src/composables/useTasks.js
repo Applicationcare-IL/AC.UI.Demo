@@ -93,6 +93,10 @@ export function useTasks() {
     return response.data;
   };
 
+  const exportTasks = async (params) => {
+    return await tasksStore.exportTasks(params);
+  };
+
   // UTILITIES
   const mapTask = (task) => {
     return {
@@ -213,6 +217,7 @@ export function useTasks() {
     completeTasks,
     signTask,
     getTopTaskFamilies,
+    exportTasks,
     // UTILITIES
     mapTask,
     parseTask,
