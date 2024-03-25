@@ -1,7 +1,6 @@
 <template>
   <div class="trending-marker" :class="classes">
     <span>{{ percentage }} %</span>
-
     <div v-if="increment > 0" class="d-flex" v-html="TrendingUp" />
     <div v-else class="d-flex" v-html="TrendingDown" />
   </div>
@@ -60,6 +59,7 @@ const percentage = computed(() => {
   display: flex;
   gap: 4px;
   border-radius: 18px;
+  direction: ltr;
 
   &.positive {
     background-color: var(--green-100);

@@ -118,7 +118,7 @@ export const useTasksStore = defineStore("tasks", {
     },
     getTopTaskFamilies(params) {
       return axiosConfig
-        .get("/tasks/trending-areas", { params })
+        .get("/tasks/trending-task-families", { params })
         .then((response) => {
           return response.data;
         })
