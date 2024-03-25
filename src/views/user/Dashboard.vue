@@ -95,23 +95,25 @@
         </Card> -->
         <!-- /END TEAM CARD -->
         <div class="flex flex-row gap-5">
-          <!-- <div class="flex-1">
-          <Card>
+          <div style="width: 65%">
+            <Card>
               <template #title>
-              התפלגות תהליכים לפי SLA:
+                <div
+                  class="w-full flex align-items-center justify-content-between"
+                >
+                  <span>
+                    {{ $t("dashboard.tasks-distribution-by-sla") }}
+                  </span>
+                  <!-- <i class="pi pi-ellipsis-v"></i> -->
+                </div>
               </template>
               <template #content>
-              <Chart
-                  type="doughnut"
-                  :data="chartData"
-                  :options="chartOptions"
-                  class="w-full md:w-30rem"
-                />
+                <SLAChart v-if="servicesSLAData" :data="servicesSLAData" />
               </template>
-            </Card> 
-          </div> -->
-          <div class="" style="flex: 2">
-            <Card v-if="servicesTrendingAreas">
+            </Card>
+          </div>
+          <div style="width: 35%">
+            <Card v-if="servicesTrendingAreas" class="h-full">
               <template #title>
                 {{ $t("dashboard.trending-service-areas") }}</template
               >
@@ -168,21 +170,25 @@
           </template>
         </Card> -->
         <div class="flex flex-row gap-5">
-          <!-- <div class="flex-1">
-            <Card>
-              <template #title>התפלגות תהליכים לפי SLA:</template>
+          <div style="width: 65%">
+            <Card class="h-full">
+              <template #title>
+                <div
+                  class="w-full flex align-items-center justify-content-between"
+                >
+                  <span>
+                    {{ $t("dashboard.services-distribution-by-sla") }}
+                  </span>
+                  <!-- <i class="pi pi-ellipsis-v"></i> -->
+                </div>
+              </template>
               <template #content>
-                <Chart
-                  type="doughnut"
-                  :data="chartData"
-                  :options="chartOptions"
-                  class="w-full md:w-30rem"
-                />
+                <SLAChart v-if="tasksSLAData" :data="tasksSLAData" />
               </template>
             </Card>
-          </div> -->
-          <div class="" style="flex: 2">
-            <Card>
+          </div>
+          <div style="width: 35%">
+            <Card class="h-full">
               <template #title>
                 {{ $t("dashboard.top-task-families") }}</template
               >
@@ -259,12 +265,12 @@ const authStore = useAuthStore();
 
 const { getTaskColumns, getServiceColumns } = useListUtils();
 const { checkIfEntityIsActive } = useLicensing();
-const { getTasksFromApi } = useTasks();
+const { getTasksFromApi, getTasksSLADistribution } = useTasks();
 
 const taskColumns = ref(getTaskColumns());
 const serviceColumns = ref(getServiceColumns());
 
-const { getServicesTrendingAreas } = useServices();
+const { getServicesTrendingAreas, getServicesSLADistribution } = useServices();
 const { getTopTaskFamilies } = useTasks();
 
 const { width } = useWindowSize();
@@ -275,7 +281,10 @@ const numberOfTasksWithNearBreachedSLA = ref(0);
 const numberOfTasksWithNoBreachSLA = ref(0);
 
 const servicesTrendingAreas = ref([]);
+const servicesSLAData = ref(null);
+
 const topTaskFamilies = ref([]);
+const tasksSLAData = ref(null);
 
 const loadingBadges = ref(true);
 
@@ -313,53 +322,12 @@ fetchTasks();
 //   return selectedCustomers?.value.length > 0;
 // });
 
-const chartData = ref();
-const chartOptions = ref({
-  cutout: "75%",
-  plugins: {
-    legend: {
-      position: "right",
-      labels: {
-        boxWidth: 16,
-        boxHeight: 16,
-        usePointStyle: true,
-        pointStyle: "rectRounded",
-        padding: 20,
-      },
-    },
-  },
-  maintainAspectRatio: false,
-  borderWidth: 0,
-  rotation: 30,
-});
-
-const setChartData = () => {
-  const documentStyle = getComputedStyle(document.body);
-
-  return {
-    labels: ["בחריגה", "קרוב לחריגה", "עומד ביעד"],
-    datasets: [
-      {
-        data: [17, 33, 50],
-        backgroundColor: [
-          documentStyle.getPropertyValue("--red-400"),
-          documentStyle.getPropertyValue("--yellow-400"),
-          documentStyle.getPropertyValue("--teal-500"),
-        ],
-        hoverBackgroundColor: [
-          documentStyle.getPropertyValue("--red-500"),
-          documentStyle.getPropertyValue("--yellow-500"),
-          documentStyle.getPropertyValue("--teal-600"),
-        ],
-      },
-    ],
-  };
-};
-
 onMounted(async () => {
-  chartData.value = setChartData();
   servicesTrendingAreas.value = await getServicesTrendingAreas();
+  servicesSLAData.value = await getServicesSLADistribution();
+
   topTaskFamilies.value = await getTopTaskFamilies();
+  tasksSLAData.value = await getTasksSLADistribution();
 });
 </script>
 
@@ -373,9 +341,5 @@ onMounted(async () => {
     right: 0;
     transform: translateY(-50%);
   }
-}
-
-.dashboard-column {
-  max-width: 50vw;
 }
 </style>
