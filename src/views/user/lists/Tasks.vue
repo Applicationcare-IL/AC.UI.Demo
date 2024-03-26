@@ -7,7 +7,6 @@
     @refresh-table="handleRefreshTable"
     @export="handleExportTasks"
   />
-  searchValue {{ searchValue }}
 
   <WMSidebar
     :visible="isVisible"
