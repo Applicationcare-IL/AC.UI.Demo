@@ -2,12 +2,13 @@ export function useExports() {
   const toast = useToast();
 
   const handleExport = async ({ filters, searchValue, exportFunction }) => {
-    const searchValueParam = searchValue.value;
-
     const params = new URLSearchParams({
       ...filters,
-      search: searchValueParam,
     });
+
+    if (searchValue) {
+      params.append("search", searchValue);
+    }
 
     const response = await exportFunction(params);
 

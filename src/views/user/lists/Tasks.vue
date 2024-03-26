@@ -7,6 +7,7 @@
     @refresh-table="handleRefreshTable"
     @export="handleExportTasks"
   />
+  searchValue {{ searchValue }}
 
   <WMSidebar
     :visible="isVisible"
@@ -212,8 +213,11 @@ const loadLazyData = () => {
     ...filters,
     page: nextPage,
     per_page: selectedRowsPerPageParam,
-    search: searchValueParam,
   });
+
+  if (searchValueParam) {
+    params.append("search", searchValueParam);
+  }
 
   getTasksFromApi(params).then((data) => {
     tasks.value = data.data;

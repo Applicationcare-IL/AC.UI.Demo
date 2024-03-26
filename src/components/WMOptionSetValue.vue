@@ -19,7 +19,7 @@ const props = defineProps({
 
 const classes = computed(() => {
   return {
-    "has-attributes": props.optionSet.attributes,
+    "has-attributes": props.optionSet && props.optionSet.attributes,
   };
 });
 
@@ -38,7 +38,7 @@ function formatArray(array) {
 }
 
 const formattedAttributes = computed(() => {
-  if (!props.optionSet.attributes) return;
+  if (!props.optionSet || !props.optionSet.attributes) return;
 
   const attributesWithTranslationKey = props.optionSet.attributes.map(
     (attr) => {
