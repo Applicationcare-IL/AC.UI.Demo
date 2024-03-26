@@ -44,14 +44,17 @@
         :value="task.task_type?.name"
         class="mb-3"
       />
+
       <WMInput
+        v-if="location"
         name="address"
         type="info"
         :highlighted="true"
         :label="$t('address')"
-        value="address"
+        :value="location"
         class="mb-3"
       />
+
       <WMInput
         name="description"
         type="info"
@@ -210,6 +213,26 @@ const fetchTaskInfo = async (taskId) => {
 };
 
 fetchTaskInfo(route.params.id);
+
+const location = computed(() => {
+  if (!task.value.related_entity?.location) {
+    return false;
+  }
+
+  const city = task.value.related_entity.location?.city
+    ? task.value.related_entity.location.city[optionLabelWithLang.value]
+    : "";
+
+  const street = task.value.related_entity.location?.street
+    ? task.value.related_entity.location.street[optionLabelWithLang.value]
+    : "";
+
+  const number = task.value.related_entity.location?.house_number
+    ? task.value.related_entity.location.house_number
+    : "";
+
+  return `${street},  ${number}, ${city}`;
+});
 
 const getContactInfo = (contactId) => {
   getContactFromApi(contactId).then((data) => {
