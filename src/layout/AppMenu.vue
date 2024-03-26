@@ -80,7 +80,7 @@ const model = ref([
         label: computed(() => t("navigation.assets")),
         to: "/assets_list",
         image: new URL("/icons/nav/assets.svg", import.meta.url).href,
-        visibility: checkIfEntityIsActive("services") && can("services.read"),
+        visibility: checkIfEntityIsActive("assets") && can("assets.read"),
       },
     ],
   },
