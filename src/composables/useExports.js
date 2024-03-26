@@ -10,9 +10,13 @@ export function useExports() {
     });
 
     const response = await exportFunction(params);
-    const hash = response.data.hash;
 
-    console.log("hash", hash);
+    const { hash, exists_url, download_url } = response.data;
+
+    if (exists_url) {
+      window.open(download_url, "_blank");
+      return;
+    }
 
     toast.showLoadingExportToast();
 
