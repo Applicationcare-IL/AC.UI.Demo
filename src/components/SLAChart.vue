@@ -5,7 +5,6 @@
     :options="chartOptions"
     :plugins="[ChartDataLabels]"
     class="w-full"
-    style="height: 250px"
   />
 </template>
 

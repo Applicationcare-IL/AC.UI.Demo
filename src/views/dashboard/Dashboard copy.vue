@@ -52,8 +52,22 @@
       v-if="checkIfEntityIsActive('services') && can('services.read')"
       class="dashboard-column"
     >
-      <!-- Services -->
       <div class="h1 mb-5">{{ $t("dashboard.my-services") }}</div>
+
+      <!-- Charts -->
+      <div class="flex flex-column gap-5 card-container">
+        <Card>
+          <template #content> test </template>
+        </Card>
+      </div>
+    </div>
+
+    <!-- Tables -->
+    <div
+      v-if="checkIfEntityIsActive('services') && can('services.read')"
+      class="dashboard-column"
+    >
+      <!-- Services -->
 
       <div class="flex flex-column gap-5 card-container">
         <!-- TEAM CARD -->
@@ -94,38 +108,7 @@
           </template>
         </Card> -->
         <!-- /END TEAM CARD -->
-        <div class="flex flex-row gap-5">
-          <div style="width: 65%">
-            <Card>
-              <template #title>
-                <div
-                  class="w-full flex align-items-center justify-content-between"
-                >
-                  <span>
-                    {{ $t("dashboard.tasks-distribution-by-sla") }}
-                  </span>
-                  <!-- <i class="pi pi-ellipsis-v"></i> -->
-                </div>
-              </template>
-              <template #content>
-                <SLAChart v-if="servicesSLAData" :data="servicesSLAData" />
-              </template>
-            </Card>
-          </div>
-          <div style="width: 35%">
-            <Card v-if="servicesTrendingAreas" class="h-full">
-              <template #title>
-                {{ $t("dashboard.trending-service-areas") }}</template
-              >
-              <template #content>
-                <TrendingList
-                  v-if="servicesTrendingAreas.length"
-                  :data="servicesTrendingAreas"
-                />
-              </template>
-            </Card>
-          </div>
-        </div>
+
         <Card>
           <template #content>
             <WMServicesTable
