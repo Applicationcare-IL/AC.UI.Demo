@@ -46,7 +46,7 @@
 
       <div class="flex flex-row gap-5 graphs-min-height">
         <div style="width: 50%">
-          <Card class="h-full">
+          <Card class="h-full p-card-chart">
             <template #title>
               <div
                 class="w-full flex align-items-center justify-content-between"
