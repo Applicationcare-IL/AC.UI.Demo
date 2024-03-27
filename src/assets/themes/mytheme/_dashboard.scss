@@ -6,7 +6,7 @@
 .dashboard-content{
     display: flex;
     flex-wrap: wrap;
-    gap: 1em;
+    gap: 3em;
     padding: 20px 20px 20px 60px;
     height: auto;
     overflow: scroll;
@@ -14,7 +14,7 @@
 
 .dashboard-column {
     flex: 1;
-    min-width: calc(50% - 1em);
+    min-width: calc(50% - 2em);
     box-sizing: border-box;
 }
 
@@ -58,3 +58,4 @@
     background-color: var(--gray-25);
     border-radius: 16px;
 }
+

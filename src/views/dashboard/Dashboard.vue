@@ -27,3 +27,13 @@ const { checkIfEntityIsActive } = useLicensing();
 
 const { width } = useWindowSize();
 </script>
+
+<style scoped lang="scss">
+:deep(.graphs-min-height) {
+  min-height: 21rem;
+}
+
+:deep(.p-card .p-card-content) {
+  padding: 0;
+}
+</style>

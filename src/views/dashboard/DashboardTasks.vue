@@ -26,9 +26,9 @@
           </div>
         </template>
       </Card>
-      <div class="flex flex-row gap-5">
-        <div style="width: 65%">
-          <Card class="h-full">
+      <div class="flex flex-row gap-5 graphs-min-height">
+        <div style="width: 50%">
+          <Card class="h-full p-card-chart">
             <template #title>
               <div
                 class="w-full flex align-items-center justify-content-between"
@@ -44,7 +44,7 @@
             </template>
           </Card>
         </div>
-        <div style="width: 35%">
+        <div style="width: 50%">
           <Card class="h-full">
             <template #title> {{ $t("dashboard.top-task-families") }}</template>
             <template #content>

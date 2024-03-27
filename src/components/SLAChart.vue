@@ -1,11 +1,13 @@
 <template>
-  <Chart
-    type="doughnut"
-    :data="chartData"
-    :options="chartOptions"
-    :plugins="[ChartDataLabels]"
-    class="w-full"
-  />
+  <div class="w-full">
+    <Chart
+      type="doughnut"
+      :data="chartData"
+      :options="chartOptions"
+      :plugins="[ChartDataLabels]"
+      class="w-full h-full"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -39,12 +41,12 @@ const chartOptions = ref({
   layout: {
     padding: {
       left: 0,
-      right: 30,
+      right: 0,
       top: 20,
       bottom: 20,
     },
   },
-  cutout: "70%",
+  cutout: "60%",
   maintainAspectRatio: false,
   responsive: true,
   plugins: {

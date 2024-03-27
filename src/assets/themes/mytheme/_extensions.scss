@@ -815,3 +815,15 @@ cursor: text !important;
 .p-chart{
     direction : ltr;
 }
+
+// chards
+.p-card-chart .p-card-body{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .p-card-content{
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+}

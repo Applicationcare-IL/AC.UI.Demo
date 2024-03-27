@@ -44,9 +44,9 @@
         </template>
       </Card>
 
-      <div class="flex flex-row gap-5">
-        <div style="width: 65%">
-          <Card>
+      <div class="flex flex-row gap-5 graphs-min-height">
+        <div style="width: 50%">
+          <Card class="h-full">
             <template #title>
               <div
                 class="w-full flex align-items-center justify-content-between"
@@ -62,7 +62,7 @@
             </template>
           </Card>
         </div>
-        <div style="width: 35%">
+        <div style="width: 50%">
           <Card v-if="servicesTrendingAreas" class="h-full">
             <template #title>
               {{ $t("dashboard.trending-service-areas") }}</template

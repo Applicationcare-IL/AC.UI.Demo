@@ -1,9 +1,14 @@
 <template>
   <div class="flex mx-4 gap-2">
     <div>
-      <div class="class px-3 flex align-items-center" @click="toggleReminders">
-        <span>תזכורות</span>
-        <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg text-white">
+      <div
+        class="class px-3 flex gap-1 align-items-center justify-content-center"
+        @click="toggleReminders"
+      >
+        <span class="font-bold">תזכורות</span>
+        <span
+          class="bg-blue-100 font-bold px-2 py-1 mx-1 border-round-lg text-blue-700 flex"
+        >
           {{ reminders?.totalRecords || 0 }}
         </span>
       </div>
@@ -33,9 +38,14 @@
     </div>
 
     <div>
-      <div class="class px-3 flex align-items-center" @click="toggleFollowUps">
-        <span>מעקבים</span>
-        <span class="bg-yellow-500 px-2 py-1 mx-1 border-round-lg text-white">
+      <div
+        class="class px-3 flex gap-1 align-items-center justify-content-center"
+        @click="toggleFollowUps"
+      >
+        <span class="font-bold">מעקבים</span>
+        <span
+          class="bg-blue-100 font-bold px-2 py-1 mx-1 border-round-lg text-blue-700"
+        >
           {{ followUps?.totalRecords || 0 }}
         </span>
       </div>
