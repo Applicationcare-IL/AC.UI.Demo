@@ -1,32 +1,31 @@
 <template>
   <div class="dashboard-column card-container">
-    <!-- Tasks -->
     <div class="h1 mb-5">{{ $t("dashboard.my-tasks") }}</div>
     <div class="flex flex-column gap-5 card-container">
-      <!-- <Card>
-          <template #content>
-            <div class="flex flex-row gap-5 justify-content-center">
-              <div
-                class="flex flex-row gap-3 px-5 py-1 counter counter-green align-items-center"
-              >
-                <div class="small-text">
-                  משימות<br />
-                  פתוחים
-                </div>
-                <div class="big-text green">145</div>
+      <Card v-if="false">
+        <template #content>
+          <div class="flex flex-row gap-5 justify-content-center">
+            <div
+              class="flex flex-2 flex-row gap-4 px-5 py-2 counter counter-green align-items-center"
+            >
+              <div class="small-text">
+                תהליכים<br />
+                פתוחים
               </div>
-              <div
-                class="flex flex-row gap-3 px-5 py-1 counter counter-red align-items-center"
-              >
-                <div class="small-text">
-                  משימות <br />
-                  חורגים
-                </div>
-                <div class="big-text red">45</div>
-              </div>
+              <div class="text-5xl font-bold green">145</div>
             </div>
-          </template>
-        </Card> -->
+            <div
+              class="flex flex-row flex-2 gap-3 px-5 py-2 counter counter-red align-items-center"
+            >
+              <div class="small-text">
+                תהליכים <br />
+                חורגים
+              </div>
+              <div class="text-5xl font-bold red">45</div>
+            </div>
+          </div>
+        </template>
+      </Card>
       <div class="flex flex-row gap-5">
         <div style="width: 65%">
           <Card class="h-full">

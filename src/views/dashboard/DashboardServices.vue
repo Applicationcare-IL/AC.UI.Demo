@@ -3,44 +3,47 @@
     <div class="h1 mb-5">{{ $t("dashboard.my-services") }}</div>
 
     <div class="flex flex-column gap-5 card-container">
-      <!-- TEAM CARD -->
-      <!-- <Card>
-          <template #content>
-            <div class="flex flex-row gap-5 justify-content-center">
-              <div
-                class="flex flex-row gap-3 px-5 py-1 counter counter-green align-items-center"
-              >
-                <div class="small-text">
-                  תהליכים<br />
-                  פתוחים
-                </div>
-                <div class="big-text green">145</div>
+      <Card v-if="false">
+        <template #content>
+          <div class="flex flex-row gap-5 justify-content-between">
+            <div
+              class="flex flex-2 flex-row gap-4 px-5 py-2 counter counter-green align-items-center"
+            >
+              <div class="small-text">
+                תהליכים<br />
+                פתוחים
               </div>
-              <div
-                class="flex flex-row gap-3 px-5 py-1 counter counter-red align-items-center"
-              >
-                <div class="small-text">
-                  תהליכים <br />
-                  חורגים
-                </div>
-                <div class="big-text red">45</div>
+              <div class="text-5xl font-bold green">145</div>
+            </div>
+            <div
+              class="flex flex-row flex-2 gap-3 px-5 py-2 counter counter-red align-items-center"
+            >
+              <div class="small-text">
+                תהליכים <br />
+                חורגים
               </div>
-              <div
-                class="flex flex-row gap-3 px-4 py-2 time-info justify-content-between"
-              >
-                <div class="flex flex-column justify-content-between align-items-start">
-                  <div class="white-space-nowrap">זמן ממוצע של הצוות</div>
-                  <div class="font-bold">00:08:46</div>
+              <div class="text-5xl font-bold red">45</div>
+            </div>
+            <div class="flex flex-column flex-1 gap-2 px-4 py-2">
+              <div class="time-info w-full flex p-2 justify-content-between">
+                <div class="flex gap-2">
+                  <span> זמן ממוצע שלי </span>
+                  <span class="font-bold text-lg">00:10:46</span>
                 </div>
-                <div class="flex flex-column justify-content-between align-items-end">
-                  <i class="pi pi-ellipsis-v"></i>
-                  <Tag severity="success" rounded value="+4%"></Tag>
+                <TrendingMarker :increment="4" />
+              </div>
+              <div class="time-info w-full flex p-2 justify-content-between">
+                <div class="flex gap-2">
+                  <span> זמן ממוצע שלי </span>
+                  <span class="font-bold text-lg">00:10:46</span>
                 </div>
+                <TrendingMarker :increment="-2" />
               </div>
             </div>
-          </template>
-        </Card> -->
-      <!-- /END TEAM CARD -->
+          </div>
+        </template>
+      </Card>
+
       <div class="flex flex-row gap-5">
         <div style="width: 65%">
           <Card>

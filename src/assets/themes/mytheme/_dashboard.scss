@@ -50,10 +50,11 @@
 }
 
 .dashboard-content .counter-green{
-    background-color: var(--teal-100);
-    color: var(--teal-700);
+    background-color: var(--green-50);
+    color: var(--green-700);
 }
 
 .dashboard-content .time-info{
     background-color: var(--gray-25);
+    border-radius: 16px;
 }
