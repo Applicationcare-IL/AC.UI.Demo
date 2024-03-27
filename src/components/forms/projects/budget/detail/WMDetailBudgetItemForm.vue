@@ -36,7 +36,7 @@
           <template #title> {{ $t("description") }} </template>
           <template #content>
             <div class="flex flex-auto flex-column gap-5">
-              <div class="wm-form-row align-items-start gap-5">
+              <div class="wm-form-row align-items-start gap-5 w-full">
                 <WMInput
                   id="description"
                   type="text-area"
@@ -106,7 +106,9 @@
                   name="approved_council"
                 />
 
-                <ArrowIcon :class="layoutConfig.isRTL.value ? '' : 'rotate-180'" />
+                <ArrowIcon
+                  :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
+                />
 
                 <WMHighlightedBlock
                   v-model="budgetItem.approved_ministry"
@@ -153,7 +155,8 @@ const { layoutConfig } = useLayout();
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
-const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } = useProjects();
+const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } =
+  useProjects();
 const route = useRoute();
 const toast = useToast();
 const { t } = useI18n();
@@ -186,7 +189,11 @@ const fetchData = () => {
 fetchData();
 
 const onSave = handleSubmit((values) => {
-  updateBudgetItem(route.params.id, route.params.budgetId, parseUpdateBudgetItem(values))
+  updateBudgetItem(
+    route.params.id,
+    route.params.budgetId,
+    parseUpdateBudgetItem(values)
+  )
     .then(() => {
       toast.success(t("toast.budget-item-updated"));
       resetForm({ values: values });

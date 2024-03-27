@@ -77,7 +77,7 @@
       ]"
       :style="{ width: styleWidth }"
       auto-resize
-      rows="8"
+      rows="6"
       cols="100"
       @input="
         $emit('update:value', $event.target.value);
