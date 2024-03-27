@@ -37,7 +37,7 @@ const data = ref(props.data.slice(0, 5));
 // COMPONENT METHODS
 
 const truncate = (text) => {
-  const maxLength = 12;
+  const maxLength = 20;
   return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 };
 
