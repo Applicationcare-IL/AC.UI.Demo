@@ -336,7 +336,7 @@ const {
 const toast = useToast();
 const route = useRoute();
 
-const { getTaskColumns, getPriorityConditionalStyle } = useListUtils();
+const { getTaskColumns, getPriorityClasses } = useListUtils();
 
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
@@ -444,7 +444,7 @@ const onSave = handleSubmit((values) => {
 });
 
 const priorityClass = (data) => {
-  return getPriorityConditionalStyle(data);
+  return getPriorityClasses(data);
 };
 
 // formUtilsStore.submit = onSubmit;

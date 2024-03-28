@@ -86,6 +86,7 @@
             v-if="can('services.read')"
             :columns="serviceColumns"
             :hide-title="true"
+            :show-filters="false"
             multiselect
           />
         </template>

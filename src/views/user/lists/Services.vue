@@ -12,7 +12,10 @@
 
   <!-- <pre>{{ services }}</pre> -->
 
-  <WMServicePreviewSidebar v-model:visible="isDetailsVisible" :service="serviceDetail" />
+  <WMServicePreviewSidebar
+    v-model:visible="isDetailsVisible"
+    :service="serviceDetail"
+  />
 
   <WMSidebar
     :visible="isVisible"
@@ -115,7 +118,10 @@
           <WMOptionSetValue :option-set="slotProps.data.request1" />
         </template>
       </Column>
-      <Column field="days_from_opening_date" :header="$t('service.duration')"></Column>
+      <Column
+        field="days_from_opening_date"
+        :header="$t('service.duration')"
+      ></Column>
       <Column field="owner.name" :header="$t('service.owner')"></Column>
       <Column field="owner.default_team" :header="$t('service.team')"></Column>
       <Column field="SLA" header="SLA" class="sla">
@@ -129,7 +135,11 @@
           </WMSLATag>
         </template>
       </Column>
-      <Column field="priority" :header="$t('service.priority')" class="numeric priority">
+      <Column
+        field="priority"
+        :header="$t('service.priority')"
+        class="numeric priority"
+      >
         <template #body="slotProps">
           <div :class="priorityClass(slotProps.data)">
             {{ slotProps.data.is_active ? slotProps.data.priority : "-" }}
@@ -171,9 +181,10 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
-const { selectedRowsPerPage } = useListUtils();
+const { selectedRowsPerPage, getPriorityClasses } = useListUtils();
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
-const { getServicesFromApi, mapContactsFromServices, exportServices } = useServices();
+const { getServicesFromApi, mapContactsFromServices, exportServices } =
+  useServices();
 
 // PROPS, EMITS
 
@@ -265,17 +276,7 @@ const rowClass = (data) => {
 };
 
 const priorityClass = (data) => {
-  const classes = "text-blue-600";
-
-  if (data.priority == 1 && data.is_active) {
-    return classes + " bg-blue-75";
-  } else if (data.priority == 2 && data.is_active) {
-    return classes + " bg-blue-50";
-  } else if (data.priority == 3 && data.is_active) {
-    return classes + " bg-blue-25";
-  }
-
-  return classes;
+  return getPriorityClasses(data);
 };
 
 // Manage selected rows
