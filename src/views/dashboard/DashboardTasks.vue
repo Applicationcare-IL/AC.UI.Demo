@@ -68,6 +68,7 @@
             :columns="taskColumns"
             multiselect
             :hide-title="true"
+            :show-filter="false"
           />
         </template>
       </Card>

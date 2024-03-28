@@ -47,6 +47,7 @@
       </div>
       <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMFilterButton
+          v-if="showFilter"
           :is-active="isFilterApplied || isFilterOpen"
           @click="openFilterSidebar"
         />
@@ -226,6 +227,10 @@ const props = defineProps({
     default: true,
   },
   showFilters: {
+    type: Boolean,
+    default: true,
+  },
+  showFilter: {
     type: Boolean,
     default: true,
   },
