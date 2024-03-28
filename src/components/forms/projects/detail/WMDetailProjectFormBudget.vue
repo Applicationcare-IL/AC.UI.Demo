@@ -73,7 +73,7 @@
 
               <WMHighlightedBlock
                 v-model="budget.executed_payments"
-                background-color="white"
+                background-color="transparent"
                 :label="$t('budget.executed-payments') + ':'"
               />
 
@@ -95,9 +95,7 @@
           </div>
 
           <div class="flex flex-column gap-2">
-            <div
-              class="flex flex-row align-items-center justify-content-start gap-2"
-            >
+            <div class="flex flex-row justify-content-start gap-2">
               <WMHighlightedBlock
                 v-model="budget.tbr_accepted"
                 name="tbr_accepted"
@@ -124,13 +122,11 @@
               />
             </div>
 
-            <div
-              class="flex flex-row align-items-center gap-5 justify-content-start mt-3"
-            >
+            <div class="flex flex-row gap-5 justify-content-start mt-3">
               <WMHighlightedBlock
                 v-model="budget.tbr_reported"
                 name="tbr_reported"
-                background-color="white"
+                background-color="transparent"
                 :label="$t('budget.tbr-reported') + ':'"
                 size="small"
               />
@@ -138,7 +134,7 @@
               <WMHighlightedBlock
                 v-model="budget.tbr_municipality_expenses"
                 name="tbr_municipality_expenses"
-                background-color="white"
+                background-color="transparent"
                 :label="$t('budget.tbr-municipality-expenses') + ':'"
                 size="small"
                 class="mr-2"
