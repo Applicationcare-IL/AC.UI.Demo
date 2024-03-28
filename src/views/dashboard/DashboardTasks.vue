@@ -36,13 +36,17 @@
                 <span>
                   {{ $t("dashboard.tasks-distribution-by-sla") }}
                 </span>
-                <!-- <i class="pi pi-ellipsis-v"></i> -->
+                <i
+                  class="pi pi-ellipsis-v cursor-pointer"
+                  @click="openTasksSLADialog"
+                ></i>
               </div>
             </template>
             <template #content>
               <SLAChart v-if="tasksSLAData" :data="tasksSLAData" />
             </template>
           </Card>
+          <DashboardTasksSLADialog v-model="showTasksSLADialog" />
         </div>
         <div style="width: 50%">
           <Card class="h-full">
@@ -74,6 +78,8 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
+import DashboardTasksSLADialog from "@/views/dashboard/DashboardTasksSLADialog.vue";
+
 const { can } = usePermissions();
 
 const { getTaskColumns } = useListUtils();
@@ -84,8 +90,13 @@ const taskColumns = ref(getTaskColumns());
 
 const { getTopTaskFamilies } = useTasks();
 
+const openTasksSLADialog = () => {
+  showTasksSLADialog.value = true;
+};
+
 const topTaskFamilies = ref([]);
 const tasksSLAData = ref(null);
+const showTasksSLADialog = ref(false);
 
 onMounted(async () => {
   topTaskFamilies.value = await getTopTaskFamilies();

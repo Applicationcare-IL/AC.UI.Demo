@@ -54,13 +54,17 @@
                 <span>
                   {{ $t("dashboard.services-distribution-by-sla") }}
                 </span>
-                <!-- <i class="pi pi-ellipsis-v"></i> -->
+                <i
+                  class="pi pi-ellipsis-v cursor-pointer"
+                  @click="openServicesSLADialog"
+                ></i>
               </div>
             </template>
             <template #content>
               <SLAChart v-if="servicesSLAData" :data="servicesSLAData" />
             </template>
           </Card>
+          <DashboardServicesSLADialog v-model="showServicesSLADialog" />
         </div>
         <div style="width: 50%">
           <Card v-if="servicesTrendingAreas" class="h-full">
@@ -93,6 +97,8 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
+import DashboardServicesSLADialog from "@/views/dashboard/DashboardServicesSLADialog.vue";
+
 const { can } = usePermissions();
 
 const { getServiceColumns } = useListUtils();
@@ -103,6 +109,11 @@ const { getServicesTrendingAreas, getServicesSLADistribution } = useServices();
 
 const servicesTrendingAreas = ref([]);
 const servicesSLAData = ref(null);
+const showServicesSLADialog = ref(false);
+
+const openServicesSLADialog = () => {
+  showServicesSLADialog.value = true;
+};
 
 onMounted(async () => {
   servicesTrendingAreas.value = await getServicesTrendingAreas();
