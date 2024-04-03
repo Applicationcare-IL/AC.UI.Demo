@@ -212,6 +212,7 @@ const loadLazyData = () => {
     ...filters,
     page: nextPage,
     per_page: selectedRowsPerPageParam,
+    order_by: "stage_id",
   });
 
   if (searchValueParam) {

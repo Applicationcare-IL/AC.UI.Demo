@@ -280,6 +280,7 @@ const loadLazyData = () => {
     page: nextPage,
     per_page: selectedRowsPerPageParam,
     search: searchValueParam,
+    order_by: "stage_id",
   });
 
   if (props.relatedEntity == "contact") {

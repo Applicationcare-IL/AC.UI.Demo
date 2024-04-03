@@ -97,9 +97,9 @@ const taskColumns = ref(getTaskColumns());
 
 const { getTopTaskFamilies } = useTasks();
 
-const openTasksSLADialog = () => {
-  showTasksSLADialog.value = true;
-};
+// const openTasksSLADialog = () => {
+//   showTasksSLADialog.value = true;
+// };
 
 const topTaskFamilies = ref([]);
 const tasksSLAData = ref(null);
@@ -118,6 +118,7 @@ onMounted(async () => {
   };
 
   topTaskFamilies.value = await getTopTaskFamilies(dashboardTaskFilters.value);
+
   tasksSLAData.value = await getTasksSLADistribution(
     dashboardTaskFilters.value
   );
