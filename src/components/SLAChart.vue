@@ -42,8 +42,8 @@ const chartOptions = ref({
     padding: {
       left: 0,
       right: 0,
-      top: 20,
-      bottom: 20,
+      top: 30,
+      bottom: 30,
     },
   },
   cutout: "60%",

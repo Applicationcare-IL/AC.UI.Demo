@@ -56,8 +56,8 @@
           <WMFilterForm entity="service" filter-form-name="service" />
         </WMSidebar>
 
-        <!-- <WMStateToggle entity="service" /> -->
-        <WMOwnerToggle entity="service" />
+        <WMStateToggle entity="service" />
+        <!-- <WMOwnerToggle entity="service" /> -->
       </div>
     </div>
     <div class="flex flex-row gap-3">

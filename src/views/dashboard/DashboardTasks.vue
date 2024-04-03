@@ -46,7 +46,10 @@
               <SLAChart v-if="tasksSLAData" :data="tasksSLAData" />
             </template>
           </Card>
-          <DashboardTasksSLADialog v-model="showTasksSLADialog" />
+          <DashboardTasksSLADialog
+            v-model="showTasksSLADialog"
+            :filters="dashboardTaskFilters"
+          />
         </div>
         <div style="width: 50%">
           <Card class="h-full">
@@ -69,6 +72,7 @@
             multiselect
             :hide-title="true"
             :show-filter="false"
+            :filters="dashboardTaskFilters"
           />
         </template>
       </Card>
@@ -79,7 +83,9 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
+import { useOptionSetsStore } from "@/stores/optionSets";
 import DashboardTasksSLADialog from "@/views/dashboard/DashboardTasksSLADialog.vue";
+const optionSetsStore = useOptionSetsStore();
 
 const { can } = usePermissions();
 
@@ -99,9 +105,22 @@ const topTaskFamilies = ref([]);
 const tasksSLAData = ref(null);
 const showTasksSLADialog = ref(false);
 
+const dashboardTaskFilters = ref({
+  order_by: "due_date",
+});
+
 onMounted(async () => {
-  topTaskFamilies.value = await getTopTaskFamilies();
-  tasksSLAData.value = await getTasksSLADistribution();
+  const activeStateId = await optionSetsStore.getValueId("state", "active");
+
+  dashboardTaskFilters.value = {
+    ...dashboardTaskFilters.value,
+    state: activeStateId,
+  };
+
+  topTaskFamilies.value = await getTopTaskFamilies(dashboardTaskFilters.value);
+  tasksSLAData.value = await getTasksSLADistribution(
+    dashboardTaskFilters.value
+  );
 });
 </script>
 

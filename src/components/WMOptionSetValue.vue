@@ -19,7 +19,10 @@ const props = defineProps({
 
 const classes = computed(() => {
   return {
-    "has-attributes": props.optionSet && props.optionSet.attributes,
+    "has-attributes":
+      props.optionSet &&
+      props.optionSet.attributes &&
+      props.optionSet.attributes.length > 0,
   };
 });
 

@@ -20,10 +20,17 @@ const { getTasksSLADistribution } = useTasks();
 
 const modelValue = defineModel();
 
+const props = defineProps({
+  filters: {
+    type: Object,
+    required: true,
+  },
+});
+
 const tasksSLAData = ref(null);
 
 onMounted(async () => {
-  tasksSLAData.value = await getTasksSLADistribution();
+  tasksSLAData.value = await getTasksSLADistribution(props.filters);
 });
 </script>
 
