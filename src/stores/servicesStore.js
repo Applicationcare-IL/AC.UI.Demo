@@ -98,5 +98,15 @@ export const useServicesStore = defineStore("services", {
           console.error(error);
         });
     },
+    getSLATableData(params) {
+      return axiosConfig
+        .get("/services/areas-by-sla", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

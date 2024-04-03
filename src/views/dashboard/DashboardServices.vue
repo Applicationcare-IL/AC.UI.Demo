@@ -61,7 +61,9 @@
               </div>
             </template>
             <template #content>
-              <SLAChart v-if="servicesSLAData" :data="servicesSLAData" />
+              <div>
+                <SLAChart v-if="servicesSLAData" :data="servicesSLAData" />
+              </div>
             </template>
           </Card>
           <DashboardServicesSLADialog v-model="showServicesSLADialog" />

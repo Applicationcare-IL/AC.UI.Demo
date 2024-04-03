@@ -3,12 +3,16 @@
     v-model:visible="modelValue"
     modal
     :header="$t('dashboard.tasks-distribution-by-sla')"
-    :style="{ minWidth: '30vw' }"
+    :style="{ width: '1200px' }"
   >
-    <div class="flex" :style="{ height: '250px' }">
-      <SLAChart v-if="tasksSLAData" :data="tasksSLAData" />
-      <!-- <Divider layout="vertical" />
-      TABLE -->
+    <div class="flex" :style="{ minHeight: '350px' }">
+      <div class="w-6 flex">
+        <SLAChart v-if="tasksSLAData" :data="tasksSLAData" />
+      </div>
+      <Divider layout="vertical" />
+      <div class="w-6">
+        <WMSLATable />
+      </div>
     </div>
   </Dialog>
 </template>

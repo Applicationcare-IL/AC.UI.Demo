@@ -13,7 +13,7 @@
 <script setup>
 // IMPORTS
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
@@ -46,7 +46,7 @@ const chartOptions = ref({
       bottom: 30,
     },
   },
-  cutout: "60%",
+  cutout: "70%",
   maintainAspectRatio: false,
   responsive: true,
   plugins: {
@@ -171,6 +171,12 @@ const setChartData = (data) => {
 // PROVIDE, EXPOSE
 
 // WATCHERS
+watch(
+  () => props.data,
+  (newData) => {
+    chartData.value = setChartData(newData);
+  }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {

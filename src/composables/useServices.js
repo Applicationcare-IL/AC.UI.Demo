@@ -53,6 +53,11 @@ export function useServices() {
     return await servicesStore.exportServices(params);
   };
 
+  const getServicesSLATableData = async (params) => {
+    const response = await servicesStore.getSLATableData(params);
+    return response.data;
+  };
+
   // UTILITIES
   const parseService = (service) => {
     return {
@@ -225,6 +230,7 @@ export function useServices() {
     getServicesSLADistribution,
     getServicesTrendingAreas,
     exportServices,
+    getServicesSLATableData,
     // UTILITIES
     parseService,
     parseMobileService,

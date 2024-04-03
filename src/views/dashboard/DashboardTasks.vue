@@ -36,10 +36,10 @@
                 <span>
                   {{ $t("dashboard.tasks-distribution-by-sla") }}
                 </span>
-                <i
+                <!-- <i
                   class="pi pi-ellipsis-v cursor-pointer"
                   @click="openTasksSLADialog"
-                ></i>
+                ></i> -->
               </div>
             </template>
             <template #content>
