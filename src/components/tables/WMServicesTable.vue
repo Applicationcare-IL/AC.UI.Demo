@@ -183,6 +183,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  filters: {
+    type: Object,
+    default: null,
+  },
 });
 
 // REFS
@@ -203,7 +207,7 @@ const isFilterApplied = computed(() => {
 
 // COMPONENT METHODS
 const loadLazyData = async () => {
-  const filters = utilsStore.filters["service"];
+  const filters = props.filters ? props.filters : utilsStore.filters["service"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = props.rows;

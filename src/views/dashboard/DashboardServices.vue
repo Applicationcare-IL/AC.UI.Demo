@@ -90,6 +90,7 @@
             :hide-title="true"
             :show-filters="false"
             multiselect
+            :filters="dashboardServicesFilters"
           />
         </template>
       </Card>
@@ -98,29 +99,57 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { onMounted, ref } from "vue";
 
+import { useOptionSetsStore } from "@/stores/optionSets";
 import DashboardServicesSLADialog from "@/views/dashboard/DashboardServicesSLADialog.vue";
 
+// DEPENDENCIES
 const { can } = usePermissions();
-
+const optionSetsStore = useOptionSetsStore();
 const { getServiceColumns } = useListUtils();
-
-const serviceColumns = ref(getServiceColumns());
-
 const { getServicesTrendingAreas, getServicesSLADistribution } = useServices();
 
+// INJECT
+
+// PROPS, EMITS
+
+// REFS
+const dashboardServicesFilters = ref({
+  order_by: "due_date",
+});
+const serviceColumns = ref(getServiceColumns());
 const servicesTrendingAreas = ref([]);
 const servicesSLAData = ref(null);
 const showServicesSLADialog = ref(false);
 
+// COMPUTED
+
+// COMPONENT METHODS
 const openServicesSLADialog = () => {
   showServicesSLADialog.value = true;
 };
 
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
-  servicesTrendingAreas.value = await getServicesTrendingAreas();
-  servicesSLAData.value = await getServicesSLADistribution();
+  const activeStateId = await optionSetsStore.getValueId("state", "active");
+
+  dashboardServicesFilters.value = {
+    ...dashboardServicesFilters.value,
+    state: activeStateId,
+  };
+
+  servicesTrendingAreas.value = await getServicesTrendingAreas(
+    dashboardServicesFilters.value
+  );
+  servicesSLAData.value = await getServicesSLADistribution(
+    dashboardServicesFilters.value
+  );
 });
 </script>
 

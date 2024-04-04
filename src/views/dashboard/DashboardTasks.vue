@@ -81,26 +81,25 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { onMounted, ref } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 import DashboardTasksSLADialog from "@/views/dashboard/DashboardTasksSLADialog.vue";
+
+// DEPENDENCIES
 const optionSetsStore = useOptionSetsStore();
 
 const { can } = usePermissions();
-
 const { getTaskColumns } = useListUtils();
-
 const { getTasksSLADistribution } = useTasks();
-
-const taskColumns = ref(getTaskColumns());
-
 const { getTopTaskFamilies } = useTasks();
+// INJECT
 
-// const openTasksSLADialog = () => {
-//   showTasksSLADialog.value = true;
-// };
+// PROPS, EMITS
 
+// REFS
+const taskColumns = ref(getTaskColumns());
 const topTaskFamilies = ref([]);
 const tasksSLAData = ref(null);
 const showTasksSLADialog = ref(false);
@@ -109,6 +108,18 @@ const dashboardTaskFilters = ref({
   order_by: "due_date",
 });
 
+// COMPUTED
+
+// COMPONENT METHODS
+// const openTasksSLADialog = () => {
+//   showTasksSLADialog.value = true;
+// };
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   const activeStateId = await optionSetsStore.getValueId("state", "active");
 
