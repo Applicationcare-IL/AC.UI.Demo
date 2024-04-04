@@ -463,6 +463,7 @@
   },
   "address": {
     "address": "Address",
+    "city_data": "City Data",
     "city": "City",
     "street": "Street",
     "house-number": "House Number",
