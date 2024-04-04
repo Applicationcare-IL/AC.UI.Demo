@@ -61,6 +61,7 @@
               <div class="flex flex-row justify-content-between gap-3">
                 <WMHighlightedBlock
                   v-model="budgetItem.estimate"
+                  name="estimate"
                   background-color="purple-100"
                   :label="$t('budget.estimate') + ':'"
                 />
@@ -68,6 +69,7 @@
                 <Divider layout="vertical" />
                 <WMHighlightedBlock
                   v-model="budgetItem.planned_contract"
+                  name="planned_contract"
                   background-color="blue-100"
                   :label="$t('budget.planned-contract') + ':'"
                 />
@@ -89,8 +91,9 @@
                 />
                 <EqualIcon />
                 <WMHighlightedBlock
-                  v-model="budgetItem.total_approved"
+                  v-model="budgetItem.total"
                   background-color="blue-200"
+                  name="total"
                   :label="$t('budget.total') + ':'"
                 />
               </div>
@@ -123,6 +126,7 @@
                 <WMHighlightedBlock
                   v-model="budgetItem.executed_payments"
                   background-color="white"
+                  name="executed_payments"
                   :label="$t('budget.executed-payments') + ':'"
                 />
 
@@ -220,7 +224,7 @@ defineExpose({
 watch(
   () => meta.value,
   (value) => {
-    if (value.touched) {
+    if (value.touched || value.dirty) {
       formUtilsStore.formMeta = value;
       formUtilsStore.setFormMetas(value, props.formKey);
     }
