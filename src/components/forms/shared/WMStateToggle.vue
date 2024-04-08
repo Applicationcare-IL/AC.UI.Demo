@@ -1,55 +1,68 @@
 <template>
   <SelectButton
-    v-if="options.length > 1"
     v-model="selectedOption"
     :options="options"
     option-label="name"
     option-value="value"
     class="flex flex-nowrap"
-    @change="onChangeOwnerFilter"
+    @change="onChangeStateFilter"
   />
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+// IMPORTS
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
-import { useAuthStore } from "@/stores/auth";
+import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
-const authStore = useAuthStore();
-
+// DEPENDENCIES
+const optionSetsStore = useOptionSetsStore();
 const { t } = useI18n();
 const utilsStore = useUtilsStore();
 
+// INJECT
+
+// PROPS, EMITS
 const props = defineProps({
   entity: String,
 });
 
-const onChangeOwnerFilter = (event) => {
-  if (event.value === "all")
-    delete utilsStore.filters[props.entity]["employee"];
-  else utilsStore.filters[props.entity] = { employee: authStore.user?.id };
+// REFS
+const options = ref([{ name: t("state.all"), value: "all" }]);
+const selectedOption = ref("all");
+
+// COMPUTED
+
+// COMPONENT METHODS
+const onChangeStateFilter = (event) => {
+  if (event.value === "all") {
+    delete utilsStore.filters[props.entity]["state"];
+  } else {
+    utilsStore.filters[props.entity] = {
+      ...utilsStore.filters[props.entity],
+      state: event.value,
+    };
+  }
 };
 
-const options = [
-  { name: t("state.all"), value: "all" },
-  { name: t("state.active"), value: "active" },
-  { name: t("state.not-active"), value: "not-active" },
-];
+// PROVIDE, EXPOSE
 
-// // if the user has the all permision to false, set the filter to the current user, what its the same as 'my' option
-// const setFilterBasedOnPermissions = () => {
-//   if (permissionsStore.permissions[pluralEntityName.value]?.all === false) {
-//     utilsStore.filters[props.entity] = { employee: authStore.user?.id };
-//   }
-// };
+// WATCHERS
 
-// setFilterBasedOnPermissions();
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  const activeStateId = await optionSetsStore.getValueId("state", "active");
+  const notActiveStateId = await optionSetsStore.getValueId(
+    "state",
+    "not_active"
+  );
 
-// setTimeout(() => {
-//   setFilterBasedOnPermissions();
-// }, 1000);
-
-// const selectedOption = ref(getSelectedOptionBasedOnPermissions());
+  options.value.unshift({ name: t("state.active"), value: activeStateId });
+  options.value.unshift({
+    name: t("state.not-active"),
+    value: notActiveStateId,
+  });
+});
 </script>
