@@ -14,10 +14,11 @@
           </WMButton>
 
           <WMButton
-            v-if="can(utilsStore.pluralEntity + '.export')"
+            v-if="showExportButton"
             class="m-1 col-6"
             name="export-white"
             icon="export"
+            @click="$emit('export')"
           >
             {{ $t("export") }}
           </WMButton>
@@ -76,6 +77,10 @@
           />
         </div>
         <div class="flex flex-row align-items-center gap-3">
+          <WMStateToggle
+            v-if="entity === 'task' || entity === 'service'"
+            :entity="entity"
+          />
           <WMOwnerToggle :entity="entity" />
         </div>
       </div>
@@ -128,7 +133,13 @@ const { getScopes } = useActionBuilder();
 // INJECT
 
 // PROPS, EMITS
-defineEmits(["new", "taskCompleted", "refreshTable"]);
+defineEmits([
+  "new",
+  "taskCompleted",
+  "refreshTable",
+  "assetDeactivated",
+  "export",
+]);
 
 const props = defineProps({
   activeButtons: Boolean,
@@ -163,6 +174,15 @@ function closeFilterSidebar() {
 function openFilterSidebar() {
   isFilterVisible.value = true;
 }
+
+const enetitiesAvailableForExport = ["task", "customer", "contact", "service"];
+
+const showExportButton = computed(() => {
+  return (
+    can(utilsStore.pluralEntity + ".export") &&
+    enetitiesAvailableForExport.includes(utilsStore.entity)
+  );
+});
 
 getScopes(props.entity, "list").then((data) => {
   scopes.value = data;

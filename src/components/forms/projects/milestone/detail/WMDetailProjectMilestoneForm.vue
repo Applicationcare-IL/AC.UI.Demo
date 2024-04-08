@@ -24,9 +24,7 @@
                     {{ $t("milestone.status") + ":" }}
                   </label>
                   <span class="" style="width: 120px">
-                    <WMOptionSetValue
-                      :option-set="milestone.milestone_status"
-                    />
+                    <WMOptionSetValue :option-set="milestone.milestone_status" />
                   </span>
                 </div>
               </div>
@@ -66,9 +64,7 @@
                   name="plannedDate"
                   type="date"
                   :label="$t('milestone.planned-date') + ':'"
-                  :value="
-                    formatDate(new Date(milestone.planned_date), 'DD/MM/YYYY')
-                  "
+                  :value="formatDate(new Date(milestone.planned_date), 'DD/MM/YYYY')"
                   :disabled="isMilestoneCompleted"
                 />
 
@@ -76,9 +72,7 @@
                   name="baseDate"
                   type="date"
                   :label="$t('milestone.base-date') + ':'"
-                  :value="
-                    formatDate(new Date(milestone.base_date), 'DD/MM/YYYY')
-                  "
+                  :value="formatDate(new Date(milestone.base_date), 'DD/MM/YYYY')"
                   :disabled="isMilestoneCompleted"
                 />
 
@@ -86,9 +80,7 @@
                   name="actualDate"
                   type="date"
                   :label="$t('milestone.actual-date') + ':'"
-                  :value="
-                    formatDate(new Date(milestone.actual_date), 'DD/MM/YYYY')
-                  "
+                  :value="formatDate(new Date(milestone.actual_date), 'DD/MM/YYYY')"
                   :disabled="isMilestoneCompleted"
                 />
               </div>
@@ -151,8 +143,7 @@ const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 
-const { getProjectMilestone, updateProjectMilestone, parseMilestone } =
-  useProjects();
+const { getProjectMilestone, updateProjectMilestone, parseMilestone } = useProjects();
 
 const route = useRoute();
 const toast = useToast();
@@ -182,10 +173,7 @@ const isMilestoneCompleted = computed(() => {
 const { handleSubmit, meta, resetForm } = useForm();
 
 const fetchData = async () => {
-  const response = await getProjectMilestone(
-    route.params.id,
-    route.params.milestoneId
-  );
+  const response = await getProjectMilestone(route.params.id, route.params.milestoneId);
 
   milestone.value = response;
   utilsStore.selectedElements["milestone"] = [response];
@@ -223,8 +211,10 @@ defineExpose({
 watch(
   () => meta.value,
   (value) => {
-    formUtilsStore.formMeta = value;
-    formUtilsStore.setFormMetas(value, props.formKey);
+    if (value.touched) {
+      formUtilsStore.formMeta = value;
+      formUtilsStore.setFormMetas(value, props.formKey);
+    }
   }
 );
 

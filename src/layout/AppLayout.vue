@@ -1,12 +1,6 @@
 <template>
-  <Toast />
-  <div
-    class="layout-wrapper"
-    :class="containerClass"
-    @click="onDocumentClick($event)"
-  >
+  <div class="layout-wrapper" :class="containerClass" @click="onDocumentClick($event)">
     <AppResponsiveTopbar v-if="width <= 768" />
-
     <AppTopbar
       class="hidden md:flex"
       :active-topbar-item="activeTopbarItem"
@@ -30,6 +24,8 @@
     </div>
     <app-config></app-config>
     <div class="layout-mask"></div>
+    <Toast />
+    <Toast position="bottom-right" group="br" />
   </div>
 </template>
 

@@ -90,5 +90,15 @@ export const useContactsStore = defineStore("contacts", {
     resetSelectedContacts() {
       this.selectedContacts = [];
     },
+    exportContacts() {
+      return axiosConfig
+        .get("/contacts/export")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

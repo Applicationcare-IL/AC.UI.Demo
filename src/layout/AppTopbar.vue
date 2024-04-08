@@ -17,10 +17,10 @@
         class="client-logo md:hidden"
       />
     </div>
-    <div class="hidden md:flex">
+    <div class="hidden md:flex ml-auto">
       <WMTopTaskSummary />
     </div>
-    <WMGlobalSearchBox v-model="searchValue" />
+    <WMGlobalSearchBox v-model="searchValue" class="ml-auto" />
 
     <div class="hidden md:block mx-6">
       <div class="layout-topbar-menu" :class="topbarMenuClasses">
@@ -226,5 +226,6 @@ const isOutsideClicked = (event) => {
 .client-logo {
   max-width: 130px;
   height: auto;
+  max-height: 60px;
 }
 </style>

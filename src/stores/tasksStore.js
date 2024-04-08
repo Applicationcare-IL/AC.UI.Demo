@@ -116,5 +116,35 @@ export const useTasksStore = defineStore("tasks", {
           throw error;
         });
     },
+    getTopTaskFamilies(params) {
+      return axiosConfig
+        .get("/tasks/trending-task-families", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    exportTasks(params) {
+      return axiosConfig
+        .get("/tasks/export", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getSLADistribution(params) {
+      return axiosConfig
+        .get("/tasks/by-sla", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

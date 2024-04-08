@@ -6,6 +6,7 @@
       loadLazyData();
       clearSelectedServices();
     "
+    @export="handleExportServices"
   >
   </WMListSubHeader>
 
@@ -134,11 +135,6 @@
           </WMSLATag>
         </template>
       </Column>
-      <Column field="state" :header="$t('service.state')">
-        <template #body="slotProps">
-          <WMOptionSetValue :option-set="slotProps.data.state" />
-        </template>
-      </Column>
       <Column
         field="priority"
         :header="$t('service.priority')"
@@ -185,9 +181,10 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
-const { selectedRowsPerPage } = useListUtils();
+const { selectedRowsPerPage, getPriorityClasses } = useListUtils();
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
-const { getServicesFromApi, mapContactsFromServices } = useServices();
+const { getServicesFromApi, mapContactsFromServices, exportServices } =
+  useServices();
 
 // PROPS, EMITS
 
@@ -253,6 +250,16 @@ const loadLazyData = () => {
   });
 };
 
+const { handleExport } = useExports();
+
+const handleExportServices = async () => {
+  handleExport({
+    filters: utilsStore.filters["coservicentact"],
+    searchValue: searchValue.value,
+    exportFunction: exportServices,
+  });
+};
+
 const onPage = (event) => {
   lazyParams.value = event;
   loadLazyData();
@@ -269,17 +276,7 @@ const rowClass = (data) => {
 };
 
 const priorityClass = (data) => {
-  const classes = "text-blue-600";
-
-  if (data.priority == 1 && data.is_active) {
-    return classes + " bg-blue-75";
-  } else if (data.priority == 2 && data.is_active) {
-    return classes + " bg-blue-50";
-  } else if (data.priority == 3 && data.is_active) {
-    return classes + " bg-blue-25";
-  }
-
-  return classes;
+  return getPriorityClasses(data);
 };
 
 // Manage selected rows

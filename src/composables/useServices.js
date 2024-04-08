@@ -39,6 +39,25 @@ export function useServices() {
     return await servicesStore.cancelService(id, reasons);
   };
 
+  const getServicesSLADistribution = async (params) => {
+    const response = await servicesStore.getSLADistribution(params);
+    return response.data;
+  };
+
+  const getServicesTrendingAreas = async (params) => {
+    const response = await servicesStore.getTrendingAreas(params);
+    return response.data.map(mapTrendingAreas);
+  };
+
+  const exportServices = async (params) => {
+    return await servicesStore.exportServices(params);
+  };
+
+  const getServicesSLATableData = async (params) => {
+    const response = await servicesStore.getSLATableData(params);
+    return response.data;
+  };
+
   // UTILITIES
   const parseService = (service) => {
     return {
@@ -193,6 +212,13 @@ export function useServices() {
     return uniqueContacts;
   };
 
+  const mapTrendingAreas = (trendingArea) => {
+    return {
+      ...trendingArea,
+      value: trendingArea.area_value,
+    };
+  };
+
   return {
     // API
     getServicesFromApi,
@@ -201,6 +227,10 @@ export function useServices() {
     updateService,
     cancelService,
     getQuickCodes: servicesStore.getQuickCodes,
+    getServicesSLADistribution,
+    getServicesTrendingAreas,
+    exportServices,
+    getServicesSLATableData,
     // UTILITIES
     parseService,
     parseMobileService,

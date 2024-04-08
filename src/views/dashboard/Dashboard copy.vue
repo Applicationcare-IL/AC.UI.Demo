@@ -52,10 +52,25 @@
       v-if="checkIfEntityIsActive('services') && can('services.read')"
       class="dashboard-column"
     >
-      <!-- Services -->
       <div class="h1 mb-5">{{ $t("dashboard.my-services") }}</div>
 
+      <!-- Charts -->
       <div class="flex flex-column gap-5 card-container">
+        <Card>
+          <template #content> test </template>
+        </Card>
+      </div>
+    </div>
+
+    <!-- Tables -->
+    <div
+      v-if="checkIfEntityIsActive('services') && can('services.read')"
+      class="dashboard-column"
+    >
+      <!-- Services -->
+
+      <div class="flex flex-column gap-5 card-container">
+        <!-- TEAM CARD -->
         <!-- <Card>
           <template #content>
             <div class="flex flex-row gap-5 justify-content-center">
@@ -80,15 +95,11 @@
               <div
                 class="flex flex-row gap-3 px-4 py-2 time-info justify-content-between"
               >
-                <div
-                  class="flex flex-column justify-content-between align-items-start"
-                >
+                <div class="flex flex-column justify-content-between align-items-start">
                   <div class="white-space-nowrap">זמן ממוצע של הצוות</div>
                   <div class="font-bold">00:08:46</div>
                 </div>
-                <div
-                  class="flex flex-column justify-content-between align-items-end"
-                >
+                <div class="flex flex-column justify-content-between align-items-end">
                   <i class="pi pi-ellipsis-v"></i>
                   <Tag severity="success" rounded value="+4%"></Tag>
                 </div>
@@ -96,34 +107,8 @@
             </div>
           </template>
         </Card> -->
-        <!-- <div class="flex flex-row gap-5">
-          <div class="flex-1">
-            <Card>
-              <template #title>התפלגות תהליכים לפי SLA:</template>
-              <template #content>
-                <Chart
-                  type="doughnut"
-                  :data="chartData"
-                  :options="chartOptions"
-                  class="w-full md:w-30rem"
-                />
-              </template>
-            </Card>
-          </div>
-          <div class="" style="flex: 2">
-            <Card>
-              <template #title> משפחות מובילות </template>
-              <template #content>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Inventore sed consequuntur error repudiandae numquam deserunt
-                  quisquam repellat libero asperiores earum nam nobis, culpa
-                  ratione quam perferendis esse, cupiditate neque quas!
-                </p>
-              </template>
-            </Card>
-          </div>
-        </div> -->
+        <!-- /END TEAM CARD -->
+
         <Card>
           <template #content>
             <WMServicesTable
@@ -167,34 +152,39 @@
             </div>
           </template>
         </Card> -->
-        <!-- <div class="flex flex-row gap-5">
-          <div class="flex-1">
-            <Card>
-              <template #title>התפלגות תהליכים לפי SLA:</template>
+        <div class="flex flex-row gap-5">
+          <div style="width: 65%">
+            <Card class="h-full">
+              <template #title>
+                <div
+                  class="w-full flex align-items-center justify-content-between"
+                >
+                  <span>
+                    {{ $t("dashboard.services-distribution-by-sla") }}
+                  </span>
+                  <!-- <i class="pi pi-ellipsis-v"></i> -->
+                </div>
+              </template>
               <template #content>
-                <Chart
-                  type="doughnut"
-                  :data="chartData"
-                  :options="chartOptions"
-                  class="w-full md:w-30rem"
+                <SLAChart v-if="tasksSLAData" :data="tasksSLAData" />
+              </template>
+            </Card>
+          </div>
+          <div style="width: 35%">
+            <Card class="h-full">
+              <template #title>
+                {{ $t("dashboard.top-task-families") }}</template
+              >
+              <template #content>
+                <TrendingList
+                  v-if="topTaskFamilies.length"
+                  :data="topTaskFamilies"
                 />
+                <span v-else> {{ $t("data-not-available") }}</span>
               </template>
             </Card>
           </div>
-          <div class="" style="flex: 2">
-            <Card>
-              <template #title> משפחות מובילות </template>
-              <template #content>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Inventore sed consequuntur error repudiandae numquam deserunt
-                  quisquam repellat libero asperiores earum nam nobis, culpa
-                  ratione quam perferendis esse, cupiditate neque quas!
-                </p>
-              </template>
-            </Card>
-          </div>
-        </div> -->
+        </div>
         <Card>
           <template #content>
             <WMTasksTable
@@ -248,7 +238,7 @@
 
 <script setup>
 import { useWindowSize } from "@vueuse/core";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import { useAuthStore } from "@/stores/auth";
 
@@ -258,10 +248,13 @@ const authStore = useAuthStore();
 
 const { getTaskColumns, getServiceColumns } = useListUtils();
 const { checkIfEntityIsActive } = useLicensing();
-const { getTasksFromApi } = useTasks();
+const { getTasksFromApi, getTasksSLADistribution } = useTasks();
 
 const taskColumns = ref(getTaskColumns());
 const serviceColumns = ref(getServiceColumns());
+
+const { getServicesTrendingAreas, getServicesSLADistribution } = useServices();
+const { getTopTaskFamilies } = useTasks();
 
 const { width } = useWindowSize();
 
@@ -269,6 +262,12 @@ const tasks = ref([]);
 const numberOfTasksWithBreachedSLA = ref(0);
 const numberOfTasksWithNearBreachedSLA = ref(0);
 const numberOfTasksWithNoBreachSLA = ref(0);
+
+const servicesTrendingAreas = ref([]);
+const servicesSLAData = ref(null);
+
+const topTaskFamilies = ref([]);
+const tasksSLAData = ref(null);
 
 const loadingBadges = ref(true);
 
@@ -306,53 +305,13 @@ fetchTasks();
 //   return selectedCustomers?.value.length > 0;
 // });
 
-// const chartData = ref();
-// const chartOptions = ref({
-//   cutout: "75%",
-//   plugins: {
-//     legend: {
-//       position: "right",
-//       labels: {
-//         boxWidth: 16,
-//         boxHeight: 16,
-//         usePointStyle: true,
-//         pointStyle: "rectRounded",
-//         padding: 20,
-//       },
-//     },
-//   },
-//   maintainAspectRatio: false,
-//   borderWidth: 0,
-//   rotation: 30,
-// });
+onMounted(async () => {
+  servicesTrendingAreas.value = await getServicesTrendingAreas();
+  servicesSLAData.value = await getServicesSLADistribution();
 
-// const setChartData = () => {
-//   const documentStyle = getComputedStyle(document.body);
-
-//   return {
-//     labels: ["בחריגה", "קרוב לחריגה", "עומד ביעד"],
-//     datasets: [
-//       {
-//         data: [17, 33, 50],
-//         backgroundColor: [
-//           documentStyle.getPropertyValue("--red-400"),
-//           documentStyle.getPropertyValue("--yellow-400"),
-//           documentStyle.getPropertyValue("--teal-500"),
-//         ],
-//         hoverBackgroundColor: [
-//           documentStyle.getPropertyValue("--red-500"),
-//           documentStyle.getPropertyValue("--yellow-500"),
-//           documentStyle.getPropertyValue("--teal-600"),
-//         ],
-//       },
-//     ],
-//   };
-// };
-
-// const options = ref([
-//   { name: "כל אנשי הקשר", value: 2 },
-//   { name: "אנשי הקשר שלי", value: 1 },
-// ]);
+  topTaskFamilies.value = await getTopTaskFamilies();
+  tasksSLAData.value = await getTasksSLADistribution();
+});
 </script>
 
 <style scoped lang="scss">

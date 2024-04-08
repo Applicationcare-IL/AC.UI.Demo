@@ -37,6 +37,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
     cancelServiceReasons: {},
     completeServiceReasons: {},
     formMetas: [],
+    isFormSaved: false,
   }),
   getters: {
     yesNoOptions: () => {

@@ -276,16 +276,6 @@ const onSave = handleSubmit((values) => {
   }
 });
 
-// const router = useRouter();
-
-// const refreshPage = () => {
-//   router.go(); // Reloads the current route
-// };
-
-// const priorityClass = (data) => {
-//   return getPriorityConditionalStyle(data);
-// };
-
 const handleProjectTypeUpdate = (value) => {
   selectedProjectType.value = value;
 };
@@ -303,8 +293,10 @@ defineExpose({
 watch(
   () => meta.value,
   (value) => {
-    formUtilsStore.formMeta = value;
-    formUtilsStore.setFormMetas(value, props.formKey);
+    if (value.touched) {
+      formUtilsStore.formMeta = value;
+      formUtilsStore.setFormMetas(value, props.formKey);
+    }
   }
 );
 </script>

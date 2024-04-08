@@ -877,13 +877,14 @@ export function useListUtils() {
     ];
   };
 
-  const getPriorityConditionalStyle = (data) => {
+  // TODO: Maybe this should be a new component
+  const getPriorityClasses = (data) => {
     return [
-      "text-blue-600",
+      "text-purple-900",
       {
-        "bg-blue-75": data.priority === 1 && data.is_active,
-        "bg-blue-50": data.priority === 2 && data.is_active,
-        "bg-blue-25": data.priority === 3 && data.is_active,
+        "bg-purple-400": parseInt(data.priority) === 1 && data.is_active,
+        "bg-purple-200": data.priority === 2 && data.is_active,
+        "bg-purple-100": data.priority === 3 && data.is_active,
       },
     ];
   };
@@ -928,7 +929,7 @@ export function useListUtils() {
     // METHODS
     getAlertCellConditionalStyle,
     getStatusConditionalStyle,
-    getPriorityConditionalStyle,
+    getPriorityClasses,
     highlightStatusClass,
   };
 }

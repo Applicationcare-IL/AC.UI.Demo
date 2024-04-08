@@ -18,77 +18,171 @@
     </template>
     <template #content>
       <div class="flex flex-row gap-5 flex-wrap">
-        <div class="flex-1 card-container top-info-card">
-          <div class="flex flex-column gap-4">
-            <div class="flex flex-row gap-7 align-items-center">
-              <WMHighlightedBlock
-                v-model="budget.total_approved"
-                size="small"
-                background-color="blue-200"
-                :label="$t('budget.total') + ':'"
-              />
+        <div class="flex-1 w-full">
+          <div class="flex flex-column gap-5">
+            <div class="flex flex-row justify-content-between gap-3">
               <WMHighlightedBlock
                 v-model="budget.estimate"
-                size="small"
                 background-color="purple-100"
                 :label="$t('budget.estimate') + ':'"
               />
+
+              <Divider layout="vertical" />
               <WMHighlightedBlock
-                v-model="budget.funding_non_tbr"
-                size="small"
-                background-color="gray-200"
-                :label="$t('budget.non-tbr-funding') + ':'"
+                v-model="budget.planned_contract"
+                background-color="blue-100"
+                :label="$t('budget.planned-contract') + ':'"
+              />
+              <PlusIcon />
+              <WMHighlightedBlock
+                v-model="budget.unexpected"
+                background-color="blue-100"
+                :label="$t('budget.unexpected') + ':'"
+              />
+              <PlusIcon />
+              <WMHighlightedBlock
+                v-model="budget.management_fee"
+                background-color="blue-100"
+                :label="$t('budget.management-fee') + ':'"
+              />
+              <EqualIcon />
+              <WMHighlightedBlock
+                v-model="budget.total_approved"
+                background-color="blue-200"
+                :label="$t('budget.total') + ':'"
               />
             </div>
-            <div class="flex flex-row gap-7">
+            <div class="flex flex-row gap-6">
+              <WMHighlightedBlock
+                v-model="budget.approved_council"
+                background-color="green-100"
+                :label="$t('budget.approved-council') + ':'"
+              />
+
+              <ArrowIcon
+                :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
+              />
+
               <WMHighlightedBlock
                 v-model="budget.approved_ministry"
-                size="small"
-                background-color="gray-50"
-                :label="$t('budget.approved') + ':'"
+                background-color="green-100"
+                :label="$t('budget.approved-ministry') + ':'"
               />
+
+              <Divider layout="vertical" />
+
               <WMHighlightedBlock
                 v-model="budget.executed_payments"
-                size="small"
-                background-color="gray-50"
+                background-color="transparent"
                 :label="$t('budget.executed-payments') + ':'"
               />
+
               <WMHighlightedBalanceBlock
-                size="small"
                 :quantity="budget.balance"
                 :label="$t('budget.balance') + ':'"
               />
             </div>
-            <Divider></Divider>
-            <div class="flex flex-row justify-content-between gap-3">
-              <h3 class="h3 mb-0">
-                {{ budget.tbr_number + " " + $t("budget.tbr-number") }}
-              </h3>
-            </div>
-            <div class="flex flex-row gap-7">
+          </div>
+        </div>
+      </div>
+      <Divider class="my-5" />
+
+      <div class="flex flex-row gap-5 flex-wrap mt-5">
+        <div class="flex-1">
+          <div class="flex align-items-center gap-3 mb-4">
+            <span class="p-card-title">{{ $t("budget.tbr-details") }}</span>
+            {{ budget.tbr_number }}
+          </div>
+
+          <div class="flex flex-column gap-2">
+            <div class="flex flex-row justify-content-start gap-2">
+              <WMHighlightedBlock
+                v-model="budget.tbr_accepted"
+                name="tbr_accepted"
+                background-color="gray-100"
+                :label="$t('budget.tbr-accepted') + ':'"
+                size="small"
+              />
+              <PlusIcon />
+
+              <WMHighlightedBlock
+                v-model="budget.tbr_expected"
+                name="tbr_expected"
+                background-color="gray-100"
+                :label="$t('budget.tbr-expected') + ':'"
+                size="small"
+              />
+              <EqualIcon />
               <WMHighlightedBlock
                 v-model="budget.tbr_funding"
-                size="small"
-                background-color="gray-200"
+                name="tbr_funding"
+                background-color="gray-300"
                 :label="$t('budget.tbr-funding') + ':'"
+                size="small"
+              />
+            </div>
+
+            <div class="flex flex-row gap-5 justify-content-start mt-3">
+              <WMHighlightedBlock
+                v-model="budget.tbr_reported"
+                name="tbr_reported"
+                background-color="transparent"
+                :label="$t('budget.tbr-reported') + ':'"
+                size="small"
               />
 
               <WMHighlightedBlock
-                v-model="budget.tbr_reported"
-                size="small"
-                background-color="gray-50"
-                :label="$t('budget.tbr-reported') + ':'"
-              />
-              <WMHighlightedBlock
                 v-model="budget.tbr_municipality_expenses"
-                size="small"
-                background-color="gray-50"
+                name="tbr_municipality_expenses"
+                background-color="transparent"
                 :label="$t('budget.tbr-municipality-expenses') + ':'"
-              />
-              <WMHighlightedBalanceBlock
                 size="small"
+                class="mr-2"
+              />
+
+              <WMHighlightedBalanceBlock
+                name="tbr_balance"
                 :quantity="budget.tbr_balance"
                 :label="$t('budget.tbr-balance') + ':'"
+                size="small"
+                class="mr-2"
+              />
+            </div>
+          </div>
+        </div>
+        <Divider layout="vertical" />
+        <div class="flex-1">
+          <span class="p-card-title">
+            <div class="flex align-items-center gap-3 mb-4">
+              {{ $t("budget.non-tbr-funding-details") }}
+            </div>
+          </span>
+
+          <div class="flex flex-column gap-2">
+            <div
+              class="flex flex-row align-items-center justify-content-between gap-2"
+            >
+              <WMHighlightedBlock
+                v-model="budget.funds_accepted_non_tbr"
+                name="funds_accepted_non_tbr"
+                background-color="gray-100"
+                :label="$t('budget.non-tbr-funds-accepted') + ':'"
+                size="small"
+              />
+              <PlusIcon />
+              <WMHighlightedBlock
+                v-model="budget.expected_non_tbr"
+                name="expected_non_tbr"
+                background-color="gray-100"
+                :label="$t('budget.non-tbr-expected') + ':'"
+                size="small"
+              />
+              <EqualIcon />
+              <WMHighlightedBlock
+                v-model="budget.funding_non_tbr"
+                background-color="gray-300"
+                :label="$t('budget.non-tbr-funding') + ':'"
+                size="small"
               />
             </div>
           </div>
@@ -100,6 +194,10 @@
 
 <script setup>
 import { ref } from "vue";
+
+import { useLayout } from "@/layout/composables/layout";
+
+const { layoutConfig } = useLayout();
 
 const props = defineProps({
   project: {

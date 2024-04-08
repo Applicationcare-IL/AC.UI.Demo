@@ -47,6 +47,7 @@
       </div>
       <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMFilterButton
+          v-if="showFilter"
           :is-active="isFilterApplied || isFilterOpen"
           @click="openFilterSidebar"
         />
@@ -229,6 +230,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  showFilter: {
+    type: Boolean,
+    default: true,
+  },
   showPagination: {
     type: Boolean,
     default: true,
@@ -275,6 +280,7 @@ const loadLazyData = () => {
     page: nextPage,
     per_page: selectedRowsPerPageParam,
     search: searchValueParam,
+    order_by: "stage_id",
   });
 
   if (props.relatedEntity == "contact") {

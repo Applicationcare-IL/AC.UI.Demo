@@ -88,6 +88,20 @@ export function useTasks() {
     return await tasksStore.generateSignaturesDocument(projectId);
   };
 
+  const getTopTaskFamilies = async (params) => {
+    const response = await tasksStore.getTopTaskFamilies(params);
+    return response.data.map(mapTopTaskFamilies);
+  };
+
+  const exportTasks = async (params) => {
+    return await tasksStore.exportTasks(params);
+  };
+
+  const getTasksSLADistribution = async (params) => {
+    const response = await tasksStore.getSLADistribution(params);
+    return response.data;
+  };
+
   // UTILITIES
   const mapTask = (task) => {
     return {
@@ -140,6 +154,13 @@ export function useTasks() {
       open_date: task.last_activity?.creator?.at,
       state: task.state?.value,
       is_open: task.status?.value == "open",
+    };
+  };
+
+  const mapTopTaskFamilies = (task) => {
+    return {
+      ...task,
+      value: task.task_family_value,
     };
   };
 
@@ -207,6 +228,9 @@ export function useTasks() {
     completeTask,
     completeTasks,
     signTask,
+    getTopTaskFamilies,
+    exportTasks,
+    getTasksSLADistribution,
     // UTILITIES
     mapTask,
     parseTask,

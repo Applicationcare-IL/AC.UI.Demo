@@ -5,13 +5,22 @@
   <div class="flex flex-row justify-content-between">
     <!-- DROPDOWN -->
     <WMAutocomplete
-      v-if="type == 'dropdown'"
+      v-if="type == 'dropdown' && optionSet"
       v-model="selectedOptions"
       :placeholder="placeholder"
       :multiple="true"
       width="248"
-      :options="options"
+      :options="optionSetsOptions"
       :option-set="optionSet"
+      @update:model-value="onAutocompleteDropdownChanged"
+    />
+
+    <Dropdown
+      v-if="type == 'dropdown' && options"
+      v-model="selectedOption"
+      :options="options"
+      option-label="label"
+      class="w-full md:w-14rem"
       @update:model-value="onDropdownChanged"
     />
 
@@ -24,13 +33,13 @@
       width="248"
       option-label="name"
       :search-function="searchFunction"
-      @update:model-value="onDropdownChanged"
+      @update:model-value="onAutocompleteDropdownChanged"
     />
 
     <!-- BUTTONS -->
     <div v-if="type == 'buttons'" class="flex flex-row gap-2 p-2">
       <WMSelectableButton
-        v-for="(option, index) in options"
+        v-for="(option, index) in optionSetsOptions"
         :key="index"
         v-model="isButtonSelected[index]"
         :label="option[optionLabelWithLang]"
@@ -41,9 +50,7 @@
     <!-- DATES -->
     <div v-if="type == 'date'" class="flex flex-row gap-2 p-2">
       <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label">
-          {{ $t("from") }}:
-        </label>
+        <label v-if="label != ''" class="wm-form-label"> {{ $t("from") }}: </label>
         <Calendar
           v-model="fromDate"
           show-icon
@@ -51,9 +58,7 @@
         />
       </div>
       <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label">
-          {{ $t("to") }}:
-        </label>
+        <label v-if="label != ''" class="wm-form-label"> {{ $t("to") }}: </label>
         <Calendar
           v-model="toDate"
           show-icon
@@ -73,6 +78,17 @@
       />
     </div>
 
+    <!-- CREATED/ASSIGNED BY ME -->
+    <div v-if="type == 'created_assigned'" class="flex flex-row gap-2 p-2">
+      <WMSelectableButton
+        v-for="(option, index) in createdAssignedOptions"
+        :key="index"
+        v-model="isButtonSelected[index]"
+        :label="option[optionLabelWithLang]"
+        @update:model-value="onButtonChanged($event, option)"
+      />
+    </div>
+
     <Button link @click="clear">
       {{ $t("buttons.clear") }}
     </Button>
@@ -81,19 +97,25 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { useDateFormat } from "@vueuse/core";
 import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
-
-const emits = defineEmits(["update:filter"]);
+// DEPENDENCIES
 const { t } = useI18n();
+const { optionLabelWithLang } = useLanguages();
+const optionSetsStore = useOptionSetsStore();
 
+// INJECT
+
+// PROPS, EMITS
 const props = defineProps({
   entity: String,
   type: String,
   optionSet: String,
+  options: Array,
   placeholder: String,
   filterName: String,
   label: String,
@@ -101,6 +123,20 @@ const props = defineProps({
   filterData: Object,
   appliedFilters: Object,
 });
+
+const emits = defineEmits(["update:filter"]);
+
+// REFS
+const optionSetsOptions = ref();
+const selectedOption = ref(null);
+
+const selectedButtons = ref([]);
+const isButtonSelected = ref([]);
+const componentKey = ref(0);
+const selectedOptions = ref([]);
+
+const fromDate = ref(null);
+const toDate = ref(null);
 
 const SLAoptions = [
   { id: "breached", value_en: t("sla.breached"), value_he: t("sla.breached") },
@@ -116,34 +152,58 @@ const SLAoptions = [
   },
 ];
 
-const { optionLabelWithLang } = useLanguages();
+const createdAssignedOptions = [
+  {
+    id: "created_by_me",
+    value_en: t("created_by_me"),
+    value_he: t("created_by_me"),
+  },
+  {
+    id: "assigned_to_me",
+    value_en: t("assigned_to_me"),
+    value_he: t("assigned_to_me"),
+  },
+];
 
-const optionSetsStore = useOptionSetsStore();
-const options = ref();
+// COMPUTED
 
-const selectedButtons = ref([]);
-const isButtonSelected = ref([]);
-const componentKey = ref(0);
-const selectedOptions = ref([]);
-
+// COMPONENT METHODS
 const forceRerender = () => {
-  componentKey.value += options.value.length;
+  componentKey.value += componentKey.value;
 };
 
-const fromDate = ref(null);
-const toDate = ref(null);
-
-const onDropdownChanged = (value) => {
+const onAutocompleteDropdownChanged = (value) => {
   emits("update:filter", {
     name: props.filterName,
     value: value.map((x) => x.id),
   });
 };
 
+const onDropdownChanged = (value) => {
+  emits("update:filter", {
+    name: value.name,
+    value: value.value,
+  });
+
+  removeUnselectedOptionsFromFilter(value.name);
+};
+
+const removeUnselectedOptionsFromFilter = (selectedOption) => {
+  props.options.forEach((option) => {
+    if (option.name == selectedOption) {
+      return;
+    }
+
+    emits("update:filter", {
+      name: option.name,
+      value: null,
+    });
+  });
+};
+
 const onButtonChanged = (value, option) => {
   if (value) selectedButtons.value.push(option.id);
-  else
-    selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
+  else selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
 
   emits("update:filter", {
     name: props.filterName,
@@ -179,6 +239,10 @@ const clear = () => {
 
   if (props.type == "dropdown") {
     selectedOptions.value = [];
+  }
+
+  if (props.type == "dropdown" && props.options) {
+    selectedOption.value = props.options[0];
   }
 
   if (props.type == "buttons") {
@@ -222,7 +286,7 @@ const handleSelectedButtons = () => {
     if (props.appliedFilters[props.filterName]) {
       selectedButtons.value = props.appliedFilters[props.filterName];
       selectedButtons.value.forEach((element) => {
-        const index = options.value.findIndex((x) => x.id == element);
+        const index = optionSetsOptions.value.findIndex((x) => x.id == element);
         isButtonSelected.value[index] = true;
       });
     }
@@ -237,11 +301,21 @@ const handleSelectedEntity = () => {
   }
 };
 
-const handleSelectedDropdown = () => {
+const handleSelectedAutocompleteDropdown = () => {
   if (props.appliedFilters && props.type == "dropdown") {
     if (props.appliedFilters[props.filterName]) {
       selectedOptions.value = props.appliedFilters[props.filterName];
     }
+  }
+};
+
+const handleSelectedDropdwon = () => {
+  if (props.appliedFilters && props.type == "dropdown" && props.options) {
+    props.options.forEach((option) => {
+      if (props.appliedFilters && props.appliedFilters[option.name]) {
+        selectedOption.value = option;
+      }
+    });
   }
 };
 
@@ -250,14 +324,23 @@ function handleSelectedFilters() {
   handleSelectedDates();
   handleSelectedButtons();
   handleSelectedEntity();
-  handleSelectedDropdown();
+  handleSelectedAutocompleteDropdown();
+  handleSelectedDropdwon();
 }
 
+// PROVIDE, EXPOSE
 defineExpose({ clear });
 
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   if (props.optionSet) {
-    options.value = await optionSetsStore.getOptionSetValues(props.optionSet);
+    optionSetsOptions.value = await optionSetsStore.getOptionSetValues(props.optionSet);
+  }
+
+  if (props.options) {
+    selectedOption.value = props.options[0];
   }
 
   handleSelectedFilters();

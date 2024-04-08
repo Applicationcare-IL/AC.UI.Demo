@@ -62,5 +62,6 @@ module.exports = {
     useAttachments: true,
     useCalls: true,
     useActionBuilder: true,
+    useExports: true,
   },
 };

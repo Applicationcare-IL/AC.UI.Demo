@@ -73,7 +73,7 @@ const router = createRouter({
           // redirect: () => {
           //   return "/tasks";
           // },
-          component: () => import("@/views/user/Dashboard.vue"),
+          component: () => import("@/views/dashboard/Dashboard.vue"),
         },
         {
           path: "/contacts",

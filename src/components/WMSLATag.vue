@@ -1,15 +1,24 @@
 <template>
   <div class="sla-tag" :class="slaClasses">
-    <span v-if="props.state === 'active' && props.sla !== 'breached'">
+    <span
+      v-if="
+        props.state === 'active' &&
+        props.sla !== 'breached' &&
+        props.daysForClosing === 1
+      "
+    >
+      {{ t("sla.one_day_left") }}
+    </span>
+    <span v-else-if="props.state === 'active' && props.sla !== 'breached'">
       {{ t("sla.days_left", { days: Math.abs(props.daysForClosing) }) }}
     </span>
-    <span v-if="props.state === 'active' && props.sla === 'breached'">
+    <span v-else-if="props.state === 'active' && props.sla === 'breached'">
       {{ t("sla.days_passed", { days: Math.abs(props.daysForClosing) }) }}
     </span>
-    <span v-if="props.state !== 'active' && props.sla !== 'breached'">
+    <span v-else-if="props.state !== 'active' && props.sla !== 'breached'">
       {{ t("sla.whithin_sla") }}
     </span>
-    <span v-if="props.state !== 'active' && props.sla === 'breached'">
+    <span v-else-if="props.state !== 'active' && props.sla === 'breached'">
       {{ t("sla.ended_breach") }}
     </span>
   </div>

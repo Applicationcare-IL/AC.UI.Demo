@@ -140,6 +140,28 @@ export function useFilters() {
         label: i18n.t("filters.service-sla-status") + ":",
       },
       {
+        type: "dropdown",
+        name: "created-assigned",
+        options: [
+          {
+            name: "all",
+            label: i18n.t("filters.all"),
+            value: true,
+          },
+          {
+            name: "created_by_me",
+            label: i18n.t("filters.created-by-me"),
+            value: true,
+          },
+          {
+            name: "assigned_to_me",
+            label: i18n.t("filters.assigned-by-me"),
+            value: true,
+          },
+        ],
+        label: i18n.t("filters.created-assigned") + ":",
+      },
+      {
         type: "buttons",
         name: "status",
         optionSet: "service_status",

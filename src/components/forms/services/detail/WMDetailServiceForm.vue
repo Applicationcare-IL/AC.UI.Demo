@@ -175,11 +175,7 @@
                     :options="requests2"
                     option-set
                     @change="
-                      updateDropdown(
-                        'service_request_3',
-                        $event.value.id,
-                        'requests3'
-                      )
+                      updateDropdown('service_request_3', $event.value.id, 'requests3')
                     "
                   />
                   <WMInputSearch
@@ -218,11 +214,7 @@
       <WMDetailFormAsset v-if="service.asset" :asset="service.asset" />
 
       <div class="mt-5">
-        <WMStepper
-          :steps="stages"
-          :current-step="currentStage"
-          aria-label="Form Steps"
-        />
+        <WMStepper :steps="stages" :current-step="currentStage" aria-label="Form Steps" />
       </div>
 
       <div>
@@ -255,10 +247,7 @@
 
       <Accordion>
         <AccordionTab :header="$t('attachments.attachments')">
-          <WMAttachmentsTable
-            :entity-id="route.params.id"
-            entity-type="service"
-          />
+          <WMAttachmentsTable :entity-id="route.params.id" entity-type="service" />
         </AccordionTab>
       </Accordion>
 
@@ -347,7 +336,7 @@ const {
 const toast = useToast();
 const route = useRoute();
 
-const { getTaskColumns, getPriorityConditionalStyle } = useListUtils();
+const { getTaskColumns, getPriorityClasses } = useListUtils();
 
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
@@ -396,9 +385,7 @@ const fetchData = async () => {
 
   stages.value = data.stages.map((stage) => ({
     label: stage.name,
-    date: stage.sla.due_date
-      ? useDateFormat(stage.sla.due_date, "DD/MM/YY")
-      : null,
+    date: stage.sla.due_date ? useDateFormat(stage.sla.due_date, "DD/MM/YY") : null,
   }));
 
   updateDropdown("service_request_2", data.request1?.id, "requests2");
@@ -436,11 +423,9 @@ const setCustomer = (customerId) => {
 };
 
 const updateDropdown = (optionSet, selectedValue, dropdownOptions) => {
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw(optionSet, selectedValue)
-    .then((data) => {
-      optionRefs[dropdownOptions].value = data;
-    });
+  optionSetsStore.getOptionSetValuesFromApiRaw(optionSet, selectedValue).then((data) => {
+    optionRefs[dropdownOptions].value = data;
+  });
 };
 
 const { handleSubmit, meta } = useForm({
@@ -459,7 +444,7 @@ const onSave = handleSubmit((values) => {
 });
 
 const priorityClass = (data) => {
-  return getPriorityConditionalStyle(data);
+  return getPriorityClasses(data);
 };
 
 // formUtilsStore.submit = onSubmit;
@@ -494,8 +479,10 @@ defineExpose({
 watch(
   () => meta.value,
   (value) => {
-    formUtilsStore.formMeta = value;
-    formUtilsStore.setFormMetas(value, props.formKey);
+    if (value.touched) {
+      formUtilsStore.formMeta = value;
+      formUtilsStore.setFormMetas(value, props.formKey);
+    }
   }
 );
 

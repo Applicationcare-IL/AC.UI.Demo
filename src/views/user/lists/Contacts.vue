@@ -7,13 +7,11 @@
       loadLazyData();
       clearSelectedContacts();
     "
+    @export="handleExportContacts"
   >
   </WMListSubHeader>
 
-  <WMContactPreviewSidebar
-    v-model:visible="isDetailsVisible"
-    :contact="contactDetail"
-  />
+  <WMContactPreviewSidebar v-model:visible="isDetailsVisible" :contact="contactDetail" />
 
   <WMSidebar
     :visible="isVisible"
@@ -76,11 +74,7 @@
           >
         </template>
       </Column>
-      <Column
-        field="customer"
-        :header="$t('customer.customer')"
-        class="link-col"
-      >
+      <Column field="customer" :header="$t('customer.customer')" class="link-col">
         <template #body="slotProps">
           <router-link
             v-if="slotProps.data.customers.length === 1"
@@ -108,11 +102,7 @@
           {{ formatAddress(slotProps.data.location) }}
         </template>
       </Column>
-      <Column
-        field="open_services"
-        :header="$t('contact.open-services')"
-        class="numeric"
-      >
+      <Column field="open_services" :header="$t('contact.open-services')" class="numeric">
       </Column>
       <Column
         field="breached_services"
@@ -125,11 +115,7 @@
           </div>
         </template>
       </Column>
-      <Column
-        field="open_tasks"
-        :header="$t('contact.open-tasks')"
-        class="numeric"
-      >
+      <Column field="open_tasks" :header="$t('contact.open-tasks')" class="numeric">
       </Column>
       <Column
         field="breached_tasks"
@@ -144,13 +130,6 @@
       </Column>
       <Column field="contact_id" :header="$t('contact.system-id')"></Column>
       <Column field="owner.name" :header="$t('owner')"></Column>
-      <Column field="status" :header="$t('status')" class="numeric">
-        <template #body="slotProps">
-          <div :class="highlightStatusClass(slotProps.data.status.value)">
-            <WMOptionSetValue :option-set="slotProps.data.status" />
-          </div>
-        </template>
-      </Column>
       <Column field="state" class="p-0 filled-td" :header="$t('state.state')">
         <template #body="slotProps">
           <WMStateField :state="slotProps.data.state" />
@@ -176,9 +155,13 @@ const permissionsStore = usePermissionsStore();
 const permissions = permissionsStore.permissions;
 const { formatAddress } = useUtils();
 
-const { getContactsFromApi, setSelectedContacts, resetSelectedContacts } =
-  useContacts();
-const { selectedRowsPerPage, highlightStatusClass } = useListUtils();
+const {
+  getContactsFromApi,
+  setSelectedContacts,
+  resetSelectedContacts,
+  exportContacts,
+} = useContacts();
+const { selectedRowsPerPage } = useListUtils();
 
 onMounted(() => {
   utilsStore.entity = "contact";
@@ -252,6 +235,16 @@ const displayDetails = (data) => {
 };
 
 const isDetailsVisible = ref(false);
+
+const { handleExport } = useExports();
+
+const handleExportContacts = async () => {
+  handleExport({
+    filters: utilsStore.filters["contact"],
+    searchValue: searchValue.value,
+    exportFunction: exportContacts,
+  });
+};
 
 //Move to Store
 const highlightCellClass = (data) => {

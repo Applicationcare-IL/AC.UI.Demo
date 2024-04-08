@@ -1,4 +1,3 @@
-import { get } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 
 import { useContactsStore } from "@/stores/contactsStore";
@@ -39,6 +38,10 @@ export function useContacts() {
 
   const deactivateContact = async (id) => {
     return await contactsStore.deactivateContact(id);
+  };
+
+  const exportContacts = async (params) => {
+    return await contactsStore.exportContacts(params);
   };
 
   // UTILITIES
@@ -205,6 +208,7 @@ export function useContacts() {
     updateContact,
     activateContact,
     deactivateContact,
+    exportContacts,
 
     // SELECTED CONTACTS
     selectedContacts,

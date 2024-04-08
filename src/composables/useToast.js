@@ -4,6 +4,7 @@ import { useI18n } from "vue-i18n";
 export function useToast() {
   const toast = useToastPrime();
   const i18n = useI18n();
+
   const success = (message) => {
     toast.add({
       severity: "success",
@@ -51,5 +52,29 @@ export function useToast() {
     });
   };
 
-  return { success, successAction, info, warning, error };
+  const showLoadingExportToast = () => {
+    console.log("showLoadingExportToast");
+
+    toast.add({
+      group: "br",
+      severity: "info",
+      summary: i18n.t("toast.export"),
+      detail: i18n.t("toast.loading-export-message"),
+      closable: false,
+    });
+  };
+
+  const clearLoadingExportToast = () => {
+    toast.removeGroup("br");
+  };
+
+  return {
+    success,
+    successAction,
+    info,
+    warning,
+    error,
+    showLoadingExportToast,
+    clearLoadingExportToast,
+  };
 }

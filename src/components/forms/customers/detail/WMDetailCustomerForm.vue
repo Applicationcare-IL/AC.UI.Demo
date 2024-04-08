@@ -185,9 +185,7 @@
         </div>
         <div class="card-container flex-1 middle-info-card">
           <Card>
-            <template #title>
-              {{ $t("task.open") }} : {{ customer.open_tasks }}</template
-            >
+            <template #title> {{ $t("task.open") }} : {{ customer.open_tasks }}</template>
             <template #content>
               <div class="flex flex-column gap-3">
                 <div
@@ -408,8 +406,12 @@ onMounted(async () => {
 
 const { setSelectedContacts, getContactsFromApi } = useContacts();
 
-const { getCustomerFromApi, updateCustomer, parseCustomer, existsCustomer } =
-  useCustomers();
+const {
+  getCustomerFromApi,
+  updateCustomer,
+  parseCustomer,
+  existsCustomer,
+} = useCustomers();
 
 const fetchData = async () => {
   await optionSetsStore
@@ -435,16 +437,10 @@ const fetchData = async () => {
       (rating) => rating.id == customer.value.rating.id
     );
 
-    selectedType.value = types.value.find(
-      (type) => type.id == customer.value.type.id
-    );
-    selectedStatus.value = t(
-      "option-set.customer_status." + customer.value.status.value
-    );
+    selectedType.value = types.value.find((type) => type.id == customer.value.type.id);
+    selectedStatus.value = t("option-set.customer_status." + customer.value.status.value);
 
-    statusConditionalStyle.value = getStatusConditionalStyle(
-      customer.value.status.value
-    );
+    statusConditionalStyle.value = getStatusConditionalStyle(customer.value.status.value);
     isProvider.value = yesNoOptions.find(
       (option) => option.value == customer.value.is_provider
     );
@@ -512,8 +508,10 @@ utilsStore.entity = "customer";
 watch(
   () => meta.value,
   (value) => {
-    formUtilsStore.formMeta = value;
-    formUtilsStore.setFormMetas(value, props.formKey);
+    if (value.touched) {
+      formUtilsStore.formMeta = value;
+      formUtilsStore.setFormMetas(value, props.formKey);
+    }
   }
 );
 

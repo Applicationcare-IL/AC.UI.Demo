@@ -16,6 +16,7 @@ import ConfirmDialog from "primevue/confirmdialog";
 import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
 import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
+import Tooltip from "primevue/tooltip";
 import Pusher from "pusher-js";
 // OTHERS
 import { createApp, markRaw, reactive } from "vue";
@@ -64,6 +65,8 @@ app.config.globalProperties.$appState = reactive({
   layoutMode: "light",
 });
 app.directive("badge", BadgeDirective);
+app.directive("tooltip", Tooltip);
+
 app.use(i18nInstance);
 
 const pinia = createPinia();

@@ -62,6 +62,10 @@ export function useCustomers() {
     return await customersStore.unassignAssetFromCustomer(customerId, assetId);
   };
 
+  const exportCustomers = async (params) => {
+    return await customersStore.exportCustomers(params);
+  };
+
   // UTILITIES
   const mapCustomer = (customer) => {
     return {
@@ -146,6 +150,7 @@ export function useCustomers() {
     unassignContactFromCustomer,
     assignAssetToCustomer,
     unassignAssetFromCustomer,
+    exportCustomers,
 
     //UTILITIES
     mapCustomer,

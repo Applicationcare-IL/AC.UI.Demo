@@ -65,8 +65,11 @@
   "options": "Options",
   "filename": "Filename",
   "response": "Response",
+  "data-not-found": "Data not found",
+  "data-not-available": "Data not available",
   "buttons": {
-    "save": "Save button",
+    "save": "Save",
+    "saved": "Saved",
     "accept": "Accept",
     "cancel": "Cancel",
     "continue": "Continue",
@@ -105,7 +108,11 @@
   },
   "dashboard": {
     "my-tasks": "My Tasks",
-    "my-services": "My Services"
+    "my-services": "My Services",
+    "trending-service-areas": "Trending Service Areas",
+    "top-task-families": "Top Task Families",
+    "services-distribution-by-sla": "Services distribution by SLA",
+    "tasks-distribution-by-sla": "Tasks distribution by SLA"
   },
   "contact": {
     "contact": "Contact",
@@ -460,6 +467,7 @@
   },
   "address": {
     "address": "Address",
+    "city_data": "City Data",
     "city": "City",
     "street": "Street",
     "house-number": "House Number",
@@ -493,6 +501,7 @@
     "terminated": "Terminated"
   },
   "state": {
+    "all": "All",
     "state": "State",
     "active": "Active",
     "not-active": "Not Active",
@@ -535,8 +544,9 @@
     "expired-password-reset-email-sent": "An email has been sent to you with a link to reset your password"
   },
   "sla": {
-    "days_left": "{days} Days left",
-    "days_passed": "{days} Days passed",
+    "one_day_left": "1 day left",
+    "days_left": "{days} days left",
+    "days_passed": "{days} days passed",
     "breached": "Breached",
     "near_breach": "Near Breach",
     "no_breach": "No Breach",
@@ -551,7 +561,9 @@
     "error": "An error occurred",
     "budget-item-updated": "Budget item updated",
     "milestone-updated": "Milestone updated",
-    "action-completed-successfully": "Action completed successfully"
+    "action-completed-successfully": "Action completed successfully",
+    "export": "Export",
+    "loading-export-message": "Generating export file, please don't close the window"
   },
   "communication-channels": {
     "sms": "SMS",
@@ -571,7 +583,11 @@
     "select-street": "Select street",
     "open-date": "Open date",
     "due-date": "Due date",
-    "started-at": "Started at"
+    "started-at": "Started at",
+    "created-assigned": "Created/Assigned",
+    "created-by-me": "Created by me",
+    "assigned-by-me": "Assigned by me",
+    "all": "All"
   },
   "mobile": {
     "menu": "Menu"

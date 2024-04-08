@@ -150,6 +150,7 @@ const { t } = useI18n();
 const { can } = usePermissions();
 const utilsStore = useUtilsStore();
 const { getAssetsFromApi } = useAssets();
+const { getPriorityClasses } = useListUtils();
 
 // INJECT
 
@@ -252,17 +253,7 @@ const rowClass = (data) => {
 };
 
 const priorityClass = (data) => {
-  const classes = "text-blue-600";
-
-  if (data.priority == 1 && data.is_active) {
-    return classes + " bg-blue-75";
-  } else if (data.priority == 2 && data.is_active) {
-    return classes + " bg-blue-50";
-  } else if (data.priority == 3 && data.is_active) {
-    return classes + " bg-blue-25";
-  }
-
-  return classes;
+  return getPriorityClasses(data);
 };
 
 const onSelectionChanged = () => {

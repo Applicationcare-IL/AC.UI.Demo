@@ -16,8 +16,8 @@
               <strong> {{ $t("contact.contact") }}:</strong>
               {{ contactFullName }}
             </div>
-            <div>
-              <strong>{{ $t("address.address") }}:</strong> {{ task.address }}
+            <div v-if="location">
+              <strong>{{ $t("address.address") }}:</strong> {{ location }}
             </div>
 
             <template v-if="task.status.value == 'open'">
@@ -64,6 +64,8 @@ import { computed } from "vue";
 import { useLayout } from "@/layout/composables/layout";
 const { layoutConfig } = useLayout();
 
+const { optionLabelWithLang } = useLanguages();
+
 const props = defineProps({
   task: {
     type: Object,
@@ -72,7 +74,27 @@ const props = defineProps({
 });
 
 const contactFullName = computed(() => {
-  return `${props.task.contac?.name} ${props.task.contact?.surname}`;
+  return `${props.task.contact?.name} ${props.task.contact?.surname}`;
+});
+
+const location = computed(() => {
+  if (!props.task.related_entity?.location) {
+    return false;
+  }
+
+  const city = props.task.related_entity.location?.city
+    ? props.task.related_entity.location.city[optionLabelWithLang.value]
+    : "";
+
+  const street = props.task.related_entity.location?.street
+    ? props.task.related_entity.location.street[optionLabelWithLang.value]
+    : "";
+
+  const number = props.task.related_entity.location?.house_number
+    ? props.task.related_entity.location.house_number
+    : "";
+
+  return `${street},  ${number}, ${city}`;
 });
 
 const daysTillClosure = computed(() => {

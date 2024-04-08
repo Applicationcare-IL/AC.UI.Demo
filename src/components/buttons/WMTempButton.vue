@@ -1,6 +1,6 @@
 <template>
   <Button
-    class="gap-1 align-items-center justify-content-center"
+    class="wm-button gap-1 align-items-center justify-content-center"
     :class="classes"
   >
     <i v-if="icon" class="pi" :class="icon"></i>
@@ -17,14 +17,21 @@ const props = defineProps({
   text: String,
   type: String,
   isActive: Boolean,
+  isDisabled: Boolean,
 });
 
 const classes = computed(() => {
-  return `${props.type} ${props.isActive ? "is-active" : ""}`;
+  return `${props.type}
+  ${props.isActive ? "is-active" : ""}
+  ${props.isDisabled ? "is-disabled" : ""}`;
 });
 </script>
 
 <style scoped lang="scss">
+.wm-button :deep(svg) {
+  display: flex;
+}
+
 .type-1 {
   background-color: var(--gray-50);
   color: var(--blue-700);
@@ -63,6 +70,57 @@ const classes = computed(() => {
 
   &.is-active {
     border: 1px solid var(--blue-700);
+  }
+}
+
+.save {
+  background-color: var(--green-600);
+  color: white;
+  border: none;
+  font-weight: 700;
+
+  :deep(svg path) {
+    fill: white;
+  }
+
+  &:hover {
+    background-color: var(--green-500);
+  }
+
+  &:focus {
+    background-color: var(--green-700);
+  }
+
+  &.is-disabled {
+    background-color: var(--gray-200);
+    color: var(--gray-500);
+    cursor: not-allowed;
+    outline: 0;
+    box-shadow: none;
+
+    :deep(svg path) {
+      fill: var(--gray-500);
+    }
+  }
+}
+
+.saved {
+  background-color: var(--green-50);
+  color: var(--green-700);
+  border: none;
+  font-weight: 700;
+  cursor: not-allowed;
+
+  &:hover,
+  &:focus {
+    background-color: var(--green-50);
+    color: var(--green-700);
+    outline: 0;
+    box-shadow: none;
+  }
+
+  :deep(svg path) {
+    fill: var(--green-700);
   }
 }
 </style>

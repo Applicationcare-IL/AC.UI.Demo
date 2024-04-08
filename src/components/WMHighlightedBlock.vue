@@ -46,6 +46,7 @@ const props = defineProps({
     default: "white",
     validator: (value) => {
       return [
+        "transparent",
         "white",
         "blue-50",
         "blue-100",

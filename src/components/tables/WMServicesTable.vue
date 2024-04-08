@@ -42,6 +42,7 @@
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMFilterButton
+          v-if="showFilters"
           :is-active="isFilterApplied || isFilterOpen"
           @click="openFilterSidebar"
         />
@@ -55,6 +56,7 @@
           <WMFilterForm entity="service" filter-form-name="service" />
         </WMSidebar>
 
+        <!-- <WMStateToggle entity="service" /> -->
         <WMOwnerToggle entity="service" />
       </div>
     </div>
@@ -138,6 +140,7 @@ const { t } = useI18n();
 const { can } = usePermissions();
 const utilsStore = useUtilsStore();
 const { getServicesFromApi } = useServices();
+const { getPriorityClasses } = useListUtils();
 
 // INJECT
 
@@ -176,6 +179,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showFilters: {
+    type: Boolean,
+    default: true,
+  },
+  filters: {
+    type: Object,
+    default: null,
+  },
 });
 
 // REFS
@@ -196,7 +207,7 @@ const isFilterApplied = computed(() => {
 
 // COMPONENT METHODS
 const loadLazyData = async () => {
-  const filters = utilsStore.filters["service"];
+  const filters = props.filters ? props.filters : utilsStore.filters["service"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = props.rows;
@@ -239,17 +250,7 @@ const rowClass = (data) => {
 };
 
 const priorityClass = (data) => {
-  const classes = "text-blue-600";
-
-  if (data.priority == 1 && data.is_active) {
-    return classes + " bg-blue-75";
-  } else if (data.priority == 2 && data.is_active) {
-    return classes + " bg-blue-50";
-  } else if (data.priority == 3 && data.is_active) {
-    return classes + " bg-blue-25";
-  }
-
-  return classes;
+  return getPriorityClasses(data);
 };
 
 const onSelectionChanged = () => {

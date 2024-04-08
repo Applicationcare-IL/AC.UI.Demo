@@ -5,6 +5,7 @@
     @new="toggleSidebarVisibility"
     @task-completed="handleRefreshTable"
     @refresh-table="handleRefreshTable"
+    @export="handleExportTasks"
   />
 
   <WMSidebar
@@ -156,7 +157,7 @@ import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getTasksFromApi, mapContactsFromTasks } = useTasks();
+const { getTasksFromApi, mapContactsFromTasks, exportTasks } = useTasks();
 const { checkIfEntityIsActive } = useLicensing();
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
 const utilsStore = useUtilsStore();
@@ -211,13 +212,27 @@ const loadLazyData = () => {
     ...filters,
     page: nextPage,
     per_page: selectedRowsPerPageParam,
-    search: searchValueParam,
+    order_by: "stage_id",
   });
+
+  if (searchValueParam) {
+    params.append("search", searchValueParam);
+  }
 
   getTasksFromApi(params).then((data) => {
     tasks.value = data.data;
     totalRecords.value = data.totalRecords;
     loading.value = false;
+  });
+};
+
+const { handleExport } = useExports();
+
+const handleExportTasks = async () => {
+  handleExport({
+    filters: utilsStore.filters["task"],
+    searchValue: searchValue.value,
+    exportFunction: exportTasks,
   });
 };
 

@@ -15,7 +15,7 @@ const props = defineProps({
 });
 
 const slaClasses = computed(() => {
-  if (props.state === "active") {
+  if (props.state.value === "active") {
     return "bg-green-200 text-green-900";
   } else {
     return "bg-red-100 text-red-900";
@@ -23,7 +23,7 @@ const slaClasses = computed(() => {
 });
 
 const stateText = computed(() => {
-  if (props.state === "active") {
+  if (props.state.value === "active") {
     return t("state.active");
   } else {
     return t("state.not-active");

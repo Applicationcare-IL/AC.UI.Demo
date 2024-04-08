@@ -103,6 +103,7 @@ const field = reactive(
   position: relative;
   display: flex;
   gap: 0.5em;
+  font-family: "Open Sans", sans-serif;
 
   &--editable {
     display: flex;

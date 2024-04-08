@@ -68,5 +68,45 @@ export const useServicesStore = defineStore("services", {
           console.error(error);
         });
     },
+    getSLADistribution(params) {
+      return axiosConfig
+        .get("/services/by-sla", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getTrendingAreas(params) {
+      return axiosConfig
+        .get("/services/trending-areas", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    exportServices(params) {
+      return axiosConfig
+        .get("/services/export", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getSLATableData(params) {
+      return axiosConfig
+        .get("/services/areas-by-sla", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });
