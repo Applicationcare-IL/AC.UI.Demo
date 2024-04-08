@@ -86,6 +86,8 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
+import { watch } from "vue";
+import { useRoute } from "vue-router";
 
 import { useLayout } from "@/layout/composables/layout";
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -98,9 +100,19 @@ const optionSetsStore = useOptionSetsStore();
 
 const { can } = usePermissions();
 
+const route = useRoute();
+
 onMounted(() => {
   fillTasksCounters();
 });
+
+//Refresh on every route change
+watch(
+  () => route.fullPath,
+  async () => {
+    fillTasksCounters();
+  }
+);
 
 const taskTypes = ref();
 const reminderIds = ref();
