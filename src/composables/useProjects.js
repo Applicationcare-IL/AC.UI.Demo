@@ -229,7 +229,7 @@ export function useProjects() {
         block: project.block,
         parcel: project.parcel,
         sub_parcel: project["sub-parcel"],
-        neighborhood: project.neighborhood.id,
+        neighborhood: project.neighborhood?.id,
       },
       tbr_number: project["tbr-number"],
       request_number: project["request-number"],
