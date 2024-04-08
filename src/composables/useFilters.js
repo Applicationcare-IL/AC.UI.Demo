@@ -2,10 +2,17 @@ import { useI18n } from "vue-i18n";
 
 export function useFilters() {
   const { getTasksTypesFromApi } = useTasks();
+  const { getCustomersFromApi } = useCustomers();
   const i18n = useI18n();
 
   const searchTaskTypes = (query) => {
     return getTasksTypesFromApi({
+      search: query,
+    });
+  };
+
+  const searchCustomers = (query) => {
+    return getCustomersFromApi({
       search: query,
     });
   };
@@ -246,6 +253,49 @@ export function useFilters() {
         label: i18n.t("filters.due-date") + ":",
         from: "due_date_from",
         to: "due_date_to",
+      },
+    ],
+    asset: [
+      {
+        type: "dropdown",
+        name: "asset_type",
+        optionSet: "asset_type",
+        label: i18n.t("asset.type") + ":",
+        placeholder: i18n.t("asset.asset-type-placeholder") + ":",
+      },
+      {
+        type: "entity",
+        name: "asset_owner",
+        label: i18n.t("asset.owner") + ":",
+        placeholder: i18n.t("asset.owner-placeholder") + ":",
+        searchFunction: searchCustomers,
+      },
+      {
+        type: "entity",
+        name: "asset_payer",
+        label: i18n.t("asset.payer") + ":",
+        placeholder: i18n.t("asset.payer-placeholder") + ":",
+        searchFunction: searchCustomers,
+      },
+      {
+        type: "entity",
+        name: "asset_consumer",
+        label: i18n.t("asset.consumer") + ":",
+        placeholder: i18n.t("asset.consumer-placeholder") + ":",
+        searchFunction: searchCustomers,
+      },
+      {
+        type: "buttons",
+        name: "state",
+        optionSet: "state",
+        label: i18n.t("status") + ":",
+      },
+      {
+        type: "date",
+        name: "usage_start_date",
+        label: i18n.t("filters.open-date") + ":",
+        from: "usage_start_date_from",
+        to: "usage_start_date_to",
       },
     ],
   };
