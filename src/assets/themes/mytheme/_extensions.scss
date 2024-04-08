@@ -157,6 +157,9 @@ body {
 }
 
 // Multi select Button 
+.p-selectbutton.p-buttonset .p-button{
+    border-radius: 0;
+}
 
 .p-selectbutton.p-buttonset .p-button:first-of-type {
     border-radius: 20px 0 0 20px;
@@ -166,17 +169,32 @@ body {
     border-radius: 0 20px 20px 0;
 }
 
-.p-selectbutton.p-buttonset .p-button.p-highlight {
-    background-color: var(--blue-50);
-    text-shadow: 0 0 .65px var(--blue-300), 0 0 .65px var(--blue-300);
-    color: var(--blue-300);
+
+.p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover,
+.p-selectbutton.p-buttonset .p-button {
+    color: var(--blue-700);
+    border-color: var(--blue-600);
+    white-space: nowrap;
+    box-shadow: none;
+
+    &.p-highlight {
+        background-color: var(--blue-100);
+        color: var(--blue-700);
+        outline: none;
+        font-weight: 700;
+    }
+
+    &:focus{
+        box-shadow: none;
+    }
 }
 
-.p-selectbutton.p-buttonset .p-button {
-    color: var(--blue-300);
-    border-color: var(--blue-300);
-    white-space: nowrap;
+.p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover{
+    background-color: var(--blue-50);
+
 }
+
+
 
 .p-dataview-layout-options.p-selectbutton.p-buttonset .p-button:first-of-type{
     border-radius: 4px 0 0 4px;

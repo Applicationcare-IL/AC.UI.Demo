@@ -497,6 +497,7 @@
     "terminated": "Terminated"
   },
   "state": {
+    "all": "All",
     "state": "State",
     "active": "Active",
     "not-active": "Not Active",

@@ -77,6 +77,7 @@
           />
         </div>
         <div class="flex flex-row align-items-center gap-3">
+          <!-- <WMStateToggle :entity="entity" /> -->
           <WMOwnerToggle :entity="entity" />
         </div>
       </div>
