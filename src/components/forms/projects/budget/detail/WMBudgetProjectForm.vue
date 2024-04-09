@@ -247,6 +247,7 @@
           :project-id="projectId"
           :related-budget="budget"
           @new-budget-item-created="handleNewBudgetItemCreated()"
+          @budget-item-changed="handleBudgetItemChanged()"
         />
       </AccordionTab>
     </Accordion>
@@ -396,6 +397,11 @@ formUtilsStore.formEntity = "project-budget";
 utilsStore.entity = "project-budget";
 
 const handleNewBudgetItemCreated = () => {
+  paymentsTableRef.value.refreshTable();
+  fetchData();
+};
+
+const handleBudgetItemChanged = () => {
   paymentsTableRef.value.refreshTable();
   fetchData();
 };

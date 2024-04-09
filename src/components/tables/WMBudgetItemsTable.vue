@@ -243,8 +243,12 @@ import { onMounted, ref, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
-const { getBudgetItems, updateBudgetItem, parseUpdateBudgetItem } =
-  useProjects();
+const {
+  getBudgetItems,
+  getBudgetItem,
+  updateBudgetItem,
+  parseUpdateBudgetItem,
+} = useProjects();
 const { t } = useI18n();
 const { getBudgetItemsTableColumns } = useListUtils();
 const toast = useToast();
@@ -263,7 +267,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["new-budget-item-created"]);
+const emit = defineEmits(["new-budget-item-created", "budget-item-changed"]);
 
 // REFS
 const selectedBudgetItems = ref([]);
@@ -344,8 +348,11 @@ const onRowEditSave = (event) => {
     budgetItemId,
     parseUpdateBudgetItem(newData)
   ).then(() => {
-    budgetItems.value[index] = newData;
-    toast.successAction("budget item", "updated");
+    getBudgetItem(props.projectId, budgetItemId).then((response) => {
+      budgetItems.value[index] = response;
+      emit("budget-item-changed");
+      toast.successAction("budget item", "updated");
+    });
   });
 };
 
