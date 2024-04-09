@@ -250,6 +250,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  relatedEntity: {
+    type: String,
+    default: "",
+  },
+  relatedEntityId: {
+    type: Number,
+    default: null,
+  },
 });
 
 const emit = defineEmits(["closeSidebar", "newServiceCreated"]);
@@ -350,7 +358,15 @@ function closeNewCustomerSidebar() {
 }
 
 const onSubmit = handleSubmit((values) => {
-  createService(parseService(values))
+  const service = {
+    ...values,
+  };
+
+  if (props.relatedEntity == "asset") {
+    service.asset_id = props.relatedEntityId;
+  }
+
+  createService(parseService(service))
     .then((data) => {
       emit("newServiceCreated");
 
