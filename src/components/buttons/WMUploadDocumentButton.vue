@@ -19,7 +19,7 @@
       <FileUpload
         mode="basic"
         name="demo[]"
-        accept=".png, .jpg, .jpeg, .pdf, .dwf, .dwg, .msg, .zip, .rar, .doc, .docx, .xls, .xlsx"
+        accept=".png, .jpg, .jpeg, .pdf, .dwf, .dwg, .msg, .zip, .rar, .doc, .docx, .xls, .xlsx, .pptx"
         custom-upload
         :auto="true"
         @uploader="customBase64Uploader($event)"
