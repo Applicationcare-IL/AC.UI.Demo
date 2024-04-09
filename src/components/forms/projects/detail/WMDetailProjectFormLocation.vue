@@ -15,7 +15,7 @@
           />
 
           <div v-if="showAddressOptions">
-            <div class="wm-form-row gap-5 mt-3">
+            <div class="wm-form-row flex-wrap gap-5 mt-3">
               <WMInputSearch
                 v-model="location.city"
                 name="city"
@@ -74,7 +74,7 @@
             :label="$t('project.city_data')"
           />
           <div v-if="showCityDataOptions">
-            <div class="wm-form-row gap-5 mt-3">
+            <div class="wm-form-row flex-wrap gap-5 mt-3">
               <WMInput
                 name="block"
                 type="input-text"

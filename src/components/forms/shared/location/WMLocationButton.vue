@@ -1,6 +1,9 @@
 <template>
   <WMButton class="m-1 col-6" name="location" icon="location" @click="toggle">
-    {{ $t("buttons.view_map") }}
+    <span v-if="label">{{ label }}</span>
+    <span v-else>
+      {{ $t("buttons.view_map") }}
+    </span>
   </WMButton>
   <OverlayPanel ref="isOpen">
     <div class="flex mb-4">
@@ -38,7 +41,7 @@
           />
         </div>
       </div>
-      <Divider v-if="showAddressData" layout="vertical" />
+      <Divider v-if="showAddressData && showCityData" layout="vertical" />
       <div v-if="showCityData" class="flex-1">
         <h4 class="h4">{{ $t("address.city_data") }}</h4>
         <div class="flex flex-auto gap-5 mb-4 flex-row">
@@ -105,13 +108,9 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-});
-
-watch(
-  () => location.value,
-  () => {
-    "cambio el location value";
+  label: {
+    type: String,
+    default: "",
   },
-  { deep: true }
-);
+});
 </script>

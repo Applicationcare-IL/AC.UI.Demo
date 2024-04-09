@@ -84,7 +84,11 @@
               :to="'/customer/' + project.supervisor?.id"
             />
           </div>
-          <!-- <WMLocationButton /> -->
+          <WMLocationButton
+            v-if="location"
+            :editable="false"
+            :label="showProjectLocationLabel"
+          />
         </div>
       </template>
     </Card>
@@ -95,15 +99,23 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, provide, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 const { optionLabelWithLang } = useLanguages();
+const { t } = useI18n();
 
 const props = defineProps({
   project: {
     type: Object,
     required: true,
   },
+});
+
+const showProjectLocationLabel = ref(t("project.show-project-location-label"));
+
+const location = computed(() => {
+  return props.project?.location;
 });
 
 const projectType = computed(() => {
@@ -120,4 +132,6 @@ const projectDetail = computed(() => {
   if (!props.project.project_detail) return;
   return props.project.project_detail[optionLabelWithLang.value];
 });
+
+provide("location", { location });
 </script>

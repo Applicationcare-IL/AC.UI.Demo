@@ -342,7 +342,8 @@
     "notification-created-header": "New project created",
     "notification-created-message": "The new project was successfully created! \n From now on he will appear in your project list",
     "notification-created-detail": "View project",
-    "notification-created-close": "Close"
+    "notification-created-close": "Close",
+    "show-project-location-label": "Show project location"
   },
   "budget": {
     "budget": "Budget",
