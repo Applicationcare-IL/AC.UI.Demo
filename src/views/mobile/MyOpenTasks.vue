@@ -1,5 +1,6 @@
 <template>
   <template v-for="task in tasks" :key="task.id">
+    <pre style="height: 100px">  {{ tasks }}</pre>
     <MobileTaskCardDetail :task="task" class="m-3" />
   </template>
 </template>
