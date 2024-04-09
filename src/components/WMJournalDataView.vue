@@ -22,7 +22,8 @@
     </template> -->
     <template #list="slotProps">
       <div
-        v-for="item in slotProps.items"
+        v-for="(item, index) in slotProps.items"
+        :key="index"
         class="flex flex-row align-items-center justify-content-between"
         style="height: 40px"
       >
@@ -35,7 +36,7 @@
           >
             <img
               class="mx-2 border-round-sm"
-              :src="`icons/journal/${item.type}.svg`"
+              :src="`/icons/journal/${item.type}.svg`"
               :alt="item.name"
               style="width: 16px; height: 16px"
             />
@@ -109,7 +110,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 
 const newJournal = ref("");
 
