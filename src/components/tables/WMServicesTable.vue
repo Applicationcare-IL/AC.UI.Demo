@@ -8,8 +8,8 @@
     <WMNewEntityFormHeader entity="service" name="newService" />
     <WMNewServiceForm
       :is-sidebar="true"
-      :related-entity="slotProps.props.data.relatedEntity"
-      :related-entity-id="slotProps.props.data.relatedEntityId"
+      :related-entity="props.relatedEntity"
+      :related-entity-id="props.relatedEntityId"
       @close-sidebar="closeSidebar"
       @new-service-created="loadLazyData"
     />

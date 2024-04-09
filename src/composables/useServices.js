@@ -63,6 +63,7 @@ export function useServices() {
     return {
       contact_id: service.contact.id,
       customer_id: service.customer.id,
+      asset_id: service.asset_id,
       urgent: service.priority?.id,
       direction: service.direction?.id,
       channel: service.channel?.id,
