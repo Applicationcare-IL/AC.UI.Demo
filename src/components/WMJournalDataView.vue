@@ -89,7 +89,7 @@
     <Button @click="onSendJorunal">Send</Button>
     <span class="journal-input">
       <img
-        :src="`icons/journal/blue_post.svg`"
+        :src="`/icons/journal/blue_post.svg`"
         style="width: 16px; height: 16px"
       />
       <InputText
