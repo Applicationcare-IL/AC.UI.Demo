@@ -254,7 +254,7 @@ const { handleExport } = useExports();
 
 const handleExportServices = async () => {
   handleExport({
-    filters: utilsStore.filters["coservicentact"],
+    filters: utilsStore.filters["service"],
     searchValue: searchValue.value,
     exportFunction: exportServices,
   });
