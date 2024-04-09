@@ -5,12 +5,14 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import { useAuthStore } from "@/stores/auth";
+import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 const authStore = useAuthStore();
+const optionSetsStore = useOptionSetsStore();
 
 const { getTasksFromApi } = useTasks();
 
@@ -18,20 +20,27 @@ const tasks = ref([]);
 
 const utilsStore = useUtilsStore();
 
-const OPEN_STATUS = 310;
+const OPEN_STATUS = ref();
 
-const fetchTasks = () => {
+const fetchTasks = async () => {
   utilsStore.entity = "task";
 
   const params = {
     employee: authStore.user.id,
-    status: OPEN_STATUS,
+    status: OPEN_STATUS.value,
   };
 
-  getTasksFromApi(params).then(({ data }) => {
+  await getTasksFromApi(params).then(({ data }) => {
+    console.log("getTasksFromApi fetchTasks", params);
     tasks.value = data;
   });
 };
+
+onMounted(async () => {
+  OPEN_STATUS.value = await optionSetsStore.getValueId("task_status", "open");
+
+  await fetchTasks();
+});
 
 fetchTasks();
 </script>
