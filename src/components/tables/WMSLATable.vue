@@ -17,7 +17,6 @@
         />
       </div>
     </div>
-    <!-- <pre>{{ selectedRow }}</pre> -->
     <DataTable
       v-model:selection="selectedRow"
       :value="data"
