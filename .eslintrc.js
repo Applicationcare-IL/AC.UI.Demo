@@ -63,5 +63,6 @@ module.exports = {
     useCalls: true,
     useActionBuilder: true,
     useExports: true,
+    expect: true,
   },
 };
