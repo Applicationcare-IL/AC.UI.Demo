@@ -226,6 +226,19 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
+    calculateBudgetItem(projectId, itemId, data) {
+      return axiosConfig
+        .post(
+          "/projects/" + projectId + "/budget-items/" + itemId + "/calculate",
+          data
+        )
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     // PAYMENTS
     createProjectPayment(projectId, data) {
       return axiosConfig

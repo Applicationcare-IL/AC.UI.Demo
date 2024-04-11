@@ -115,7 +115,16 @@ export function useProjects() {
   };
 
   const calculateBudget = async (projectId, data) => {
-    return await projectsStore.calculateBudget(projectId, data);
+    const response = await projectsStore.calculateBudget(projectId, data);
+    return response.data;
+  };
+
+  const calculateBudgetItem = async (projectId, budgetItemId, data) => {
+    return await projectsStore.calculateBudgetItem(
+      projectId,
+      budgetItemId,
+      data
+    );
   };
 
   // PAYMENTS
@@ -416,6 +425,10 @@ export function useProjects() {
     return {
       title: budgetItem.name,
       ...budgetItem,
+      test: budgetItem.total_approved ? budgetItem.total_approved : 8,
+      total: budgetItem.total_approved
+        ? budgetItem.total_approved
+        : budgetItem.total,
     };
   };
 
@@ -512,6 +525,7 @@ export function useProjects() {
     createBudgetItem,
     updateBudget,
     calculateBudget,
+    calculateBudgetItem,
     getProjectMilestone,
     getProjectMilestones,
     createMilestone,

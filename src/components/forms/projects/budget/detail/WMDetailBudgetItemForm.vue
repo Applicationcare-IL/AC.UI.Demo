@@ -5,6 +5,7 @@
   >
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1 card-container top-info-card">
+        <pre>  {{ budgetItem }}</pre>
         <Card>
           <template #title> {{ $t("general-details") }} </template>
           <template #content>
@@ -80,6 +81,7 @@
                   background-color="blue-100"
                   :label="$t('budget.unexpected') + ':'"
                   editable
+                  @change="recalculateBudgetItem"
                 />
                 <PlusIcon />
                 <WMHighlightedBlock
@@ -88,6 +90,7 @@
                   :label="$t('budget.management-fee') + ':'"
                   editable
                   name="management_fee"
+                  @change="recalculateBudgetItem"
                 />
                 <EqualIcon />
                 <WMHighlightedBlock
@@ -107,6 +110,7 @@
                   :label="$t('budget.approved-council') + ':'"
                   editable
                   name="approved_council"
+                  @change="recalculateBudgetItem"
                 />
 
                 <ArrowIcon
@@ -119,6 +123,7 @@
                   :label="$t('budget.approved-ministry') + ':'"
                   editable
                   name="approved_ministry"
+                  @change="recalculateBudgetItem"
                 />
 
                 <Divider layout="vertical" />
@@ -145,6 +150,7 @@
 
 <script setup>
 // IMPORTS
+import { useDebounceFn } from "@vueuse/core";
 import { useForm } from "vee-validate";
 import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
@@ -159,8 +165,12 @@ const { layoutConfig } = useLayout();
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
-const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem } =
-  useProjects();
+const {
+  getBudgetItem,
+  updateBudgetItem,
+  parseUpdateBudgetItem,
+  calculateBudgetItem,
+} = useProjects();
 const route = useRoute();
 const toast = useToast();
 const { t } = useI18n();
@@ -181,10 +191,10 @@ const budgetItem = ref(null);
 // COMPUTED
 
 // COMPONENT METHODS
-const { handleSubmit, meta, resetForm } = useForm();
+const { handleSubmit, meta, resetForm, values } = useForm();
 
 const fetchData = () => {
-  getBudgetItem(route.params.id, route.params.budgetId).then((response) => {
+  getBudgetItem(route.params.id, route.params.budgetItemId).then((response) => {
     budgetItem.value = response;
     utilsStore.selectedElements["budget-item"] = [budgetItem.value];
   });
@@ -195,7 +205,7 @@ fetchData();
 const onSave = handleSubmit((values) => {
   updateBudgetItem(
     route.params.id,
-    route.params.budgetId,
+    route.params.budgetItemId,
     parseUpdateBudgetItem(values)
   )
     .then(() => {
@@ -208,6 +218,24 @@ const onSave = handleSubmit((values) => {
       toast.error(t("toast.error"));
     });
 });
+
+const recalculateBudgetItem = useDebounceFn(() => {
+  calculateBudgetItem(
+    route.params.id,
+    route.params.budgetItemId,
+    parseUpdateBudgetItem(values)
+  )
+    .then((response) => {
+      budgetItem.value = {
+        ...budgetItem.value,
+        balance: response.balance,
+        total: response.total_approved,
+      };
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}, 200);
 
 formUtilsStore.$reset();
 formUtilsStore.save = onSave;

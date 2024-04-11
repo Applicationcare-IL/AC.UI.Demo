@@ -61,7 +61,7 @@
           <router-link
             :to="{
               name: 'projectBudgetItemDetail',
-              params: { id: projectId, budgetId: slotProps.data.id },
+              params: { id: projectId, budgetItemId: slotProps.data.id },
             }"
             class="vertical-align-middle"
           >
