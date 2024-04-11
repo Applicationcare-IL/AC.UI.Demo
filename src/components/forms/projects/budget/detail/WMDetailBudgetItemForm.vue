@@ -5,7 +5,6 @@
   >
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1 card-container top-info-card">
-        <pre>  {{ budgetItem }}</pre>
         <Card>
           <template #title> {{ $t("general-details") }} </template>
           <template #content>

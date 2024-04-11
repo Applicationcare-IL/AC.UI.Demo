@@ -42,20 +42,30 @@
           <div class="flex flex-column gap-5">
             <div class="flex align-items-center justify-content-between gap-2">
               <WMHighlightedBlock
+                id="estimate"
+                name="estimate"
+                background-color="purple-100"
+                :label="$t('budget.estimate') + ':'"
+                editable
+                size="small"
+              />
+              <Divider layout="vertical" />
+              <WMHighlightedBlock
                 id="planned_contract"
                 name="planned_contract"
                 background-color="blue-100"
                 :label="$t('budget.planned-contract') + ':'"
                 editable
+                size="small"
               />
               <PlusIcon />
-
               <WMHighlightedBlock
                 id="unexpected"
                 name="unexpected"
                 background-color="blue-100"
                 :label="$t('budget.unexpected') + ':'"
                 editable
+                size="small"
               />
               <PlusIcon />
               <WMHighlightedBlock
@@ -64,14 +74,16 @@
                 background-color="blue-100"
                 :label="$t('budget.management-fee') + ':'"
                 editable
+                size="small"
               />
-
               <EqualIcon />
               <WMHighlightedBlock
                 id="total"
+                v-model="total"
                 name="total"
                 background-color="blue-200"
                 :label="$t('budget.total') + ':'"
+                size="small"
               />
             </div>
 
@@ -79,45 +91,44 @@
 
             <div class="flex align-items-center gap-4">
               <WMHighlightedBlock
-                id="estimate"
-                name="estimate"
-                background-color="purple-100"
-                :label="$t('budget.estimate') + ':'"
-                editable
-              />
-
-              <WMHighlightedBlock
                 id="approved_council"
                 name="approved_council"
-                background-color="white"
+                background-color="green-100"
                 :label="$t('budget.approved-council') + ':'"
                 editable
+                size="small"
+              />
+
+              <ArrowIcon
+                :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
               />
 
               <WMHighlightedBlock
                 id="approved_ministry"
                 name="approved_ministry"
-                background-color="white"
+                background-color="green-100"
                 :label="$t('budget.approved-ministry') + ':'"
                 editable
+                size="small"
               />
-            </div>
 
-            <Divider />
+              <Divider layout="vertical" />
 
-            <div class="flex align-items-center gap-4">
               <WMHighlightedBlock
                 id="executed_payments"
                 name="executed_payments"
                 background-color="white"
                 :label="$t('budget.executed-payments') + ':'"
+                size="small"
               />
 
               <WMHighlightedBalanceBlock
                 id="balance"
+                v-model="balance"
                 name="balance"
                 :quantity="1"
                 :label="$t('budget.balance') + ':'"
+                size="small"
               />
             </div>
           </div>
@@ -135,24 +146,28 @@
 
 <script setup>
 // IMPORTS
+import { useDebounceFn } from "@vueuse/core";
 import { useForm } from "vee-validate";
-import { inject, watch } from "vue";
+import { inject, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
+import { useLayout } from "@/layout/composables/layout";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const toast = useToast();
 const route = useRoute();
-const { createBudgetItem, parseUpdateBudgetItem } = useProjects();
+const { createBudgetItem, parseUpdateBudgetItem, calculateBudgetItem } =
+  useProjects();
 const formUtilsStore = useFormUtilsStore();
+const { layoutConfig } = useLayout();
 
 // INJECT
 const isFormDirty = inject("isFormDirty");
 const closeSidebar = inject("closeSidebar");
 
 // PROPS, EMITS
-const props = defineProps({
+defineProps({
   relatedBudget: {
     type: Object,
     required: true,
@@ -166,11 +181,13 @@ const props = defineProps({
 const emit = defineEmits(["newBudgetItemCreated"]);
 
 // REFS
+const total = ref(0);
+const balance = ref(0);
 
 // COMPUTED
 
 // COMPONENT METHODS
-const { handleSubmit, meta, resetForm } = useForm({
+const { handleSubmit, meta, resetForm, values } = useForm({
   validationSchema: formUtilsStore.getNewBudgetItemFormValidationSchema,
 });
 
@@ -191,6 +208,21 @@ const onSave = handleSubmit((values) => {
       toast.error("budget item", "not-updated");
     });
 });
+
+const recalculateBudgetItem = useDebounceFn(() => {
+  calculateBudgetItem(
+    route.params.id,
+    route.params.budgetItemId,
+    parseUpdateBudgetItem(values)
+  )
+    .then((response) => {
+      total.value = response.total;
+      balance.value = response.balance;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}, 200);
 
 const onCancel = () => {
   closeSidebar();
