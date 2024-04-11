@@ -416,7 +416,7 @@ defineExpose({
 watch(
   () => meta.value,
   (value) => {
-    if (value.touched) {
+    if (value.touched || value.dirty) {
       formUtilsStore.formMeta = value;
       formUtilsStore.setFormMetas(value, props.formKey);
     }

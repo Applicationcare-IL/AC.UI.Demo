@@ -76,7 +76,6 @@
             v-if="
               can(utilsStore.pluralEntity + '.assign') &&
               utilsStore.entity !== 'budget-item' &&
-              utilsStore.entity !== 'project-budget' &&
               utilsStore.entity !== 'milestone'
             "
             :entity="utilsStore.entity"

@@ -81,7 +81,7 @@ export function useProjects() {
   const getProjectBudget = async (projectId) => {
     const response = await projectsStore.getProjectBudget(projectId);
 
-    return response.data;
+    return mapProjectBudget(response.data);
   };
 
   const updateBudget = async (projectId, data) => {
@@ -116,7 +116,7 @@ export function useProjects() {
 
   const calculateBudget = async (projectId, data) => {
     const response = await projectsStore.calculateBudget(projectId, data);
-    return response.data;
+    return response;
   };
 
   const calculateBudgetItem = async (projectId, budgetItemId, data) => {
@@ -419,6 +419,13 @@ export function useProjects() {
     }
 
     return subprojects.map(mapProject);
+  };
+
+  const mapProjectBudget = (budget) => {
+    return {
+      ...budget,
+      title: budget.project?.name,
+    };
   };
 
   const mapBudgetItem = (budgetItem) => {
