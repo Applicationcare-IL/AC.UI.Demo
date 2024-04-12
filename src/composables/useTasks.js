@@ -102,6 +102,11 @@ export function useTasks() {
     return response.data;
   };
 
+  const getTasksSLATableData = async (params) => {
+    const response = await tasksStore.getSLATableData(params);
+    return response.data;
+  };
+
   // UTILITIES
   const mapTask = (task) => {
     return {
@@ -231,6 +236,7 @@ export function useTasks() {
     getTopTaskFamilies,
     exportTasks,
     getTasksSLADistribution,
+    getTasksSLATableData,
     // UTILITIES
     mapTask,
     parseTask,

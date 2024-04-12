@@ -26,20 +26,20 @@ describe("WMSLATable", () => {
 
   const mockedTasksData = [
     {
-      area_id: 1779,
-      family: "task family 1",
-      total: 32,
-      breached: 15,
-      near_breach: 0,
-      no_breach: 17,
+      task_family_id: 1819,
+      task_family_value: "family_test_1",
+      total: 44,
+      breached: 28,
+      near_breach: 9,
+      no_breach: 7,
     },
     {
-      area_id: 1966,
-      family: "task family 2",
-      total: 13,
-      breached: 6,
-      near_breach: 1,
-      no_breach: 6,
+      task_family_id: 1971,
+      task_family_value: "family_test_2",
+      total: 35,
+      breached: 14,
+      near_breach: 2,
+      no_breach: 19,
     },
   ];
 
@@ -94,6 +94,6 @@ describe("WMSLATable", () => {
       plugins: defaultPlugins,
     });
 
-    expect(wrapper.text()).toContain(mockedTasksData[0].family);
+    expect(wrapper.text()).toContain(mockedTasksData[0].task_family_value);
   });
 });

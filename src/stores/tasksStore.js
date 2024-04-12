@@ -146,5 +146,15 @@ export const useTasksStore = defineStore("tasks", {
           console.error(error);
         });
     },
+    getSLATableData(params) {
+      return axiosConfig
+        .get("/tasks/task-families-by-sla", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

@@ -23,7 +23,7 @@
       paginator
       :rows="5"
       selection-mode="single"
-      data-key="area_id"
+      :data-key="dataKey"
       class="sla-table"
       :meta-key-selection="false"
     >
@@ -62,7 +62,7 @@
       </Column>
       <Column
         v-if="entity === 'tasks_sla'"
-        field="family"
+        field="task_family_value"
         :header="$t('task.family')"
       />
       <Column
@@ -119,6 +119,7 @@ const ownerOptions = ref([
 ]);
 
 // COMPUTED
+const dataKey = props.entity === "tasks_sla" ? "task_family_id" : "area_id";
 
 // COMPONENT METHODS
 const clear = () => {

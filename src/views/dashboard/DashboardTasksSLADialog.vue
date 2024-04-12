@@ -11,7 +11,13 @@
       </div>
       <Divider layout="vertical" />
       <div class="w-6">
-        <WMSLATable />
+        <WMSLATable
+          :data="tasksSLATableData"
+          entity="tasks_sla"
+          @update:search-text="handleUpdateSearchText"
+          @update:selected-row="handleUpdateSelectedRow"
+          @update:owner="handleUpdateOwner"
+        />
       </div>
     </div>
   </Dialog>
@@ -20,7 +26,11 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
-const { getTasksSLADistribution } = useTasks();
+import { useAuthStore } from "@/stores/auth";
+
+const authStore = useAuthStore();
+
+const { getTasksSLADistribution, getTasksSLATableData } = useTasks();
 
 const modelValue = defineModel();
 
@@ -32,9 +42,59 @@ const props = defineProps({
 });
 
 const tasksSLAData = ref(null);
+const tasksSLATableData = ref(null);
+
+const searchText = ref("");
+const selectedRow = ref(null);
+const owner = ref(null);
+
+const handleUpdateSearchText = (value) => {
+  searchText.value = value;
+
+  fetchData();
+};
+
+const handleUpdateSelectedRow = (value) => {
+  selectedRow.value = value;
+
+  fetchData();
+};
+
+const handleUpdateOwner = (value) => {
+  if (value === "team") {
+    owner.value = null;
+  } else {
+    owner.value = authStore.user?.id;
+  }
+
+  fetchData();
+};
+
+onMounted(async () => {});
+
+const fetchData = async () => {
+  const params = {};
+
+  if (searchText.value) {
+    params.search = searchText.value;
+  }
+
+  if (owner.value) {
+    params.employee = owner.value;
+  }
+
+  // we only want to filter the SLA by task family
+  tasksSLAData.value = await getTasksSLADistribution({
+    ...props.filters,
+    ...params,
+    // area: selectedRow.value?.area_id,
+  });
+
+  tasksSLATableData.value = await getTasksSLATableData(params);
+};
 
 onMounted(async () => {
-  tasksSLAData.value = await getTasksSLADistribution(props.filters);
+  await fetchData();
 });
 </script>
 
