@@ -20,7 +20,7 @@
       </WMTempButton>
     </Variant>
 
-    <Variant title="Filter blue">
+    <Variant title="Type 5">
       <WMTempButton
         :text="state.content"
         type="type-5"
@@ -29,7 +29,7 @@
       </WMTempButton>
     </Variant>
 
-    <Variant title="Filter blue (with custom icon)">
+    <Variant title="Type-5 (with custom icon)">
       <WMTempButton
         :text="state.content"
         type="type-5"

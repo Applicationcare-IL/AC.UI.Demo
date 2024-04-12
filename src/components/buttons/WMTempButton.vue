@@ -1,6 +1,6 @@
 <template>
   <Button
-    class="wm-button gap-1 align-items-center justify-content-center"
+    class="wm-button gap-2 align-items-center justify-content-center"
     :class="classes"
   >
     <i v-if="icon" class="pi" :class="icon"></i>
@@ -30,6 +30,7 @@ const classes = computed(() => {
 <style scoped lang="scss">
 .wm-button :deep(svg) {
   display: flex;
+  max-height: 1.3em;
 }
 
 .wm-button,
@@ -47,6 +48,8 @@ const classes = computed(() => {
   &:focus {
     background-color: var(--gray-200);
     color: var(--blue-700);
+    outline: 0;
+    box-shadow: none;
   }
 }
 

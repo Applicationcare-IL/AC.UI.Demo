@@ -13,15 +13,17 @@
             {{ $t("buttons.new") }}
           </WMButton>
 
-          <WMButton
+          <WMTempButton
             v-if="showExportButton"
-            class="m-1 col-6"
-            name="export-white"
-            icon="export"
+            :text="$t('export')"
+            type="type-5"
+            class="m-1"
             @click="$emit('export')"
           >
-            {{ $t("export") }}
-          </WMButton>
+            <template #customIcon>
+              <div class="d-flex" v-html="ExportIcon" />
+            </template>
+          </WMTempButton>
 
           <Divider layout="vertical" />
 
@@ -122,6 +124,7 @@
 // IMPORTS
 import { computed, ref, watch } from "vue";
 
+import ExportIcon from "/icons/export.svg?raw";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
