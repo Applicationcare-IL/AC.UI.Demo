@@ -1,5 +1,5 @@
 <template>
-  <WMTempButton :text="$t('filter')" type="filter-blue" :is-active="isActive">
+  <WMTempButton :text="$t('filter')" type="type-5" :is-active="isActive">
     <template #customIcon>
       <div class="d-flex" v-html="FilterIcon" />
     </template>

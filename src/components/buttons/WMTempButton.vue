@@ -32,7 +32,9 @@ const classes = computed(() => {
   display: flex;
 }
 
-.type-1 {
+.wm-button,
+.wm-button.type-1 {
+  font-weight: 700;
   background-color: var(--gray-50);
   color: var(--blue-700);
   border: none;
@@ -48,11 +50,10 @@ const classes = computed(() => {
   }
 }
 
-.filter-blue {
+.type-5 {
   background-color: var(--blue-100);
   color: var(--blue-700);
   border: none;
-  font-weight: 700;
 
   :deep(svg path) {
     fill: var(--blue-700);
