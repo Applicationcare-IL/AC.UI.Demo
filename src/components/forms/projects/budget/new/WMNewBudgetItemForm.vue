@@ -48,6 +48,7 @@
                 :label="$t('budget.estimate') + ':'"
                 editable
                 size="small"
+                @change="recalculateBudgetItem"
               />
               <Divider layout="vertical" />
               <WMHighlightedBlock
@@ -57,6 +58,7 @@
                 :label="$t('budget.planned-contract') + ':'"
                 editable
                 size="small"
+                @change="recalculateBudgetItem"
               />
               <PlusIcon />
               <WMHighlightedBlock
@@ -66,6 +68,7 @@
                 :label="$t('budget.unexpected') + ':'"
                 editable
                 size="small"
+                @change="recalculateBudgetItem"
               />
               <PlusIcon />
               <WMHighlightedBlock
@@ -75,6 +78,7 @@
                 :label="$t('budget.management-fee') + ':'"
                 editable
                 size="small"
+                @change="recalculateBudgetItem"
               />
               <EqualIcon />
               <WMHighlightedBlock
@@ -97,11 +101,10 @@
                 :label="$t('budget.approved-council') + ':'"
                 editable
                 size="small"
+                @change="recalculateBudgetItem"
               />
 
-              <ArrowIcon
-                :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
-              />
+              <ArrowIcon :class="layoutConfig.isRTL.value ? '' : 'rotate-180'" />
 
               <WMHighlightedBlock
                 id="approved_ministry"
@@ -110,6 +113,7 @@
                 :label="$t('budget.approved-ministry') + ':'"
                 editable
                 size="small"
+                @change="recalculateBudgetItem"
               />
 
               <Divider layout="vertical" />
@@ -136,11 +140,7 @@
       </div>
     </div>
     <div class="my-4"></div>
-    <WMFormButtons
-      v-if="isSidebar"
-      @save-form="onSave()"
-      @cancel-form="onCancel()"
-    />
+    <WMFormButtons v-if="isSidebar" @save-form="onSave()" @cancel-form="onCancel()" />
   </div>
 </template>
 
@@ -157,8 +157,7 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 // DEPENDENCIES
 const toast = useToast();
 const route = useRoute();
-const { createBudgetItem, parseUpdateBudgetItem, calculateBudgetItem } =
-  useProjects();
+const { createBudgetItem, parseUpdateBudgetItem, calculateNewBudgetItem } = useProjects();
 const formUtilsStore = useFormUtilsStore();
 const { layoutConfig } = useLayout();
 
@@ -210,13 +209,9 @@ const onSave = handleSubmit((values) => {
 });
 
 const recalculateBudgetItem = useDebounceFn(() => {
-  calculateBudgetItem(
-    route.params.id,
-    route.params.budgetItemId,
-    parseUpdateBudgetItem(values)
-  )
+  calculateNewBudgetItem(parseUpdateBudgetItem(values))
     .then((response) => {
-      total.value = response.total;
+      total.value = response.total_approved;
       balance.value = response.balance;
     })
     .catch((error) => {

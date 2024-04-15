@@ -127,6 +127,10 @@ export function useProjects() {
     );
   };
 
+  const calculateNewBudgetItem = async (data) => {
+    return await projectsStore.calculateNewBudgetItem(data);
+  };
+
   // PAYMENTS
   const getProjectPayments = async (projectId, params) => {
     const response = await projectsStore.getProjectPayments(projectId, params);
@@ -533,6 +537,7 @@ export function useProjects() {
     updateBudget,
     calculateBudget,
     calculateBudgetItem,
+    calculateNewBudgetItem,
     getProjectMilestone,
     getProjectMilestones,
     createMilestone,
