@@ -62,7 +62,7 @@
         v-if="utilsStore.entity != 'asset'"
         class="flex flex-row justify-content-between flex-wrap row-gap-4"
       >
-        <div class="flex flex-row flex-wrap gap-2 align-items-center">
+        <div class="flex flex-row flex-wrap gap-3 align-items-center">
           <WMSaveButton
             v-if="can(utilsStore.pluralEntity + '.update')"
             :is-disabled="!isFormDirty"

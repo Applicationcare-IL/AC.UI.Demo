@@ -1,10 +1,9 @@
 <template>
-  <Button
-    :label="label"
-    icon="pi pi-chevron-down"
-    aria-haspopup="true"
-    aria-controls="overlay_menu"
-    class="m-1 p-button-default col-6"
+  <WMTempButton
+    :text="label"
+    type="type-5"
+    icon="pi-chevron-down"
+    :is-disabled="selectedElements == 0"
     :disabled="selectedElements == 0"
     @click="toggleDropdownMenu"
   />

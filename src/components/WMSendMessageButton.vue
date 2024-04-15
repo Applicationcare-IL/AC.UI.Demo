@@ -4,6 +4,7 @@
     :text="$t('buttons.message')"
     type="type-5"
     icon="pi-chevron-down"
+    :is-disabled="selectedElements == 0"
     :disabled="selectedElements == 0"
     @click="toggleCommunicationsMenu"
   >

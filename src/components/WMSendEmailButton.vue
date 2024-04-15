@@ -1,13 +1,15 @@
 <template>
-  <WMButton
-    class="m-1 col-6"
-    name="mail-white"
-    icon="mail"
+  <WMTempButton
+    :text="$t('buttons.email')"
+    type="type-5"
     :disabled="selectedElements == 0"
+    :is-disabled="selectedElements == 0"
     @click="sendEmailDialogVisible = true"
   >
-    {{ $t("buttons.email") }}
-  </WMButton>
+    <template #customIcon>
+      <div class="d-flex" v-html="EmailIcon" />
+    </template>
+  </WMTempButton>
 
   <Dialog
     v-model:visible="sendEmailDialogVisible"
@@ -80,6 +82,9 @@
 
 <script setup>
 import { onMounted, ref, watch } from "vue";
+
+import EmailIcon from "/icons/email.svg?raw";
+
 const toast = useToast();
 
 const sendEmailDialogVisible = ref(false);
