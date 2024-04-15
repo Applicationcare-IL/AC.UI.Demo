@@ -5,7 +5,7 @@
     <div class="flex flex-column gap-5 card-container">
       <Card v-if="false">
         <template #content>
-          <div class="flex flex-row gap-5 justify-content-between">
+          <div class="flex flex-row gap-6 justify-content-between">
             <div
               class="flex flex-2 flex-row gap-4 px-5 py-2 counter counter-green align-items-center"
             >
@@ -24,21 +24,10 @@
               </div>
               <div class="text-5xl font-bold red">45</div>
             </div>
-            <div class="flex flex-column flex-1 gap-2 px-4 py-2">
-              <div class="time-info w-full flex p-2 justify-content-between">
-                <div class="flex gap-2">
-                  <span> זמן ממוצע שלי </span>
-                  <span class="font-bold text-lg">00:10:46</span>
-                </div>
-                <TrendingMarker :increment="4" />
-              </div>
-              <div class="time-info w-full flex p-2 justify-content-between">
-                <div class="flex gap-2">
-                  <span> זמן ממוצע שלי </span>
-                  <span class="font-bold text-lg">00:10:46</span>
-                </div>
-                <TrendingMarker :increment="-2" />
-              </div>
+            <div class="flex flex-column flex-1 gap-2 py-2">
+              <WMTeamsAverageTimeBlock />
+              <!-- <WMInlineTrendingTime text="זמן ממוצע שלי" time="00:10:46" quantity="4" />
+              <WMInlineTrendingTime text="זמן ממוצע שלי" time="00:10:46" quantity="-2" /> -->
             </div>
           </div>
         </template>
@@ -48,9 +37,7 @@
         <div style="width: 50%">
           <Card class="h-full p-card-chart">
             <template #title>
-              <div
-                class="w-full flex align-items-center justify-content-between"
-              >
+              <div class="w-full flex align-items-center justify-content-between">
                 <span>
                   {{ $t("dashboard.services-distribution-by-sla") }}
                 </span>
@@ -70,9 +57,7 @@
         </div>
         <div style="width: 50%">
           <Card v-if="servicesTrendingAreas" class="h-full">
-            <template #title>
-              {{ $t("dashboard.trending-service-areas") }}</template
-            >
+            <template #title> {{ $t("dashboard.trending-service-areas") }}</template>
             <template #content>
               <TrendingList
                 v-if="servicesTrendingAreas.length"
@@ -103,7 +88,8 @@
 import { onMounted, ref } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
-import DashboardServicesSLADialog from "@/views/dashboard/DashboardServicesSLADialog.vue";
+
+import WMInlineTrendingTime from "../../components/WMInlineTrendingTime.vue";
 
 // DEPENDENCIES
 const { can } = usePermissions();

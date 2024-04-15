@@ -40,9 +40,6 @@
     line-height: 60px;
 }
 
-.dashboard-content .counter, .dashboard-content .time-info{
-    border-radius: 10px;
-}
 
 .dashboard-content .counter-red{
     background-color: var(--red-25);
@@ -52,10 +49,5 @@
 .dashboard-content .counter-green{
     background-color: var(--green-50);
     color: var(--green-700);
-}
-
-.dashboard-content .time-info{
-    background-color: var(--gray-25);
-    border-radius: 16px;
 }
 

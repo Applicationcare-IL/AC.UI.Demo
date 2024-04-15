@@ -30,9 +30,7 @@
         <div style="width: 50%">
           <Card class="h-full p-card-chart">
             <template #title>
-              <div
-                class="w-full flex align-items-center justify-content-between"
-              >
+              <div class="w-full flex align-items-center justify-content-between">
                 <span>
                   {{ $t("dashboard.tasks-distribution-by-sla") }}
                 </span>
@@ -55,10 +53,7 @@
           <Card class="h-full">
             <template #title> {{ $t("dashboard.top-task-families") }}</template>
             <template #content>
-              <TrendingList
-                v-if="topTaskFamilies.length"
-                :data="topTaskFamilies"
-              />
+              <TrendingList v-if="topTaskFamilies.length" :data="topTaskFamilies" />
               <span v-else> {{ $t("data-not-available") }}</span>
             </template>
           </Card>
@@ -85,7 +80,6 @@
 import { onMounted, ref } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
-import DashboardTasksSLADialog from "@/views/dashboard/DashboardTasksSLADialog.vue";
 
 // DEPENDENCIES
 const optionSetsStore = useOptionSetsStore();
@@ -130,9 +124,7 @@ onMounted(async () => {
 
   topTaskFamilies.value = await getTopTaskFamilies(dashboardTaskFilters.value);
 
-  tasksSLAData.value = await getTasksSLADistribution(
-    dashboardTaskFilters.value
-  );
+  tasksSLAData.value = await getTasksSLADistribution(dashboardTaskFilters.value);
 });
 </script>
 
