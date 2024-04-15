@@ -89,7 +89,9 @@
     "open": "Open",
     "complete": "Complete",
     "close-filters": "Close filters",
-    "close": "Close"
+    "close": "Close",
+    "link-service": "Link service",
+    "link-services": "Link services"
   },
   "navigation": {
     "dashboard": "Dashboard",
