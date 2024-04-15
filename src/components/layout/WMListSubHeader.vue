@@ -2,10 +2,9 @@
   <div class="wm-subheader shadow-1 flex-none">
     <div class="flex flex-column gap-5">
       <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
-        <div class="flex flex-row flex-wrap">
+        <div class="flex flex-row flex-wrap gap-2">
           <WMButton
             v-if="can(utilsStore.pluralEntity + '.create')"
-            class="m-1 col-6"
             name="new"
             icon="new"
             @click="$emit('new')"
@@ -17,7 +16,6 @@
             v-if="showExportButton"
             :text="$t('export')"
             type="type-5"
-            class="m-1"
             @click="$emit('export')"
           >
             <template #customIcon>

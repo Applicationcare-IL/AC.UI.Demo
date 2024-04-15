@@ -5,7 +5,6 @@
     :is-active="isActive"
     :is-disabled="selectedElements == 0"
     :disabled="selectedElements == 0"
-    class="m-1"
     @click="toggle"
   >
     <template #customIcon>

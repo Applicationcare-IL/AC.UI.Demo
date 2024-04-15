@@ -1,6 +1,5 @@
 <template>
   <WMButton
-    class="m-1 col-6"
     name="done-white"
     icon="done"
     :disabled="selectedElements == 0 || !areTaskCompletable"

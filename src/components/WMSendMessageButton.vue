@@ -1,14 +1,13 @@
 <template>
-  <Button
+  <WMTempButton
     v-if="can('global.sms') || can('global.whatsapp')"
-    :label="$t('buttons.message')"
-    icon="pi pi-chevron-down"
-    aria-haspopup="true"
-    aria-controls="overlay_menu"
-    class="m-1 p-button-default col-6"
+    :text="$t('buttons.message')"
+    type="type-5"
+    icon="pi-chevron-down"
     :disabled="selectedElements == 0"
     @click="toggleCommunicationsMenu"
-  />
+  >
+  </WMTempButton>
 
   <Menu
     id="overlay_menu"
