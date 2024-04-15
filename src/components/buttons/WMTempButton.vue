@@ -65,6 +65,30 @@ const classes = computed(() => {
   }
 }
 
+.type-4 {
+  background-color: var(--blue-600);
+  color: white;
+  border: none;
+
+  :deep(svg path) {
+    fill: white;
+  }
+
+  &:hover {
+    background-color: var(--blue-500);
+    color: white;
+  }
+
+  &:focus {
+    background-color: var(--blue-700);
+    color: white;
+  }
+
+  &.is-active {
+    border: 1px solid var(--blue-700);
+  }
+}
+
 .type-5 {
   background-color: var(--blue-100);
   color: var(--blue-700);

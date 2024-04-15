@@ -223,7 +223,9 @@
     "toast": {
       "created": "New service Created",
       "error": "An error occurred"
-    }
+    },
+    "relation-type": "Relation type",
+    "link-service": "Link service"
   },
   "asset": {
     "system_id": "System ID",

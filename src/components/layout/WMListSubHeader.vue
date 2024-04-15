@@ -12,6 +12,11 @@
             {{ $t("buttons.new") }}
           </WMButton>
 
+          <!-- <WMLinkServicesButton
+            v-if="utilsStore.entity == 'service'"
+            :selected-elements="selectedElements"
+          /> -->
+
           <WMTempButton
             v-if="showExportButton"
             :text="$t('export')"
@@ -39,8 +44,7 @@
 
           <WMAssignOwnerButton
             v-if="
-              can(utilsStore.pluralEntity + '.assign') &&
-              utilsStore.entity != 'asset'
+              can(utilsStore.pluralEntity + '.assign') && utilsStore.entity != 'asset'
             "
             :entity="utilsStore.entity"
             @owner-assigned="$emit('refreshTable')"
@@ -51,15 +55,6 @@
             :selected-elements="selectedElements"
             :multiple="true"
           />
-
-          <!-- <WMButton
-            class="m-1 col-6"
-            name="phone-white"
-            icon="phone"
-            :disabled="selectedElements != 1"
-          >
-            {{ $t("buttons.assign") }}
-          </WMButton> -->
 
           <WMSendEmailButton
             v-if="can('global.mail') && utilsStore.entity != 'asset'"
@@ -134,13 +129,7 @@ const { getScopes } = useActionBuilder();
 // INJECT
 
 // PROPS, EMITS
-defineEmits([
-  "new",
-  "taskCompleted",
-  "refreshTable",
-  "assetDeactivated",
-  "export",
-]);
+defineEmits(["new", "taskCompleted", "refreshTable", "assetDeactivated", "export"]);
 
 const props = defineProps({
   activeButtons: Boolean,
