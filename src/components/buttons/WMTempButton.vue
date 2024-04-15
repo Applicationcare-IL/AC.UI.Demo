@@ -53,8 +53,8 @@ const classes = computed(() => {
   }
 
   &.is-disabled {
-    background-color: var(--gray-200);
-    color: var(--gray-500);
+    background-color: var(--gray-200) !important;
+    color: var(--gray-500) !important;
     cursor: not-allowed;
     outline: 0;
     box-shadow: none;

@@ -16,55 +16,37 @@
       <Dropdown
         v-model="selectedRelationType"
         :options="relationTypes"
-        :option-label="optionLabelWithLang"
+        option-label="name"
         class="w-full md:w-10rem mb-5"
       />
-      <WMTempButton
-        class="ml-auto"
-        :text="$t('buttons.link-services')"
-        type="type-4"
-        @click="handleLinkServices"
-      />
+      <WMTempButton class="ml-auto" :text="$t('service.link-service')" type="type-4" />
     </div>
   </OverlayPanel>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 
 import TreeIcon from "/icons/account_tree.svg?raw";
-import { useOptionSetsStore } from "@/stores/optionSets";
-
-const { optionLabelWithLang } = useLanguages();
-const optionSetsStore = useOptionSetsStore();
-
-// const { linkServices } = useServices();
 
 defineProps({
   selectedElements: Array,
 });
 
 const selectedRelationType = ref();
-const relationTypes = ref();
+const relationTypes = ref([
+  { name: "New York", code: "NY" },
+  { name: "Rome", code: "RM" },
+  { name: "London", code: "LDN" },
+  { name: "Istanbul", code: "IST" },
+  { name: "Paris", code: "PRS" },
+]);
 
 const op = ref();
 
 const toggle = (event) => {
   op.value.toggle(event);
 };
-
-const linkService = () => {
-  console.log("link services");
-  // linkServices(selectedElements, selectedRelationType.value);
-};
-
-onMounted(async () => {
-  relationTypes.value = await optionSetsStore.getOptionSetValues(
-    "service_related_relationship"
-  );
-
-  selectedRelationType.value = relationTypes.value[0];
-});
 </script>
 
 <style scoped></style>

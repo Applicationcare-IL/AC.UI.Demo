@@ -58,6 +58,18 @@ export function useServices() {
     return response.data;
   };
 
+  const linkServices = async (
+    serviceId,
+    relatedServicesIds,
+    relationshipId
+  ) => {
+    return await servicesStore.linkServices({
+      parent_service_id: serviceId,
+      related_service_id: relatedServicesIds,
+      relationship_id: relationshipId,
+    });
+  };
+
   // UTILITIES
   const parseService = (service) => {
     return {
@@ -232,6 +244,7 @@ export function useServices() {
     getServicesTrendingAreas,
     exportServices,
     getServicesSLATableData,
+    linkServices,
     // UTILITIES
     parseService,
     parseMobileService,

@@ -108,5 +108,16 @@ export const useServicesStore = defineStore("services", {
           console.error(error);
         });
     },
+    linkServices(params) {
+      return axiosConfig
+        .post("/services/link", params)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });
