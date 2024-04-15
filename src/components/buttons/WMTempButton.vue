@@ -51,6 +51,18 @@ const classes = computed(() => {
     outline: 0;
     box-shadow: none;
   }
+
+  &.is-disabled {
+    background-color: var(--gray-200);
+    color: var(--gray-500);
+    cursor: not-allowed;
+    outline: 0;
+    box-shadow: none;
+
+    :deep(svg path) {
+      fill: var(--gray-500);
+    }
+  }
 }
 
 .type-5 {

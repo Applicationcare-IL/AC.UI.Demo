@@ -1,13 +1,17 @@
 <template>
-  <WMButton
-    class="m-1 col-6"
-    name="assign-white"
-    icon="assign"
+  <WMTempButton
+    :text="$t('buttons.assign')"
+    type="type-5"
+    :is-active="isActive"
+    :is-disabled="selectedElements == 0"
     :disabled="selectedElements == 0"
+    class="m-1"
     @click="toggle"
   >
-    {{ $t("buttons.assign") }}
-  </WMButton>
+    <template #customIcon>
+      <div class="d-flex" v-html="AsignIcon" />
+    </template>
+  </WMTempButton>
   <OverlayPanel
     ref="isOpen"
     :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
@@ -70,6 +74,7 @@
 <script setup>
 import { ref, watch } from "vue";
 
+import AsignIcon from "/icons/assign.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
 import { OwnersService } from "@/service/OwnersService";
 import { useUtilsStore } from "@/stores/utils";
