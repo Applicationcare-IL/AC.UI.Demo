@@ -1,11 +1,11 @@
 <template>
-  <WMButton class="m-1 col-6" name="assign-white" icon="assign" @click="toggle">
-    {{ $t("buttons.link_contact") }}
-  </WMButton>
-  <OverlayPanel
-    ref="isOpen"
-    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-  >
+  <WMTempButton :text="$t('buttons.link_contact')" type="type-4" @click="toggle">
+    <template #customIcon>
+      <div class="d-flex" v-html="PersonIcon" />
+    </template>
+  </WMTempButton>
+
+  <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
     <div class="flex flex-column gap-2">
       <WMInputSearch
         name="employeeOrTeam"
@@ -59,6 +59,7 @@
 // IMPORTS
 import { ref } from "vue";
 
+import PersonIcon from "/icons/person.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES

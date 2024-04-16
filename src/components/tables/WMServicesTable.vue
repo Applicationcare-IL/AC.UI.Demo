@@ -17,9 +17,9 @@
   <h2 v-if="!hideTitle" class="h2">{{ $t("service.service") }}</h2>
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
-      <div class="flex flex-row">
+      <div class="flex flex-row gap-2">
         <WMButton
-          class="m-1 col-6"
+          class="col-6"
           name="new"
           icon="new"
           icon-position="right"
@@ -81,11 +81,7 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selection-mode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
