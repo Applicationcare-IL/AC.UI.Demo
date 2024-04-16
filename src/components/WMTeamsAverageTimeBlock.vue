@@ -32,15 +32,60 @@ const visible = ref(false);
 
 const chartData = ref();
 const chartOptions = ref();
+
+const exampleDataThisWeek = [
+  {
+    x: "Monday",
+    y: 155,
+  },
+  {
+    x: "Tuesday",
+    y: 487,
+  },
+  {
+    x: "Wednesday",
+    y: 289,
+  },
+  {
+    x: "Thursday",
+    y: 674,
+  },
+  {
+    x: "Friday",
+    y: 458,
+  },
+  {
+    x: "Saturday",
+    y: 396,
+  },
+  {
+    x: "Sunday",
+    y: 712,
+  },
+];
+
+const exampleData = exampleDataThisWeek;
+
+const mapX = exampleData.map((data) => data.x);
+
+// Convertir minutos totales a formato HH:MM
+function minutesToTime(minutes) {
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  return `${hours < 10 ? "0" : ""}${hours}:${
+    remainingMinutes < 10 ? "0" : ""
+  }${remainingMinutes}`;
+}
+
 const setChartData = () => {
   const documentStyle = getComputedStyle(document.documentElement);
 
   return {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: mapX,
     datasets: [
       {
-        label: "First Dataset",
-        data: [65, 59, 80, 81, 56, 55, 40],
+        label: "testing",
+        data: exampleData,
         fill: false,
         borderColor: documentStyle.getPropertyValue("--cyan-500"),
         tension: 0,
@@ -48,11 +93,10 @@ const setChartData = () => {
     ],
   };
 };
+
 const setChartOptions = () => {
   const documentStyle = getComputedStyle(document.documentElement);
   const textColor = documentStyle.getPropertyValue("--text-color");
-  const textColorSecondary = documentStyle.getPropertyValue("--text-color-secondary");
-  const surfaceBorder = documentStyle.getPropertyValue("--surface-border");
 
   return {
     maintainAspectRatio: false,
@@ -63,22 +107,22 @@ const setChartOptions = () => {
           color: textColor,
         },
       },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: textColorSecondary,
-        },
-        grid: {
-          color: surfaceBorder,
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            console.log("context: ", context.dataset);
+            return minutesToTime(context.parsed.y);
+          },
         },
       },
+    },
+    scales: {
       y: {
         ticks: {
-          color: textColorSecondary,
-        },
-        grid: {
-          color: surfaceBorder,
+          callback: function (value) {
+            // Mostrar horas en formato HH:MM
+            return minutesToTime(value);
+          },
         },
       },
     },

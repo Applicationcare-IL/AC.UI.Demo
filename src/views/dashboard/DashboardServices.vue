@@ -89,8 +89,6 @@ import { onMounted, ref } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
-import WMInlineTrendingTime from "../../components/WMInlineTrendingTime.vue";
-
 // DEPENDENCIES
 const { can } = usePermissions();
 const optionSetsStore = useOptionSetsStore();
