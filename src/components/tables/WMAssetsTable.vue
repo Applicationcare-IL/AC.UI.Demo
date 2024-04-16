@@ -8,6 +8,8 @@
     <WMNewEntityFormHeader entity="service" name="newService" />
     <WMNewServiceForm
       :is-sidebar="true"
+      :related-entity="selectedAssets[0]"
+      :related-entity-id="selectedAssets[0]?.id"
       @close-sidebar="closeSidebar"
       @new-service-created="loadLazyData"
     />
@@ -21,6 +23,7 @@
           name="new"
           icon="new"
           icon-position="right"
+          :disabled="selectedAssets?.length != 1"
           @click="toggleSidebarVisibility"
           >{{ t("new", ["service.service"]) }}</WMButton
         >
@@ -257,7 +260,7 @@ const priorityClass = (data) => {
 };
 
 const onSelectionChanged = () => {
-  utilsStore.selectedElements["service"] = selectedAssets.value;
+  utilsStore.selectedElements["asset"] = selectedAssets.value;
 };
 
 function toggleSidebarVisibility() {

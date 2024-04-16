@@ -4,12 +4,22 @@
       <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
         <div class="flex flex-row flex-wrap gap-3">
           <WMButton
-            v-if="can(utilsStore.pluralEntity + '.create')"
+            v-if="can(utilsStore.pluralEntity + '.create') && entity != 'asset'"
             name="new"
             icon="new"
             @click="$emit('new')"
           >
             {{ $t("buttons.new") }}
+          </WMButton>
+
+          <WMButton
+            v-if="entity == 'asset'"
+            name="new"
+            icon="new"
+            :disabled="utilsStore.selectedElements['asset']?.length != 1"
+            @click="$emit('new')"
+          >
+            {{ $t("buttons.new") + " " + $t("service.service") }}
           </WMButton>
 
           <WMLinkServicesButton
@@ -44,7 +54,8 @@
 
           <WMAssignOwnerButton
             v-if="
-              can(utilsStore.pluralEntity + '.assign') && utilsStore.entity != 'asset'
+              can(utilsStore.pluralEntity + '.assign') &&
+              utilsStore.entity != 'asset'
             "
             :entity="utilsStore.entity"
             @owner-assigned="$emit('refreshTable')"
@@ -129,7 +140,13 @@ const { getScopes } = useActionBuilder();
 // INJECT
 
 // PROPS, EMITS
-defineEmits(["new", "taskCompleted", "refreshTable", "assetDeactivated", "export"]);
+defineEmits([
+  "new",
+  "taskCompleted",
+  "refreshTable",
+  "assetDeactivated",
+  "export",
+]);
 
 const props = defineProps({
   activeButtons: Boolean,

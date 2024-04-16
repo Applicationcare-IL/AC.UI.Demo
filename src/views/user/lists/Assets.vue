@@ -17,7 +17,7 @@
     @open-sidebar="openSidebar"
   >
     <template v-if="can('services.create')">
-      <WMNewEntityFormHeader entity="asset" name="newService" />
+      <WMNewEntityFormHeader entity="service" name="newService" />
       <WMNewServiceForm :is-sidebar="true" @close-sidebar="closeSidebar" />
     </template>
     <template v-else>
