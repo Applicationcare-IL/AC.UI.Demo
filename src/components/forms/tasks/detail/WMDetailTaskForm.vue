@@ -194,7 +194,7 @@
       />
 
       <div class="flex flex-row gap-5 flex-wrap mt-5">
-        <Accordion class="p-accordion--blue" :active-index="0">
+        <Accordion :active-index="0">
           <AccordionTab :header="$t('documents.documents')">
             <WMDocumentsTable
               :columns="documentsColumns"

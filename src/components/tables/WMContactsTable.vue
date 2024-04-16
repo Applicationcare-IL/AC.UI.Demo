@@ -12,37 +12,34 @@
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMAssignContactButton @add-contacts="addContacts" />
-        <WMButton
+        <!-- <WMButton
           v-if="can('contacts.export')"
           class="m-1 col-6"
           name="export-white"
           icon="export"
         >
           {{ $t("export") }}
-        </WMButton>
+        </WMButton> -->
       </div>
       <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
-        <WMButton
-          name="filter"
-          icon="filter"
-          :open="isFilterOpen"
-          :applied="isFilterApplied"
-          @click="openFilterSidebar"
-          >{{ t("filter") }}
-        </WMButton>
-        <WMSidebar
-          :visible="isFilterVisible"
-          name="filterContact"
-          @close-sidebar="closeFilterSidebar"
-          @open-sidebar="openFilterSidebar"
-        >
-          <WMFilterForm entity="contact" filter-form-name="contact" />
-        </WMSidebar>
         <WMOwnerToggle entity="contact" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
       <WMSearchBox v-model="searchValue" entity="contact" />
+
+      <WMFilterButton
+        :is-active="isFilterApplied || isFilterVisible"
+        @click="openFilterSidebar"
+      />
+      <WMSidebar
+        :visible="isFilterVisible"
+        name="filterContact"
+        @close-sidebar="closeFilterSidebar"
+        @open-sidebar="openFilterSidebar"
+      >
+        <WMFilterForm entity="contact" filter-form-name="contact" />
+      </WMSidebar>
     </div>
   </div>
 
@@ -66,11 +63,7 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selection-mode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -90,9 +83,7 @@
           >
         </template>
         <template v-if="column.type === 'star'">
-          <div
-            @click="editMode[slotProps.index] && onStarClicked(slotProps.data)"
-          >
+          <div @click="editMode[slotProps.index] && onStarClicked(slotProps.data)">
             <img
               v-if="isMainContact(slotProps.data)"
               src="/icons/star.svg"
@@ -134,17 +125,13 @@
         <template v-if="column.type === 'actions'">
           <div class="flex flex-row gap-2">
             <WMButton
-              v-if="
-                column.buttons?.includes('edit') && !editMode[slotProps.index]
-              "
+              v-if="column.buttons?.includes('edit') && !editMode[slotProps.index]"
               name="edit"
               icon="edit"
               @click="editMode[slotProps.index] = true"
             />
             <WMButton
-              v-if="
-                column.buttons?.includes('edit') && editMode[slotProps.index]
-              "
+              v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
               name="save"
               icon="save"
               class="in_table"
@@ -369,9 +356,7 @@ const addContacts = (addedContacts) => {
 };
 
 const isMainContact = (contact) => {
-  return (
-    customer.value?.main_contact?.id == contact.id || contact.main === true
-  );
+  return customer.value?.main_contact?.id == contact.id || contact.main === true;
 };
 
 const alertCellConditionalStyle = (data) => {
@@ -450,9 +435,7 @@ const onSelectionChanged = () => {
 
 const saveRow = (contact) => {
   const roleValue =
-    props.relatedEntity === "customer"
-      ? contact.role?.id
-      : contact.role_project?.id;
+    props.relatedEntity === "customer" ? contact.role?.id : contact.role_project?.id;
 
   if (props.relatedEntity === "customer") {
     const contactParams = {
@@ -580,8 +563,9 @@ const optionSets = ref([]);
 const loadOptionSets = async () => {
   props.columns.forEach(async (column) => {
     if (column.optionSet) {
-      optionSets.value[column.optionSet] =
-        await optionSetsStore.getOptionSetValues(column.optionSet);
+      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
+        column.optionSet
+      );
     }
   });
 };

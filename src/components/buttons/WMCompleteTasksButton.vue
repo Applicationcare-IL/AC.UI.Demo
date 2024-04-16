@@ -1,25 +1,26 @@
 <template>
-  <WMButton
-    name="done-white"
-    icon="done"
-    :disabled="selectedElements == 0 || !areTaskCompletable"
+  <WMTempButton
+    :text="textButton"
+    type="type-5"
+    :is-disabled="isDisabled"
+    :disabled="isDisabled"
     @click="handleCompleteTasks"
-    @confirm="doCompleteTasks"
   >
-    <span v-if="areTaskCompletable || selectedElements == 0">
-      {{ t("buttons.complete") }}
-    </span>
-    <span v-else> {{ t("task.completed") }} </span>
-  </WMButton>
+    <template #customIcon>
+      <div class="d-flex" v-html="DoneIcon" />
+    </template>
+  </WMTempButton>
+
   <WMCompleteServiceDialog />
   <WMCompleteProjectDialog />
 </template>
 
 <script setup>
 // IMPORTS
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
+import DoneIcon from "/icons/done.svg?raw";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
@@ -48,6 +49,15 @@ const selectedElements = ref(0);
 const areTaskCompletable = ref(false);
 
 // COMPUTED
+const textButton = computed(() => {
+  return areTaskCompletable.value || selectedElements.value == 0
+    ? t("buttons.complete")
+    : t("task.completed");
+});
+
+const isDisabled = computed(() => {
+  return selectedElements.value == 0 || !areTaskCompletable.value;
+});
 
 // COMPONENT METHODS
 
@@ -67,10 +77,7 @@ const checkIfTasksAreCompletable = (tasks) => {
   }
 
   // prevent complete when some of the selected tasks are subproject tasks
-  if (
-    tasks.lenght > 1 &&
-    tasks.some((x) => x.task_family.value == "subproject")
-  ) {
+  if (tasks.lenght > 1 && tasks.some((x) => x.task_family.value == "subproject")) {
     return false;
   }
 
@@ -107,6 +114,7 @@ const doCompleteTasks = () => {
     .then(() => {
       toast.successAction("task", "completed");
       emit("taskCompleted");
+      updateStates();
     })
     .catch((error) => {
       toast.error(error.response.data.message);

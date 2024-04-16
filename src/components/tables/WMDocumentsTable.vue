@@ -2,14 +2,8 @@
   <h2 v-if="!hideTitle" class="h2">Documents</h2>
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
-      <div class="flex flex-row">
-        <WMButton
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          icon-position="right"
-          @click="handleNewDocument"
-        >
+      <div class="flex flex-row gap-2">
+        <WMButton name="new" icon="new" icon-position="right" @click="handleNewDocument">
           {{ $t("documents.new_document") }}
         </WMButton>
         <WMAssignOwnerButton
@@ -81,11 +75,7 @@
     @update:selection="onSelectionChanged"
     @page="onPage($event)"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selection-mode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
 
     <Column
       v-for="column in columns"
@@ -481,8 +471,9 @@ const loadOptionSets = async () => {
   //for each option set in columns, get the option set values
   props.columns.forEach(async (column) => {
     if (column.optionSet) {
-      optionSets.value[column.optionSet] =
-        await optionSetsStore.getOptionSetValues(column.optionSet);
+      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
+        column.optionSet
+      );
     }
   });
 };

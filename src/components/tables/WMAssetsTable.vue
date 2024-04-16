@@ -28,14 +28,14 @@
           >{{ t("new", ["service.service"]) }}</WMButton
         >
 
-        <WMButton
+        <!-- <WMButton
           v-if="can(utilsStore.pluralEntity + '.export')"
           class="m-1 col-6"
           name="export-white"
           icon="export"
         >
           {{ $t("export") }}
-        </WMButton>
+        </WMButton> -->
 
         <Divider layout="vertical" />
 
@@ -45,11 +45,7 @@
         />
       </div>
 
-      <WMButton
-        v-if="env.DEV"
-        name="refresh"
-        class="m-1 col-6"
-        @click="loadLazyData"
+      <WMButton v-if="env.DEV" name="refresh" class="m-1 col-6" @click="loadLazyData"
         >Refresh
       </WMButton>
       <div class="flex flex-row align-items-center gap-3">
@@ -89,11 +85,7 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selection-mode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
