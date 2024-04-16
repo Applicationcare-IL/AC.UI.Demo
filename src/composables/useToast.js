@@ -25,12 +25,13 @@ export function useToast() {
     });
   };
 
-  const info = (message) => {
+  const info = ({ title, message, life, group }) => {
     toast.add({
       severity: "info",
-      summary: i18n.t("toast.info"),
+      summary: title ? title : i18n.t("toast.info"),
       detail: message,
-      life: 3000,
+      life: life ? life : 3000,
+      group: group,
     });
   };
 
@@ -53,10 +54,8 @@ export function useToast() {
   };
 
   const showLoadingExportToast = () => {
-    console.log("showLoadingExportToast");
-
     toast.add({
-      group: "br",
+      group: "br", // see AppLayout.vue toast with group "br"
       severity: "info",
       summary: i18n.t("toast.export"),
       detail: i18n.t("toast.loading-export-message"),

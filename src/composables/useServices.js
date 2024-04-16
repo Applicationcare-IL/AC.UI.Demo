@@ -58,14 +58,14 @@ export function useServices() {
     return response.data;
   };
 
-  const linkServices = async (
-    serviceId,
-    relatedServicesIds,
-    relationshipId
-  ) => {
+  const linkServices = async (relatedServicesIds, relationshipId) => {
+    console.log({
+      service_ids: relatedServicesIds,
+      relationship_id: relationshipId,
+    });
+
     return await servicesStore.linkServices({
-      parent_service_id: serviceId,
-      related_service_id: relatedServicesIds,
+      service_ids: relatedServicesIds,
       relationship_id: relationshipId,
     });
   };

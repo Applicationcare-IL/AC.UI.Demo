@@ -110,7 +110,7 @@ export const useServicesStore = defineStore("services", {
     },
     linkServices(params) {
       return axiosConfig
-        .post("/services/link", params)
+        .post("/services/link-all", params)
         .then((response) => {
           return response.data;
         })

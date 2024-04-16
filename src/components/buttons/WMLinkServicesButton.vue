@@ -30,33 +30,56 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 import TreeIcon from "/icons/account_tree.svg?raw";
 import { useOptionSetsStore } from "@/stores/optionSets";
-
+// DEPENDENCIES
+const { t } = useI18n();
 const { optionLabelWithLang } = useLanguages();
 const optionSetsStore = useOptionSetsStore();
+const toast = useToast();
+const { linkServices } = useServices();
 
-// const { linkServices } = useServices();
+// INJECT
 
-defineProps({
+// PROPS, EMITS
+const props = defineProps({
   selectedElements: Array,
 });
 
+// REFS
 const selectedRelationType = ref();
 const relationTypes = ref();
-
 const op = ref();
 
+// COMPUTED
+
+// COMPONENT METHODS
 const toggle = (event) => {
   op.value.toggle(event);
 };
 
-const linkService = () => {
-  console.log("link services");
-  // linkServices(selectedElements, selectedRelationType.value);
+const handleLinkServices = async () => {
+  const mappedSelectedElements = props.selectedElements.map((element) => element.id);
+
+  await linkServices(mappedSelectedElements, selectedRelationType.value.id);
+
+  toast.info({
+    message: t("service.services-linked-message"),
+    title: t("service.services-linked-title"),
+    life: 5000,
+    group: "br",
+  });
 };
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 
 onMounted(async () => {
   relationTypes.value = await optionSetsStore.getOptionSetValues(

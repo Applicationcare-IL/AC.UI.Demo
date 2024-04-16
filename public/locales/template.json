@@ -222,10 +222,10 @@
     "direction": "Direction",
     "toast": {
       "created": "New service Created",
-      "error": "An error occurred"
-    },
-    "relation-type": "Relation type",
-    "link-service": "Link service"
+      "error": "An error occurred",
+      "services-linked-message": "They will appear in the related services grid for each service.",
+      "services-linked-title": "Services linked"
+    }
   },
   "asset": {
     "system_id": "System ID",

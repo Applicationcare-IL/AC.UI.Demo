@@ -12,10 +12,10 @@
             {{ $t("buttons.new") }}
           </WMButton>
 
-          <!-- <WMLinkServicesButton
+          <WMLinkServicesButton
             v-if="utilsStore.entity == 'service'"
             :selected-elements="selectedElements"
-          /> -->
+          />
 
           <WMTempButton
             v-if="showExportButton"
