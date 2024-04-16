@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="loaded"
-    class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
+    class="wm-detail-form-container pt-5 flex flex-auto flex-column overflow-auto"
   >
     <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
@@ -209,57 +209,78 @@
           </Card>
         </div>
       </div>
-      <div>
-        <WMContactsTable
-          v-if="can('contacts.read')"
-          :columns="contactColumns"
-          :customer-id="route.params.id"
-        />
-      </div>
-      <div>
-        <WMServicesTable
-          v-if="checkIfEntityIsActive('services') && can('services.read')"
-          related-entity="customer"
-          :related-entity-id="customer.id"
-          :columns="serviceColumns"
-          multiselect
-        />
-      </div>
-      <div>
-        <WMTasksTable
-          v-if="can('tasks.read') && checkIfEntityIsActive('tasks')"
-          related-entity="customer"
-          :related-entity-id="customer.id"
-          :columns="taskColumns"
-          multiselect
-        />
-      </div>
-      <div>
-        <WMProjectsTable
-          v-if="can('projects.read') && checkIfEntityIsActive('projects')"
-          related-entity="customer"
-          :related-entity-id="customer.id"
-          :multiselect="false"
-          :show-header-options="false"
-        />
-      </div>
-      <div>
-        <WMDocumentsTable
-          :columns="documentsColumns"
-          :related-entity-id="customer.id"
-          related-entity="customer"
-          :show-header-options="true"
-        />
-      </div>
 
-      <div>
-        <WMAssetsTable
-          :columns="assetColumns"
-          related-entity="customer"
-          :related-entity-id="route.params.id"
-        />
-      </div>
-      <div class="flex flex-row gap-5 flex-wrap mt-5">
+      <Accordion v-if="can('contacts.read')">
+        <AccordionTab :header="$t('contact.contacts')">
+          <WMContactsTable
+            v-if="can('contacts.read')"
+            :columns="contactColumns"
+            :customer-id="route.params.id"
+            :show-title="false"
+          />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion v-if="checkIfEntityIsActive('services') && can('services.read')">
+        <AccordionTab :header="$t('service.services')">
+          <WMServicesTable
+            related-entity="customer"
+            :related-entity-id="customer.id"
+            :columns="serviceColumns"
+            multiselect
+            :hide-title="true"
+          />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion v-if="can('tasks.read') && checkIfEntityIsActive('tasks')">
+        <AccordionTab :header="$t('task.tasks')">
+          <WMTasksTable
+            related-entity="customer"
+            :related-entity-id="customer.id"
+            :columns="taskColumns"
+            multiselect
+            :hide-title="true"
+          />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion v-if="can('projects.read') && checkIfEntityIsActive('projects')">
+        <AccordionTab :header="$t('project.projects')">
+          <WMProjectsTable
+            related-entity="customer"
+            :related-entity-id="customer.id"
+            :multiselect="false"
+            :show-header-options="false"
+            :hide-title="true"
+          />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab :header="$t('documents.documents')">
+          <WMDocumentsTable
+            :columns="documentsColumns"
+            :related-entity-id="customer.id"
+            related-entity="customer"
+            :show-header-options="true"
+            :hide-title="true"
+          />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab :header="$t('asset.assets')">
+          <WMAssetsTable
+            :columns="assetColumns"
+            related-entity="customer"
+            :related-entity-id="route.params.id"
+            :hide-title="true"
+          />
+        </AccordionTab>
+      </Accordion>
+
+      <div class="flex flex-row gap-5 flex-wrap mt-5 pt-5">
         <div class="flex-1 card-container">
           <Card>
             <template #title>

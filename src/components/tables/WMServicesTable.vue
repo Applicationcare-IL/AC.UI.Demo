@@ -43,12 +43,6 @@
         </WMButton> -->
       </div>
       <div class="flex flex-row align-items-center gap-3">
-        <WMFilterButton
-          v-if="showFilters"
-          :is-active="isFilterApplied || isFilterOpen"
-          @click="openFilterSidebar"
-        />
-
         <WMSidebar
           :visible="isFilterVisible"
           name="filterService"
@@ -64,6 +58,11 @@
     </div>
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="service" />
+      <WMFilterButton
+        v-if="showFilters"
+        :is-active="isFilterApplied || isFilterOpen"
+        @click="openFilterSidebar"
+      />
     </div>
   </div>
   <DataTable

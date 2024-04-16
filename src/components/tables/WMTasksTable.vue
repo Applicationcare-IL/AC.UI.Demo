@@ -45,25 +45,25 @@
         />
       </div>
       <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
-        <WMFilterButton
-          v-if="showFilter"
-          :is-active="isFilterApplied || isFilterOpen"
-          @click="openFilterSidebar"
-        />
-
-        <WMSidebar
-          :visible="isFilterVisible"
-          name="filterTask"
-          @close-sidebar="closeFilterSidebar"
-          @open-sidebar="openFilterSidebar"
-        >
-          <WMFilterForm entity="task" filter-form-name="task" />
-        </WMSidebar>
         <WMOwnerToggle entity="task" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="task" />
+      <WMFilterButton
+        v-if="showFilter"
+        :is-active="isFilterApplied || isFilterOpen"
+        @click="openFilterSidebar"
+      />
+
+      <WMSidebar
+        :visible="isFilterVisible"
+        name="filterTask"
+        @close-sidebar="closeFilterSidebar"
+        @open-sidebar="openFilterSidebar"
+      >
+        <WMFilterForm entity="task" filter-form-name="task" />
+      </WMSidebar>
     </div>
   </div>
   <DataTable
