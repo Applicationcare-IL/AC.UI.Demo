@@ -189,6 +189,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  showLinkServiceButton: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // REFS
@@ -286,7 +290,7 @@ function openFilterSidebar() {
 
 // WATCHERS
 watchEffect(() => {
-  loadLazyData();
+  loadLazyData(); // listen to changes in the filters
 });
 
 watch(

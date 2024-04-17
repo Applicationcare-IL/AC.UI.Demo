@@ -1,6 +1,6 @@
 <template>
   <Button
-    class="selectable-button border-round-2xl"
+    class="selectable-button border-round-2xl white-space-nowrap"
     :class="classes"
     :icon="icon"
     :label="label"

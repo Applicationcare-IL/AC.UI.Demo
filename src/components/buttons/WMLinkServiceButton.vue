@@ -10,13 +10,13 @@
   </WMTempButton>
 
   <OverlayPanel ref="op">
-    <div class="flex flex-column w-auto">
+    <div class="flex flex-column w-20rem">
       <span class="h6 mb-1">{{ $t("service.relation-type") }}</span>
       <Dropdown
         v-model="selectedRelationType"
         :options="relationTypes"
         :option-label="optionLabelWithLang"
-        class="w-full md:w-10rem mb-5"
+        class="w-full md:w-10rem mb-3"
       />
 
       <span class="h6 mb-1">{{ $t("service.what-to-link") }}</span>
@@ -24,15 +24,16 @@
         v-model="selectedOption"
         :options="options"
         option-label="label"
+        class="flex"
+        :allow-empty="false"
       />
 
       <WMTempButton
-        class="ml-auto"
+        class="ml-auto mt-4"
         :text="$t('buttons.link-services')"
         type="type-4"
         @click="handleLinkServices"
       />
-      {{ showExistingRelatedServicesDialog }}
     </div>
   </OverlayPanel>
 

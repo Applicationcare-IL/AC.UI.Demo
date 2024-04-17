@@ -226,9 +226,10 @@
     "toast-services-linked-title": "Services linked",
     "relation-type": "Relation type",
     "related-services": "Related services",
-    "link-new-service": "Link new service",
-    "link-existing-service": "Link existing service",
-    "select-an-aexisting-service": "Select an existing service"
+    "link-new-service": "New service",
+    "link-existing-service": "Existing service",
+    "select-an-aexisting-service": "Select an existing service",
+    "what-to-link": "What to link"
   },
   "asset": {
     "system_id": "System ID",

@@ -15,12 +15,14 @@
     data-key="service_number"
     table-style="min-width: 50rem"
     scrollable
+    scroll-height="400px"
     paginator
     lazy
     :rows="rows"
     :total-records="totalRecords"
     :class="`p-datatable-${tableClass}`"
     @page="onPage($event)"
+    @update:selection="onSelectionChanged"
   >
     <Column
       v-for="column in columns"
@@ -69,13 +71,11 @@
       </template>
     </Column>
   </DataTable>
-  <pre>{{ services }}</pre>
 </template>
 
 <script setup>
 // IMPORTS
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
-import { useI18n } from "vue-i18n";
+import { onMounted, ref, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
@@ -96,10 +96,12 @@ defineProps({
   },
 });
 
+const emit = defineEmits(["update:selection"]);
+
 // REFS
 const totalRecords = ref(0);
 const selectedService = ref();
-const rows = ref(10);
+const rows = ref(20);
 const lazyParams = ref({});
 const services = ref([]);
 const searchValue = ref("");
@@ -109,7 +111,7 @@ const columns = ref(getRelatedServiceColumns());
 
 // COMPONENT METHODS
 const loadLazyData = async () => {
-  const filters = utilsStore.filters["related-services"];
+  const filters = utilsStore.filters["related-service"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = rows.value;
@@ -132,9 +134,31 @@ const priorityClass = (data) => {
   return getPriorityClasses(data);
 };
 
+const onPage = (event) => {
+  lazyParams.value = event;
+  loadLazyData();
+};
+
+const onSelectionChanged = () => {
+  emit("update:selection", selectedService.value);
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
+watchEffect(() => {
+  loadLazyData();
+});
+
+watch(
+  () => utilsStore.searchString["related-service"],
+  () => {
+    searchValue.value = utilsStore.searchString["related-service"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
