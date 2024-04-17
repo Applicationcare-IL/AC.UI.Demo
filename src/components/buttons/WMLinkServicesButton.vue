@@ -63,13 +63,15 @@ const toggle = (event) => {
 };
 
 const handleLinkServices = async () => {
-  const mappedSelectedElements = props.selectedElements.map((element) => element.id);
+  const mappedSelectedElements = props.selectedElements.map(
+    (element) => element.id
+  );
 
   await linkServices(mappedSelectedElements, selectedRelationType.value.id);
 
   toast.info({
-    message: t("service.services-linked-message"),
-    title: t("service.services-linked-title"),
+    message: t("service.toast-services-linked-message"),
+    title: t("service.toast-services-linked-title"),
     life: 5000,
     group: "br",
   });

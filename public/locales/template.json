@@ -220,16 +220,15 @@
     "complete-service-dialog-accept": "Complete task",
     "complete-service-dialog-cancel": "Cancel and return",
     "direction": "Direction",
-    "toast": {
-      "created": "New service Created",
-      "error": "An error occurred",
-      "services-linked-message": "They will appear in the related services grid for each service.",
-      "services-linked-title": "Services linked"
-    },
+    "toast-created": "New service Created",
+    "toast-error": "An error occurred",
+    "toast-services-linked-message": "They will appear in the related services grid for each service.",
+    "toast-services-linked-title": "Services linked",
     "relation-type": "Relation type",
     "related-services": "Related services",
     "link-new-service": "Link new service",
-    "link-existing-service": "Link existing service"
+    "link-existing-service": "Link existing service",
+    "select-an-aexisting-service": "Select an existing service"
   },
   "asset": {
     "system_id": "System ID",

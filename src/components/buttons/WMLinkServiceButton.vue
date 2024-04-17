@@ -32,10 +32,14 @@
         type="type-4"
         @click="handleLinkServices"
       />
+      {{ showExistingRelatedServicesDialog }}
     </div>
   </OverlayPanel>
 
-  <WMExistingRelatedServicesDialog v-if="showExistingRelatedServicesDialog" />
+  <WMExistingRelatedServicesDialog
+    v-if="showExistingRelatedServicesDialog"
+    v-model="showExistingRelatedServicesDialog"
+  />
 </template>
 
 <script setup>
@@ -79,6 +83,7 @@ const toggle = (event) => {
 
 const handleLinkServices = async () => {
   if (selectedOption.value.value === "existing") {
+    console.log("to true");
     showExistingRelatedServicesDialog.value = true;
     return;
   }

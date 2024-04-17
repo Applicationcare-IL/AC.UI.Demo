@@ -1,8 +1,8 @@
 <template>
   <Dialog
-    v-model:visible="visible"
+    v-model:visible="modelValue"
     modal
-    :style="{ minWidth: '90vw' }"
+    :style="{ width: '90vw' }"
     class="existing-related-services-dialog"
     :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
   >
@@ -15,17 +15,17 @@
           filter-form-name="related-service"
         />
       </div>
-      <div class="flex flex-column">TABLE</div>
+      <div class="flex flex-column p-3 existing-related-services-dialog__table">
+        <WMExistingServicesTable />
+      </div>
     </div>
   </Dialog>
 </template>
 
 <script setup>
-import { ref } from "vue";
-
 import { useLayout } from "@/layout/composables/layout";
 
 const { layoutConfig } = useLayout();
 
-const visible = ref(true);
+const modelValue = defineModel();
 </script>

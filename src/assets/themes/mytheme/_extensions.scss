@@ -644,7 +644,13 @@ a {
     &__filters{
         height: 80vh;
         overflow: scroll;
-        margin: -1em;
+        margin-right: -1em;
+        margin-top: -1em;
+    }
+
+    &__table{
+        width: 70%;
+
     }
 }
 

@@ -28,7 +28,7 @@
           >{{ t("new") }}</WMButton
         >
 
-        <WMLinkServiceButton />
+        <!-- <WMLinkServiceButton /> -->
 
         <WMAssignOwnerButton
           v-if="can('services.assign')"
@@ -107,7 +107,7 @@
           v-if="slotProps.data.sla"
           :sla="slotProps.data.sla"
           :days-for-closing="slotProps.data.days_for_closing"
-          :state="slotProps.data.state.value"
+          :state="slotProps.data.state?.value"
         >
         </WMSLATag>
       </template>
