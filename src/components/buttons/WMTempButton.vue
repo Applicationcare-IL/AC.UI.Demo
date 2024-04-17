@@ -125,6 +125,7 @@ const classes = computed(() => {
 
   &:hover {
     background-color: var(--green-500);
+    color: white;
   }
 
   &:focus {
