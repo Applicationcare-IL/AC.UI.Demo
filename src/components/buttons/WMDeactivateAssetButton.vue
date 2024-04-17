@@ -1,6 +1,5 @@
 <template>
   <WMButton
-    class="m-1 col-6"
     name="basic-secondary"
     :disabled="selectedElements == 0"
     @click="handleDeactivateAsset"

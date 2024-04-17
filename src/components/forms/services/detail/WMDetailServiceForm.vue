@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="service"
-    class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
+    class="wm-detail-form-container flex flex-auto pt-5 flex-column overflow-auto"
   >
     <div class="service-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
@@ -175,7 +175,11 @@
                     :options="requests2"
                     option-set
                     @change="
-                      updateDropdown('service_request_3', $event.value.id, 'requests3')
+                      updateDropdown(
+                        'service_request_3',
+                        $event.value.id,
+                        'requests3'
+                      )
                     "
                   />
                   <WMInputSearch
@@ -213,24 +217,41 @@
 
       <WMDetailFormAsset v-if="service.asset" :asset="service.asset" />
 
-      <div class="mt-5">
-        <WMStepper :steps="stages" :current-step="currentStage" aria-label="Form Steps" />
-      </div>
-
-      <div>
-        <WMTasksTable
-          v-if="can('tasks.read')"
-          related-entity="service"
-          :related-entity-id="service.id"
-          :columns="taskColumns"
-          multiselect
-          @task-completed="fetchData"
+      <div class="my-5">
+        <WMStepper
+          :steps="stages"
+          :current-step="currentStage"
+          aria-label="Form Steps"
         />
       </div>
+
+      <Accordion v-if="can('tasks.read')">
+        <AccordionTab :header="$t('task.tasks')">
+          <WMTasksTable
+            related-entity="service"
+            :related-entity-id="service.id"
+            :columns="taskColumns"
+            multiselect
+            @task-completed="fetchData"
+          />
+        </AccordionTab>
+      </Accordion>
 
       <Accordion>
         <AccordionTab :header="$t('journal')">
           <WMJournalDataView entity-type="service" :entity-id="service.id" />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab :header="$t('service.related-services')">
+          <WMServicesTable
+            related-entity="service"
+            :related-entity-id="service.id"
+            :columns="serviceColumns"
+            :hide-create-button="true"
+            multiselect
+          />
         </AccordionTab>
       </Accordion>
 
@@ -247,9 +268,14 @@
 
       <Accordion>
         <AccordionTab :header="$t('attachments.attachments')">
-          <WMAttachmentsTable :entity-id="route.params.id" entity-type="service" />
+          <WMAttachmentsTable
+            :entity-id="route.params.id"
+            entity-type="service"
+          />
         </AccordionTab>
       </Accordion>
+
+      <div class="my-2"></div>
 
       <div class="flex flex-row gap-5 flex-wrap mt-5">
         <div class="flex-1 tabs-container">
@@ -318,7 +344,7 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { optionLabelWithLang } = useLanguages();
-const { getServiceDocumentsColumns } = useListUtils();
+const { getServiceDocumentsColumns, getServiceColumns } = useListUtils();
 const { can } = usePermissions();
 
 const { getTasksFromApi } = useTasks();
@@ -354,6 +380,7 @@ const props = defineProps({
 
 // REFS
 const documentsColumns = ref(getServiceDocumentsColumns());
+const serviceColumns = ref(getServiceColumns());
 
 const stages = ref([]);
 const currentStage = ref();
@@ -385,7 +412,9 @@ const fetchData = async () => {
 
   stages.value = data.stages.map((stage) => ({
     label: stage.name,
-    date: stage.sla.due_date ? useDateFormat(stage.sla.due_date, "DD/MM/YY") : null,
+    date: stage.sla.due_date
+      ? useDateFormat(stage.sla.due_date, "DD/MM/YY")
+      : null,
   }));
 
   updateDropdown("service_request_2", data.request1?.id, "requests2");
@@ -423,9 +452,11 @@ const setCustomer = (customerId) => {
 };
 
 const updateDropdown = (optionSet, selectedValue, dropdownOptions) => {
-  optionSetsStore.getOptionSetValuesFromApiRaw(optionSet, selectedValue).then((data) => {
-    optionRefs[dropdownOptions].value = data;
-  });
+  optionSetsStore
+    .getOptionSetValuesFromApiRaw(optionSet, selectedValue)
+    .then((data) => {
+      optionRefs[dropdownOptions].value = data;
+    });
 };
 
 const { handleSubmit, meta } = useForm({

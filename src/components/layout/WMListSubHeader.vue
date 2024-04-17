@@ -2,7 +2,7 @@
   <div class="wm-subheader shadow-1 flex-none">
     <div class="flex flex-column gap-5">
       <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
-        <div class="flex flex-row flex-wrap gap-3">
+        <div class="flex flex-row flex-wrap gap-2">
           <WMButton
             v-if="can(utilsStore.pluralEntity + '.create')"
             name="new"
@@ -44,7 +44,8 @@
 
           <WMAssignOwnerButton
             v-if="
-              can(utilsStore.pluralEntity + '.assign') && utilsStore.entity != 'asset'
+              can(utilsStore.pluralEntity + '.assign') &&
+              utilsStore.entity != 'asset'
             "
             :entity="utilsStore.entity"
             @owner-assigned="$emit('refreshTable')"
@@ -129,7 +130,13 @@ const { getScopes } = useActionBuilder();
 // INJECT
 
 // PROPS, EMITS
-defineEmits(["new", "taskCompleted", "refreshTable", "assetDeactivated", "export"]);
+defineEmits([
+  "new",
+  "taskCompleted",
+  "refreshTable",
+  "assetDeactivated",
+  "export",
+]);
 
 const props = defineProps({
   activeButtons: Boolean,

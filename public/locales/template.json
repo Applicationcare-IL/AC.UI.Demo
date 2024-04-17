@@ -225,7 +225,9 @@
       "error": "An error occurred",
       "services-linked-message": "They will appear in the related services grid for each service.",
       "services-linked-title": "Services linked"
-    }
+    },
+    "relation-type": "Relation type",
+    "related-services": "Related services"
   },
   "asset": {
     "system_id": "System ID",

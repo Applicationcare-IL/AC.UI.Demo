@@ -25,6 +25,7 @@ module.exports = {
           "Dashboard",
           "Login",
           "Service",
+          "Assets",
         ],
       },
     ],

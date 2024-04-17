@@ -19,6 +19,7 @@
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
         <WMButton
+          v-if="!hideCreateButton"
           class="col-6"
           name="new"
           icon="new"
@@ -80,7 +81,11 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
+    <Column
+      v-if="multiselect"
+      style="width: 40px"
+      selection-mode="multiple"
+    ></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -176,6 +181,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hideCreateButton: {
+    type: Boolean,
+    default: false,
+  },
   showFilters: {
     type: Boolean,
     default: true,
@@ -225,6 +234,9 @@ const loadLazyData = async () => {
   }
   if (props.relatedEntity == "asset") {
     params.append("asset", props.relatedEntityId);
+  }
+  if (props.relatedEntity == "service") {
+    params.append("related_to", props.relatedEntityId);
   }
 
   getServicesFromApi(params).then((result) => {
