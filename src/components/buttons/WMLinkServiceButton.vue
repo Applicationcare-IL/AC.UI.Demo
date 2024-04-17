@@ -1,8 +1,7 @@
 <template>
   <WMTempButton
-    :text="$t('buttons.link-services')"
+    :text="$t('buttons.link-service')"
     type="type-4"
-    :is-disabled="selectedElements.length < 1"
     @click="toggle"
   >
     <template #customIcon>
@@ -11,42 +10,92 @@
   </WMTempButton>
 
   <OverlayPanel ref="op">
-    <div class="flex flex-column w-15rem">
+    <div class="flex flex-column w-auto">
       <span class="h6 mb-1">{{ $t("service.relation-type") }}</span>
       <Dropdown
         v-model="selectedRelationType"
         :options="relationTypes"
-        option-label="name"
+        :option-label="optionLabelWithLang"
         class="w-full md:w-10rem mb-5"
       />
-      <WMTempButton class="ml-auto" :text="$t('service.link-service')" type="type-4" />
+
+      <span class="h6 mb-1">{{ $t("service.what-to-link") }}</span>
+      <SelectButton
+        v-model="selectedOption"
+        :options="options"
+        option-label="label"
+      />
+      {{ selectedOption }}
+
+      <WMTempButton
+        class="ml-auto"
+        :text="$t('buttons.link-services')"
+        type="type-4"
+        @click="handleLinkServices"
+      />
     </div>
   </OverlayPanel>
 </template>
 
 <script setup>
-import { ref } from "vue";
+// IMPORTS
+import { onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 import TreeIcon from "/icons/account_tree.svg?raw";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
-defineProps({
-  selectedElements: Array,
-});
+// DEPENDENCIES
+const { t } = useI18n();
+const { optionLabelWithLang } = useLanguages();
+const optionSetsStore = useOptionSetsStore();
+const toast = useToast();
+const { linkServices } = useServices();
 
+// INJECT
+
+// PROPS, EMITS
+
+// REFS
 const selectedRelationType = ref();
-const relationTypes = ref([
-  { name: "New York", code: "NY" },
-  { name: "Rome", code: "RM" },
-  { name: "London", code: "LDN" },
-  { name: "Istanbul", code: "IST" },
-  { name: "Paris", code: "PRS" },
-]);
-
+const relationTypes = ref();
 const op = ref();
+const selectedOption = ref(null);
 
+const options = [
+  { label: t("service.link-existing-service"), value: "existing" },
+  { label: t("service.link-new-service"), value: "new" },
+];
+
+// COMPUTED
+
+// COMPONENT METHODS
 const toggle = (event) => {
   op.value.toggle(event);
 };
+
+const handleLinkServices = async () => {
+  toast.info({
+    message: t("service.services-linked-message"),
+    title: t("service.services-linked-title"),
+    life: 5000,
+    group: "br",
+  });
+};
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+
+onMounted(async () => {
+  relationTypes.value = await optionSetsStore.getOptionSetValues(
+    "service_related_relationship"
+  );
+
+  selectedRelationType.value = relationTypes.value[0];
+});
 </script>
 
 <style scoped></style>

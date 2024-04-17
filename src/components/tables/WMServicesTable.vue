@@ -27,6 +27,9 @@
           @click="toggleSidebarVisibility"
           >{{ t("new") }}</WMButton
         >
+
+        <!-- <WMLinkServiceButton /> -->
+
         <WMAssignOwnerButton
           v-if="can('services.assign')"
           entity="service"
@@ -35,13 +38,6 @@
             clearSelectedServices();
           "
         />
-        <!-- <Divider layout="vertical" />
-        <WMButtonMenu class="m-1" mode="light" :menu-items="menuItems"
-          >הודעה</WMButtonMenu
-        >
-        <WMButton class="m-1 col-6" name="mail-white" icon="mail">
-          {{ $t("buttons.assign") }}
-        </WMButton> -->
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMSidebar
@@ -53,7 +49,7 @@
           <WMFilterForm entity="service" filter-form-name="service" />
         </WMSidebar>
 
-        <!-- <WMStateToggle entity="service" /> -->
+        <WMStateToggle entity="service" />
         <WMOwnerToggle entity="service" />
       </div>
     </div>

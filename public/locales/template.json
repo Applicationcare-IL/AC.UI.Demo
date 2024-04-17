@@ -227,7 +227,9 @@
       "services-linked-title": "Services linked"
     },
     "relation-type": "Relation type",
-    "related-services": "Related services"
+    "related-services": "Related services",
+    "link-new-service": "Link new service",
+    "link-existing-service": "Link existing service"
   },
   "asset": {
     "system_id": "System ID",
