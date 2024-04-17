@@ -28,7 +28,7 @@
           >{{ t("new") }}</WMButton
         >
 
-        <!-- <WMLinkServiceButton /> -->
+        <WMLinkServiceButton />
 
         <WMAssignOwnerButton
           v-if="can('services.assign')"

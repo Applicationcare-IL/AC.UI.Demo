@@ -194,6 +194,79 @@ export function useFilters() {
         to: "due_date_to",
       },
     ],
+    "related-service": [
+      {
+        type: "dropdown",
+        name: "area",
+        optionSet: "service_area",
+        label: i18n.t("service.service-area-placeholder") + ":",
+      },
+      {
+        type: "dropdown",
+        name: "type",
+        optionSet: "service_type",
+        label: i18n.t("service.service-type-placeholder") + ":",
+      },
+      {
+        type: "sla_status",
+        name: "sla",
+        label: i18n.t("filters.service-sla-status") + ":",
+      },
+      {
+        type: "dropdown",
+        name: "created-assigned",
+        options: [
+          {
+            name: "all",
+            label: i18n.t("filters.all"),
+            value: true,
+          },
+          {
+            name: "created_by_me",
+            label: i18n.t("filters.created-by-me"),
+            value: true,
+          },
+          {
+            name: "assigned_to_me",
+            label: i18n.t("filters.assigned-by-me"),
+            value: true,
+          },
+        ],
+        label: i18n.t("filters.created-assigned") + ":",
+      },
+      {
+        type: "buttons",
+        name: "status",
+        optionSet: "service_status",
+        label: i18n.t("status") + ":",
+      },
+      {
+        type: "buttons",
+        name: "priority",
+        optionSet: "service_priority",
+        label: i18n.t("service.priority") + ":",
+      },
+      {
+        type: "buttons",
+        name: "urgency",
+        optionSet: "service_urgent",
+        label: i18n.t("service.urgency") + ":",
+      },
+      {
+        type: "date",
+        name: "open",
+        label: i18n.t("filters.open-date") + ":",
+        from: "opened_from",
+        to: "opened_to",
+      },
+      {
+        type: "date",
+        name: "goal",
+        label: i18n.t("filters.due-date") + ":",
+        from: "due_date_from",
+        to: "due_date_to",
+      },
+    ],
     task: [
       {
         type: "entity",

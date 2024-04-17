@@ -585,6 +585,7 @@
     "service-title": "Service Filters",
     "project-title": "Project Filters",
     "asset-title": "Asset Filters",
+    "related-service-title": "Related Service Filters",
     "no-filters-applied": "No filters applied",
     "service-sla-status": "Service SLA Status",
     "task-sla-status": "Task SLA Status",

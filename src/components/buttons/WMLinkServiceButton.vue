@@ -25,7 +25,6 @@
         :options="options"
         option-label="label"
       />
-      {{ selectedOption }}
 
       <WMTempButton
         class="ml-auto"
@@ -35,6 +34,8 @@
       />
     </div>
   </OverlayPanel>
+
+  <WMExistingRelatedServicesDialog v-if="showExistingRelatedServicesDialog" />
 </template>
 
 <script setup>
@@ -49,8 +50,8 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 const { t } = useI18n();
 const { optionLabelWithLang } = useLanguages();
 const optionSetsStore = useOptionSetsStore();
-const toast = useToast();
-const { linkServices } = useServices();
+// const toast = useToast();
+// const { linkServices } = useServices();
 
 // INJECT
 
@@ -60,12 +61,14 @@ const { linkServices } = useServices();
 const selectedRelationType = ref();
 const relationTypes = ref();
 const op = ref();
-const selectedOption = ref(null);
+const showExistingRelatedServicesDialog = ref(false);
 
 const options = [
   { label: t("service.link-existing-service"), value: "existing" },
   { label: t("service.link-new-service"), value: "new" },
 ];
+
+const selectedOption = ref(options[0]);
 
 // COMPUTED
 
@@ -75,12 +78,17 @@ const toggle = (event) => {
 };
 
 const handleLinkServices = async () => {
-  toast.info({
-    message: t("service.services-linked-message"),
-    title: t("service.services-linked-title"),
-    life: 5000,
-    group: "br",
-  });
+  if (selectedOption.value.value === "existing") {
+    showExistingRelatedServicesDialog.value = true;
+    return;
+  }
+
+  // toast.info({
+  //   message: t("service.services-linked-message"),
+  //   title: t("service.services-linked-title"),
+  //   life: 5000,
+  //   group: "br",
+  // });
 };
 
 // PROVIDE, EXPOSE
