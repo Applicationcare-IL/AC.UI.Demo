@@ -4,12 +4,22 @@
       <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
         <div class="flex flex-row flex-wrap gap-2">
           <WMButton
-            v-if="can(utilsStore.pluralEntity + '.create')"
+            v-if="can(utilsStore.pluralEntity + '.create') && entity != 'asset'"
             name="new"
             icon="new"
             @click="$emit('new')"
           >
             {{ $t("buttons.new") }}
+          </WMButton>
+
+          <WMButton
+            v-if="entity == 'asset'"
+            name="new"
+            icon="new"
+            :disabled="utilsStore.selectedElements['asset']?.length != 1"
+            @click="$emit('new')"
+          >
+            {{ $t("buttons.new") + " " + $t("service.service") }}
           </WMButton>
 
           <WMLinkServicesButton

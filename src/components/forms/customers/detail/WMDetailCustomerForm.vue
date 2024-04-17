@@ -183,7 +183,9 @@
         </div>
         <div class="card-container flex-1 middle-info-card">
           <Card>
-            <template #title> {{ $t("task.open") }} : {{ customer.open_tasks }}</template>
+            <template #title>
+              {{ $t("task.open") }} : {{ customer.open_tasks }}</template
+            >
             <template #content>
               <div class="flex flex-column gap-3 font-bold">
                 <div
@@ -219,7 +221,9 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion v-if="checkIfEntityIsActive('services') && can('services.read')">
+      <Accordion
+        v-if="checkIfEntityIsActive('services') && can('services.read')"
+      >
         <AccordionTab :header="$t('service.services')">
           <WMServicesTable
             related-entity="customer"
@@ -243,7 +247,9 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion v-if="can('projects.read') && checkIfEntityIsActive('projects')">
+      <Accordion
+        v-if="can('projects.read') && checkIfEntityIsActive('projects')"
+      >
         <AccordionTab :header="$t('project.projects')">
           <WMProjectsTable
             related-entity="customer"
@@ -273,6 +279,7 @@
             :columns="assetColumns"
             related-entity="customer"
             :related-entity-id="route.params.id"
+            :multiselect="true"
             :hide-title="true"
           />
         </AccordionTab>
@@ -425,12 +432,8 @@ onMounted(async () => {
 
 const { setSelectedContacts, getContactsFromApi } = useContacts();
 
-const {
-  getCustomerFromApi,
-  updateCustomer,
-  parseCustomer,
-  existsCustomer,
-} = useCustomers();
+const { getCustomerFromApi, updateCustomer, parseCustomer, existsCustomer } =
+  useCustomers();
 
 const fetchData = async () => {
   await optionSetsStore
@@ -456,10 +459,16 @@ const fetchData = async () => {
       (rating) => rating.id == customer.value.rating.id
     );
 
-    selectedType.value = types.value.find((type) => type.id == customer.value.type.id);
-    selectedStatus.value = t("option-set.customer_status." + customer.value.status.value);
+    selectedType.value = types.value.find(
+      (type) => type.id == customer.value.type.id
+    );
+    selectedStatus.value = t(
+      "option-set.customer_status." + customer.value.status.value
+    );
 
-    statusConditionalStyle.value = getStatusConditionalStyle(customer.value.status.value);
+    statusConditionalStyle.value = getStatusConditionalStyle(
+      customer.value.status.value
+    );
     isProvider.value = yesNoOptions.find(
       (option) => option.value == customer.value.is_provider
     );
