@@ -250,6 +250,7 @@
             :related-entity-id="service.id"
             :columns="serviceColumns"
             :hide-create-button="true"
+            :hide-title="true"
             multiselect
           />
         </AccordionTab>
