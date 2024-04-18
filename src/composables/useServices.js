@@ -167,7 +167,7 @@ export function useServices() {
       owner: service.owner,
       staff: "",
       sla: service.process.sla.sla,
-      priority: "1",
+      priority: service.priority,
       recurring: service.recurring == 0 ? "no" : "yes",
       urgency: service.urgent,
       last_change: service.last_activity?.updater.at,
