@@ -59,14 +59,34 @@ export function useServices() {
   };
 
   const linkServices = async (relatedServicesIds, relationshipId) => {
-    console.log({
-      service_ids: relatedServicesIds,
-      relationship_id: relationshipId,
-    });
-
     return await servicesStore.linkServices({
       service_ids: relatedServicesIds,
       relationship_id: relationshipId,
+    });
+  };
+
+  const linkService = async (
+    parentServiceId,
+    relatedServiceId,
+    relationshipId
+  ) => {
+    console.log({
+      parent_service_id: parentServiceId,
+      related_service_id: relatedServiceId,
+      relationship_id: relationshipId,
+    });
+
+    return await servicesStore.linkService({
+      parent_service_id: parentServiceId,
+      related_service_id: relatedServiceId,
+      relationship_id: relationshipId,
+    });
+  };
+
+  const unlinkService = async (parentServiceId, relatedServiceId) => {
+    return await servicesStore.unlinkService({
+      parent_service_id: parentServiceId,
+      related_service_id: relatedServiceId,
     });
   };
 
@@ -154,7 +174,7 @@ export function useServices() {
       owner: service.owner,
       staff: "",
       sla: service.process.sla.sla,
-      priority: "1",
+      priority: service.priority,
       recurring: service.recurring == 0 ? "no" : "yes",
       urgency: service.urgent,
       last_change: service.last_activity?.updater.at,
@@ -245,6 +265,8 @@ export function useServices() {
     exportServices,
     getServicesSLATableData,
     linkServices,
+    linkService,
+    unlinkService,
     // UTILITIES
     parseService,
     parseMobileService,

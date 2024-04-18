@@ -2,7 +2,7 @@
   <div class="wm-subheader shadow-1 flex-none">
     <div class="flex flex-column gap-5">
       <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
-        <div class="flex flex-row flex-wrap gap-3">
+        <div class="flex flex-row flex-wrap gap-2">
           <WMButton
             v-if="can(utilsStore.pluralEntity + '.create') && entity != 'asset'"
             name="new"

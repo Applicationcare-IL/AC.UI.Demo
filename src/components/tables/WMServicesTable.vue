@@ -19,6 +19,7 @@
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
         <WMButton
+          v-if="!hideCreateButton"
           class="col-6"
           name="new"
           icon="new"
@@ -26,6 +27,9 @@
           @click="toggleSidebarVisibility"
           >{{ t("new") }}</WMButton
         >
+
+        <WMLinkServiceButton @new-service-linked="addNewServiceToTable" />
+
         <WMAssignOwnerButton
           v-if="can('services.assign')"
           entity="service"
@@ -34,13 +38,6 @@
             clearSelectedServices();
           "
         />
-        <!-- <Divider layout="vertical" />
-        <WMButtonMenu class="m-1" mode="light" :menu-items="menuItems"
-          >הודעה</WMButtonMenu
-        >
-        <WMButton class="m-1 col-6" name="mail-white" icon="mail">
-          {{ $t("buttons.assign") }}
-        </WMButton> -->
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMSidebar
@@ -52,7 +49,7 @@
           <WMFilterForm entity="service" filter-form-name="service" />
         </WMSidebar>
 
-        <!-- <WMStateToggle entity="service" /> -->
+        <WMStateToggle entity="service" />
         <WMOwnerToggle entity="service" />
       </div>
     </div>
@@ -106,7 +103,7 @@
           v-if="slotProps.data.sla"
           :sla="slotProps.data.sla"
           :days-for-closing="slotProps.data.days_for_closing"
-          :state="slotProps.data.state.value"
+          :state="slotProps.data.state?.value"
         >
         </WMSLATag>
       </template>
@@ -121,6 +118,16 @@
       <template v-if="column.type === 'optionset'" #body="slotProps">
         <WMOptionSetValue :option-set="slotProps.data[column.name]" />
       </template>
+      <template v-if="column.type === 'unlink'" #body="slotProps">
+        <WMTempButton
+          type="type-5"
+          @click="handleUnlinkRelatedService(slotProps.data.id)"
+        >
+          <template #customIcon>
+            <div class="d-flex" v-html="LinkOffIcon" />
+          </template>
+        </WMTempButton>
+      </template>
     </Column>
   </DataTable>
 </template>
@@ -130,14 +137,17 @@
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
+import LinkOffIcon from "/icons/link_off.svg?raw";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { t } = useI18n();
 const { can } = usePermissions();
+const dialog = useDialog();
 const utilsStore = useUtilsStore();
-const { getServicesFromApi } = useServices();
+const { getServicesFromApi, unlinkService } = useServices();
 const { getPriorityClasses } = useListUtils();
+const toast = useToast();
 
 // INJECT
 
@@ -176,6 +186,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hideCreateButton: {
+    type: Boolean,
+    default: false,
+  },
   showFilters: {
     type: Boolean,
     default: true,
@@ -183,6 +197,10 @@ const props = defineProps({
   filters: {
     type: Object,
     default: null,
+  },
+  showLinkServiceButton: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -226,6 +244,9 @@ const loadLazyData = async () => {
   if (props.relatedEntity == "asset") {
     params.append("asset", props.relatedEntityId);
   }
+  if (props.relatedEntity == "service") {
+    params.append("related_to", props.relatedEntityId);
+  }
 
   getServicesFromApi(params).then((result) => {
     services.value = result.data;
@@ -243,7 +264,7 @@ const onPage = (event) => {
 };
 
 const rowClass = (data) => {
-  return [{ inactive_row: !data.is_active }];
+  return [{ inactive_row: !data.is_active, is_new: data.is_new }];
 };
 
 const priorityClass = (data) => {
@@ -274,11 +295,42 @@ function openFilterSidebar() {
   isFilterVisible.value = true;
 }
 
+function addNewServiceToTable(newService) {
+  services.value.unshift({ ...newService, is_new: true });
+
+  setTimeout(() => {
+    cleanNewServiceFlag();
+  }, 5000);
+}
+
+function cleanNewServiceFlag() {
+  services.value = services.value.map((service) => {
+    return { ...service, is_new: false };
+  });
+}
+
+const handleUnlinkRelatedService = async (serviceId) => {
+  let result = await dialog.confirmUnlinkRelatedService();
+
+  if (result) {
+    unlinkService(serviceId, props.relatedEntityId).then(() => {
+      loadLazyData();
+
+      toast.info({
+        message: t("service.toast-unlink-service-message"),
+        title: t("service.toast-unlink-service-title"),
+        life: 5000,
+        group: "br",
+      });
+    });
+  }
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
 watchEffect(() => {
-  loadLazyData();
+  loadLazyData(); // listen to changes in the filters
 });
 
 watch(

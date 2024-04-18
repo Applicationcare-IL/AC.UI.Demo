@@ -235,7 +235,7 @@ const handleSendEmail = () => {
   }
 
   sendEmail(params).then(() => {
-    toast.success("Email sent successfully");
+    toast.success({ message: "Email sent successfully" });
     sendEmailDialogVisible.value = false;
   });
 };

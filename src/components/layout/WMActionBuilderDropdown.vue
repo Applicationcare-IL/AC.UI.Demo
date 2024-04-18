@@ -129,7 +129,7 @@ const handleGetAction = (params) => {
 const handlePostAction = (params) => {
   executeAction(params)
     .then(() => {
-      toast.success(t("toast.action-completed-successfully"));
+      toast.success({ message: t("toast.action-completed-successfully") });
       emit("postActionExecuted");
     })
     .catch((error) => {

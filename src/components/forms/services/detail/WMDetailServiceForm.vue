@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="service"
-    class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
+    class="wm-detail-form-container flex flex-auto pt-5 flex-column overflow-auto"
   >
     <div class="service-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
@@ -213,24 +213,38 @@
 
       <WMDetailFormAsset v-if="service.asset" :asset="service.asset" />
 
-      <div class="mt-5">
+      <div class="my-5">
         <WMStepper :steps="stages" :current-step="currentStage" aria-label="Form Steps" />
       </div>
 
-      <div>
-        <WMTasksTable
-          v-if="can('tasks.read')"
-          related-entity="service"
-          :related-entity-id="service.id"
-          :columns="taskColumns"
-          multiselect
-          @task-completed="fetchData"
-        />
-      </div>
+      <Accordion v-if="can('tasks.read')">
+        <AccordionTab :header="$t('task.tasks')">
+          <WMTasksTable
+            related-entity="service"
+            :related-entity-id="service.id"
+            :columns="taskColumns"
+            multiselect
+            @task-completed="fetchData"
+          />
+        </AccordionTab>
+      </Accordion>
 
       <Accordion>
         <AccordionTab :header="$t('journal')">
           <WMJournalDataView entity-type="service" :entity-id="service.id" />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab :header="$t('service.related-services')">
+          <WMServicesTable
+            related-entity="service"
+            :related-entity-id="service.id"
+            :columns="relatedServiceColumns"
+            :hide-create-button="true"
+            :hide-title="true"
+            multiselect
+          />
         </AccordionTab>
       </Accordion>
 
@@ -250,6 +264,8 @@
           <WMAttachmentsTable :entity-id="route.params.id" entity-type="service" />
         </AccordionTab>
       </Accordion>
+
+      <div class="my-2"></div>
 
       <div class="flex flex-row gap-5 flex-wrap mt-5">
         <div class="flex-1 tabs-container">
@@ -318,7 +334,7 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { optionLabelWithLang } = useLanguages();
-const { getServiceDocumentsColumns } = useListUtils();
+const { getServiceDocumentsColumns, getRelatedServiceColumns } = useListUtils();
 const { can } = usePermissions();
 
 const { getTasksFromApi } = useTasks();
@@ -354,6 +370,7 @@ const props = defineProps({
 
 // REFS
 const documentsColumns = ref(getServiceDocumentsColumns());
+const relatedServiceColumns = ref(getRelatedServiceColumns());
 
 const stages = ref([]);
 const currentStage = ref();

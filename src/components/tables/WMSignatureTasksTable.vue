@@ -248,7 +248,7 @@ const clearSelectedTasks = () => {
 const onSign = () => {
   generateSignaturesDocument(utilsStore.selectedElements["project"][0].id)
     .then(() => {
-      toast.success("Document Signed");
+      toast.success({ message: "Document Signed" });
       emit("document-signed");
     })
     .catch((error) => {

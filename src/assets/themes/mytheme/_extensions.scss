@@ -629,6 +629,30 @@ a {
     } 
 }
 
+.existing-related-services-dialog{
+
+    .p-dialog-content{
+        height: 80vh;
+    }
+
+    .p-dialog-header{
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    &__filters{
+        height: calc(80vh - 20px); // 20px equals to the padding of the dialog
+        overflow: scroll;
+        margin-right: -1em;
+        margin-top: -1em;
+    }
+
+    &__table{
+        width: 70%;
+
+    }
+}
 
 // Calendar
 .p-calendar{
@@ -801,6 +825,44 @@ cursor: text !important;
 
 
 // Toast
+.p-toast{
+    width: auto;
+
+    .p-toast-message{
+        margin: 0 1rem;
+    }
+}
+
+.p-toast .p-toast-message.p-toast-message-success {
+    background-color: var(--green-100);
+    border: 1px solid var(--green-300);
+    color: var(--gray-900);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    
+    .p-toast-message-content{
+        display: flex;
+        align-items: center;
+    }
+
+    .p-toast-summary{
+        font-size: 1.1em;
+    }
+
+    .p-toast-detail{
+        margin-top: 4px;
+    }
+
+    svg{
+        width: 20px;
+        height: 20px;
+
+    path{
+        fill: var(--green-400);
+        }
+    }
+}
+
 .p-toast .p-toast-message.p-toast-message-info {
     background-color: var(--blue-100);
     border: 1px solid var(--blue-300);

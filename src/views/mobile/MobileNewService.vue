@@ -211,7 +211,7 @@ const newService = computed(() => {
 const onSubmit = handleSubmit((values) => {
   createService(parseService(values))
     .then(() => {
-      toast.success("Service created");
+      toast.success({ message: "Service created" });
     })
     .catch((error) => {
       console.error(error);

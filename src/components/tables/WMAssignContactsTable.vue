@@ -1,16 +1,16 @@
 <template>
-  <WMAssignContactButton @addContacts="addContacts" />
+  <WMAssignContactButton @add-contacts="addContacts" />
 
   <DataTable
-    lazy
     v-model:selection="selectedContacts"
+    lazy
     :value="contacts"
-    dataKey="contact_id"
-    tableStyle="min-width: 50rem"
+    data-key="contact_id"
+    table-style="min-width: 50rem"
     scrollable
     :rows="props.rows"
+    :total-records="totalRecords"
     @page="onPage($event)"
-    :totalRecords="totalRecords"
     @update:selection="onSelectionChanged"
   >
     <Column
@@ -31,14 +31,14 @@
       <template v-if="column.type === 'role_project'" #body="slotProps">
         <Dropdown
           v-if="editMode[slotProps.index]"
-          :options="optionSets[column.optionSet]"
-          :optionLabel="optionLabelWithLang"
-          optionValue="id"
-          class="w-full p-0"
           v-model="slotProps.data.role_project"
+          :options="optionSets[column.optionSet]"
+          :option-label="optionLabelWithLang"
+          option-value="id"
+          class="w-full p-0"
         />
         <div v-else>
-          <WMOptionSetValue :optionSet="slotProps.data.role_project" />
+          <WMOptionSetValue :option-set="slotProps.data.role_project" />
         </div>
       </template>
       <template v-if="column.type === 'actions'" #body="slotProps">
@@ -333,7 +333,7 @@ const unlinkContact = (contactId) => {
     unassignContactFromCustomer(customer.value.id, contactId)
       .then(() => {
         loadLazyData();
-        toast.success("Contact Successfully unlinked");
+        toast.success({ message: "Contact Successfully unlinked" });
       })
       .catch(() => {
         toast.error("Contact unlink Failed");
@@ -344,7 +344,7 @@ const unlinkContact = (contactId) => {
     unassignContactFromProject(props.projectId, contactId)
       .then(() => {
         loadLazyData();
-        toast.success("Contact Successfully unlinked");
+        toast.success({ message: "Contact Successfully unlinked" });
       })
       .catch(() => {
         toast.error("Contact unlink Failed");
@@ -371,7 +371,7 @@ const saveRow = (contact) => {
     assignContactToCustomer(customer.value.id, contactParams)
       .then(() => {
         loadLazyData();
-        toast.success("Contact Successfully updated");
+        toast.success({ message: "Contact Successfully updated" });
       })
       .catch(() => {
         toast.error("Contact assign Failed");
@@ -387,7 +387,7 @@ const saveRow = (contact) => {
     assignContactToProject(props.projectId, contactParams)
       .then(() => {
         loadLazyData();
-        toast.success("Contact Successfully updated");
+        toast.success({ message: "Contact Successfully updated" });
       })
       .catch(() => {
         toast.error("Contact assign Failed");

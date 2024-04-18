@@ -169,6 +169,23 @@ export function useDialog() {
     });
   };
 
+  const confirmUnlinkRelatedService = () => {
+    return new Promise((resolve) => {
+      confirm.require({
+        message: i18n.t("service.unlink-related-service-dialog-message"),
+        header: i18n.t("service.unlink-related-service-dialog-header"),
+        acceptLabel: i18n.t("service.unlink-service"),
+        rejectLabel: i18n.t("buttons.cancel"),
+        accept: () => {
+          resolve(true);
+        },
+        reject: () => {
+          resolve(false);
+        },
+      });
+    });
+  };
+
   return {
     confirmNewCustomer,
     confirmNewContact,
@@ -179,6 +196,7 @@ export function useDialog() {
     confirmCompleteTasks,
     confirmCancelDialog,
     confirmCompleteMilestone,
+    confirmUnlinkRelatedService,
   };
 }
 

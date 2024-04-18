@@ -37,6 +37,14 @@
         </template>
       </WMTempButton>
     </Variant>
+
+    <Variant title="Icon only">
+      <WMTempButton :is-active="state.active" type="type-4">
+        <template #customIcon>
+          <div class="d-flex" v-html="FilterIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
   </Story>
 </template>
 <script setup>

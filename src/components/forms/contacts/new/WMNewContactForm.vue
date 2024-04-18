@@ -97,7 +97,12 @@
           :label="$t('landline') + ':'"
           width="88"
         />
-        <WMInput name="fax" type="input-text" :label="$t('fax') + ':'" width="88" />
+        <WMInput
+          name="fax"
+          type="input-text"
+          :label="$t('fax') + ':'"
+          width="88"
+        />
       </div>
 
       <div class="wm-form-row gap-5">
@@ -125,7 +130,11 @@
       </div>
     </div>
 
-    <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSubmit()"
+      @cancel-form="onCancel()"
+    />
   </div>
 </template>
 
@@ -204,7 +213,7 @@ const onSubmit = handleSubmit((values) => {
 
       closeSidebar();
 
-      toast.success("Contact successfully created");
+      toast.success({ message: "Contact successfully created" });
     })
     .catch((error) => {
       console.error(error);

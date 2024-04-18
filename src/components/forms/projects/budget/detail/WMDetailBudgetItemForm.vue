@@ -208,7 +208,7 @@ const onSave = handleSubmit((values) => {
     parseUpdateBudgetItem(values)
   )
     .then(() => {
-      toast.success(t("toast.budget-item-updated"));
+      toast.success({ message: t("toast.budget-item-updated") });
       resetForm({ values: values });
       fetchData();
     })

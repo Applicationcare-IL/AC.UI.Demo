@@ -1,8 +1,5 @@
 <template>
-  <Button
-    class="wm-button gap-2 align-items-center justify-content-center"
-    :class="classes"
-  >
+  <Button class="wm-button align-items-center justify-content-center" :class="classes">
     <i v-if="icon" class="pi" :class="icon"></i>
     <slot name="customIcon"></slot>
     <span>{{ text }}</span>
@@ -23,7 +20,8 @@ const props = defineProps({
 const classes = computed(() => {
   return `${props.type}
   ${props.isActive ? "is-active" : ""}
-  ${props.isDisabled ? "is-disabled" : ""}`;
+  ${props.isDisabled ? "is-disabled" : ""}
+  ${props.text ? "gap-2" : "p-button-icon-only"}`;
 });
 </script>
 
@@ -125,6 +123,7 @@ const classes = computed(() => {
 
   &:hover {
     background-color: var(--green-500);
+    color: white;
   }
 
   &:focus {

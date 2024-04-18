@@ -162,22 +162,20 @@
             </template>
 
             <template #content>
-              <div class="flex flex-column gap-3">
+              <div class="flex flex-column gap-3 font-bold">
                 <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-teal-200 text-teal-900"
+                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
                 >
-                  <span class="font-size-20 font-weight-light">No breach</span>
-                  <span class="font-size-24 font-weight-bold">{{
+                  <span class="font-size-20">No breach</span>
+                  <span class="font-size-24">{{
                     customer.open_services - customer.breached_services
                   }}</span>
                 </div>
                 <div
                   class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900"
                 >
-                  <span class="font-size-20 font-weight-light">Breach</span>
-                  <span class="font-size-24 font-weight-bold">{{
-                    customer.breached_services
-                  }}</span>
+                  <span class="font-size-20">Breach</span>
+                  <span class="font-size-24">{{ customer.breached_services }}</span>
                 </div>
               </div>
             </template>
@@ -189,20 +187,20 @@
               {{ $t("task.open") }} : {{ customer.open_tasks }}</template
             >
             <template #content>
-              <div class="flex flex-column gap-3">
+              <div class="flex flex-column gap-3 font-bold">
                 <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-teal-200 text-teal-900"
+                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
                 >
-                  <span class="font-size-20 font-weight-light">No breach</span>
-                  <span class="font-size-24 font-weight-bold">{{
+                  <span class="font-size-20">No breach</span>
+                  <span class="font-size-24">{{
                     customer.open_tasks - customer.breached_tasks
                   }}</span>
                 </div>
                 <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-red-50 text-red-600"
+                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-red-100 text-red-700"
                 >
-                  <span class="font-size-20 font-weight-light">Breach</span>
-                  <span class="font-size-24 font-weight-bold">
+                  <span class="font-size-20">Breach</span>
+                  <span class="font-size-24">
                     {{ customer.breached_tasks }}
                   </span>
                 </div>

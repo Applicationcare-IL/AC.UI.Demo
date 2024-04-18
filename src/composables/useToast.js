@@ -5,12 +5,13 @@ export function useToast() {
   const toast = useToastPrime();
   const i18n = useI18n();
 
-  const success = (message) => {
+  const success = ({ title, message, life, group }) => {
     toast.add({
       severity: "success",
-      summary: i18n.t("toast.success"),
+      summary: title ? title : i18n.t("toast.success"),
       detail: message,
-      life: 3000,
+      life: life ? life : 3000,
+      group: group,
     });
   };
 
