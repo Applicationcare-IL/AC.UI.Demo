@@ -77,11 +77,7 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selection-mode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -122,6 +118,16 @@
       <template v-if="column.type === 'optionset'" #body="slotProps">
         <WMOptionSetValue :option-set="slotProps.data[column.name]" />
       </template>
+      <template v-if="column.type === 'unlink'" #body="slotProps">
+        <WMTempButton
+          type="type-5"
+          @click="handleUnlinkRelatedService(slotProps.data.id)"
+        >
+          <template #customIcon>
+            <div class="d-flex" v-html="LinkOffIcon" />
+          </template>
+        </WMTempButton>
+      </template>
     </Column>
   </DataTable>
 </template>
@@ -131,11 +137,13 @@
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
+import LinkOffIcon from "/icons/link_off.svg?raw";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { t } = useI18n();
 const { can } = usePermissions();
+const dialog = useDialog();
 const utilsStore = useUtilsStore();
 const { getServicesFromApi } = useServices();
 const { getPriorityClasses } = useListUtils();
@@ -299,6 +307,17 @@ function cleanNewServiceFlag() {
     return { ...service, is_new: false };
   });
 }
+
+const handleUnlinkRelatedService = async (serviceId) => {
+  let result = await dialog.confirmUnlinkRelatedService();
+
+  if (result) {
+    console.log("Unlinking service", serviceId);
+    // unlinkService(serviceId, props.relatedEntityId).then(() => {
+    //   loadLazyData();
+    // });
+  }
+};
 
 // PROVIDE, EXPOSE
 

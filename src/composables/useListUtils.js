@@ -390,6 +390,11 @@ export function useListUtils() {
   const getRelatedServiceColumns = () => {
     return [
       {
+        name: "unlink",
+        type: "unlink",
+        header: "‎",
+      },
+      {
         name: "service_number",
         type: "link",
         header: "service.number",
