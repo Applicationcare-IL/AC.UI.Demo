@@ -172,6 +172,7 @@ export function useServices() {
       request3: service.request_3,
       duration: service.process.sla.days_from_opening_date,
       owner: service.owner,
+      relationship: service.relationship,
       staff: "",
       sla: service.process.sla.sla,
       priority: service.priority,

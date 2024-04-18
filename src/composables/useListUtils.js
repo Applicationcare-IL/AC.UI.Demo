@@ -402,6 +402,11 @@ export function useListUtils() {
       },
       { name: "open_date", type: "text", header: "service.open-date" },
       { name: "due_date", type: "text", header: "service.due-date" },
+      {
+        name: "relationship",
+        type: "optionset",
+        header: "service.relation-type",
+      },
       { name: "area", type: "optionset", header: "classification-1" },
       { name: "type", type: "optionset", header: "classification-2" },
       { name: "request1", type: "optionset", header: "classification-3" },
