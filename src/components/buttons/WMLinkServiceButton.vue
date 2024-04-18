@@ -113,13 +113,6 @@ const handleLinkService = async (relatedService) => {
   emit("newServiceLinked", relatedService);
 };
 
-toast.success({
-  message: t("service.toast-services-new-related-message"),
-  title: t("service.toast-services-new-related-title"),
-  life: 5000,
-  group: "br",
-});
-
 // PROVIDE, EXPOSE
 
 // WATCHERS
