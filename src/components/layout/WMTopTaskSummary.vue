@@ -125,6 +125,8 @@ const followUpFilters = ref();
 const { getTaskSummaryColumns } = useListUtils();
 
 const taskSummaryColumns = ref(getTaskSummaryColumns());
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore();
 
 const fillTasksCounters = async () => {
   const activeStateId = await optionSetsStore.getValueId("state", "active");
@@ -140,6 +142,7 @@ const fillTasksCounters = async () => {
     task_type: [...reminderIds.value],
     state: activeStateId,
     order_by: "due_date",
+    employee: authStore.user.id,
   };
 
   const reminderParams = new URLSearchParams({
@@ -159,6 +162,7 @@ const fillTasksCounters = async () => {
     task_type: [...followUpIds.value],
     state: activeStateId,
     order_by: "due_date",
+    employee: authStore.user.id,
   };
 
   const followUpParams = new URLSearchParams({
