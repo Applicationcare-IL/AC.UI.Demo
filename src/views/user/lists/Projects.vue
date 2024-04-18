@@ -6,6 +6,7 @@
       loadLazyData();
       clearSelectedProjects();
     "
+    @export="handleExportProjects"
   />
 
   <WMSidebar
@@ -41,11 +42,7 @@
       @update:selection="onSelectionChanged"
     >
       <Column expander style="width: 0px"> </Column>
-      <Column
-        style="width: 0px"
-        class="th-selection"
-        selection-mode="multiple"
-      ></Column>
+      <Column style="width: 0px" class="th-selection" selection-mode="multiple"></Column>
       <Column
         field="project_number"
         :header="$t('project.project_number')"
@@ -75,20 +72,12 @@
           </div>
         </template>
       </Column>
-      <Column
-        field="city_data"
-        :header="$t('project.city_data')"
-        style="width: 30px"
-      >
+      <Column field="city_data" :header="$t('project.city_data')" style="width: 30px">
         <template #body="slotProps">
           {{ formatCityData(slotProps.data.location) }}
         </template>
       </Column>
-      <Column
-        field="address"
-        :header="$t('project.address')"
-        style="width: 30px"
-      >
+      <Column field="address" :header="$t('project.address')" style="width: 30px">
         <template #body="slotProps">
           <div class="overflow-x-auto">
             {{ formatAddress(slotProps.data.location) }}
@@ -192,7 +181,7 @@ useHead({
   title: "Projects",
 });
 
-const { getProjectsFromApi } = useProjects();
+const { getProjectsFromApi, exportProjects } = useProjects();
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
 const { formatAddress, formatCityData } = useUtils();
 
@@ -278,6 +267,15 @@ function closeSidebar() {
 function openSidebar() {
   isVisible.value = true;
 }
+const { handleExport } = useExports();
+
+const handleExportProjects = async () => {
+  handleExport({
+    filters: utilsStore.filters["project"],
+    searchValue: searchValue.value,
+    exportFunction: exportProjects,
+  });
+};
 
 watchEffect(() => {
   loadLazyData();

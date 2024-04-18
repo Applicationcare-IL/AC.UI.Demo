@@ -54,8 +54,7 @@
 
           <WMAssignOwnerButton
             v-if="
-              can(utilsStore.pluralEntity + '.assign') &&
-              utilsStore.entity != 'asset'
+              can(utilsStore.pluralEntity + '.assign') && utilsStore.entity != 'asset'
             "
             :entity="utilsStore.entity"
             @owner-assigned="$emit('refreshTable')"
@@ -140,13 +139,7 @@ const { getScopes } = useActionBuilder();
 // INJECT
 
 // PROPS, EMITS
-defineEmits([
-  "new",
-  "taskCompleted",
-  "refreshTable",
-  "assetDeactivated",
-  "export",
-]);
+defineEmits(["new", "taskCompleted", "refreshTable", "assetDeactivated", "export"]);
 
 const props = defineProps({
   activeButtons: Boolean,
@@ -182,7 +175,7 @@ function openFilterSidebar() {
   isFilterVisible.value = true;
 }
 
-const enetitiesAvailableForExport = ["task", "customer", "contact", "service"];
+const enetitiesAvailableForExport = ["task", "customer", "contact", "service", "project"];
 
 const showExportButton = computed(() => {
   return (

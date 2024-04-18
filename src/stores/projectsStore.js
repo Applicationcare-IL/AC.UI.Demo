@@ -321,5 +321,15 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
+    exportProjects() {
+      return axiosConfig
+        .get("/projects/export")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

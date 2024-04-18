@@ -77,6 +77,10 @@ export function useProjects() {
     return await projectsStore.deleteProjectCustomer(projectId, data);
   };
 
+  const exportProjects = async (params) => {
+    return await projectsStore.exportProjects(params);
+  };
+
   // BUDGETS
   const getProjectBudget = async (projectId) => {
     const response = await projectsStore.getProjectBudget(projectId);
@@ -543,6 +547,7 @@ export function useProjects() {
     createMilestone,
     updateProjectMilestone,
     completeMilestone,
+    exportProjects,
     // UTILITIES
     parseProject,
     parseBudget,
