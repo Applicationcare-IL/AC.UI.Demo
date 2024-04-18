@@ -386,7 +386,7 @@ const saveRow = (customer) => {
 
   createProjectCustomer(props.projectId, parsedProjectCustomer)
     .then(() => {
-      toast.success("Project customer successfully updated");
+      toast.success({ message: "Project customer successfully updated" });
     })
     .catch(() => {
       toast.error("Project customer assign failed");
@@ -401,7 +401,7 @@ const editRow = (customer, index) => {
 
   updateProjectCustomer(props.projectId, parsedProjectCustomer)
     .then(() => {
-      toast.success("Project customer successfully updated");
+      toast.success({ message: "Project customer successfully updated" });
       editMode.value[index] = false;
       // loadLazyData();
     })
@@ -416,7 +416,7 @@ const handleUnlinkProjectCustomer = (row) => {
   deleteProjectCustomer(props.projectId, customerId, props.serviceArea.id)
     .then(() => {
       customers.value = customers.value.filter((c) => c.id !== customerId);
-      toast.success("Project customer successfully unlinked");
+      toast.success({ message: "Project customer successfully unlinked" });
       loadLazyData();
     })
     .catch(() => {

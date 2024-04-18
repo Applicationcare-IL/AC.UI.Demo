@@ -63,7 +63,11 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
+    <Column
+      v-if="multiselect"
+      style="width: 40px"
+      selection-mode="multiple"
+    ></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -83,7 +87,9 @@
           >
         </template>
         <template v-if="column.type === 'star'">
-          <div @click="editMode[slotProps.index] && onStarClicked(slotProps.data)">
+          <div
+            @click="editMode[slotProps.index] && onStarClicked(slotProps.data)"
+          >
             <img
               v-if="isMainContact(slotProps.data)"
               src="/icons/star.svg"
@@ -125,13 +131,17 @@
         <template v-if="column.type === 'actions'">
           <div class="flex flex-row gap-2">
             <WMButton
-              v-if="column.buttons?.includes('edit') && !editMode[slotProps.index]"
+              v-if="
+                column.buttons?.includes('edit') && !editMode[slotProps.index]
+              "
               name="edit"
               icon="edit"
               @click="editMode[slotProps.index] = true"
             />
             <WMButton
-              v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
+              v-if="
+                column.buttons?.includes('edit') && editMode[slotProps.index]
+              "
               name="save"
               icon="save"
               class="in_table"
@@ -356,7 +366,9 @@ const addContacts = (addedContacts) => {
 };
 
 const isMainContact = (contact) => {
-  return customer.value?.main_contact?.id == contact.id || contact.main === true;
+  return (
+    customer.value?.main_contact?.id == contact.id || contact.main === true
+  );
 };
 
 const alertCellConditionalStyle = (data) => {
@@ -410,7 +422,7 @@ const unlinkContact = (contactId) => {
     unassignContactFromCustomer(customer.value.id, contactId)
       .then(() => {
         loadLazyData();
-        toast.success("Contact Successfully unlinked");
+        toast.success({ message: "Contact Successfully unlinked" });
       })
       .catch(() => {
         toast.error("Contact unlink Failed");
@@ -421,7 +433,7 @@ const unlinkContact = (contactId) => {
     unassignContactFromProject(props.projectId, contactId)
       .then(() => {
         loadLazyData();
-        toast.success("Contact Successfully unlinked");
+        toast.success({ message: "Contact Successfully unlinked" });
       })
       .catch(() => {
         toast.error("Contact unlink Failed");
@@ -435,7 +447,9 @@ const onSelectionChanged = () => {
 
 const saveRow = (contact) => {
   const roleValue =
-    props.relatedEntity === "customer" ? contact.role?.id : contact.role_project?.id;
+    props.relatedEntity === "customer"
+      ? contact.role?.id
+      : contact.role_project?.id;
 
   if (props.relatedEntity === "customer") {
     const contactParams = {
@@ -446,7 +460,7 @@ const saveRow = (contact) => {
     assignContactToCustomer(customer.value.id, contactParams)
       .then(() => {
         // loadLazyData();
-        toast.success("Contact Successfully updated");
+        toast.success({ message: "Contact Successfully updated" });
       })
       .catch(() => {
         toast.error("Contact assign Failed");
@@ -462,7 +476,7 @@ const saveRow = (contact) => {
     assignContactToProject(props.projectId, contactParams)
       .then(() => {
         // loadLazyData();
-        toast.success("Contact Successfully updated");
+        toast.success({ message: "Contact Successfully updated" });
       })
       .catch(() => {
         toast.error("Contact assign Failed");
@@ -497,7 +511,7 @@ const handleTakeCall = (contact) => {
   takeCall(props.taskCall, params).then(() => {
     emit("closeDialog");
 
-    toast.success("Call taken successfully");
+    toast.success({ message: "Call taken successfully" });
 
     router.push({
       name: "contactDetail",
@@ -563,9 +577,8 @@ const optionSets = ref([]);
 const loadOptionSets = async () => {
   props.columns.forEach(async (column) => {
     if (column.optionSet) {
-      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
-        column.optionSet
-      );
+      optionSets.value[column.optionSet] =
+        await optionSetsStore.getOptionSetValues(column.optionSet);
     }
   });
 };

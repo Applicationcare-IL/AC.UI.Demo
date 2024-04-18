@@ -359,7 +359,7 @@ const saveRow = (customer) => {
     assignContactToCustomer(customer.id, contactParams)
       .then(() => {
         // loadLazyData();
-        toast.success("Contact successfully linked");
+        toast.success({ message: "Contact successfully linked" });
       })
       .catch(() => {
         toast.error("Contact link failed");
@@ -373,7 +373,7 @@ const saveRow = (customer) => {
     assignAssetToCustomer(customer.id, assetParams)
       .then(() => {
         // loadLazyData();
-        toast.success("Asset successfully linked");
+        toast.success({ message: "Asset successfully linked" });
       })
       .catch(() => {
         toast.error("Asset link failed");
@@ -386,7 +386,7 @@ const unlinkCustomer = (customerId) => {
     unassignContactFromCustomer(customerId, props.relatedEntityId)
       .then(() => {
         loadLazyData();
-        toast.success("Contact Successfully unlinked");
+        toast.success({ message: "Contact Successfully unlinked" });
       })
       .catch(() => {
         toast.error("Contact unlink Failed");
@@ -396,7 +396,7 @@ const unlinkCustomer = (customerId) => {
     unassignAssetFromCustomer(customerId, props.relatedEntityId)
       .then(() => {
         loadLazyData();
-        toast.success("Asset Successfully unlinked");
+        toast.success({ message: "Asset Successfully unlinked" });
       })
       .catch(() => {
         toast.error("Asset unlink Failed");
@@ -420,7 +420,9 @@ const onStarClicked = (customerId) => {
 
     assignContactToCustomer(customerId, contactParams)
       .then(() => {
-        toast.success("Contact successfully marked as main contact");
+        toast.success({
+          message: "Contact successfully marked as main contact",
+        });
         // loadLazyData();
       })
       .catch(() => {});

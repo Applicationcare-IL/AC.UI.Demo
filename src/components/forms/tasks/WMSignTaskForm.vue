@@ -107,7 +107,7 @@ const onSave = handleSubmit((values) => {
   signTask(props.signatureId, data)
     .then(() => {
       emit("taskSigned");
-      toast.success("Task signed successfully");
+      toast.success({ message: "Task signed successfully" });
     })
     .catch((error) => {
       console.error(error);

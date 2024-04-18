@@ -266,7 +266,7 @@ const onSave = handleSubmit((values) => {
   ) {
     updateProjectConfig(route.params.id, parseUpdateProjectConfig(values))
       .then(() => {
-        toast.success("Project configuration updated");
+        toast.success({ message: "Project configuration updated" });
         fetchData();
       })
       .catch((error) => {

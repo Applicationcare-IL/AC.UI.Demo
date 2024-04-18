@@ -255,7 +255,7 @@ const getServiceInfo = (serviceId) => {
 const onSave = handleSubmit((values) => {
   updateTask(route.params.id, parseUpdateTask(values))
     .then(() => {
-      toast.success("Notes updated successfully!");
+      toast.success({ message: "Notes updated successfully!" });
     })
     .catch((error) => {
       console.error(error);

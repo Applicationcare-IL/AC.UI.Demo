@@ -264,7 +264,7 @@ const onSubmit = handleSubmit((values) => {
 
       closeSidebar();
 
-      toast.success("Customer successfully created");
+      toast.success({ message: "Customer successfully created" });
     })
     .catch((error) => {
       console.error(error);
