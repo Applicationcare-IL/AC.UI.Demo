@@ -40,27 +40,31 @@
   <WMExistingRelatedServicesDialog
     v-if="showExistingRelatedServicesDialog"
     v-model="showExistingRelatedServicesDialog"
+    @link-service="handleLinkService"
   />
 </template>
 
 <script setup>
 // IMPORTS
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import TreeIcon from "/icons/account_tree.svg?raw";
 import { useOptionSetsStore } from "@/stores/optionSets";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { t } = useI18n();
 const { optionLabelWithLang } = useLanguages();
 const optionSetsStore = useOptionSetsStore();
-// const toast = useToast();
-// const { linkServices } = useServices();
+const toast = useToast();
+const { linkService } = useServices();
+const utilsStore = useUtilsStore();
 
 // INJECT
 
 // PROPS, EMITS
+const emit = defineEmits(["newServiceLinked"]);
 
 // REFS
 const selectedRelationType = ref();
@@ -70,12 +74,15 @@ const showExistingRelatedServicesDialog = ref(false);
 
 const options = [
   { label: t("service.link-existing-service"), value: "existing" },
-  { label: t("service.link-new-service"), value: "new" },
+  // { label: t("service.link-new-service"), value: "new" },
 ];
 
 const selectedOption = ref(options[0]);
 
 // COMPUTED
+const currentServiceId = computed(() => {
+  return utilsStore.selectedElements[utilsStore.entity][0].id;
+});
 
 // COMPONENT METHODS
 const toggle = (event) => {
@@ -84,10 +91,17 @@ const toggle = (event) => {
 
 const handleLinkServices = async () => {
   if (selectedOption.value.value === "existing") {
-    console.log("to true");
     showExistingRelatedServicesDialog.value = true;
     return;
   }
+};
+
+const handleLinkService = async (relatedService) => {
+  await linkService(
+    currentServiceId.value,
+    relatedService.id,
+    selectedRelationType.value.id
+  );
 
   // toast.info({
   //   message: t("service.services-linked-message"),
@@ -95,7 +109,16 @@ const handleLinkServices = async () => {
   //   life: 5000,
   //   group: "br",
   // });
+
+  emit("newServiceLinked", relatedService);
 };
+
+toast.info({
+  message: t("service.services-linked-message"),
+  title: t("service.services-linked-title"),
+  life: 5000,
+  group: "br",
+});
 
 // PROVIDE, EXPOSE
 

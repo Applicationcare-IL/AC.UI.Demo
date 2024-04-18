@@ -28,7 +28,7 @@
           >{{ t("new") }}</WMButton
         >
 
-        <!-- <WMLinkServiceButton /> -->
+        <WMLinkServiceButton @new-service-linked="addNewServiceToTable" />
 
         <WMAssignOwnerButton
           v-if="can('services.assign')"
@@ -255,7 +255,7 @@ const onPage = (event) => {
 };
 
 const rowClass = (data) => {
-  return [{ inactive_row: !data.is_active }];
+  return [{ inactive_row: !data.is_active, is_new: data.is_new }];
 };
 
 const priorityClass = (data) => {
@@ -284,6 +284,20 @@ function closeFilterSidebar() {
 
 function openFilterSidebar() {
   isFilterVisible.value = true;
+}
+
+function addNewServiceToTable(newService) {
+  services.value.unshift({ ...newService, is_new: true });
+
+  setTimeout(() => {
+    cleanNewServiceFlag();
+  }, 5000);
+}
+
+function cleanNewServiceFlag() {
+  services.value = services.value.map((service) => {
+    return { ...service, is_new: false };
+  });
 }
 
 // PROVIDE, EXPOSE

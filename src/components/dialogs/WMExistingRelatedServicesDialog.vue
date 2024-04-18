@@ -42,8 +42,9 @@ import { ref } from "vue";
 import { useLayout } from "@/layout/composables/layout";
 
 const { layoutConfig } = useLayout();
-
 const modelValue = defineModel();
+
+const emit = defineEmits(["linkService"]);
 
 const selectedService = ref();
 
@@ -56,6 +57,7 @@ const closeDialog = () => {
 };
 
 const handleLinkService = () => {
-  console.log("Linking services", selectedService.value);
+  emit("linkService", selectedService.value);
+  closeDialog();
 };
 </script>

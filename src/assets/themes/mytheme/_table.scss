@@ -43,6 +43,16 @@ td {
     background-color: var(--gray-300);
 }
 
+.p-datatable .p-datatable-tbody .is_new,
+.p-datatable .p-datatable-tbody>tr.p-highlight.is_new,
+.p-datatable .p-datatable-tbody>tr.p-highlight.is_new>td {
+    background-color: var(--orange-50);
+}
+
+
+
+
+
 
 
 .p-datatable .p-datatable-tbody>tr {

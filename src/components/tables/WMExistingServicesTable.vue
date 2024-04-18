@@ -19,6 +19,7 @@
     paginator
     lazy
     :rows="rows"
+    :row-class="rowClass"
     :total-records="totalRecords"
     :class="`p-datatable-${tableClass}`"
     @page="onPage($event)"
@@ -128,6 +129,10 @@ const loadLazyData = async () => {
     services.value = result.data;
     totalRecords.value = result.totalRecords;
   });
+};
+
+const rowClass = (data) => {
+  return [{ inactive_row: !data.is_active }];
 };
 
 const priorityClass = (data) => {
