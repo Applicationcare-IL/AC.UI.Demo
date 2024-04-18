@@ -103,19 +103,19 @@ const handleLinkService = async (relatedService) => {
     selectedRelationType.value.id
   );
 
-  // toast.info({
-  //   message: t("service.services-linked-message"),
-  //   title: t("service.services-linked-title"),
-  //   life: 5000,
-  //   group: "br",
-  // });
+  toast.success({
+    message: t("service.toast-services-new-related-message"),
+    title: t("service.toast-services-new-related-title"),
+    life: 5000,
+    group: "br",
+  });
 
   emit("newServiceLinked", relatedService);
 };
 
-toast.info({
-  message: t("service.services-linked-message"),
-  title: t("service.services-linked-title"),
+toast.success({
+  message: t("service.toast-services-new-related-message"),
+  title: t("service.toast-services-new-related-title"),
   life: 5000,
   group: "br",
 });

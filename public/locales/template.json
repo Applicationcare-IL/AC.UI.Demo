@@ -224,6 +224,8 @@
     "toast-error": "An error occurred",
     "toast-services-linked-message": "They will appear in the related services grid for each service.",
     "toast-services-linked-title": "Services linked",
+    "toast-services-new-related-message": "Service added to related services list",
+    "toast-services-new-related-title": "New related service",
     "relation-type": "Relation type",
     "related-services": "Related services",
     "link-new-service": "New service",
