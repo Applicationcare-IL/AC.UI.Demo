@@ -1,9 +1,5 @@
 <template>
-  <WMTempButton
-    :text="$t('buttons.link-service')"
-    type="type-4"
-    @click="toggle"
-  >
+  <WMTempButton :text="$t('buttons.link-service')" type="type-4" @click="toggle">
     <template #customIcon>
       <div class="d-flex" v-html="TreeIcon" />
     </template>
@@ -42,6 +38,23 @@
     v-model="showExistingRelatedServicesDialog"
     @link-service="handleLinkService"
   />
+
+  <WMSidebar
+    :visible="isNewRelatedServiceSidebarVisible"
+    name="newRelatedService"
+    @close-sidebar="closeNewRelatedServiceSidebar"
+    @open-sidebar="openNewRelatedServiceSidebar"
+  >
+    <div class="m-3">
+      <div class="flex flex-row justify-content-between align-content-center">
+        <h1 class="h1 mb-0">
+          {{ $t("service.new-related-service") }}
+        </h1>
+      </div>
+      <Divider />
+    </div>
+    <WMNewServiceForm :is-sidebar="true" @close-sidebar="closeNewRelatedServiceSidebar" />
+  </WMSidebar>
 </template>
 
 <script setup>
@@ -71,6 +84,7 @@ const selectedRelationType = ref();
 const relationTypes = ref();
 const op = ref();
 const showExistingRelatedServicesDialog = ref(false);
+const isNewRelatedServiceSidebarVisible = ref(false);
 
 const options = [
   { label: t("service.link-existing-service"), value: "existing" },
@@ -94,6 +108,8 @@ const handleLinkServices = async () => {
     showExistingRelatedServicesDialog.value = true;
     return;
   }
+
+  openNewRelatedServiceSidebar();
 };
 
 const handleLinkService = async (relatedService) => {
@@ -112,6 +128,14 @@ const handleLinkService = async (relatedService) => {
 
   emit("newServiceLinked", relatedService);
 };
+
+function closeNewRelatedServiceSidebar() {
+  isNewRelatedServiceSidebarVisible.value = false;
+}
+
+function openNewRelatedServiceSidebar() {
+  isNewRelatedServiceSidebarVisible.value = true;
+}
 
 // PROVIDE, EXPOSE
 

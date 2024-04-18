@@ -231,7 +231,8 @@
     "link-new-service": "New service",
     "link-existing-service": "Existing service",
     "select-an-aexisting-service": "Select an existing service",
-    "what-to-link": "What to link"
+    "what-to-link": "What to link",
+    "new-related-service": "New related service"
   },
   "asset": {
     "system_id": "System ID",
