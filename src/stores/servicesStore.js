@@ -130,5 +130,16 @@ export const useServicesStore = defineStore("services", {
           throw error;
         });
     },
+    unlinkService(params) {
+      return axiosConfig
+        .post("/services/unlink", params)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });

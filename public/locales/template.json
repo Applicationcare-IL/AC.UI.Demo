@@ -235,7 +235,9 @@
     "new-related-service": "New related service",
     "unlink-service": "Unlink service",
     "unlink-related-service-dialog-header": "Unlink related service?",
-    "unlink-related-service-dialog-message": "It will no longer be linked to this service or appear in this list."
+    "unlink-related-service-dialog-message": "It will no longer be linked to this service or appear in this list.",
+    "toast-unlink-service-title": "Related service removed from list",
+    "toast-unlink-service-message": "List was updated"
   },
   "asset": {
     "system_id": "System ID",

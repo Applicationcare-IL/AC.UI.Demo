@@ -83,6 +83,13 @@ export function useServices() {
     });
   };
 
+  const unlinkService = async (parentServiceId, relatedServiceId) => {
+    return await servicesStore.unlinkService({
+      parent_service_id: parentServiceId,
+      related_service_id: relatedServiceId,
+    });
+  };
+
   // UTILITIES
   const parseService = (service) => {
     return {
@@ -259,6 +266,7 @@ export function useServices() {
     getServicesSLATableData,
     linkServices,
     linkService,
+    unlinkService,
     // UTILITIES
     parseService,
     parseMobileService,

@@ -145,8 +145,9 @@ const { t } = useI18n();
 const { can } = usePermissions();
 const dialog = useDialog();
 const utilsStore = useUtilsStore();
-const { getServicesFromApi } = useServices();
+const { getServicesFromApi, unlinkService } = useServices();
 const { getPriorityClasses } = useListUtils();
+const toast = useToast();
 
 // INJECT
 
@@ -312,10 +313,16 @@ const handleUnlinkRelatedService = async (serviceId) => {
   let result = await dialog.confirmUnlinkRelatedService();
 
   if (result) {
-    console.log("Unlinking service", serviceId);
-    // unlinkService(serviceId, props.relatedEntityId).then(() => {
-    //   loadLazyData();
-    // });
+    unlinkService(serviceId, props.relatedEntityId).then(() => {
+      loadLazyData();
+
+      toast.info({
+        message: t("service.toast-unlink-service-message"),
+        title: t("service.toast-unlink-service-title"),
+        life: 5000,
+        group: "br",
+      });
+    });
   }
 };
 
