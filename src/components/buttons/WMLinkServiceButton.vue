@@ -53,7 +53,12 @@
       </div>
       <Divider />
     </div>
-    <WMNewServiceForm :is-sidebar="true" @close-sidebar="closeNewRelatedServiceSidebar" />
+    <WMNewServiceForm
+      :is-sidebar="true"
+      :is-related-service="true"
+      @close-sidebar="closeNewRelatedServiceSidebar"
+      @new-service-created="handleLinkNewService"
+    />
   </WMSidebar>
 </template>
 
@@ -71,7 +76,7 @@ const { t } = useI18n();
 const { optionLabelWithLang } = useLanguages();
 const optionSetsStore = useOptionSetsStore();
 const toast = useToast();
-const { linkService } = useServices();
+const { linkService, getServiceFromApi } = useServices();
 const utilsStore = useUtilsStore();
 
 // INJECT
@@ -88,7 +93,7 @@ const isNewRelatedServiceSidebarVisible = ref(false);
 
 const options = [
   { label: t("service.link-existing-service"), value: "existing" },
-  // { label: t("service.link-new-service"), value: "new" },
+  { label: t("service.link-new-service"), value: "new" },
 ];
 
 const selectedOption = ref(options[0]);
@@ -110,6 +115,16 @@ const handleLinkServices = async () => {
   }
 
   openNewRelatedServiceSidebar();
+  op.value.hide();
+};
+
+const showLinkServiceToast = () => {
+  toast.success({
+    message: t("service.toast-services-new-related-message"),
+    title: t("service.toast-services-new-related-title"),
+    life: 5000,
+    group: "br",
+  });
 };
 
 const handleLinkService = async (relatedService) => {
@@ -119,12 +134,21 @@ const handleLinkService = async (relatedService) => {
     selectedRelationType.value.id
   );
 
-  toast.success({
-    message: t("service.toast-services-new-related-message"),
-    title: t("service.toast-services-new-related-title"),
-    life: 5000,
-    group: "br",
-  });
+  showLinkServiceToast();
+
+  emit("newServiceLinked", relatedService);
+};
+
+const handleLinkNewService = async (newServiceData) => {
+  await linkService(
+    currentServiceId.value,
+    newServiceData.id,
+    newServiceData.relationType.id
+  );
+
+  showLinkServiceToast();
+
+  const relatedService = await getServiceFromApi(newServiceData.id);
 
   emit("newServiceLinked", relatedService);
 };
