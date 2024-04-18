@@ -64,7 +64,7 @@
 
 <script setup>
 // IMPORTS
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, provide, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import TreeIcon from "/icons/account_tree.svg?raw";
@@ -136,6 +136,11 @@ const handleLinkService = async (relatedService) => {
 
   showLinkServiceToast();
 
+  relatedService = {
+    ...relatedService,
+    relationship: selectedRelationType.value,
+  };
+
   emit("newServiceLinked", relatedService);
 };
 
@@ -148,7 +153,12 @@ const handleLinkNewService = async (newServiceData) => {
 
   showLinkServiceToast();
 
-  const relatedService = await getServiceFromApi(newServiceData.id);
+  let relatedService = await getServiceFromApi(newServiceData.id);
+
+  relatedService = {
+    ...relatedService,
+    relationship: selectedRelationType.value,
+  };
 
   emit("newServiceLinked", relatedService);
 };
@@ -162,6 +172,7 @@ function openNewRelatedServiceSidebar() {
 }
 
 // PROVIDE, EXPOSE
+provide("preselectedRelationType", selectedRelationType);
 
 // WATCHERS
 

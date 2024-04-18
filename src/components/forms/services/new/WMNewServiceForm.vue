@@ -116,12 +116,14 @@
           <div class="wm-form-row gap-5">
             <WMInput
               v-model="selectedRelationType"
+              :value="selectedRelationType"
               name="relation-type"
               type="input-select"
               :highlighted="true"
               :options="relationTypes"
               option-set
               width="200"
+              @update:selected-item="onRelationTypeChange"
             />
           </div>
         </div>
@@ -247,6 +249,7 @@ const isFormDirty = inject("isFormDirty");
 const closeSidebar = inject("closeSidebar");
 const preselectedContact = inject("preselectedContact", null);
 const preselectedCustomer = inject("preselectedCustomer", null);
+const preselectedRelationType = inject("preselectedRelationType", null);
 
 // PROPS, EMITS
 const props = defineProps({
@@ -552,6 +555,10 @@ const setRequest3 = (quickCode) => {
   });
 };
 
+const onRelationTypeChange = (value) => {
+  selectedRelationType.value = value;
+};
+
 // EXPOSE
 defineExpose({
   onSubmit,
@@ -575,6 +582,10 @@ onMounted(() => {
 
   if (preselectedCustomer) {
     selectedCustomer.value = preselectedCustomer.value;
+  }
+
+  if (preselectedRelationType) {
+    selectedRelationType.value = preselectedRelationType.value;
   }
 
   optionSetsStore.getOptionSetValuesFromApi("state").then((data) => {
@@ -632,7 +643,10 @@ onMounted(() => {
       .getOptionSetValuesFromApi("service_related_relationship")
       .then((data) => {
         relationTypes.value = data;
-        selectedRelationType.value = data[0];
+
+        if (!preselectedRelationType) {
+          selectedRelationType.value = data[0];
+        }
       });
   }
 });
