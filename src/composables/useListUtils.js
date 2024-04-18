@@ -387,6 +387,37 @@ export function useListUtils() {
     ];
   };
 
+  const getExistingServiceColumns = () => {
+    return [
+      {
+        name: "service_number",
+        type: "link",
+        header: "service.number",
+        class: "link-col",
+      },
+      { name: "open_date", type: "text", header: "service.open-date" },
+      { name: "due_date", type: "text", header: "service.due-date" },
+      { name: "area", type: "optionset", header: "classification-1" },
+      { name: "type", type: "optionset", header: "classification-2" },
+      { name: "request1", type: "optionset", header: "classification-3" },
+      { name: "duration", type: "text", header: "service.duration" },
+      { name: "owner.name", type: "text", header: "service.owner" },
+      { name: "sla", type: "sla", header: "service.sla", class: "sla" },
+      { name: "status", type: "optionset", header: "service.status" },
+      { name: "state", type: "optionset", header: "service.state" },
+      {
+        name: "priority",
+        type: "priority",
+        header: "service.priority",
+        class: "numeric",
+      },
+      { name: "recurring", type: "translate", header: "service.recurring" },
+      { name: "last_change", type: "text", header: "service.last-change" },
+      { name: "closed", type: "text", header: "service.date-closed" },
+      { name: "stage", type: "text", header: "service.stage" },
+    ];
+  };
+
   const getRelatedServiceColumns = () => {
     return [
       {
@@ -954,6 +985,7 @@ export function useListUtils() {
     getServiceColumns,
     getRelatedServiceColumns,
     getServicePreviewColumns,
+    getExistingServiceColumns,
     getTaskColumns,
     getTaskPreviewColumns,
     getTaskSummaryColumns,

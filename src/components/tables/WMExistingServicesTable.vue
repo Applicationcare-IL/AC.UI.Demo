@@ -81,7 +81,7 @@ import { onMounted, ref, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getRelatedServiceColumns } = useListUtils();
+const { getExistingServiceColumns } = useListUtils();
 const { getServicesFromApi } = useServices();
 
 const utilsStore = useUtilsStore();
@@ -106,7 +106,7 @@ const rows = ref(20);
 const lazyParams = ref({});
 const services = ref([]);
 const searchValue = ref("");
-const columns = ref(getRelatedServiceColumns());
+const columns = ref(getExistingServiceColumns());
 
 // COMPUTED
 
