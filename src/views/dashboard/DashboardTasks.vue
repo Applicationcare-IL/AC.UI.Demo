@@ -2,26 +2,28 @@
   <div class="dashboard-column card-container">
     <div class="h1 mb-5">{{ $t("dashboard.my-tasks") }}</div>
     <div class="flex flex-column gap-5 card-container">
-      <Card v-if="false">
+      <Card
+        v-if="
+          can('global.is_support_rep') || (can('global.is_team_manager') && tasksSLAData)
+        "
+      >
         <template #content>
           <div class="flex flex-row gap-5 justify-content-center">
             <div
               class="flex flex-2 flex-row gap-4 px-5 py-2 counter counter-green align-items-center"
             >
               <div class="small-text">
-                תהליכים<br />
-                פתוחים
+                {{ $t("dashboard.open-tasks") }}
               </div>
-              <div class="text-5xl font-bold green">145</div>
+              <div class="text-5xl font-bold green">{{ openTasks }}</div>
             </div>
             <div
               class="flex flex-row flex-2 gap-3 px-5 py-2 counter counter-red align-items-center"
             >
               <div class="small-text">
-                תהליכים <br />
-                חורגים
+                {{ $t("dashboard.breached-tasks") }}
               </div>
-              <div class="text-5xl font-bold red">45</div>
+              <div class="text-5xl font-bold red">{{ breachedTasks }}</div>
             </div>
           </div>
         </template>
@@ -77,7 +79,7 @@
 
 <script setup>
 // IMPORTS
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -88,6 +90,7 @@ const { can } = usePermissions();
 const { getTaskColumns } = useListUtils();
 const { getTasksSLADistribution } = useTasks();
 const { getTopTaskFamilies } = useTasks();
+
 // INJECT
 
 // PROPS, EMITS
@@ -103,6 +106,27 @@ const dashboardTaskFilters = ref({
 });
 
 // COMPUTED
+// based on tasksSLADataExample, it's the sum of sla_tatus near_breach and no_breach
+const openTasks = computed(() => {
+  if (!tasksSLAData.value) {
+    return 0;
+  }
+
+  const nearBreach =
+    tasksSLAData.value.find((item) => item.sla_status === "near_breach")?.value || 0;
+  const noBreach =
+    tasksSLAData.value.find((item) => item.sla_status === "no_breach")?.value || 0;
+
+  return nearBreach + noBreach;
+});
+
+const breachedTasks = computed(() => {
+  if (!tasksSLAData.value) {
+    return 0;
+  }
+
+  return tasksSLAData.value.find((item) => item.sla_status === "breached")?.value || 0;
+});
 
 // COMPONENT METHODS
 const openTasksSLADialog = () => {

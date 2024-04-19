@@ -115,7 +115,11 @@
     "trending-service-areas": "Trending Service Areas",
     "top-task-families": "Top Task Families",
     "services-distribution-by-sla": "Services distribution by SLA",
-    "tasks-distribution-by-sla": "Tasks distribution by SLA"
+    "tasks-distribution-by-sla": "Tasks distribution by SLA",
+    "open-services": "Open Services",
+    "breached-services": "Breached Services",
+    "open-tasks": "Open Tasks",
+    "breached-tasks": "Breached Tasks"
   },
   "contact": {
     "contact": "Contact",
