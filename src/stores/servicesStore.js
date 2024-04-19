@@ -141,5 +141,15 @@ export const useServicesStore = defineStore("services", {
           throw error;
         });
     },
+    getAvgDuration(params) {
+      return axiosConfig
+        .get("/services/avg-duration", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

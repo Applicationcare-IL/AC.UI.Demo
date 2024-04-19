@@ -41,13 +41,24 @@
 }
 
 
+.dashboard-content .counter{
+    border-radius: 10px;
+    min-height: 100px;
+}
+
 .dashboard-content .counter-red{
     background-color: var(--red-25);
     color: var(--red-400);
+    .counter__label{
+        max-width: 7ch;
+    }
 }
 
 .dashboard-content .counter-green{
     background-color: var(--green-50);
     color: var(--green-700);
+    .counter__label{
+        max-width: 4ch;
+    }
 }
 

@@ -3,31 +3,39 @@
     <div class="h1 mb-5">{{ $t("dashboard.my-services") }}</div>
 
     <div class="flex flex-column gap-5 card-container">
-      <Card v-if="false">
+      <Card
+        v-if="
+          (can('global.is_support_rep') && servicesSLAData) ||
+          (can('global.is_team_manager') && servicesSLAData)
+        "
+      >
         <template #content>
           <div class="flex flex-row gap-6 justify-content-between">
             <div
-              class="flex flex-2 flex-row gap-4 px-5 py-2 counter counter-green align-items-center"
+              class="flex flex-row gap-4 px-5 py-2 counter counter-green align-items-center"
             >
-              <div class="small-text">
-                תהליכים<br />
-                פתוחים
+              <div class="small-text counter__label">
+                {{ $t("dashboard.open-services") }}
               </div>
-              <div class="text-5xl font-bold green">145</div>
+              <div class="text-5xl font-bold green">{{ openServices }}</div>
             </div>
             <div
-              class="flex flex-row flex-2 gap-3 px-5 py-2 counter counter-red align-items-center"
+              class="flex flex-row gap-3 px-5 py-2 counter counter-red align-items-center"
             >
-              <div class="small-text">
-                תהליכים <br />
-                חורגים
+              <div class="small-text counter__label">
+                {{ $t("dashboard.breached-services") }}
               </div>
               <div class="text-5xl font-bold red">45</div>
             </div>
-            <div class="flex flex-column flex-1 gap-2 py-2">
-              <WMTeamsAverageTimeBlock />
-              <!-- <WMInlineTrendingTime text="זמן ממוצע שלי" time="00:10:46" quantity="4" />
-              <WMInlineTrendingTime text="זמן ממוצע שלי" time="00:10:46" quantity="-2" /> -->
+            <div class="flex flex-column gap-2 py-2 w-25rem">
+              <!-- <WMTeamsAverageTimeBlock /> -->
+              <WMInlineTrendingTime
+                v-if="myAvgDuration"
+                :text="$t('dashboard.my-average')"
+                :time="myAvgDuration.actual.formated"
+                :quantity="myAvgDuration.increment"
+              />
+              <!-- <WMInlineTrendingTime text="זמן ממוצע שלי" time="00:10:46" quantity="-2" /> -->
             </div>
           </div>
         </template>
@@ -85,15 +93,21 @@
 
 <script setup>
 // IMPORTS
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
+import { useAuthStore } from "@/stores/auth";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
 const { can } = usePermissions();
 const optionSetsStore = useOptionSetsStore();
 const { getServiceColumns } = useListUtils();
-const { getServicesTrendingAreas, getServicesSLADistribution } = useServices();
+const {
+  getServicesTrendingAreas,
+  getServicesSLADistribution,
+  getAvgDuration,
+} = useServices();
+const authStore = useAuthStore();
 
 // INJECT
 
@@ -105,14 +119,38 @@ const dashboardServicesFilters = ref({
 });
 const serviceColumns = ref(getServiceColumns());
 const servicesTrendingAreas = ref([]);
-const servicesSLAData = ref(null);
+const servicesSLAData = ref(false);
 const showServicesSLADialog = ref(false);
 
+const myAvgDuration = ref(null);
+const teamsAvgDuration = ref(null);
+
 // COMPUTED
+const openServices = computed(() => {
+  if (!servicesSLAData.value) {
+    return 0;
+  }
+
+  const nearBreach =
+    servicesSLAData.value.find((item) => item.sla_status === "near_breach")?.value || 0;
+  const noBreach =
+    servicesSLAData.value.find((item) => item.sla_status === "no_breach")?.value || 0;
+
+  return nearBreach + noBreach;
+});
 
 // COMPONENT METHODS
 const openServicesSLADialog = () => {
   showServicesSLADialog.value = true;
+};
+
+const getMyAverageDuration = () => {
+  const myAverageDurationFilters = {
+    ...dashboardServicesFilters.value,
+    employee: authStore.user.id,
+  };
+
+  return getAvgDuration(myAverageDurationFilters);
 };
 
 // PROVIDE, EXPOSE
@@ -134,6 +172,8 @@ onMounted(async () => {
   servicesSLAData.value = await getServicesSLADistribution(
     dashboardServicesFilters.value
   );
+
+  myAvgDuration.value = await getMyAverageDuration();
 });
 </script>
 

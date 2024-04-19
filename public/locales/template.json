@@ -119,7 +119,9 @@
     "open-services": "Open Services",
     "breached-services": "Breached Services",
     "open-tasks": "Open Tasks",
-    "breached-tasks": "Breached Tasks"
+    "breached-tasks": "Breached Tasks",
+    "my-average": "My Average",
+    "teams-average": "Team's Average"
   },
   "contact": {
     "contact": "Contact",

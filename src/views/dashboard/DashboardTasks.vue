@@ -4,7 +4,8 @@
     <div class="flex flex-column gap-5 card-container">
       <Card
         v-if="
-          can('global.is_support_rep') || (can('global.is_team_manager') && tasksSLAData)
+          (can('global.is_support_rep') && tasksSLAData) ||
+          (can('global.is_team_manager') && tasksSLAData)
         "
       >
         <template #content>
@@ -12,7 +13,7 @@
             <div
               class="flex flex-2 flex-row gap-4 px-5 py-2 counter counter-green align-items-center"
             >
-              <div class="small-text">
+              <div class="small-text counter__label">
                 {{ $t("dashboard.open-tasks") }}
               </div>
               <div class="text-5xl font-bold green">{{ openTasks }}</div>
@@ -20,7 +21,7 @@
             <div
               class="flex flex-row flex-2 gap-3 px-5 py-2 counter counter-red align-items-center"
             >
-              <div class="small-text">
+              <div class="small-text counter__label">
                 {{ $t("dashboard.breached-tasks") }}
               </div>
               <div class="text-5xl font-bold red">{{ breachedTasks }}</div>
@@ -106,7 +107,6 @@ const dashboardTaskFilters = ref({
 });
 
 // COMPUTED
-// based on tasksSLADataExample, it's the sum of sla_tatus near_breach and no_breach
 const openTasks = computed(() => {
   if (!tasksSLAData.value) {
     return 0;

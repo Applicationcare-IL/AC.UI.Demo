@@ -70,12 +70,6 @@ export function useServices() {
     relatedServiceId,
     relationshipId
   ) => {
-    console.log({
-      parent_service_id: parentServiceId,
-      related_service_id: relatedServiceId,
-      relationship_id: relationshipId,
-    });
-
     return await servicesStore.linkService({
       parent_service_id: parentServiceId,
       related_service_id: relatedServiceId,
@@ -88,6 +82,11 @@ export function useServices() {
       parent_service_id: parentServiceId,
       related_service_id: relatedServiceId,
     });
+  };
+
+  const getAvgDuration = async (params) => {
+    const response = await servicesStore.getAvgDuration(params);
+    return response;
   };
 
   // UTILITIES
@@ -268,6 +267,7 @@ export function useServices() {
     linkServices,
     linkService,
     unlinkService,
+    getAvgDuration,
     // UTILITIES
     parseService,
     parseMobileService,
