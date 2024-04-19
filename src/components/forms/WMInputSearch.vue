@@ -178,9 +178,7 @@ const name = toRef(props, "name");
 
 // COMPUTED
 const chipThemeClass = computed(() => {
-  return props.theme == "default"
-    ? "p-chip--default"
-    : `p-chip--${props.theme}`;
+  return props.theme == "default" ? "p-chip--default" : `p-chip--${props.theme}`;
 });
 
 const optionLabel = computed(() => {
@@ -238,16 +236,21 @@ const search = (event) => {
         });
       }
     }
+
     // Remove the selected options from the available options
-    if (props.multiple && value.value?.length > 0)
+    if (props.multiple && value.value?.length > 0) {
       filteredOptions.value = filteredOptions.value.filter((option) => {
         if (value.value.length == 0) return true;
+
         const returnValue = !value.value.find((selectedOption) => {
           return selectedOption.id == option.id;
         });
 
-        if (returnValue) return option.name;
+        if (returnValue) {
+          return option[optionLabelWithLang.value];
+        }
       });
+    }
   }, 250);
 };
 
