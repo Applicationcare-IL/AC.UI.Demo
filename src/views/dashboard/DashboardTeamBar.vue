@@ -3,7 +3,7 @@
     <div class="flex flex-column gap-2">
       <div class="flex flex-row gap-3 align-items-center">
         <!-- <pre>{{ selectedTeams }}</pre> -->
-        <label class="font-bold">{{ $t("dashboard.teams") }}:</label>
+        <h5 class="font-bold mb-0">{{ $t("dashboard.teams") }}:</h5>
         <WMInputSearch
           name="teams"
           :multiple="true"
@@ -14,15 +14,23 @@
           type="no-tags"
           @update:model-value="onSelectedTeams"
         />
-        <WMTempButton :text="$t('buttons.select-all')" type="type-4" size="small" />
-        <!-- <WMButton class="m-1 col-6 small" name="basic-secondary">
-          {{ $t("buttons.clear-all") }}
-        </WMButton> -->
+        <WMTempButton
+          :text="$t('buttons.select-all')"
+          type="type-4"
+          size="small"
+          @click="handleSelectAllTeams"
+        />
+        <WMTempButton
+          :text="$t('buttons.clear')"
+          type="clear mx-0 px-0"
+          size="small"
+          @click="clearSelectedTeams"
+        />
       </div>
       <div>
         <Chip v-for="(item, index) in selectedTeams" :key="index" :label="item.name">
           <span>{{ item.name }}</span>
-          <i class="pi pi-times cursor-pointer" @click="onRemove(item)"></i>
+          <i class="pi pi-times cursor-pointer" @click="handleRemoveTeam(item)"></i>
         </Chip>
       </div>
     </div>
@@ -39,6 +47,20 @@ const selectedTeams = ref([]);
 
 const onSelectedTeams = (value) => {
   selectedTeams.value = value;
+};
+
+const handleSelectAllTeams = () => {
+  selectedTeams.value = teams.value;
+};
+
+const handleRemoveTeam = (team) => {
+  selectedTeams.value = selectedTeams.value.filter(
+    (selectedTeam) => selectedTeam.id !== team.id
+  );
+};
+
+const clearSelectedTeams = () => {
+  selectedTeams.value = [];
 };
 
 onMounted(async () => {

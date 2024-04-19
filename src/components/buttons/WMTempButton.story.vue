@@ -45,6 +45,10 @@
         </template>
       </WMTempButton>
     </Variant>
+
+    <Variant title="Clear">
+      <WMTempButton text="Clear" :is-active="state.active" type="clear" />
+    </Variant>
   </Story>
 </template>
 <script setup>

@@ -145,6 +145,34 @@ const classes = computed(() => {
   }
 }
 
+.clear {
+  background-color: transparent;
+  color: var(--blue-600);
+
+  > span {
+    border-bottom: 2px solid var(--blue-600);
+  }
+
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    color: var(--orange-600);
+    outline: 0;
+    box-shadow: none;
+
+    > span {
+      border-bottom: 2px solid var(--orange-600);
+    }
+  }
+
+  &.is-disabled {
+    color: var(--gray-500);
+    cursor: not-allowed;
+    outline: 0;
+    box-shadow: none;
+  }
+}
+
 .saved {
   background-color: var(--green-50);
   color: var(--green-700);
