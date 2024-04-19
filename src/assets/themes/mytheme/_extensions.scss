@@ -429,19 +429,14 @@ a {
 }
 
 .p-chip {
-    background-color: var(--teal-700);
-    color: white;
+    background-color: var(--purple-100);
+    color: var(--purple-800);
     white-space: nowrap;
-
-    &.p-chip--purple{
-        background-color: var(--purple-100);
-        color: var(--purple-800);
-        font-family: Futurism;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-    }
+    font-family: Futurism;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
 
 // Buttons

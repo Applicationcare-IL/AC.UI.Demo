@@ -1,12 +1,8 @@
 <template>
-  <DashboardTeamBar v-if="false" />
+  <!-- <DashboardTeamBar v-if="can('global.is_team_manager')" /> -->
   <div v-if="width > 768" class="dashboard-content">
-    <DashboardServices
-      v-if="checkIfEntityIsActive('services') && can('services.read')"
-    />
-    <DashboardTasks
-      v-if="checkIfEntityIsActive('tasks') && can('tasks.read')"
-    />
+    <DashboardServices v-if="checkIfEntityIsActive('services') && can('services.read')" />
+    <DashboardTasks v-if="checkIfEntityIsActive('tasks') && can('tasks.read')" />
   </div>
   <div v-else>
     <DashboardMobile />

@@ -1,7 +1,7 @@
 import axiosConfig from "@/service/axiosConfig";
 
 export const OwnersService = {
-  //Type is to control if we return Employees or Teams
+  // Type is to control if we return Employees or Teams
   getOwnersFromApi(params, type) {
     return axiosConfig
       .get("/owner", { params })

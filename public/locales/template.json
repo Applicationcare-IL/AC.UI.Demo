@@ -92,7 +92,8 @@
     "close-filters": "Close filters",
     "close": "Close",
     "link-service": "Link service",
-    "link-services": "Link services"
+    "link-services": "Link services",
+    "select-all": "Select all"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -121,7 +122,8 @@
     "open-tasks": "Open Tasks",
     "breached-tasks": "Breached Tasks",
     "my-average": "My Average",
-    "teams-average": "Team's Average"
+    "teams-average": "Team's Average",
+    "teams": "Teams"
   },
   "contact": {
     "contact": "Contact",

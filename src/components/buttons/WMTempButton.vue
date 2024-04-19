@@ -13,6 +13,7 @@ const props = defineProps({
   icon: String,
   text: String,
   type: String,
+  size: String,
   isActive: Boolean,
   isDisabled: Boolean,
 });
@@ -21,7 +22,8 @@ const classes = computed(() => {
   return `${props.type}
   ${props.isActive ? "is-active" : ""}
   ${props.isDisabled ? "is-disabled" : ""}
-  ${props.text ? "gap-2" : "p-button-icon-only"}`;
+  ${props.text ? "gap-2" : "p-button-icon-only"}
+  ${props.size ? `${props.size}` : ""}`;
 });
 </script>
 
@@ -161,5 +163,12 @@ const classes = computed(() => {
   :deep(svg path) {
     fill: var(--green-700);
   }
+}
+
+// SIZES
+.wm-button.small {
+  padding: 3px 12px;
+  font-size: 1rem;
+  height: 24px;
 }
 </style>
