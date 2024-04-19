@@ -244,6 +244,7 @@
             :hide-create-button="true"
             :hide-title="true"
             multiselect
+            :show-link-service-button="true"
           />
         </AccordionTab>
       </Accordion>

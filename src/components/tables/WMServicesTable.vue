@@ -28,7 +28,10 @@
           >{{ t("new") }}</WMButton
         >
 
-        <WMLinkServiceButton @new-service-linked="addNewServiceToTable" />
+        <WMLinkServiceButton
+          v-if="showLinkServiceButton"
+          @new-service-linked="addNewServiceToTable"
+        />
 
         <WMAssignOwnerButton
           v-if="can('services.assign')"
