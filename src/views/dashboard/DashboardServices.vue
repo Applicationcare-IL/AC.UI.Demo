@@ -35,7 +35,12 @@
                 :time="myAvgDuration.actual.formated"
                 :quantity="myAvgDuration.increment"
               />
-              <!-- <WMInlineTrendingTime text="זמן ממוצע שלי" time="00:10:46" quantity="-2" /> -->
+              <WMInlineTrendingTime
+                v-if="myAvgDuration"
+                :text="$t('dashboard.teams-average')"
+                :time="myAvgDuration.actual.formated"
+                :quantity="myAvgDuration.increment"
+              />
             </div>
           </div>
         </template>
@@ -153,6 +158,14 @@ const getMyAverageDuration = () => {
   return getAvgDuration(myAverageDurationFilters);
 };
 
+const getTeamsAverageDuration = () => {
+  const teamsAverageDurationFilters = {
+    ...dashboardServicesFilters.value,
+  };
+
+  return getAvgDuration(teamsAverageDurationFilters);
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
@@ -174,6 +187,7 @@ onMounted(async () => {
   );
 
   myAvgDuration.value = await getMyAverageDuration();
+  teamsAvgDuration.value = await getTeamsAverageDuration();
 });
 </script>
 

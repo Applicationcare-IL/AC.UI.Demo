@@ -5,6 +5,7 @@
     option-label="name"
     option-value="value"
     class="flex flex-nowrap"
+    :allow-empty="false"
     @change="onChangeStateFilter"
   />
 </template>
@@ -54,10 +55,7 @@ const onChangeStateFilter = (event) => {
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   const activeStateId = await optionSetsStore.getValueId("state", "active");
-  const notActiveStateId = await optionSetsStore.getValueId(
-    "state",
-    "not_active"
-  );
+  const notActiveStateId = await optionSetsStore.getValueId("state", "not_active");
 
   options.value.unshift({ name: t("state.active"), value: activeStateId });
   options.value.unshift({

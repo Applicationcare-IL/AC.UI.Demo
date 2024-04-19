@@ -268,7 +268,7 @@ const isFilterApplied = computed(() => {
 
 // COMPONENT METHODS
 const loadLazyData = () => {
-  const filters = props.filters ? props.filters : utilsStore.filters["task"];
+  const filters = { ...utilsStore.filters["task"], ...props.filters };
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = props.rows;
@@ -350,6 +350,14 @@ watch(
       loadLazyData();
     });
   }
+);
+
+watch(
+  () => utilsStore.filters["task"],
+  () => {
+    loadLazyData();
+  },
+  { deep: true }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)

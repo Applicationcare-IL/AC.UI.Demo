@@ -6,6 +6,7 @@
     option-label="name"
     option-value="value"
     class="flex flex-nowrap"
+    :allow-empty="false"
     @change="onChangeOwnerFilter"
   />
 </template>
@@ -30,6 +31,8 @@ const props = defineProps({
 });
 
 const onChangeOwnerFilter = (event) => {
+  console.log("onChangeOwnerFilter", event.value, props.entity);
+
   if (event.value === "all") {
     delete utilsStore.filters[props.entity]["employee"];
   } else {
@@ -38,6 +41,8 @@ const onChangeOwnerFilter = (event) => {
       employee: authStore.user?.id,
     };
   }
+
+  console.log("utilsStore.filters[props.entity],", utilsStore.filters[props.entity]);
 };
 
 const getEntityPlural = () => {
@@ -49,9 +54,7 @@ const pluralEntityName = computed(() => {
 });
 
 const options = computed(() => {
-  const options = [
-    { name: t("my-entities", { label: getEntityPlural() }), value: "my" },
-  ];
+  const options = [{ name: t("my-entities", { label: getEntityPlural() }), value: "my" }];
 
   if (permissionsStore.permissions[pluralEntityName.value]?.all) {
     options.push({
