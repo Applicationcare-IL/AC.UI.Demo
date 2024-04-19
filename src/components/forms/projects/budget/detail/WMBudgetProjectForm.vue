@@ -85,9 +85,7 @@
                   :label="$t('budget.approved-council') + ':'"
                 />
 
-                <ArrowIcon
-                  :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
-                />
+                <ArrowIcon :class="layoutConfig.isRTL.value ? '' : 'rotate-180'" />
 
                 <WMHighlightedBlock
                   v-model="budget.approved_ministry"
@@ -324,8 +322,7 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getProjectBudget, updateBudget, calculateBudget, parseBudget } =
-  useProjects();
+const { getProjectBudget, updateBudget, calculateBudget, parseBudget } = useProjects();
 const route = useRoute();
 const { layoutConfig } = useLayout();
 const utilsStore = useUtilsStore();
@@ -387,14 +384,14 @@ const onSave = handleSubmit((values) => {
 const fetchData = () => {
   getProjectBudget(route.params.id).then((response) => {
     budget.value = response;
-    utilsStore.selectedElements["project-budget"] = [budget.value];
+    utilsStore.selectedElements["budget"] = [budget.value];
   });
 };
 
 fetchData();
 
-formUtilsStore.formEntity = "project-budget";
-utilsStore.entity = "project-budget";
+formUtilsStore.formEntity = "budget";
+utilsStore.entity = "budget";
 
 const handleNewBudgetItemCreated = () => {
   paymentsTableRef.value.refreshTable();

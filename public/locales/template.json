@@ -67,6 +67,7 @@
   "response": "Response",
   "data-not-found": "Data not found",
   "data-not-available": "Data not available",
+  "owner-assigned-successfully": "Owner assigned successfully",
   "buttons": {
     "save": "Save",
     "saved": "Saved",

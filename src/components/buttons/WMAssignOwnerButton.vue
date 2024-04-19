@@ -11,17 +11,12 @@
       <div class="d-flex" v-html="AsignIcon" />
     </template>
   </WMTempButton>
-  <OverlayPanel
-    ref="isOpen"
-    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-  >
+  <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
     <div class="flex flex-column gap-2">
       <span> {{ $t("selected-contacts") }}: </span>
       <div class="flex flex-row gap-2">
         <Chip
-          v-for="(item, index) in utilsStore.selectedElements[
-            props.entity
-          ]?.slice(0, 3)"
+          v-for="(item, index) in utilsStore.selectedElements[props.entity]?.slice(0, 3)"
           :key="index"
         >
           {{ item.name }}
@@ -72,11 +67,14 @@
 
 <script setup>
 import { ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 import AsignIcon from "/icons/assign.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
 import { OwnersService } from "@/service/OwnersService";
 import { useUtilsStore } from "@/stores/utils";
+
+const { t } = useI18n();
 
 const props = defineProps({
   entity: {
@@ -135,7 +133,7 @@ const assignOwner = () => {
   ).then(() => {
     emit("ownerAssigned");
     isOpen.value.hide();
-    toast.successAction("owner", "assigned");
+    toast.success({ message: t("owner-assigned-successfully") });
   });
 };
 </script>
