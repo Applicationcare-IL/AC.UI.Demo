@@ -26,6 +26,7 @@ module.exports = {
           "Login",
           "Service",
           "Assets",
+          "Search",
         ],
       },
     ],

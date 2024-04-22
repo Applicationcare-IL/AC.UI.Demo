@@ -1,107 +1,121 @@
 <template>
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <h2>Contacts</h2>
+    <h2 class="m-0">Contacts</h2>
     <DataView :value="searchResults.contact">
       <template #list="slotProps">
         <div class="col-12">
           <router-link
+            v-for="(item, index) in slotProps.items"
+            :key="index"
             :to="{
               name: 'contactDetail',
-              params: { id: slotProps.data.id },
+              params: { id: item.id },
             }"
             class="vertical-align-middle"
           >
-            <div class="flex flex-row p-4 gap-4">
+            <div class="flex flex-row gap-4">
               <div class=" ">
-                {{ slotProps.data.id }}
+                {{ item.id }}
               </div>
-              <div class="">
-                {{ slotProps.data.name }} {{ slotProps.data.surname }}
-              </div>
+              <div class="">{{ item.name }} {{ item.surname }}</div>
             </div>
           </router-link>
         </div>
       </template>
     </DataView>
-    <h2>Customers</h2>
+    <h2 class="m-0">Customers</h2>
     <DataView :value="searchResults.customer">
       <template #list="slotProps">
         <div class="col-12">
           <router-link
+            v-for="(item, index) in slotProps.items"
+            :key="index"
             :to="{
               name: 'contactDetail',
-              params: { id: slotProps.data.id },
+              params: { id: item.id },
             }"
             class="vertical-align-middle"
           >
-            <div class="flex flex-row p-4 gap-4">
+            <div class="flex flex-row gap-4">
               <div class=" ">
-                {{ slotProps.data.id }}
+                {{ item.id }}
               </div>
-              <div class="">
-                {{ slotProps.data.name }} {{ slotProps.data.surname }}
-              </div>
+              <div class="">{{ item.name }} {{ item.surname }}</div>
             </div>
           </router-link>
         </div>
       </template>
     </DataView>
-    <h2>Services</h2>
+    <h2 class="m-0">Services</h2>
     <DataView :value="searchResults.service">
       <template #list="slotProps">
         <div class="col-12">
           <router-link
+            v-for="(item, index) in slotProps.items"
+            :key="index"
             :to="{
               name: 'serviceDetail',
-              params: { id: slotProps.data.id },
+              params: { id: item.id },
             }"
             class="vertical-align-middle"
           >
-            <div class="flex flex-row p-4 gap-4">
+            <div class="flex flex-row gap-4">
               <div class=" ">
-                {{ slotProps.data.id }}
+                {{ item.id }}
               </div>
             </div>
           </router-link>
         </div>
       </template>
     </DataView>
-    <h2>Task</h2>
+    <h2 class="m-0">Task</h2>
     <DataView :value="searchResults.task">
       <template #list="slotProps">
         <div class="col-12">
           <router-link
+            v-for="(item, index) in slotProps.items"
+            :key="index"
             :to="{
               name: 'taskDetail',
-              params: { id: slotProps.data.id },
+              params: { id: item.id },
             }"
             class="vertical-align-middle"
           >
-            <div class="flex flex-row p-4 gap-4">
+            <div class="flex flex-row gap-4">
               <div class=" ">
-                {{ slotProps.data.id }}
+                {{ item.id }} - {{ item.task_family[optionLabelWithLang] }} -
+                {{ item.task_type.name }}
               </div>
             </div>
           </router-link>
         </div>
       </template>
     </DataView>
-    <!-- {{ searchResults.customer }} -->
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+
+useHead({
+  title: "Search page",
+});
 
 const route = useRoute();
 const { globalSearch } = useSearch();
+const { optionLabelWithLang } = useLanguages();
 
 const searchResults = ref([]);
 
 onMounted(() => {
   globalSearch({ search: route.params.query }).then((result) => {
     searchResults.value = result;
+  });
+
+  // update title
+  useHead({
+    title: `Searching: ${route.params.query}`,
   });
 });
 </script>
