@@ -266,7 +266,7 @@ const isFilterApplied = computed(() => {
   return Object.keys(utilsStore.filters["service"]).length;
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const loadLazyData = () => {
   const filters = { ...utilsStore.filters["task"], ...props.filters };
   const nextPage = lazyParams.value.page + 1;

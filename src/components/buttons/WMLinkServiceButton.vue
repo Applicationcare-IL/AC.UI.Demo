@@ -1,5 +1,9 @@
 <template>
-  <WMTempButton :text="$t('buttons.link-service')" type="type-4" @click="toggle">
+  <WMTempButton
+    :text="$t('buttons.link-service')"
+    type="type-4"
+    @click="toggle"
+  >
     <template #customIcon>
       <div class="d-flex" v-html="TreeIcon" />
     </template>
@@ -103,7 +107,7 @@ const currentServiceId = computed(() => {
   return utilsStore.selectedElements[utilsStore.entity][0].id;
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const toggle = (event) => {
   op.value.toggle(event);
 };

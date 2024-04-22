@@ -36,7 +36,7 @@ const selectedOption = ref("all");
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const onChangeStateFilter = (event) => {
   if (event.value === "all") {
     delete utilsStore.filters[props.entity]["state"];
@@ -55,7 +55,10 @@ const onChangeStateFilter = (event) => {
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   const activeStateId = await optionSetsStore.getValueId("state", "active");
-  const notActiveStateId = await optionSetsStore.getValueId("state", "not_active");
+  const notActiveStateId = await optionSetsStore.getValueId(
+    "state",
+    "not_active"
+  );
 
   options.value.unshift({ name: t("state.active"), value: activeStateId });
   options.value.unshift({

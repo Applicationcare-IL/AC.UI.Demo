@@ -59,7 +59,7 @@ const isDisabled = computed(() => {
   return selectedElements.value == 0 || !areTaskCompletable.value;
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 
 const checkIfTasksAreCompletable = (tasks) => {
   if (tasks.length == 0) {
@@ -77,7 +77,10 @@ const checkIfTasksAreCompletable = (tasks) => {
   }
 
   // prevent complete when some of the selected tasks are subproject tasks
-  if (tasks.lenght > 1 && tasks.some((x) => x.task_family.value == "subproject")) {
+  if (
+    tasks.lenght > 1 &&
+    tasks.some((x) => x.task_family.value == "subproject")
+  ) {
     return false;
   }
 

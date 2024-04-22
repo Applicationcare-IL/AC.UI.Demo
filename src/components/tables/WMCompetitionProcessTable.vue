@@ -274,7 +274,7 @@ const isFilterVisible = ref(false);
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const parseDate = (date) => {
   if (!date) return null;
 

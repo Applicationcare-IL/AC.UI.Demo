@@ -34,7 +34,7 @@ const props = defineProps({
 // limit data to 5 items
 const data = ref(props.data.slice(0, 5));
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 
 const truncate = (text) => {
   const maxLength = 20;

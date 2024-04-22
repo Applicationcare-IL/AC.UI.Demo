@@ -217,7 +217,7 @@ const isCustomerEditable = computed(() => {
   return props.relatedEntity != "service";
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 function openNewContactSidebar() {
   isNewContactSidebarVisible.value = true;
 }

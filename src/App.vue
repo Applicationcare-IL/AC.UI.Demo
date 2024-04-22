@@ -44,7 +44,7 @@ const callData = ref(null);
 // COMPUTED
 const loading = computed(() => loadingPermissions.value);
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 if (window.Echo) {
   window.Echo.channel(`employee.${authStore.user?.virtual_extension}`).listen(
     ".call.incoming",

@@ -67,7 +67,7 @@ const tooltip = computed(() => {
   return "";
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 
 // PROVIDE, EXPOSE
 

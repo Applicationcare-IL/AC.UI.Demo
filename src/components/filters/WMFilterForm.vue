@@ -78,7 +78,7 @@ const numberOfAppliedFilters = computed(() => {
   return Object.keys(utilsStore.filters[entity]).length;
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const applyFilters = () => {
   utilsStore.filters[entity] = { ...filters.value };
 

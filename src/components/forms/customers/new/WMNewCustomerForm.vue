@@ -233,7 +233,7 @@ const nextID = ref(0);
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 function openSidebar() {
   isVisible.value = true;
 }

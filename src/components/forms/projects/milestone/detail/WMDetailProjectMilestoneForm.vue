@@ -178,7 +178,7 @@ const isMilestoneCompleted = computed(() => {
   return milestone.value.milestone_status.value == "complete";
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const { handleSubmit, meta, resetForm } = useForm();
 
 const fetchData = async () => {

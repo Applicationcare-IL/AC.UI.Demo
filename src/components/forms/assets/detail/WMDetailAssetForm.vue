@@ -193,7 +193,8 @@ const toast = useToast();
 
 const { getCustomerColumnsForAssets, getServiceColumns } = useListUtils();
 
-const { getAssetFromApi, updateAsset, parseAsset, setSelectedAssets } = useAssets();
+const { getAssetFromApi, updateAsset, parseAsset, setSelectedAssets } =
+  useAssets();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -216,7 +217,7 @@ const serviceColumns = ref(getServiceColumns());
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const fetchData = async () => {
   getAssetFromApi(route.params.id).then((data) => {
     asset.value = data;

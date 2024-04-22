@@ -60,7 +60,7 @@ const teamMembers = ref([]);
 const selectedContacts = ref([]); // the selectedContacts is only used to pass to the table so it recognizes it as external
 
 // COMPUTED
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const handleChangeSelectedContacts = (contacts) => {
   teamMembers.value = contacts;
 };

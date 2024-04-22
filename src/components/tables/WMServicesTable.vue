@@ -79,7 +79,11 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
+    <Column
+      v-if="multiselect"
+      style="width: 40px"
+      selection-mode="multiple"
+    ></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -222,7 +226,7 @@ const isFilterApplied = computed(() => {
   return Object.keys(utilsStore.filters["service"]).length;
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
   const filters = { ...utilsStore.filters["service"], ...props.filters };
   const nextPage = lazyParams.value.page + 1;

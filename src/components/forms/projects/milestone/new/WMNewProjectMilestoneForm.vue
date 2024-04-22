@@ -113,7 +113,7 @@ const milestoneTypes = ref([]);
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getNewMilestoneFormValidationSchema,
 });

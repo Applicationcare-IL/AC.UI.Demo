@@ -104,7 +104,9 @@
                 @change="recalculateBudgetItem"
               />
 
-              <ArrowIcon :class="layoutConfig.isRTL.value ? '' : 'rotate-180'" />
+              <ArrowIcon
+                :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
+              />
 
               <WMHighlightedBlock
                 id="approved_ministry"
@@ -140,7 +142,11 @@
       </div>
     </div>
     <div class="my-4"></div>
-    <WMFormButtons v-if="isSidebar" @save-form="onSave()" @cancel-form="onCancel()" />
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSave()"
+      @cancel-form="onCancel()"
+    />
   </div>
 </template>
 
@@ -157,7 +163,8 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 // DEPENDENCIES
 const toast = useToast();
 const route = useRoute();
-const { createBudgetItem, parseUpdateBudgetItem, calculateNewBudgetItem } = useProjects();
+const { createBudgetItem, parseUpdateBudgetItem, calculateNewBudgetItem } =
+  useProjects();
 const formUtilsStore = useFormUtilsStore();
 const { layoutConfig } = useLayout();
 
@@ -185,7 +192,7 @@ const balance = ref(0);
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const { handleSubmit, meta, resetForm, values } = useForm({
   validationSchema: formUtilsStore.getNewBudgetItemFormValidationSchema,
 });

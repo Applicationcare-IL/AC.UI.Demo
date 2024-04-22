@@ -281,7 +281,7 @@ const isVisible = ref(false);
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const loadLazyData = () => {
   // const filters = utilsStore.filters["task"];
   const nextPage = lazyParams.value.page + 1;

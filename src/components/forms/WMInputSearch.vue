@@ -43,9 +43,8 @@
         </div>
       </template>
     </AutoComplete>
-    <div>
-      <slot name="message"></slot>
-    </div>
+
+    <slot name="message"></slot>
     <span v-if="errorMessage" class="wm-validation-message">
       {{
         typeof errorMessage === "string"
@@ -178,7 +177,9 @@ const name = toRef(props, "name");
 
 // COMPUTED
 const chipThemeClass = computed(() => {
-  return props.theme == "default" ? "p-chip--default" : `p-chip--${props.theme}`;
+  return props.theme == "default"
+    ? "p-chip--default"
+    : `p-chip--${props.theme}`;
 });
 
 const optionLabel = computed(() => {
@@ -192,7 +193,7 @@ const width = computed(() => {
   return props.width + "px";
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const { value, errorMessage, resetField } = useField(name, undefined, {
   validateOnValueUpdate: true,
   validateOnMount: false,

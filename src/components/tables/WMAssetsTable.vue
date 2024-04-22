@@ -45,7 +45,11 @@
         />
       </div>
 
-      <WMButton v-if="env.DEV" name="refresh" class="m-1 col-6" @click="loadLazyData"
+      <WMButton
+        v-if="env.DEV"
+        name="refresh"
+        class="m-1 col-6"
+        @click="loadLazyData"
         >Refresh
       </WMButton>
       <div class="flex flex-row align-items-center gap-3">
@@ -85,7 +89,11 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
+    <Column
+      v-if="multiselect"
+      style="width: 40px"
+      selection-mode="multiple"
+    ></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -202,7 +210,7 @@ const isFilterApplied = computed(() => {
   return Object.keys(utilsStore.filters["asset"]).length;
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
   const filters = utilsStore.filters["asset"];
   const nextPage = lazyParams.value.page + 1;

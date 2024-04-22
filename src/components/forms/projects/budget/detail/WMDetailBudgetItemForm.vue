@@ -189,7 +189,7 @@ const budgetItem = ref(null);
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const { handleSubmit, meta, resetForm, values } = useForm();
 
 const fetchData = () => {

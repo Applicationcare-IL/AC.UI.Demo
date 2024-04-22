@@ -153,7 +153,7 @@ const isVisible = ref(false);
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
 }

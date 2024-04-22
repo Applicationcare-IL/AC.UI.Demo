@@ -102,7 +102,7 @@ const styleClasses = computed(() => {
   }
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 
 // PROVIDE, EXPOSE
 

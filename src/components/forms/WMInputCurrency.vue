@@ -86,7 +86,7 @@ const shekelFormattedNumber = computed(() => {
   return modelValue.value.toLocaleString("he-IL", { minimumFractionDigits: 2 });
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const field = reactive(
   useField(props.name, undefined, {
     initialValue: modelValue.value,

@@ -81,7 +81,7 @@ const responseData = ref();
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const toggleDropdownMenu = (event) => {
   dropdownMenu.value.toggle(event);
 };

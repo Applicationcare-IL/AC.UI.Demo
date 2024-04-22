@@ -140,8 +140,10 @@
     padding: 2px 4px;
     width: fit-content;
     position: absolute;
-    bottom: -24px;
     white-space: nowrap;
+    transform: translateY(110%);
+    z-index: 1;
+    bottom: 0;
 }
 
 .p-inputtext .p-placeholder{

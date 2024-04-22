@@ -121,7 +121,7 @@ const ownerOptions = ref([
 // COMPUTED
 const dataKey = props.entity === "tasks_sla" ? "task_family_id" : "area_id";
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const clear = () => {
   searchText.value = "";
   selectedRow.value = null;

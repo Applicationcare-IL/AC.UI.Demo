@@ -246,7 +246,7 @@ const styleWidth = computed(() => {
   return props.width + "px";
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const {
   value: inputValue,
   errorMessage,

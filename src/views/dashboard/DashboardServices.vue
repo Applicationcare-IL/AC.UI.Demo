@@ -154,7 +154,7 @@ const openServices = computed(() => {
   return nearBreach + noBreach;
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const openServicesSLADialog = () => {
   showServicesSLADialog.value = true;
 };

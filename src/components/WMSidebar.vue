@@ -63,7 +63,7 @@ const leftPositon = computed(() => {
   return totalMargin - sidebarPositionInActiveSidebarArray * space;
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const handleCloseSidebar = () => {
   if (isFormDirty.value) {
     confirmCancelDialog({ emit });

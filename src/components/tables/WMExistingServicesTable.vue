@@ -110,7 +110,7 @@ const columns = ref(getExistingServiceColumns());
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
   const filters = utilsStore.filters["related-service"];
   const nextPage = lazyParams.value.page + 1;

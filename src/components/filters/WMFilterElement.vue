@@ -50,7 +50,9 @@
     <!-- DATES -->
     <div v-if="type == 'date'" class="flex flex-row gap-2 p-2">
       <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label"> {{ $t("from") }}: </label>
+        <label v-if="label != ''" class="wm-form-label">
+          {{ $t("from") }}:
+        </label>
         <Calendar
           v-model="fromDate"
           show-icon
@@ -58,7 +60,9 @@
         />
       </div>
       <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label"> {{ $t("to") }}: </label>
+        <label v-if="label != ''" class="wm-form-label">
+          {{ $t("to") }}:
+        </label>
         <Calendar
           v-model="toDate"
           show-icon
@@ -167,7 +171,7 @@ const createdAssignedOptions = [
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const forceRerender = () => {
   componentKey.value += componentKey.value;
 };
@@ -203,7 +207,8 @@ const removeUnselectedOptionsFromFilter = (selectedOption) => {
 
 const onButtonChanged = (value, option) => {
   if (value) selectedButtons.value.push(option.id);
-  else selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
+  else
+    selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
 
   emits("update:filter", {
     name: props.filterName,
@@ -336,7 +341,9 @@ defineExpose({ clear });
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   if (props.optionSet) {
-    optionSetsOptions.value = await optionSetsStore.getOptionSetValues(props.optionSet);
+    optionSetsOptions.value = await optionSetsStore.getOptionSetValues(
+      props.optionSet
+    );
   }
 
   if (props.options) {

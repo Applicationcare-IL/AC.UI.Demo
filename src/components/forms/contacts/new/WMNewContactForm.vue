@@ -182,7 +182,7 @@ const genders = ref();
 const selectedCustomers = ref([]);
 
 // COMPUTED
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getContactNewFormValidationSchema,
 });

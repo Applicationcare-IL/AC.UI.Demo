@@ -328,7 +328,7 @@ const isSomePaymentInCreateMode = computed(() => {
   return payments.value.some((payment) => payment.mode === "create");
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 optionSetsStore.getOptionSetValuesFromApi("payment_status").then((data) => {
   paymentStatuses.value = data;
 });

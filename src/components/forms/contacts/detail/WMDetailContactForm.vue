@@ -363,7 +363,7 @@ const firstRelatedCustomer = ref(null);
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const fetchData = async () => {
   getContactFromApi(route.params.id).then((data) => {
     contact.value = data;

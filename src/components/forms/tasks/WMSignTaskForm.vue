@@ -84,7 +84,7 @@ const state = reactive({
 const signature1 = ref(null);
 
 // COMPUTED
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const { handleSubmit } = useForm({
   validationSchema: formUtilsStore.getSignTaskFormValidationSchema,
 });

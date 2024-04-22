@@ -1,11 +1,18 @@
 <template>
-  <WMTempButton :text="$t('buttons.link_contact')" type="type-4" @click="toggle">
+  <WMTempButton
+    :text="$t('buttons.link_contact')"
+    type="type-4"
+    @click="toggle"
+  >
     <template #customIcon>
       <div class="d-flex" v-html="PersonIcon" />
     </template>
   </WMTempButton>
 
-  <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
+  <OverlayPanel
+    ref="isOpen"
+    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+  >
     <div class="flex flex-column gap-2">
       <WMInputSearch
         name="employeeOrTeam"
@@ -83,7 +90,7 @@ const selectedContacts = ref([]);
 const isNewContactSidebarVisible = ref(false);
 
 // COMPUTED
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const toggle = (event) => {
   isOpen.value.toggle(event);
 };

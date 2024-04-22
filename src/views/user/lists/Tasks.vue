@@ -188,7 +188,7 @@ const isAnyRowSelected = computed(() => {
   return selectedTasks?.value.length > 0;
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 useHead({
   title: "Tasks",
 });

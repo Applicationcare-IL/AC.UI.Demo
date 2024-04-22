@@ -407,6 +407,17 @@ export const useFormUtilsStore = defineStore("formUtils", {
           then: () => yup.number().required(),
           otherwise: () => yup.number().optional(),
         }),
+        showCityDataOptions: yup.boolean(),
+        parcel: yup.string().when("showCityDataOptions", {
+          is: true,
+          then: () => yup.string().required(),
+          otherwise: () => yup.string().optional(),
+        }),
+        block: yup.string().when("showCityDataOptions", {
+          is: true,
+          then: () => yup.string().required(),
+          otherwise: () => yup.string().optional(),
+        }),
       });
     },
   },

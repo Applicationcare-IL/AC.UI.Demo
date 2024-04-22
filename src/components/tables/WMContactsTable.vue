@@ -307,7 +307,7 @@ const isSourceExternal = computed(() => {
   return props.contacts != null;
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const loadLazyData = () => {
   const filters = utilsStore.filters["contact"];
   const nextPage = lazyParams.value.page + 1;

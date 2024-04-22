@@ -36,7 +36,7 @@ const areAssetsActive = ref(false);
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 
 const handleDeactivateAsset = () => {
   deactivateAsset(utilsStore.selectedElements["asset"].map((x) => x.id)).then(

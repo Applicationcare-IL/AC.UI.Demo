@@ -73,7 +73,7 @@ const selectedCustomers = ref([]);
 const isOpen = ref();
 const isNewCustomerSidebarVisible = ref(false);
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const toggle = (event) => {
   isOpen.value.toggle(event);
 };

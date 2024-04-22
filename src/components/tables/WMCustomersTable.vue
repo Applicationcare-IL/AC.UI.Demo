@@ -285,7 +285,7 @@ const defaultRole = computed(() => {
   return null;
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const clearSelectedCustomers = () => {
   selectedCustomers.value = [];
 };

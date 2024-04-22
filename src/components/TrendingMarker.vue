@@ -41,7 +41,7 @@ const percentage = computed(() => {
   return Math.abs(Math.round(props.increment));
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 
 // PROVIDE, EXPOSE
 

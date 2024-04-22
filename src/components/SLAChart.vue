@@ -36,7 +36,7 @@ const availableStatus = ref(["breached", "near_breach", "no_breach"]);
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const chartOptions = ref({
   layout: {
     padding: {

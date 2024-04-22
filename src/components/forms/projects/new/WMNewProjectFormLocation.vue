@@ -95,29 +95,22 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { useField } from "vee-validate";
 import { onMounted, provide, ref, watch } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
+// DEPENDENCIES
 const optionSetsStore = useOptionSetsStore();
 
+// INJECT
+
+// PROPS, EMITS
+
+// REFS
 const showAddressOptionsRef = ref(false);
 const showCityDataOptionsRef = ref(false);
-
-const { handleChange } = useField("showAddressOptions", undefined, {
-  type: "checkbox",
-  valueProp: showAddressOptionsRef.value,
-  initialValue: false,
-  uncheckedValue: false,
-});
-
-watch(
-  () => showAddressOptionsRef.value,
-  (value) => {
-    handleChange(value);
-  }
-);
 
 const isCitySelected = ref(false);
 
@@ -129,15 +122,30 @@ const location = ref({
   house_number: 1, // default is always 1 https://app.clickup.com/t/86bxqdq6b
 });
 
-provide("location", { location });
+// COMPUTED
 
-onMounted(async () => {
-  cities.value = await optionSetsStore.getOptionSetValues("service_city");
-  streets.value = await optionSetsStore.getOptionSetValues("service_street");
-  neighborhoods.value = await optionSetsStore.getOptionSetValues(
-    "service_neighborhood"
-  );
-});
+// COMPONENT METHODS AND LOGIC
+const { handleChange: handleChangeAddressOptions } = useField(
+  "showAddressOptions",
+  undefined,
+  {
+    type: "checkbox",
+    valueProp: showAddressOptionsRef.value,
+    initialValue: false,
+    uncheckedValue: false,
+  }
+);
+
+const { handleChange: handleChangeCityDataOptions } = useField(
+  "showCityDataOptions",
+  undefined,
+  {
+    type: "checkbox",
+    valueProp: showCityDataOptionsRef.value,
+    initialValue: false,
+    uncheckedValue: false,
+  }
+);
 
 const updateStreets = (event) => {
   if (event.value) {
@@ -158,6 +166,33 @@ const updateStreets = (event) => {
     isCitySelected.value = false;
   }
 };
+
+// PROVIDE, EXPOSE
+provide("location", { location });
+
+// WATCHERS
+watch(
+  () => showAddressOptionsRef.value,
+  (value) => {
+    handleChangeAddressOptions(value);
+  }
+);
+
+watch(
+  () => showCityDataOptionsRef.value,
+  (value) => {
+    handleChangeCityDataOptions(value);
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  cities.value = await optionSetsStore.getOptionSetValues("service_city");
+  streets.value = await optionSetsStore.getOptionSetValues("service_street");
+  neighborhoods.value = await optionSetsStore.getOptionSetValues(
+    "service_neighborhood"
+  );
+});
 </script>
 
 <style scoped lang="scss"></style>

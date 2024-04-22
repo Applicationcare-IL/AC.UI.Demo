@@ -50,7 +50,7 @@ const isMilestoneCompleted = computed(() => {
   return selectedMilestone.value.milestone_status.value == "complete";
 });
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const isMilestoneCompletable = computed(() => {
   // check if selected milestone status is complete
   if (selectedMilestone.value.milestone_status.value == "complete") {

@@ -57,7 +57,7 @@ const op = ref();
 
 // COMPUTED
 
-// COMPONENT METHODS
+// COMPONENT METHODS AND LOGIC
 const toggle = (event) => {
   op.value.toggle(event);
 };
