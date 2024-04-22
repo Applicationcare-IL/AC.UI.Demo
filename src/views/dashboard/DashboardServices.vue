@@ -102,7 +102,7 @@
 
 <script setup>
 // IMPORTS
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 import { useAuthStore } from "@/stores/auth";
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -118,6 +118,9 @@ const authStore = useAuthStore();
 // INJECT
 
 // PROPS, EMITS
+const props = defineProps({
+  selectedTeams: Array,
+});
 
 // REFS
 const dashboardServicesFilters = ref({
@@ -170,12 +173,25 @@ const getTeamsAverageDuration = () => {
     service_status: completedStatusId.value,
   };
 
+  if (props.selectedTeams && props.selectedTeams.length) {
+    teamsAverageDurationFilters.owner_id = props.selectedTeams
+      .map((team) => team.id)
+      .join(",");
+    teamsAverageDurationFilters.owner_type = "team";
+  }
+
   return getAvgDuration(teamsAverageDurationFilters);
 };
 
 // PROVIDE, EXPOSE
 
 // WATCHERS
+watch(
+  () => props.selectedTeams,
+  async () => {
+    teamsAvgDuration.value = await getTeamsAverageDuration();
+  }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {

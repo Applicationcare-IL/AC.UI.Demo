@@ -2,7 +2,6 @@
   <div class="wm-subheader shadow-1 flex-none">
     <div class="flex flex-column gap-2">
       <div class="flex flex-row gap-3 align-items-center">
-        <!-- <pre>{{ selectedTeams }}</pre> -->
         <h5 class="font-bold mb-0">{{ $t("dashboard.teams") }}:</h5>
         <WMInputSearch
           name="teams"
@@ -28,9 +27,16 @@
         />
       </div>
       <div>
-        <Chip v-for="(item, index) in selectedTeams" :key="index" :label="item.name">
+        <Chip
+          v-for="(item, index) in selectedTeams"
+          :key="index"
+          :label="item.name"
+        >
           <span>{{ item.name }}</span>
-          <i class="pi pi-times cursor-pointer" @click="handleRemoveTeam(item)"></i>
+          <i
+            class="pi pi-times cursor-pointer"
+            @click="handleRemoveTeam(item)"
+          ></i>
         </Chip>
       </div>
     </div>
@@ -38,9 +44,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 import { OwnersService } from "@/service/OwnersService";
+
+const emit = defineEmits(["update:selectedTeams"]);
 
 const teams = ref();
 const selectedTeams = ref([]);
@@ -66,6 +74,10 @@ const clearSelectedTeams = () => {
 onMounted(async () => {
   let teamsResponse = await OwnersService.getOwnersFromApi({}, "team");
   teams.value = teamsResponse.data;
+});
+
+watch(selectedTeams, (value) => {
+  emit("update:selectedTeams", value);
 });
 </script>
 

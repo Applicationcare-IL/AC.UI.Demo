@@ -1,8 +1,16 @@
 <template>
-  <DashboardTeamBar v-if="can('global.is_team_manager')" />
+  <DashboardTeamBar
+    v-if="can('global.is_team_manager')"
+    @update:selected-teams="onSelectedTeams"
+  />
   <div v-if="width > 768" class="dashboard-content">
-    <DashboardServices v-if="checkIfEntityIsActive('services') && can('services.read')" />
-    <DashboardTasks v-if="checkIfEntityIsActive('tasks') && can('tasks.read')" />
+    <DashboardServices
+      v-if="checkIfEntityIsActive('services') && can('services.read')"
+      :selected-teams="selectedTeams"
+    />
+    <DashboardTasks
+      v-if="checkIfEntityIsActive('tasks') && can('tasks.read')"
+    />
   </div>
   <div v-else>
     <DashboardMobile />
@@ -11,17 +19,24 @@
 
 <script setup>
 import { useWindowSize } from "@vueuse/core";
+import { ref } from "vue";
 
 import DashboardMobile from "./DashboardMobile.vue";
 import DashboardServices from "./DashboardServices.vue";
 import DashboardTasks from "./DashboardTasks.vue";
 import DashboardTeamBar from "./DashboardTeamBar.vue";
 
+const selectedTeams = ref([]);
+
 const { can } = usePermissions();
 
 const { checkIfEntityIsActive } = useLicensing();
 
 const { width } = useWindowSize();
+
+const onSelectedTeams = (value) => {
+  selectedTeams.value = value;
+};
 </script>
 
 <style scoped lang="scss">
