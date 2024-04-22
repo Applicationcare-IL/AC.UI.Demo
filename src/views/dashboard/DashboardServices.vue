@@ -36,10 +36,10 @@
                 :quantity="myAvgDuration.increment"
               />
               <WMInlineTrendingTime
-                v-if="myAvgDuration"
+                v-if="teamsAvgDuration"
                 :text="$t('dashboard.teams-average')"
-                :time="myAvgDuration.actual.formated"
-                :quantity="myAvgDuration.increment"
+                :time="teamsAvgDuration.actual.formated"
+                :quantity="teamsAvgDuration.increment"
               />
             </div>
           </div>
@@ -50,7 +50,9 @@
         <div style="width: 50%">
           <Card class="h-full p-card-chart">
             <template #title>
-              <div class="w-full flex align-items-center justify-content-between">
+              <div
+                class="w-full flex align-items-center justify-content-between"
+              >
                 <span>
                   {{ $t("dashboard.services-distribution-by-sla") }}
                 </span>
@@ -70,7 +72,9 @@
         </div>
         <div style="width: 50%">
           <Card v-if="servicesTrendingAreas" class="h-full">
-            <template #title> {{ $t("dashboard.trending-service-areas") }}</template>
+            <template #title>
+              {{ $t("dashboard.trending-service-areas") }}</template
+            >
             <template #content>
               <TrendingList
                 v-if="servicesTrendingAreas.length"
@@ -107,11 +111,8 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 const { can } = usePermissions();
 const optionSetsStore = useOptionSetsStore();
 const { getServiceColumns } = useListUtils();
-const {
-  getServicesTrendingAreas,
-  getServicesSLADistribution,
-  getAvgDuration,
-} = useServices();
+const { getServicesTrendingAreas, getServicesSLADistribution, getAvgDuration } =
+  useServices();
 const authStore = useAuthStore();
 
 // INJECT
@@ -122,6 +123,7 @@ const authStore = useAuthStore();
 const dashboardServicesFilters = ref({
   order_by: "due_date",
 });
+
 const serviceColumns = ref(getServiceColumns());
 const servicesTrendingAreas = ref([]);
 const servicesSLAData = ref(false);
@@ -130,6 +132,9 @@ const showServicesSLADialog = ref(false);
 const myAvgDuration = ref(null);
 const teamsAvgDuration = ref(null);
 
+const activeStateId = ref(null);
+const completedStatusId = ref(null);
+
 // COMPUTED
 const openServices = computed(() => {
   if (!servicesSLAData.value) {
@@ -137,9 +142,11 @@ const openServices = computed(() => {
   }
 
   const nearBreach =
-    servicesSLAData.value.find((item) => item.sla_status === "near_breach")?.value || 0;
+    servicesSLAData.value.find((item) => item.sla_status === "near_breach")
+      ?.value || 0;
   const noBreach =
-    servicesSLAData.value.find((item) => item.sla_status === "no_breach")?.value || 0;
+    servicesSLAData.value.find((item) => item.sla_status === "no_breach")
+      ?.value || 0;
 
   return nearBreach + noBreach;
 });
@@ -151,7 +158,7 @@ const openServicesSLADialog = () => {
 
 const getMyAverageDuration = () => {
   const myAverageDurationFilters = {
-    ...dashboardServicesFilters.value,
+    service_status: completedStatusId.value,
     employee: authStore.user.id,
   };
 
@@ -160,7 +167,7 @@ const getMyAverageDuration = () => {
 
 const getTeamsAverageDuration = () => {
   const teamsAverageDurationFilters = {
-    ...dashboardServicesFilters.value,
+    service_status: completedStatusId.value,
   };
 
   return getAvgDuration(teamsAverageDurationFilters);
@@ -172,11 +179,15 @@ const getTeamsAverageDuration = () => {
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
-  const activeStateId = await optionSetsStore.getValueId("state", "active");
+  activeStateId.value = await optionSetsStore.getValueId("state", "active");
+  completedStatusId.value = await optionSetsStore.getValueId(
+    "service_status",
+    "completed"
+  );
 
   dashboardServicesFilters.value = {
     ...dashboardServicesFilters.value,
-    state: activeStateId,
+    state: activeStateId.value,
   };
 
   servicesTrendingAreas.value = await getServicesTrendingAreas(
