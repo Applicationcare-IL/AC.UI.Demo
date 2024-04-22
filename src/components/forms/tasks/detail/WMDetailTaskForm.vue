@@ -290,7 +290,6 @@ const toast = useToast();
 const { updateTask, parseUpdateTask, getTaskFromApi, mapContactsFromTasks } =
   useTasks();
 const { optionLabelWithLang } = useLanguages();
-const { handleRouteChangeWithUnsavedFormChanges } = useNavigationGuards();
 const formUtilsStore = useFormUtilsStore();
 const { getTaskDocumentColumns } = useListUtils();
 const utilsStore = useUtilsStore();
@@ -351,7 +350,10 @@ const onSave = handleSubmit((values) => {
 formUtilsStore.formEntity = "task";
 utilsStore.entity = "task";
 
-handleRouteChangeWithUnsavedFormChanges(meta);
+const { handleRouteChangeWithUnsavedFormChanges } = useNavigationGuards(
+  props.formKey
+);
+handleRouteChangeWithUnsavedFormChanges();
 
 const loadTask = async () => {
   await getTaskFromApi(route.params.id).then((data) => {
