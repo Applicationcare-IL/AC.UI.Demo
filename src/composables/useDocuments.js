@@ -83,6 +83,14 @@ export function useDocuments() {
     };
   };
 
+  const getUploadedFromData = (document) => {
+    if (document.task) return "Task";
+    if (document.project) return "Project";
+    if (document.service) return "Service";
+
+    return "";
+  };
+
   /**
    * Maps document object to a new object with the required properties
    * We need the document_type and document_detail to be empty objects in order to work with the dropdowns
@@ -99,7 +107,7 @@ export function useDocuments() {
       document_detail: document.document_detail
         ? document.document_detail
         : { id: null },
-      uploaded_from: document.uploaded_from,
+      uploaded_from: getUploadedFromData(document),
       upload_date: document.upload_date,
       owner: document.owner.name,
       task: document.task,
