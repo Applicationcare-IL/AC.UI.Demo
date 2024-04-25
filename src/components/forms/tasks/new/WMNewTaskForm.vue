@@ -123,11 +123,17 @@
             :value="parseDate(today)"
           />
         </div>
-        <div class="wm-form-row gap-5">
+        <!-- <div class="wm-form-row gap-5">
           <WMToggleSwitch v-model="isRecurring" label="Recurring task">
-            <WMNewTaskFormRecurringOptions :related-entity="relatedEntity" />
+            <WMNewTaskFormRecurringOptions
+              :related-entity="relatedEntity"
+              @update:selected-options="onRecurringOptionsChange"
+            />
+            <pre>
+            {{ recurringOptions }}
+            </pre>
           </WMToggleSwitch>
-        </div>
+        </div> -->
       </div>
       <Divider class="mb-0" layout="horizontal" />
       <div class="task-description flex flex-auto flex-column gap-5">
@@ -213,7 +219,7 @@ const startTaskOptions = ref([
 ]);
 
 const selectedStartTaskOption = ref(startTaskOptions.value[0]);
-
+const recurringOptions = ref(null);
 const today = ref(new Date().toISOString().slice(0, 10));
 
 // COMPUTED
@@ -273,11 +279,10 @@ const onSubmit = handleSubmit((values) => {
     ? formatDate(values.start_date, "YYYY-MM-DD")
     : today.value;
 
-  const task = {
+  let task = {
     ...values,
     started_at: taskDate,
     due_date: taskDate,
-    is_recurring: isRecurring.value,
   };
 
   if (
@@ -289,7 +294,15 @@ const onSubmit = handleSubmit((values) => {
     task.entity_id = props.relatedEntityId;
   }
 
-  console.log("CREATE", task);
+  if (isRecurring.value) {
+    task = {
+      ...task,
+      is_recurring: true,
+      ...recurringOptions.value,
+    };
+  }
+
+  console.log("CREATE TASK", parseTask(task));
 
   // createTask(parseTask(task))
   //   .then((data) => {
@@ -339,6 +352,10 @@ function handleCustomerCreated(customerId) {
 
 function onChangeStartTaskOption(value) {
   selectedStartTaskOption.value = value;
+}
+
+function onRecurringOptionsChange(value) {
+  recurringOptions.value = value;
 }
 
 // PROVIDE, EXPOSE

@@ -11,10 +11,28 @@
         @update:selected-item="onFrequencyChange"
       />
     </div>
+
     <div
-      v-if="selectedFrequency.value === 'daily'"
+      v-if="selectedFrequency.value === 'weekly'"
       class="wm-form-row gap-5 align-items-baseline"
     >
+      <WMSelectableButton
+        v-for="(day, index) in daysOfTheWeek"
+        :key="index"
+        v-model="isDayOfTheWeekSelected[index]"
+        :label="day.name"
+        @update:model-value="toggleSelectedDayOfTheWeek(day)"
+      />
+    </div>
+
+    <div
+      v-if="selectedFrequency.value === 'monthly'"
+      class="wm-form-row gap-5 align-items-baseline"
+    >
+      MONTHLY
+    </div>
+
+    <div class="wm-form-row gap-5 align-items-baseline">
       <WMInput
         name="repeat_until"
         type="input-select-button"
@@ -29,6 +47,7 @@
       <WMInput
         v-if="repeatUntil.value === 'date'"
         id="end_date"
+        v-model="endDate"
         type="date"
         :label="$t('end-date') + ':'"
         name="end_date"
@@ -38,40 +57,21 @@
       <WMInput
         v-if="repeatUntil.value === 'times'"
         id="times_to_repeat"
+        v-model="repetitions"
+        :value="repetitions"
         type="input-number"
         :label="$t('times-to-repeat') + ':'"
         name="times_to_repeat"
-        :value="1"
         :width="40"
       />
-    </div>
-
-    <div
-      v-if="selectedFrequency.value === 'weekly'"
-      class="wm-form-row gap-5 align-items-baseline"
-    >
-      <WMSelectableButton
-        v-for="(day, index) in daysOfTheWeek"
-        :key="index"
-        v-model="isDayOfTheWeekSelected[index]"
-        :label="day.name"
-        @update:model-value="toggleSelectedDayOfTheWeek(day)"
-      />
-      selectedDaysOfTheWeek {{ selectedDaysOfTheWeek }}
-    </div>
-
-    <div
-      v-if="selectedFrequency.value === 'monthly'"
-      class="wm-form-row gap-5 align-items-baseline"
-    >
-      MONTHLY
     </div>
   </div>
 </template>
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { formatDate } from "@vueuse/core";
+import { computed, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
@@ -85,6 +85,8 @@ const props = defineProps({
   relatedEntity: String,
 });
 
+const emit = defineEmits(["update:selectedOptions"]);
+
 // REFS
 const today = ref(new Date().toISOString().slice(0, 10));
 
@@ -94,6 +96,8 @@ const repeatUntilOptions = ref([
 ]);
 
 const repeatUntil = ref(repeatUntilOptions.value[0]);
+
+const repetitions = ref(1);
 
 const frequencyOptions = ref([
   { label: t("daily"), value: "daily" },
@@ -119,7 +123,55 @@ const isDayOfTheWeekSelected = ref(
 
 const selectedDaysOfTheWeek = ref([]);
 
+const endDate = ref(today.value);
+
+// const monthlyFrequencyOptions = ref([
+//   { label: t("same-day-ech-month"), value: "same_day_each_month" },
+//   { label: t("first-day-of-month"), value: "first_day_of_month" },
+//   { label: t("last-day-of-month"), value: "last_day_of_month" },
+// ]);
+
 // COMPUTED
+const selectedOptions = computed(() => {
+  let options = {
+    repeat_each: getRepeatEachValue(),
+    ends: repeatUntil.value.value,
+  };
+
+  if (repeatUntil.value.value === "date") {
+    options.ends_at = getEndsAtValue();
+  }
+
+  if (repeatUntil.value.value === "times") {
+    options.repetitions = repetitions.value;
+  }
+
+  return options;
+});
+
+const getEndsAtValue = () => {
+  if (endDate.value === today.value) {
+    return today.value;
+  }
+
+  if (repeatUntil.value.value === "date") {
+    return formatDate(endDate.value, "YYYY-MM-DD");
+  }
+
+  return null;
+};
+
+const getRepeatEachValue = () => {
+  if (selectedFrequency.value.value === "weekly") {
+    return "week";
+  }
+
+  if (selectedFrequency.value.value === "monthly") {
+    return "month";
+  }
+
+  return "day";
+};
 
 // COMPONENT METHODS AND LOGIC
 if (props.relatedEntity) {
@@ -137,6 +189,11 @@ const onFrequencyChange = (value) => {
   selectedFrequency.value = value;
 };
 
+const onRepetitionsChange = (value) => {
+  console.log("onRepetitionsChange", value);
+  repetitions.value = value;
+};
+
 const toggleSelectedDayOfTheWeek = (day) => {
   if (selectedDaysOfTheWeek.value.includes(day.value)) {
     selectedDaysOfTheWeek.value = selectedDaysOfTheWeek.value.filter(
@@ -151,8 +208,19 @@ const toggleSelectedDayOfTheWeek = (day) => {
 // PROVIDE, EXPOSE
 
 // WATCHERS
+watch(
+  () => selectedOptions.value,
+  (newValue) => {
+    emit("update:selectedOptions", newValue);
+  },
+  { deep: true }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  selectedFrequency.value = frequencyOptions.value[1];
+  selectedFrequency.value = frequencyOptions.value[0];
+});
 </script>
 
 <style scoped lang="scss"></style>

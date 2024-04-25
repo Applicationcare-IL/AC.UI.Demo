@@ -44,8 +44,8 @@
       ]"
       :style="{ width: width + 'px' }"
       @input="
-        $emit('update:modelValue', $event.target.value);
-        handleChange($event.target.value);
+        $emit('update:modelValue', $event.value);
+        handleChange($event.value);
       "
       @blur="handleBlur"
     />
@@ -142,10 +142,7 @@
       show-icon
       :disabled="props.disabled"
       date-format="dd/mm/yy"
-      @update:model-value="
-        $emit('update:modelValue', $event);
-        handleChange($event);
-      "
+      @date-select="handleDateChange($event)"
     />
     <slot></slot>
   </div>
@@ -230,7 +227,7 @@ const props = defineProps({
   },
 });
 
-defineEmits(["update:value", "update:selectedItem", "update:modelValue"]);
+const emit = defineEmits(["update:value", "update:selectedItem", "update:modelValue"]);
 
 // REFS
 const styles = toRef(props, "class");
@@ -266,6 +263,14 @@ const { value: inputValue, errorMessage, handleBlur, handleChange } = useField(
     initialValue: props.value,
   }
 );
+
+const handleDateChange = (newDate) => {
+  if (newDate) {
+    inputValue.value = new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000);
+    handleChange(inputValue.value);
+    emit("update:modelValue", inputValue.value);
+  }
+};
 
 // WATCHERS
 /**

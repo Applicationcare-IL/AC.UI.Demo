@@ -182,6 +182,10 @@ export function useTasks() {
       entity_type: task.entity_type ? task.entity_type : null,
       entity_id: task.entity_id ? task.entity_id : null,
       is_recurring: task.is_recurring,
+      start_at: task.started_at,
+      repeat_each: task.repeat_each,
+      repetitions: task.repetitions,
+      ends: task.ends,
     };
   };
 
