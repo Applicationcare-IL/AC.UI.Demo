@@ -80,14 +80,21 @@
   "times": "Times",
   "end-of": "End of",
   "frecuency": "Frecuency",
-  "days-of-week": {
+  "week-days": {
     "monday": "Monday",
+    "monday-short": "Mo",
     "tuesday": "Tuesday",
+    "tuesday-short": "Tu",
     "wednesday": "Wednesday",
+    "wednesday-short": "We",
     "thursday": "Thursday",
+    "thursday-short": "Th",
     "friday": "Friday",
+    "friday-short": "Fr",
     "saturday": "Saturday",
-    "sunday": "Sunday"
+    "saturday-short": "Sa",
+    "sunday": "Sunday",
+    "sunday-short": "Su"
   },
   "buttons": {
     "save": "Save",

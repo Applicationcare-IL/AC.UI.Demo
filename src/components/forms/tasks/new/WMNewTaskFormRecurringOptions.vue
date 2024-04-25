@@ -14,7 +14,7 @@
 
     <div
       v-if="selectedFrequency.value === 'weekly'"
-      class="wm-form-row gap-5 align-items-baseline"
+      class="wm-form-row gap-2 align-items-baseline"
     >
       <WMSelectableButton
         v-for="(day, index) in daysOfTheWeek"
@@ -108,13 +108,13 @@ const frequencyOptions = ref([
 const selectedFrequency = ref(frequencyOptions.value[0]);
 
 const daysOfTheWeek = ref([
-  { name: t("days-of-the-week.monday"), value: "monday" },
-  { name: t("days-of-the-week.tuesday"), value: "tuesday" },
-  { name: t("days-of-the-week.wednesday"), value: "wednesday" },
-  { name: t("days-of-the-week.thursday"), value: "thursday" },
-  { name: t("days-of-the-week.friday"), value: "friday" },
-  { name: t("days-of-the-week.saturday"), value: "saturday" },
-  { name: t("days-of-the-week.sunday"), value: "sunday" },
+  { name: t("week-days.monday-short"), value: "monday" },
+  { name: t("week-days.tuesday-short"), value: "tuesday" },
+  { name: t("week-days.wednesday-short"), value: "wednesday" },
+  { name: t("week-days.thursday-short"), value: "thursday" },
+  { name: t("week-days.friday-short"), value: "friday" },
+  { name: t("week-days.saturday-short"), value: "saturday" },
+  { name: t("week-days.sunday-short"), value: "sunday" },
 ]);
 
 const isDayOfTheWeekSelected = ref(

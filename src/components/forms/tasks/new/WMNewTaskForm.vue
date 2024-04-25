@@ -123,7 +123,7 @@
             :value="parseDate(today)"
           />
         </div>
-        <!-- <div class="wm-form-row gap-5">
+        <div class="wm-form-row gap-5">
           <WMToggleSwitch v-model="isRecurring" label="Recurring task">
             <WMNewTaskFormRecurringOptions
               :related-entity="relatedEntity"
@@ -133,7 +133,7 @@
             {{ recurringOptions }}
             </pre>
           </WMToggleSwitch>
-        </div> -->
+        </div>
       </div>
       <Divider class="mb-0" layout="horizontal" />
       <div class="task-description flex flex-auto flex-column gap-5">
