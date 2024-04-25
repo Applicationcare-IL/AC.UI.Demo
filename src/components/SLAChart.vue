@@ -94,18 +94,14 @@ const getSLAStatusLabels = (data) => {
     availableStatus.value.includes(item)
   );
 
-  const translatedSLAStatus = filteredSLAStatus.map((status) =>
-    translateStatus(status)
-  );
+  const translatedSLAStatus = filteredSLAStatus.map((status) => translateStatus(status));
 
   return translatedSLAStatus;
 };
 
 const calculateSLAPercentages = (data) => {
   const breached = data.filter((item) => item.sla_status === "breached")[0];
-  const nearBreach = data.filter(
-    (item) => item.sla_status === "near_breach"
-  )[0];
+  const nearBreach = data.filter((item) => item.sla_status === "near_breach")[0];
   const noBreach = data.filter((item) => item.sla_status === "no_breach")[0];
 
   const totalValue =
@@ -115,9 +111,7 @@ const calculateSLAPercentages = (data) => {
 
   const percentages = {
     breached: breached ? ((breached.value / totalValue) * 100).toFixed(2) : 0,
-    nearBreach: nearBreach
-      ? ((nearBreach.value / totalValue) * 100).toFixed(2)
-      : 0,
+    nearBreach: nearBreach ? ((nearBreach.value / totalValue) * 100).toFixed(2) : 0,
     noBreach: noBreach ? ((noBreach.value / totalValue) * 100).toFixed(2) : 0,
   };
 

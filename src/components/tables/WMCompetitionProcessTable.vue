@@ -59,9 +59,7 @@
       v-for="column in columns"
       :key="column.name"
       :field="column.name"
-      :header="
-        column.header ? $t(column.header) : $t(`organization.${column.name}`)
-      "
+      :header="column.header ? $t(column.header) : $t(`organization.${column.name}`)"
       :class="column.class"
     >
       <template #body="slotProps">
@@ -94,9 +92,7 @@
           />
 
           <img
-            v-if="
-              !editMode[slotProps.index] && slotProps.data.offer_refusal_to_win
-            "
+            v-if="!editMode[slotProps.index] && slotProps.data.offer_refusal_to_win"
             src="/icons/refusal_to_win_check.svg"
             alt=""
             class="vertical-align-middle"
@@ -158,9 +154,7 @@
             />
 
             <WMButton
-              v-if="
-                column.buttons?.includes('edit') && createMode[slotProps.index]
-              "
+              v-if="column.buttons?.includes('edit') && createMode[slotProps.index]"
               name="save"
               icon="save"
               class="in_table"
@@ -171,9 +165,7 @@
             />
 
             <WMButton
-              v-if="
-                column.buttons?.includes('edit') && editMode[slotProps.index]
-              "
+              v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
               name="save"
               icon="save"
               class="in_table"
@@ -196,9 +188,7 @@
 <script setup>
 // IMPORTS
 import { onMounted, ref, watch, watchEffect } from "vue";
-import { useI18n } from "vue-i18n";
 
-import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
@@ -217,7 +207,8 @@ const {
 const { optionLabelWithLang } = useLanguages();
 const optionSetsStore = useOptionSetsStore();
 
-const { getAlertCellConditionalStyle } = useListUtils();
+const { parseDate } = useDates();
+// const { getAlertCellConditionalStyle } = useListUtils();
 
 // INJECT
 
@@ -275,21 +266,6 @@ const isFilterVisible = ref(false);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const parseDate = (date) => {
-  if (!date) return null;
-
-  // check if date is an object
-  if (typeof date === "object") {
-    return date;
-  }
-
-  if (date.includes("-")) {
-    const dateParts = date.split("-");
-    return `${dateParts[1]}/${dateParts[2]}/${dateParts[0]}`;
-  }
-
-  return date;
-};
 
 function formatDate(dateString) {
   var date = new Date(dateString);
@@ -324,9 +300,7 @@ const loadLazyData = () => {
   });
 
   getProjectCustomers(props.projectId, params).then((result) => {
-    customers.value = result.data.map((customer) =>
-      mapProjectCustomer(customer)
-    );
+    customers.value = result.data.map((customer) => mapProjectCustomer(customer));
     totalRecords.value = result.totalRecords;
   });
 };
@@ -336,21 +310,21 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const alertCellConditionalStyle = (data) => {
-  return getAlertCellConditionalStyle(data);
-};
+// const alertCellConditionalStyle = (data) => {
+//   return getAlertCellConditionalStyle(data);
+// };
 
 const onSelectionChanged = () => {
   utilsStore.selectedElements["customer"] = selectedCustomers.value;
 };
 
-function closeFilterSidebar() {
-  isFilterVisible.value = false;
-}
+// function closeFilterSidebar() {
+//   isFilterVisible.value = false;
+// }
 
-function openFilterSidebar() {
-  isFilterVisible.value = true;
-}
+// function openFilterSidebar() {
+//   isFilterVisible.value = true;
+// }
 
 const addCustomers = (addedCustomers) => {
   addedCustomers.forEach((customer) => {
@@ -379,10 +353,7 @@ const saveRow = (customer) => {
     customer_project_status: customer.customer_project_status,
   };
 
-  const parsedProjectCustomer = parseProjectCustomer(
-    newCustomer,
-    props.serviceArea.id
-  );
+  const parsedProjectCustomer = parseProjectCustomer(newCustomer, props.serviceArea.id);
 
   createProjectCustomer(props.projectId, parsedProjectCustomer)
     .then(() => {
@@ -394,10 +365,7 @@ const saveRow = (customer) => {
 };
 
 const editRow = (customer, index) => {
-  const parsedProjectCustomer = parseProjectCustomer(
-    customer,
-    props.serviceArea.id
-  );
+  const parsedProjectCustomer = parseProjectCustomer(customer, props.serviceArea.id);
 
   updateProjectCustomer(props.projectId, parsedProjectCustomer)
     .then(() => {
@@ -454,8 +422,9 @@ const loadOptionSets = async () => {
   props.columns.forEach(async (column) => {
     console.log(column.optionSet);
     if (column.optionSet) {
-      optionSets.value[column.optionSet] =
-        await optionSetsStore.getOptionSetValues(column.optionSet);
+      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
+        column.optionSet
+      );
     }
   });
 

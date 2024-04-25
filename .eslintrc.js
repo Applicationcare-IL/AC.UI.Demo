@@ -66,5 +66,6 @@ module.exports = {
     useActionBuilder: true,
     useExports: true,
     expect: true,
+    useDates: true,
   },
 };

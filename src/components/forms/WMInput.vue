@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="wm-input flex"
-    :class="{ 'flex-row': inline, 'flex-column': !inline }"
-  >
+  <div class="wm-input flex" :class="{ 'flex-row': inline, 'flex-column': !inline }">
     <label
       v-if="label != ''"
       class="wm-form-label"
@@ -94,19 +91,15 @@
       :options="refOptions"
       :option-label="optionLabel"
       class="form-select-button flex-nowrap flex"
-      :unselectable="false"
       :disabled="props.disabled"
+      :allow-empty="false"
       @change="
         $emit('update:selectedItem', $event.value);
         handleChange($event.value);
       "
     />
 
-    <span
-      v-if="type == 'info'"
-      :class="styles"
-      :style="{ width: width + 'px' }"
-    >
+    <span v-if="type == 'info'" :class="styles" :style="{ width: width + 'px' }">
       <template v-if="optionSet">
         <WMOptionSetValue :option-set="refValue" />
       </template>
@@ -247,14 +240,13 @@ const styleWidth = computed(() => {
 });
 
 // COMPONENT METHODS AND LOGIC
-const {
-  value: inputValue,
-  errorMessage,
-  handleBlur,
-  handleChange,
-} = useField(name, undefined, {
-  initialValue: props.value,
-});
+const { value: inputValue, errorMessage, handleBlur, handleChange } = useField(
+  name,
+  undefined,
+  {
+    initialValue: props.value,
+  }
+);
 
 // WATCHERS
 /**
