@@ -186,6 +186,8 @@ export function useTasks() {
       repeat_each: task.repeat_each,
       repetitions: task.repetitions,
       ends: task.ends,
+      repeat_each_times: task.repeat_each_times,
+      repeat_each_time_days: task.repeat_each_time_days,
     };
   };
 

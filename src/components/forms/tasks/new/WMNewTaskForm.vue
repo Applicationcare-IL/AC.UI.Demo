@@ -129,9 +129,6 @@
               :related-entity="relatedEntity"
               @update:selected-options="onRecurringOptionsChange"
             />
-            <pre>
-            {{ recurringOptions }}
-            </pre>
           </WMToggleSwitch>
         </div>
       </div>

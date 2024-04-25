@@ -102,7 +102,7 @@ const repetitions = ref(1);
 const frequencyOptions = ref([
   { label: t("daily"), value: "daily" },
   { label: t("weekly"), value: "weekly" },
-  { label: t("monthly"), value: "monthly" },
+  // { label: t("monthly"), value: "monthly" },
 ]);
 
 const selectedFrequency = ref(frequencyOptions.value[0]);
@@ -136,6 +136,7 @@ const selectedOptions = computed(() => {
   let options = {
     repeat_each: getRepeatEachValue(),
     ends: repeatUntil.value.value,
+    repeat_each_times: 1, // TEMPORAL
   };
 
   if (repeatUntil.value.value === "date") {
@@ -144,6 +145,10 @@ const selectedOptions = computed(() => {
 
   if (repeatUntil.value.value === "times") {
     options.repetitions = repetitions.value;
+  }
+
+  if (selectedFrequency.value.value === "weekly") {
+    options.repeat_each_time_days = selectedDaysOfTheWeek.value;
   }
 
   return options;
@@ -187,11 +192,6 @@ const onChangeRepeatUntil = (value) => {
 
 const onFrequencyChange = (value) => {
   selectedFrequency.value = value;
-};
-
-const onRepetitionsChange = (value) => {
-  console.log("onRepetitionsChange", value);
-  repetitions.value = value;
 };
 
 const toggleSelectedDayOfTheWeek = (day) => {
