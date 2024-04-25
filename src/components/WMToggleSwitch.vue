@@ -45,6 +45,7 @@ const classes = computed(() => [isActive.value, theme.value]);
   display: flex;
   width: 100%;
   flex-direction: column;
+  border: 1px solid var(--gray-100);
 
   &__header {
     display: flex;
@@ -54,8 +55,10 @@ const classes = computed(() => [isActive.value, theme.value]);
   }
 
   &--blue {
+    border-radius: 10px;
     &.is-active {
-      background-color: var(--blue-100);
+      background-color: var(--blue-50);
+      border: 1px solid var(--blue-300);
     }
   }
 }

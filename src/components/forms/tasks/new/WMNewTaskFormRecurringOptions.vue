@@ -6,7 +6,7 @@
         name="frecuency"
         type="input-select"
         :highlighted="true"
-        :label="$t('task.frecuency') + ':'"
+        :label="$t('frecuency') + ':'"
         :options="frequencyOptions"
         @update:selected-item="onFrequencyChange"
       />
@@ -44,18 +44,27 @@
         :value="1"
         :width="40"
       />
-      <div
-        v-if="selectedFrequency.value === 'weekly'"
-        class="wm-form-row gap-5 align-items-baseline"
-      >
-        WEEKLY
-      </div>
-      <div
-        v-if="selectedFrequency.value === 'monthly'"
-        class="wm-form-row gap-5 align-items-baseline"
-      >
-        MONTHLY
-      </div>
+    </div>
+
+    <div
+      v-if="selectedFrequency.value === 'weekly'"
+      class="wm-form-row gap-5 align-items-baseline"
+    >
+      <WMSelectableButton
+        v-for="(day, index) in daysOfTheWeek"
+        :key="index"
+        v-model="isDayOfTheWeekSelected[index]"
+        :label="day.name"
+        @update:model-value="toggleSelectedDayOfTheWeek(day)"
+      />
+      selectedDaysOfTheWeek {{ selectedDaysOfTheWeek }}
+    </div>
+
+    <div
+      v-if="selectedFrequency.value === 'monthly'"
+      class="wm-form-row gap-5 align-items-baseline"
+    >
+      MONTHLY
     </div>
   </div>
 </template>
@@ -93,6 +102,23 @@ const frequencyOptions = ref([
 ]);
 
 const selectedFrequency = ref(frequencyOptions.value[0]);
+
+const daysOfTheWeek = ref([
+  { name: t("days-of-the-week.monday"), value: "monday" },
+  { name: t("days-of-the-week.tuesday"), value: "tuesday" },
+  { name: t("days-of-the-week.wednesday"), value: "wednesday" },
+  { name: t("days-of-the-week.thursday"), value: "thursday" },
+  { name: t("days-of-the-week.friday"), value: "friday" },
+  { name: t("days-of-the-week.saturday"), value: "saturday" },
+  { name: t("days-of-the-week.sunday"), value: "sunday" },
+]);
+
+const isDayOfTheWeekSelected = ref(
+  Array.from({ length: daysOfTheWeek.value.length }, () => false)
+);
+
+const selectedDaysOfTheWeek = ref([]);
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
@@ -109,6 +135,17 @@ const onChangeRepeatUntil = (value) => {
 
 const onFrequencyChange = (value) => {
   selectedFrequency.value = value;
+};
+
+const toggleSelectedDayOfTheWeek = (day) => {
+  if (selectedDaysOfTheWeek.value.includes(day.value)) {
+    selectedDaysOfTheWeek.value = selectedDaysOfTheWeek.value.filter(
+      (selectedDay) => selectedDay !== day.value
+    );
+    return;
+  }
+
+  selectedDaysOfTheWeek.value.push(day.value);
 };
 
 // PROVIDE, EXPOSE
