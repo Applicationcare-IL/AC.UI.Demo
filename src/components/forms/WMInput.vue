@@ -30,6 +30,25 @@
       "
       @blur="handleBlur"
     />
+    <InputNumber
+      v-if="type == 'input-number'"
+      v-model="inputValue"
+      :name="name"
+      :disabled="props.disabled"
+      :placeholder="placeholder"
+      :value="inputValue"
+      :class="[
+        {
+          'wm-input-error': !!errorMessage,
+        },
+      ]"
+      :style="{ width: width + 'px' }"
+      @input="
+        $emit('update:modelValue', $event.target.value);
+        handleChange($event.target.value);
+      "
+      @blur="handleBlur"
+    />
     <Password
       v-if="type == 'input-password'"
       v-model="inputValue"

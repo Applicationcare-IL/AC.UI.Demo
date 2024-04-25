@@ -1,11 +1,8 @@
 <template>
   <div class="toggle-switch" :class="classes">
     <div class="toggle-switch__header">
-      <InputSwitch
-        v-model="value"
-        @input="$emit('update:modelValue', $event)"
-      />
-      <span>{{ label }}</span>
+      <InputSwitch v-model="value" @input="$emit('update:modelValue', $event)" />
+      <span class="font-bold">{{ label }}</span>
     </div>
     <div class="toggle-switch__body">
       <template v-if="value">

@@ -9,7 +9,6 @@ export function useDates() {
     if (date.includes("-")) {
       const dateParts = date.split("-");
 
-      console.log("dateParts", dateParts);
       return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
     }
 

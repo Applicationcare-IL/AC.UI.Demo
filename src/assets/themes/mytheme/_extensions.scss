@@ -137,6 +137,7 @@ body {
 .p-inputtext {
     border-radius: 8px;
     height: 32px;
+    width: 100%;
 
     &:disabled {
         background-color: var(--gray-100);

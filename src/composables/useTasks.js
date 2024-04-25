@@ -170,6 +170,8 @@ export function useTasks() {
   };
 
   const parseTask = (task) => {
+    console.log("parseTask", task);
+
     return {
       task_type: task["task-type"].id,
       description: task.description,
@@ -179,6 +181,7 @@ export function useTasks() {
       contact_id: task.contact.id,
       entity_type: task.entity_type ? task.entity_type : null,
       entity_id: task.entity_id ? task.entity_id : null,
+      is_recurring: task.is_recurring,
     };
   };
 

@@ -123,11 +123,11 @@
             :value="parseDate(today)"
           />
         </div>
-        <!-- <div class="wm-form-row gap-5">
+        <div class="wm-form-row gap-5">
           <WMToggleSwitch v-model="isRecurring" label="Recurring task">
-            Content
+            <WMNewTaskFormRecurringOptions :related-entity="relatedEntity" />
           </WMToggleSwitch>
-        </div> -->
+        </div>
       </div>
       <Divider class="mb-0" layout="horizontal" />
       <div class="task-description flex flex-auto flex-column gap-5">
@@ -277,6 +277,7 @@ const onSubmit = handleSubmit((values) => {
     ...values,
     started_at: taskDate,
     due_date: taskDate,
+    is_recurring: isRecurring.value,
   };
 
   if (
@@ -288,22 +289,24 @@ const onSubmit = handleSubmit((values) => {
     task.entity_id = props.relatedEntityId;
   }
 
-  createTask(parseTask(task))
-    .then((data) => {
-      emit("newTaskCreated");
-      dialog.confirmNewTask({ id: data.data.id, emit });
+  console.log("CREATE", task);
 
-      resetForm();
-      isFormDirty.value = false;
+  // createTask(parseTask(task))
+  //   .then((data) => {
+  //     emit("newTaskCreated");
+  //     dialog.confirmNewTask({ id: data.data.id, emit });
 
-      closeSidebar();
+  //     resetForm();
+  //     isFormDirty.value = false;
 
-      toast.successAction("contact", "created");
-    })
-    .catch((error) => {
-      console.error(error);
-      toast.error("contact", "not-created");
-    });
+  //     closeSidebar();
+
+  //     toast.successAction("contact", "created");
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //     toast.error("contact", "not-created");
+  //   });
 });
 
 const onCancel = () => {
