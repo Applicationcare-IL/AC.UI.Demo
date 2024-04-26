@@ -20,11 +20,17 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  unselectable: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
 const toggleCompleted = () => {
+  if (props.unselectable) return;
+
   emit("update:modelValue", !props.modelValue);
 };
 
@@ -48,7 +54,6 @@ const icon = computed(() => (props.modelValue ? "pi pi-check" : ""));
   padding: 8px 16px;
   justify-content: center;
   align-items: center;
-  gap: 10px;
 
   border-radius: 50px;
 

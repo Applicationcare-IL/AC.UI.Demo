@@ -80,6 +80,7 @@
   "times": "Times",
   "end-of": "End of",
   "frecuency": "Frecuency",
+  "teams": "Teams",
   "week-days": {
     "monday": "Monday",
     "monday-short": "Mo",
@@ -102,6 +103,7 @@
     "accept": "Accept",
     "cancel": "Cancel",
     "continue": "Continue",
+    "link": "Link",
     "link_contact": "Link contact",
     "link_customer": "Link customer",
     "assign": "Assign",
@@ -176,6 +178,7 @@
     "notification-created-close": "Close",
     "incoming-call": "",
     "take-call": "Take call",
+    "search-contacts": "Search contacts",
     "toast": {
       "created": "A new contact was created",
       "error": "An error occurred"
@@ -396,7 +399,8 @@
     "notification-created-message": "The new project was successfully created! \n From now on he will appear in your project list",
     "notification-created-detail": "View project",
     "notification-created-close": "Close",
-    "show-project-location-label": "Show project location"
+    "show-project-location-label": "Show project location",
+    "search-teams": "Search teams"
   },
   "budget": {
     "budget": "Budget",

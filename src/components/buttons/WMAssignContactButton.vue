@@ -14,9 +14,33 @@
     :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
   >
     <div class="flex flex-column gap-2">
+      <span class="h6 mb-1">{{ $t("service.what-to-link") }}</span>
+
+      <div class="flex gap-2">
+        <WMSelectableButton
+          v-model="isContactsSelected"
+          :label="$t('contact.contacts')"
+          :unselectable="true"
+          @click="
+            isContactsSelected = true;
+            isTeamsSelected = false;
+          "
+        />
+
+        <!-- <WMSelectableButton
+          v-model="isTeamsSelected"
+          :label="$t('teams')"
+          :unselectable="true"
+          @click="
+            isContactsSelected = false;
+            isTeamsSelected = true;
+          "
+        /> -->
+      </div>
+
       <WMInputSearch
         name="employeeOrTeam"
-        :placeholder="$t('select', ['contact'])"
+        :placeholder="placeholder"
         :multiple="true"
         width="248"
         :search-function="searchContact"
@@ -25,17 +49,16 @@
         :model-value="selectedContacts"
         @update:model-value="onContactselected"
       />
-      <WMButton
-        class="m-1 col-6"
-        name="basic-secondary"
+
+      <WMTempButton
+        :text="$t('buttons.link')"
+        type="type-4"
         @click="
           emit('addContacts', selectedContacts);
           closeOverlay();
           clearSelectedContacts();
         "
-      >
-        {{ $t("buttons.assign") }}
-      </WMButton>
+      />
     </div>
   </OverlayPanel>
 
@@ -64,7 +87,8 @@
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 import PersonIcon from "/icons/person.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
@@ -73,6 +97,8 @@ import { useLayout } from "@/layout/composables/layout";
 const { getContactsFromApi, getContactFromApi } = useContacts();
 const { layoutConfig } = useLayout();
 const { can } = usePermissions();
+
+const { t } = useI18n();
 
 // PROPS, EMITS
 defineProps({
@@ -89,7 +115,16 @@ const isOpen = ref();
 const selectedContacts = ref([]);
 const isNewContactSidebarVisible = ref(false);
 
+const isTeamsSelected = ref(false);
+const isContactsSelected = ref(true);
+
 // COMPUTED
+const placeholder = computed(() => {
+  return isTeamsSelected.value
+    ? t("project.search-teams")
+    : t("contact.search-contacts");
+});
+
 // COMPONENT METHODS AND LOGIC
 const toggle = (event) => {
   isOpen.value.toggle(event);
