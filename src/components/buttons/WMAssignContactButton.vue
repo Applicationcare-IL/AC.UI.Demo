@@ -39,8 +39,21 @@
       </div>
 
       <WMInputSearch
-        name="employeeOrTeam"
-        :placeholder="placeholder"
+        v-if="isTeamsSelected"
+        name="teams"
+        :placeholder="$t('project.search-teams')"
+        :multiple="true"
+        width="248"
+        :search-function="searchContact"
+        :new="true"
+        :model-value="selectedTeams"
+        @update:model-value="onTeamSelected"
+      />
+
+      <WMInputSearch
+        v-if="isContactsSelected"
+        name="contact"
+        :placeholder="$t('contact.search-contacts')"
         :multiple="true"
         width="248"
         :search-function="searchContact"
@@ -113,17 +126,13 @@ const emit = defineEmits(["addContacts", "contactSelected", "closeSidebar"]);
 // REFS
 const isOpen = ref();
 const selectedContacts = ref([]);
+const selectedTeams = ref([]);
 const isNewContactSidebarVisible = ref(false);
 
 const isTeamsSelected = ref(false);
 const isContactsSelected = ref(true);
 
 // COMPUTED
-const placeholder = computed(() => {
-  return isTeamsSelected.value
-    ? t("project.search-teams")
-    : t("contact.search-contacts");
-});
 
 // COMPONENT METHODS AND LOGIC
 const toggle = (event) => {
@@ -136,6 +145,10 @@ const searchContact = (query) => {
 
 const onContactselected = (contacts) => {
   selectedContacts.value = contacts;
+};
+
+const onTeamSelected = (teams) => {
+  selectedTeams.value = teams;
 };
 
 const closeOverlay = () => {
