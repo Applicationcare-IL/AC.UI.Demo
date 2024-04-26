@@ -63,6 +63,8 @@
         @update:model-value="onContactselected"
       />
 
+      <!-- <WMSearchContactsGroupedByCustomer /> -->
+
       <WMTempButton
         :text="$t('buttons.link')"
         type="type-4"
