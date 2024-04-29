@@ -246,7 +246,7 @@
         <template v-if="column.editable" #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
-            :options="termsOfPayment"
+            :options="basicTerms"
             :option-label="optionLabelWithLang"
             option-value="id"
             placeholder="Select an option"
@@ -318,7 +318,7 @@ const editingRows = ref([]);
 const paymentStatuses = ref([]);
 const budgetItems = ref([]);
 const customers = ref([]);
-const termsOfPayment = ref([]);
+const basicTerms = ref([]);
 const milestones = ref([]);
 
 // COMPUTED
@@ -333,8 +333,8 @@ optionSetsStore.getOptionSetValuesFromApi("payment_status").then((data) => {
   paymentStatuses.value = data;
 });
 
-optionSetsStore.getOptionSetValuesFromApi("terms_of_payment").then((data) => {
-  termsOfPayment.value = data;
+optionSetsStore.getOptionSetValuesFromApi("basic_term").then((data) => {
+  basicTerms.value = data;
 });
 
 const getColumHeader = (column) => {
@@ -362,7 +362,7 @@ const getStatus = (id) => {
 };
 
 const getTermOfPayment = (id) => {
-  const term = termsOfPayment.value.find((item) => item.id === id);
+  const term = basicTerms.value.find((item) => item.id === id);
   return term ? term : "";
 };
 
