@@ -226,8 +226,13 @@ const search = (event) => {
         filteredOptions.value = [...props.options];
       } else {
         filteredOptions.value = props.options.filter((option) => {
-          if (option[`value_${locale.value}`]) {
-            return option[`value_${locale.value}`]
+          // prevent errors with options that don't have translations
+          if (!option[optionLabelWithLang.value] || option.value == "") {
+            return false;
+          }
+
+          if (option[optionLabelWithLang.value]) {
+            return option[optionLabelWithLang.value]
               .toLowerCase()
               .includes(event.query.toLowerCase());
           }

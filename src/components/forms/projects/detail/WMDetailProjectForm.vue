@@ -243,7 +243,7 @@ const fetchData = async () => {
   currentStage.value = data.process?.current_stage.order;
 };
 
-const { handleSubmit, resetForm, meta } = useForm({
+const { handleSubmit, resetForm, meta, values } = useForm({
   validationSchema: formUtilsStore.getServiceDetailFormValidationSchema,
 });
 
@@ -266,7 +266,6 @@ const onSave = handleSubmit((values) => {
   ) {
     updateProjectConfig(route.params.id, parseUpdateProjectConfig(values))
       .then(() => {
-        toast.success({ message: "Project configuration updated" });
         fetchData();
       })
       .catch((error) => {
@@ -291,13 +290,13 @@ defineExpose({
 });
 
 watch(
-  () => meta.value,
-  (value) => {
-    if (value.touched) {
-      formUtilsStore.formMeta = value;
-      formUtilsStore.setFormMetas(value, props.formKey);
-    }
-  }
+  () => values,
+  () => {
+    const formMeta = meta.value;
+    formUtilsStore.formMeta = formMeta;
+    formUtilsStore.setFormMetas(formMeta, props.formKey);
+  },
+  { deep: true }
 );
 </script>
 

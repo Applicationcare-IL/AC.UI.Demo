@@ -123,6 +123,7 @@
             :value="parseDate(today)"
           />
         </div>
+
         <div class="wm-form-row gap-5">
           <WMToggleSwitch v-model="isRecurring" label="Recurring task">
             <WMNewTaskFormRecurringOptions
@@ -147,7 +148,11 @@
         </div>
       </div>
     </div>
-    <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSubmit()"
+      @cancel-form="onCancel()"
+    />
   </div>
 </template>
 
@@ -299,24 +304,22 @@ const onSubmit = handleSubmit((values) => {
     };
   }
 
-  console.log("CREATE TASK", parseTask(task));
+  createTask(parseTask(task))
+    .then((data) => {
+      emit("newTaskCreated");
+      dialog.confirmNewTask({ id: data.data.id, emit });
 
-  // createTask(parseTask(task))
-  //   .then((data) => {
-  //     emit("newTaskCreated");
-  //     dialog.confirmNewTask({ id: data.data.id, emit });
+      resetForm();
+      isFormDirty.value = false;
 
-  //     resetForm();
-  //     isFormDirty.value = false;
+      closeSidebar();
 
-  //     closeSidebar();
-
-  //     toast.successAction("contact", "created");
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //     toast.error("contact", "not-created");
-  //   });
+      toast.successAction("contact", "created");
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("contact", "not-created");
+    });
 });
 
 const onCancel = () => {

@@ -302,13 +302,30 @@ export function useProjects() {
   };
 
   const parseUpdateProjectConfig = (project) => {
-    return {
-      tender: project["contractor-option"]?.value === "tender" ? true : false,
-      site_tour: project["site-tour-needed"]?.value === "yes" ? true : false,
-      site_tour_date: getISODate(project["site-tour-date"]),
-      quality_commitee:
-        project["quality-committee-required"]?.value === "yes" ? true : false,
+    let isTender =
+      project["contractor-option"].value === "tender" ? true : false;
+
+    let notTenderResponse = {
+      tender: false,
     };
+
+    if (!isTender) {
+      return notTenderResponse;
+    }
+
+    const siteTourNeeded = project["site-tour-needed"].value;
+
+    const tenderResponse = {
+      tender: true,
+      site_tour: siteTourNeeded,
+      quality_commitee: project["quality-committee-required"]?.value,
+    };
+
+    if (siteTourNeeded) {
+      tenderResponse.site_tour_date = getISODate(project["site-tour-date"]);
+    }
+
+    return tenderResponse;
   };
 
   const parseDate = (date) => {

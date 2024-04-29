@@ -170,8 +170,6 @@ export function useTasks() {
   };
 
   const parseTask = (task) => {
-    console.log("parseTask", task);
-
     return {
       task_type: task["task-type"].id,
       description: task.description,
@@ -186,8 +184,10 @@ export function useTasks() {
       repeat_each: task.repeat_each,
       repetitions: task.repetitions,
       ends: task.ends,
+      ends_at: task.ends_at,
       repeat_each_times: task.repeat_each_times,
       repeat_each_time_days: task.repeat_each_time_days,
+      repeat_each_day: task.repeat_each_day,
     };
   };
 

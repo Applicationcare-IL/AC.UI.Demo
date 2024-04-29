@@ -29,7 +29,13 @@
       v-if="selectedFrequency.value === 'monthly'"
       class="wm-form-row gap-5 align-items-baseline"
     >
-      MONTHLY
+      <WMSelectableButton
+        v-for="(option, index) in monthlyFrequencyOptions"
+        :key="index"
+        v-model="selectedMonthlyFrecuencyOption[index]"
+        :label="option.label"
+        @update:model-value="selectMonthlyFrecuencyOption(option, index)"
+      />
     </div>
 
     <div class="wm-form-row gap-5 align-items-baseline">
@@ -102,7 +108,7 @@ const repetitions = ref(1);
 const frequencyOptions = ref([
   { label: t("daily"), value: "daily" },
   { label: t("weekly"), value: "weekly" },
-  // { label: t("monthly"), value: "monthly" },
+  { label: t("monthly"), value: "monthly" },
 ]);
 
 const selectedFrequency = ref(frequencyOptions.value[0]);
@@ -125,18 +131,20 @@ const selectedDaysOfTheWeek = ref([]);
 
 const endDate = ref(today.value);
 
-// const monthlyFrequencyOptions = ref([
-//   { label: t("same-day-ech-month"), value: "same_day_each_month" },
-//   { label: t("first-day-of-month"), value: "first_day_of_month" },
-//   { label: t("last-day-of-month"), value: "last_day_of_month" },
-// ]);
+const monthlyFrequencyOptions = ref([
+  { label: t("same-day-each-month"), value: "same_day_each_month" },
+  { label: t("first-day-of-month"), value: "first_day_of_month" },
+  { label: t("last-day-of-month"), value: "last_day_of_month" },
+]);
+
+const selectedMonthlyFrecuencyOption = ref([true, false, false]);
 
 // COMPUTED
 const selectedOptions = computed(() => {
   let options = {
     repeat_each: getRepeatEachValue(),
     ends: repeatUntil.value.value,
-    repeat_each_times: 1, // TEMPORAL
+    repeat_each_times: 1, // Requested by the backend
   };
 
   if (repeatUntil.value.value === "date") {
@@ -149,6 +157,13 @@ const selectedOptions = computed(() => {
 
   if (selectedFrequency.value.value === "weekly") {
     options.repeat_each_time_days = selectedDaysOfTheWeek.value;
+  }
+
+  if (selectedFrequency.value.value === "monthly") {
+    options.repeat_each_day =
+      monthlyFrequencyOptions.value[
+        selectedMonthlyFrecuencyOption.value.findIndex((option) => option)
+      ].value;
   }
 
   return options;
@@ -203,6 +218,13 @@ const toggleSelectedDayOfTheWeek = (day) => {
   }
 
   selectedDaysOfTheWeek.value.push(day.value);
+};
+
+const selectMonthlyFrecuencyOption = (option, index) => {
+  selectedMonthlyFrecuencyOption.value =
+    selectedMonthlyFrecuencyOption.value.map((_, i) =>
+      i === index ? true : false
+    );
 };
 
 // PROVIDE, EXPOSE

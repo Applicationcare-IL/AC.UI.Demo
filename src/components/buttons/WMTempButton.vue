@@ -1,5 +1,8 @@
 <template>
-  <Button class="wm-button align-items-center justify-content-center" :class="classes">
+  <Button
+    class="wm-button align-items-center justify-content-center"
+    :class="classes"
+  >
     <i v-if="icon" class="pi" :class="icon"></i>
     <slot name="customIcon"></slot>
     <span>{{ text }}</span>
@@ -123,13 +126,15 @@ const classes = computed(() => {
     fill: white;
   }
 
-  &:hover {
+  &:hover,
+  &:active {
     background-color: var(--green-500);
     color: white;
   }
 
   &:focus {
     background-color: var(--green-700);
+    color: white;
   }
 
   &.is-disabled {
