@@ -80,6 +80,9 @@
   "times": "Times",
   "end-of": "End of",
   "frecuency": "Frecuency",
+  "last-day-of-month": "Last day of month",
+  "first-day-of-month": "First day of month",
+  "same-day-each-month": "Same day each month",
   "teams": "Teams",
   "week-days": {
     "monday": "Monday",
