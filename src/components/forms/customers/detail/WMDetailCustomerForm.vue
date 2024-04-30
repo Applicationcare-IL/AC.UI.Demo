@@ -79,14 +79,14 @@
                     @update:selectedItem="onProviderChanged"
                   />
                 </div>
-                <div v-if="isProvider" class="wm-form-row gap-5">
+                <div v-if="isProvider.value" class="wm-form-row gap-5">
                   <WMInput
                     name="basic_term"
                     type="input-select"
                     :highlighted="true"
                     :label="$t('customer.basic_term') + ':'"
                     :options="basicTerms"
-                    :value="selectedType"
+                    :value="selectedTerm"
                     width="80"
                     option-set
                   />
@@ -95,6 +95,7 @@
                     name="calculate_term"
                     type="input-text"
                     :highlighted="true"
+                    :value="customer.calculate_term"
                     :label="$t('customer.calculate_term') + ':'"
                   />
                 </div>
@@ -560,7 +561,7 @@ const onCustomerNumberChanged = (event) => {
 };
 
 function onProviderChanged(value) {
-  isProvider.value = value.value;
+  isProvider.value = value;
 }
 
 formUtilsStore.$reset();

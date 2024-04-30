@@ -457,7 +457,6 @@ const onPage = (event) => {
 const onRowEditSave = (event) => {
   let { newData, index } = event;
   const paymentId = newData.id;
-
   if (!validateForm(newData)) {
     toast.error("Please fill all the required fields");
     editingRows.value = [...editingRows.value, newData]; // keep the rows in edit mode
@@ -503,7 +502,7 @@ const validateForm = (obj) => {
     "report_date",
     "amount_approved",
     "batch_number",
-    "terms_of_payment_id",
+    "basic_term",
   ];
 
   for (const field of requiredFields) {
