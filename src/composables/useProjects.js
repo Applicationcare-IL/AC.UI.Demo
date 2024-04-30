@@ -468,7 +468,7 @@ export function useProjects() {
     return {
       ...payment,
       budget_item: payment.budget_item?.id,
-      customer: payment.customer.id,
+      // customer: payment.customer.id,
       payment_status: payment.payment_status?.id,
       proforma_invoice_date: formatDate(
         new Date(payment.proforma_invoice_date),

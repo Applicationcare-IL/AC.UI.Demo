@@ -80,6 +80,8 @@ export function useCustomers() {
       breached_tasks: customer.breached_tasks,
       notes: customer.notes,
       rating: customer.rating ? customer.rating : "",
+      basic_term: customer.basic_term,
+      calculate_term: customer.calculate_term,
       number: customer.number,
       id: customer.id,
       owner: customer.owner,
@@ -115,6 +117,8 @@ export function useCustomers() {
       project_manager_type: "employee",
       type: customer.type ? customer.type.id : "",
       rating: customer.rating ? customer.rating.id : "",
+      basic_term: customer["basic_term"]?.id,
+      calculate_term: customer["calculate_term"],
       is_provider: customer.is_provider ? true : false, // Optional pero si no lo pones peta
       // business: customer.business ? customer.business.id : '',
       service_area: customer.service_area

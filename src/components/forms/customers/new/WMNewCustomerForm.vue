@@ -64,8 +64,27 @@
           :highlighted="true"
           :label="$t('customer.is-provider') + ':'"
           :options="yesNoOptions"
-          :selected-option="yesNoOptions[1]"
+          :value="yesNoOptions[1]"
           width="80"
+          @update:selectedItem="onProviderChanged"
+        />
+      </div>
+      <div v-if="isProvider" class="wm-form-row gap-5">
+        <WMInput
+          name="basic_term"
+          type="input-select"
+          :highlighted="true"
+          :label="$t('customer.basic_term') + ':'"
+          :options="basicTerms"
+          width="80"
+          option-set
+        />
+
+        <WMInput
+          name="calculate_term"
+          type="input-text"
+          :highlighted="true"
+          :label="$t('customer.calculate_term') + ':'"
         />
       </div>
       <div class="wm-form-row gap-5">
@@ -223,6 +242,7 @@ const emit = defineEmits(["customerCreated"]);
 const types = ref();
 const ratings = ref();
 const serviceAreas = ref();
+const basicTerms = ref();
 let defaultRole;
 
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
@@ -236,6 +256,12 @@ const nextID = ref(0);
 // COMPONENT METHODS AND LOGIC
 function openSidebar() {
   isVisible.value = true;
+}
+
+const isProvider = ref(false);
+
+function onProviderChanged(value) {
+  isProvider.value = value.value;
 }
 
 const { handleSubmit, meta, setFieldError, resetForm } = useForm({
@@ -377,6 +403,7 @@ onMounted(async () => {
   types.value = await optionSetsStore.getOptionSetValues("customer_type");
   ratings.value = await optionSetsStore.getOptionSetValues("customer_rating");
   serviceAreas.value = await optionSetsStore.getOptionSetValues("service_area");
+  basicTerms.value = await optionSetsStore.getOptionSetValues("basic_term");
   defaultRole = await optionSetsStore.getOptionSetValues(
     "contact_customer_role"
   )[0];

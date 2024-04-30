@@ -76,6 +76,27 @@
                     :options="yesNoOptions"
                     :value="isProvider"
                     width="80"
+                    @update:selectedItem="onProviderChanged"
+                  />
+                </div>
+                <div v-if="isProvider.value" class="wm-form-row gap-5">
+                  <WMInput
+                    name="basic_term"
+                    type="input-select"
+                    :highlighted="true"
+                    :label="$t('customer.basic_term') + ':'"
+                    :options="basicTerms"
+                    :value="selectedTerm"
+                    width="80"
+                    option-set
+                  />
+
+                  <WMInput
+                    name="calculate_term"
+                    type="input-text"
+                    :highlighted="true"
+                    :value="customer.calculate_term"
+                    :label="$t('customer.calculate_term') + ':'"
                   />
                 </div>
                 <div class="wm-form-row mt-5">
@@ -175,7 +196,9 @@
                   class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900"
                 >
                   <span class="font-size-20">Breach</span>
-                  <span class="font-size-24">{{ customer.breached_services }}</span>
+                  <span class="font-size-24">{{
+                    customer.breached_services
+                  }}</span>
                 </div>
               </div>
             </template>
@@ -390,6 +413,7 @@ const ratings = ref();
 const selectedType = ref("");
 const selectedRating = ref();
 const selectedStatus = ref();
+const selectedTerm = ref();
 const statusConditionalStyle = ref("");
 
 provide("preselectedCustomer", customer);
@@ -408,6 +432,7 @@ const serviceColumns = ref(getServiceColumns());
 const documentsColumns = ref(getProjectDocumentColumns());
 const taskColumns = ref(getTaskColumns());
 const assetColumns = ref(getAssetColumnsforCustomerDetail());
+const basicTerms = ref();
 
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
 const isProvider = ref("");
@@ -447,6 +472,8 @@ const fetchData = async () => {
     .getOptionSetValuesFromApi("customer_rating")
     .then((data) => (ratings.value = data));
 
+  basicTerms.value = await optionSetsStore.getOptionSetValues("basic_term");
+
   await getCustomerFromApi(route.params.id).then((data) => {
     customer.value = data;
 
@@ -462,6 +489,11 @@ const fetchData = async () => {
     selectedType.value = types.value.find(
       (type) => type.id == customer.value.type.id
     );
+
+    selectedTerm.value = basicTerms.value.find(
+      (term) => term.id == customer.value.basic_term?.id
+    );
+
     selectedStatus.value = t(
       "option-set.customer_status." + customer.value.status.value
     );
@@ -527,6 +559,10 @@ const onCustomerNumberChanged = (event) => {
     );
   });
 };
+
+function onProviderChanged(value) {
+  isProvider.value = value;
+}
 
 formUtilsStore.$reset();
 formUtilsStore.save = onSave;

@@ -646,7 +646,7 @@ export function useListUtils() {
       {
         name: "terms-of-payment",
         type: "terms-of-payment",
-        field: "terms_of_payment_id",
+        field: "basic_term",
         editable: true,
       },
       {
