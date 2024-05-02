@@ -10,10 +10,7 @@
     border-collapse: collapse;"
   >
     <Column expander style="width: 0px"> </Column>
-    <Column
-      style="width: 0px; text-align: center"
-      selection-mode="multiple"
-    ></Column>
+    <Column style="width: 0px; text-align: center" selection-mode="multiple"></Column>
     <Column
       field="project_number"
       :header="$t('project.project_number')"
@@ -38,39 +35,31 @@
       :header="$t('project.project_name')"
       style="width: 60px"
     />
-    <Column
-      field="city_data"
-      :header="$t('project.city_data')"
-      style="width: 30px"
-    >
+    <Column field="city_data" :header="$t('project.city_data')" style="width: 30px">
       <template #body="slotProps">
-        <template v-if="slotProps.data.location">
-          {{ formatCityData(slotProps.data.location) }}
-        </template>
+        <div class="overflow-x-auto">
+          <template v-if="slotProps.data.location">
+            {{ formatCityData(slotProps.data.location) }}
+          </template>
+        </div>
       </template>
     </Column>
 
     <Column field="address" :header="$t('project.address')" style="width: 30px">
       <template #body="slotProps">
-        <template v-if="slotProps.data.location">
-          {{ formatAddress(slotProps.data.location) }}
-        </template>
+        <div class="overflow-x-auto">
+          <template v-if="slotProps.data.location">
+            {{ formatAddress(slotProps.data.location) }}
+          </template>
+        </div>
       </template>
     </Column>
-    <Column
-      field="project_type"
-      :header="$t('project.project_type')"
-      style="width: 30px"
-    >
+    <Column field="project_type" :header="$t('project.project_type')" style="width: 30px">
       <template #body="slotProps">
         <WMOptionSetValue :option-set="slotProps.data.project_type" />
       </template>
     </Column>
-    <Column
-      field="project_area"
-      :header="$t('project.project_area')"
-      style="width: 30px"
-    >
+    <Column field="project_area" :header="$t('project.project_area')" style="width: 30px">
       <template #body="slotProps">
         <WMOptionSetValue :option-set="slotProps.data.project_area" />
       </template>
