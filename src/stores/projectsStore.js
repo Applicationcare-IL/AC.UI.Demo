@@ -155,6 +155,19 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
+
+    // TEAM
+    getProjectTeam(projectId) {
+      return axiosConfig
+        .get("/projects/" + projectId + "/team")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+
     // BUDGETS
     updateBudget(projectId, data) {
       return axiosConfig

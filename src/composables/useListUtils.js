@@ -594,10 +594,10 @@ export function useListUtils() {
         field: "budget_item",
       },
       {
-        name: "customer",
-        type: "customer",
-        field: "customer",
-        header: "customer.customer",
+        name: "project_team",
+        type: "project_team",
+        field: "project_team",
+        header: "project.team",
         editable: true,
       },
       {
@@ -659,7 +659,7 @@ export function useListUtils() {
         name: "payment-date",
         type: "calendar",
         field: "payment_date",
-        editable: true,
+        editable: false,
       },
       {
         name: "reported",

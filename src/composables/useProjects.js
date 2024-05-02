@@ -81,6 +81,14 @@ export function useProjects() {
     return await projectsStore.exportProjects(params);
   };
 
+  //TEAM
+
+  const getProjectTeam = async (projectId) => {
+    const response = await projectsStore.getProjectTeam(projectId);
+
+    return mapProjectTeam(response.data);
+  };
+
   // BUDGETS
   const getProjectBudget = async (projectId) => {
     const response = await projectsStore.getProjectBudget(projectId);
@@ -464,6 +472,23 @@ export function useProjects() {
     };
   };
 
+  const mapProjectTeam = (team) => {
+    return team.map((teamMember) => {
+      return {
+        id: teamMember.id,
+        name:
+          teamMember.contact.name +
+          " " +
+          teamMember.contact.surname +
+          " - " +
+          teamMember.role_project?.value_en +
+          " - " +
+          teamMember.customer?.name,
+        basic_term: teamMember.basic_term.id,
+      };
+    });
+  };
+
   const mapPayment = (payment) => {
     return {
       ...payment,
@@ -474,6 +499,7 @@ export function useProjects() {
         new Date(payment.proforma_invoice_date),
         "DD/MM/YY"
       ),
+      project_team: payment.project_team?.id,
     };
   };
 
@@ -565,6 +591,7 @@ export function useProjects() {
     updateProjectMilestone,
     completeMilestone,
     exportProjects,
+    getProjectTeam,
     // UTILITIES
     parseProject,
     parseBudget,
