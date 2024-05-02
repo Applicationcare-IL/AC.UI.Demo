@@ -74,7 +74,9 @@
       </Column>
       <Column field="city_data" :header="$t('project.city_data')" style="width: 30px">
         <template #body="slotProps">
-          {{ formatCityData(slotProps.data.location) }}
+          <div class="overflow-x-auto">
+            {{ formatCityData(slotProps.data.location) }}
+          </div>
         </template>
       </Column>
       <Column field="address" :header="$t('project.address')" style="width: 30px">

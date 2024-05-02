@@ -1,6 +1,6 @@
 <template>
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <h2 class="m-0">Contacts</h2>
+    <h2 class="mb-0">Contacts</h2>
     <DataView :value="searchResults.contact">
       <template #list="slotProps">
         <div class="col-12">
@@ -23,7 +23,7 @@
         </div>
       </template>
     </DataView>
-    <h2 class="m-0">Customers</h2>
+    <h2 class="mb-0">Customers</h2>
     <DataView :value="searchResults.customer">
       <template #list="slotProps">
         <div class="col-12">
@@ -46,7 +46,7 @@
         </div>
       </template>
     </DataView>
-    <h2 class="m-0">Services</h2>
+    <h2 class="mb-0">Services</h2>
     <DataView :value="searchResults.service">
       <template #list="slotProps">
         <div class="col-12">
@@ -68,26 +68,29 @@
         </div>
       </template>
     </DataView>
-    <h2 class="m-0">Task</h2>
+    <h2 class="mb-0">Task</h2>
     <DataView :value="searchResults.task">
       <template #list="slotProps">
         <div class="col-12">
-          <router-link
-            v-for="(item, index) in slotProps.items"
-            :key="index"
-            :to="{
-              name: 'taskDetail',
-              params: { id: item.id },
-            }"
-            class="vertical-align-middle"
-          >
-            <div class="flex flex-row gap-4">
-              <div class=" ">
-                {{ item.id }} - {{ item.task_family[optionLabelWithLang] }} -
-                {{ item.task_type.name }}
+          <template v-for="(item, index) in slotProps.items" :key="index">
+            <router-link
+              :to="{
+                name: 'taskDetail',
+                params: { id: item.id },
+              }"
+              class="vertical-align-middle"
+            >
+              <div class="flex flex-row gap-4">
+                <div>
+                  {{ item.id }} - {{ item.task_family[optionLabelWithLang] }} -
+                  {{ item.task_type.name }}
+                </div>
               </div>
+            </router-link>
+            <div v-if="item.entity">
+              {{ $t("related-entity") }}: {{ item.entity.name }}
             </div>
-          </router-link>
+          </template>
         </div>
       </template>
     </DataView>

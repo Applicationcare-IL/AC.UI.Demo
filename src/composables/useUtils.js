@@ -37,7 +37,7 @@ export function useUtils() {
 
   const formatCityData = (location) => {
     if (!location.block || !location.parcel || !location.sub_parcel) {
-      return false;
+      return "";
     }
 
     const { block, parcel, sub_parcel } = location;
