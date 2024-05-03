@@ -107,6 +107,10 @@ export function useTasks() {
     return response.data;
   };
 
+  const cancelTask = async (id) => {
+    return await tasksStore.cancelTask(id);
+  };
+
   // UTILITIES
   const mapTask = (task) => {
     return {
@@ -246,6 +250,7 @@ export function useTasks() {
     exportTasks,
     getTasksSLADistribution,
     getTasksSLATableData,
+    cancelTask,
     // UTILITIES
     mapTask,
     parseTask,

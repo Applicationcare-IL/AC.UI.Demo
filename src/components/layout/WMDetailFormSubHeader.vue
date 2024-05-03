@@ -17,10 +17,7 @@
             </div>
           </div>
 
-          <div
-            v-if="entityObject.status"
-            class="flex align-items-center gap-1 font-bold"
-          >
+          <div v-if="entityObject.status" class="flex align-items-center gap-1 font-bold">
             <span>{{ $t("status") }}:</span>
             <div
               :class="highlightStatusClass(entityObject.status.value)"
@@ -111,7 +108,8 @@
 
           <slot name="custom-buttons" />
         </div>
-        <div>
+        <div class="flex gap-2 align-items-center">
+          <slot name="custom-secondary-buttons" />
           <WMButton
             v-if="isActiveTask"
             class="m-1 col-6"
@@ -205,10 +203,7 @@ const activateEntity = () => {
 };
 
 const deactivateEntity = () => {
-  emit(
-    "deactivateEntity",
-    utilsStore.selectedElements[utilsStore.entity][0].id
-  );
+  emit("deactivateEntity", utilsStore.selectedElements[utilsStore.entity][0].id);
 };
 
 const statusClass = (data) => {
@@ -222,8 +217,7 @@ watch(
     selectedElements.value = value?.length;
 
     isEntityActive.value =
-      utilsStore.selectedElements[utilsStore.entity][0].state?.value ===
-      "active";
+      utilsStore.selectedElements[utilsStore.entity][0].state?.value === "active";
 
     entityObject.value = utilsStore.selectedElements[utilsStore.entity][0];
     entityType.value = utilsStore.entity;

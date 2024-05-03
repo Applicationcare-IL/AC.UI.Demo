@@ -353,6 +353,12 @@
     "notification-created-message": "The new task was successfully created! \n From now on he will appear in your tasks list",
     "notification-created-detail": "View Task",
     "notification-created-close": "Close",
+    "notification-cancel-task-header": "Cancel task",
+    "notification-cancel-task-message": "Once canceled, the task can’t be restored. Are you sure you want to cancel the task?",
+    "notification-cancel-task-yes": "Yes, cancel it",
+    "notification-cancel-task-no": "No, go back",
+    "toast-task-cancelled-title": "Task canceled",
+    "toast-task-cancelled-message": "The task was successfully canceled",
     "days-till-closure": "Days till closure"
   },
   "project": {

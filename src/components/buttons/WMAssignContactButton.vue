@@ -1,18 +1,11 @@
 <template>
-  <WMTempButton
-    :text="$t('buttons.link_contact')"
-    type="type-4"
-    @click="toggle"
-  >
+  <WMTempButton :text="$t('buttons.link_contact')" type="type-4" @click="toggle">
     <template #customIcon>
       <div class="d-flex" v-html="PersonIcon" />
     </template>
   </WMTempButton>
 
-  <OverlayPanel
-    ref="isOpen"
-    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-  >
+  <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
     <div class="flex flex-column gap-2">
       <span class="h6 mb-1">{{ $t("service.what-to-link") }}</span>
 
@@ -102,8 +95,7 @@
 
 <script setup>
 // IMPORTS
-import { computed, ref } from "vue";
-import { useI18n } from "vue-i18n";
+import { ref } from "vue";
 
 import PersonIcon from "/icons/person.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
@@ -112,8 +104,6 @@ import { useLayout } from "@/layout/composables/layout";
 const { getContactsFromApi, getContactFromApi } = useContacts();
 const { layoutConfig } = useLayout();
 const { can } = usePermissions();
-
-const { t } = useI18n();
 
 // PROPS, EMITS
 defineProps({

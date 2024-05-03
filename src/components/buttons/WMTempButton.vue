@@ -1,8 +1,5 @@
 <template>
-  <Button
-    class="wm-button align-items-center justify-content-center"
-    :class="classes"
-  >
+  <Button class="wm-button align-items-center justify-content-center" :class="classes">
     <i v-if="icon" class="pi" :class="icon"></i>
     <slot name="customIcon"></slot>
     <span>{{ text }}</span>
@@ -13,9 +10,24 @@
 import { computed } from "vue";
 
 const props = defineProps({
-  icon: String,
-  text: String,
-  type: String,
+  icon: {
+    type: String,
+    required: false,
+  },
+  text: {
+    type: String,
+    required: false,
+  },
+  type: {
+    type: String,
+    required: true,
+    // validator
+    validator: (value) => {
+      return ["type-1", "type-4", "type-5", "save", "clear", "saved", "cancel"].includes(
+        value
+      );
+    },
+  },
   size: String,
   isActive: Boolean,
   isDisabled: Boolean,
@@ -150,6 +162,42 @@ const classes = computed(() => {
   }
 }
 
+.cancel {
+  background-color: white;
+  color: var(--red-500);
+  border: 1px solid var(--red-500);
+  font-weight: 700;
+
+  :deep(svg path) {
+    fill: var(--red-500);
+  }
+
+  &:hover,
+  &:active {
+    background-color: var(--red-50);
+    border: 1px solid var(--red-500);
+    color: var(--red-500);
+  }
+
+  &:focus {
+    background-color: var(--red-100);
+    color: white;
+    color: var(--red-500);
+  }
+
+  &.is-disabled {
+    background-color: var(--gray-200);
+    color: var(--gray-500);
+    cursor: not-allowed;
+    outline: 0;
+    box-shadow: none;
+
+    :deep(svg path) {
+      fill: var(--gray-500);
+    }
+  }
+}
+
 .clear {
   background-color: transparent;
   color: var(--blue-600);
@@ -200,7 +248,7 @@ const classes = computed(() => {
 
 // SIZES
 .wm-button.small {
-  padding: 3px 12px;
+  padding: 3px 6px;
   font-size: 1rem;
   height: 24px;
 }
