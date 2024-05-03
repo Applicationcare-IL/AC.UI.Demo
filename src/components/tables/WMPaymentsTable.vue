@@ -130,7 +130,7 @@
       </Column>
 
       <Column
-        v-if="column.type == 'customer'"
+        v-if="column.type == 'project_team'"
         :key="column.name"
         :field="column.field"
         :header="getColumHeader(column)"
@@ -139,10 +139,10 @@
         <template v-if="column.editable" #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
-            :options="customers"
+            :options="teamMembers"
             option-label="name"
             option-value="id"
-            placeholder="Select a customer"
+            placeholder="Select a team Member"
           >
             <template #option="slotProps">
               {{ slotProps.option.name }}
@@ -150,7 +150,7 @@
           </Dropdown>
         </template>
         <template #body="slotProps">
-          {{ getCustomerName(slotProps.data[column.field]) }}
+          {{ getTeamMemberName(slotProps.data[column.field]) }}
         </template>
       </Column>
 
@@ -243,23 +243,8 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template v-if="column.editable" #editor="{ data, field }">
-          <Dropdown
-            v-model="data[field]"
-            :options="basicTerms"
-            :option-label="optionLabelWithLang"
-            option-value="id"
-            placeholder="Select an option"
-          >
-            <template #option="slotProps">
-              {{ slotProps.option[optionLabelWithLang] }}
-            </template>
-          </Dropdown>
-        </template>
         <template #body="slotProps">
-          {{
-            getTermOfPayment(slotProps.data[column.field])[optionLabelWithLang]
-          }}
+          {{ slotProps.data[column.field]?.[optionLabelWithLang] }}
         </template>
       </Column>
     </template>
@@ -284,13 +269,13 @@ const {
   createProjectPayment,
   parseProjectPayment,
   getProjectMilestones,
+  getProjectTeam,
 } = useProjects();
 const { getPaymentsColumns } = useListUtils();
 const toast = useToast();
 const { t } = useI18n();
 const optionSetsStore = useOptionSetsStore();
 const { optionLabelWithLang } = useLanguages();
-const { getCustomersFromApi } = useCustomers();
 const utilsStore = useUtilsStore();
 
 // INJECT
@@ -317,7 +302,8 @@ const columns = ref(getPaymentsColumns());
 const editingRows = ref([]);
 const paymentStatuses = ref([]);
 const budgetItems = ref([]);
-const customers = ref([]);
+// const customers = ref([]);
+const teamMembers = ref([]);
 const basicTerms = ref([]);
 const milestones = ref([]);
 
@@ -346,9 +332,14 @@ const getBudgetItemName = (id) => {
   return budgetItem ? budgetItem.name : "";
 };
 
-const getCustomerName = (id) => {
-  const customer = customers.value.find((item) => item.id === id);
-  return customer ? customer.name : "";
+const getTeamMemberName = (id) => {
+  const teamMember = teamMembers.value.find((item) => item.id === id);
+  return teamMember ? teamMember.name : "";
+};
+
+const getTeamMemberTerm = (id) => {
+  const teamMember = teamMembers.value.find((item) => item.id === id);
+  return teamMember ? teamMember.basic_term : "";
 };
 
 const getMilestoneName = (id) => {
@@ -386,7 +377,7 @@ const getPaymentTemplate = () => {
     payment_date: new Date(),
     amount_paid: 80000,
     reported: true,
-    reported_date: new Date(),
+    report_date: new Date(),
     amount_approved: 80000,
     batch_number: "BATCH-2024-02-12",
     terms_of_payment_id: "",
@@ -440,8 +431,12 @@ const loadLazyData = () => {
     budgetItems.value = response.budgetItems;
   });
 
-  getCustomersFromApi().then((response) => {
-    customers.value = response.data;
+  // getCustomersFromApi().then((response) => {
+  //   customers.value = response.data;
+  // });
+
+  getProjectTeam(props.projectId).then((response) => {
+    teamMembers.value = response;
   });
 
   getProjectMilestones(props.projectId).then((response) => {
@@ -456,6 +451,7 @@ const onPage = (event) => {
 
 const onRowEditSave = (event) => {
   let { newData, index } = event;
+
   const paymentId = newData.id;
   if (!validateForm(newData)) {
     toast.error("Please fill all the required fields");
@@ -468,6 +464,8 @@ const onRowEditSave = (event) => {
       .then((response) => {
         delete newData.mode;
         newData.id = response.id;
+        newData.basic_term = getTermOfPayment(response.basic_term);
+        newData.payment_date = response.payment_date;
         payments.value[index] = newData;
         toast.successAction("payment", "created");
       })
@@ -482,7 +480,9 @@ const onRowEditSave = (event) => {
     props.projectId,
     paymentId,
     parseProjectPayment(newData)
-  ).then(() => {
+  ).then((response) => {
+    newData.basic_term = getTermOfPayment(response.basic_term);
+    newData.payment_date = response.payment_date;
     payments.value[index] = newData;
     toast.successAction("payment", "updated");
   });
@@ -491,7 +491,7 @@ const onRowEditSave = (event) => {
 const validateForm = (obj) => {
   const requiredFields = [
     "budget_item",
-    "customer",
+    "project_team",
     "proforma_invoice_number",
     "proforma_invoice_date",
     "proforma_invoice_amount",
@@ -502,7 +502,6 @@ const validateForm = (obj) => {
     "report_date",
     "amount_approved",
     "batch_number",
-    "basic_term",
   ];
 
   for (const field of requiredFields) {
