@@ -36,12 +36,12 @@ export function useProjects() {
     return await projectsStore.updateProjectConfig(id, config);
   };
 
-  const assignContactToProject = async (projectId, contact) => {
-    return await projectsStore.assignContactToProject(projectId, contact);
+  const assignContactToProject = async (params) => {
+    return await projectsStore.assignContactToProject(params);
   };
 
-  const unassignContactFromProject = async (projectId, contactId) => {
-    return await projectsStore.unassignContactFromProject(projectId, contactId);
+  const unassignContactFromProject = async (params) => {
+    return await projectsStore.unassignContactFromProject(params);
   };
 
   const addServiceArea = async (projectId, serviceArea) => {
@@ -81,12 +81,17 @@ export function useProjects() {
     return await projectsStore.exportProjects(params);
   };
 
-  //TEAM
+  // TEAM
+  const getProjectTeam = async (projectId, params) => {
+    const response = await projectsStore.getProjectTeam(projectId, params);
 
-  const getProjectTeam = async (projectId) => {
-    const response = await projectsStore.getProjectTeam(projectId);
+    const contacts = response.data.map((contact) => {
+      return mapProjectTeamMember(contact);
+    });
 
-    return mapProjectTeam(response.data);
+    const totalRecords = response.meta.total;
+
+    return { contacts, totalRecords };
   };
 
   // BUDGETS
@@ -472,21 +477,25 @@ export function useProjects() {
     };
   };
 
-  const mapProjectTeam = (team) => {
-    return team.map((teamMember) => {
-      return {
-        id: teamMember.id,
-        name:
-          teamMember.contact.name +
-          " " +
-          teamMember.contact.surname +
-          " - " +
-          teamMember.role_project?.value_en +
-          " - " +
-          teamMember.customer?.name,
-        basic_term: teamMember.basic_term.id,
-      };
-    });
+  const mapProjectTeamMember = (teamMember) => {
+    return {
+      id: teamMember.id,
+      contact_id: teamMember.contact.id,
+      name:
+        teamMember.contact.name +
+        " " +
+        teamMember.contact.surname +
+        " - " +
+        teamMember.role_project?.value_en +
+        " - " +
+        teamMember.customer?.name,
+      basic_term: teamMember.basic_term?.id,
+      contact_name: teamMember.contact.name,
+      telephone: teamMember.contact.phone,
+      email: teamMember.contact.email,
+      customer: teamMember.customer?.name,
+      role_project: teamMember.role_project,
+    };
   };
 
   const mapPayment = (payment) => {

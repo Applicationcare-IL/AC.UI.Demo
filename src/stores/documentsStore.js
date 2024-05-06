@@ -1,6 +1,6 @@
-import axiosConfig from "@/service/axiosConfig";
-
 import { defineStore } from "pinia";
+
+import axiosConfig from "@/service/axiosConfig";
 
 export const useDocumentsStore = defineStore("documents", {
   actions: {

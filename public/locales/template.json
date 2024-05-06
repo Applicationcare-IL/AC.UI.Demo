@@ -163,6 +163,7 @@
     "contact": "Contact",
     "contacts": "Contacts",
     "name": "Contact Name",
+    "contact_name": "Contact Name",
     "telephone": "Telephone",
     "landline": "Landline",
     "email": "Email",

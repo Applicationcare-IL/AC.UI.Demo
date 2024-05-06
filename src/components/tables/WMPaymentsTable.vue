@@ -161,10 +161,7 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template
-          v-if="column.editable && !props.milestoneId"
-          #editor="{ data, field }"
-        >
+        <template v-if="column.editable && !props.milestoneId" #editor="{ data, field }">
           <Dropdown
             v-model="data[field].id"
             :options="milestones"
@@ -435,8 +432,8 @@ const loadLazyData = () => {
   //   customers.value = response.data;
   // });
 
-  getProjectTeam(props.projectId).then((response) => {
-    teamMembers.value = response;
+  getProjectTeam(props.projectId).then(({ contacts }) => {
+    teamMembers.value = contacts;
   });
 
   getProjectMilestones(props.projectId).then((response) => {
@@ -476,16 +473,14 @@ const onRowEditSave = (event) => {
     return;
   }
 
-  updateProjectPayment(
-    props.projectId,
-    paymentId,
-    parseProjectPayment(newData)
-  ).then((response) => {
-    newData.basic_term = getTermOfPayment(response.basic_term);
-    newData.payment_date = response.payment_date;
-    payments.value[index] = newData;
-    toast.successAction("payment", "updated");
-  });
+  updateProjectPayment(props.projectId, paymentId, parseProjectPayment(newData)).then(
+    (response) => {
+      newData.basic_term = getTermOfPayment(response.basic_term);
+      newData.payment_date = response.payment_date;
+      payments.value[index] = newData;
+      toast.successAction("payment", "updated");
+    }
+  );
 };
 
 const validateForm = (obj) => {

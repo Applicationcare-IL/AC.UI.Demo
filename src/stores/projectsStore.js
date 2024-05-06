@@ -57,14 +57,14 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
-    assignContactToProject(projectId, contact) {
-      const params = {
-        project: projectId,
-        ...contact,
-      };
-
+    assignContactToProject({ project, contact, customer, role }) {
       return axiosConfig
-        .post("/projects/contacts", params)
+        .post("/projects/contacts", {
+          project,
+          contact,
+          customer,
+          role,
+        })
         .then((response) => {
           return response.data;
         })
@@ -73,14 +73,11 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
-    unassignContactFromProject(projectId, contactId) {
-      const params = {
-        project_id: projectId,
-        contact_id: contactId,
-      };
-
+    unassignContactFromProject({ project_id, contact_id, customer, role }) {
       return axiosConfig
-        .delete("/projects/contacts", { data: params })
+        .delete("/projects/contacts", {
+          data: { project_id, contact_id, customer, role },
+        })
         .then((response) => {
           return response.data;
         })
@@ -155,11 +152,10 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
-
     // TEAM
-    getProjectTeam(projectId) {
+    getProjectTeam(projectId, params) {
       return axiosConfig
-        .get("/projects/" + projectId + "/team")
+        .get("/projects/" + projectId + "/team", { params })
         .then((response) => {
           return response.data;
         })

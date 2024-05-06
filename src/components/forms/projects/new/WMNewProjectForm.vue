@@ -12,7 +12,7 @@
 
       <h2 class="h2 mb-0">{{ $t("team") }}</h2>
 
-      <WMAssignContactsTable
+      <WMSetTeamContactsTable
         :contacts="selectedContacts"
         :columns="getSelectedContactsForNewProjectColumns()"
         related-entity="project"
@@ -20,11 +20,7 @@
         @unlink="handleUnlinkContact"
       />
 
-      <WMFormButtons
-        v-if="isSidebar"
-        @save-form="onSubmit()"
-        @cancel-form="onCancel()"
-      />
+      <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
   </div>
 </template>

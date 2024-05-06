@@ -1,34 +1,16 @@
 <template>
-  <h2 v-if="showControls && showTitle" class="h2">
-    {{ $t("contact.contact") }}
-  </h2>
-
-  <WMAssignContactButton v-if="showAddContact" @add-contacts="addContacts" />
-
-  <div
-    v-if="showControls && showHeaderOptions && !showAddContact"
-    class="flex flex-column gap-3 mb-3"
-  >
+  <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMAssignContactButton @add-contacts="addContacts" />
-        <!-- <WMButton
-          v-if="can('contacts.export')"
-          class="m-1 col-6"
-          name="export-white"
-          icon="export"
-        >
-          {{ $t("export") }}
-        </WMButton> -->
       </div>
-      <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
+      <!-- <div class="flex flex-row align-items-center gap-3">
         <WMOwnerToggle entity="contact" />
-      </div>
+      </div> -->
     </div>
     <div class="flex flex-row gap-3">
-      <WMSearchBox v-model="searchValue" entity="contact" />
-
-      <WMFilterButton
+      <!-- <WMSearchBox v-model="searchValue" entity="contact" /> -->
+      <!-- <WMFilterButton
         :is-active="isFilterApplied || isFilterVisible"
         @click="openFilterSidebar"
       />
@@ -39,16 +21,11 @@
         @open-sidebar="openFilterSidebar"
       >
         <WMFilterForm entity="contact" filter-form-name="contact" />
-      </WMSidebar>
+      </WMSidebar> -->
     </div>
   </div>
 
-  <div v-if="showOnlySearch" class="flex flex-column gap-3 mb-3">
-    <div class="flex flex-row gap-3">
-      <WMSearchBox v-model="searchValue" entity="contact" />
-    </div>
-  </div>
-
+  <!-- <pre>{{ contacts }}</pre> -->
   <DataTable
     v-model:selection="selectedContacts"
     lazy
@@ -63,7 +40,7 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
+    <!-- <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column> -->
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -82,22 +59,7 @@
             >{{ slotProps.data[column.name] }}</router-link
           >
         </template>
-        <template v-if="column.type === 'star'">
-          <div @click="editMode[slotProps.index] && onStarClicked(slotProps.data)">
-            <img
-              v-if="isMainContact(slotProps.data)"
-              src="/icons/star.svg"
-              alt=""
-              class="vertical-align-middle"
-            />
-            <img
-              v-if="editMode[slotProps.index] && !isMainContact(slotProps.data)"
-              src="/icons/star_grey.svg"
-              alt=""
-              class="vertical-align-middle"
-            />
-          </div>
-        </template>
+
         <template v-if="column.type === 'role'">
           <Dropdown
             v-if="editMode[slotProps.index]"
@@ -108,6 +70,18 @@
           />
           <div v-else>
             <WMOptionSetValue :option-set="slotProps.data.role" />
+          </div>
+        </template>
+        <template v-if="column.type === 'customers'">
+          <Dropdown
+            v-if="editMode[slotProps.index]"
+            v-model="slotProps.data.customer"
+            :options="slotProps.data.customers"
+            option-label="name"
+            class="w-full p-0"
+          />
+          <div v-else>
+            {{ slotProps.data.customer?.name }}
           </div>
         </template>
         <template v-if="column.type === 'role_project'">
@@ -144,7 +118,7 @@
               v-if="column.buttons?.includes('unlink')"
               name="unlink"
               icon="unlink"
-              @click="unlinkContact(slotProps.data.contact_id)"
+              @click="unlinkContact(slotProps.data)"
             />
           </div>
         </template>
@@ -153,21 +127,9 @@
             {{ slotProps.data[column.name] }}
           </div>
         </template>
-        <template v-if="column.type === 'address'">
+        <!-- <template v-if="column.type === 'address'">
           {{ formatAddress(slotProps.data.location) }}
-        </template>
-        <template v-if="column.type === 'address'">
-          {{ formatAddress(slotProps.data.location) }}
-        </template>
-        <template v-if="column.type === 'take-call-btn'">
-          <Button
-            type="button"
-            label="Take call"
-            icon="pi pi-phone"
-            severity="primary"
-            @click="handleTakeCall(slotProps.data)"
-          />
-        </template>
+        </template> -->
       </template>
     </Column>
   </DataTable>
@@ -176,7 +138,6 @@
 <script setup>
 // IMPORTS
 import { computed, onMounted, ref, unref, watch, watchEffect } from "vue";
-import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -184,88 +145,32 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const router = useRouter();
-const { can } = usePermissions();
-const { t } = useI18n();
+
 const toast = useToast();
 const utilsStore = useUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 const { optionLabelWithLang } = useLanguages();
 const { getAlertCellConditionalStyle } = useListUtils();
 const { getContactsFromApi } = useContacts();
+const { getCustomersFromApi } = useCustomers();
+
 const {
-  getCustomerFromApi,
-  assignContactToCustomer,
-  unassignContactFromCustomer,
-} = useCustomers();
-const { takeCall } = useCalls();
+  getProjectTeam,
+  assignContactToProject,
+  unassignContactFromProject,
+} = useProjects();
 
 const { formatAddress } = useUtils();
 
 // PROPS, EMITS
 const props = defineProps({
-  rows: {
-    type: Number,
-    default: 10,
-  },
   columns: {
     type: Array,
     required: true,
   },
-  multiselect: {
-    type: Boolean,
-    default: true,
-  },
-  showControls: {
-    type: Boolean,
-    default: true,
-  },
-  showFilters: {
-    type: Boolean,
-    default: true,
-  },
-  showTitle: {
-    type: Boolean,
-    default: true,
-  },
-  customerId: {
-    type: String,
-    default: null,
-  },
   projectId: {
     type: String,
-    default: null,
-  },
-  contacts: {
-    type: Array,
-    default: null,
-  },
-  showHeaderOptions: {
-    type: Boolean,
-    default: true,
-  },
-  showAddContact: {
-    type: Boolean,
-    default: false,
-  },
-  showOnlySearch: {
-    type: Boolean,
-    default: false,
-  },
-  tableClass: {
-    type: String,
-    default: "",
-  },
-  relatedEntity: {
-    type: String,
-    default: "customer",
-  },
-  searchValue: {
-    type: String,
-    default: "",
-  },
-  taskCall: {
-    type: String,
-    default: "",
+    required: true,
   },
 });
 
@@ -279,8 +184,8 @@ const emit = defineEmits([
 
 // REFS
 const selectedContacts = ref(null);
-const isFilterOpen = ref(false);
-const isFilterApplied = ref(false);
+// const isFilterOpen = ref(false);
+// const isFilterApplied = ref(false);
 const totalRecords = ref(0);
 const editMode = ref([]);
 const contacts = ref([]);
@@ -298,37 +203,32 @@ const isSourceExternal = computed(() => {
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = () => {
-  const filters = utilsStore.filters["contact"];
+  // const filters = utilsStore.filters["contact"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
-  const selectedRowsPerPageParam = props.rows;
-  const customerParam = props.customerId;
-  const projectIdParam = props.projectId;
 
   const paramOptions = {
-    ...filters,
-    page: nextPage,
-    per_page: selectedRowsPerPageParam,
-    search: searchValueParam,
+    // ...filters,
+    per_page: 10,
   };
 
-  // paramOptions.customer_id = 1075;
-  if (customerParam) paramOptions.customer_id = customerParam;
-  if (projectIdParam) paramOptions.project_id = projectIdParam;
+  if (nextPage && nextPage > 1) {
+    paramOptions.page = nextPage;
+  }
+
+  if (searchValueParam) {
+    paramOptions.search = searchValueParam;
+  }
 
   // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams(paramOptions);
 
-  getContactsFromApi(params).then((result) => {
-    contacts.value = result.data;
-    totalRecords.value = result.totalRecords;
-  });
+  getProjectTeam(props.projectId, params).then((response) => {
+    if (!response.contacts) return;
 
-  if (customerParam) {
-    getCustomerFromApi(props.customerId).then((data) => {
-      customer.value = data;
-    });
-  }
+    contacts.value = response.contacts;
+    totalRecords.value = response.totalRecords;
+  });
 };
 
 const onPage = (event) => {
@@ -337,71 +237,36 @@ const onPage = (event) => {
 };
 
 const addContacts = (addedContacts) => {
-  addedContacts.forEach((contact) => {
-    if (contacts.value.find((c) => c.contact_id === contact.id)) return;
+  console.log("addedContacts", addedContacts);
 
-    if (props.relatedEntity === "customer") {
-      contact.role = getDefaultRole();
-    }
-
-    if (props.relatedEntity === "project") {
-      contact.role_project = getDefaultRole();
-    }
-
+  addedContacts.forEach(async (contact) => {
+    contact.role_project = getDefaultRole();
     contact.main = false;
     contacts.value.push(contact);
     editMode.value[contacts.value.length - 1] = true;
   });
 };
 
-const isMainContact = (contact) => {
-  return customer.value?.main_contact?.id == contact.id || contact.main === true;
-};
-
 const alertCellConditionalStyle = (data) => {
   return getAlertCellConditionalStyle(data);
 };
 
-const onStarClicked = (contact) => {
-  emit("update:mainContact", contact.id);
+const unlinkContact = (contact) => {
+  const params = {
+    project_id: parseInt(props.projectId),
+    contact_id: contact.contact_id,
+    role: contact.role_project?.id,
+    customer: contact.customer.id,
+  };
 
-  if (!isSourceExternal.value) {
-    if (props.relatedEntity === "customer") {
-      const contactParams = {
-        contact_id: contact.id,
-        main: true,
-        role: contact.role.id,
-      };
-
-      assignContactToCustomer(customer.value.id, contactParams)
-        .then(() => {
-          loadLazyData();
-        })
-        .catch(() => {});
-    }
-  }
-};
-
-const unlinkContact = (contactId) => {
-  if (isSourceExternal.value) {
-    emit("unlink", contactId);
-
-    contacts.value = contacts.value.filter((contact) => {
-      return contact.contact_id !== contactId;
+  unassignContactFromProject(params)
+    .then(() => {
+      loadLazyData();
+      toast.success({ message: "Contact Successfully unlinked" });
+    })
+    .catch(() => {
+      toast.error("Contact unlink Failed");
     });
-    return;
-  }
-
-  if (props.relatedEntity === "customer") {
-    unassignContactFromCustomer(customer.value.id, contactId)
-      .then(() => {
-        loadLazyData();
-        toast.success({ message: "Contact Successfully unlinked" });
-      })
-      .catch(() => {
-        toast.error("Contact unlink Failed");
-      });
-  }
 };
 
 const onSelectionChanged = () => {
@@ -409,61 +274,35 @@ const onSelectionChanged = () => {
 };
 
 const saveRow = (contact) => {
-  const roleValue =
-    props.relatedEntity === "customer" ? contact.role?.id : contact.role_project?.id;
+  console.log(contact);
 
-  if (props.relatedEntity === "customer") {
-    const contactParams = {
-      contact_id: contact.contact_id,
-      role: roleValue,
-    };
-
-    assignContactToCustomer(customer.value.id, contactParams)
-      .then(() => {
-        // loadLazyData();
-        toast.success({ message: "Contact Successfully updated" });
-      })
-      .catch(() => {
-        toast.error("Contact assign Failed");
-      });
-  }
-};
-
-function closeFilterSidebar() {
-  isFilterVisible.value = false;
-}
-
-function openFilterSidebar() {
-  isFilterVisible.value = true;
-}
-
-const getDefaultRole = () => {
-  if (props.relatedEntity === "customer") {
-    return unref(optionSets.value["contact_customer_role"][0]);
-  }
-
-  if (props.relatedEntity === "project") {
-    return unref(optionSets.value["contact_project_role"][0]);
-  }
-};
-
-const handleTakeCall = (contact) => {
-  const params = {
-    entity_type: "contact",
-    entity_id: contact.contact_id,
+  const contactParams = {
+    project: parseInt(props.projectId),
+    contact: contact.contact_id,
+    role: contact.role_project?.id,
+    customer: contact.customer.id,
   };
 
-  takeCall(props.taskCall, params).then(() => {
-    emit("closeDialog");
-
-    toast.success({ message: "Call taken successfully" });
-
-    router.push({
-      name: "contactDetail",
-      params: { id: contact.contact_id },
-      force: true,
+  assignContactToProject(contactParams)
+    .then(() => {
+      // loadLazyData();
+      toast.success({ message: "Contact Successfully updated" });
+    })
+    .catch(() => {
+      toast.error("Contact assign Failed");
     });
-  });
+};
+
+// function closeFilterSidebar() {
+//   isFilterVisible.value = false;
+// }
+
+// function openFilterSidebar() {
+//   isFilterVisible.value = true;
+// }
+
+const getDefaultRole = () => {
+  return unref(optionSets.value["contact_project_role"][0]);
 };
 
 // WATCHERS

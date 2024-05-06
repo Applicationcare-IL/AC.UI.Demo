@@ -146,6 +146,7 @@ export function useListUtils() {
         class: "link-col",
       },
       { name: "email", type: "text" },
+      { name: "customers", type: "customers", header: "project.organization" },
       {
         name: "role_project",
         type: "role_project",
@@ -804,30 +805,28 @@ export function useListUtils() {
   const getProjectTeamColumns = () => {
     return [
       {
-        name: "name",
+        name: "actions",
+        type: "actions",
+        header: "actions",
+        class: "buttons",
+        buttons: ["unlink", "edit"],
+      },
+      {
+        name: "contact_name",
         type: "link",
         to: "contact",
-        linkParameter: "id",
+        linkParameter: "contact_id",
         class: "link-col",
       },
       { name: "telephone", type: "text" },
-      { name: "landline", type: "text" },
       { name: "email", type: "text" },
-      { name: "address", type: "address" },
-      { name: "customer.name", type: "text", header: "project.organization" },
+      { name: "customers", type: "customers", header: "project.organization" },
       {
         name: "role_project",
         type: "role_project",
         header: "project.role_in_project",
         optionSet: "contact_project_role",
         class: "p-0",
-      },
-      {
-        name: "actions",
-        type: "actions",
-        header: "actions",
-        class: "buttons",
-        buttons: ["unlink", "edit"],
       },
     ];
   };
