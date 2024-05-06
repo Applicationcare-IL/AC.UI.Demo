@@ -360,7 +360,9 @@
     "notification-cancel-task-no": "No, go back",
     "toast-task-cancelled-title": "Task canceled",
     "toast-task-cancelled-message": "The task was successfully canceled",
-    "days-till-closure": "Days till closure"
+    "days-till-closure": "Days till closure",
+    "payment-request-task-title": "Payment request details",
+    "create-payment-request": "Create payment request"
   },
   "project": {
     "system-id": "System ID",

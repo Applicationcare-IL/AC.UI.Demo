@@ -3,6 +3,8 @@
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
       <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["task.task"]) }}</h1>
       <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
+      PAYMENT_REQUEST_TASK_FAMILY_ID {{ PAYMENT_REQUEST_TASK_FAMILY_ID }}
+
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
           <WMTeamOwnerFields />
@@ -84,7 +86,7 @@
           :label="$t('task.family') + ':'"
           width="200"
           :highlighted="true"
-          :options="taskFamily"
+          :options="taskFamilies"
           :option-set="true"
         />
         <WMInputSearch
@@ -148,12 +150,13 @@
         </div>
       </div>
     </div>
-    <WMFormButtons
-      v-if="isSidebar"
-      @save-form="onSubmit()"
-      @cancel-form="onCancel()"
-    />
+    <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
   </div>
+
+  <WMPaymentRequestTaskDialog
+    v-model="paymentRequestTaskTypeDialogVisibility"
+    @request-payment-task-created="handleRequestPaymentTaskCreated"
+  />
 </template>
 
 <script setup>
@@ -207,10 +210,12 @@ const emit = defineEmits(["newTaskCreated"]);
 
 // REFS
 const isRecurring = ref(false);
-const taskFamily = ref("");
+const taskFamilies = ref("");
 
 const isNewContactSidebarVisible = ref(false);
 const isNewCustomerSidebarVisible = ref(false);
+
+const paymentRequestTaskTypeDialogVisibility = ref(false);
 
 const selectedContact = ref();
 const selectedCustomer = ref();
@@ -223,6 +228,9 @@ const startTaskOptions = ref([
 const selectedStartTaskOption = ref(startTaskOptions.value[0]);
 const recurringOptions = ref(null);
 const today = ref(new Date().toISOString().slice(0, 10));
+
+const PAYMENT_REQUEST_TASK_FAMILY_ID = ref(0);
+const PAYMENT_REQUEST_TASK_TYPE_ID = ref(0);
 
 // COMPUTED
 // TODO: this should be a prop with an array of the values that we want to disable, but for now this is enough
@@ -259,7 +267,11 @@ const { handleSubmit, values, meta, resetForm } = useForm({
 });
 
 optionSetsStore.getOptionSetValuesFromApiRaw("task_family").then((data) => {
-  taskFamily.value = data;
+  taskFamilies.value = data;
+
+  PAYMENT_REQUEST_TASK_FAMILY_ID.value = data.find(
+    (taskFamily) => taskFamily.value === "payment"
+  ).id;
 });
 
 const searchContact = (query) => {
@@ -304,6 +316,15 @@ const onSubmit = handleSubmit((values) => {
     };
   }
 
+  if (PAYMENT_REQUEST_TASK_FAMILY_ID.value === values["task-family"].id) {
+    paymentRequestTaskTypeDialogVisibility.value = true;
+    return;
+  }
+
+  handleCreateTask(task);
+});
+
+const handleCreateTask = (task) => {
   createTask(parseTask(task))
     .then((data) => {
       emit("newTaskCreated");
@@ -320,7 +341,19 @@ const onSubmit = handleSubmit((values) => {
       console.error(error);
       toast.error("contact", "not-created");
     });
-});
+};
+
+const handleRequestPaymentTaskCreated = (newTaskId) => {
+  emit("newTaskCreated");
+  dialog.confirmNewTask({ id: newTaskId, emit });
+
+  resetForm();
+  isFormDirty.value = false;
+
+  closeSidebar();
+
+  toast.successAction("contact", "created");
+};
 
 const onCancel = () => {
   closeSidebar();

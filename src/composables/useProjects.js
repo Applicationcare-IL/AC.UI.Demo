@@ -493,7 +493,8 @@ export function useProjects() {
       contact_name: teamMember.contact.name,
       telephone: teamMember.contact.phone,
       email: teamMember.contact.email,
-      customer: teamMember.customer?.name,
+      customer: teamMember.customer,
+      customers: teamMember.customers,
       role_project: teamMember.role_project,
     };
   };
