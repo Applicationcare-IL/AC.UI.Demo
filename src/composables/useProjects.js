@@ -506,6 +506,8 @@ export function useProjects() {
       role_project: teamMember.role_project,
       contract_number: teamMember.contract_number,
       contract_amount: teamMember.contract_amount,
+      contract_amount_paid: teamMember.contract_amount_paid,
+      contract_amount_remaining: teamMember.contract_amount_remaining,
     };
   };
 

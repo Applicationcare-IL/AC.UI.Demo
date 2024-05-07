@@ -416,7 +416,9 @@
     "search-teams": "Search teams",
     "contract-number": "Contract number",
     "contract": "Contract",
-    "contract-amount": "Contract amount"
+    "contract-amount": "Contract amount",
+    "remains-to-be-paid": "Remains to be paid",
+    "paid-so-far": "Paid so far"
   },
   "budget": {
     "budget": "Budget",

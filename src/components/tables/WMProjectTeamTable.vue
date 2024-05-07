@@ -138,7 +138,11 @@
           </div>
         </template>
         <template v-if="column.type === 'attachment'">
-          <WMUploadAttachmentButton />
+          <WMUploadAttachmentButton
+            entity="project-team"
+            :entity-id="slotProps.data.id"
+            file-name="contract"
+          />
         </template>
         <template v-if="column.type === 'currency'">
           <WMInputCurrency

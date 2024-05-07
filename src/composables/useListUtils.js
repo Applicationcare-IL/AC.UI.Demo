@@ -826,12 +826,24 @@ export function useListUtils() {
         header: "project.contract-number",
         editable: true,
       },
-      // { name: "contract", type: "attachment", header: "project.contract" },
+      { name: "contract", type: "attachment", header: "project.contract" },
       {
         name: "contract_amount",
         type: "currency",
         header: "project.contract-amount",
         editable: true,
+      },
+      {
+        name: "contract_amount_paid",
+        type: "currency",
+        header: "project.paid-so-far",
+        editable: false,
+      },
+      {
+        name: "contract_amount_remaining",
+        type: "currency",
+        header: "project.remains-to-be-paid",
+        editable: false,
       },
       { name: "customers", type: "customers", header: "project.organization" },
       {
