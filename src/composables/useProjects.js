@@ -40,6 +40,10 @@ export function useProjects() {
     return await projectsStore.assignContactToProject(params);
   };
 
+  const updateTeamMember = async (projectId, teamMemberId, data) => {
+    return await projectsStore.updateTeamMember(projectId, teamMemberId, data);
+  };
+
   const unassignContactFromProject = async (params) => {
     return await projectsStore.unassignContactFromProject(params);
   };
@@ -608,6 +612,7 @@ export function useProjects() {
     exportProjects,
     getProjectTeam,
     getProjectTeamRoles,
+    updateTeamMember,
     // UTILITIES
     parseProject,
     parseBudget,

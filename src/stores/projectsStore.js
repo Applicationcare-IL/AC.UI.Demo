@@ -73,6 +73,18 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
+    updateTeamMember(projectId, teamMemberId, params) {
+      console.log("params", params);
+      return axiosConfig
+        .patch(`/projects/${projectId}/team/${teamMemberId}`, params)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
     unassignContactFromProject({
       project_id,
       contact_id,

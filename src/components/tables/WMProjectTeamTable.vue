@@ -159,8 +159,12 @@ const optionSetsStore = useOptionSetsStore();
 const { optionLabelWithLang } = useLanguages();
 const { getAlertCellConditionalStyle } = useListUtils();
 
-const { getProjectTeam, assignContactToProject, unassignContactFromProject } =
-  useProjects();
+const {
+  getProjectTeam,
+  assignContactToProject,
+  unassignContactFromProject,
+  updateTeamMember,
+} = useProjects();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -280,23 +284,33 @@ const onSelectionChanged = () => {
 };
 
 const saveRow = (contact) => {
-  console.log("contact", contact);
-
   const contactParams = {
     project: parseInt(props.projectId),
     contact: contact.contact_id,
     role: contact.role_project?.id,
     customer: contact.customer.id,
+    contract_number: contact.contract_number,
   };
 
-  assignContactToProject(contactParams)
-    .then(() => {
-      loadLazyData();
-      toast.success({ message: "Contact Successfully updated" });
-    })
-    .catch(() => {
-      toast.error("Contact assign Failed");
-    });
+  if (contact.state === "not-saved") {
+    assignContactToProject(contactParams)
+      .then(() => {
+        loadLazyData();
+        toast.success({ message: "Contact Successfully updated" });
+      })
+      .catch(() => {
+        toast.error("Contact assign Failed");
+      });
+  } else {
+    updateTeamMember(contactParams.project, contact.id, contactParams)
+      .then(() => {
+        loadLazyData();
+        toast.success({ message: "Contact Successfully updated" });
+      })
+      .catch(() => {
+        toast.error("Contact update Failed");
+      });
+  }
 };
 
 // function closeFilterSidebar() {
