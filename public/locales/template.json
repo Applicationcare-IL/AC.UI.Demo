@@ -415,7 +415,8 @@
     "show-project-location-label": "Show project location",
     "search-teams": "Search teams",
     "contract-number": "Contract number",
-    "contract": "Contract"
+    "contract": "Contract",
+    "contract-amount": "Contract amount"
   },
   "budget": {
     "budget": "Budget",

@@ -140,6 +140,20 @@
         <template v-if="column.type === 'attachment'">
           <WMUploadAttachmentButton />
         </template>
+        <template v-if="column.type === 'currency'">
+          <WMInputCurrency
+            v-if="column.editable && editMode[slotProps.index]"
+            v-model="slotProps.data[column.name]"
+            :read-only="false"
+            :name="column.name"
+          />
+          <WMInputCurrency
+            v-else
+            v-model="slotProps.data[column.name]"
+            :read-only="true"
+            :name="column.name"
+          />
+        </template>
       </template>
     </Column>
   </DataTable>
@@ -289,7 +303,8 @@ const saveRow = (contact) => {
     contact: contact.contact_id,
     role: contact.role_project?.id,
     customer: contact.customer.id,
-    contract_number: contact.contract_number,
+    contract_number: contact.contract_number ? contact.contract_number : 0,
+    contract_amount: contact.contract_amount ? contact.contract_amount : 0,
   };
 
   if (contact.state === "not-saved") {

@@ -826,7 +826,13 @@ export function useListUtils() {
         header: "project.contract-number",
         editable: true,
       },
-      { name: "contract", type: "attachment", header: "project.contract" },
+      // { name: "contract", type: "attachment", header: "project.contract" },
+      {
+        name: "contract_amount",
+        type: "currency",
+        header: "project.contract-amount",
+        editable: true,
+      },
       { name: "customers", type: "customers", header: "project.organization" },
       {
         name: "role_project",
