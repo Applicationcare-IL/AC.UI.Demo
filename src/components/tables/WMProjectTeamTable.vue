@@ -50,7 +50,13 @@
     >
       <template #body="slotProps">
         <template v-if="column.type === 'text'">
-          {{ slotProps.data[column.name] }}
+          <InputText
+            v-if="column.editable && editMode[slotProps.index]"
+            v-model="slotProps.data[column.name]"
+          />
+          <span v-else>
+            {{ slotProps.data[column.name] }}
+          </span>
         </template>
         <template v-if="column.type === 'link'">
           <router-link
@@ -131,9 +137,9 @@
             {{ slotProps.data[column.name] }}
           </div>
         </template>
-        <!-- <template v-if="column.type === 'address'">
-          {{ formatAddress(slotProps.data.location) }}
-        </template> -->
+        <template v-if="column.type === 'attachment'">
+          <WMUploadAttachmentButton />
+        </template>
       </template>
     </Column>
   </DataTable>
@@ -274,6 +280,8 @@ const onSelectionChanged = () => {
 };
 
 const saveRow = (contact) => {
+  console.log("contact", contact);
+
   const contactParams = {
     project: parseInt(props.projectId),
     contact: contact.contact_id,

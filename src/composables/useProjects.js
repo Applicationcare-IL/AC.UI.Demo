@@ -500,6 +500,7 @@ export function useProjects() {
       customer: teamMember.customer,
       customers: teamMember.customers,
       role_project: teamMember.role_project,
+      contract_number: teamMember.contract_number,
     };
   };
 

@@ -820,6 +820,13 @@ export function useListUtils() {
       },
       { name: "telephone", type: "text" },
       { name: "email", type: "text" },
+      {
+        name: "contract_number",
+        type: "text",
+        header: "project.contract-number",
+        editable: true,
+      },
+      { name: "contract", type: "attachment", header: "project.contract" },
       { name: "customers", type: "customers", header: "project.organization" },
       {
         name: "role_project",
