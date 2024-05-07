@@ -232,6 +232,9 @@ const addContacts = (addedContacts) => {
   addedContacts.forEach(async (contact) => {
     contact.role_project = getDefaultRole();
     contact.main = false;
+    contact.contact_name = contact.name;
+    contact.state = "not-saved";
+
     contacts.value.push(contact);
     editMode.value[contacts.value.length - 1] = true;
   });
@@ -242,6 +245,13 @@ const alertCellConditionalStyle = (data) => {
 };
 
 const unlinkContact = (contact) => {
+  if (contact.state === "not-saved") {
+    contacts.value = contacts.value.filter(
+      (c) => c.contact_id !== contact.contact_id
+    );
+    return;
+  }
+
   const params = {
     project_id: parseInt(props.projectId),
     contact_id: contact.contact_id,
