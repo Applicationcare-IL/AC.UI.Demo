@@ -66,7 +66,7 @@
           :options="yesNoOptions"
           :value="yesNoOptions[1]"
           width="80"
-          @update:selectedItem="onProviderChanged"
+          @update:selected-item="onProviderChanged"
         />
       </div>
       <div v-if="isProvider" class="wm-form-row gap-5">
@@ -115,12 +115,7 @@
             :label="$t('telephone') + ':'"
             width="88"
           />
-          <WMInput
-            name="fax"
-            type="input-text"
-            :label="$t('fax') + ':'"
-            width="88"
-          />
+          <WMInput name="fax" type="input-text" :label="$t('fax') + ':'" width="88" />
         </div>
 
         <div class="wm-form-row gap-5">
@@ -186,11 +181,7 @@
         />
       </div>
     </div>
-    <WMFormButtons
-      v-if="isSidebar"
-      @save-form="onSubmit()"
-      @cancel-form="onCancel()"
-    />
+    <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
   </div>
 </template>
 
@@ -350,9 +341,7 @@ const unlinkContact = (id) => {
 };
 
 const onContactselected = (newContact) => {
-  if (
-    selectedContacts.value.some((contact) => contact.id === newContact.value.id)
-  ) {
+  if (selectedContacts.value.some((contact) => contact.id === newContact.value.id)) {
     return;
   }
 
@@ -404,9 +393,7 @@ onMounted(async () => {
   ratings.value = await optionSetsStore.getOptionSetValues("customer_rating");
   serviceAreas.value = await optionSetsStore.getOptionSetValues("service_area");
   basicTerms.value = await optionSetsStore.getOptionSetValues("basic_term");
-  defaultRole = await optionSetsStore.getOptionSetValues(
-    "contact_customer_role"
-  )[0];
+  defaultRole = await optionSetsStore.getOptionSetValues("contact_customer_role")[0];
 
   optionSetsStore
     .getOptionSetValuesFromApi("service_area")

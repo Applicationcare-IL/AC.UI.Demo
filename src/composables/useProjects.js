@@ -94,6 +94,10 @@ export function useProjects() {
     return { contacts, totalRecords };
   };
 
+  const getProjectTeamRoles = async (projectId, params) => {
+    return await projectsStore.getProjectTeamRoles(projectId, params);
+  };
+
   // BUDGETS
   const getProjectBudget = async (projectId) => {
     const response = await projectsStore.getProjectBudget(projectId);
@@ -602,6 +606,7 @@ export function useProjects() {
     completeMilestone,
     exportProjects,
     getProjectTeam,
+    getProjectTeamRoles,
     // UTILITIES
     parseProject,
     parseBudget,

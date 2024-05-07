@@ -1,54 +1,59 @@
 <template>
-  <template v-if="readOnly">
-    <div
-      class="input-currency"
-      :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-    >
-      <span class="vertical-align-middle">{{ shekelFormattedNumber }}</span>
-      <img
-        class="input-currency__icon vertical-align-middle mr-2"
-        src="/icons/shekel.svg"
-        alt="shekel symbol"
-      />
-    </div>
-  </template>
-  <template v-else>
-    <div
-      class="input-currency input-currency--editable"
-      :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-    >
-      <img
-        class="input-currency__icon vertical-align-middle"
-        src="/icons/shekel.svg"
-        alt=""
-      />
+  <div class="wm-input flex flex-column">
+    <label v-if="label != ''" class="wm-form-label">
+      {{ label }} <span v-if="required" class="text-red-500"> *</span>
+    </label>
+    <template v-if="readOnly">
+      <div
+        class="input-currency"
+        :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+      >
+        <span class="vertical-align-middle">{{ shekelFormattedNumber }}</span>
+        <img
+          class="input-currency__icon vertical-align-middle mr-2"
+          src="/icons/shekel.svg"
+          alt="shekel symbol"
+        />
+      </div>
+    </template>
+    <template v-else>
+      <div
+        class="input-currency input-currency--editable"
+        :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+      >
+        <img
+          class="input-currency__icon vertical-align-middle"
+          src="/icons/shekel.svg"
+          alt=""
+        />
 
-      <InputNumber
-        v-model="modelValue"
-        :name="name"
-        :class="[
-          {
-            'wm-input-error': !!field.errorMessage,
-          },
-          'w-full',
-        ]"
-        locale="he-IL"
-        :min-fraction-digits="2"
-        @input="
-          $emit('update:modelValue', $event.value);
-          field.handleChange($event.value);
-        "
-      />
-    </div>
+        <InputNumber
+          v-model="modelValue"
+          :name="name"
+          :class="[
+            {
+              'wm-input-error': !!field.errorMessage,
+            },
+            'w-full',
+          ]"
+          locale="he-IL"
+          :min-fraction-digits="2"
+          @input="
+            $emit('update:modelValue', $event.value);
+            field.handleChange($event.value);
+          "
+        />
+      </div>
 
-    <span v-if="field.errorMessage" class="wm-validation-message">
-      {{
-        typeof field.errorMessage === "string"
-          ? $t(field.errorMessage)
-          : $t(field.errorMessage.key, field.errorMessage.values)
-      }}
-    </span>
-  </template>
+      <span v-if="field.errorMessage" class="wm-validation-message">
+        {{
+          typeof field.errorMessage === "string"
+            ? $t(field.errorMessage)
+            : $t(field.errorMessage.key, field.errorMessage.values)
+        }}
+      </span>
+    </template>
+  </div>
 </template>
 
 <script setup>
@@ -74,6 +79,14 @@ const props = defineProps({
   name: {
     type: String,
     required: true,
+  },
+  label: {
+    type: String,
+    default: "",
+  },
+  required: {
+    type: Boolean,
+    default: false,
   },
 });
 

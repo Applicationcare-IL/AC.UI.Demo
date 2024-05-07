@@ -163,7 +163,16 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
-
+    getProjectTeamRoles(projectId, params) {
+      return axiosConfig
+        .get("/projects/" + projectId + "/team/roles", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     // BUDGETS
     updateBudget(projectId, data) {
       return axiosConfig

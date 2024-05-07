@@ -472,12 +472,16 @@
     "proforma-invoice-date": "Proforma Invoice Date",
     "invoice-number": "Invoice Number",
     "terms-of-payment": "Terms of Payment",
+    "amount": "Amount",
     "amount-paid": "Amount Paid",
     "amount-approved-to-be-paid": "Amount Approved to be Paid",
     "batch-number": "Batch Number",
     "invoice-date": "Invoice Date",
     "payment-date": "Payment Date",
-    "date-reported-date": "Date Reported"
+    "date-reported-date": "Date Reported",
+    "remains-to-be-paid": "Remains to be paid",
+    "paid-so-far": "Paid so far",
+    "invoice-type": "Invoice Type"
   },
   "milestone": {
     "milestone": "Milestone",

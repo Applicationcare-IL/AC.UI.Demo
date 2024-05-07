@@ -225,6 +225,9 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  customOptionLabel: {
+    type: String,
+  },
 });
 
 const emit = defineEmits(["update:value", "update:selectedItem", "update:modelValue"]);
@@ -239,6 +242,10 @@ const refOptions = toRef(props, "options");
 const optionLabel = computed(() => {
   if (props.optionSet) {
     return optionLabelWithLang.value;
+  }
+
+  if (props.customOptionLabel) {
+    return props.customOptionLabel;
   }
 
   if (props.type === "input-select-button") {

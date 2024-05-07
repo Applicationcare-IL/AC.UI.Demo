@@ -3,7 +3,6 @@
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
       <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["task.task"]) }}</h1>
       <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
-      PAYMENT_REQUEST_TASK_FAMILY_ID {{ PAYMENT_REQUEST_TASK_FAMILY_ID }}
 
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
@@ -150,11 +149,16 @@
         </div>
       </div>
     </div>
-    <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSubmit()"
+      @cancel-form="onCancel()"
+    />
   </div>
 
   <WMPaymentRequestTaskDialog
     v-model="paymentRequestTaskTypeDialogVisibility"
+    :task="currentCreatingTask"
     @request-payment-task-created="handleRequestPaymentTaskCreated"
   />
 </template>
@@ -212,6 +216,8 @@ const emit = defineEmits(["newTaskCreated"]);
 const isRecurring = ref(false);
 const taskFamilies = ref("");
 
+const currentCreatingTask = ref(null);
+
 const isNewContactSidebarVisible = ref(false);
 const isNewCustomerSidebarVisible = ref(false);
 
@@ -230,7 +236,6 @@ const recurringOptions = ref(null);
 const today = ref(new Date().toISOString().slice(0, 10));
 
 const PAYMENT_REQUEST_TASK_FAMILY_ID = ref(0);
-const PAYMENT_REQUEST_TASK_TYPE_ID = ref(0);
 
 // COMPUTED
 // TODO: this should be a prop with an array of the values that we want to disable, but for now this is enough
@@ -317,6 +322,7 @@ const onSubmit = handleSubmit((values) => {
   }
 
   if (PAYMENT_REQUEST_TASK_FAMILY_ID.value === values["task-family"].id) {
+    currentCreatingTask.value = task;
     paymentRequestTaskTypeDialogVisibility.value = true;
     return;
   }
