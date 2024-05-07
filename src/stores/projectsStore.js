@@ -73,10 +73,15 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
-    unassignContactFromProject({ project_id, contact_id, customer, role }) {
+    unassignContactFromProject({
+      project_id,
+      contact_id,
+      customer_id,
+      role_id,
+    }) {
       return axiosConfig
         .delete("/projects/contacts", {
-          data: { project_id, contact_id, customer, role },
+          data: { project_id, contact_id, customer_id, role_id },
         })
         .then((response) => {
           return response.data;

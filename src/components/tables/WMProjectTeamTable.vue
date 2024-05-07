@@ -99,13 +99,17 @@
         <template v-if="column.type === 'actions'">
           <div class="flex flex-row gap-2">
             <WMButton
-              v-if="column.buttons?.includes('edit') && !editMode[slotProps.index]"
+              v-if="
+                column.buttons?.includes('edit') && !editMode[slotProps.index]
+              "
               name="edit"
               icon="edit"
               @click="editMode[slotProps.index] = true"
             />
             <WMButton
-              v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
+              v-if="
+                column.buttons?.includes('edit') && editMode[slotProps.index]
+              "
               name="save"
               icon="save"
               class="in_table"
@@ -138,29 +142,19 @@
 <script setup>
 // IMPORTS
 import { computed, onMounted, ref, unref, watch, watchEffect } from "vue";
-import { useRouter } from "vue-router";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const router = useRouter();
-
 const toast = useToast();
 const utilsStore = useUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 const { optionLabelWithLang } = useLanguages();
 const { getAlertCellConditionalStyle } = useListUtils();
-const { getContactsFromApi } = useContacts();
-const { getCustomersFromApi } = useCustomers();
 
-const {
-  getProjectTeam,
-  assignContactToProject,
-  unassignContactFromProject,
-} = useProjects();
-
-const { formatAddress } = useUtils();
+const { getProjectTeam, assignContactToProject, unassignContactFromProject } =
+  useProjects();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -189,10 +183,8 @@ const selectedContacts = ref(null);
 const totalRecords = ref(0);
 const editMode = ref([]);
 const contacts = ref([]);
-const customer = ref();
 const searchValue = ref(props.searchValue);
 const lazyParams = ref({});
-const isFilterVisible = ref(false);
 
 // COMPUTED
 // If the source of data is external, we don't need to load the
@@ -237,8 +229,6 @@ const onPage = (event) => {
 };
 
 const addContacts = (addedContacts) => {
-  console.log("addedContacts", addedContacts);
-
   addedContacts.forEach(async (contact) => {
     contact.role_project = getDefaultRole();
     contact.main = false;
@@ -255,8 +245,8 @@ const unlinkContact = (contact) => {
   const params = {
     project_id: parseInt(props.projectId),
     contact_id: contact.contact_id,
-    role: contact.role_project?.id,
-    customer: contact.customer.id,
+    role_id: contact.role_project?.id,
+    customer_id: contact.customer.id,
   };
 
   unassignContactFromProject(params)
@@ -274,8 +264,6 @@ const onSelectionChanged = () => {
 };
 
 const saveRow = (contact) => {
-  console.log(contact);
-
   const contactParams = {
     project: parseInt(props.projectId),
     contact: contact.contact_id,
@@ -285,7 +273,7 @@ const saveRow = (contact) => {
 
   assignContactToProject(contactParams)
     .then(() => {
-      // loadLazyData();
+      loadLazyData();
       toast.success({ message: "Contact Successfully updated" });
     })
     .catch(() => {
@@ -361,9 +349,8 @@ const optionSets = ref([]);
 const loadOptionSets = async () => {
   props.columns.forEach(async (column) => {
     if (column.optionSet) {
-      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
-        column.optionSet
-      );
+      optionSets.value[column.optionSet] =
+        await optionSetsStore.getOptionSetValues(column.optionSet);
     }
   });
 };
