@@ -474,6 +474,7 @@ export function useListUtils() {
       { name: "sla", type: "sla", class: "sla" },
       { name: "started_at", type: "text" },
       { name: "due_date", type: "text" },
+      { name: "close_date", type: "text" },
       { name: "owner", type: "text" },
       { name: "status", type: "optionset", prefix: "statuses" },
       { name: "notes", type: "text" },
