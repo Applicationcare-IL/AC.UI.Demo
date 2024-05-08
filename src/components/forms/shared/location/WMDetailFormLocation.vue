@@ -50,9 +50,7 @@
               :type="formType"
               :highlighted="true"
               :label="$t('address.street') + ':'"
-              :value="
-                location.street ? location.street[optionLabelWithLang] : ''
-              "
+              :value="location.street ? location.street[optionLabelWithLang] : ''"
             />
 
             <WMInputSearch
@@ -74,9 +72,7 @@
               :highlighted="true"
               :label="$t('address.neighborhood') + ':'"
               :value="
-                location.neighborhood
-                  ? location.neighborhood[optionLabelWithLang]
-                  : ''
+                location.neighborhood ? location.neighborhood[optionLabelWithLang] : ''
               "
             />
           </div>
@@ -102,7 +98,7 @@
               :label="$t('address.entrance') + ':'"
               :options="alphabet"
               width="60"
-              :value="location.entrance"
+              :value="selectedEntrance"
             />
             <WMInput
               v-else
@@ -122,6 +118,7 @@
               width="80"
               :placeholder="$t('select', ['address.zip'])"
               :option-set="true"
+              :model-value="selectedZip"
             />
             <WMInput
               v-else
@@ -174,39 +171,28 @@ const streets = ref();
 const neighborhoods = ref();
 const zips = ref();
 
-const selectedCity = ref();
-const selectedSteet = ref();
 const isCitySelected = ref(false);
-const selectedZip = ref();
 
 const { optionLabelWithLang } = useLanguages();
 
 const selectedEntrance = computed(() => {
-  return alphabet.value.find(
-    (letter) => letter.value === props.location.entrance
-  );
+  return alphabet.value.find((letter) => letter.value === props.location.entrance);
+});
+
+const selectedZip = computed(() => {
+  if (!props.location.zip) return;
+  if (!zips.value) return;
+
+  return zips.value.find((zip) => zip.id === props.location.zip);
 });
 
 onMounted(async () => {
   cities.value = await optionSetsStore.getOptionSetValues("service_city");
   streets.value = await optionSetsStore.getOptionSetValues("service_street");
-  neighborhoods.value = await optionSetsStore.getOptionSetValues(
-    "service_neighborhood"
-  );
+  neighborhoods.value = await optionSetsStore.getOptionSetValues("service_neighborhood");
   if (props.location?.street && props.location?.city) {
     isCitySelected.value = true;
-
     zips.value = await optionSetsStore.getOptionSetValues("zip");
-
-    // selectedCity.value = cities.value.find(
-    //   (city) => city.id === props.location.city?.id
-    // );
-
-    // selectedSteet.value = streets.value.find(
-    //   (street) => street.id === props.location.street?.id
-    // );
-
-    // selectedZip.value = zips.value.find((zip) => zip.id === props.location.zip);
   }
 });
 
