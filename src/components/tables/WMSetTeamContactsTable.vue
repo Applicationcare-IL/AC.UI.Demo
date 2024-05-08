@@ -1,5 +1,8 @@
 <template>
-  <WMAssignContactButton @add-contacts="addContacts" />
+  <WMAssignContactButton
+    :options="['contacts', 'teams']"
+    @add-contacts="addContacts"
+  />
   <DataTable
     v-model:selection="selectedContacts"
     lazy
@@ -131,9 +134,8 @@ const loadOptionSets = async () => {
   props.columns.forEach(async (column) => {
     console.log(column.optionSet);
     if (column.optionSet) {
-      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
-        column.optionSet
-      );
+      optionSets.value[column.optionSet] =
+        await optionSetsStore.getOptionSetValues(column.optionSet);
     }
   });
 };

@@ -19,6 +19,7 @@
 
       <div class="flex gap-2">
         <WMSelectableButton
+          v-if="options.includes('contacts')"
           v-model="isContactsSelected"
           :label="$t('contact.contacts')"
           :unselectable="true"
@@ -29,6 +30,7 @@
         />
 
         <WMSelectableButton
+          v-if="options.includes('teams')"
           v-model="isTeamsSelected"
           :label="$t('teams')"
           :unselectable="true"
@@ -121,6 +123,10 @@ defineProps({
   entity: {
     type: String,
     default: "",
+  },
+  options: {
+    type: Array,
+    default: () => ["contacts"],
   },
 });
 

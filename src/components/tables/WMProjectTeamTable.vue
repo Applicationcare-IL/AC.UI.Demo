@@ -2,7 +2,10 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMAssignContactButton @add-contacts="addContacts" />
+        <WMAssignContactButton
+          :options="['contacts', 'teams']"
+          @add-contacts="addContacts"
+        />
       </div>
       <!-- <div class="flex flex-row align-items-center gap-3">
         <WMOwnerToggle entity="contact" />
