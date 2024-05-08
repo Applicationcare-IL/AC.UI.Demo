@@ -86,6 +86,7 @@ export function useCustomers() {
       id: customer.id,
       owner: customer.owner,
       main_contact: customer.main_contact,
+      contacts: customer.contacts,
       service_areas: customer.service_areas,
       is_provider: customer.is_provider,
       fax: customer.fax,

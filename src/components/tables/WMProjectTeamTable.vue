@@ -178,6 +178,7 @@ const utilsStore = useUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 const { optionLabelWithLang } = useLanguages();
 const { getAlertCellConditionalStyle } = useListUtils();
+const { getCustomersFromApi } = useCustomers();
 
 const {
   getProjectTeam,
@@ -259,15 +260,36 @@ const onPage = (event) => {
 };
 
 const addContacts = (addedContacts) => {
+  console.log("addContacts", addedContacts);
+
   addedContacts.forEach(async (contact) => {
     contact.role_project = getDefaultRole();
     contact.main = false;
     contact.contact_name = contact.name;
     contact.state = "not-saved";
+    contact.contact_id = contact.id;
+    contact.customers = await getAvailableCustomersOfContact(contact);
+    contact.customer = await getCustomerInfoFromAvailableCustomers(
+      contact.customer,
+      contact.customers
+    );
 
     contacts.value.push(contact);
     editMode.value[contacts.value.length - 1] = true;
   });
+};
+
+const getAvailableCustomersOfContact = async (contact) => {
+  const customers = await getCustomersFromApi({ contact_id: contact.id });
+  return customers.data;
+};
+
+const getCustomerInfoFromAvailableCustomers = async (customer, customers) => {
+  if (!customer) {
+    return customers[0];
+  }
+
+  return customers.find((c) => c.id === customer.id);
 };
 
 const alertCellConditionalStyle = (data) => {
@@ -291,7 +313,9 @@ const unlinkContact = (contact) => {
 
   unassignContactFromProject(params)
     .then(() => {
-      loadLazyData();
+      contacts.value = contacts.value.filter(
+        (c) => c.contact_id !== contact.contact_id
+      );
       toast.success({ message: "Contact Successfully unlinked" });
     })
     .catch(() => {
@@ -316,7 +340,6 @@ const saveRow = (contact) => {
   if (contact.state === "not-saved") {
     assignContactToProject(contactParams)
       .then(() => {
-        loadLazyData();
         toast.success({ message: "Contact Successfully updated" });
       })
       .catch(() => {
@@ -325,7 +348,6 @@ const saveRow = (contact) => {
   } else {
     updateTeamMember(contactParams.project, contact.id, contactParams)
       .then(() => {
-        loadLazyData();
         toast.success({ message: "Contact Successfully updated" });
       })
       .catch(() => {

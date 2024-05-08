@@ -1,7 +1,7 @@
 <template>
   <MultiSelect
-    v-model="selectedCities"
-    :options="groupedCities"
+    v-model="modelValue"
+    :options="groupedContacts"
     option-label="label"
     option-group-label="label"
     option-group-children="items"
@@ -9,16 +9,13 @@
     :placeholder="$t('contact.search-contacts')"
     filter
     :show-toggle-all="false"
+    class="search-contact-grouped-by-customer"
   >
     <template #optiongroup="slotProps">
       <div class="flex align-items-center">
-        <img
-          :alt="slotProps.option.label"
-          src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png"
-          :class="`flag flag-${slotProps.option.code.toLowerCase()} mr-2`"
-          style="width: 18px"
-        />
-        <div>{{ slotProps.option.label }}</div>
+        <div>
+          {{ slotProps.option.label }}
+        </div>
       </div>
     </template>
   </MultiSelect>
@@ -27,37 +24,65 @@
 <script setup>
 import { ref } from "vue";
 
-const selectedCities = ref();
-const groupedCities = ref([
-  {
-    label: "Germany",
-    code: "DE",
-    items: [
-      { label: "Berlin", value: "Berlin" },
-      { label: "Frankfurt", value: "Frankfurt" },
-      { label: "Hamburg", value: "Hamburg" },
-      { label: "Munich", value: "Munich" },
-    ],
-  },
-  {
-    label: "USA",
-    code: "US",
-    items: [
-      { label: "Chicago", value: "Chicago" },
-      { label: "Los Angeles", value: "Los Angeles" },
-      { label: "New York", value: "New York" },
-      { label: "San Francisco", value: "San Francisco" },
-    ],
-  },
-  {
-    label: "Japan",
-    code: "JP",
-    items: [
-      { label: "Kyoto", value: "Kyoto" },
-      { label: "Osaka", value: "Osaka" },
-      { label: "Tokyo", value: "Tokyo" },
-      { label: "Yokohama", value: "Yokohama" },
-    ],
-  },
-]);
+const { getCustomersFromApi } = useCustomers();
+
+const modelValue = defineModel();
+
+const { optionLabelWithLang } = useLanguages();
+
+let params = {
+  r_small: true,
+  with_contacts: true,
+};
+
+getCustomersFromApi(params).then((data) => {
+  let customers = data.data;
+
+  mapContactsGroupedByCustomer(customers);
+});
+
+const mapContactsGroupedByCustomer = (customers) => {
+  customers.forEach((customer) => {
+    if (!customer.contacts.length) return;
+
+    let customerObj = {
+      label: customer.name,
+      code: customer.id,
+      items: [],
+    };
+
+    customer.contacts.forEach((contact) => {
+      customerObj.items.push({
+        label: `${contact.name} - ${contact.role[optionLabelWithLang.value]}`,
+        value: contact.id,
+        telephone: contact.phone,
+        contact_id: contact.id,
+        ...contact,
+        customer: {
+          id: customer.id,
+          name: customer.name,
+        },
+      });
+    });
+
+    groupedContacts.value.push(customerObj);
+  });
+};
+
+const groupedContacts = ref([]);
 </script>
+
+<style lang="scss">
+.search-contact-grouped-by-customer {
+  .p-multiselect .p-multiselect-label {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+  }
+}
+
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item-group {
+  background: var(--gray-100);
+  font-weight: 700;
+}
+</style>

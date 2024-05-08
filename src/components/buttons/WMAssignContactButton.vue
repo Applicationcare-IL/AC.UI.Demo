@@ -1,11 +1,19 @@
 <template>
-  <WMTempButton :text="$t('buttons.link_contact')" type="type-4" @click="toggle">
+  <WMTempButton
+    :text="$t('buttons.link_contact')"
+    type="type-4"
+    @click="toggle"
+  >
     <template #customIcon>
       <div class="d-flex" v-html="PersonIcon" />
     </template>
   </WMTempButton>
 
-  <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
+  <OverlayPanel
+    ref="isOpen"
+    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+    style="width: 300px"
+  >
     <div class="flex flex-column gap-2">
       <span class="h6 mb-1">{{ $t("service.what-to-link") }}</span>
 
@@ -20,7 +28,7 @@
           "
         />
 
-        <!-- <WMSelectableButton
+        <WMSelectableButton
           v-model="isTeamsSelected"
           :label="$t('teams')"
           :unselectable="true"
@@ -28,7 +36,7 @@
             isContactsSelected = false;
             isTeamsSelected = true;
           "
-        /> -->
+        />
       </div>
 
       <WMInputSearch
@@ -43,7 +51,7 @@
         @update:model-value="onTeamSelected"
       />
 
-      <WMInputSearch
+      <!-- <WMInputSearch
         v-if="isContactsSelected"
         name="contact"
         :placeholder="$t('contact.search-contacts')"
@@ -54,9 +62,12 @@
         related-sidebar="newContactFromAssignContactButton"
         :model-value="selectedContacts"
         @update:model-value="onContactselected"
-      />
+      /> -->
 
-      <!-- <WMSearchContactsGroupedByCustomer /> -->
+      <WMSearchContactsGroupedByCustomer
+        v-if="isContactsSelected"
+        v-model="selectedContacts"
+      />
 
       <WMTempButton
         :text="$t('buttons.link')"
