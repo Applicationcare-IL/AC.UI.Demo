@@ -67,5 +67,6 @@ module.exports = {
     useExports: true,
     expect: true,
     useDates: true,
+    useEmployees: true,
   },
 };

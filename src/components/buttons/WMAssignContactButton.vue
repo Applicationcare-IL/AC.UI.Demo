@@ -1,9 +1,5 @@
 <template>
-  <WMTempButton
-    :text="$t('buttons.link_contact')"
-    type="type-4"
-    @click="toggle"
-  >
+  <WMTempButton :text="$t('buttons.link_contact')" type="type-4" @click="toggle">
     <template #customIcon>
       <div class="d-flex" v-html="PersonIcon" />
     </template>
@@ -47,10 +43,15 @@
         :placeholder="$t('project.search-teams')"
         :multiple="true"
         width="248"
-        :search-function="searchContact"
+        :search-function="searchTeams"
         :new="true"
         :model-value="selectedTeams"
         @update:model-value="onTeamSelected"
+      />
+
+      <WMSearchContactsGroupedByCustomer
+        v-if="isContactsSelected"
+        v-model="selectedContacts"
       />
 
       <!-- <WMInputSearch
@@ -66,16 +67,11 @@
         @update:model-value="onContactselected"
       /> -->
 
-      <WMSearchContactsGroupedByCustomer
-        v-if="isContactsSelected"
-        v-model="selectedContacts"
-      />
-
       <WMTempButton
         :text="$t('buttons.link')"
         type="type-4"
         @click="
-          emit('addContacts', selectedContacts);
+          handleLinkContacts();
           closeOverlay();
           clearSelectedContacts();
         "
@@ -117,6 +113,7 @@ import { useLayout } from "@/layout/composables/layout";
 const { getContactsFromApi, getContactFromApi } = useContacts();
 const { layoutConfig } = useLayout();
 const { can } = usePermissions();
+const { getTeams } = useEmployees();
 
 // PROPS, EMITS
 defineProps({
@@ -148,13 +145,17 @@ const toggle = (event) => {
   isOpen.value.toggle(event);
 };
 
-const searchContact = (query) => {
-  return getContactsFromApi({ search: query });
+// const searchContact = (query) => {
+//   return getContactsFromApi({ search: query });
+// };
+
+const searchTeams = (query) => {
+  return getTeams({ search: query });
 };
 
-const onContactselected = (contacts) => {
-  selectedContacts.value = contacts;
-};
+// const onContactselected = (contacts) => {
+//   selectedContacts.value = contacts;
+// };
 
 const onTeamSelected = (teams) => {
   selectedTeams.value = teams;
@@ -166,6 +167,21 @@ const closeOverlay = () => {
 
 const clearSelectedContacts = () => {
   selectedContacts.value = [];
+};
+
+const handleLinkContacts = () => {
+  if (isTeamsSelected.value) {
+    selectedTeams.value.forEach((team) => {
+      team.employees.forEach((employee) => {
+        if (!employee.contact) return;
+
+        selectedContacts.value.push(employee.contact);
+      });
+    });
+  }
+
+  console.log("emit", selectedContacts.value);
+  emit("addContacts", selectedContacts.value);
 };
 
 // new contact sidebar

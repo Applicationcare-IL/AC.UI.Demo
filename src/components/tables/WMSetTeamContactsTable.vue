@@ -1,8 +1,5 @@
 <template>
-  <WMAssignContactButton
-    :options="['contacts', 'teams']"
-    @add-contacts="addContacts"
-  />
+  <WMAssignContactButton :options="['contacts', 'teams']" @add-contacts="addContacts" />
   <DataTable
     v-model:selection="selectedContacts"
     lazy
@@ -134,8 +131,9 @@ const loadOptionSets = async () => {
   props.columns.forEach(async (column) => {
     console.log(column.optionSet);
     if (column.optionSet) {
-      optionSets.value[column.optionSet] =
-        await optionSetsStore.getOptionSetValues(column.optionSet);
+      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
+        column.optionSet
+      );
     }
   });
 };
@@ -149,7 +147,7 @@ const lazyParams = ref({});
 
 const { getContactsFromApi } = useContacts();
 
-const { getCustomerFromApi } = useCustomers();
+const { getCustomerFromApi, getCustomersFromApi } = useCustomers();
 
 const loadLazyData = () => {
   const filters = utilsStore.filters["contact"];
@@ -194,12 +192,30 @@ const defaultRole = computed(() => {
 });
 
 const addContacts = (addedContacts) => {
-  addedContacts.forEach((contact) => {
+  addedContacts.forEach(async (contact) => {
     contact.role_project = defaultRole.value.id;
     contact.main = false;
+    contact.customers = await getAvailableCustomersOfContact(contact);
+    contact.customer = await getCustomerInfoFromAvailableCustomers(
+      contact.customer,
+      contact.customers
+    );
 
     contacts.value.push(contact);
   });
+};
+
+const getAvailableCustomersOfContact = async (contact) => {
+  const customers = await getCustomersFromApi({ contact_id: contact.id });
+  return customers.data;
+};
+
+const getCustomerInfoFromAvailableCustomers = async (customer, customers) => {
+  if (!customer) {
+    return customers[0];
+  }
+
+  return customers.find((c) => c.id === customer.id);
 };
 
 const alertCellConditionalStyle = (data) => {
@@ -233,6 +249,7 @@ watch(
   () => contacts.value,
   () => {
     emit("change:selectedContacts", contacts.value);
-  }
+  },
+  { deep: true }
 );
 </script>
