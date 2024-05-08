@@ -142,6 +142,8 @@
             entity="project-team"
             :entity-id="slotProps.data.id"
             file-name="contract"
+            :has-file="slotProps.data.contract"
+            :download-url="slotProps.data.contract?.download_url"
           />
         </template>
         <template v-if="column.type === 'currency'">

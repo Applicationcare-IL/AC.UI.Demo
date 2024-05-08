@@ -508,6 +508,7 @@ export function useProjects() {
       contract_amount: teamMember.contract_amount,
       contract_amount_paid: teamMember.contract_amount_paid,
       contract_amount_remaining: teamMember.contract_amount_remaining,
+      contract: teamMember.contract,
     };
   };
 
