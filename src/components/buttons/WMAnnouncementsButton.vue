@@ -15,18 +15,21 @@
       <Divider />
     </div>
   </Dialog>
+
   <Button
     label="הודעות והנחיות"
     :badge="announcements?.length ? announcements.length : '0'"
-    badgeClass="p-badge-warning"
+    badge-class="p-badge-warning"
     class="flex flex-row gap-3 p-2"
+    :disabled="announcements.length === 0"
     @click="visible = true"
   >
   </Button>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
+
 import { useLayout } from "@/layout/composables/layout";
 
 const { layoutConfig } = useLayout();
