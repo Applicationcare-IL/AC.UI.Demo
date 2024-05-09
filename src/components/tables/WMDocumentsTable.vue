@@ -11,13 +11,13 @@
         >
           {{ $t("documents.new_document") }}
         </WMButton>
-        <WMAssignOwnerButton
+        <!-- <WMAssignOwnerButton
           entity="document"
           @owner-assigned="
             loadLazyData();
             clearSelectedDocuments();
           "
-        />
+        /> -->
         <!-- <WMButton
           class="m-1 col-6"
           name="mail-white"
