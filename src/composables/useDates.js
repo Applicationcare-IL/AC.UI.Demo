@@ -9,7 +9,13 @@ export function useDates() {
     if (date.includes("-")) {
       const dateParts = date.split("-");
 
-      return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+      // The date is in the format YYYY-MM-DD
+      if (dateParts[0].length === 4) {
+        return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+      }
+
+      // We assume that the date is in the format MM-DD-YYYY
+      return `${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`;
     }
 
     return date;

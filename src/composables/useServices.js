@@ -3,6 +3,7 @@ import { useServicesStore } from "@/stores/servicesStore";
 export function useServices() {
   const servicesStore = useServicesStore();
   const toast = useToast();
+  const { parseDate } = useDates();
 
   // ACTIONS
   const getServicesFromApi = async (params) => {
@@ -162,8 +163,8 @@ export function useServices() {
       contact_id: service.contact.id,
       customer: service.customer.name,
       customer_id: service.customer.id,
-      open_date: service.process.opened,
-      due_date: service.process.sla.due_date,
+      open_date: parseDate(service.process.opened),
+      due_date: parseDate(service.process.sla.due_date),
       area: service.area,
       type: service.type,
       request1: service.request_1,

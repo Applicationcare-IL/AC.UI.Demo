@@ -2,6 +2,7 @@ import { useTasksStore } from "@/stores/tasksStore";
 
 export function useTasks() {
   const tasksStore = useTasksStore();
+  const { parseDate } = useDates();
 
   // ACTIONS
 
@@ -129,14 +130,14 @@ export function useTasks() {
       state: task.state,
       status: task.status,
       is_open: task.status?.value == "open",
-      due_date: task.sla?.due_date,
-      started_at: task.started_at,
+      due_date: parseDate(task.sla?.due_date),
+      started_at: parseDate(task.started_at),
       owner: task.owner?.name,
       team: task.owner?.default_team,
       customer: task.customer?.name,
       customer_id: task.customer?.id,
       call: "כן",
-      close_date: task.completed_at,
+      close_date: parseDate(task.completed_at),
       last_change: task.last_activity.updater.at,
       remarks: task.remarks,
       related_entity: task.entity,

@@ -73,6 +73,7 @@
                     :highlighted="true"
                     :label="$t('task.family')"
                     :value="task.task_family[optionLabelWithLang]"
+                    class="overflow-scroll"
                   />
                   <WMInput
                     name="type"

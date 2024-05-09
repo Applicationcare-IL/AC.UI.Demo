@@ -112,8 +112,16 @@
         </template>
       </Column>
 
-      <Column field="started_at" :header="$t('task.started_at')"></Column>
-      <Column field="due_date" :header="$t('task.due_date')"></Column>
+      <Column field="started_at" :header="$t('task.started_at')">
+        <template #body="slotProps">
+          {{ parseDate(slotProps.data.started_at) }}
+        </template>
+      </Column>
+      <Column field="due_date" :header="$t('task.due_date')">
+        <template #body="slotProps">
+          {{ parseDate(slotProps.data.due_date) }}
+        </template>
+      </Column>
 
       <Column field="SLA" header="SLA" class="sla">
         <template #body="slotProps">
@@ -126,7 +134,11 @@
         </template>
       </Column>
 
-      <Column field="close_date" :header="$t('task.close_date')"></Column>
+      <Column field="close_date" :header="$t('task.close_date')">
+        <template #body="slotProps">
+          {{ parseDate(slotProps.data.close_date) }}
+        </template>
+      </Column>
 
       <Column field="owner" :header="$t('task.owner')"> </Column>
 
@@ -162,6 +174,7 @@ const { checkIfEntityIsActive } = useLicensing();
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
 const utilsStore = useUtilsStore();
 const { selectedRowsPerPage } = useListUtils();
+const { parseDate } = useDates();
 
 // INJECT
 
