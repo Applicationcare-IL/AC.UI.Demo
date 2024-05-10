@@ -107,7 +107,7 @@ import { useLayout } from "@/layout/composables/layout";
 // DEPENDENCIES
 const { getProjectsFromApi, getProjectTeamRoles } = useProjects();
 const { layoutConfig } = useLayout();
-const { getPaymentTaskInfo } = useTasks();
+const { createTask, parseTask, getPaymentTaskInfo } = useTasks();
 const { t } = useI18n();
 
 // INJECT
@@ -124,6 +124,7 @@ const modelValue = defineModel();
 
 const selectedProject = ref("");
 const selectedRole = ref("");
+const selectedProjectTeam = ref("");
 const contactProjects = ref([]);
 const contactRolesInProject = ref([]);
 const invoiceNumber = ref("");
@@ -143,8 +144,25 @@ const paidSoFar = ref(0);
 // COMPONENT METHODS AND LOGIC
 const handleCreatePaymentRequestTask = () => {
   console.log("Create payment request task");
-  modelValue.value = false;
-  emit("requestPaymentTaskCreated", 1);
+
+  const task = {
+    ...props.task,
+    payment: {
+      project_team: selectedProjectTeam.value,
+    },
+  };
+
+  const parsedTask = parseTask(task);
+  console.log("parsedTask", parsedTask);
+
+  createTask(parseTask(task))
+    .then((response) => {
+      modelValue.value = false;
+      emit("requestPaymentTaskCreated", response.data.id);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 const loadContactProjects = () => {
@@ -198,8 +216,9 @@ const loadPaymentTaskInfo = () => {
   };
 
   getPaymentTaskInfo(params).then((info) => {
-    remainsToBePaid.value = info.remains_to_be_paid;
-    paidSoFar.value = info.paid_so_far;
+    remainsToBePaid.value = info.contract_amount_remaining;
+    paidSoFar.value = info.contract_amount_paid;
+    selectedProjectTeam.value = info.project_team_id;
   });
 };
 

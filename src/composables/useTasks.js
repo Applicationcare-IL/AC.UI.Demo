@@ -113,7 +113,8 @@ export function useTasks() {
   };
 
   const getPaymentTaskInfo = async (params) => {
-    return await tasksStore.getPaymentTaskInfo(params);
+    const response = await tasksStore.getPaymentTaskInfo(params);
+    return response.data;
   };
 
   // UTILITIES
@@ -197,6 +198,7 @@ export function useTasks() {
       repeat_each_times: task.repeat_each_times,
       repeat_each_time_days: task.repeat_each_time_days,
       repeat_each_day: task.repeat_each_day,
+      payment: task.payment,
     };
   };
 
