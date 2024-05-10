@@ -212,7 +212,7 @@ const handleCreatePaymentRequestTask = () => {
     .then(async (response) => {
       modelValue.value = false;
 
-      await uploadPaymentAttachment(response.data.payment_id.id);
+      await uploadPaymentAttachment(response.data.payment_id);
 
       emit("requestPaymentTaskCreated", response.data.id);
     })

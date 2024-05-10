@@ -184,7 +184,7 @@
           #editor="{ data, field }"
         >
           <Dropdown
-            v-model="data[field].id"
+            v-model="data[field]"
             :options="milestones"
             option-label="name"
             option-value="id"
@@ -196,7 +196,7 @@
           </Dropdown>
         </template>
         <template #body="slotProps">
-          {{ getMilestoneName(slotProps.data[column.field].id) }}
+          {{ getMilestoneName(slotProps.data[column.field]?.id) }}
         </template>
       </Column>
 
@@ -305,6 +305,10 @@ const props = defineProps({
     required: true,
   },
   milestoneId: {
+    type: Number,
+    required: true,
+  },
+  taskId: {
     type: Number,
     required: true,
   },
@@ -438,6 +442,10 @@ const loadLazyData = () => {
 
   if (props.milestoneId) {
     params.append("milestone", props.milestoneId);
+  }
+
+  if (props.taskId) {
+    params.append("task", props.taskId);
   }
 
   getProjectPayments(props.projectId, params).then((response) => {

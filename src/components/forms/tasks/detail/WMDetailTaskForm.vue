@@ -214,6 +214,16 @@
         </Accordion>
       </div>
 
+      <Accordion>
+        <AccordionTab :header="$t('budget.payments')">
+          <WMPaymentsTable
+            ref="paymentsTableRef"
+            :project-id="projectId"
+            :task-id="route.params.id"
+          />
+        </AccordionTab>
+      </Accordion>
+
       <div class="flex flex-row flex-wrap mb-5">
         <Accordion>
           <AccordionTab :header="$t('attachments.attachments')">

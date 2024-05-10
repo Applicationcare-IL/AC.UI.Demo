@@ -402,7 +402,8 @@ export function useProjects() {
       payment_date: parseDate(payment.payment_date),
       report_date: parseDate(payment.report_date),
       terms_of_payment: payment.terms_of_payment_id,
-      milestone: payment.milestone?.id,
+      milestone_id: payment.milestone,
+      reported: payment.reported ? true : false,
     };
   };
 
