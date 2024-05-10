@@ -112,6 +112,10 @@ export function useTasks() {
     return await tasksStore.cancelTask(id);
   };
 
+  const getPaymentTaskInfo = async (params) => {
+    return await tasksStore.getPaymentTaskInfo(params);
+  };
+
   // UTILITIES
   const mapTask = (task) => {
     return {
@@ -252,6 +256,7 @@ export function useTasks() {
     getTasksSLADistribution,
     getTasksSLATableData,
     cancelTask,
+    getPaymentTaskInfo,
     // UTILITIES
     mapTask,
     parseTask,

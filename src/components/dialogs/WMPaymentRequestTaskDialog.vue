@@ -67,6 +67,7 @@
           v-model="invoiceNumber"
           type="input-text"
           name="invoice_number"
+          width="200"
           :label="$t('payments.invoice-number') + ':'"
           @change="onInvoiceNumberChange"
         />
@@ -99,12 +100,15 @@
 <script setup>
 // IMPORTS
 import { ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES
 const { getProjectsFromApi, getProjectTeamRoles } = useProjects();
 const { layoutConfig } = useLayout();
+const { getPaymentTaskInfo } = useTasks();
+const { t } = useI18n();
 
 // INJECT
 
@@ -126,8 +130,8 @@ const invoiceNumber = ref("");
 const amount = ref(0);
 
 const invoiceTypeOptions = [
-  { id: 1, name: "Factura" },
-  { id: 2, name: "Recibo" },
+  { value: "invoice", name: t("payments.invoice") },
+  { value: "proforma_invoice", name: t("payments.proforma-invoice") },
 ];
 const selectedInvoiceType = ref(invoiceTypeOptions[0]);
 
@@ -166,6 +170,7 @@ const loadContactRolesInProject = () => {
   getProjectTeamRoles(selectedProject.value.id, params).then((roles) => {
     contactRolesInProject.value = roles;
     selectedRole.value = roles[0];
+    loadPaymentTaskInfo();
   });
 };
 
@@ -180,6 +185,22 @@ const onProjectChange = (project) => {
 
 const onRoleChange = (role) => {
   selectedRole.value = role;
+
+  loadPaymentTaskInfo();
+};
+
+const loadPaymentTaskInfo = () => {
+  let params = {
+    project_id: selectedProject.value.id,
+    contact_id: props.task.contact.id,
+    customer_id: props.task.customer.id,
+    role_project_id: selectedRole.value.id,
+  };
+
+  getPaymentTaskInfo(params).then((info) => {
+    remainsToBePaid.value = info.remains_to_be_paid;
+    paidSoFar.value = info.paid_so_far;
+  });
 };
 
 const onInvoiceTypeChange = (invoiceType) => {

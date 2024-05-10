@@ -167,5 +167,15 @@ export const useTasksStore = defineStore("tasks", {
           throw error;
         });
     },
+    getPaymentTaskInfo(params) {
+      return axiosConfig
+        .get("/tasks/payment-info", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

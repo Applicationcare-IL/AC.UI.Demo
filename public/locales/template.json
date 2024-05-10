@@ -472,6 +472,8 @@
     "organization": "Organization",
     "milestone": "Milestone",
     "status": "Status",
+    "invoice": "Invoice",
+    "proforma-invoice": "Proforma Invoice",
     "proforma-invoice-number": "Proforma Invoice Number",
     "proforma-invoice-amount": "Proforma Invoice Amount",
     "proforma-invoice-date": "Proforma Invoice Date",
