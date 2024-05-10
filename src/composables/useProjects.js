@@ -99,7 +99,8 @@ export function useProjects() {
   };
 
   const getProjectTeamRoles = async (projectId, params) => {
-    return await projectsStore.getProjectTeamRoles(projectId, params);
+    const response = await projectsStore.getProjectTeamRoles(projectId, params);
+    return response.data;
   };
 
   // BUDGETS
