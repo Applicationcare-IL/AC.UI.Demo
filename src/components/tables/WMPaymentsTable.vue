@@ -105,6 +105,24 @@
       </Column>
 
       <Column
+        v-if="column.type == 'attachment'"
+        :key="column.name"
+        :field="column.field"
+        :header="getColumHeader(column)"
+        :class="column.class"
+      >
+        <template #body="slotProps">
+          <WMUploadAttachmentButton
+            entity="payment"
+            :entity-id="slotProps.data.id"
+            :file-name="column.fileName"
+            :has-file="slotProps.data.contract"
+            :download-url="slotProps.data.contract?.download_url"
+          />
+        </template>
+      </Column>
+
+      <Column
         v-if="column.type == 'budget-item'"
         :key="column.name"
         :field="column.field"
@@ -161,7 +179,10 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template v-if="column.editable && !props.milestoneId" #editor="{ data, field }">
+        <template
+          v-if="column.editable && !props.milestoneId"
+          #editor="{ data, field }"
+        >
           <Dropdown
             v-model="data[field].id"
             :options="milestones"
@@ -473,14 +494,16 @@ const onRowEditSave = (event) => {
     return;
   }
 
-  updateProjectPayment(props.projectId, paymentId, parseProjectPayment(newData)).then(
-    (response) => {
-      newData.basic_term = getTermOfPayment(response.basic_term);
-      newData.payment_date = response.payment_date;
-      payments.value[index] = newData;
-      toast.successAction("payment", "updated");
-    }
-  );
+  updateProjectPayment(
+    props.projectId,
+    paymentId,
+    parseProjectPayment(newData)
+  ).then((response) => {
+    newData.basic_term = getTermOfPayment(response.basic_term);
+    newData.payment_date = response.payment_date;
+    payments.value[index] = newData;
+    toast.successAction("payment", "updated");
+  });
 };
 
 const validateForm = (obj) => {

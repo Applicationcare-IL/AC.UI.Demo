@@ -301,6 +301,7 @@ export function useProjects() {
       management_fee: budgetItem.management_fee,
       total: budgetItem.total,
       balance: budgetItem.balance,
+      is_default: false, // the default one is created by migration
     };
   };
 

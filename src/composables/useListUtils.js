@@ -622,6 +622,12 @@ export function useListUtils() {
         editable: true,
       },
       {
+        name: "proforma-invoice-file",
+        type: "attachment",
+        fileName: "proforma_invoice",
+        header: "payment.proforma-invoice-file",
+      },
+      {
         name: "proforma-invoice-date",
         type: "calendar",
         field: "proforma_invoice_date",
@@ -638,6 +644,12 @@ export function useListUtils() {
         type: "text",
         field: "invoice_number",
         editable: true,
+      },
+      {
+        name: "proforma-invoice",
+        type: "attachment",
+        fileName: "invoice",
+        header: "payment.invoice-file",
       },
       {
         name: "invoice-date",
