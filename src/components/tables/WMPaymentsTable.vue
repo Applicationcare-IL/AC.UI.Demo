@@ -1,12 +1,9 @@
 <template>
-  <!-- <pre>isSomePaymentInCreateMode: {{ isSomePaymentInCreateMode }}</pre> -->
-  <!-- <pre>milestones: {{ milestones }}</pre> -->
-  <!-- <pre>payments: {{ payments }}</pre> -->
-
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMButton
+          v-if="!props.readOnly"
           class="m-1 col-6"
           name="new"
           icon="new"
@@ -63,7 +60,12 @@
   >
     <Column v-if="multiselect" style="width: 40px" selection-mode="multiple" />
 
-    <Column :row-editor="true" :frozen="true" align-frozen="right"></Column>
+    <Column
+      v-if="!props.readOnly"
+      :row-editor="true"
+      :frozen="true"
+      align-frozen="right"
+    />
 
     <template v-for="column in columns">
       <Column
@@ -118,6 +120,7 @@
             :file-name="column.fileName"
             :has-file="slotProps.data[column.fileName]"
             :download-url="slotProps.data[column.fileName]?.download_url"
+            :disabled="props.readOnly"
           />
         </template>
       </Column>
@@ -309,9 +312,17 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  taskId: {
+  relatedEntity: {
+    type: String,
+    required: true,
+  },
+  relatedEntityId: {
     type: Number,
     required: true,
+  },
+  readOnly: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -445,8 +456,12 @@ const loadLazyData = () => {
     params.append("milestone", props.milestoneId);
   }
 
-  if (props.taskId) {
-    params.append("task", props.taskId);
+  if (props.relatedEntity === "task") {
+    params.append("task", props.relatedEntityId);
+  }
+
+  if (props.relatedEntity === "customer") {
+    params.append("customer", props.relatedEntityId);
   }
 
   getProjectPayments(props.projectId, params).then((response) => {
