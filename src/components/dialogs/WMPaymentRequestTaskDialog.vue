@@ -39,6 +39,7 @@
           :label="$t('payments.remains-to-be-paid') + ':'"
           :read-only="true"
           name="remains-to-be-paid"
+          :small="true"
         />
 
         <WMInputCurrency
@@ -46,6 +47,7 @@
           :label="$t('payments.paid-so-far') + ':'"
           :read-only="true"
           name="paid-so-far"
+          :small="true"
         />
       </div>
 
