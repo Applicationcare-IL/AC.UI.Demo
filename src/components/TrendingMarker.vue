@@ -1,8 +1,8 @@
 <template>
   <div class="trending-marker" :class="classes">
     <span>{{ percentage }} %</span>
-    <div v-if="increment > 0" class="d-flex" v-html="TrendingUp" />
-    <div v-else class="d-flex" v-html="TrendingDown" />
+    <div v-if="increment > 0" class="flex" v-html="TrendingUp" />
+    <div v-else class="flex" v-html="TrendingDown" />
   </div>
 </template>
 

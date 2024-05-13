@@ -23,9 +23,18 @@ const props = defineProps({
     required: true,
     // validator
     validator: (value) => {
-      return ["type-1", "type-4", "type-5", "save", "clear", "saved", "cancel"].includes(
-        value
-      );
+      return [
+        "type-1",
+        "type-3",
+        "secondary",
+        "type-4",
+        "primary",
+        "type-5",
+        "save",
+        "clear",
+        "saved",
+        "cancel",
+      ].includes(value);
     },
   },
   size: String,
@@ -80,6 +89,33 @@ const classes = computed(() => {
   }
 }
 
+.secondary,
+.type-3 {
+  background-color: white;
+  color: var(--blue-700);
+  border: 1px solid var(--blue-700);
+
+  :deep(svg path) {
+    fill: var(--blue-700);
+  }
+
+  &:hover {
+    background-color: var(--blue-50);
+    color: var(--blue-700);
+    border: 1px solid var(--blue-700);
+  }
+
+  &:focus {
+    background-color: var(--blue-100);
+    color: var(--blue-700);
+  }
+
+  &.is-active {
+    border: 1px solid var(--blue-700);
+  }
+}
+
+.primary,
 .type-4 {
   background-color: var(--blue-600);
   color: white;

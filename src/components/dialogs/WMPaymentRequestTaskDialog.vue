@@ -82,7 +82,7 @@
         />
       </div>
 
-      <div class="flex flex-row gap-2">
+      <div class="flex-row gap-2" :class="file ? 'hidden' : 'flex'">
         <input
           ref="fileInput"
           type="file"
@@ -93,12 +93,17 @@
 
         <WMTempButton
           :text="$t('buttons.upload-file')"
-          type="type-5"
+          type="type-3"
+          size="small"
           @click="openUploadAttachment"
-        />
+        >
+          <template #customIcon>
+            <div class="flex" v-html="AttachIcon" />
+          </template>
+        </WMTempButton>
       </div>
 
-      <div v-if="file" class="flex flex-column gap-2 mt-3">
+      <div v-if="file" class="flex flex-column gap-2">
         <div class="flex w-full gap-3 flex-column">
           <div
             class="attachment flex w-full justify-content-between pl-3 align-items-center justify-content-center"
@@ -127,15 +132,16 @@
       </div>
 
       <div class="flex gap-2 mt-5 justify-content-end">
-        <Button
-          type="button"
-          :label="$t('buttons.cancel')"
-          severity="secondary"
+        <WMTempButton
+          :text="$t('buttons.cancel')"
+          type="type-3"
+          :is-active="false"
           @click="modelValue = false"
         />
-        <Button
-          type="button"
-          :label="$t('task.create-payment-request')"
+        <WMTempButton
+          :text="$t('task.create-payment-request')"
+          type="type-4"
+          :is-active="false"
           @click="handleCreatePaymentRequestTask"
         />
       </div>
@@ -148,6 +154,7 @@
 import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
+import AttachIcon from "/icons/attach_file_default.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES

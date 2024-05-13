@@ -1,7 +1,11 @@
 <template>
-  <WMTempButton :text="$t('buttons.link_contact')" type="type-4" @click="toggle">
+  <WMTempButton
+    :text="$t('buttons.link_contact')"
+    type="type-4"
+    @click="toggle"
+  >
     <template #customIcon>
-      <div class="d-flex" v-html="PersonIcon" />
+      <div class="flex" v-html="PersonIcon" />
     </template>
   </WMTempButton>
 

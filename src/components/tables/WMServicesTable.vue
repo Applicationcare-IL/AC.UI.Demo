@@ -130,7 +130,7 @@
           @click="handleUnlinkRelatedService(slotProps.data.id)"
         >
           <template #customIcon>
-            <div class="d-flex" v-html="LinkOffIcon" />
+            <div class="flex" v-html="LinkOffIcon" />
           </template>
         </WMTempButton>
       </template>

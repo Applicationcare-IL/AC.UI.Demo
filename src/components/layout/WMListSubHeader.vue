@@ -34,7 +34,7 @@
             @click="$emit('export')"
           >
             <template #customIcon>
-              <div class="d-flex" v-html="ExportIcon" />
+              <div class="flex" v-html="ExportIcon" />
             </template>
           </WMTempButton>
 

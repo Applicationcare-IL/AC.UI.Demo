@@ -7,7 +7,7 @@
     @click="sendEmailDialogVisible = true"
   >
     <template #customIcon>
-      <div class="d-flex" v-html="EmailIcon" />
+      <div class="flex" v-html="EmailIcon" />
     </template>
   </WMTempButton>
 
