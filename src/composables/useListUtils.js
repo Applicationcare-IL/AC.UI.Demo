@@ -625,7 +625,7 @@ export function useListUtils() {
         name: "proforma-invoice-file",
         type: "attachment",
         fileName: "proforma_invoice",
-        header: "payment.proforma-invoice-file",
+        header: "payments.proforma-invoice-file",
       },
       {
         name: "proforma-invoice-date",
@@ -649,7 +649,7 @@ export function useListUtils() {
         name: "proforma-invoice",
         type: "attachment",
         fileName: "invoice",
-        header: "payment.invoice-file",
+        header: "payments.invoice-file",
       },
       {
         name: "invoice-date",

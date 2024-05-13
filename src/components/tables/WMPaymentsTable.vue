@@ -116,8 +116,8 @@
             entity="payment"
             :entity-id="slotProps.data.id"
             :file-name="column.fileName"
-            :has-file="slotProps.data.contract"
-            :download-url="slotProps.data.contract?.download_url"
+            :has-file="slotProps.data[column.fileName]"
+            :download-url="slotProps.data[column.fileName]?.download_url"
           />
         </template>
       </Column>
@@ -179,10 +179,7 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template
-          v-if="column.editable && !props.milestoneId"
-          #editor="{ data, field }"
-        >
+        <template v-if="column.editable && !props.milestoneId" #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
             :options="milestones"
@@ -226,6 +223,7 @@
         </template>
         <template #body="slotProps">
           <div
+            v-if="slotProps.data[column.field]"
             class="w-full p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
             :class="`p-dropdown-payment-status p-dropdown-payment-status--${
               getStatus(slotProps.data[column.field]).value
@@ -234,6 +232,9 @@
             <span class="p-dropdown-label p-inputtext cursor-text">
               {{ getStatus(slotProps.data[column.field])[optionLabelWithLang] }}
             </span>
+          </div>
+          <div>
+            {{ $t("payments.status-not-selected") }}
           </div>
         </template>
       </Column>
@@ -502,16 +503,14 @@ const onRowEditSave = (event) => {
     return;
   }
 
-  updateProjectPayment(
-    props.projectId,
-    paymentId,
-    parseProjectPayment(newData)
-  ).then((response) => {
-    newData.basic_term = getTermOfPayment(response.basic_term);
-    newData.payment_date = response.payment_date;
-    payments.value[index] = newData;
-    toast.successAction("payment", "updated");
-  });
+  updateProjectPayment(props.projectId, paymentId, parseProjectPayment(newData)).then(
+    (response) => {
+      newData.basic_term = getTermOfPayment(response.basic_term);
+      newData.payment_date = response.payment_date;
+      payments.value[index] = newData;
+      toast.successAction("payment", "updated");
+    }
+  );
 };
 
 const validateForm = (obj) => {

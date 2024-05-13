@@ -492,7 +492,8 @@
     "proforma-invoice": "Proforma Invoice",
     "remains-to-be-paid": "Remains to be paid",
     "status": "Status",
-    "terms-of-payment": "Terms of Payment"
+    "terms-of-payment": "Terms of Payment",
+    "status-not-selected": "Status not selected"
   },
   "milestone": {
     "actual-date": "Actual Date",
