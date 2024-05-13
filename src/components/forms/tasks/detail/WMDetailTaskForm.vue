@@ -215,7 +215,6 @@
             :project-id="projectId"
             related-entity="task"
             :related-entity-id="route.params.id"
-            :read-only="true"
           />
         </AccordionTab>
       </Accordion>

@@ -196,7 +196,7 @@
           </Dropdown>
         </template>
         <template #body="slotProps">
-          {{ getMilestoneName(slotProps.data[column.field]?.id) }}
+          {{ getMilestoneName(slotProps.data[column.field]) }}
         </template>
       </Column>
 
@@ -236,8 +236,8 @@
               {{ getStatus(slotProps.data[column.field])[optionLabelWithLang] }}
             </span>
           </div>
-          <div>
-            {{ $t("payments.status-not-selected") }}
+          <div v-else>
+            <span class="px-2">{{ $t("payments.status-not-selected") }}</span>
           </div>
         </template>
       </Column>

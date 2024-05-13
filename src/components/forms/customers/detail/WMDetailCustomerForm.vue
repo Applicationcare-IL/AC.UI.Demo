@@ -282,6 +282,7 @@
             :project-id="projectId"
             related-entity="customer"
             :related-entity-id="route.params.id"
+            :read-only="true"
           />
         </AccordionTab>
       </Accordion>

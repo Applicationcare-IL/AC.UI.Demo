@@ -395,15 +395,29 @@ export function useProjects() {
   };
 
   const parseProjectPayment = (payment) => {
+    console.log("payment", payment);
+
     return {
-      ...payment,
       proforma_invoice_date: parseDate(payment.proforma_invoice_date),
+      proforma_invoice_number: payment.proforma_invoice_number
+        ? payment.proforma_invoice_number
+        : "",
+      proforma_invoice_amount: payment.proforma_invoice_amount
+        ? payment.proforma_invoice_amount
+        : 0,
       invoice_date: parseDate(payment.invoice_date),
+      invoice_number: payment.invoice_number,
       payment_date: parseDate(payment.payment_date),
       report_date: parseDate(payment.report_date),
       terms_of_payment: payment.terms_of_payment_id,
       milestone_id: payment.milestone,
+      budget_item_id: payment.budget_item,
       reported: payment.reported ? true : false,
+      payment_status: payment.payment_status,
+      project_team: payment.project_team,
+      amount_paid: payment.amount_paid ? payment.amount_paid : 0,
+      amount_approved: payment.amount_approved ? payment.amount_approved : 0,
+      batch_number: payment.batch_number,
     };
   };
 
@@ -519,13 +533,13 @@ export function useProjects() {
     return {
       ...payment,
       budget_item: payment.budget_item?.id,
-      // customer: payment.customer.id,
       payment_status: payment.payment_status?.id,
       proforma_invoice_date: formatDate(
         new Date(payment.proforma_invoice_date),
         "DD/MM/YY"
       ),
       project_team: payment.project_team?.id,
+      milestone: payment.milestone?.id,
     };
   };
 
