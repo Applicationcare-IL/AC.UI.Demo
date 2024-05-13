@@ -363,7 +363,10 @@
     "toast-task-cancelled-message": "The task was successfully canceled",
     "days-till-closure": "Days till closure",
     "payment-request-task-title": "Payment request details",
-    "create-payment-request": "Create payment request"
+    "create-payment-request": "Create payment request",
+    "timing": "Timing",
+    "start-task": "Start task",
+    "recurring-task": "Recurring task"
   },
   "project": {
     "system-id": "System ID",
