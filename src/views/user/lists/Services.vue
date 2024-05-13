@@ -10,10 +10,7 @@
   >
   </WMListSubHeader>
 
-  <WMServicePreviewSidebar
-    v-model:visible="isDetailsVisible"
-    :service="serviceDetail"
-  />
+  <WMServicePreviewSidebar v-model:visible="isDetailsVisible" :service="serviceDetail" />
 
   <WMSidebar
     :visible="isVisible"
@@ -90,14 +87,14 @@
       <Column field="open_date" :header="$t('service.start-date')">
         <template #body="slotProps">
           <span>
-            {{ formatDate(new Date(slotProps.data.open_date), "DD/MM/YY") }}
+            {{ slotProps.data.open_date }}
           </span>
         </template>
       </Column>
       <Column field="due_date" :header="$t('service.due-date')">
         <template #body="slotProps">
           <span>
-            {{ formatDate(new Date(slotProps.data.due_date), "DD/MM/YY") }}
+            {{ slotProps.data.due_date }}
           </span>
         </template>
       </Column>
@@ -116,10 +113,7 @@
           <WMOptionSetValue :option-set="slotProps.data.request1" />
         </template>
       </Column>
-      <Column
-        field="days_from_opening_date"
-        :header="$t('service.duration')"
-      ></Column>
+      <Column field="days_from_opening_date" :header="$t('service.duration')"></Column>
       <Column field="owner.name" :header="$t('service.owner')"></Column>
       <Column field="owner.default_team" :header="$t('service.team')"></Column>
       <Column field="SLA" header="SLA" class="sla">
@@ -133,11 +127,7 @@
           </WMSLATag>
         </template>
       </Column>
-      <Column
-        field="priority"
-        :header="$t('service.priority')"
-        class="numeric priority"
-      >
+      <Column field="priority" :header="$t('service.priority')" class="numeric priority">
         <template #body="slotProps">
           <div :class="priorityClass(slotProps.data)">
             {{ slotProps.data.is_active ? slotProps.data.priority : "-" }}
@@ -172,7 +162,6 @@
 </template>
 <script setup>
 // IMPORTS
-import { formatDate } from "@vueuse/core";
 import { onMounted, ref, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -181,8 +170,7 @@ import { useUtilsStore } from "@/stores/utils";
 const utilsStore = useUtilsStore();
 const { selectedRowsPerPage, getPriorityClasses } = useListUtils();
 const { setSelectedContacts, resetSelectedContacts } = useContacts();
-const { getServicesFromApi, mapContactsFromServices, exportServices } =
-  useServices();
+const { getServicesFromApi, mapContactsFromServices, exportServices } = useServices();
 
 // PROPS, EMITS
 
