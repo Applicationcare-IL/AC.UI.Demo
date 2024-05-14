@@ -395,9 +395,7 @@ export function useProjects() {
   };
 
   const parseProjectPayment = (payment) => {
-    console.log("payment", payment);
-
-    return {
+    let result = {
       proforma_invoice_date: parseDate(payment.proforma_invoice_date),
       proforma_invoice_number: payment.proforma_invoice_number
         ? payment.proforma_invoice_number
@@ -409,7 +407,6 @@ export function useProjects() {
       invoice_number: payment.invoice_number,
       payment_date: parseDate(payment.payment_date),
       report_date: parseDate(payment.report_date),
-      terms_of_payment: payment.terms_of_payment_id,
       milestone_id: payment.milestone,
       budget_item_id: payment.budget_item,
       reported: payment.reported ? true : false,
@@ -418,7 +415,14 @@ export function useProjects() {
       amount_paid: payment.amount_paid ? payment.amount_paid : 0,
       amount_approved: payment.amount_approved ? payment.amount_approved : 0,
       batch_number: payment.batch_number,
+      basic_term: payment.basic_term,
     };
+
+    if (payment.terms_of_payment_id) {
+      payment.terms_of_payment = payment.terms_of_payment_id;
+    }
+
+    return result;
   };
 
   const parseMilestone = (milestone) => {

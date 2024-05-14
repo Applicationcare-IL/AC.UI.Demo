@@ -226,7 +226,10 @@
         </template>
         <template #body="slotProps">
           <div
-            v-if="slotProps.data[column.field]"
+            v-if="
+              slotProps.data[column.field] &&
+              getStatus(slotProps.data[column.field]).value
+            "
             class="w-full p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
             :class="`p-dropdown-payment-status p-dropdown-payment-status--${
               getStatus(slotProps.data[column.field]).value
@@ -464,7 +467,9 @@ const loadLazyData = () => {
     params.append("customer", props.relatedEntityId);
   }
 
-  getProjectPayments(props.projectId, params).then((response) => {
+  let projectId = props.projectId ? props.projectId : -1;
+
+  getProjectPayments(projectId, params).then((response) => {
     payments.value = response.payments;
     totalRecords.value = response.totalRecords;
   });
