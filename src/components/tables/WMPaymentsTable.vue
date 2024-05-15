@@ -202,7 +202,10 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template v-if="column.editable && !props.milestoneId" #editor="{ data, field }">
+        <template
+          v-if="column.editable && !props.milestoneId"
+          #editor="{ data, field }"
+        >
           <Dropdown
             v-model="data[field]"
             :options="milestones"
@@ -511,8 +514,15 @@ const onRowEditSave = (event) => {
   let { newData, index } = event;
 
   const paymentId = newData.id;
+
   if (!validateForm(newData)) {
     toast.error("Please fill all the required fields");
+    editingRows.value = [...editingRows.value, newData]; // keep the rows in edit mode
+    return;
+  }
+
+  if (!newData.project_team.id) {
+    toast.error("Please select a team member");
     editingRows.value = [...editingRows.value, newData]; // keep the rows in edit mode
     return;
   }
@@ -527,21 +537,23 @@ const onRowEditSave = (event) => {
         payments.value[index] = newData;
         toast.successAction("payment", "created");
       })
-      .catch(() => {
-        toast.errorAction("payment", "not_created");
+      .catch((error) => {
+        toast.error(error);
       });
 
     return;
   }
 
-  updateProjectPayment(props.projectId, paymentId, parseProjectPayment(newData)).then(
-    (response) => {
-      newData.basic_term = getTermOfPayment(response.basic_term);
-      newData.payment_date = response.payment_date;
-      payments.value[index] = newData;
-      toast.successAction("payment", "updated");
-    }
-  );
+  updateProjectPayment(
+    props.projectId,
+    paymentId,
+    parseProjectPayment(newData)
+  ).then((response) => {
+    newData.basic_term = getTermOfPayment(response.basic_term);
+    newData.payment_date = response.payment_date;
+    payments.value[index] = newData;
+    toast.successAction("payment", "updated");
+  });
 };
 
 const validateForm = (obj) => {

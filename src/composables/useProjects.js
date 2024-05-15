@@ -407,11 +407,10 @@ export function useProjects() {
       invoice_number: payment.invoice_number,
       payment_date: parseDate(payment.payment_date),
       report_date: parseDate(payment.report_date),
-      milestone_id: payment.milestone.id,
       budget_item_id: payment.budget_item.id,
       reported: payment.reported ? true : false,
       payment_status: payment.payment_status,
-      project_team: payment.project_team.id,
+
       amount_paid: payment.amount_paid ? payment.amount_paid : 0,
       amount_approved: payment.amount_approved ? payment.amount_approved : 0,
       batch_number: payment.batch_number,
@@ -420,6 +419,14 @@ export function useProjects() {
 
     if (payment.terms_of_payment_id) {
       payment.terms_of_payment = payment.terms_of_payment_id;
+    }
+
+    if (payment.milestone.id) {
+      result.milestone_id = payment.milestone.id;
+    }
+
+    if (payment.project_team.id) {
+      result.project_team_id = payment.project_team.id;
     }
 
     return result;
