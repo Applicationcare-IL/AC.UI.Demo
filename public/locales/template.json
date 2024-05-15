@@ -219,10 +219,8 @@
     "notification-created-message": "The new customer was successfully created! \n From now on he will appear in your customer list",
     "notification-created-detail": "View Customer",
     "notification-created-close": "Close",
-    "toast": {
-      "created": "New Customer Created",
-      "error": "An error occurred"
-    }
+    "basic_term": "Basic Term",
+    "calculate_term": "Calculate Term"
   },
   "service": {
     "service": "Service",
