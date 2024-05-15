@@ -240,6 +240,7 @@ export function useProjects() {
         return {
           id: teamMember.id,
           role: teamMember.role_project,
+          customer: teamMember.customer.id,
         };
       }),
       location: {
