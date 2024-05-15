@@ -702,6 +702,134 @@ export function useListUtils() {
     ];
   };
 
+  const getCustomerPaymentsColumns = () => {
+    return [
+      {
+        name: "payment-number",
+        type: "text",
+        field: "id",
+        editable: false,
+      },
+      {
+        name: "project",
+        type: "project",
+        editable: false,
+        field: "project",
+        header: "project.project",
+      },
+      {
+        name: "budget-item-number",
+        type: "budget-item",
+        editable: false,
+        field: "budget_item",
+      },
+      {
+        name: "project_team",
+        type: "project_team",
+        field: "project_team",
+        header: "project.team",
+        editable: false,
+      },
+      {
+        name: "milestone",
+        type: "milestone",
+        field: "milestone",
+        header: "milestone.milestone",
+        editable: false,
+      },
+      {
+        name: "status",
+        type: "status",
+        field: "payment_status",
+        editable: false,
+      },
+      {
+        name: "proforma-invoice-number",
+        type: "text",
+        field: "proforma_invoice_number",
+        editable: false,
+      },
+      {
+        name: "proforma-invoice-file",
+        type: "attachment",
+        fileName: "proforma_invoice",
+        header: "payments.proforma-invoice-file",
+      },
+      {
+        name: "proforma-invoice-date",
+        type: "calendar",
+        field: "proforma_invoice_date",
+        editable: false,
+      },
+      {
+        name: "proforma-invoice-amount",
+        type: "currency",
+        field: "proforma_invoice_amount",
+        editable: false,
+      },
+      {
+        name: "invoice-number",
+        type: "text",
+        field: "invoice_number",
+        editable: false,
+      },
+      {
+        name: "proforma-invoice",
+        type: "attachment",
+        fileName: "invoice",
+        header: "payments.invoice-file",
+      },
+      {
+        name: "invoice-date",
+        type: "calendar",
+        field: "invoice_date",
+        editable: false,
+      },
+      {
+        name: "terms-of-payment",
+        type: "terms-of-payment",
+        field: "basic_term",
+        editable: false,
+      },
+      {
+        name: "amount-paid",
+        type: "currency",
+        field: "amount_paid",
+        editable: false,
+      },
+      {
+        name: "payment-date",
+        type: "calendar",
+        field: "payment_date",
+        editable: false,
+      },
+      {
+        name: "reported",
+        type: "checkbox",
+        field: "reported",
+        editable: false,
+      },
+      {
+        name: "date-reported-date",
+        type: "calendar",
+        field: "report_date",
+        editable: false,
+      },
+      {
+        name: "amount-approved-to-be-paid",
+        type: "currency",
+        field: "amount_approved",
+        editable: false,
+      },
+      {
+        name: "batch-number",
+        type: "text",
+        field: "batch_number",
+        editable: false,
+      },
+    ];
+  };
+
   const getMilestonesTableColumns = () => {
     return [
       {
@@ -1029,6 +1157,7 @@ export function useListUtils() {
     getProjectDocumentColumns,
     getBudgetItemsTableColumns,
     getPaymentsColumns,
+    getCustomerPaymentsColumns,
     getTaskDocumentColumns,
     getServiceDocumentsColumns,
     getSignatureTaskColumns,

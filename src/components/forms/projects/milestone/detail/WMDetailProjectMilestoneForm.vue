@@ -127,6 +127,7 @@
             ref="paymentsTableRef"
             :project-id="route.params.id"
             :milestone-id="route.params.milestoneId"
+            :columns="getPaymentsColumns()"
           />
         </AccordionTab>
       </Accordion>
@@ -153,6 +154,8 @@ const optionSetsStore = useOptionSetsStore();
 
 const { getProjectMilestone, updateProjectMilestone, parseMilestone } =
   useProjects();
+
+const { getPaymentsColumns } = useListUtils();
 
 const route = useRoute();
 const toast = useToast();

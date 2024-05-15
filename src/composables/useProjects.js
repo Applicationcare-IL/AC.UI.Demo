@@ -407,11 +407,11 @@ export function useProjects() {
       invoice_number: payment.invoice_number,
       payment_date: parseDate(payment.payment_date),
       report_date: parseDate(payment.report_date),
-      milestone_id: payment.milestone,
-      budget_item_id: payment.budget_item,
+      milestone_id: payment.milestone.id,
+      budget_item_id: payment.budget_item.id,
       reported: payment.reported ? true : false,
       payment_status: payment.payment_status,
-      project_team: payment.project_team,
+      project_team: payment.project_team.id,
       amount_paid: payment.amount_paid ? payment.amount_paid : 0,
       amount_approved: payment.amount_approved ? payment.amount_approved : 0,
       batch_number: payment.batch_number,
@@ -499,7 +499,6 @@ export function useProjects() {
     return {
       title: budgetItem.name,
       ...budgetItem,
-      test: budgetItem.total_approved ? budgetItem.total_approved : 8,
       total: budgetItem.total_approved
         ? budgetItem.total_approved
         : budgetItem.total,
@@ -533,17 +532,25 @@ export function useProjects() {
     };
   };
 
+  const mapShortMilestone = (milestone) => {
+    return {
+      id: milestone.id,
+      name: milestone.name,
+    };
+  };
+
   const mapPayment = (payment) => {
     return {
       ...payment,
-      budget_item: payment.budget_item?.id,
+      budget_item: mapBudgetItem(payment.budget_item),
       payment_status: payment.payment_status?.id,
       proforma_invoice_date: formatDate(
         new Date(payment.proforma_invoice_date),
         "DD/MM/YY"
       ),
-      project_team: payment.project_team?.id,
-      milestone: payment.milestone?.id,
+      project_team: mapProjectTeamMember(payment.project_team),
+      milestone: mapShortMilestone(payment.milestone),
+      project: payment.budget_item?.project,
     };
   };
 
@@ -652,5 +659,6 @@ export function useProjects() {
     mapContactsFromProjects,
     mapProjectCustomer,
     mapMilestone,
+    mapShortMilestone,
   };
 }

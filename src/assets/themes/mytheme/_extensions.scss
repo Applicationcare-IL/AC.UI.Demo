@@ -746,6 +746,10 @@ a {
 }
 
 // Dropdowns
+.p-dropdown .p-dropdown-label{
+    height: initial;
+}
+
 .p-dropdown-payment-status .p-dropdown-label{
     line-height: 12px;
 }

@@ -258,7 +258,11 @@
 
     <Accordion>
       <AccordionTab :header="$t('budget.payments')">
-        <WMPaymentsTable ref="paymentsTableRef" :project-id="projectId" />
+        <WMPaymentsTable
+          ref="paymentsTableRef"
+          :project-id="projectId"
+          :columns="getPaymentsColumns()"
+        />
       </AccordionTab>
     </Accordion>
 
@@ -331,6 +335,7 @@ const { layoutConfig } = useLayout();
 const utilsStore = useUtilsStore();
 const toast = useToast();
 const formUtilsStore = useFormUtilsStore();
+const { getPaymentsColumns } = useListUtils();
 
 // INJECT
 

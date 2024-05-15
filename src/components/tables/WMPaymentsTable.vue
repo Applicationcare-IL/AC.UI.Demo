@@ -14,6 +14,9 @@
           {{ t("new") }}
         </WMButton>
       </div>
+      <!-- <pre>
+      {{ payments }}
+      </pre> -->
       <!-- <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMButton
           name="filter"
@@ -84,6 +87,25 @@
       </Column>
 
       <Column
+        v-if="column.type == 'project'"
+        :key="column.name"
+        :field="column.name"
+        :header="getColumHeader(column)"
+        :class="column.class"
+      >
+        <template #body="slotProps">
+          <router-link
+            v-if="slotProps.data[column.field]"
+            :to="{
+              name: 'projectDetail',
+              params: { id: slotProps.data[column.field].id },
+            }"
+            >{{ slotProps.data[column.field].name }}</router-link
+          >
+        </template>
+      </Column>
+
+      <Column
         v-if="column.type == 'currency'"
         :key="column.name"
         :field="column.field"
@@ -137,7 +159,6 @@
             v-model="data[field]"
             :options="budgetItems"
             option-label="name"
-            option-value="id"
             placeholder="Select a budget item"
           >
             <template #option="slotProps">
@@ -146,7 +167,7 @@
           </Dropdown>
         </template>
         <template #body="slotProps">
-          {{ getBudgetItemName(slotProps.data[column.field]) }}
+          {{ slotProps.data[column.field].name }}
         </template>
       </Column>
 
@@ -162,7 +183,6 @@
             v-model="data[field]"
             :options="teamMembers"
             option-label="name"
-            option-value="id"
             placeholder="Select a team Member"
           >
             <template #option="slotProps">
@@ -171,7 +191,7 @@
           </Dropdown>
         </template>
         <template #body="slotProps">
-          {{ getTeamMemberName(slotProps.data[column.field]) }}
+          {{ slotProps.data[column.field].name }}
         </template>
       </Column>
 
@@ -182,12 +202,15 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template v-if="column.editable && !props.milestoneId" #editor="{ data, field }">
+        <template
+          v-if="column.editable && !props.milestoneId"
+          #editor="{ data, field }"
+        >
+          {{ milestones }}
           <Dropdown
             v-model="data[field]"
             :options="milestones"
             option-label="name"
-            option-value="id"
             placeholder="Select a milestone"
           >
             <template #option="slotProps">
@@ -196,7 +219,9 @@
           </Dropdown>
         </template>
         <template #body="slotProps">
-          {{ getMilestoneName(slotProps.data[column.field]) }}
+          <span v-if="slotProps.data[column.field]">
+            {{ slotProps.data[column.field].name }}
+          </span>
         </template>
       </Column>
 
@@ -295,8 +320,8 @@ const {
   parseProjectPayment,
   getProjectMilestones,
   getProjectTeam,
+  mapShortMilestone,
 } = useProjects();
-const { getPaymentsColumns } = useListUtils();
 const toast = useToast();
 const { t } = useI18n();
 const optionSetsStore = useOptionSetsStore();
@@ -327,6 +352,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  columns: {
+    type: Array,
+    required: true,
+  },
 });
 
 // REFS
@@ -335,7 +364,6 @@ const payments = ref([]);
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const searchValue = ref("");
-const columns = ref(getPaymentsColumns());
 const editingRows = ref([]);
 const paymentStatuses = ref([]);
 const budgetItems = ref([]);
@@ -362,26 +390,6 @@ optionSetsStore.getOptionSetValuesFromApi("basic_term").then((data) => {
 
 const getColumHeader = (column) => {
   return column.header ? t(column.header) : t(`payments.${column.name}`);
-};
-
-const getBudgetItemName = (id) => {
-  const budgetItem = budgetItems.value.find((item) => item.id === id);
-  return budgetItem ? budgetItem.name : "";
-};
-
-const getTeamMemberName = (id) => {
-  const teamMember = teamMembers.value.find((item) => item.id === id);
-  return teamMember ? teamMember.name : "";
-};
-
-const getTeamMemberTerm = (id) => {
-  const teamMember = teamMembers.value.find((item) => item.id === id);
-  return teamMember ? teamMember.basic_term : "";
-};
-
-const getMilestoneName = (id) => {
-  const milestone = milestones.value.find((item) => item.id === id);
-  return milestone ? milestone.name : "";
 };
 
 const getStatus = (id) => {
@@ -478,16 +486,14 @@ const loadLazyData = () => {
     budgetItems.value = response.budgetItems;
   });
 
-  // getCustomersFromApi().then((response) => {
-  //   customers.value = response.data;
-  // });
-
   getProjectTeam(props.projectId).then(({ contacts }) => {
     teamMembers.value = contacts;
   });
 
   getProjectMilestones(props.projectId).then((response) => {
-    milestones.value = response;
+    milestones.value = response.map((milestone) => {
+      return mapShortMilestone(milestone);
+    });
   });
 };
 
@@ -523,14 +529,16 @@ const onRowEditSave = (event) => {
     return;
   }
 
-  updateProjectPayment(props.projectId, paymentId, parseProjectPayment(newData)).then(
-    (response) => {
-      newData.basic_term = getTermOfPayment(response.basic_term);
-      newData.payment_date = response.payment_date;
-      payments.value[index] = newData;
-      toast.successAction("payment", "updated");
-    }
-  );
+  updateProjectPayment(
+    props.projectId,
+    paymentId,
+    parseProjectPayment(newData)
+  ).then((response) => {
+    newData.basic_term = getTermOfPayment(response.basic_term);
+    newData.payment_date = response.payment_date;
+    payments.value[index] = newData;
+    toast.successAction("payment", "updated");
+  });
 };
 
 const validateForm = (obj) => {
