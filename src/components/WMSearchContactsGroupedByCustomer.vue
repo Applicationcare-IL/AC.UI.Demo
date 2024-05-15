@@ -33,6 +33,7 @@ const { optionLabelWithLang } = useLanguages();
 let params = {
   r_small: true,
   with_contacts: true,
+  per_page: 99999,
 };
 
 getCustomersFromApi(params).then((data) => {
