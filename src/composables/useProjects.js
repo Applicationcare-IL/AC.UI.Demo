@@ -549,7 +549,9 @@ export function useProjects() {
         "DD/MM/YY"
       ),
       project_team: mapProjectTeamMember(payment.project_team),
-      milestone: mapShortMilestone(payment.milestone),
+      milestone: payment.milestone
+        ? mapShortMilestone(payment.milestone)
+        : null,
       project: payment.budget_item?.project,
     };
   };

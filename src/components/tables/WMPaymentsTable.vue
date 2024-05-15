@@ -206,7 +206,6 @@
           v-if="column.editable && !props.milestoneId"
           #editor="{ data, field }"
         >
-          {{ milestones }}
           <Dropdown
             v-model="data[field]"
             :options="milestones"
