@@ -202,10 +202,7 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template
-          v-if="column.editable && !props.milestoneId"
-          #editor="{ data, field }"
-        >
+        <template v-if="column.editable && !props.milestoneId" #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
             :options="milestones"
@@ -402,16 +399,19 @@ const getTermOfPayment = (id) => {
 };
 
 const getPaymentTemplate = () => {
-  return {
+  let paymentTemplate = {
     temp_id: uuidv4(),
     mode: "create",
-    budget_item: "",
+    budget_item: {
+      ...budgetItems.value[0],
+    },
     customer: "",
     status: {
       ...paymentStatuses.value[0],
     },
     milestone: {
-      ...milestones.value[0],
+      id: "",
+      name: "",
     },
     proforma_invoice_number: "PRO-12345",
     proforma_invoice_date: new Date(),
@@ -425,7 +425,13 @@ const getPaymentTemplate = () => {
     amount_approved: 80000,
     batch_number: "BATCH-2024-02-12",
     terms_of_payment_id: "",
+    project_team: {
+      id: "",
+      name: "",
+    },
   };
+
+  return paymentTemplate;
 };
 
 const rowClass = (data) => {
@@ -528,16 +534,14 @@ const onRowEditSave = (event) => {
     return;
   }
 
-  updateProjectPayment(
-    props.projectId,
-    paymentId,
-    parseProjectPayment(newData)
-  ).then((response) => {
-    newData.basic_term = getTermOfPayment(response.basic_term);
-    newData.payment_date = response.payment_date;
-    payments.value[index] = newData;
-    toast.successAction("payment", "updated");
-  });
+  updateProjectPayment(props.projectId, paymentId, parseProjectPayment(newData)).then(
+    (response) => {
+      newData.basic_term = getTermOfPayment(response.basic_term);
+      newData.payment_date = response.payment_date;
+      payments.value[index] = newData;
+      toast.successAction("payment", "updated");
+    }
+  );
 };
 
 const validateForm = (obj) => {
