@@ -202,10 +202,7 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template
-          v-if="column.editable && !props.milestoneId"
-          #editor="{ data, field }"
-        >
+        <template v-if="column.editable && !props.milestoneId" #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
             :options="milestones"
@@ -280,7 +277,11 @@
           <Calendar v-model="data[field]" show-icon />
         </template>
         <template #body="slotProps">
-          {{ formatDate(new Date(slotProps.data[column.field]), "DD/MM/YY") }}
+          {{
+            slotProps.data[column.field]
+              ? formatDate(new Date(slotProps.data[column.field]), "DD/MM/YY")
+              : ""
+          }}
           <i class="pi pi-calendar"></i>
         </template>
       </Column>
@@ -544,16 +545,14 @@ const onRowEditSave = (event) => {
     return;
   }
 
-  updateProjectPayment(
-    props.projectId,
-    paymentId,
-    parseProjectPayment(newData)
-  ).then((response) => {
-    newData.basic_term = getTermOfPayment(response.basic_term);
-    newData.payment_date = response.payment_date;
-    payments.value[index] = newData;
-    toast.successAction("payment", "updated");
-  });
+  updateProjectPayment(props.projectId, paymentId, parseProjectPayment(newData)).then(
+    (response) => {
+      newData.basic_term = getTermOfPayment(response.basic_term);
+      newData.payment_date = response.payment_date;
+      payments.value[index] = newData;
+      toast.successAction("payment", "updated");
+    }
+  );
 };
 
 const validateForm = (obj) => {

@@ -21,7 +21,22 @@ export function useDates() {
     return date;
   };
 
+  function formatDate(date) {
+    const newDate = new Date(date);
+
+    const year = newDate.getFullYear();
+    const month = newDate.getMonth() + 1; // Note: months are 0-based
+    const day = newDate.getDate();
+
+    const dateISO = `${year}-${month < 10 ? "0" : ""}${month}-${
+      day < 10 ? "0" : ""
+    }${day}`;
+
+    return dateISO;
+  }
+
   return {
     parseDate,
+    formatDate,
   };
 }

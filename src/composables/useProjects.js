@@ -427,7 +427,7 @@ export function useProjects() {
     }
 
     if (payment.project_team.id) {
-      result.project_team_id = payment.project_team.id;
+      result.project_team = payment.project_team.id;
     }
 
     return result;

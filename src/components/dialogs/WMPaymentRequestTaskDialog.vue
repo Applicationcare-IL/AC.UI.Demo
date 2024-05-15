@@ -17,6 +17,7 @@
           :options="contactProjects"
           custom-option-label="project_name"
           width="350"
+          required
           @update:selected-item="onProjectChange"
         />
 
@@ -29,6 +30,7 @@
           :options="contactRolesInProject"
           width="350"
           option-set
+          required
           @update:selected-item="onRoleChange"
         />
       </div>
@@ -60,6 +62,7 @@
           :options="invoiceTypeOptions"
           :value="selectedInvoiceType"
           width="80"
+          required
           @update:selected-item="onInvoiceTypeChange"
         />
       </div>
@@ -79,6 +82,15 @@
           :label="$t('payments.amount') + ':'"
           required
           name="amount"
+        />
+
+        <WMInput
+          v-model="paymentDate"
+          :value="paymentDate"
+          name="payment_date"
+          type="date"
+          :label="$t('payments.payment-date') + ':'"
+          required
         />
       </div>
 
@@ -151,11 +163,13 @@
 
 <script setup>
 // IMPORTS
+import { useForm } from "vee-validate";
 import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import AttachIcon from "/icons/attach_file_default.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
+import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const { getProjectsFromApi, getProjectTeamRoles } = useProjects();
@@ -163,6 +177,8 @@ const { layoutConfig } = useLayout();
 const { createTask, parseTask, getPaymentTaskInfo } = useTasks();
 const { t } = useI18n();
 const { uploadAttachment } = useAttachments();
+const { formatDate } = useDates();
+const formUtilsStore = useFormUtilsStore();
 
 // INJECT
 
@@ -183,9 +199,11 @@ const contactProjects = ref([]);
 const contactRolesInProject = ref([]);
 const invoiceNumber = ref("");
 const amount = ref(0);
+const paymentDate = ref(new Date());
 
 const fileInput = ref(null);
 const file = ref();
+const taskInfo = ref();
 
 const invoiceTypeOptions = [
   { value: "invoice", name: t("payments.invoice") },
@@ -199,6 +217,10 @@ const paidSoFar = ref(0);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const { handleSubmit } = useForm({
+  validationSchema: formUtilsStore.getPaymentRequestTaskFormValidationSchema,
+});
+
 const handleCreatePaymentRequestTask = () => {
   const payment = {
     project_team: selectedProjectTeam.value,
@@ -207,9 +229,11 @@ const handleCreatePaymentRequestTask = () => {
   if (selectedInvoiceType.value.value === "invoice") {
     payment.invoice_number = invoiceNumber.value;
     payment.amount_paid = amount.value;
+    payment.invoice_date = formatDate(paymentDate.value);
   } else {
     payment.proforma_invoice_number = invoiceNumber.value;
     payment.proforma_invoice_amount = amount.value;
+    payment.proforma_invoice_date = formatDate(paymentDate.value);
   }
 
   const task = {
@@ -217,7 +241,15 @@ const handleCreatePaymentRequestTask = () => {
     payment,
   };
 
-  createTask(parseTask(task))
+  taskInfo.value = task;
+
+  onSave();
+};
+
+const onSave = handleSubmit((values) => {
+  console.log("values", values);
+
+  createTask(parseTask(taskInfo.value))
     .then(async (response) => {
       modelValue.value = false;
 
@@ -228,7 +260,7 @@ const handleCreatePaymentRequestTask = () => {
     .catch((error) => {
       console.error(error);
     });
-};
+});
 
 const uploadPaymentAttachment = async (paymentId) => {
   const formData = new FormData();

@@ -176,6 +176,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
         notes: yup.string().required(),
       });
     },
+    getPaymentRequestTaskFormValidationSchema: () => {
+      return yup.object({
+        amount: yup.number().required(),
+      });
+    },
     getCustomerNewFormValidationSchema: (state) => {
       return yup.object({
         name: yup.string().required(),
