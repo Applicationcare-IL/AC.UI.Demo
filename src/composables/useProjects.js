@@ -411,7 +411,6 @@ export function useProjects() {
       budget_item_id: payment.budget_item.id,
       reported: payment.reported ? true : false,
       payment_status: payment.payment_status,
-
       amount_paid: payment.amount_paid ? payment.amount_paid : 0,
       amount_approved: payment.amount_approved ? payment.amount_approved : 0,
       batch_number: payment.batch_number,
@@ -525,7 +524,8 @@ export function useProjects() {
         teamMember.role_project?.value_en +
         " - " +
         teamMember.customer?.name,
-      basic_term: teamMember.basic_term?.id,
+      basic_term: teamMember.basic_term,
+      calculate_term: teamMember.calculate_term,
       contact_name: teamMember.contact.name,
       telephone: teamMember.contact.phone,
       email: teamMember.contact.email,

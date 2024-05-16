@@ -533,7 +533,7 @@ const onRowEditSave = (event) => {
       .then((response) => {
         delete newData.mode;
         newData.id = response.id;
-        newData.basic_term = getTermOfPayment(response.basic_term);
+        newData.basic_term = getTermOfPayment(response.basic_term?.id);
         newData.payment_date = response.payment_date;
         payments.value[index] = newData;
         toast.successAction("payment", "created");
@@ -547,7 +547,7 @@ const onRowEditSave = (event) => {
 
   updateProjectPayment(props.projectId, paymentId, parseProjectPayment(newData)).then(
     (response) => {
-      newData.basic_term = getTermOfPayment(response.basic_term);
+      newData.basic_term = getTermOfPayment(response.basic_term?.id);
       newData.payment_date = response.payment_date;
       payments.value[index] = newData;
       toast.successAction("payment", "updated");

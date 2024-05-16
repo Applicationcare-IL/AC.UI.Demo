@@ -58,7 +58,10 @@
             v-model="slotProps.data[column.name]"
           />
           <span v-else>
-            {{ slotProps.data[column.name] }}
+            <template v-if="column.optionSet">
+              <WMOptionSetValue :option-set="slotProps.data[column.name]" />
+            </template>
+            <template v-else>{{ slotProps.data[column.name] }}</template>
           </span>
         </template>
         <template v-if="column.type === 'link'">
@@ -108,17 +111,13 @@
         <template v-if="column.type === 'actions'">
           <div class="flex flex-row gap-2">
             <WMButton
-              v-if="
-                column.buttons?.includes('edit') && !editMode[slotProps.index]
-              "
+              v-if="column.buttons?.includes('edit') && !editMode[slotProps.index]"
               name="edit"
               icon="edit"
               @click="editMode[slotProps.index] = true"
             />
             <WMButton
-              v-if="
-                column.buttons?.includes('edit') && editMode[slotProps.index]
-              "
+              v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
               name="save"
               icon="save"
               class="in_table"
@@ -301,9 +300,7 @@ const alertCellConditionalStyle = (data) => {
 
 const unlinkContact = (contact) => {
   if (contact.state === "not-saved") {
-    contacts.value = contacts.value.filter(
-      (c) => c.contact_id !== contact.contact_id
-    );
+    contacts.value = contacts.value.filter((c) => c.contact_id !== contact.contact_id);
     return;
   }
 
@@ -316,9 +313,7 @@ const unlinkContact = (contact) => {
 
   unassignContactFromProject(params)
     .then(() => {
-      contacts.value = contacts.value.filter(
-        (c) => c.contact_id !== contact.contact_id
-      );
+      contacts.value = contacts.value.filter((c) => c.contact_id !== contact.contact_id);
       toast.success({ message: "Contact Successfully unlinked" });
     })
     .catch(() => {
@@ -427,8 +422,9 @@ const optionSets = ref([]);
 const loadOptionSets = async () => {
   props.columns.forEach(async (column) => {
     if (column.optionSet) {
-      optionSets.value[column.optionSet] =
-        await optionSetsStore.getOptionSetValues(column.optionSet);
+      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
+        column.optionSet
+      );
     }
   });
 };

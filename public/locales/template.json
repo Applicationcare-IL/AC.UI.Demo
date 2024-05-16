@@ -421,7 +421,9 @@
     "contract": "Contract",
     "contract-amount": "Contract amount",
     "remains-to-be-paid": "Remains to be paid",
-    "paid-so-far": "Paid so far"
+    "paid-so-far": "Paid so far",
+    "calculate_term": "Calculate Term",
+    "basic_term": "Basic Term"
   },
   "budget": {
     "approved-council": "Approved (Council)",
