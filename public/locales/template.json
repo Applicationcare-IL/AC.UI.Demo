@@ -497,7 +497,8 @@
     "remains-to-be-paid": "Remains to be paid",
     "status": "Status",
     "terms-of-payment": "Terms of Payment",
-    "status-not-selected": "Status not selected"
+    "status-not-selected": "Status not selected",
+    "calculate-term": "Calculate Term"
   },
   "milestone": {
     "actual-date": "Actual Date",
