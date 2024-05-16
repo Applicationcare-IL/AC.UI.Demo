@@ -682,6 +682,12 @@ export function useListUtils() {
         editable: true,
       },
       {
+        name: "amount-approved-to-be-paid",
+        type: "currency",
+        field: "amount_approved",
+        editable: true,
+      },
+      {
         name: "reported",
         type: "checkbox",
         field: "reported",
@@ -691,12 +697,6 @@ export function useListUtils() {
         name: "date-reported-date",
         type: "calendar",
         field: "report_date",
-        editable: true,
-      },
-      {
-        name: "amount-approved-to-be-paid",
-        type: "currency",
-        field: "amount_approved",
         editable: true,
       },
       {
@@ -816,6 +816,12 @@ export function useListUtils() {
         editable: true,
       },
       {
+        name: "amount-approved-to-be-paid",
+        type: "currency",
+        field: "amount_approved",
+        editable: true,
+      },
+      {
         name: "reported",
         type: "checkbox",
         field: "reported",
@@ -825,12 +831,6 @@ export function useListUtils() {
         name: "date-reported-date",
         type: "calendar",
         field: "report_date",
-        editable: true,
-      },
-      {
-        name: "amount-approved-to-be-paid",
-        type: "currency",
-        field: "amount_approved",
         editable: true,
       },
       {
