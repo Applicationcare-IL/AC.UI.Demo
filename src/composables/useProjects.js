@@ -514,16 +514,16 @@ export function useProjects() {
 
   const mapProjectTeamMember = (teamMember) => {
     return {
-      id: teamMember.id,
-      contact_id: teamMember.contact.id,
+      id: teamMember?.id,
+      contact_id: teamMember?.contact?.id,
       name:
-        teamMember.contact.name +
+        teamMember?.contact?.name +
         " " +
-        teamMember.contact.surname +
+        teamMember?.contact?.surname +
         " - " +
-        teamMember.role_project?.value_en +
+        teamMember?.role_project?.value_en +
         " - " +
-        teamMember.customer?.name,
+        teamMember?.customer?.name,
       basic_term: teamMember.basic_term,
       calculate_term: teamMember.calculate_term,
       contact_name: teamMember.contact.name,
@@ -556,7 +556,9 @@ export function useProjects() {
         new Date(payment.proforma_invoice_date),
         "DD/MM/YY"
       ),
-      project_team: mapProjectTeamMember(payment.project_team),
+      project_team: payment.project_team
+        ? mapProjectTeamMember(payment.project_team)
+        : null,
       milestone: payment.milestone
         ? mapShortMilestone(payment.milestone)
         : null,

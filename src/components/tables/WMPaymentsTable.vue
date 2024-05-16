@@ -191,7 +191,9 @@
           </Dropdown>
         </template>
         <template #body="slotProps">
-          {{ slotProps.data[column.field].name }}
+          <span v-if="slotProps.data[column.field]">
+            {{ slotProps.data[column.field].name }}
+          </span>
         </template>
       </Column>
 
