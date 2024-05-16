@@ -228,7 +228,7 @@ const handleCreatePaymentRequestTask = () => {
 
   if (selectedInvoiceType.value.value === "invoice") {
     payment.invoice_number = invoiceNumber.value;
-    payment.invice_amount = amount.value;
+    payment.invoice_amount = amount.value;
     payment.invoice_date = formatDate(paymentDate.value);
   } else {
     payment.proforma_invoice_number = invoiceNumber.value;
