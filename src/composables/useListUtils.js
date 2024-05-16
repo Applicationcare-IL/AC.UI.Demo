@@ -987,8 +987,17 @@ export function useListUtils() {
         editable: false,
       },
       { name: "customers", type: "customers", header: "project.organization" },
-      { name: "basic_term", type: "text", optionSet: true },
-      { name: "calculate_term", type: "text" },
+      {
+        name: "basic_term",
+        type: "text",
+        optionSet: true,
+        header: "project.basic-term",
+      },
+      {
+        name: "calculate_term",
+        type: "text",
+        header: "project.calculate-term",
+      },
       {
         name: "role_project",
         type: "role_project",
