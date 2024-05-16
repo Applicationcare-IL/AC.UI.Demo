@@ -670,6 +670,12 @@ export function useListUtils() {
         editable: true,
       },
       {
+        name: "calculate-term",
+        type: "text",
+        field: "calculate_term",
+        editable: false,
+      },
+      {
         name: "payment-date",
         type: "calendar",
         field: "payment_date",
@@ -802,6 +808,12 @@ export function useListUtils() {
         type: "terms-of-payment",
         field: "basic_term",
         editable: true,
+      },
+      {
+        name: "calculate-term",
+        type: "text",
+        field: "calculate_term",
+        editable: false,
       },
       {
         name: "payment-date",
