@@ -421,11 +421,11 @@ export function useProjects() {
       payment.terms_of_payment = payment.terms_of_payment_id;
     }
 
-    if (payment.milestone.id) {
+    if (payment.milestone?.id) {
       result.milestone_id = payment.milestone.id;
     }
 
-    if (payment.project_team.id) {
+    if (payment.project_team?.id) {
       result.project_team = payment.project_team.id;
     }
 
