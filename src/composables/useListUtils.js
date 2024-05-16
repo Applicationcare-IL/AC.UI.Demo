@@ -682,15 +682,15 @@ export function useListUtils() {
         editable: false,
       },
       {
-        name: "amount-paid",
-        type: "currency",
-        field: "amount_paid",
-        editable: true,
-      },
-      {
         name: "amount-approved-to-be-paid",
         type: "currency",
         field: "amount_approved",
+        editable: true,
+      },
+      {
+        name: "amount-paid",
+        type: "currency",
+        field: "amount_paid",
         editable: true,
       },
       {
@@ -822,15 +822,15 @@ export function useListUtils() {
         editable: false,
       },
       {
-        name: "amount-paid",
-        type: "currency",
-        field: "amount_paid",
-        editable: true,
-      },
-      {
         name: "amount-approved-to-be-paid",
         type: "currency",
         field: "amount_approved",
+        editable: true,
+      },
+      {
+        name: "amount-paid",
+        type: "currency",
+        field: "amount_paid",
         editable: true,
       },
       {
