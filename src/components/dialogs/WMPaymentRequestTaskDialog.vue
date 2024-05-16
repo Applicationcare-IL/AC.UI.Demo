@@ -89,7 +89,7 @@
           :value="paymentDate"
           name="payment_date"
           type="date"
-          :label="$t('payments.payment-date') + ':'"
+          :label="$t('payments.invoice-date') + ':'"
           required
         />
       </div>
