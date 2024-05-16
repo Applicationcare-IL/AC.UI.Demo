@@ -658,15 +658,15 @@ export function useListUtils() {
         editable: true,
       },
       {
+        name: "invoice-amount",
+        type: "currency",
+        field: "invoice_amount",
+        editable: false,
+      },
+      {
         name: "terms-of-payment",
         type: "terms-of-payment",
         field: "basic_term",
-        editable: true,
-      },
-      {
-        name: "amount-paid",
-        type: "currency",
-        field: "amount_paid",
         editable: true,
       },
       {
@@ -674,6 +674,12 @@ export function useListUtils() {
         type: "calendar",
         field: "payment_date",
         editable: false,
+      },
+      {
+        name: "amount-paid",
+        type: "currency",
+        field: "amount_paid",
+        editable: true,
       },
       {
         name: "reported",
@@ -711,16 +717,9 @@ export function useListUtils() {
         editable: false,
       },
       {
-        name: "project",
-        type: "project",
-        editable: false,
-        field: "project",
-        header: "project.project",
-      },
-      {
         name: "budget-item-number",
         type: "budget-item",
-        editable: false,
+        editable: true,
         field: "budget_item",
       },
       {
@@ -728,26 +727,33 @@ export function useListUtils() {
         type: "project_team",
         field: "project_team",
         header: "project.team",
+        editable: true,
+      },
+      {
+        name: "project",
+        type: "project",
         editable: false,
+        field: "project",
+        header: "project.project",
       },
       {
         name: "milestone",
         type: "milestone",
         field: "milestone",
         header: "milestone.milestone",
-        editable: false,
+        editable: true,
       },
       {
         name: "status",
         type: "status",
         field: "payment_status",
-        editable: false,
+        editable: true,
       },
       {
         name: "proforma-invoice-number",
         type: "text",
         field: "proforma_invoice_number",
-        editable: false,
+        editable: true,
       },
       {
         name: "proforma-invoice-file",
@@ -759,19 +765,19 @@ export function useListUtils() {
         name: "proforma-invoice-date",
         type: "calendar",
         field: "proforma_invoice_date",
-        editable: false,
+        editable: true,
       },
       {
         name: "proforma-invoice-amount",
         type: "currency",
         field: "proforma_invoice_amount",
-        editable: false,
+        editable: true,
       },
       {
         name: "invoice-number",
         type: "text",
         field: "invoice_number",
-        editable: false,
+        editable: true,
       },
       {
         name: "proforma-invoice",
@@ -783,19 +789,19 @@ export function useListUtils() {
         name: "invoice-date",
         type: "calendar",
         field: "invoice_date",
+        editable: true,
+      },
+      {
+        name: "invoice-amount",
+        type: "currency",
+        field: "invoice_amount",
         editable: false,
       },
       {
         name: "terms-of-payment",
         type: "terms-of-payment",
         field: "basic_term",
-        editable: false,
-      },
-      {
-        name: "amount-paid",
-        type: "currency",
-        field: "amount_paid",
-        editable: false,
+        editable: true,
       },
       {
         name: "payment-date",
@@ -804,28 +810,34 @@ export function useListUtils() {
         editable: false,
       },
       {
+        name: "amount-paid",
+        type: "currency",
+        field: "amount_paid",
+        editable: true,
+      },
+      {
         name: "reported",
         type: "checkbox",
         field: "reported",
-        editable: false,
+        editable: true,
       },
       {
         name: "date-reported-date",
         type: "calendar",
         field: "report_date",
-        editable: false,
+        editable: true,
       },
       {
         name: "amount-approved-to-be-paid",
         type: "currency",
         field: "amount_approved",
-        editable: false,
+        editable: true,
       },
       {
         name: "batch-number",
         type: "text",
         field: "batch_number",
-        editable: false,
+        editable: true,
       },
     ];
   };

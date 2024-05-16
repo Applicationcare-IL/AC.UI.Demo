@@ -1,9 +1,5 @@
 <template>
-  <WMTempButton
-    :text="$t('buttons.link_contact')"
-    type="type-4"
-    @click="toggle"
-  >
+  <WMTempButton :text="$t('buttons.link_contact')" type="type-4" @click="toggle">
     <template #customIcon>
       <div class="flex" v-html="PersonIcon" />
     </template>
@@ -114,7 +110,7 @@ import PersonIcon from "/icons/person.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES
-const { getContactsFromApi, getContactFromApi } = useContacts();
+const { getContactFromApi } = useContacts();
 const { layoutConfig } = useLayout();
 const { can } = usePermissions();
 const { getTeams } = useEmployees();
@@ -184,7 +180,6 @@ const handleLinkContacts = () => {
     });
   }
 
-  console.log("emit", selectedContacts.value);
   emit("addContacts", selectedContacts.value);
 };
 

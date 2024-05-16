@@ -474,6 +474,7 @@
   "payments": {
     "amount-approved-to-be-paid": "Amount Approved to be Paid",
     "amount-paid": "Amount Paid",
+    "invoice-amount": "Invoice Amount",
     "amount": "Amount",
     "batch-number": "Batch Number",
     "budget-item-number": "Budget Item",
