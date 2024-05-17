@@ -5,7 +5,6 @@
       type="primary"
       @click="applyFilters()"
     />
-
     <div class="flex flex-column align-items-center">
       <div class="h3">
         {{ translatedTitle }}

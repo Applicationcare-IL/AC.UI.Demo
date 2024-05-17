@@ -269,6 +269,11 @@ export function useFilters() {
     ],
     task: [
       {
+        type: "state",
+        name: "state",
+        label: i18n.t("state") + ":",
+      },
+      {
         type: "entity",
         name: "task_type",
         label: i18n.t("task.type") + ":",
@@ -279,12 +284,6 @@ export function useFilters() {
         type: "sla_status",
         name: "sla",
         label: i18n.t("filters.service-sla-status") + ":",
-      },
-      {
-        type: "buttons",
-        name: "state",
-        optionSet: "state",
-        label: i18n.t("status") + ":",
       },
       {
         type: "date",

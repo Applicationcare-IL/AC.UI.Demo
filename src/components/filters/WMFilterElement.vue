@@ -2,7 +2,7 @@
   <div class="relative">
     <label v-if="label != ''" class="wm-form-label"> {{ label }}</label>
     <div class="flex flex-row justify-content-between">
-      <!-- DROPDOWN -->
+      <!-- DROPDOWNS -->
       <WMAutocomplete
         v-if="type == 'dropdown' && optionSet"
         v-model="selectedOptions"
@@ -45,6 +45,18 @@
           :label="option[optionLabelWithLang]"
           @update:model-value="onButtonChanged($event, option)"
         />
+      </div>
+
+      <!-- STATE OPTIONS -->
+      <div v-if="type == 'state'" class="flex flex-row gap-2 p-2">
+        <div class="flex flex-column">
+          <WMStateToggle
+            v-model="selectedOption"
+            :entity="entity"
+            type="event"
+            @update:state="onStateChange"
+          />
+        </div>
       </div>
 
       <!-- DATES -->
@@ -219,6 +231,13 @@ const onButtonChanged = (value, option) => {
   });
 };
 
+const onStateChange = (value) => {
+  emits("update:filter", {
+    name: props.filterName,
+    value: value,
+  });
+};
+
 const onDateChanged = (value, type) => {
   let dateFilterName;
   let date;
@@ -309,14 +328,16 @@ const handleSelectedDates = () => {
 };
 
 const handleSelectedButtons = () => {
-  if (props.appliedFilters && props.type == "buttons") {
-    if (props.appliedFilters[props.filterName]) {
-      selectedButtons.value = props.appliedFilters[props.filterName];
-      selectedButtons.value.forEach((element) => {
-        const index = optionSetsOptions.value.findIndex((x) => x.id == element);
-        isButtonSelected.value[index] = true;
-      });
-    }
+  if (
+    props.appliedFilters &&
+    props.appliedFilters[props.filterName] &&
+    props.type == "buttons"
+  ) {
+    selectedButtons.value = props.appliedFilters[props.filterName];
+    selectedButtons.value.forEach((element) => {
+      const index = optionSetsOptions.value.findIndex((x) => x.id == element);
+      isButtonSelected.value[index] = true;
+    });
   }
 };
 
@@ -335,10 +356,12 @@ const handleSelectedEntity = () => {
 };
 
 const handleSelectedAutocompleteDropdown = () => {
-  if (props.appliedFilters && props.type == "dropdown") {
-    if (props.appliedFilters[props.filterName]) {
-      selectedOptions.value = props.appliedFilters[props.filterName];
-    }
+  if (
+    props.appliedFilters &&
+    props.appliedFilters[props.filterName] &&
+    props.type == "dropdown"
+  ) {
+    selectedOptions.value = props.appliedFilters[props.filterName];
   }
 };
 
@@ -352,6 +375,16 @@ const handleSelectedDropdwon = () => {
   }
 };
 
+const handleSelectedState = () => {
+  if (
+    props.appliedFilters &&
+    props.appliedFilters[props.filterName] &&
+    props.type == "state"
+  ) {
+    selectedOption.value = props.appliedFilters[props.filterName];
+  }
+};
+
 function handleSelectedFilters() {
   handleSelectedSLAs();
   handleSelectedDates();
@@ -359,6 +392,7 @@ function handleSelectedFilters() {
   handleSelectedEntity();
   handleSelectedAutocompleteDropdown();
   handleSelectedDropdwon();
+  handleSelectedState();
 }
 
 // PROVIDE, EXPOSE
