@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <label v-if="label != ''" class="wm-form-label"> {{ label }} - {{ type }}</label>
+    <label v-if="label != ''" class="wm-form-label"> {{ label }}</label>
     <div class="flex flex-row justify-content-between">
       <!-- DROPDOWN -->
       <WMAutocomplete
@@ -310,10 +310,16 @@ const handleSelectedButtons = () => {
 };
 
 const handleSelectedEntity = () => {
-  if (props.appliedFilters && props.type == "entity") {
-    if (props.appliedFilters[props.filterName]) {
-      selectedOptions.value = props.appliedFilters[props.filterName];
-    }
+  if (
+    props.appliedFilters &&
+    props.appliedFilters[props.filterName] &&
+    props.type == "entity"
+  ) {
+    props.searchFunction().then((options) => {
+      selectedOptions.value = options.data.filter((x) =>
+        props.appliedFilters[props.filterName].includes(x.id)
+      );
+    });
   }
 };
 

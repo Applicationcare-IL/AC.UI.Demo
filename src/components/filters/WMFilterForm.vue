@@ -89,9 +89,6 @@ const numberOfAppliedFilters = computed(() => {
 const applyFilters = () => {
   utilsStore.filters[entity] = { ...filters.value };
 
-  console.log("filters", filters.value);
-  console.log("checkIfFiltersArrayKeysAreEmpty", checkIfFiltersArrayKeysAreEmpty());
-
   if (checkIfFiltersArrayKeysAreEmpty()) {
     clear();
   }
@@ -132,11 +129,7 @@ const clear = () => {
 
   filters.value = {};
 
-  console.log("before delete", utilsStore.filters[entity]);
-
   delete utilsStore.filters[entity];
-
-  console.log("after delete", utilsStore.filters[entity]);
 
   forceRerenderFilterElements();
 };
