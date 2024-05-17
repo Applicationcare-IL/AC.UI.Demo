@@ -33,6 +33,7 @@
         option-label="name"
         :search-function="searchFunction"
         @update:model-value="onAutocompleteDropdownChanged"
+        @remove="onRemoveEntityDropdownOption"
       />
 
       <!-- BUTTONS -->
@@ -179,6 +180,7 @@ const forceRerender = () => {
 };
 
 const onAutocompleteDropdownChanged = (value) => {
+  console.log("onAutocompleteDropdownChanged");
   emits("update:filter", {
     name: props.filterName,
     value: value.map((x) => x.id),
@@ -270,6 +272,15 @@ const clear = () => {
   emits("update:filter", {
     name: props.filterName,
     value: null,
+  });
+};
+
+const onRemoveEntityDropdownOption = (option) => {
+  selectedOptions.value = selectedOptions.value.filter((x) => x.id != option.id);
+
+  emits("update:filter", {
+    name: props.filterName,
+    value: selectedOptions.value.map((x) => x.id),
   });
 };
 
