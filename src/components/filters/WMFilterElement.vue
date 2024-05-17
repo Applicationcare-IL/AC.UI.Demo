@@ -1,101 +1,101 @@
 <template>
-  <label v-if="label != ''" class="wm-form-label">
-    {{ label }}
-  </label>
-  <div class="flex flex-row justify-content-between">
-    <!-- DROPDOWN -->
-    <WMAutocomplete
-      v-if="type == 'dropdown' && optionSet"
-      v-model="selectedOptions"
-      :placeholder="placeholder"
-      :multiple="true"
-      width="248"
-      :options="optionSetsOptions"
-      :option-set="optionSet"
-      @update:model-value="onAutocompleteDropdownChanged"
-    />
-
-    <Dropdown
-      v-if="type == 'dropdown' && options"
-      v-model="selectedOption"
-      :options="options"
-      option-label="label"
-      class="w-full md:w-14rem"
-      @update:model-value="onDropdownChanged"
-    />
-
-    <!-- ENTITY -->
-    <WMAutocomplete
-      v-if="type == 'entity'"
-      v-model="selectedOptions"
-      :placeholder="placeholder"
-      :multiple="true"
-      width="248"
-      option-label="name"
-      :search-function="searchFunction"
-      @update:model-value="onAutocompleteDropdownChanged"
-    />
-
-    <!-- BUTTONS -->
-    <div v-if="type == 'buttons'" class="flex flex-row gap-2 p-2">
-      <WMSelectableButton
-        v-for="(option, index) in optionSetsOptions"
-        :key="index"
-        v-model="isButtonSelected[index]"
-        :label="option[optionLabelWithLang]"
-        @update:model-value="onButtonChanged($event, option)"
+  <div class="relative">
+    <label v-if="label != ''" class="wm-form-label"> {{ label }} </label>
+    <div class="flex flex-row justify-content-between">
+      <!-- DROPDOWN -->
+      <WMAutocomplete
+        v-if="type == 'dropdown' && optionSet"
+        v-model="selectedOptions"
+        :placeholder="placeholder"
+        :multiple="true"
+        width="248"
+        :options="optionSetsOptions"
+        :option-set="optionSet"
+        @update:model-value="onAutocompleteDropdownChanged"
       />
-    </div>
 
-    <!-- DATES -->
-    <div v-if="type == 'date'" class="flex flex-row gap-2 p-2">
-      <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label">
-          {{ $t("from") }}:
-        </label>
-        <Calendar
-          v-model="fromDate"
-          show-icon
-          @update:model-value="onDateChanged($event, 'from')"
+      <Dropdown
+        v-if="type == 'dropdown' && options"
+        v-model="selectedOption"
+        :options="options"
+        option-label="label"
+        class="w-full md:w-14rem"
+        @update:model-value="onDropdownChanged"
+      />
+
+      <!-- ENTITY -->
+      <WMAutocomplete
+        v-if="type == 'entity'"
+        v-model="selectedOptions"
+        :placeholder="placeholder"
+        :multiple="true"
+        width="248"
+        option-label="name"
+        :search-function="searchFunction"
+        @update:model-value="onAutocompleteDropdownChanged"
+      />
+
+      <!-- BUTTONS -->
+      <div v-if="type == 'buttons'" class="flex flex-row gap-2 p-2">
+        <WMSelectableButton
+          v-for="(option, index) in optionSetsOptions"
+          :key="index"
+          v-model="isButtonSelected[index]"
+          :label="option[optionLabelWithLang]"
+          @update:model-value="onButtonChanged($event, option)"
         />
       </div>
-      <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label">
-          {{ $t("to") }}:
-        </label>
-        <Calendar
-          v-model="toDate"
-          show-icon
-          @update:model-value="onDateChanged($event, 'to')"
+
+      <!-- DATES -->
+      <div v-if="type == 'date'" class="flex flex-row gap-2 p-2">
+        <div class="flex flex-column">
+          <label v-if="label != ''" class="wm-form-label"> {{ $t("from") }}: </label>
+          <Calendar
+            v-model="fromDate"
+            show-icon
+            @update:model-value="onDateChanged($event, 'from')"
+          />
+        </div>
+        <div class="flex flex-column">
+          <label v-if="label != ''" class="wm-form-label"> {{ $t("to") }}: </label>
+          <Calendar
+            v-model="toDate"
+            show-icon
+            @update:model-value="onDateChanged($event, 'to')"
+          />
+        </div>
+      </div>
+
+      <!-- SLA -->
+      <div v-if="type == 'sla_status'" class="flex flex-row gap-2 p-2">
+        <WMSelectableButton
+          v-for="(option, index) in SLAoptions"
+          :key="index"
+          v-model="isButtonSelected[index]"
+          :label="option[optionLabelWithLang]"
+          @update:model-value="onButtonChanged($event, option)"
         />
       </div>
-    </div>
 
-    <!-- SLA -->
-    <div v-if="type == 'sla_status'" class="flex flex-row gap-2 p-2">
-      <WMSelectableButton
-        v-for="(option, index) in SLAoptions"
-        :key="index"
-        v-model="isButtonSelected[index]"
-        :label="option[optionLabelWithLang]"
-        @update:model-value="onButtonChanged($event, option)"
+      <!-- CREATED/ASSIGNED BY ME -->
+      <div v-if="type == 'created_assigned'" class="flex flex-row gap-2 p-2">
+        <WMSelectableButton
+          v-for="(option, index) in createdAssignedOptions"
+          :key="index"
+          v-model="isButtonSelected[index]"
+          :label="option[optionLabelWithLang]"
+          @update:model-value="onButtonChanged($event, option)"
+        />
+      </div>
+
+      <WMTempButton
+        :text="$t('buttons.clear')"
+        type="clear mx-0 px-0"
+        class="absolute top-0"
+        :class="layoutConfig.isRTL.value ? 'left-0' : 'right-0'"
+        @click="clear"
       />
     </div>
-
-    <!-- CREATED/ASSIGNED BY ME -->
-    <div v-if="type == 'created_assigned'" class="flex flex-row gap-2 p-2">
-      <WMSelectableButton
-        v-for="(option, index) in createdAssignedOptions"
-        :key="index"
-        v-model="isButtonSelected[index]"
-        :label="option[optionLabelWithLang]"
-        @update:model-value="onButtonChanged($event, option)"
-      />
-    </div>
-
-    <Button link @click="clear">
-      {{ $t("buttons.clear") }}
-    </Button>
   </div>
   <Divider></Divider>
 </template>
@@ -106,11 +106,13 @@ import { useDateFormat } from "@vueuse/core";
 import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
+import { useLayout } from "@/layout/composables/layout";
 import { useOptionSetsStore } from "@/stores/optionSets";
 // DEPENDENCIES
 const { t } = useI18n();
 const { optionLabelWithLang } = useLanguages();
 const optionSetsStore = useOptionSetsStore();
+const { layoutConfig } = useLayout();
 
 // INJECT
 
@@ -207,8 +209,7 @@ const removeUnselectedOptionsFromFilter = (selectedOption) => {
 
 const onButtonChanged = (value, option) => {
   if (value) selectedButtons.value.push(option.id);
-  else
-    selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
+  else selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
 
   emits("update:filter", {
     name: props.filterName,
@@ -341,9 +342,7 @@ defineExpose({ clear });
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   if (props.optionSet) {
-    optionSetsOptions.value = await optionSetsStore.getOptionSetValues(
-      props.optionSet
-    );
+    optionSetsOptions.value = await optionSetsStore.getOptionSetValues(props.optionSet);
   }
 
   if (props.options) {

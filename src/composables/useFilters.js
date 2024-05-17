@@ -275,13 +275,6 @@ export function useFilters() {
         placeholder: i18n.t("task.task-type-placeholder") + ":",
         searchFunction: searchTaskTypes,
       },
-      // {
-      //   type: "dropdown",
-      //   name: "task_family",
-      //   optionSet: "task_family",
-      //   label: i18n.t("task.family") + ":",
-      //   placeholder: i18n.t("task.task-family-placeholder") + ":",
-      // },
       {
         type: "sla_status",
         name: "sla",

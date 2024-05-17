@@ -1,6 +1,11 @@
 <template>
   <div class="filter-header flex flex-row justify-content-between p-4">
-    <Button @click="applyFilters()">{{ $t("buttons.apply-filters") }}</Button>
+    <WMTempButton
+      :text="$t('buttons.apply-filters')"
+      type="primary"
+      @click="applyFilters()"
+    />
+
     <div class="flex flex-column align-items-center">
       <div class="h3">
         {{ translatedTitle }}
@@ -11,7 +16,7 @@
       <span v-else>הופעלו {{ numberOfAppliedFilters }} סננים </span>
     </div>
 
-    <Button link @click="clear">{{ $t("buttons.clear-all") }}</Button>
+    <WMTempButton :text="$t('buttons.clear-all')" type="clear mx-0 px-0" @click="clear" />
   </div>
 
   <Divider></Divider>
@@ -39,7 +44,7 @@
 
 <script setup>
 // IMPORTS
-import { computed, inject, ref, toRaw } from "vue";
+import { computed, inject, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
