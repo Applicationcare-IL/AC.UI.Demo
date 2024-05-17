@@ -670,6 +670,7 @@
     "asset-title": "Asset Filters",
     "related-service-title": "Related Service Filters",
     "no-filters-applied": "No filters applied",
+    "filters-applied": "Filters applied",
     "service-sla-status": "Service SLA Status",
     "task-sla-status": "Task SLA Status",
     "select-city": "Select city",
