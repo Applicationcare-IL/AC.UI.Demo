@@ -13,7 +13,9 @@
       <span v-if="numberOfAppliedFilters == 0">
         {{ $t("filters.no-filters-applied") }}
       </span>
-      <span v-else>הופעלו {{ numberOfAppliedFilters }} סננים </span>
+      <span v-else>
+        {{ $t("filters.filters-applied") + ": " + numberOfAppliedFilters }}</span
+      >
     </div>
 
     <WMTempButton :text="$t('buttons.clear-all')" type="clear mx-0 px-0" @click="clear" />
@@ -87,6 +89,9 @@ const numberOfAppliedFilters = computed(() => {
 const applyFilters = () => {
   utilsStore.filters[entity] = { ...filters.value };
 
+  console.log("filters", filters.value);
+  console.log("checkIfFiltersArrayKeysAreEmpty", checkIfFiltersArrayKeysAreEmpty());
+
   if (checkIfFiltersArrayKeysAreEmpty()) {
     clear();
   }
@@ -96,7 +101,9 @@ const applyFilters = () => {
 
 const checkIfFiltersArrayKeysAreEmpty = () => {
   return Object.keys(filters.value).every((key) => {
-    return filters.value[key] == null;
+    if (Array.isArray(filters.value[key])) {
+      return filters.value[key].length === 0;
+    }
   });
 };
 
@@ -125,7 +132,11 @@ const clear = () => {
 
   filters.value = {};
 
+  console.log("before delete", utilsStore.filters[entity]);
+
   delete utilsStore.filters[entity];
+
+  console.log("after delete", utilsStore.filters[entity]);
 
   forceRerenderFilterElements();
 };

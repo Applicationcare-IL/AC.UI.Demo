@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <label v-if="label != ''" class="wm-form-label"> {{ label }} </label>
+    <label v-if="label != ''" class="wm-form-label"> {{ label }} - {{ type }}</label>
     <div class="flex flex-row justify-content-between">
       <!-- DROPDOWN -->
       <WMAutocomplete
@@ -252,6 +252,16 @@ const clear = () => {
   }
 
   if (props.type == "buttons") {
+    selectedButtons.value = [];
+    isButtonSelected.value = [];
+    forceRerender();
+  }
+
+  if (props.type == "entity") {
+    selectedOptions.value = [];
+  }
+
+  if (props.type == "sla_status") {
     selectedButtons.value = [];
     isButtonSelected.value = [];
     forceRerender();
