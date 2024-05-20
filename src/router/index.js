@@ -203,6 +203,11 @@ const router = createRouter({
           name: "newServiceMobile",
           component: () => import("@/views/mobile/MobileNewService.vue"),
         },
+        {
+          path: "/products",
+          name: "products",
+          component: () => import("@/views/user/lists/Products.vue"),
+        },
       ],
     },
   ],
