@@ -25,7 +25,7 @@
     <div>
       <WMFilterElement
         v-for="(filter, index) in filterElements"
-        :key="index + forceRerender"
+        :key="index"
         ref="filterElementRefs"
         :placeholder="filter.placeholder"
         :label="filter.label"
@@ -68,7 +68,6 @@ const { entity, filterFormName } = defineProps({
 const filters = ref({});
 const filterElementRefs = ref([]);
 const filterElements = ref(filterList[filterFormName]);
-const forceRerender = ref(0);
 
 // COMPUTED
 const translatedTitle = computed(() => {
@@ -117,11 +116,9 @@ const addFilter = (filter) => {
   filters.value[filter.name] = filter.value;
 };
 
-const forceRerenderFilterElements = () => {
-  forceRerender.value++;
-};
-
 const clear = () => {
+  console.log("clearing filters");
+
   filterElementRefs.value.forEach((filterElement) => {
     filterElement.clear();
   });
@@ -129,8 +126,6 @@ const clear = () => {
   filters.value = {};
 
   delete utilsStore.filters[entity];
-
-  forceRerenderFilterElements();
 };
 
 // fill the filters with the current filters to keep the "active" states
