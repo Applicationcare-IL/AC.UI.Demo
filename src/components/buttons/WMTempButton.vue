@@ -1,5 +1,6 @@
 <template>
   <Button class="wm-button align-items-center justify-content-center" :class="classes">
+    <span v-if="badge" class="wm-button__badge">{{ badge }}</span>
     <i v-if="icon" class="pi" :class="icon"></i>
     <slot name="customIcon"></slot>
     <span>{{ text }}</span>
@@ -16,6 +17,10 @@ const props = defineProps({
   },
   text: {
     type: String,
+    required: false,
+  },
+  badge: {
+    type: Number,
     required: false,
   },
   type: {
@@ -63,6 +68,8 @@ const classes = computed(() => {
   background-color: var(--gray-50);
   color: var(--blue-700);
   border: none;
+  position: relative;
+  overflow: initial;
 
   &:hover {
     background-color: var(--gray-100);
@@ -287,5 +294,23 @@ const classes = computed(() => {
   padding: 3px 6px;
   font-size: 1rem;
   height: 24px;
+}
+
+// BADGES
+.wm-button__badge {
+  background-color: var(--yellow-400);
+  color: var(--gray-900);
+  height: 18px;
+  width: 18px;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 4px 0px #00000040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  transform: translate(-50%, -50%);
 }
 </style>

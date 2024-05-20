@@ -61,6 +61,20 @@
       </WMTempButton>
     </Variant>
 
+    <Variant title="Type-4 (primary) (with custom icon) (with badge)">
+      <WMTempButton
+        :text="state.content"
+        type="type-4"
+        :is-active="state.active"
+        badge="2"
+        class="mt-2"
+      >
+        <template #customIcon>
+          <div class="flex" v-html="FilterIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
+
     <Variant title="Type 5">
       <WMTempButton :text="state.content" type="type-5" :is-active="state.active">
       </WMTempButton>

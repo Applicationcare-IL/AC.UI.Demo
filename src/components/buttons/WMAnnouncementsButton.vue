@@ -6,30 +6,30 @@
     header="הודעות והנחיות"
     :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
   >
-    <div
-      v-for="announcement in announcements"
-      :key="announcement.id"
-      class="p-2"
-    >
+    <div v-for="announcement in announcements" :key="announcement.id" class="p-2">
       {{ announcement.message }}
       <Divider />
     </div>
   </Dialog>
 
-  <Button
-    label="הודעות והנחיות"
-    :badge="announcements?.length ? announcements.length : '0'"
-    badge-class="p-badge-warning"
-    class="flex flex-row gap-3 p-2"
+  <WMTempButton
+    :text="$t('buttons.announcements')"
+    type="primary"
+    :badge="announcements?.length ? announcements.length : false"
+    :is-disabled="announcements.length === 0"
     :disabled="announcements.length === 0"
     @click="visible = true"
   >
-  </Button>
+    <template #customIcon>
+      <div class="flex" v-html="PinIcon" />
+    </template>
+  </WMTempButton>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
 
+import PinIcon from "/icons/push_pin.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
 
 const { layoutConfig } = useLayout();

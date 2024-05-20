@@ -128,7 +128,8 @@
     "link-service": "Link service",
     "link-services": "Link services",
     "select-all": "Select all",
-    "upload-file": "Upload file"
+    "upload-file": "Upload file",
+    "announcements": "Announcements"
   },
   "navigation": {
     "dashboard": "Dashboard",
