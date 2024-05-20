@@ -50,9 +50,7 @@
         <div style="width: 50%">
           <Card class="h-full p-card-chart">
             <template #title>
-              <div
-                class="w-full flex align-items-center justify-content-between"
-              >
+              <div class="w-full flex align-items-center justify-content-between">
                 <span>
                   {{ $t("dashboard.services-distribution-by-sla") }}
                 </span>
@@ -72,9 +70,7 @@
         </div>
         <div style="width: 50%">
           <Card v-if="servicesTrendingAreas" class="h-full">
-            <template #title>
-              {{ $t("dashboard.trending-service-areas") }}</template
-            >
+            <template #title> {{ $t("dashboard.trending-service-areas") }}</template>
             <template #content>
               <TrendingList
                 v-if="servicesTrendingAreas.length"
@@ -111,8 +107,11 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 const { can } = usePermissions();
 const optionSetsStore = useOptionSetsStore();
 const { getServiceColumns } = useListUtils();
-const { getServicesTrendingAreas, getServicesSLADistribution, getAvgDuration } =
-  useServices();
+const {
+  getServicesTrendingAreas,
+  getServicesSLADistribution,
+  getAvgDuration,
+} = useServices();
 const authStore = useAuthStore();
 
 // INJECT
@@ -145,13 +144,13 @@ const openServices = computed(() => {
   }
 
   const nearBreach =
-    servicesSLAData.value.find((item) => item.sla_status === "near_breach")
-      ?.value || 0;
+    servicesSLAData.value.find((item) => item.sla_status === "near_breach")?.value || 0;
   const noBreach =
-    servicesSLAData.value.find((item) => item.sla_status === "no_breach")
-      ?.value || 0;
+    servicesSLAData.value.find((item) => item.sla_status === "no_breach")?.value || 0;
+  const breached =
+    servicesSLAData.value.find((item) => item.sla_status === "breached")?.value || 0;
 
-  return nearBreach + noBreach;
+  return nearBreach + noBreach + breached;
 });
 
 // COMPONENT METHODS AND LOGIC

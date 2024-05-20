@@ -33,9 +33,7 @@
         <div style="width: 50%">
           <Card class="h-full p-card-chart">
             <template #title>
-              <div
-                class="w-full flex align-items-center justify-content-between"
-              >
+              <div class="w-full flex align-items-center justify-content-between">
                 <span>
                   {{ $t("dashboard.tasks-distribution-by-sla") }}
                 </span>
@@ -58,10 +56,7 @@
           <Card class="h-full">
             <template #title> {{ $t("dashboard.top-task-families") }}</template>
             <template #content>
-              <TrendingList
-                v-if="topTaskFamilies.length"
-                :data="topTaskFamilies"
-              />
+              <TrendingList v-if="topTaskFamilies.length" :data="topTaskFamilies" />
               <span v-else> {{ $t("data-not-available") }}</span>
             </template>
           </Card>
@@ -118,13 +113,13 @@ const openTasks = computed(() => {
   }
 
   const nearBreach =
-    tasksSLAData.value.find((item) => item.sla_status === "near_breach")
-      ?.value || 0;
+    tasksSLAData.value.find((item) => item.sla_status === "near_breach")?.value || 0;
   const noBreach =
-    tasksSLAData.value.find((item) => item.sla_status === "no_breach")?.value ||
-    0;
+    tasksSLAData.value.find((item) => item.sla_status === "no_breach")?.value || 0;
+  const breached =
+    tasksSLAData.value.find((item) => item.sla_status === "breached")?.value || 0;
 
-  return nearBreach + noBreach;
+  return nearBreach + noBreach + breached;
 });
 
 const breachedTasks = computed(() => {
@@ -132,10 +127,7 @@ const breachedTasks = computed(() => {
     return 0;
   }
 
-  return (
-    tasksSLAData.value.find((item) => item.sla_status === "breached")?.value ||
-    0
-  );
+  return tasksSLAData.value.find((item) => item.sla_status === "breached")?.value || 0;
 });
 
 // COMPONENT METHODS AND LOGIC
@@ -150,17 +142,17 @@ const openTasksSLADialog = () => {
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   const activeStateId = await optionSetsStore.getValueId("state", "active");
+  const openStatusId = await optionSetsStore.getValueId("task_status", "open");
 
   dashboardTaskFilters.value = {
     ...dashboardTaskFilters.value,
     state: activeStateId,
+    status: openStatusId,
   };
 
   topTaskFamilies.value = await getTopTaskFamilies(dashboardTaskFilters.value);
 
-  tasksSLAData.value = await getTasksSLADistribution(
-    dashboardTaskFilters.value
-  );
+  tasksSLAData.value = await getTasksSLADistribution(dashboardTaskFilters.value);
 });
 </script>
 
