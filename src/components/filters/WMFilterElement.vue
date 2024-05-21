@@ -29,6 +29,7 @@
         :options="optionSetsOptions"
         :option-set="optionSet"
         @update:model-value="onAutocompleteDropdownChanged"
+        @remove="onRemoveEntityDropdownOption"
       />
 
       <Dropdown
@@ -388,13 +389,19 @@ const handleSelectedAutocompleteDropdown = () => {
   }
 };
 
-const handleSelectedDropdwon = () => {
+const handleSelectedDropdown = () => {
   if (props.appliedFilters && props.type == "dropdown" && props.options) {
     props.options.forEach((option) => {
       if (props.appliedFilters && props.appliedFilters[option.name]) {
         selectedOption.value = option;
       }
     });
+  }
+
+  if (props.appliedFilters && props.type == "dropdown" && props.optionSet) {
+    selectedOptions.value = optionSetsOptions.value.filter((x) =>
+      props.appliedFilters[props.filterName].includes(x.id)
+    );
   }
 };
 
@@ -414,7 +421,7 @@ function handleSelectedFilters() {
   handleSelectedButtons();
   handleSelectedEntity();
   handleSelectedAutocompleteDropdown();
-  handleSelectedDropdwon();
+  handleSelectedDropdown();
   handleSelectedState();
 }
 
