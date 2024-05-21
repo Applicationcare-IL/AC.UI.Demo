@@ -3,11 +3,18 @@
     <!-- Toggable label-->
     <div v-if="label != '' && toggable">
       <div class="flex flex-row align-items-center gap-3" @click="toggleContent">
-        <div class="toggable w-full">
+        <div
+          class="toggable w-full hover:bg-blue-50"
+          :class="isToggled || selectedOptions.length ? 'bg-blue-50' : 'bg-gray-50'"
+        >
+          <div class="w-full flex justify-content-between">
+            <span class="h6">{{ label }}</span>
+            <span>{{ selectedOptionsPreviewText }}</span>
+          </div>
+
           <div class="toggable__icon">
             <div class="p-button-svg" v-html="ExpandIcon" />
           </div>
-          <span class="h6">{{ label }}</span>
         </div>
         <WMTempButton :text="$t('buttons.clear')" type="clear mx-0 px-0" @click="clear" />
       </div>
@@ -135,7 +142,7 @@
 <script setup>
 // IMPORTS
 import { useDateFormat } from "@vueuse/core";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import ExpandIcon from "/icons/expand_default.svg?raw";
@@ -209,6 +216,15 @@ const createdAssignedOptions = [
 ];
 
 // COMPUTED
+const selectedOptionsPreviewText = computed(() => {
+  if (selectedOptions.value.lenght == 0) return "";
+
+  if (props.type == "dropdown" && props.optionSet) {
+    return selectedOptions.value.map((x) => x[optionLabelWithLang.value]).join(", ");
+  }
+
+  return "";
+});
 
 // COMPONENT METHODS AND LOGIC
 const forceRerender = () => {
@@ -216,7 +232,6 @@ const forceRerender = () => {
 };
 
 const onAutocompleteDropdownChanged = (value) => {
-  console.log("onAutocompleteDropdownChanged");
   emits("update:filter", {
     name: props.filterName,
     value: value.map((x) => x.id),
@@ -454,7 +469,6 @@ onMounted(async () => {
   padding: 4px 8px 4px 4px;
   border-radius: 8px;
   justify: space-between;
-  background-color: var(--gray-50);
 
   &:hover {
     background-color: var(--blue-50);
