@@ -14,29 +14,22 @@
           {{ t("new") }}
         </WMButton>
       </div>
-      <!-- <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
-        <WMButton
-          name="filter"
-          icon="filter"
-          :open="isFilterOpen"
-          :applied="isFilterApplied"
-          @click="openFilterSidebar"
-          >{{ t("filter") }}
-        </WMButton>
-
-        <WMSidebar
-          :visible="isFilterVisible"
-          name="filterTask"
-          @close-sidebar="closeFilterSidebar"
-          @open-sidebar="openFilterSidebar"
-        >
-          <WMFilterForm entity="task" filter-form-name="task" />
-        </WMSidebar>
-        <WMOwnerToggle entity="task" />
-      </div> -->
     </div>
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="payment" />
+      <WMFilterButton
+        :is-active="isFilterApplied || isFilterVisible"
+        @click="openFilterSidebar"
+      />
+
+      <WMSidebar
+        :visible="isFilterVisible"
+        name="filterPayment"
+        @close-sidebar="closeFilterSidebar"
+        @open-sidebar="openFilterSidebar"
+      >
+        <WMFilterForm entity="payment" filter-form-name="payment" />
+      </WMSidebar>
     </div>
   </div>
   <DataTable
@@ -366,16 +359,22 @@ const searchValue = ref("");
 const editingRows = ref([]);
 const paymentStatuses = ref([]);
 const budgetItems = ref([]);
-// const customers = ref([]);
 const teamMembers = ref([]);
 const basicTerms = ref([]);
 const milestones = ref([]);
+
+const isFilterVisible = ref(false);
 
 // COMPUTED
 const isSomePaymentInCreateMode = computed(() => {
   if (payments.value.length < 1) return false;
 
   return payments.value.some((payment) => payment.mode === "create");
+});
+
+const isFilterApplied = computed(() => {
+  if (!utilsStore.filters["payment"]) return 0;
+  return Object.keys(utilsStore.filters["payment"]).length;
 });
 
 // COMPONENT METHODS AND LOGIC
@@ -458,14 +457,14 @@ const handleNewPayment = async () => {
 };
 
 const loadLazyData = () => {
-  // const filters = utilsStore.filters["task"];
+  const filters = utilsStore.filters["payment"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = 10;
 
   // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams({
-    // ...filters,
+    ...filters,
     page: nextPage ? nextPage : 1,
     per_page: selectedRowsPerPageParam,
     search: searchValueParam,
@@ -587,6 +586,14 @@ const onRowEditCancel = (event) => {
     payments.value.shift();
   }
 };
+
+function closeFilterSidebar() {
+  isFilterVisible.value = false;
+}
+
+function openFilterSidebar() {
+  isFilterVisible.value = true;
+}
 
 const refreshTable = () => {
   loadLazyData();

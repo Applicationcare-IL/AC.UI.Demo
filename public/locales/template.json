@@ -672,6 +672,7 @@
     "service-title": "Service Filters",
     "project-title": "Project Filters",
     "asset-title": "Asset Filters",
+    "payment-title": "Payment Filters",
     "related-service-title": "Related Service Filters",
     "no-filters-applied": "No filters applied",
     "filters-applied": "Filters applied",

@@ -52,7 +52,7 @@
       <WMSearchBox entity="task" />
       <WMFilterButton
         v-if="showFilter"
-        :is-active="isFilterApplied || isFilterOpen"
+        :is-active="isFilterApplied || isFilterVisible"
         @click="openFilterSidebar"
       />
 
@@ -251,7 +251,6 @@ const emit = defineEmits(["taskCompleted"]);
 
 // REFS
 const selectedTasks = ref([]);
-const isFilterOpen = ref(false);
 const tasks = ref([]);
 const totalRecords = ref(0);
 const lazyParams = ref({});
