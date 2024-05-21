@@ -297,7 +297,7 @@
 // IMPORTS
 import { formatDate } from "@vueuse/core";
 import { v4 as uuidv4 } from "uuid";
-import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -605,6 +605,10 @@ defineExpose({
 });
 
 // WATCHERS
+watchEffect(() => {
+  loadLazyData();
+});
+
 watch(
   () => utilsStore.searchString["payment"],
   () => {

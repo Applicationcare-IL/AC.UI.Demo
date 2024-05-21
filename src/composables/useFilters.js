@@ -385,6 +385,15 @@ export function useFilters() {
         to: "usage_start_date_to",
       },
     ],
+    payment: [
+      {
+        toggable: true,
+        type: "dropdown",
+        name: "status",
+        optionSet: "payment_status",
+        label: i18n.t("payments.status") + ":",
+      },
+    ],
   };
 
   return {

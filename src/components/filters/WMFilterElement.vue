@@ -1,7 +1,24 @@
 <template>
   <div class="relative">
-    <label v-if="label != ''" class="wm-form-label"> {{ label }}</label>
-    <div class="flex flex-row justify-content-between">
+    <!-- Toggable label-->
+    <div v-if="label != '' && toggable">
+      <div class="flex flex-row align-items-center gap-3" @click="toggleContent">
+        <div class="toggable w-full">
+          <div class="toggable__icon">
+            <div class="p-button-svg" v-html="ExpandIcon" />
+          </div>
+          <span class="h6">{{ label }}</span>
+        </div>
+        <WMTempButton :text="$t('buttons.clear')" type="clear mx-0 px-0" @click="clear" />
+      </div>
+    </div>
+
+    <!-- Non-toggable label -->
+    <label v-if="label != '' && !toggable" class="wm-form-label"> {{ label }}</label>
+    <div
+      class="flex-row justify-content-between"
+      :class="!toggable || isToggled ? 'flex' : 'hidden'"
+    >
       <!-- DROPDOWNS -->
       <WMAutocomplete
         v-if="type == 'dropdown' && optionSet"
@@ -102,6 +119,7 @@
       </div>
 
       <WMTempButton
+        v-if="!toggable"
         :text="$t('buttons.clear')"
         type="clear mx-0 px-0"
         class="absolute top-0"
@@ -119,8 +137,10 @@ import { useDateFormat } from "@vueuse/core";
 import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
+import ExpandIcon from "/icons/expand_default.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
 import { useOptionSetsStore } from "@/stores/optionSets";
+
 // DEPENDENCIES
 const { t } = useI18n();
 const { optionLabelWithLang } = useLanguages();
@@ -141,11 +161,14 @@ const props = defineProps({
   searchFunction: Function,
   filterData: Object,
   appliedFilters: Object,
+  toggable: Boolean,
 });
 
 const emits = defineEmits(["update:filter"]);
 
 // REFS
+const isToggled = ref(false);
+
 const optionSetsOptions = ref();
 const selectedOption = ref(null);
 
@@ -395,6 +418,10 @@ function handleSelectedFilters() {
   handleSelectedState();
 }
 
+const toggleContent = () => {
+  isToggled.value = !isToggled.value;
+};
+
 // PROVIDE, EXPOSE
 defineExpose({ clear });
 
@@ -413,3 +440,18 @@ onMounted(async () => {
   handleSelectedFilters();
 });
 </script>
+
+<style scoped lang="scss">
+.toggable {
+  display: flex;
+  padding: 4px 8px 4px 4px;
+  border-radius: 8px;
+  justify: space-between;
+  background-color: var(--gray-50);
+
+  &:hover {
+    background-color: var(--blue-50);
+    cursor: pointer;
+  }
+}
+</style>

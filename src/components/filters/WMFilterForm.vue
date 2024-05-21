@@ -37,6 +37,7 @@
         :search-function="filter.searchFunction"
         :filter-data="filter"
         :applied-filters="appliedFilters"
+        :toggable="filter.toggable"
         @update:filter="addFilter"
       />
     </div>
