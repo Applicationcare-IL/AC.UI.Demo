@@ -51,17 +51,21 @@
                 background-color="blue-200"
                 :label="$t('budget.total') + ':'"
               />
+              <Divider layout="vertical" />
+              <WMHighlightedBlock
+                v-model="budget.total_without_fee"
+                background-color="blue-200"
+                :label="$t('budget.total-without-fee') + ':'"
+              />
             </div>
-            <div class="flex flex-row gap-6">
+            <div class="flex flex-row gap-3">
               <WMHighlightedBlock
                 v-model="budget.approved_council"
                 background-color="green-100"
                 :label="$t('budget.approved-council') + ':'"
               />
 
-              <ArrowIcon
-                :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
-              />
+              <ArrowIcon :class="layoutConfig.isRTL.value ? '' : 'rotate-180'" />
 
               <WMHighlightedBlock
                 v-model="budget.approved_ministry"
@@ -80,6 +84,21 @@
               <WMHighlightedBalanceBlock
                 :quantity="budget.balance"
                 :label="$t('budget.balance') + ':'"
+              />
+
+              <Divider layout="vertical" />
+
+              <WMHighlightedBlock
+                v-model="budget.total_funding"
+                background-color="gray-300"
+                :label="$t('budget.total-funding') + ':'"
+              />
+
+              <Divider layout="vertical" class="opacity-0" />
+
+              <WMHighlightedBalanceBlock
+                :quantity="budget.funding_balance"
+                :label="$t('budget.funding-balance') + ':'"
               />
             </div>
           </div>
@@ -159,9 +178,7 @@
           </span>
 
           <div class="flex flex-column gap-2">
-            <div
-              class="flex flex-row align-items-center justify-content-between gap-2"
-            >
+            <div class="flex flex-row align-items-center justify-content-between gap-2">
               <WMHighlightedBlock
                 v-model="budget.funds_accepted_non_tbr"
                 name="funds_accepted_non_tbr"

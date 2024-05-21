@@ -9,8 +9,14 @@
 }
 
 .wm-detail-form-container{
-    padding: 10px 160px;
+    padding: 10px 20px;
     background-color: white;
+}
+
+@media (min-width: 1440px) {
+    .wm-detail-form-container{
+        padding: 10px 160px;
+    }
 }
 
 .wm-form-row{

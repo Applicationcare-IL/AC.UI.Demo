@@ -442,6 +442,8 @@
     "estimate": "Estimate",
     "executed-payments": "Executed (payments)",
     "funding": "Funding",
+    "funding-balance": "Funding Balance",
+    "total-funding": "Total Funding",
     "last-changed": "Last changed",
     "management-fee": "Management Fee",
     "municipality-expenses": "Municipality expenses",
@@ -461,6 +463,7 @@
     "tbr-number": "TBR Number",
     "tbr-reported": "TBR Reported",
     "total": "Total",
+    "total-without-fee": "Total without fee",
     "unexpected": "Unexpected"
   },
   "project-budget": {

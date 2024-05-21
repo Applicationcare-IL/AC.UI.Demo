@@ -41,7 +41,7 @@
     </div>
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1 w-full">
-        <Card>
+        <Card class="overflow-x-auto">
           <template #title> {{ $t("budget.budget-details") }} </template>
           <template #content>
             <div class="flex flex-column gap-5">
@@ -76,18 +76,22 @@
                   background-color="blue-200"
                   :label="$t('budget.total') + ':'"
                 />
+                <Divider layout="vertical" />
+                <WMHighlightedBlock
+                  v-model="budget.total_without_fee"
+                  background-color="blue-200"
+                  :label="$t('budget.total-without-fee') + ':'"
+                />
               </div>
               <Divider></Divider>
-              <div class="flex flex-row gap-6">
+              <div class="flex flex-row gap-3">
                 <WMHighlightedBlock
                   v-model="budget.approved_council"
                   background-color="green-100"
                   :label="$t('budget.approved-council') + ':'"
                 />
 
-                <ArrowIcon
-                  :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
-                />
+                <ArrowIcon :class="layoutConfig.isRTL.value ? '' : 'rotate-180'" />
 
                 <WMHighlightedBlock
                   v-model="budget.approved_ministry"
@@ -106,6 +110,21 @@
                 <WMHighlightedBalanceBlock
                   :quantity="budget.balance"
                   :label="$t('budget.balance') + ':'"
+                />
+
+                <Divider layout="vertical" />
+
+                <WMHighlightedBlock
+                  v-model="budget.total_funding"
+                  background-color="gray-300"
+                  :label="$t('budget.total-funding') + ':'"
+                />
+
+                <Divider layout="vertical" class="opacity-0" />
+
+                <WMHighlightedBalanceBlock
+                  :quantity="budget.funding_balance"
+                  :label="$t('budget.funding-balance') + ':'"
                 />
               </div>
             </div>
@@ -328,8 +347,7 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getProjectBudget, updateBudget, calculateBudget, parseBudget } =
-  useProjects();
+const { getProjectBudget, updateBudget, calculateBudget, parseBudget } = useProjects();
 const route = useRoute();
 const { layoutConfig } = useLayout();
 const utilsStore = useUtilsStore();
