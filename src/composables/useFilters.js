@@ -3,6 +3,9 @@ import { useI18n } from "vue-i18n";
 export function useFilters() {
   const { getTasksTypesFromApi } = useTasks();
   const { getCustomersFromApi } = useCustomers();
+  const { getProjectsFromApi, getProjectMilestones } = useProjects();
+  const { getContactsFromApi } = useContacts();
+
   const i18n = useI18n();
 
   const searchTaskTypes = (query) => {
@@ -13,6 +16,24 @@ export function useFilters() {
 
   const searchCustomers = (query) => {
     return getCustomersFromApi({
+      search: query,
+    });
+  };
+
+  const searchProjects = (query) => {
+    return getProjectsFromApi({
+      search: query,
+    });
+  };
+
+  const searchMilestones = (query) => {
+    return getProjectMilestones({
+      search: query,
+    });
+  };
+
+  const searchContacts = (query) => {
+    return getContactsFromApi({
       search: query,
     });
   };
@@ -392,6 +413,48 @@ export function useFilters() {
         name: "status",
         optionSet: "payment_status",
         label: i18n.t("payments.status") + ":",
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "projects",
+        label: i18n.t("project.project") + ":",
+        searchFunction: searchProjects,
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "milestones",
+        label: i18n.t("milestone.milestones") + ":",
+        searchFunction: searchMilestones,
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "budget-item",
+        label: i18n.t("budget.budget-item") + ":",
+        searchFunction: searchMilestones,
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "customers",
+        label: i18n.t("project.organization") + ":",
+        searchFunction: searchCustomers,
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "contacts",
+        label: i18n.t("contact.contacts") + ":",
+        searchFunction: searchContacts,
+      },
+      {
+        type: "date",
+        name: "open",
+        label: i18n.t("payments.payment-date") + ":",
+        from: "payment_date_from",
+        to: "payment_date_to",
       },
     ],
   };
