@@ -14,9 +14,6 @@
           {{ t("new") }}
         </WMButton>
       </div>
-      <!-- <pre>
-      {{ payments }}
-      </pre> -->
       <!-- <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMButton
           name="filter"
@@ -39,7 +36,7 @@
       </div> -->
     </div>
     <div class="flex flex-row gap-3">
-      <!-- <WMSearchBox entity="task" /> -->
+      <WMSearchBox entity="payment" />
     </div>
   </div>
   <DataTable
@@ -601,7 +598,16 @@ defineExpose({
 });
 
 // WATCHERS
-// watch payments
+watch(
+  () => utilsStore.searchString["payment"],
+  () => {
+    searchValue.value = utilsStore.searchString["payment"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  }
+);
+
 watch(
   () => payments.value,
   () => {
