@@ -326,9 +326,12 @@ const onSelectionChanged = () => {
 };
 
 const saveRow = (contact) => {
+  const projectId = parseInt(props.projectId);
+  const teamMemberId = contact.id;
+
   const contactParams = {
-    project: parseInt(props.projectId),
-    contact: contact.contact_id,
+    project: projectId,
+    contact: teamMemberId,
     role: contact.role_project?.id,
     customer: contact.customer.id,
     contract_number: contact.contract_number ? contact.contract_number : 0,
@@ -337,14 +340,15 @@ const saveRow = (contact) => {
 
   if (contact.state === "not-saved") {
     assignContactToProject(contactParams)
-      .then(() => {
+      .then((response) => {
+        updateTeamMember(projectId, response.data.id, contactParams);
         toast.success({ message: "Contact Successfully updated" });
       })
       .catch(() => {
         toast.error("Contact assign Failed");
       });
   } else {
-    updateTeamMember(contactParams.project, contact.id, contactParams)
+    updateTeamMember(projectId, teamMemberId, contactParams)
       .then(() => {
         toast.success({ message: "Contact Successfully updated" });
       })
