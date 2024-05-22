@@ -6,7 +6,11 @@
     @refresh-table="refreshTask"
   >
     <template #custom-secondary-buttons>
-      <WMCancelButton v-if="can('tasks.deactivate')" @click="handleCancelTasks" />
+      <WMCancelButton
+        v-if="can('tasks.deactivate')"
+        :is-disabled="!isTaskCancellable"
+        @click="handleCancelTasks"
+      />
     </template>
   </WMDetailFormSubHeader>
   <WMDetailTaskForm ref="detailTaskForm" :form-key="formKey" />
@@ -14,7 +18,7 @@
 
 <script setup>
 // IMPORTS
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -37,6 +41,14 @@ const formKey = ref("taskDetailForm");
 const detailTaskForm = ref(null);
 
 // COMPUTED
+const isTaskCancellable = computed(() => {
+  return (
+    selectedTask.value &&
+    selectedTask.value.status.value !== "canceled" &&
+    selectedTask.value.status.value !== "completed" &&
+    selectedTask.value.status.value !== "closed"
+  );
+});
 
 // COMPONENT METHODS AND LOGIC
 useHead({
@@ -44,11 +56,14 @@ useHead({
 });
 
 const handleCancelTasks = async () => {
+  if (selectedTask.value && !isTaskCancellable.value) return;
+
   let response = await dialog.confirmCancelTask();
 
   if (response) {
-    cancelTask(selectedTask.value.id);
-    refreshTask();
+    cancelTask(selectedTask.value.id).then(() => {
+      refreshTask();
+    });
 
     toast.info({
       message: t("task.toast-task-cancelled-message"),
