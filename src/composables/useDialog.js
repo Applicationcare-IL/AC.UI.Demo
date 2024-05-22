@@ -93,6 +93,23 @@ export function useDialog() {
     });
   };
 
+  const confirmCancelProject = () => {
+    return new Promise((resolve) => {
+      confirm.require({
+        message: i18n.t("project.notification-cancel-project-message"),
+        header: i18n.t("project.notification-cancel-project-header"),
+        acceptLabel: i18n.t("project.notification-cancel-project-yes"),
+        rejectLabel: i18n.t("project.notification-cancel-task-no"),
+        accept: () => {
+          resolve(true);
+        },
+        reject: () => {
+          resolve(false);
+        },
+      });
+    });
+  };
+
   const cancelService = (id) => {
     confirm.require({
       group: "cancelService",
@@ -212,6 +229,7 @@ export function useDialog() {
     cancelService,
     confirmCompleteTasks,
     confirmCancelTask,
+    confirmCancelProject,
     confirmCancelDialog,
     confirmCompleteMilestone,
     confirmUnlinkRelatedService,

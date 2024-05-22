@@ -85,6 +85,10 @@ export function useProjects() {
     return await projectsStore.exportProjects(params);
   };
 
+  const cancelProject = async (projectId) => {
+    return await projectsStore.cancelProject(projectId);
+  };
+
   // TEAM
   const getProjectTeam = async (projectId, params) => {
     const response = await projectsStore.getProjectTeam(projectId, params);
@@ -657,6 +661,7 @@ export function useProjects() {
     getProjectTeam,
     getProjectTeamRoles,
     updateTeamMember,
+    cancelProject,
     // UTILITIES
     parseProject,
     parseBudget,

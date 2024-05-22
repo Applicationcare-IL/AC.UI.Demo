@@ -7,7 +7,7 @@
   >
     <template #custom-secondary-buttons>
       <WMCancelButton
-        v-if="can('tasks.deactivate')"
+        v-if="can('tasks.cancel')"
         :is-disabled="!isTaskCancellable"
         @click="handleCancelTasks"
       />

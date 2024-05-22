@@ -46,6 +46,17 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
+    cancelProject(id) {
+      return axiosConfig
+        .post("/projects/" + id + "/cancel")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
     updateProjectConfig(id, config) {
       return axiosConfig
         .post("/projects/" + id + "/config", config)
