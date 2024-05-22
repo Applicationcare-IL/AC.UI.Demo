@@ -15,7 +15,7 @@
         </WMButton>
       </div>
     </div>
-    <div class="flex flex-row gap-3">
+    <!-- <div class="flex flex-row gap-3">
       <WMSearchBox entity="payment" />
       <WMFilterButton
         :is-active="isFilterApplied || isFilterVisible"
@@ -30,7 +30,7 @@
       >
         <WMFilterForm entity="payment" filter-form-name="payment" />
       </WMSidebar>
-    </div>
+    </div> -->
   </div>
   <DataTable
     v-model:selection="selectedPayments"
