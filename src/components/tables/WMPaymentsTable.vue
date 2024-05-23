@@ -467,8 +467,11 @@ const loadLazyData = () => {
     ...filters,
     page: nextPage ? nextPage : 1,
     per_page: selectedRowsPerPageParam,
-    search: searchValueParam,
   });
+
+  if (searchValueParam) {
+    params.append("search", searchValueParam);
+  }
 
   if (props.milestoneId) {
     params.append("milestone", props.milestoneId);

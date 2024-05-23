@@ -27,7 +27,7 @@ export function useFilters() {
   };
 
   const searchMilestones = (query) => {
-    return getProjectMilestones({
+    return getProjectMilestones(-1, {
       search: query,
     });
   };
