@@ -1,17 +1,14 @@
 <template>
   <h2 class="h2 mb-0">LOCATION</h2>
   <div class="wm-form-row gap-4">
-    <WMSelectableButton
-      v-model="showAddressOptionsRef"
-      :label="$t('project.address')"
-    />
+    <WMSelectableButton v-model="showAddressOptionsRef" :label="$t('project.address')" />
     <WMSelectableButton
       v-model="showCityDataOptionsRef"
       :label="$t('project.city_data')"
     />
   </div>
   <div class="wm-form-row gap-5">
-    <div v-if="showAddressOptionsRef">
+    <div v-show="showAddressOptionsRef">
       <h5 class="h5">{{ $t("project.address") }}</h5>
       <div class="wm-form-row gap-5">
         <div class="wm-form-column gap-5">
@@ -67,7 +64,7 @@
       </div>
     </div>
   </div>
-  <div v-if="showCityDataOptionsRef">
+  <div v-show="showCityDataOptionsRef">
     <h5 class="h5">{{ $t("project.city_data") }}</h5>
     <div class="wm-form-row gap-5">
       <WMInput
@@ -189,9 +186,7 @@ watch(
 onMounted(async () => {
   cities.value = await optionSetsStore.getOptionSetValues("service_city");
   streets.value = await optionSetsStore.getOptionSetValues("service_street");
-  neighborhoods.value = await optionSetsStore.getOptionSetValues(
-    "service_neighborhood"
-  );
+  neighborhoods.value = await optionSetsStore.getOptionSetValues("service_neighborhood");
 });
 </script>
 

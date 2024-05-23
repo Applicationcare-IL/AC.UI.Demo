@@ -233,7 +233,7 @@ export function useProjects() {
 
   // UTILITIES
   const parseProject = (project) => {
-    return {
+    let parsedProject = {
       name: project["project-name"],
       description: project["project-description"],
       project_type: project.project_type?.id,
@@ -247,16 +247,40 @@ export function useProjects() {
           customer: teamMember.customer.id,
         };
       }),
-      location: {
+    };
+
+    let location = {};
+
+    let addressOptions = {};
+    if (project.showAddressOptions) {
+      addressOptions = {
         city: project.city?.id,
         street: project.street?.id,
         house_number: project["house-number"],
+        neighborhood: project.neighborhood,
+      };
+    }
+
+    let cityData = {};
+    if (project.showCityDataOptions) {
+      cityData = {
         block: project.block,
         parcel: project.parcel,
         sub_parcel: project["sub-parcel"],
-        neighborhood: project.neighborhood,
-      },
+      };
+    }
+
+    location = {
+      ...addressOptions,
+      ...cityData,
     };
+
+    parsedProject = {
+      ...parsedProject,
+      location: location,
+    };
+
+    return parsedProject;
   };
 
   const parseUpdateProject = (project) => {
