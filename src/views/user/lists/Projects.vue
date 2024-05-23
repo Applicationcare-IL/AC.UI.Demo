@@ -116,21 +116,27 @@
       <Column
         field="open_tasks"
         :header="$t('project.open_tasks')"
-        class="numeric"
+        class="p-0 filled-td"
         style="width: 30px"
       >
-        <div :class="highlightCellClass(slotProps.data.open_tasks)">
+        <div
+          :class="highlightCellClass(slotProps.data.open_tasks)"
+          class="h-full w-full flex justify-content-center align-items-center"
+        >
           {{ slotProps.data.open_tasks }}
         </div>
       </Column>
       <Column
         field="breached_tasks"
         :header="$t('project.breached_tasks')"
-        class="numeric"
+        class="p-0 filled-td"
         style="width: 30px"
       >
         <template #body="slotProps">
-          <div :class="highlightCellClass(slotProps.data.breached_tasks)">
+          <div
+            :class="highlightCellClass(slotProps.data.breached_tasks)"
+            class="h-full w-full flex justify-content-center align-items-center"
+          >
             {{ slotProps.data.breached_tasks }}
           </div>
         </template>

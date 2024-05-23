@@ -653,6 +653,7 @@
     "breached": "Breached",
     "near_breach": "Near Breach",
     "no_breach": "No Breach",
+    "breach": "Breach",
     "whithin_sla": "Within SLA",
     "ended_breach": "Ended Breach"
   },
