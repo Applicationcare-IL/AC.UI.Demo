@@ -112,9 +112,7 @@
                   @change="recalculateBudgetItem"
                 />
 
-                <ArrowIcon
-                  :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
-                />
+                <ArrowIcon :class="layoutConfig.isRTL.value ? '' : 'rotate-180'" />
 
                 <WMHighlightedBlock
                   v-model="budgetItem.approved_ministry"
