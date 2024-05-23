@@ -36,7 +36,7 @@ export function useUtils() {
   };
 
   const formatCityData = (location) => {
-    if (!location.block || !location.parcel || !location.sub_parcel) {
+    if (!location.block || !location.parcel) {
       return "";
     }
 
