@@ -32,7 +32,6 @@
           :required="true"
           type="input-text"
           :label="$t('customer.number') + ':'"
-          @input.stop="onCustomerNumberChanged"
         />
       </div>
 
@@ -203,7 +202,7 @@ const utilsStore = useUtilsStore();
 const { can } = usePermissions();
 
 const { getSelectedContactsForNewCustomerColumns } = useListUtils();
-const { createCustomer, parseCustomer, existsCustomer } = useCustomers();
+const { createCustomer, parseCustomer } = useCustomers();
 const { getNextEntityID } = useUtils();
 
 const { getContactsFromApi, getContactFromApi } = useContacts();
@@ -293,18 +292,18 @@ const onCancel = () => {
   closeSidebar();
 };
 
-const onCustomerNumberChanged = (event) => {
-  utilsStore.debounceAction(() => {
-    existsCustomer("id", event.target.value).then((exists) =>
-      exists
-        ? setFieldError("number", {
-            key: "validation.exists",
-            values: { label: "customer.customer" },
-          })
-        : setFieldError("number", "")
-    );
-  });
-};
+// const onCustomerNumberChanged = (event) => {
+//   utilsStore.debounceAction(() => {
+//     existsCustomer("id", event.target.value).then((exists) =>
+//       exists
+//         ? setFieldError("number", {
+//             key: "validation.exists",
+//             values: { label: "customer.customer" },
+//           })
+//         : setFieldError("number", "")
+//     );
+//   });
+// };
 
 const searchContact = (query) => {
   return getContactsFromApi({

@@ -146,5 +146,19 @@ export const useCustomersStore = defineStore("customers", {
           console.error(error);
         });
     },
+    checkIfCustomerExists(customerNumber) {
+      return axiosConfig
+        .get("/customers", { params: { number: customerNumber } })
+        .then((response) => {
+          if (response.data.meta.total > 0) {
+            return true;
+          }
+
+          return false;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import * as yup from "yup";
 
 import { useContactsStore } from "@/stores/contactsStore";
+import { useCustomersStore } from "@/stores/customersStore";
 
 const { ctrl_s } = useMagicKeys({
   passive: false,
@@ -183,9 +184,22 @@ export const useFormUtilsStore = defineStore("formUtils", {
       });
     },
     getCustomerNewFormValidationSchema: (state) => {
+      const customersStore = useCustomersStore();
+
       return yup.object({
         name: yup.string().required(),
-        number: yup.string().required(),
+        number: yup
+          .string()
+          .required()
+          .test(
+            "unique",
+            "validation.customer-already-exists",
+            async (value) => {
+              if (!value) return true;
+              const exists = await customersStore.checkIfCustomerExists(value);
+              return !exists;
+            }
+          ),
         rating: yup
           .object()
           .required({

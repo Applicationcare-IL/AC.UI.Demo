@@ -44,7 +44,6 @@
                     :value="customer.number"
                     width="150"
                     required
-                    @input.stop="onCustomerNumberChanged"
                   />
                 </div>
                 <div class="wm-form-row gap-5">
@@ -462,12 +461,7 @@ onMounted(async () => {
 
 const { setSelectedContacts, getContactsFromApi } = useContacts();
 
-const {
-  getCustomerFromApi,
-  updateCustomer,
-  parseCustomer,
-  existsCustomer,
-} = useCustomers();
+const { getCustomerFromApi, updateCustomer, parseCustomer } = useCustomers();
 
 const fetchData = async () => {
   await optionSetsStore
@@ -545,23 +539,6 @@ const onSave = handleSubmit((values) => {
       toast.error("customer", "not-updated");
     });
 });
-
-const customerNumberExists = ref(false);
-const onCustomerNumberChanged = (event) => {
-  utilsStore.debounceAction(() => {
-    existsCustomer("id", event.target.value).then(
-      (exists) => (
-        (customerNumberExists.value = exists),
-        exists
-          ? setFieldError("number", {
-              key: "validation.exists",
-              values: { label: "customer.customer" },
-            })
-          : setFieldError("number", undefined)
-      )
-    );
-  });
-};
 
 function onProviderChanged(value) {
   isProvider.value = value;
