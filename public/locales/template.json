@@ -588,9 +588,12 @@
     "missing-field": "Missing  @.lower:{label}",
     "contactid": "Invalid ID Card",
     "phone": "Invalid phone number",
+    "landline": "Invalid landline number",
+    "fax": "Invalid fax number",
     "email": "Invalid email address",
     "exists": "@:{label} already exists",
-    "password-mismatch": "Passwords do not match"
+    "password-mismatch": "Passwords do not match",
+    "contact-already-exists": "Contact already exists"
   },
   "status": "Status",
   "statuses": {

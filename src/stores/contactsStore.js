@@ -75,6 +75,21 @@ export const useContactsStore = defineStore("contacts", {
         });
     },
 
+    checkIfContactExists(contactNumber) {
+      return axiosConfig
+        .get("/contacts", { params: { contact_number: contactNumber } })
+        .then((response) => {
+          if (response.data.meta.total > 0) {
+            return true;
+          }
+
+          return false;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+
     // SELECTED CONTACTS
     setSelectedContacts(contacts) {
       this.selectedContacts = contacts;

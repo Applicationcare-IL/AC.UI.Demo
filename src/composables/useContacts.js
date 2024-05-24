@@ -44,6 +44,10 @@ export function useContacts() {
     return await contactsStore.exportContacts(params);
   };
 
+  const checkIfContactExists = async (contactNumber) => {
+    return await contactsStore.checkIfContactExists(contactNumber);
+  };
+
   // UTILITIES
   const mapContact = (contact) => {
     const contactFullName = contact.surname
@@ -209,6 +213,7 @@ export function useContacts() {
     activateContact,
     deactivateContact,
     exportContacts,
+    checkIfContactExists,
 
     // SELECTED CONTACTS
     selectedContacts,
