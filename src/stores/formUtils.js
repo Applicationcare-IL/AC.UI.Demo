@@ -56,6 +56,12 @@ export const useFormUtilsStore = defineStore("formUtils", {
         value: letter,
       }));
     },
+    getLoginFormValidationSchema: () => {
+      return yup.object({
+        email: yup.string().email().required(),
+        password: yup.string().required(),
+      });
+    },
     getServiceFormValidationSchema: () => {
       return yup.object({
         description: yup.string().required().default(null).nullable(),

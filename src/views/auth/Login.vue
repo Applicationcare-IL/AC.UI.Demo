@@ -44,6 +44,7 @@
           class="w-full mt-4"
           name="new"
           type="submit"
+          :disabled="loading"
           @click="handleLogin"
         >
           <span v-if="loading"> Loading... </span>
@@ -57,29 +58,43 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { useForm } from "vee-validate";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 
 import { useAuthStore } from "@/stores/auth";
+import { useFormUtilsStore } from "@/stores/formUtils";
 
 import AuthLayout from "./AuthLayout.vue";
 
-const { handleSubmit, values, resetForm } = useForm();
-
-const toast = useToast();
+// DEPENDENCIES
 const { t } = useI18n();
-
+const formUtilsStore = useFormUtilsStore();
 const { fetchLicensing } = useLicensing();
-
 const router = useRouter();
+
+// INJECT
+
+// PROPS, EMITS
+
+// REFS
 const error = ref("");
 const message = ref("");
-
 const loading = ref(false);
 
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
+
+const { handleSubmit, values, resetForm } = useForm({
+  validationSchema: formUtilsStore.getLoginFormValidationSchema,
+});
+
 const handleLogin = handleSubmit((values) => {
+  if (loading.value) return;
+
   loading.value = true;
 
   useAuthStore()
@@ -89,7 +104,6 @@ const handleLogin = handleSubmit((values) => {
         useAuthStore()
           .userData()
           .then(async () => {
-            loading.value = false;
             await fetchLicensing();
             router.push("/dashboard");
           })
@@ -118,4 +132,10 @@ const handleResetExpiredPassword = () => {
       console.error(error);
     });
 };
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
