@@ -52,20 +52,8 @@
       <WMSearchContactsGroupedByCustomer
         v-if="isContactsSelected"
         v-model="selectedContacts"
-      />
-
-      <!-- <WMInputSearch
-        v-if="isContactsSelected"
-        name="contact"
-        :placeholder="$t('contact.search-contacts')"
-        :multiple="true"
-        width="248"
-        :search-function="searchContact"
-        :new="true"
         related-sidebar="newContactFromAssignContactButton"
-        :model-value="selectedContacts"
-        @update:model-value="onContactselected"
-      /> -->
+      />
 
       <WMTempButton
         :text="$t('buttons.link')"

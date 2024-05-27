@@ -76,12 +76,10 @@
 // IMPORTS
 import { useField } from "vee-validate";
 import { computed, onMounted, ref, toRef, watch } from "vue";
-import { useI18n } from "vue-i18n";
 
 import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES
-const { locale } = useI18n();
 const { layoutConfig } = useLayout();
 const { openSidebar } = useSidebar();
 const { optionLabelWithLang } = useLanguages();
