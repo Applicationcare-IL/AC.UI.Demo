@@ -20,10 +20,14 @@ export function useFilters() {
     });
   };
 
-  const searchProjects = (query) => {
-    return getProjectsFromApi({
+  const searchProjects = async (query) => {
+    const response = await getProjectsFromApi({
       search: query,
     });
+
+    return {
+      data: response.projects,
+    };
   };
 
   const searchMilestones = (query) => {
