@@ -454,6 +454,7 @@ export function useFilters() {
         searchFunction: searchContacts,
       },
       {
+        toggable: true,
         type: "date",
         name: "open",
         label: i18n.t("payments.payment-date") + ":",

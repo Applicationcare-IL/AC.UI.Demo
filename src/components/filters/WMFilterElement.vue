@@ -8,9 +8,7 @@
       >
         <div
           class="toggable w-full hover:bg-blue-50"
-          :class="
-            isToggled || selectedOptions.length ? 'bg-blue-50' : 'bg-gray-50'
-          "
+          :class="isToggled || hasSelectedOptions ? 'bg-blue-50' : 'bg-gray-50'"
         >
           <div class="w-full flex justify-content-between align-items-center">
             <span class="h6">{{ label }}</span>
@@ -248,7 +246,21 @@ const selectedOptionsPreviewText = computed(() => {
     return selectedOptions.value.map((x) => x.name).join(", ");
   }
 
+  if (props.type === "date" && fromDate.value && toDate.value) {
+    return `${useDateFormat(fromDate.value, "YYYY-MM-DD").value} - ${
+      useDateFormat(toDate.value, "YYYY-MM-DD").value
+    }`;
+  }
+
   return "";
+});
+
+const hasSelectedOptions = computed(() => {
+  if (selectedOptions.value.length > 0) return true;
+  if (fromDate.value || toDate.value) return true;
+  if (selectedButtons.value.length > 0) return true;
+
+  return false;
 });
 
 // COMPONENT METHODS AND LOGIC
