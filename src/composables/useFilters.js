@@ -410,7 +410,7 @@ export function useFilters() {
       {
         toggable: true,
         type: "dropdown",
-        name: "status",
+        name: "payment_status",
         optionSet: "payment_status",
         label: i18n.t("payments.status") + ":",
       },

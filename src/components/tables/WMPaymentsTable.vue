@@ -15,7 +15,7 @@
         </WMButton>
       </div>
     </div>
-    <!-- <div class="flex flex-row gap-3">
+    <div class="flex flex-row gap-3">
       <WMSearchBox entity="payment" />
       <WMFilterButton
         :is-active="isFilterApplied || isFilterVisible"
@@ -30,7 +30,7 @@
       >
         <WMFilterForm entity="payment" filter-form-name="payment" />
       </WMSidebar>
-    </div> -->
+    </div>
   </div>
   <DataTable
     v-model:selection="selectedPayments"
@@ -194,7 +194,10 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template v-if="column.editable && !props.milestoneId" #editor="{ data, field }">
+        <template
+          v-if="column.editable && !props.milestoneId"
+          #editor="{ data, field }"
+        >
           <Dropdown
             v-model="data[field]"
             :options="milestones"
@@ -523,7 +526,7 @@ const onRowEditSave = (event) => {
     return;
   }
 
-  if (!newData.project_team.id) {
+  if (!newData.project_team?.id) {
     toast.error("Please select a team member");
     editingRows.value = [...editingRows.value, newData]; // keep the rows in edit mode
     return;
@@ -546,14 +549,16 @@ const onRowEditSave = (event) => {
     return;
   }
 
-  updateProjectPayment(props.projectId, paymentId, parseProjectPayment(newData)).then(
-    (response) => {
-      newData.basic_term = getTermOfPayment(response.basic_term?.id);
-      newData.payment_date = response.payment_date;
-      payments.value[index] = newData;
-      toast.successAction("payment", "updated");
-    }
-  );
+  updateProjectPayment(
+    props.projectId,
+    paymentId,
+    parseProjectPayment(newData)
+  ).then((response) => {
+    newData.basic_term = getTermOfPayment(response.basic_term?.id);
+    newData.payment_date = response.payment_date;
+    payments.value[index] = newData;
+    toast.successAction("payment", "updated");
+  });
 };
 
 const validateForm = (obj) => {
