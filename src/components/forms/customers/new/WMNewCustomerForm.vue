@@ -114,7 +114,12 @@
             :label="$t('telephone') + ':'"
             width="88"
           />
-          <WMInput name="fax" type="input-text" :label="$t('fax') + ':'" width="88" />
+          <WMInput
+            name="fax"
+            type="input-text"
+            :label="$t('fax') + ':'"
+            width="88"
+          />
         </div>
 
         <div class="wm-form-row gap-5">
@@ -174,13 +179,18 @@
           :columns="getSelectedContactsForNewCustomerColumns()"
           :show-controls="false"
           :multiselect="false"
+          related-entity="customer"
           @update:role="updatedRole"
           @update:main-contact="updatedMainContact"
           @unlink="unlinkContact"
         />
       </div>
     </div>
-    <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
+    <WMFormButtons
+      v-if="isSidebar"
+      @save-form="onSubmit()"
+      @cancel-form="onCancel()"
+    />
   </div>
 </template>
 
@@ -233,7 +243,7 @@ const types = ref();
 const ratings = ref();
 const serviceAreas = ref();
 const basicTerms = ref();
-let defaultRole;
+const defaultRole = ref();
 
 const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
 const selectedContacts = ref([]);
@@ -340,12 +350,14 @@ const unlinkContact = (id) => {
 };
 
 const onContactselected = (newContact) => {
-  if (selectedContacts.value.some((contact) => contact.id === newContact.value.id)) {
+  if (
+    selectedContacts.value.some((contact) => contact.id === newContact.value.id)
+  ) {
     return;
   }
 
-  // Select the default role for the new contact and add it to the list of selected contacts
-  newContact.value.role = { ...defaultRole };
+  // Select the first role as the default role for the new contact and add it to the list of selected contacts
+  newContact.value.role = { ...defaultRole.value[0] };
   selectedContacts.value.push(newContact.value);
 };
 
@@ -392,7 +404,9 @@ onMounted(async () => {
   ratings.value = await optionSetsStore.getOptionSetValues("customer_rating");
   serviceAreas.value = await optionSetsStore.getOptionSetValues("service_area");
   basicTerms.value = await optionSetsStore.getOptionSetValues("basic_term");
-  defaultRole = await optionSetsStore.getOptionSetValues("contact_customer_role")[0];
+  defaultRole.value = await optionSetsStore.getOptionSetValues(
+    "contact_customer_role"
+  );
 
   optionSetsStore
     .getOptionSetValuesFromApi("service_area")
