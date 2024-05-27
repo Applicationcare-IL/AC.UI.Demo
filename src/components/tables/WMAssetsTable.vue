@@ -60,7 +60,7 @@
 
         <WMSidebar
           :visible="isFilterVisible"
-          name="filterService"
+          name="filterAsset"
           @close-sidebar="closeFilterSidebar"
           @open-sidebar="openFilterSidebar"
         >
