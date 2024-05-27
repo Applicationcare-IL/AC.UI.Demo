@@ -195,7 +195,9 @@
                   class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900"
                 >
                   <span class="font-size-20">{{ $t("sla.breached") }}</span>
-                  <span class="font-size-24">{{ customer.breached_services }}</span>
+                  <span class="font-size-24">{{
+                    customer.breached_services
+                  }}</span>
                 </div>
               </div>
             </template>
@@ -203,7 +205,9 @@
         </div>
         <div class="card-container flex-1 middle-info-card">
           <Card>
-            <template #title> {{ $t("task.open") }} : {{ customer.open_tasks }}</template>
+            <template #title>
+              {{ $t("task.open") }} : {{ customer.open_tasks }}</template
+            >
             <template #content>
               <div class="flex flex-column gap-3 font-bold">
                 <div
@@ -239,7 +243,9 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion v-if="checkIfEntityIsActive('services') && can('services.read')">
+      <Accordion
+        v-if="checkIfEntityIsActive('services') && can('services.read')"
+      >
         <AccordionTab :header="$t('service.services')">
           <WMServicesTable
             related-entity="customer"
@@ -263,7 +269,9 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion v-if="can('projects.read') && checkIfEntityIsActive('projects')">
+      <Accordion
+        v-if="can('projects.read') && checkIfEntityIsActive('projects')"
+      >
         <AccordionTab :header="$t('project.projects')">
           <WMProjectsTable
             related-entity="customer"
@@ -489,15 +497,21 @@ const fetchData = async () => {
       (rating) => rating.id == customer.value.rating.id
     );
 
-    selectedType.value = types.value.find((type) => type.id == customer.value.type.id);
+    selectedType.value = types.value.find(
+      (type) => type.id == customer.value.type.id
+    );
 
     selectedTerm.value = basicTerms.value.find(
       (term) => term.id == customer.value.basic_term?.id
     );
 
-    selectedStatus.value = t("option-set.customer_status." + customer.value.status.value);
+    selectedStatus.value = t(
+      "option-set.customer_status." + customer.value.status.value
+    );
 
-    statusConditionalStyle.value = getStatusConditionalStyle(customer.value.status.value);
+    statusConditionalStyle.value = getStatusConditionalStyle(
+      customer.value.status.value
+    );
     isProvider.value = yesNoOptions.find(
       (option) => option.value == customer.value.is_provider
     );

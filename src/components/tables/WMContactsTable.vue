@@ -326,10 +326,9 @@ const loadLazyData = () => {
     ...filters,
     page: nextPage,
     per_page: selectedRowsPerPageParam,
-    search: searchValueParam,
   };
 
-  // paramOptions.customer_id = 1075;
+  if (searchValueParam) paramOptions.search = searchValueParam;
   if (customerParam) paramOptions.customer_id = customerParam;
   if (projectIdParam) paramOptions.project_id = projectIdParam;
 
