@@ -105,10 +105,17 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { onMounted, provide, ref } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
+// DEPENDENCIES
+const optionSetsStore = useOptionSetsStore();
+
+// INJECT
+
+// PROPS, EMITS
 const props = defineProps({
   project: {
     type: Object,
@@ -116,8 +123,7 @@ const props = defineProps({
   },
 });
 
-const optionSetsStore = useOptionSetsStore();
-
+// REFS
 const showCityDataOptions = ref(false);
 const showAddressOptions = ref(false);
 
@@ -127,25 +133,11 @@ const cities = ref();
 const streets = ref();
 const neighborhoods = ref();
 
-onMounted(async () => {
-  cities.value = await optionSetsStore.getOptionSetValues("service_city");
-  streets.value = await optionSetsStore.getOptionSetValues("service_street");
-  neighborhoods.value = await optionSetsStore.getOptionSetValues(
-    "service_neighborhood"
-  );
+const location = ref("");
 
-  if (props.project.location?.street && props.project.location?.city) {
-    showAddressOptions.value = true;
-    isCitySelected.value = true;
-  }
+// COMPUTED
 
-  if (props.project.location?.block || props.project.location?.parcel) {
-    showCityDataOptions.value = true;
-  }
-
-  location.value = props.project.location;
-});
-
+// COMPONENT METHODS AND LOGIC
 const updateStreets = (event) => {
   if (event.value) {
     optionSetsStore
@@ -172,9 +164,28 @@ const handleCityBlur = () => {
   }
 };
 
-const location = ref("");
-
+// PROVIDE, EXPOSE
 provide("location", { location });
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  cities.value = await optionSetsStore.getOptionSetValues("service_city");
+  streets.value = await optionSetsStore.getOptionSetValues("service_street");
+  neighborhoods.value = await optionSetsStore.getOptionSetValues("service_neighborhood");
+
+  if (props.project.location?.street && props.project.location?.city) {
+    showAddressOptions.value = true;
+    isCitySelected.value = true;
+  }
+
+  if (props.project.location?.block || props.project.location?.parcel) {
+    showCityDataOptions.value = true;
+  }
+
+  location.value = props.project.location ? props.project.location : {};
+});
 </script>
 
 <style scoped lang="scss"></style>
