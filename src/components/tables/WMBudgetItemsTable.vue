@@ -292,9 +292,10 @@ const loadLazyData = () => {
     page: nextPage ? nextPage : 1,
     per_page: selectedRowsPerPageParam,
     search: searchValueParam,
+    project: props.projectId,
   });
 
-  getBudgetItems(props.projectId, params).then((response) => {
+  getBudgetItems(params).then((response) => {
     budgetItems.value = response.budgetItems;
     totalRecords.value = response.totalRecords;
   });

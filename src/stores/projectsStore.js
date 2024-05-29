@@ -201,6 +201,16 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
+    exportProjects() {
+      return axiosConfig
+        .get("/projects/export")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     // BUDGETS
     updateBudget(projectId, data) {
       return axiosConfig
@@ -222,9 +232,9 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
-    getBudgetItems(projectId, params) {
+    getBudgetItems(params) {
       return axiosConfig
-        .get("/projects/" + projectId + "/budget-items", { params })
+        .get("/budget-items", { params })
         .then((response) => {
           return response.data;
         })
@@ -326,9 +336,10 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
-    createMilestone(projectId, data) {
+    // MILESTONE
+    createMilestone(data) {
       return axiosConfig
-        .post("/projects/" + projectId + "/milestones", data)
+        .post("/milestones", data)
         .then((response) => {
           return response.data;
         })
@@ -337,9 +348,9 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
-    getProjectMilestone(projectId, milestoneId) {
+    getProjectMilestone(milestoneId) {
       return axiosConfig
-        .get("/projects/" + projectId + "/milestones/" + milestoneId)
+        .get("/milestones/" + milestoneId)
         .then((response) => {
           return response.data.data;
         })
@@ -347,9 +358,9 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
-    getProjectMilestones(projectId, params) {
+    getMilestones(params) {
       return axiosConfig
-        .get("/projects/" + projectId + "/milestones", { params })
+        .get("/milestones", { params })
         .then((response) => {
           return response.data.data;
         })
@@ -357,21 +368,11 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
-    updateProjectMilestone(projectId, milestoneId, data) {
+    updateProjectMilestone(milestoneId, data) {
       return axiosConfig
-        .patch("/projects/" + projectId + "/milestones/" + milestoneId, data)
+        .patch("/milestones/" + milestoneId, data)
         .then((response) => {
           return response.data.data;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    exportProjects() {
-      return axiosConfig
-        .get("/projects/export")
-        .then((response) => {
-          return response.data;
         })
         .catch((error) => {
           console.error(error);

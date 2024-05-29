@@ -35,23 +35,11 @@
             :option-set="true"
           />
 
-          <WMInput
-            name="plannedDate"
-            type="date"
-            :label="$t('milestone.planned-date') + ':'"
-          />
+          <WMInput name="plannedDate" type="date" :label="$t('milestone.planned-date') + ':'" />
 
-          <WMInput
-            name="baseDate"
-            type="date"
-            :label="$t('milestone.base-date') + ':'"
-          />
+          <WMInput name="baseDate" type="date" :label="$t('milestone.base-date') + ':'" />
 
-          <WMInput
-            name="actualDate"
-            type="date"
-            :label="$t('milestone.actual-date') + ':'"
-          />
+          <WMInput name="actualDate" type="date" :label="$t('milestone.actual-date') + ':'" />
 
           <WMInput
             id="description"
@@ -65,11 +53,7 @@
       <Divider />
     </div>
     <div class="my-4"></div>
-    <WMFormButtons
-      v-if="isSidebar"
-      @save-form="onSave()"
-      @cancel-form="onCancel()"
-    />
+    <WMFormButtons v-if="isSidebar" @save-form="onSave()" @cancel-form="onCancel()" />
   </div>
 </template>
 
@@ -119,10 +103,7 @@ const { handleSubmit, meta, resetForm } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  createMilestone(
-    route.params.id,
-    parseMilestone({ ...values, project_id: props.relatedProject.id })
-  )
+  createMilestone(parseMilestone({ ...values, project: props.relatedProject.id }))
     .then(() => {
       toast.successAction("milestone", "created");
 

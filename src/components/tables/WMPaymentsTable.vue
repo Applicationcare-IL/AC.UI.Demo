@@ -313,7 +313,7 @@ const {
   updateProjectPayment,
   createProjectPayment,
   parseProjectPayment,
-  getProjectMilestones,
+  getMilestones,
   getProjectTeam,
   mapShortMilestone,
 } = useProjects();
@@ -495,7 +495,7 @@ const loadLazyData = () => {
     totalRecords.value = response.totalRecords;
   });
 
-  getBudgetItems(props.projectId).then((response) => {
+  getBudgetItems({ project: props.projectId }).then((response) => {
     budgetItems.value = response.budgetItems;
   });
 
@@ -503,7 +503,7 @@ const loadLazyData = () => {
     teamMembers.value = contacts;
   });
 
-  getProjectMilestones(props.projectId).then((response) => {
+  getMilestones({ project: props.projectId }).then((response) => {
     milestones.value = response.map((milestone) => {
       return mapShortMilestone(milestone);
     });

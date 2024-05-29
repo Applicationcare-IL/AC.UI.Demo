@@ -1,4 +1,9 @@
+import { format, parse } from "@formkit/tempo";
+
 export function useDates() {
+  const FRONTEND_DATE_FORMAT = "DD/MM/YYYY";
+  const BACKEND_SEND_DATE_FORMAT = "YYYY-MM-DD";
+
   const parseDate = (date) => {
     if (!date) return null;
 
@@ -28,15 +33,27 @@ export function useDates() {
     const month = newDate.getMonth() + 1; // Note: months are 0-based
     const day = newDate.getDate();
 
-    const dateISO = `${year}-${month < 10 ? "0" : ""}${month}-${
-      day < 10 ? "0" : ""
-    }${day}`;
+    const dateISO = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
 
     return dateISO;
+  }
+
+  function formatDateFromAPI(date) {
+    return format(date, FRONTEND_DATE_FORMAT);
+  }
+
+  function formatDateToAPI(date) {
+    if (typeof date === "object") {
+      return format(date, BACKEND_SEND_DATE_FORMAT);
+    }
+
+    return format(parse(date, FRONTEND_DATE_FORMAT), BACKEND_SEND_DATE_FORMAT);
   }
 
   return {
     parseDate,
     formatDate,
+    formatDateFromAPI,
+    formatDateToAPI,
   };
 }

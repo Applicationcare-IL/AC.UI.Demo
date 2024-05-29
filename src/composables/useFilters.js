@@ -3,7 +3,7 @@ import { useI18n } from "vue-i18n";
 export function useFilters() {
   const { getTasksTypesFromApi } = useTasks();
   const { getCustomersFromApi } = useCustomers();
-  const { getProjectsFromApi, getProjectMilestones } = useProjects();
+  const { getProjectsFromApi, getMilestones } = useProjects();
   const { getContactsFromApi } = useContacts();
 
   const i18n = useI18n();
@@ -30,10 +30,14 @@ export function useFilters() {
     };
   };
 
-  const searchMilestones = (query) => {
-    return getProjectMilestones(-1, {
+  const searchMilestones = async (query) => {
+    const response = await getMilestones({
       search: query,
     });
+
+    return {
+      data: response,
+    };
   };
 
   const searchContacts = (query) => {

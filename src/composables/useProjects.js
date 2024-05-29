@@ -4,6 +4,7 @@ import { useProjectsStore } from "@/stores/projectsStore";
 export function useProjects() {
   const projectsStore = useProjectsStore();
   const optionSetsStore = useOptionSetsStore();
+  const { formatDateToAPI, formatDateFromAPI } = useDates();
 
   // ACTIONS
   const getProjectsFromApi = async (params) => {
@@ -68,11 +69,7 @@ export function useProjects() {
     return await projectsStore.updateProjectCustomer(projectId, data);
   };
 
-  const deleteProjectCustomer = async (
-    projectId,
-    customerId,
-    serviceAreaId
-  ) => {
+  const deleteProjectCustomer = async (projectId, customerId, serviceAreaId) => {
     const data = {
       customer: customerId,
       service_area: serviceAreaId,
@@ -118,8 +115,8 @@ export function useProjects() {
     return await projectsStore.updateBudget(projectId, data);
   };
 
-  const getBudgetItems = async (projectId, params) => {
-    const response = await projectsStore.getBudgetItems(projectId, params);
+  const getBudgetItems = async (params) => {
+    const response = await projectsStore.getBudgetItems(params);
 
     const budgetItems = response.data.map((budgetItem) => {
       return mapBudgetItem(budgetItem);
@@ -150,11 +147,7 @@ export function useProjects() {
   };
 
   const calculateBudgetItem = async (projectId, budgetItemId, data) => {
-    return await projectsStore.calculateBudgetItem(
-      projectId,
-      budgetItemId,
-      data
-    );
+    return await projectsStore.calculateBudgetItem(projectId, budgetItemId, data);
   };
 
   const calculateNewBudgetItem = async (data) => {
@@ -183,29 +176,23 @@ export function useProjects() {
   };
 
   // MILESTONES
-  const createMilestone = async (projectId, data) => {
-    return await projectsStore.createMilestone(projectId, data);
+  // TODO: with the refactoring of the milestones, we should probably extract this to a separate composable
+  const createMilestone = async (data) => {
+    return await projectsStore.createMilestone(data);
   };
 
-  const getProjectMilestones = async (projectId, params) => {
-    return await projectsStore.getProjectMilestones(projectId, params);
+  const getMilestones = async (params) => {
+    return await projectsStore.getMilestones(params);
   };
 
-  const getProjectMilestone = async (projectId, milestoneId) => {
-    const response = await projectsStore.getProjectMilestone(
-      projectId,
-      milestoneId
-    );
+  const getProjectMilestone = async (milestoneId) => {
+    const response = await projectsStore.getProjectMilestone(milestoneId);
 
     return mapMilestone(response);
   };
 
-  const updateProjectMilestone = async (projectId, milestoneId, data) => {
-    return await projectsStore.updateProjectMilestone(
-      projectId,
-      milestoneId,
-      data
-    );
+  const updateProjectMilestone = async (milestoneId, data) => {
+    return await projectsStore.updateProjectMilestone(milestoneId, data);
   };
 
   const completeMilestone = async (projectId, milestoneId) => {
@@ -214,21 +201,14 @@ export function useProjects() {
       "complete"
     );
 
-    const inactiveStateId = await optionSetsStore.getValueId(
-      "state",
-      "not_active"
-    );
+    const inactiveStateId = await optionSetsStore.getValueId("state", "not_active");
 
     const data = {
       milestone_status: completeMilestoneStatusId,
       state: inactiveStateId,
     };
 
-    return await projectsStore.updateProjectMilestone(
-      projectId,
-      milestoneId,
-      data
-    );
+    return await projectsStore.updateProjectMilestone(milestoneId, data);
   };
 
   // UTILITIES
@@ -354,8 +334,7 @@ export function useProjects() {
   };
 
   const parseUpdateProjectConfig = (project) => {
-    let isTender =
-      project["contractor-option"].value === "tender" ? true : false;
+    let isTender = project["contractor-option"].value === "tender" ? true : false;
 
     let notTenderResponse = {
       tender: false,
@@ -401,9 +380,7 @@ export function useProjects() {
     const month = newDate.getMonth() + 1; // Note: months are 0-based
     const day = newDate.getDate();
 
-    const dateISO = `${year}-${month < 10 ? "0" : ""}${month}-${
-      day < 10 ? "0" : ""
-    }${day}`;
+    const dateISO = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
 
     return dateISO;
   }
@@ -450,7 +427,7 @@ export function useProjects() {
     }
 
     if (payment.milestone?.id) {
-      result.milestone_id = payment.milestone.id;
+      result.milestone = payment.milestone.id;
     }
 
     if (payment.project_team?.id) {
@@ -463,12 +440,12 @@ export function useProjects() {
   const parseMilestone = (milestone) => {
     return {
       name: milestone["milestone-name"],
-      project_id: milestone.project_id,
+      project: milestone.project,
       milestone_type: milestone.type?.id,
       description: milestone.description,
-      planned_date: parseDate(milestone.plannedDate),
-      actual_date: parseDate(milestone.actualDate),
-      base_date: parseDate(milestone.baseDate),
+      planned_date: formatDateToAPI(milestone.plannedDate),
+      actual_date: formatDateToAPI(milestone.actualDate),
+      base_date: formatDateToAPI(milestone.baseDate),
     };
   };
 
@@ -534,9 +511,7 @@ export function useProjects() {
     return {
       title: budgetItem.name,
       ...budgetItem,
-      total: budgetItem.total_approved
-        ? budgetItem.total_approved
-        : budgetItem.total,
+      total: budgetItem.total_approved ? budgetItem.total_approved : budgetItem.total,
     };
   };
 
@@ -580,16 +555,9 @@ export function useProjects() {
       ...payment,
       budget_item: mapBudgetItem(payment.budget_item),
       payment_status: payment.payment_status?.id,
-      proforma_invoice_date: formatDate(
-        new Date(payment.proforma_invoice_date),
-        "DD/MM/YY"
-      ),
-      project_team: payment.project_team
-        ? mapProjectTeamMember(payment.project_team)
-        : null,
-      milestone: payment.milestone
-        ? mapShortMilestone(payment.milestone)
-        : null,
+      proforma_invoice_date: formatDate(new Date(payment.proforma_invoice_date), "DD/MM/YY"),
+      project_team: payment.project_team ? mapProjectTeamMember(payment.project_team) : null,
+      milestone: payment.milestone ? mapShortMilestone(payment.milestone) : null,
       project: payment.budget_item?.project,
     };
   };
@@ -619,8 +587,7 @@ export function useProjects() {
     }
 
     const uniqueContacts = contacts.filter(
-      (contact, index, self) =>
-        index === self.findIndex((t) => t.id === contact.id)
+      (contact, index, self) => index === self.findIndex((t) => t.id === contact.id)
     );
 
     return uniqueContacts;
@@ -645,6 +612,9 @@ export function useProjects() {
   const mapMilestone = (milestone) => {
     return {
       ...milestone,
+      planned_date: formatDateFromAPI(milestone.planned_date),
+      actual_date: formatDateFromAPI(milestone.actual_date),
+      base_date: formatDateFromAPI(milestone.base_date),
       title: milestone.name,
     };
   };
@@ -677,7 +647,7 @@ export function useProjects() {
     calculateBudgetItem,
     calculateNewBudgetItem,
     getProjectMilestone,
-    getProjectMilestones,
+    getMilestones,
     createMilestone,
     updateProjectMilestone,
     completeMilestone,
