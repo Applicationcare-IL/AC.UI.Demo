@@ -17,10 +17,7 @@
     </div>
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="payment" />
-      <WMFilterButton
-        :is-active="isFilterApplied || isFilterVisible"
-        @click="openFilterSidebar"
-      />
+      <WMFilterButton :is-active="isFilterApplied || isFilterVisible" @click="openFilterSidebar" />
 
       <WMSidebar
         :visible="isFilterVisible"
@@ -53,12 +50,7 @@
   >
     <Column v-if="multiselect" style="width: 40px" selection-mode="multiple" />
 
-    <Column
-      v-if="!props.readOnly"
-      :row-editor="true"
-      :frozen="true"
-      align-frozen="right"
-    />
+    <Column v-if="!props.readOnly" :row-editor="true" :frozen="true" align-frozen="right" />
 
     <template v-for="column in columns">
       <Column
@@ -110,11 +102,7 @@
           />
         </template>
         <template v-if="column.editable" #editor="{ data }">
-          <WMInputCurrency
-            v-model="data[column.field]"
-            :name="column.field"
-            :read-only="false"
-          />
+          <WMInputCurrency v-model="data[column.field]" :name="column.field" :read-only="false" />
         </template>
       </Column>
 
@@ -194,10 +182,7 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template
-          v-if="column.editable && !props.milestoneId"
-          #editor="{ data, field }"
-        >
+        <template v-if="column.editable && !props.milestoneId" #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
             :options="milestones"
@@ -242,10 +227,7 @@
         </template>
         <template #body="slotProps">
           <div
-            v-if="
-              slotProps.data[column.field] &&
-              getStatus(slotProps.data[column.field]).value
-            "
+            v-if="slotProps.data[column.field] && getStatus(slotProps.data[column.field]).value"
             class="w-full p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
             :class="`p-dropdown-payment-status p-dropdown-payment-status--${
               getStatus(slotProps.data[column.field]).value
@@ -549,16 +531,14 @@ const onRowEditSave = (event) => {
     return;
   }
 
-  updateProjectPayment(
-    props.projectId,
-    paymentId,
-    parseProjectPayment(newData)
-  ).then((response) => {
-    newData.basic_term = getTermOfPayment(response.basic_term?.id);
-    newData.payment_date = response.payment_date;
-    payments.value[index] = newData;
-    toast.successAction("payment", "updated");
-  });
+  updateProjectPayment(props.projectId, paymentId, parseProjectPayment(newData)).then(
+    (response) => {
+      newData.basic_term = getTermOfPayment(response.basic_term?.id);
+      newData.payment_date = response.payment_date;
+      payments.value[index] = newData;
+      toast.successAction("payment", "updated");
+    }
+  );
 };
 
 const validateForm = (obj) => {
@@ -579,7 +559,6 @@ const validateForm = (obj) => {
 
   for (const field of requiredFields) {
     if (!obj.hasOwnProperty(field) || obj[field] === "") {
-      console.log("field", field);
       return false;
     }
   }

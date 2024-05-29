@@ -7,11 +7,7 @@
       <div class="flex flex-row">
         <WMAssignCustomerButton @add-customers="addCustomers" />
 
-        <WMButton
-          v-if="env.DEV"
-          name="refresh"
-          class="m-1 col-6"
-          @click="loadLazyData"
+        <WMButton v-if="env.DEV" name="refresh" class="m-1 col-6" @click="loadLazyData"
           >Refresh
         </WMButton>
       </div>
@@ -54,18 +50,12 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selection-mode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
       :field="column.name"
-      :header="
-        column.header ? $t(column.header) : $t(`customer.${column.name}`)
-      "
+      :header="column.header ? $t(column.header) : $t(`customer.${column.name}`)"
       :class="column.class"
     >
       <template #body="slotProps">
@@ -98,11 +88,7 @@
           <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
         </template>
         <template v-if="column.type === 'star'">
-          <div
-            @click="
-              editMode[slotProps.index] && onStarClicked(slotProps.data.id)
-            "
-          >
+          <div @click="editMode[slotProps.index] && onStarClicked(slotProps.data.id)">
             <img
               v-if="isMainContact(slotProps.data)"
               src="/icons/star.svg"
@@ -133,17 +119,13 @@
         <template v-if="column.type === 'actions'">
           <div class="flex flex-row gap-2">
             <WMButton
-              v-if="
-                column.buttons?.includes('edit') && !editMode[slotProps.index]
-              "
+              v-if="column.buttons?.includes('edit') && !editMode[slotProps.index]"
               name="edit"
               icon="edit"
               @click="editMode[slotProps.index] = true"
             />
             <WMButton
-              v-if="
-                column.buttons?.includes('edit') && editMode[slotProps.index]
-              "
+              v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
               name="save"
               icon="save"
               class="in_table"
@@ -340,7 +322,6 @@ const addCustomers = (addedCustomers) => {
   addedCustomers.forEach((customer) => {
     if (customers.value.find((c) => c.customer_id === customer.id)) return;
 
-    console.log(customer);
     customer.main = false;
     customer.role = defaultRole.value;
     customer.asset_role = defaultRole.value;
@@ -455,8 +436,9 @@ const loadOptionSets = async () => {
   //for each option set in columns, get the option set values
   props.columns.forEach(async (column) => {
     if (column.optionSet) {
-      optionSets.value[column.optionSet] =
-        await optionSetsStore.getOptionSetValues(column.optionSet);
+      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
+        column.optionSet
+      );
     }
   });
 };

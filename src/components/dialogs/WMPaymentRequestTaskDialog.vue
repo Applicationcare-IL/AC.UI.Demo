@@ -247,8 +247,6 @@ const handleCreatePaymentRequestTask = () => {
 };
 
 const onSave = handleSubmit((values) => {
-  console.log("values", values);
-
   createTask(parseTask(taskInfo.value))
     .then(async (response) => {
       modelValue.value = false;

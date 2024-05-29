@@ -2,10 +2,7 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMAssignContactButton
-          :options="['contacts', 'teams']"
-          @add-contacts="addContacts"
-        />
+        <WMAssignContactButton :options="['contacts', 'teams']" @add-contacts="addContacts" />
       </div>
       <!-- <div class="flex flex-row align-items-center gap-3">
         <WMOwnerToggle entity="contact" />
@@ -182,12 +179,8 @@ const { optionLabelWithLang } = useLanguages();
 const { getAlertCellConditionalStyle } = useListUtils();
 const { getCustomersFromApi } = useCustomers();
 
-const {
-  getProjectTeam,
-  assignContactToProject,
-  unassignContactFromProject,
-  updateTeamMember,
-} = useProjects();
+const { getProjectTeam, assignContactToProject, unassignContactFromProject, updateTeamMember } =
+  useProjects();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -262,8 +255,6 @@ const onPage = (event) => {
 };
 
 const addContacts = (addedContacts) => {
-  console.log("addContacts", addedContacts);
-
   addedContacts.forEach(async (contact) => {
     contact.role_project = getDefaultRole();
     contact.main = false;

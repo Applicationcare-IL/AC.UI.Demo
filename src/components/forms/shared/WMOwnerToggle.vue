@@ -31,8 +31,6 @@ const props = defineProps({
 });
 
 const onChangeOwnerFilter = (event) => {
-  console.log("onChangeOwnerFilter", event.value, props.entity);
-
   if (event.value === "all") {
     delete utilsStore.filters[props.entity]["employee"];
   } else {
@@ -41,8 +39,6 @@ const onChangeOwnerFilter = (event) => {
       employee: authStore.user?.id,
     };
   }
-
-  console.log("utilsStore.filters[props.entity],", utilsStore.filters[props.entity]);
 };
 
 const getEntityPlural = () => {

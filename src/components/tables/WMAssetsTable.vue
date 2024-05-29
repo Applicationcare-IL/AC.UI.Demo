@@ -32,20 +32,14 @@
 
         <Divider layout="vertical" />
 
-        <WMDeactivateAssetButton
-          entity="asset"
-          @asset-deactivated="$emit('assetDeactivated')"
-        />
+        <WMDeactivateAssetButton entity="asset" @asset-deactivated="$emit('assetDeactivated')" />
       </div>
 
       <WMButton v-if="env.DEV" name="refresh" class="m-1 col-6" @click="loadLazyData"
         >Refresh
       </WMButton>
       <div class="flex flex-row align-items-center gap-3">
-        <WMFilterButton
-          :is-active="isFilterApplied || isFilterOpen"
-          @click="openFilterSidebar"
-        />
+        <WMFilterButton :is-active="isFilterApplied || isFilterOpen" @click="openFilterSidebar" />
 
         <WMSidebar
           :visible="isFilterVisible"
@@ -224,7 +218,6 @@ const loadLazyData = async () => {
   getAssetsFromApi(params).then((result) => {
     assets.value = result.data;
     totalRecords.value = result.totalRecords;
-    console.log("assets", assets.value);
   });
 };
 
