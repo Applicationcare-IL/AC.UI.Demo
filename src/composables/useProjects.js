@@ -127,18 +127,18 @@ export function useProjects() {
     return { budgetItems, totalRecords };
   };
 
-  const getBudgetItem = async (projectId, budgetItemId) => {
-    const response = await projectsStore.getBudgetItem(projectId, budgetItemId);
+  const getBudgetItem = async (budgetItemId) => {
+    const response = await projectsStore.getBudgetItem(budgetItemId);
 
     return mapBudgetItem(response.data);
   };
 
-  const createBudgetItem = async (projectId, data) => {
-    return await projectsStore.createBudgetItem(projectId, data);
+  const createBudgetItem = async (data) => {
+    return await projectsStore.createBudgetItem(data);
   };
 
-  const updateBudgetItem = async (projectId, budgetItemId, data) => {
-    return await projectsStore.updateBudgetItem(projectId, budgetItemId, data);
+  const updateBudgetItem = async (budgetItemId, data) => {
+    return await projectsStore.updateBudgetItem(budgetItemId, data);
   };
 
   const calculateBudget = async (projectId, data) => {
@@ -146,8 +146,8 @@ export function useProjects() {
     return response;
   };
 
-  const calculateBudgetItem = async (projectId, budgetItemId, data) => {
-    return await projectsStore.calculateBudgetItem(projectId, budgetItemId, data);
+  const calculateBudgetItem = async (budgetItemId, data) => {
+    return await projectsStore.calculateBudgetItem(budgetItemId, data);
   };
 
   const calculateNewBudgetItem = async (data) => {
@@ -413,7 +413,7 @@ export function useProjects() {
       invoice_number: payment.invoice_number,
       payment_date: parseDate(payment.payment_date),
       report_date: parseDate(payment.report_date),
-      budget_item_id: payment.budget_item.id,
+      budget_item: payment.budget_item.id,
       reported: payment.reported ? true : false,
       payment_status: payment.payment_status,
       amount_paid: payment.amount_paid ? payment.amount_paid : 0,

@@ -3,7 +3,7 @@ import { useI18n } from "vue-i18n";
 export function useFilters() {
   const { getTasksTypesFromApi } = useTasks();
   const { getCustomersFromApi } = useCustomers();
-  const { getProjectsFromApi, getMilestones } = useProjects();
+  const { getProjectsFromApi, getMilestones, getBudgetItems } = useProjects();
   const { getContactsFromApi } = useContacts();
 
   const i18n = useI18n();
@@ -34,6 +34,18 @@ export function useFilters() {
     const response = await getMilestones({
       search: query,
     });
+
+    return {
+      data: response,
+    };
+  };
+
+  const searchBudgetItems = async (query) => {
+    const response = await getBudgetItems({
+      search: query,
+    });
+
+    console.log("searchBudgetItems", response);
 
     return {
       data: response,
@@ -441,7 +453,7 @@ export function useFilters() {
         type: "entity",
         name: "budget-item",
         label: i18n.t("budget.budget-item") + ":",
-        searchFunction: searchMilestones,
+        searchFunction: searchBudgetItems,
       },
       {
         toggable: true,

@@ -96,12 +96,7 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
-    unassignContactFromProject({
-      project_id,
-      contact_id,
-      customer_id,
-      role_id,
-    }) {
+    unassignContactFromProject({ project_id, contact_id, customer_id, role_id }) {
       return axiosConfig
         .delete("/projects/contacts", {
           data: { project_id, contact_id, customer_id, role_id },
@@ -242,9 +237,9 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
-    getBudgetItem(projectId, itemId) {
+    getBudgetItem(itemId) {
       return axiosConfig
-        .get("/projects/" + projectId + "/budget-items/" + itemId)
+        .get("/budget-items/" + itemId)
         .then((response) => {
           return response.data;
         })
@@ -252,9 +247,9 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
-    createBudgetItem(projectId, data) {
+    createBudgetItem(data) {
       return axiosConfig
-        .post("/projects/" + projectId + "/budget-items", data)
+        .post("/budget-items", data)
         .then((response) => {
           return response.data;
         })
@@ -262,9 +257,9 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
-    updateBudgetItem(projectId, itemId, data) {
+    updateBudgetItem(itemId, data) {
       return axiosConfig
-        .patch("/projects/" + projectId + "/budget-items/" + itemId, data)
+        .patch("/budget-items/" + itemId, data)
         .then((response) => {
           return response.data;
         })
@@ -282,12 +277,9 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
-    calculateBudgetItem(projectId, itemId, data) {
+    calculateBudgetItem(itemId, data) {
       return axiosConfig
-        .post(
-          "/projects/" + projectId + "/budget-items/" + itemId + "/calculate",
-          data
-        )
+        .post("/budget-items/" + itemId + "/calculate", data)
         .then((response) => {
           return response.data;
         })
