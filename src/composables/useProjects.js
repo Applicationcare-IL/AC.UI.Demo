@@ -420,6 +420,7 @@ export function useProjects() {
       amount_approved: payment.amount_approved ? payment.amount_approved : 0,
       batch_number: payment.batch_number,
       basic_term: payment.basic_term,
+      task: payment.task,
     };
 
     if (payment.terms_of_payment_id) {

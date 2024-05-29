@@ -514,6 +514,10 @@ const onRowEditSave = (event) => {
     return;
   }
 
+  if (props.relatedEntity === "task") {
+    newData.task = props.relatedEntityId;
+  }
+
   if (newData.mode === "create") {
     createProjectPayment(props.projectId, parseProjectPayment(newData))
       .then((response) => {
