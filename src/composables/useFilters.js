@@ -45,10 +45,8 @@ export function useFilters() {
       search: query,
     });
 
-    console.log("searchBudgetItems", response);
-
     return {
-      data: response,
+      data: response.budgetItems,
     };
   };
 
@@ -444,14 +442,14 @@ export function useFilters() {
       {
         toggable: true,
         type: "entity",
-        name: "milestones",
+        name: "milestone",
         label: i18n.t("milestone.milestones") + ":",
         searchFunction: searchMilestones,
       },
       {
         toggable: true,
         type: "entity",
-        name: "budget-item",
+        name: "budget_item",
         label: i18n.t("budget.budget-item") + ":",
         searchFunction: searchBudgetItems,
       },
