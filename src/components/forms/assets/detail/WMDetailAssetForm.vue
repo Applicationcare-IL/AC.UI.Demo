@@ -43,7 +43,7 @@
                     :highlighted="true"
                     :label="$t('asset.owner') + ':'"
                     :value="asset.owner.name + asset.owner.surname"
-                    :to="'/asset/' + asset.owner.id"
+                    :to="'/customer/' + asset.owner.id"
                   />
                   <WMInput
                     name="payer"
@@ -51,15 +51,7 @@
                     :highlighted="true"
                     :label="$t('asset.payer') + ':'"
                     :value="asset.payer.name + asset.payer.surname"
-                    :to="'/asset/' + asset.payer.id"
-                  />
-                  <WMInput
-                    name="consumer"
-                    type="info-link"
-                    :highlighted="true"
-                    :label="$t('asset.consumer') + ':'"
-                    :value="asset.consumer.name + asset.consumer.surname"
-                    :to="'/asset/' + asset.consumer.id"
+                    :to="'/customer/' + asset.consumer.id"
                   />
                 </div>
                 <div class="wm-form-row gap-5">
