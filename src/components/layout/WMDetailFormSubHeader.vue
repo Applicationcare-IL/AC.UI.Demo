@@ -108,8 +108,7 @@
 
           <slot name="custom-buttons" />
         </div>
-        <div class="flex gap-2 align-items-center">
-          <slot name="custom-secondary-buttons" />
+        <div class="flex gap-3 align-items-center">
           <WMButton
             v-if="isActiveTask"
             class="m-1 col-6"
@@ -120,10 +119,11 @@
             Cancel
           </WMButton>
           <WMAnnouncementsButton
-            v-if="['customer', 'service'].includes(entityType)"
+            v-if="['customer', 'service', 'project'].includes(entityType)"
             :id="route.params.id"
             :entity="entityType"
           />
+          <slot name="custom-secondary-buttons" />
         </div>
       </div>
     </div>

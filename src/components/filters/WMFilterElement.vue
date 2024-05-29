@@ -1,101 +1,157 @@
 <template>
-  <label v-if="label != ''" class="wm-form-label">
-    {{ label }}
-  </label>
-  <div class="flex flex-row justify-content-between">
-    <!-- DROPDOWN -->
-    <WMAutocomplete
-      v-if="type == 'dropdown' && optionSet"
-      v-model="selectedOptions"
-      :placeholder="placeholder"
-      :multiple="true"
-      width="248"
-      :options="optionSetsOptions"
-      :option-set="optionSet"
-      @update:model-value="onAutocompleteDropdownChanged"
-    />
+  <div class="relative">
+    <!-- Toggable label-->
+    <div v-if="label != '' && toggable">
+      <div
+        class="flex flex-row align-items-center gap-3"
+        @click="toggleContent"
+      >
+        <div
+          class="toggable w-full hover:bg-blue-50"
+          :class="isToggled || hasSelectedOptions ? 'bg-blue-50' : 'bg-gray-50'"
+        >
+          <div class="w-full flex justify-content-between align-items-center">
+            <span class="h6">{{ label }}</span>
+            <span
+              class="text-blue-800 font-normal white-space-nowrap overflow-hidden text-overflow-ellipsis max-w-20rem"
+            >
+              {{ selectedOptionsPreviewText }}
+            </span>
+          </div>
 
-    <Dropdown
-      v-if="type == 'dropdown' && options"
-      v-model="selectedOption"
-      :options="options"
-      option-label="label"
-      class="w-full md:w-14rem"
-      @update:model-value="onDropdownChanged"
-    />
-
-    <!-- ENTITY -->
-    <WMAutocomplete
-      v-if="type == 'entity'"
-      v-model="selectedOptions"
-      :placeholder="placeholder"
-      :multiple="true"
-      width="248"
-      option-label="name"
-      :search-function="searchFunction"
-      @update:model-value="onAutocompleteDropdownChanged"
-    />
-
-    <!-- BUTTONS -->
-    <div v-if="type == 'buttons'" class="flex flex-row gap-2 p-2">
-      <WMSelectableButton
-        v-for="(option, index) in optionSetsOptions"
-        :key="index"
-        v-model="isButtonSelected[index]"
-        :label="option[optionLabelWithLang]"
-        @update:model-value="onButtonChanged($event, option)"
-      />
-    </div>
-
-    <!-- DATES -->
-    <div v-if="type == 'date'" class="flex flex-row gap-2 p-2">
-      <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label">
-          {{ $t("from") }}:
-        </label>
-        <Calendar
-          v-model="fromDate"
-          show-icon
-          @update:model-value="onDateChanged($event, 'from')"
-        />
-      </div>
-      <div class="flex flex-column">
-        <label v-if="label != ''" class="wm-form-label">
-          {{ $t("to") }}:
-        </label>
-        <Calendar
-          v-model="toDate"
-          show-icon
-          @update:model-value="onDateChanged($event, 'to')"
+          <div class="toggable__icon">
+            <div class="p-button-svg flex" v-html="ExpandIcon" />
+          </div>
+        </div>
+        <WMTempButton
+          :text="$t('buttons.clear')"
+          type="clear mx-0 px-0"
+          @click="clear"
         />
       </div>
     </div>
 
-    <!-- SLA -->
-    <div v-if="type == 'sla_status'" class="flex flex-row gap-2 p-2">
-      <WMSelectableButton
-        v-for="(option, index) in SLAoptions"
-        :key="index"
-        v-model="isButtonSelected[index]"
-        :label="option[optionLabelWithLang]"
-        @update:model-value="onButtonChanged($event, option)"
+    <!-- Non-toggable label -->
+    <label v-if="label != '' && !toggable" class="wm-form-label">
+      {{ label }}</label
+    >
+    <div
+      class="flex-row justify-content-between"
+      :class="!toggable || isToggled ? 'flex' : 'hidden'"
+    >
+      <!-- DROPDOWNS -->
+      <WMAutocomplete
+        v-if="type == 'dropdown' && optionSet"
+        v-model="selectedOptions"
+        :placeholder="placeholder"
+        :multiple="true"
+        width="248"
+        :options="optionSetsOptions"
+        :option-set="optionSet"
+        @update:model-value="onAutocompleteDropdownChanged"
+        @remove="onRemoveEntityDropdownOption"
+      />
+
+      <Dropdown
+        v-if="type == 'dropdown' && options"
+        v-model="selectedOption"
+        :options="options"
+        option-label="label"
+        class="w-full md:w-14rem"
+        @update:model-value="onDropdownChanged"
+      />
+
+      <!-- ENTITY -->
+      <WMAutocomplete
+        v-if="type == 'entity'"
+        v-model="selectedOptions"
+        :placeholder="placeholder"
+        :multiple="true"
+        width="248"
+        option-label="name"
+        :search-function="searchFunction"
+        @update:model-value="onAutocompleteDropdownChanged"
+        @remove="onRemoveEntityDropdownOption"
+      />
+
+      <!-- BUTTONS -->
+      <div v-if="type == 'buttons'" class="flex flex-row gap-2 p-2">
+        <WMSelectableButton
+          v-for="(option, index) in optionSetsOptions"
+          :key="index"
+          v-model="isButtonSelected[index]"
+          :label="option[optionLabelWithLang]"
+          @update:model-value="onButtonChanged($event, option)"
+        />
+      </div>
+
+      <!-- STATE OPTIONS -->
+      <div v-if="type == 'state'" class="flex flex-row gap-2 p-2">
+        <div class="flex flex-column">
+          <WMStateToggle
+            v-model="selectedOption"
+            :entity="entity"
+            type="event"
+            @update:state="onStateChange"
+          />
+        </div>
+      </div>
+
+      <!-- DATES -->
+      <div v-if="type == 'date'" class="flex flex-row gap-2 p-2">
+        <div class="flex flex-column">
+          <label v-if="label != ''" class="wm-form-label">
+            {{ $t("from") }}:
+          </label>
+          <Calendar
+            v-model="fromDate"
+            show-icon
+            @update:model-value="onDateChanged($event, 'from')"
+          />
+        </div>
+        <div class="flex flex-column">
+          <label v-if="label != ''" class="wm-form-label">
+            {{ $t("to") }}:
+          </label>
+          <Calendar
+            v-model="toDate"
+            show-icon
+            @update:model-value="onDateChanged($event, 'to')"
+          />
+        </div>
+      </div>
+
+      <!-- SLA -->
+      <div v-if="type == 'sla_status'" class="flex flex-row gap-2 p-2">
+        <WMSelectableButton
+          v-for="(option, index) in SLAoptions"
+          :key="index"
+          v-model="isButtonSelected[index]"
+          :label="option[optionLabelWithLang]"
+          @update:model-value="onButtonChanged($event, option)"
+        />
+      </div>
+
+      <!-- CREATED/ASSIGNED BY ME -->
+      <div v-if="type == 'created_assigned'" class="flex flex-row gap-2 p-2">
+        <WMSelectableButton
+          v-for="(option, index) in createdAssignedOptions"
+          :key="index"
+          v-model="isButtonSelected[index]"
+          :label="option[optionLabelWithLang]"
+          @update:model-value="onButtonChanged($event, option)"
+        />
+      </div>
+
+      <WMTempButton
+        v-if="!toggable"
+        :text="$t('buttons.clear')"
+        type="clear mx-0 px-0"
+        class="absolute top-0"
+        :class="layoutConfig.isRTL.value ? 'left-0' : 'right-0'"
+        @click="clear"
       />
     </div>
-
-    <!-- CREATED/ASSIGNED BY ME -->
-    <div v-if="type == 'created_assigned'" class="flex flex-row gap-2 p-2">
-      <WMSelectableButton
-        v-for="(option, index) in createdAssignedOptions"
-        :key="index"
-        v-model="isButtonSelected[index]"
-        :label="option[optionLabelWithLang]"
-        @update:model-value="onButtonChanged($event, option)"
-      />
-    </div>
-
-    <Button link @click="clear">
-      {{ $t("buttons.clear") }}
-    </Button>
   </div>
   <Divider></Divider>
 </template>
@@ -103,14 +159,18 @@
 <script setup>
 // IMPORTS
 import { useDateFormat } from "@vueuse/core";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
+import ExpandIcon from "/icons/expand_default.svg?raw";
+import { useLayout } from "@/layout/composables/layout";
 import { useOptionSetsStore } from "@/stores/optionSets";
+
 // DEPENDENCIES
 const { t } = useI18n();
 const { optionLabelWithLang } = useLanguages();
 const optionSetsStore = useOptionSetsStore();
+const { layoutConfig } = useLayout();
 
 // INJECT
 
@@ -126,11 +186,14 @@ const props = defineProps({
   searchFunction: Function,
   filterData: Object,
   appliedFilters: Object,
+  toggable: Boolean,
 });
 
 const emits = defineEmits(["update:filter"]);
 
 // REFS
+const isToggled = ref(false);
+
 const optionSetsOptions = ref();
 const selectedOption = ref(null);
 
@@ -170,6 +233,35 @@ const createdAssignedOptions = [
 ];
 
 // COMPUTED
+const selectedOptionsPreviewText = computed(() => {
+  if (selectedOptions.value.lenght == 0) return "";
+
+  if (props.type == "dropdown" && props.optionSet) {
+    return selectedOptions.value
+      .map((x) => x[optionLabelWithLang.value])
+      .join(", ");
+  }
+
+  if (props.type == "entity") {
+    return selectedOptions.value.map((x) => x.name).join(", ");
+  }
+
+  if (props.type === "date" && fromDate.value && toDate.value) {
+    return `${useDateFormat(fromDate.value, "YYYY-MM-DD").value} - ${
+      useDateFormat(toDate.value, "YYYY-MM-DD").value
+    }`;
+  }
+
+  return "";
+});
+
+const hasSelectedOptions = computed(() => {
+  if (selectedOptions.value.length > 0) return true;
+  if (fromDate.value || toDate.value) return true;
+  if (selectedButtons.value.length > 0) return true;
+
+  return false;
+});
 
 // COMPONENT METHODS AND LOGIC
 const forceRerender = () => {
@@ -216,6 +308,13 @@ const onButtonChanged = (value, option) => {
   });
 };
 
+const onStateChange = (value) => {
+  emits("update:filter", {
+    name: props.filterName,
+    value: value,
+  });
+};
+
 const onDateChanged = (value, type) => {
   let dateFilterName;
   let date;
@@ -256,9 +355,30 @@ const clear = () => {
     forceRerender();
   }
 
+  if (props.type == "entity") {
+    selectedOptions.value = [];
+  }
+
+  if (props.type == "sla_status") {
+    selectedButtons.value = [];
+    isButtonSelected.value = [];
+    forceRerender();
+  }
+
   emits("update:filter", {
     name: props.filterName,
     value: null,
+  });
+};
+
+const onRemoveEntityDropdownOption = (option) => {
+  selectedOptions.value = selectedOptions.value.filter(
+    (x) => x.id != option.id
+  );
+
+  emits("update:filter", {
+    name: props.filterName,
+    value: selectedOptions.value.map((x) => x.id),
   });
 };
 
@@ -287,40 +407,66 @@ const handleSelectedDates = () => {
 };
 
 const handleSelectedButtons = () => {
-  if (props.appliedFilters && props.type == "buttons") {
-    if (props.appliedFilters[props.filterName]) {
-      selectedButtons.value = props.appliedFilters[props.filterName];
-      selectedButtons.value.forEach((element) => {
-        const index = optionSetsOptions.value.findIndex((x) => x.id == element);
-        isButtonSelected.value[index] = true;
-      });
-    }
+  if (
+    props.appliedFilters &&
+    props.appliedFilters[props.filterName] &&
+    props.type == "buttons"
+  ) {
+    selectedButtons.value = props.appliedFilters[props.filterName];
+    selectedButtons.value.forEach((element) => {
+      const index = optionSetsOptions.value.findIndex((x) => x.id == element);
+      isButtonSelected.value[index] = true;
+    });
   }
 };
 
 const handleSelectedEntity = () => {
-  if (props.appliedFilters && props.type == "entity") {
-    if (props.appliedFilters[props.filterName]) {
-      selectedOptions.value = props.appliedFilters[props.filterName];
-    }
+  if (
+    props.appliedFilters &&
+    props.appliedFilters[props.filterName] &&
+    props.type == "entity"
+  ) {
+    props.searchFunction().then((options) => {
+      selectedOptions.value = options.data.filter((x) =>
+        props.appliedFilters[props.filterName].includes(x.id)
+      );
+    });
   }
 };
 
 const handleSelectedAutocompleteDropdown = () => {
-  if (props.appliedFilters && props.type == "dropdown") {
-    if (props.appliedFilters[props.filterName]) {
-      selectedOptions.value = props.appliedFilters[props.filterName];
-    }
+  if (
+    props.appliedFilters &&
+    props.appliedFilters[props.filterName] &&
+    props.type == "dropdown"
+  ) {
+    selectedOptions.value = props.appliedFilters[props.filterName];
   }
 };
 
-const handleSelectedDropdwon = () => {
+const handleSelectedDropdown = () => {
   if (props.appliedFilters && props.type == "dropdown" && props.options) {
     props.options.forEach((option) => {
       if (props.appliedFilters && props.appliedFilters[option.name]) {
         selectedOption.value = option;
       }
     });
+  }
+
+  if (props.appliedFilters && props.type == "dropdown" && props.optionSet) {
+    selectedOptions.value = optionSetsOptions.value.filter((x) =>
+      props.appliedFilters[props.filterName].includes(x.id)
+    );
+  }
+};
+
+const handleSelectedState = () => {
+  if (
+    props.appliedFilters &&
+    props.appliedFilters[props.filterName] &&
+    props.type == "state"
+  ) {
+    selectedOption.value = props.appliedFilters[props.filterName];
   }
 };
 
@@ -330,8 +476,13 @@ function handleSelectedFilters() {
   handleSelectedButtons();
   handleSelectedEntity();
   handleSelectedAutocompleteDropdown();
-  handleSelectedDropdwon();
+  handleSelectedDropdown();
+  handleSelectedState();
 }
+
+const toggleContent = () => {
+  isToggled.value = !isToggled.value;
+};
 
 // PROVIDE, EXPOSE
 defineExpose({ clear });
@@ -353,3 +504,17 @@ onMounted(async () => {
   handleSelectedFilters();
 });
 </script>
+
+<style scoped lang="scss">
+.toggable {
+  display: flex;
+  padding: 4px 8px 4px 4px;
+  border-radius: 8px;
+  justify: space-between;
+
+  &:hover {
+    background-color: var(--blue-50);
+    cursor: pointer;
+  }
+}
+</style>

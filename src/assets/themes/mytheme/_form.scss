@@ -9,8 +9,14 @@
 }
 
 .wm-detail-form-container{
-    padding: 10px 160px;
+    padding: 10px 20px;
     background-color: white;
+}
+
+@media (min-width: 1440px) {
+    .wm-detail-form-container{
+        padding: 10px 160px;
+    }
 }
 
 .wm-form-row{
@@ -20,13 +26,12 @@
 }
 
 // Input Component and dropdown
-
 .wm-input,  .wm-inputsearch {
     gap: 4px;
     position: relative;
 }
 
-.wm-input > input,.wm-input > .p-password > input, .wm-input > .p-dropdown, .wm-inputsearch .p-autocomplete > input, .p-autocomplete-multiple-container{
+.wm-input input, .wm-input > .p-password > input, .wm-input > .p-dropdown, .wm-inputsearch .p-autocomplete > input, .p-autocomplete-multiple-container{
     border: 1px solid var(--gray-400);
     height: 24px;
     border-radius: 4px;
@@ -37,6 +42,10 @@
 
 .wm-input > .p-password > input{
     width: 100%;
+}
+
+.wm-input .p-calendar .p-button{
+    height: 24px;
 }
 
 .p-autocomplete .p-autocomplete-multiple-container, .p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-input-token{

@@ -128,7 +128,8 @@
     "link-service": "Link service",
     "link-services": "Link services",
     "select-all": "Select all",
-    "upload-file": "Upload file"
+    "upload-file": "Upload file",
+    "announcements": "Announcements"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -219,10 +220,8 @@
     "notification-created-message": "The new customer was successfully created! \n From now on he will appear in your customer list",
     "notification-created-detail": "View Customer",
     "notification-created-close": "Close",
-    "toast": {
-      "created": "New Customer Created",
-      "error": "An error occurred"
-    }
+    "basic_term": "Basic Term",
+    "calculate_term": "Calculate Term"
   },
   "service": {
     "service": "Service",
@@ -363,7 +362,10 @@
     "toast-task-cancelled-message": "The task was successfully canceled",
     "days-till-closure": "Days till closure",
     "payment-request-task-title": "Payment request details",
-    "create-payment-request": "Create payment request"
+    "create-payment-request": "Create payment request",
+    "timing": "Timing",
+    "start-task": "Start task",
+    "recurring-task": "Recurring task"
   },
   "project": {
     "system-id": "System ID",
@@ -414,13 +416,21 @@
     "notification-created-message": "The new project was successfully created! \n From now on he will appear in your project list",
     "notification-created-detail": "View project",
     "notification-created-close": "Close",
+    "notification-cancel-project-header": "Cancel project",
+    "notification-cancel-project-message": "Once canceled, the project can’t be restored. Are you sure you want to cancel the project?",
+    "notification-cancel-project-yes": "Yes, cancel it",
+    "notification-cancel-project-no": "No, go back",
+    "toast-project-cancelled-title": "Project canceled",
+    "toast-project-cancelled-message": "The project was successfully canceled",
     "show-project-location-label": "Show project location",
     "search-teams": "Search teams",
     "contract-number": "Contract number",
     "contract": "Contract",
     "contract-amount": "Contract amount",
     "remains-to-be-paid": "Remains to be paid",
-    "paid-so-far": "Paid so far"
+    "paid-so-far": "Paid so far",
+    "calculate-term": "Calculate Term",
+    "basic-term": "Basic Term"
   },
   "budget": {
     "approved-council": "Approved (Council)",
@@ -438,6 +448,8 @@
     "estimate": "Estimate",
     "executed-payments": "Executed (payments)",
     "funding": "Funding",
+    "funding-balance": "Funding Balance",
+    "total-funding": "Total Funding",
     "last-changed": "Last changed",
     "management-fee": "Management Fee",
     "municipality-expenses": "Municipality expenses",
@@ -445,6 +457,7 @@
     "non-tbr-funding-details": "Non-TBR Funding Details",
     "non-tbr-funding": "Funding (Non-TBR)",
     "non-tbr-funds-accepted": "Funds Accepted (Non-TBR)",
+    "records-and-reports": "Records and Reports",
     "open-budget": "Open budget",
     "payments": "Payments",
     "planned-contract": "Planned (Contract)",
@@ -457,6 +470,7 @@
     "tbr-number": "TBR Number",
     "tbr-reported": "TBR Reported",
     "total": "Total",
+    "total-without-fee": "Total without fee",
     "unexpected": "Unexpected"
   },
   "project-budget": {
@@ -471,6 +485,7 @@
   "payments": {
     "amount-approved-to-be-paid": "Amount Approved to be Paid",
     "amount-paid": "Amount Paid",
+    "invoice-amount": "Invoice Amount",
     "amount": "Amount",
     "batch-number": "Batch Number",
     "budget-item-number": "Budget Item",
@@ -492,7 +507,9 @@
     "proforma-invoice": "Proforma Invoice",
     "remains-to-be-paid": "Remains to be paid",
     "status": "Status",
-    "terms-of-payment": "Terms of Payment"
+    "terms-of-payment": "Terms of Payment",
+    "status-not-selected": "Status not selected",
+    "calculate-term": "Calculate Term"
   },
   "milestone": {
     "actual-date": "Actual Date",
@@ -571,9 +588,13 @@
     "missing-field": "Missing  @.lower:{label}",
     "contactid": "Invalid ID Card",
     "phone": "Invalid phone number",
+    "landline": "Invalid landline number",
+    "fax": "Invalid fax number",
     "email": "Invalid email address",
     "exists": "@:{label} already exists",
-    "password-mismatch": "Passwords do not match"
+    "password-mismatch": "Passwords do not match",
+    "contact-already-exists": "Contact already exists",
+    "customer-already-exists": "Customer already exists"
   },
   "status": "Status",
   "statuses": {
@@ -636,6 +657,7 @@
     "breached": "Breached",
     "near_breach": "Near Breach",
     "no_breach": "No Breach",
+    "breach": "Breach",
     "whithin_sla": "Within SLA",
     "ended_breach": "Ended Breach"
   },
@@ -662,8 +684,10 @@
     "service-title": "Service Filters",
     "project-title": "Project Filters",
     "asset-title": "Asset Filters",
+    "payment-title": "Payment Filters",
     "related-service-title": "Related Service Filters",
     "no-filters-applied": "No filters applied",
+    "filters-applied": "Filters applied",
     "service-sla-status": "Service SLA Status",
     "task-sla-status": "Task SLA Status",
     "select-city": "Select city",

@@ -1,8 +1,8 @@
 <template>
   <WMTempButton :text="text" :type="type" :is-disabled="isDisabled">
     <template #customIcon>
-      <div v-if="!isSaved" class="d-flex" v-html="SaveIcon" />
-      <div v-else class="d-flex" v-html="DoneIcon" />
+      <div v-if="!isSaved" class="flex" v-html="SaveIcon" />
+      <div v-else class="flex" v-html="DoneIcon" />
     </template>
   </WMTempButton>
 </template>

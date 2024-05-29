@@ -2,6 +2,9 @@ import { useMagicKeys, whenever } from "@vueuse/core";
 import { defineStore } from "pinia";
 import * as yup from "yup";
 
+import { useContactsStore } from "@/stores/contactsStore";
+import { useCustomersStore } from "@/stores/customersStore";
+
 const { ctrl_s } = useMagicKeys({
   passive: false,
   onEventFired(e) {
@@ -53,7 +56,12 @@ export const useFormUtilsStore = defineStore("formUtils", {
         value: letter,
       }));
     },
-
+    getLoginFormValidationSchema: () => {
+      return yup.object({
+        email: yup.string().email().required(),
+        password: yup.string().required(),
+      });
+    },
     getServiceFormValidationSchema: () => {
       return yup.object({
         description: yup.string().required().default(null).nullable(),
@@ -176,10 +184,28 @@ export const useFormUtilsStore = defineStore("formUtils", {
         notes: yup.string().required(),
       });
     },
+    getPaymentRequestTaskFormValidationSchema: () => {
+      return yup.object({
+        amount: yup.number().required(),
+      });
+    },
     getCustomerNewFormValidationSchema: (state) => {
+      const customersStore = useCustomersStore();
+
       return yup.object({
         name: yup.string().required(),
-        number: yup.string().required(),
+        number: yup
+          .string()
+          .required()
+          .test(
+            "unique",
+            "validation.customer-already-exists",
+            async (value) => {
+              if (!value) return true;
+              const exists = await customersStore.checkIfCustomerExists(value);
+              return !exists;
+            }
+          ),
         rating: yup
           .object()
           .required({
@@ -203,6 +229,16 @@ export const useFormUtilsStore = defineStore("formUtils", {
           .trim()
           .matches(state.israeliPhoneRegex, "validation.phone")
           .required(),
+        landline: yup
+          .string()
+          .test("landline", "validation.landline", (value) => {
+            if (!value) return true;
+            return value.match(state.israeliLandlineRegex);
+          }),
+        fax: yup.string().test("fax", "validation.fax", (value) => {
+          if (!value) return true;
+          return value.match(/^\d{9}$/);
+        }),
         type: yup
           .object()
           .required({
@@ -253,11 +289,22 @@ export const useFormUtilsStore = defineStore("formUtils", {
     },
 
     getContactNewFormValidationSchema: (state) => {
+      const contactsStore = useContactsStore();
+
       return yup.object({
-        // "contact-number": yup
-        //   .string()
-        //   .min(9, "validation.contactid")
-        //   .required(),
+        "contact-number": yup
+          .string()
+          .min(9, "validation.contactid")
+          .required()
+          .test(
+            "unique",
+            "validation.contact-already-exists",
+            async (value) => {
+              if (!value) return true;
+              const exists = await contactsStore.checkIfContactExists(value);
+              return !exists;
+            }
+          ),
         "first-name": yup.string().required(),
         "last-name": yup.string().required(),
         "mobile-phone": yup
@@ -265,7 +312,17 @@ export const useFormUtilsStore = defineStore("formUtils", {
           .trim()
           .matches(state.israeliPhoneRegex, "validation.phone")
           .required(),
-        email: yup.string().required(),
+        landline: yup
+          .string()
+          .test("landline", "validation.landline", (value) => {
+            if (!value) return true;
+            return value.match(state.israeliLandlineRegex);
+          }),
+        fax: yup.string().test("fax", "validation.fax", (value) => {
+          if (!value) return true;
+          return value.match(/^\d{9}$/);
+        }),
+        email: yup.string().email().required(),
         // city: yup
         //   .object()
         //   .required({
@@ -288,14 +345,45 @@ export const useFormUtilsStore = defineStore("formUtils", {
         //   }),
       });
     },
-    getContactDetailFormValidationSchema: () => {
+    getContactDetailFormValidationSchema: (state) => {
+      // const contactsStore = useContactsStore();
+
       return yup.object({
-        "first-name": yup.string().required(),
-        "last-name": yup.string().required(),
         // "contact-number": yup
         //   .string()
         //   .min(9, "validation.contactid")
-        //   .required(),
+        //   .required()
+        //   .test(
+        //     "unique",
+        //     "validation.contact-already-exists",
+        //     async (value) => {
+        //       if (!value) return true;
+        //       const exists = await contactsStore.checkIfContactExists(value);
+        //       return !exists;
+        //     }
+        //   ),
+        "first-name": yup.string().required(),
+        "last-name": yup.string().required(),
+        "mobile-phone": yup
+          .string()
+          .trim()
+          .matches(state.israeliPhoneRegex, "validation.phone")
+          .required(),
+        landline: yup
+          .string()
+          .test("landline", "validation.landline", (value) => {
+            if (!value) return true;
+            return value.match(state.israeliLandlineRegex);
+          })
+          .nullable(),
+        fax: yup
+          .string()
+          .test("fax", "validation.fax", (value) => {
+            if (!value) return true;
+            return value.match(/^\d{9}$/);
+          })
+          .nullable(),
+        email: yup.string().email().required(),
       });
     },
 
@@ -316,12 +404,6 @@ export const useFormUtilsStore = defineStore("formUtils", {
         "milestone-name": yup.string().required(),
       });
     },
-    // getContactDetailFormValidationSchema: (state) => {
-    //   return yup.object({
-    //     "first-name": yup.string().required(),
-    //     "last-name": yup.string().required(),
-    //   });
-    // },
     getSignTaskFormValidationSchema: () => {
       return yup.object({
         notes: yup.string().required(),

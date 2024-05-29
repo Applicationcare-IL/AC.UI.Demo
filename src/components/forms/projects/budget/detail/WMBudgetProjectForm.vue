@@ -41,7 +41,7 @@
     </div>
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1 w-full">
-        <Card>
+        <Card class="overflow-x-auto">
           <template #title> {{ $t("budget.budget-details") }} </template>
           <template #content>
             <div class="flex flex-column gap-5">
@@ -76,18 +76,22 @@
                   background-color="blue-200"
                   :label="$t('budget.total') + ':'"
                 />
+                <Divider layout="vertical" />
+                <WMHighlightedBlock
+                  v-model="budget.total_without_fee"
+                  background-color="blue-200"
+                  :label="$t('budget.total-without-fee') + ':'"
+                />
               </div>
               <Divider></Divider>
-              <div class="flex flex-row gap-6">
+              <div class="flex flex-row gap-3">
                 <WMHighlightedBlock
                   v-model="budget.approved_council"
                   background-color="green-100"
                   :label="$t('budget.approved-council') + ':'"
                 />
 
-                <ArrowIcon
-                  :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
-                />
+                <ArrowIcon :class="layoutConfig.isRTL.value ? '' : 'rotate-180'" />
 
                 <WMHighlightedBlock
                   v-model="budget.approved_ministry"
@@ -107,6 +111,21 @@
                   :quantity="budget.balance"
                   :label="$t('budget.balance') + ':'"
                 />
+
+                <Divider layout="vertical" />
+
+                <WMHighlightedBlock
+                  v-model="budget.total_funding"
+                  background-color="gray-300"
+                  :label="$t('budget.total-funding') + ':'"
+                />
+
+                <Divider layout="vertical" class="opacity-0" />
+
+                <WMHighlightedBalanceBlock
+                  :quantity="budget.funding_balance"
+                  :label="$t('budget.funding-balance') + ':'"
+                />
               </div>
             </div>
           </template>
@@ -117,25 +136,25 @@
       <div class="flex-1">
         <Card>
           <template #title>
-            <div class="flex align-items-center gap-3">
-              {{ $t("budget.tbr-details") }}
-              <WMInput
-                id="tbr_number"
-                v-model="budget.tbr_number"
-                name="tbr_number"
-                type="input-text"
-                :value="budget.tbr_number"
-              />
+            <div class="flex align-items-center justify-content-between gap-3">
+              <div>{{ $t("budget.funding") }}</div>
+              <div class="flex align-items-center gap-2">
+                <span class="h6">{{ $t("budget.tbr-number") }}:</span>
+                <WMInput
+                  id="tbr_number"
+                  v-model="budget.tbr_number"
+                  name="tbr_number"
+                  type="input-text"
+                  :value="budget.tbr_number"
+                />
+              </div>
             </div>
           </template>
           <template #content>
-            <!-- <pre style="min-height: 50vh">
-  {{ values }}
-  {{ budget.tbr_accepted }}
-  </pre
-            > -->
             <div class="flex flex-column gap-2">
-              <div class="flex flex-row justify-content-start gap-2">
+              <div
+                class="flex flex-row justify-content-start justify-content-between gap-5"
+              >
                 <WMHighlightedBlock
                   v-model="budget.tbr_accepted"
                   name="tbr_accepted"
@@ -166,7 +185,48 @@
                 />
               </div>
               <Divider />
-              <div class="flex flex-row gap-5 justify-content-start">
+              <div
+                class="flex flex-row justify-content-between gap-5 justify-content-start"
+              >
+                <WMHighlightedBlock
+                  v-model="budget.funds_accepted_non_tbr"
+                  name="funds_accepted_non_tbr"
+                  background-color="gray-100"
+                  :label="$t('budget.non-tbr-funds-accepted') + ':'"
+                  size="small"
+                  editable
+                  @change="recalculateBudget"
+                />
+                <PlusIcon />
+                <WMHighlightedBlock
+                  v-model="budget.expected_non_tbr"
+                  name="expected_non_tbr"
+                  background-color="gray-100"
+                  :label="$t('budget.non-tbr-expected') + ':'"
+                  size="small"
+                  editable
+                  @change="recalculateBudget"
+                />
+                <EqualIcon />
+                <WMHighlightedBlock
+                  v-model="budget.funding_non_tbr"
+                  background-color="gray-300"
+                  :label="$t('budget.non-tbr-funding') + ':'"
+                  size="small"
+                />
+              </div>
+            </div>
+          </template>
+        </Card>
+      </div>
+      <div class="flex-1">
+        <Card class="h-full">
+          <template #title>
+            {{ $t("budget.records-and-reports") }}
+          </template>
+          <template #content>
+            <div class="flex flex-column gap-2">
+              <div class="flex flex-row justify-content-between gap-2">
                 <WMHighlightedBlock
                   v-model="budget.tbr_reported"
                   name="tbr_reported"
@@ -200,45 +260,6 @@
           </template>
         </Card>
       </div>
-      <div class="flex-1">
-        <Card class="h-full">
-          <template #title>
-            {{ $t("budget.non-tbr-funding-details") }}
-          </template>
-          <template #content>
-            <div class="flex flex-column gap-2">
-              <div class="flex flex-row justify-content-between gap-2">
-                <WMHighlightedBlock
-                  v-model="budget.funds_accepted_non_tbr"
-                  name="funds_accepted_non_tbr"
-                  background-color="gray-100"
-                  :label="$t('budget.non-tbr-funds-accepted') + ':'"
-                  size="small"
-                  editable
-                  @change="recalculateBudget"
-                />
-                <PlusIcon />
-                <WMHighlightedBlock
-                  v-model="budget.expected_non_tbr"
-                  name="expected_non_tbr"
-                  background-color="gray-100"
-                  :label="$t('budget.non-tbr-expected') + ':'"
-                  size="small"
-                  editable
-                  @change="recalculateBudget"
-                />
-                <EqualIcon />
-                <WMHighlightedBlock
-                  v-model="budget.funding_non_tbr"
-                  background-color="gray-300"
-                  :label="$t('budget.non-tbr-funding') + ':'"
-                  size="small"
-                />
-              </div>
-            </div>
-          </template>
-        </Card>
-      </div>
     </div>
 
     <Accordion>
@@ -258,7 +279,11 @@
 
     <Accordion>
       <AccordionTab :header="$t('budget.payments')">
-        <WMPaymentsTable ref="paymentsTableRef" :project-id="projectId" />
+        <WMPaymentsTable
+          ref="paymentsTableRef"
+          :project-id="projectId"
+          :columns="getPaymentsColumns()"
+        />
       </AccordionTab>
     </Accordion>
 
@@ -324,13 +349,13 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getProjectBudget, updateBudget, calculateBudget, parseBudget } =
-  useProjects();
+const { getProjectBudget, updateBudget, calculateBudget, parseBudget } = useProjects();
 const route = useRoute();
 const { layoutConfig } = useLayout();
 const utilsStore = useUtilsStore();
 const toast = useToast();
 const formUtilsStore = useFormUtilsStore();
+const { getPaymentsColumns } = useListUtils();
 
 // INJECT
 

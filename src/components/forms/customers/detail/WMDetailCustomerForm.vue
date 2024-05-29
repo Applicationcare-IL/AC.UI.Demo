@@ -44,7 +44,6 @@
                     :value="customer.number"
                     width="150"
                     required
-                    @input.stop="onCustomerNumberChanged"
                   />
                 </div>
                 <div class="wm-form-row gap-5">
@@ -76,7 +75,7 @@
                     :options="yesNoOptions"
                     :value="isProvider"
                     width="80"
-                    @update:selectedItem="onProviderChanged"
+                    @update:selected-item="onProviderChanged"
                   />
                 </div>
                 <div v-if="isProvider.value" class="wm-form-row gap-5">
@@ -187,15 +186,15 @@
                 <div
                   class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
                 >
-                  <span class="font-size-20">No breach</span>
-                  <span class="font-size-24">{{
-                    customer.open_services - customer.breached_services
-                  }}</span>
+                  <span class="font-size-20">{{ $t("sla.no_breach") }}</span>
+                  <span class="font-size-24">
+                    {{ customer.open_services - customer.breached_services }}
+                  </span>
                 </div>
                 <div
                   class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900"
                 >
-                  <span class="font-size-20">Breach</span>
+                  <span class="font-size-20">{{ $t("sla.breached") }}</span>
                   <span class="font-size-24">{{
                     customer.breached_services
                   }}</span>
@@ -214,7 +213,7 @@
                 <div
                   class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
                 >
-                  <span class="font-size-20">No breach</span>
+                  <span class="font-size-20">{{ $t("sla.no_breach") }}</span>
                   <span class="font-size-24">{{
                     customer.open_tasks - customer.breached_tasks
                   }}</span>
@@ -222,7 +221,7 @@
                 <div
                   class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-red-100 text-red-700"
                 >
-                  <span class="font-size-20">Breach</span>
+                  <span class="font-size-20">{{ $t("sla.breached") }}</span>
                   <span class="font-size-24">
                     {{ customer.breached_tasks }}
                   </span>
@@ -280,6 +279,18 @@
             :multiselect="false"
             :show-header-options="false"
             :hide-title="true"
+          />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab :header="$t('budget.payments')">
+          <WMPaymentsTable
+            :project-id="projectId"
+            related-entity="customer"
+            :related-entity-id="route.params.id"
+            :read-only="true"
+            :columns="getCustomerPaymentsColumns()"
           />
         </AccordionTab>
       </Accordion>
@@ -425,6 +436,7 @@ const {
   getStatusConditionalStyle,
   getProjectDocumentColumns,
   getAssetColumnsforCustomerDetail,
+  getCustomerPaymentsColumns,
 } = useListUtils();
 
 const contactColumns = ref(getContactColumns());
@@ -457,8 +469,7 @@ onMounted(async () => {
 
 const { setSelectedContacts, getContactsFromApi } = useContacts();
 
-const { getCustomerFromApi, updateCustomer, parseCustomer, existsCustomer } =
-  useCustomers();
+const { getCustomerFromApi, updateCustomer, parseCustomer } = useCustomers();
 
 const fetchData = async () => {
   await optionSetsStore
@@ -542,23 +553,6 @@ const onSave = handleSubmit((values) => {
       toast.error("customer", "not-updated");
     });
 });
-
-const customerNumberExists = ref(false);
-const onCustomerNumberChanged = (event) => {
-  utilsStore.debounceAction(() => {
-    existsCustomer("id", event.target.value).then(
-      (exists) => (
-        (customerNumberExists.value = exists),
-        exists
-          ? setFieldError("number", {
-              key: "validation.exists",
-              values: { label: "customer.customer" },
-            })
-          : setFieldError("number", undefined)
-      )
-    );
-  });
-};
 
 function onProviderChanged(value) {
   isProvider.value = value;

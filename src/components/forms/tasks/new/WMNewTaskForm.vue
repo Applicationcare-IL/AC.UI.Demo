@@ -102,13 +102,13 @@
       </div>
       <Divider class="mb-0" layout="horizontal" />
       <div class="task-timing flex flex-auto flex-column gap-5">
-        <h2 class="h2 mb-0">Timing</h2>
+        <h2 class="h2 mb-0">{{ $t("task.timing") }}</h2>
         <div class="wm-form-row gap-5 align-items-baseline">
           <WMInput
             name="start_task"
             type="input-select-button"
             :highlighted="true"
-            :label="'Start task'"
+            :label="$t('task.start-task') + ':'"
             :options="startTaskOptions"
             :value="selectedStartTaskOption"
             width="80"
@@ -119,14 +119,14 @@
             v-if="selectedStartTaskOption.value === 'future'"
             id="start_date"
             type="date"
-            :label="'Start date'"
+            :label="$t('start-date') + ':'"
             name="start_date"
             :value="parseDate(today)"
           />
         </div>
 
         <div class="wm-form-row gap-5">
-          <WMToggleSwitch v-model="isRecurring" label="Recurring task">
+          <WMToggleSwitch v-model="isRecurring" :label="$t('task.recurring-task')">
             <WMNewTaskFormRecurringOptions
               :related-entity="relatedEntity"
               @update:selected-options="onRecurringOptionsChange"
@@ -149,11 +149,7 @@
         </div>
       </div>
     </div>
-    <WMFormButtons
-      v-if="isSidebar"
-      @save-form="onSubmit()"
-      @cancel-form="onCancel()"
-    />
+    <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
   </div>
 
   <WMPaymentRequestTaskDialog

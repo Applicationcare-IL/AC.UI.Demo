@@ -29,10 +29,7 @@
           :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
         >
           <span class="vertical-align-middle"> {{ $t("no-results") }} </span>
-          <a
-            class="vertical-align-middle orange-link"
-            @click="openRelatedSidebar()"
-          >
+          <a class="vertical-align-middle orange-link" @click="openRelatedSidebar()">
             {{ $t("buttons.create-new-one") + " + " }}
           </a>
         </div>
@@ -52,7 +49,12 @@
       v-if="props.multiple && type == 'tags'"
       class="selected-options flex flex-row gap-2"
     >
-      <Chip v-for="item in value" :label="item.name" :class="chipThemeClass">
+      <Chip
+        v-for="item in value"
+        :key="item.id"
+        :label="item.name"
+        :class="chipThemeClass"
+      >
         <span v-if="optionSet">
           <WMOptionSetValue :option-set="item" />
         </span>
@@ -152,7 +154,7 @@ watch(
   }
 );
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "update:value", "change", "remove"]);
 
 const openRelatedSidebar = () => {
   openSidebar(props.relatedSidebar);
@@ -180,9 +182,7 @@ const search = (event) => {
         filteredOptions.value = [...props.options];
       } else {
         filteredOptions.value = props.options.filter((option) => {
-          return option.value
-            .toLowerCase()
-            .startsWith(event.query.toLowerCase());
+          return option.value.toLowerCase().startsWith(event.query.toLowerCase());
         });
       }
     }
@@ -201,6 +201,7 @@ const search = (event) => {
 
 const onRemove = (item) => {
   value.value.splice(value.value.indexOf(item), 1);
+  emit("remove", item);
 };
 
 const onItemSelected = (item) => {

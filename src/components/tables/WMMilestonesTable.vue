@@ -101,10 +101,10 @@
       >
         <template #body="slotProps">
           <Tag
+            v-if="slotProps.data[column.field]"
             class="w-full"
             :value="slotProps.data[column.field][optionLabelWithLang]"
           />
-          <!-- :severity="getStatusLabel(slotProps.data[column.field])" -->
         </template>
       </Column>
       <Column
@@ -132,7 +132,7 @@ import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 const { optionLabelWithLang } = useLanguages();
 const { getMilestonesTableColumns } = useListUtils();
-const { getProjectMilestones } = useProjects();
+const { getMilestones } = useProjects();
 
 // INJECT
 
@@ -167,9 +167,11 @@ function openSidebar() {
 }
 
 const fetchData = () => {
-  const params = {};
+  const params = {
+    project: props.project.id,
+  };
 
-  getProjectMilestones(props.project.id, params).then((response) => {
+  getMilestones(params).then((response) => {
     milestones.value = response;
   });
 };

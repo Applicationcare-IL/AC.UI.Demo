@@ -143,32 +143,20 @@
             </template>
 
             <template #content>
-              <div class="flex flex-column gap-3">
+              <div class="flex flex-column gap-3 font-bold">
                 <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-teal-200 text-teal-900"
-                  :class="
-                    contact.open_services - contact.breached_services > 0
-                      ? 'bg-teal-200 text-teal-900'
-                      : 'bg-gray-100 text-gray-900'
-                  "
+                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
                 >
-                  <span class="font-size-20 font-weight-light">No breach</span>
-                  <span class="font-size-24 font-weight-bold">{{
-                    contact.open_services - contact.breached_services
-                  }}</span>
+                  <span class="font-size-20">{{ $t("sla.no_breach") }}</span>
+                  <span class="font-size-24">
+                    {{ contact.open_services - contact.breached_services }}
+                  </span>
                 </div>
                 <div
                   class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900"
-                  :class="
-                    contact.breached_services > 0
-                      ? 'bg-red-50 text-red-600'
-                      : 'bg-gray-100 text-gray-900'
-                  "
                 >
-                  <span class="font-size-20 font-weight-light">Breach</span>
-                  <span class="font-size-24 font-weight-bold">{{
-                    contact.breached_services
-                  }}</span>
+                  <span class="font-size-20">{{ $t("sla.breached") }}</span>
+                  <span class="font-size-24">{{ contact.breached_services }}</span>
                 </div>
               </div>
             </template>
@@ -176,35 +164,23 @@
         </div>
         <div class="card-container flex-1 middle-info-card">
           <Card>
-            <template #title>
-              {{ $t("task.open") }} : {{ contact.open_tasks }}</template
-            >
+            <template #title> {{ $t("task.open") }} : {{ contact.open_tasks }}</template>
             <template #content>
-              <div class="flex flex-column gap-3">
+              <div class="flex flex-column gap-3 font-bold">
                 <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm"
-                  :class="
-                    contact.open_tasks - contact.breached_tasks > 0
-                      ? 'bg-teal-200 text-teal-900'
-                      : 'bg-gray-100 text-gray-900'
-                  "
+                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
                 >
-                  <span class="font-size-20 font-weight-light">No breach</span>
-                  <span class="font-size-24 font-weight-bold">{{
+                  <span class="font-size-20">{{ $t("sla.no_breach") }}</span>
+                  <span class="font-size-24">{{
                     contact.open_tasks - contact.breached_tasks
                   }}</span>
                 </div>
                 <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm"
-                  :class="
-                    contact.breached_tasks > 0
-                      ? 'bg-red-50 text-red-600'
-                      : 'bg-gray-100 text-gray-900'
-                  "
+                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-red-100 text-red-700"
                 >
-                  <span class="font-size-20 font-weight-light">Breach</span>
-                  <span class="font-size-24 font-weight-bold"
-                    >{{ contact.breached_tasks }}
+                  <span class="font-size-20">{{ $t("sla.breached") }}</span>
+                  <span class="font-size-24">
+                    {{ contact.breached_tasks }}
                   </span>
                 </div>
               </div>
@@ -335,8 +311,12 @@ const {
   getProjectDocumentColumns,
 } = useListUtils();
 
-const { getContactFromApi, updateContact, parseContact, setSelectedContacts } =
-  useContacts();
+const {
+  getContactFromApi,
+  updateContact,
+  parseContact,
+  setSelectedContacts,
+} = useContacts();
 
 // PROPS, EMITS
 const props = defineProps({

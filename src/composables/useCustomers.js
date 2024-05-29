@@ -37,10 +37,8 @@ export function useCustomers() {
     return await customersStore.deactivateCustomer(id);
   };
 
-  const existsCustomer = async (field, value) => {
-    return false;
-    // TODO: implement this funcionality
-    // return await customersStore.existsCustomer(field, value);
+  const checkIfCustomerExists = async (customerNumber) => {
+    return await customersStore.checkIfCustomerExists(customerNumber);
   };
 
   const assignContactToCustomer = async (customerId, contact) => {
@@ -150,7 +148,7 @@ export function useCustomers() {
     updateCustomer,
     activateCustomer,
     deactivateCustomer,
-    existsCustomer,
+    checkIfCustomerExists,
     assignContactToCustomer,
     unassignContactFromCustomer,
     assignAssetToCustomer,

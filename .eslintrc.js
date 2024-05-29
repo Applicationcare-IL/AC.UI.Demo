@@ -5,6 +5,16 @@ module.exports = {
   plugins: ["simple-import-sort"],
   extends: ["eslint:recommended", "plugin:vue/vue3-recommended", "prettier"],
   rules: {
+    "max-len": [
+      "error",
+      {
+        code: 120,
+        ignoreUrls: true,
+        ignoreStrings: true,
+        ignoreTemplateLiterals: true,
+        ignoreRegExpLiterals: true,
+      },
+    ],
     "vue/component-api-style": [
       "error",
       ["script-setup", "composition"], // "script-setup", "composition", "composition-vue2", or "options"

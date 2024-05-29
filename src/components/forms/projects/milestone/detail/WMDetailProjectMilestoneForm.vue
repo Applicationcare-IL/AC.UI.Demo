@@ -1,9 +1,6 @@
 <template>
   <!-- <pre>{{ milestone }}</pre> -->
-  <div
-    v-if="milestone"
-    class="wm-detail-form-container flex flex-column overflow-auto gap-5"
-  >
+  <div v-if="milestone" class="wm-detail-form-container flex flex-column overflow-auto gap-5">
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1 card-container top-info-card">
         <Card>
@@ -24,9 +21,7 @@
                     {{ $t("milestone.status") + ":" }}
                   </label>
                   <span class="" style="width: 120px">
-                    <WMOptionSetValue
-                      :option-set="milestone.milestone_status"
-                    />
+                    <WMOptionSetValue :option-set="milestone.milestone_status" />
                   </span>
                 </div>
               </div>
@@ -66,9 +61,7 @@
                   name="plannedDate"
                   type="date"
                   :label="$t('milestone.planned-date') + ':'"
-                  :value="
-                    formatDate(new Date(milestone.planned_date), 'DD/MM/YYYY')
-                  "
+                  :value="milestone.planned_date"
                   :disabled="isMilestoneCompleted"
                 />
 
@@ -76,9 +69,7 @@
                   name="baseDate"
                   type="date"
                   :label="$t('milestone.base-date') + ':'"
-                  :value="
-                    formatDate(new Date(milestone.base_date), 'DD/MM/YYYY')
-                  "
+                  :value="milestone.base_date"
                   :disabled="isMilestoneCompleted"
                 />
 
@@ -86,9 +77,7 @@
                   name="actualDate"
                   type="date"
                   :label="$t('milestone.actual-date') + ':'"
-                  :value="
-                    formatDate(new Date(milestone.actual_date), 'DD/MM/YYYY')
-                  "
+                  :value="milestone.actual_date"
                   :disabled="isMilestoneCompleted"
                 />
               </div>
@@ -117,16 +106,14 @@
       </div>
     </div>
 
-    <div
-      v-if="milestone.milestone_type.value === 'payment'"
-      class="flex flex-row gap-5 flex-wrap"
-    >
+    <div v-if="milestone.milestone_type.value === 'payment'" class="flex flex-row gap-5 flex-wrap">
       <Accordion>
         <AccordionTab :header="$t('budget.payments')">
           <WMPaymentsTable
             ref="paymentsTableRef"
             :project-id="route.params.id"
             :milestone-id="route.params.milestoneId"
+            :columns="getPaymentsColumns()"
           />
         </AccordionTab>
       </Accordion>
@@ -151,8 +138,9 @@ const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 
-const { getProjectMilestone, updateProjectMilestone, parseMilestone } =
-  useProjects();
+const { getProjectMilestone, updateProjectMilestone, parseMilestone } = useProjects();
+
+const { getPaymentsColumns } = useListUtils();
 
 const route = useRoute();
 const toast = useToast();
@@ -182,21 +170,19 @@ const isMilestoneCompleted = computed(() => {
 const { handleSubmit, meta, resetForm } = useForm();
 
 const fetchData = async () => {
-  const response = await getProjectMilestone(
-    route.params.id,
-    route.params.milestoneId
-  );
+  const response = await getProjectMilestone(route.params.milestoneId);
 
   milestone.value = response;
   utilsStore.selectedElements["milestone"] = [response];
 };
 
 const onSave = handleSubmit((values) => {
-  updateProjectMilestone(
-    route.params.id,
-    route.params.milestoneId,
-    parseMilestone(values)
-  )
+  let data = {
+    ...parseMilestone(values),
+    project: milestone.value.project.id,
+  };
+
+  updateProjectMilestone(route.params.milestoneId, data)
     .then(() => {
       toast.success({ message: t("toast.milestone-updated") });
       resetForm({ values: values });
@@ -234,9 +220,7 @@ watch(
 onMounted(async () => {
   await fetchData();
 
-  milestoneTypes.value = await optionSetsStore.getOptionSetValuesFromApi(
-    "milestone_type"
-  );
+  milestoneTypes.value = await optionSetsStore.getOptionSetValuesFromApi("milestone_type");
 
   if (milestone.value.milestone_type) {
     selectedMilestoneType.value = milestoneTypes.value.find(

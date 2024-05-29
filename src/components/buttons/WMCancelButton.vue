@@ -1,7 +1,12 @@
 <template>
-  <WMTempButton :text="text" type="cancel" size="small" :is-disabled="isDisabled">
+  <WMTempButton
+    :text="text"
+    type="cancel"
+    size="small"
+    :is-disabled="isDisabled"
+  >
     <template #customIcon>
-      <div class="d-flex" v-html="CancelIcon" />
+      <div class="flex" v-html="CancelIcon" />
     </template>
   </WMTempButton>
 </template>

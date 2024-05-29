@@ -18,28 +18,58 @@
         </div>
       </div>
     </template>
+    <template v-if="props.relatedSidebar" #emptyfilter>
+      <div
+        class="flex flex-column m-2"
+        :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+      >
+        <span class="vertical-align-middle"> {{ $t("no-results") }} </span>
+        <a
+          class="vertical-align-middle orange-link cursor-pointer"
+          @click="openRelatedSidebar()"
+        >
+          {{ $t("buttons.create-new-one") + " + " }}
+        </a>
+      </div>
+    </template>
   </MultiSelect>
 </template>
 
 <script setup>
+// IMPORTS
 import { ref } from "vue";
 
+import { useLayout } from "@/layout/composables/layout";
+
+// DEPENDENCIES
+const { layoutConfig } = useLayout();
 const { getCustomersFromApi } = useCustomers();
-
-const modelValue = defineModel();
-
+const { openSidebar } = useSidebar();
 const { optionLabelWithLang } = useLanguages();
 
+// INJECT
+
+// PROPS, EMITS
+const modelValue = defineModel();
+
+const props = defineProps({
+  relatedSidebar: {
+    type: String,
+    default: null,
+  },
+});
+
+// REFS
+const groupedContacts = ref([]);
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
 let params = {
   r_small: true,
   with_contacts: true,
+  per_page: 99999,
 };
-
-getCustomersFromApi(params).then((data) => {
-  let customers = data.data;
-
-  mapContactsGroupedByCustomer(customers);
-});
 
 const mapContactsGroupedByCustomer = (customers) => {
   customers.forEach((customer) => {
@@ -69,7 +99,21 @@ const mapContactsGroupedByCustomer = (customers) => {
   });
 };
 
-const groupedContacts = ref([]);
+getCustomersFromApi(params).then((data) => {
+  let customers = data.data;
+
+  mapContactsGroupedByCustomer(customers);
+});
+
+const openRelatedSidebar = () => {
+  openSidebar(props.relatedSidebar);
+};
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
 <style lang="scss">

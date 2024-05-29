@@ -4,10 +4,7 @@
       {{ label }} <span v-if="required" class="text-red-500"> *</span>
     </label>
     <template v-if="readOnly">
-      <div
-        class="input-currency"
-        :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-      >
+      <div class="input-currency" :class="inputCurrencyClasses">
         <span class="vertical-align-middle">{{ shekelFormattedNumber }}</span>
         <img
           class="input-currency__icon vertical-align-middle mr-2"
@@ -17,10 +14,7 @@
       </div>
     </template>
     <template v-else>
-      <div
-        class="input-currency input-currency--editable"
-        :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-      >
+      <div :class="inputCurrencyClasses">
         <img
           class="input-currency__icon vertical-align-middle"
           src="/icons/shekel.svg"
@@ -88,6 +82,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  small: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // REFS
@@ -97,6 +95,15 @@ const shekelFormattedNumber = computed(() => {
   if (!modelValue.value) return "0.00";
 
   return modelValue.value.toLocaleString("he-IL", { minimumFractionDigits: 2 });
+});
+
+const inputCurrencyClasses = computed(() => {
+  return {
+    "input-currency": true,
+    "input-currency--editable": !props.readOnly,
+    "layout-rtl": layoutConfig.isRTL.value,
+    "text-base": props.small,
+  };
 });
 
 // COMPONENT METHODS AND LOGIC
@@ -127,14 +134,14 @@ const field = reactive(
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      right: 10px;
+      right: 5px;
       left: auto;
     }
   }
 
   &.layout-rtl {
     .input-currency__icon {
-      left: 10px;
+      left: 5px;
       right: auto;
     }
   }

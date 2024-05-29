@@ -1,21 +1,5 @@
 <template>
-  <WMSidebar
-    :visible="isVisible"
-    name="newTask"
-    :data="{ relatedEntity: relatedEntity, relatedEntityId: relatedEntityId }"
-    @close-sidebar="closeSidebar"
-    @open-sidebar="openSidebar"
-  >
-    <template #default="slotProps">
-      <WMNewTaskForm
-        :is-sidebar="true"
-        :related-entity="slotProps.props.data.relatedEntity"
-        :related-entity-id="slotProps.props.data.relatedEntityId"
-        @new-task-created="loadLazyData"
-      />
-    </template>
-  </WMSidebar>
-
+  <!-- HEADER -->
   <h2 v-if="!hideTitle" class="h2">{{ $t("task.tasks") }}</h2>
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
@@ -27,6 +11,27 @@
           @click="toggleSidebarVisibility"
           >{{ t("new") }}
         </WMButton>
+
+        <WMSidebar
+          :visible="isVisible"
+          name="newTask"
+          :data="{
+            relatedEntity: relatedEntity,
+            relatedEntityId: relatedEntityId,
+          }"
+          @close-sidebar="closeSidebar"
+          @open-sidebar="openSidebar"
+        >
+          <template #default="slotProps">
+            <WMNewTaskForm
+              :is-sidebar="true"
+              :related-entity="slotProps.props.data.relatedEntity"
+              :related-entity-id="slotProps.props.data.relatedEntityId"
+              @new-task-created="loadLazyData"
+            />
+          </template>
+        </WMSidebar>
+
         <WMAssignOwnerButton
           v-if="can('tasks.assign')"
           entity="task"
@@ -48,24 +53,30 @@
         <WMOwnerToggle entity="task" />
       </div>
     </div>
-    <div class="flex flex-row gap-3">
-      <WMSearchBox entity="task" />
-      <WMFilterButton
-        v-if="showFilter"
-        :is-active="isFilterApplied || isFilterOpen"
-        @click="openFilterSidebar"
-      />
+    <div class="flex flex-row justify-content-between">
+      <div class="flex flex-row gap-3">
+        <WMSearchBox entity="task" />
+        <WMFilterButton
+          v-if="showFilter"
+          :is-active="isFilterApplied || isFilterVisible"
+          @click="openFilterSidebar"
+        />
 
-      <WMSidebar
-        :visible="isFilterVisible"
-        name="filterTask"
-        @close-sidebar="closeFilterSidebar"
-        @open-sidebar="openFilterSidebar"
-      >
-        <WMFilterForm entity="task" filter-form-name="task" />
-      </WMSidebar>
+        <WMSidebar
+          :visible="isFilterVisible"
+          name="filterTask"
+          @close-sidebar="closeFilterSidebar"
+          @open-sidebar="openFilterSidebar"
+        >
+          <WMFilterForm entity="task" filter-form-name="task" />
+        </WMSidebar>
+      </div>
+
+      <!-- <WMTablePaginator /> -->
     </div>
   </div>
+
+  <!-- TABLE -->
   <DataTable
     v-model:selection="selectedTasks"
     lazy
@@ -251,11 +262,11 @@ const emit = defineEmits(["taskCompleted"]);
 
 // REFS
 const selectedTasks = ref([]);
-const isFilterOpen = ref(false);
 const tasks = ref([]);
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const searchValue = ref("");
+const currentPage = ref(1);
 
 const isVisible = ref(false);
 const isFilterVisible = ref(false);
@@ -269,14 +280,14 @@ const isFilterApplied = computed(() => {
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = () => {
   const filters = { ...utilsStore.filters["task"], ...props.filters };
-  const nextPage = lazyParams.value.page + 1;
+  currentPage.value = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = props.rows;
 
   // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams({
     ...filters,
-    page: nextPage,
+    page: currentPage.value,
     per_page: selectedRowsPerPageParam,
     search: searchValueParam,
     order_by: "stage_id",

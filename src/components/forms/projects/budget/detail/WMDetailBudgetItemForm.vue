@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="budgetItem"
-    class="wm-detail-form-container flex flex-column overflow-auto gap-5"
-  >
+  <div v-if="budgetItem" class="wm-detail-form-container flex flex-column overflow-auto gap-5">
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1 card-container top-info-card">
         <Card>
@@ -112,9 +109,7 @@
                   @change="recalculateBudgetItem"
                 />
 
-                <ArrowIcon
-                  :class="layoutConfig.isRTL.value ? '' : 'rotate-180'"
-                />
+                <ArrowIcon :class="layoutConfig.isRTL.value ? '' : 'rotate-180'" />
 
                 <WMHighlightedBlock
                   v-model="budgetItem.approved_ministry"
@@ -164,12 +159,8 @@ const { layoutConfig } = useLayout();
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();
-const {
-  getBudgetItem,
-  updateBudgetItem,
-  parseUpdateBudgetItem,
-  calculateBudgetItem,
-} = useProjects();
+const { getBudgetItem, updateBudgetItem, parseUpdateBudgetItem, calculateBudgetItem } =
+  useProjects();
 const route = useRoute();
 const toast = useToast();
 const { t } = useI18n();
@@ -193,7 +184,7 @@ const budgetItem = ref(null);
 const { handleSubmit, meta, resetForm, values } = useForm();
 
 const fetchData = () => {
-  getBudgetItem(route.params.id, route.params.budgetItemId).then((response) => {
+  getBudgetItem(route.params.budgetItemId).then((response) => {
     budgetItem.value = response;
     utilsStore.selectedElements["budget-item"] = [budgetItem.value];
   });
@@ -202,11 +193,7 @@ const fetchData = () => {
 fetchData();
 
 const onSave = handleSubmit((values) => {
-  updateBudgetItem(
-    route.params.id,
-    route.params.budgetItemId,
-    parseUpdateBudgetItem(values)
-  )
+  updateBudgetItem(route.params.budgetItemId, parseUpdateBudgetItem(values))
     .then(() => {
       toast.success({ message: t("toast.budget-item-updated") });
       resetForm({ values: values });
@@ -219,11 +206,7 @@ const onSave = handleSubmit((values) => {
 });
 
 const recalculateBudgetItem = useDebounceFn(() => {
-  calculateBudgetItem(
-    route.params.id,
-    route.params.budgetItemId,
-    parseUpdateBudgetItem(values)
-  )
+  calculateBudgetItem(route.params.budgetItemId, parseUpdateBudgetItem(values))
     .then((response) => {
       budgetItem.value = {
         ...budgetItem.value,

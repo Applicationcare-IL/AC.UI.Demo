@@ -139,7 +139,8 @@
             </template>
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
+                <div class="wm-form-row flex align-items-start gap-5">
+                  <!-- Area -->
                   <WMInput
                     name="area"
                     type="info"
@@ -148,6 +149,7 @@
                     :value="service.area"
                     option-set
                   />
+                  <!-- Subarea -->
                   <WMInput
                     name="type"
                     type="info"
@@ -156,6 +158,7 @@
                     :value="service.type"
                     option-set
                   />
+                  <!-- Service core -->
                   <WMInput
                     name="request1"
                     type="info"
@@ -165,29 +168,25 @@
                     option-set
                   />
                 </div>
-                <div v-if="service.is_active" class="wm-form-row gap-5">
-                  <!-- service.request2 {{ service.request2 }} -->
-                  <WMInputSearch
-                    v-model="service.request2"
+                <div
+                  v-if="service.is_active"
+                  class="wm-form-row flex align-items-start gap-5"
+                >
+                  <!-- Service subject -->
+                  <WMInput
                     name="request2"
+                    type="info"
                     :highlighted="true"
                     :label="$t('classification-4') + ':'"
-                    :options="requests2"
+                    :value="service.request2"
                     option-set
-                    @change="
-                      updateDropdown(
-                        'service_request_3',
-                        $event.value.id,
-                        'requests3'
-                      )
-                    "
                   />
-                  <WMInputSearch
-                    v-model="service.request3"
+                  <WMInput
                     name="request3"
+                    type="info"
                     :highlighted="true"
                     :label="$t('classification-5') + ':'"
-                    :options="requests3"
+                    :value="service.request3"
                     option-set
                   />
                 </div>

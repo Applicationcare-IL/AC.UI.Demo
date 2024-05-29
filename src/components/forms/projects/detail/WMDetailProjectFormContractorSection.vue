@@ -47,7 +47,7 @@
           type="date"
           :label="$t('project.site-tour-date') + ':'"
           name="site-tour-date"
-          :value="project.config.site_tour_date"
+          :value="parseDate(project.config.site_tour_date)"
           :disabled="!siteTourNeededSelectedOption.value || !isEditable"
         />
       </div>
@@ -62,6 +62,8 @@ import { useI18n } from "vue-i18n";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const { t } = useI18n();
+
+const { parseDate } = useDates();
 
 const props = defineProps({
   project: {

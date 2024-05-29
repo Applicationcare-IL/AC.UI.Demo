@@ -3,7 +3,7 @@
     <i class="pi pi-search" />
     <InputText
       v-model="modelValue"
-      class="w-30rem"
+      class="w-30rem searchbox"
       placeholder="Search"
       @input="input"
     />
@@ -11,6 +11,8 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
+
 import { useUtilsStore } from "../stores/utils";
 
 const utilsStore = useUtilsStore();
@@ -24,4 +26,14 @@ const props = defineProps({
 const input = (event) => {
   utilsStore.searchString[props.entity] = event.target.value;
 };
+
+onMounted(() => {
+  modelValue.value = utilsStore.searchString[props.entity];
+});
 </script>
+
+<style scoped>
+.searchbox {
+  height: 100%;
+}
+</style>

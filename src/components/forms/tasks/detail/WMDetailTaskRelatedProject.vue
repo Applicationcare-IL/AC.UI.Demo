@@ -11,9 +11,7 @@
             }"
             target="_blank"
           >
-            <Button>
-              {{ $t("project.open-project") }}
-            </Button>
+            <WMTempButton :text="$t('project.open-project')" type="primary" />
           </router-link>
         </div>
       </template>

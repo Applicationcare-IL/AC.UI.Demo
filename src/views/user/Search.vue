@@ -88,7 +88,8 @@
               </div>
             </router-link>
             <div v-if="item.entity">
-              {{ $t("related-entity") }}: {{ item.entity.name }}
+              {{ $t("related-entity") }} - {{ getEntityTranslation(item.entity.type) }}:
+              {{ item.entity.name ? item.entity.name : item.entity.id }}
             </div>
           </template>
         </div>
@@ -99,17 +100,24 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
 useHead({
   title: "Search page",
 });
 
+const { t } = useI18n();
+
 const route = useRoute();
 const { globalSearch } = useSearch();
 const { optionLabelWithLang } = useLanguages();
 
 const searchResults = ref([]);
+
+const getEntityTranslation = (entity) => {
+  return t(entity + "." + entity);
+};
 
 onMounted(() => {
   globalSearch({ search: route.params.query }).then((result) => {

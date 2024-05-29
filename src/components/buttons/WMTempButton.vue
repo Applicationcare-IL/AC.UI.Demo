@@ -1,5 +1,6 @@
 <template>
   <Button class="wm-button align-items-center justify-content-center" :class="classes">
+    <span v-if="badge" class="wm-button__badge">{{ badge }}</span>
     <i v-if="icon" class="pi" :class="icon"></i>
     <slot name="customIcon"></slot>
     <span>{{ text }}</span>
@@ -18,14 +19,27 @@ const props = defineProps({
     type: String,
     required: false,
   },
+  badge: {
+    type: Number,
+    required: false,
+  },
   type: {
     type: String,
     required: true,
     // validator
     validator: (value) => {
-      return ["type-1", "type-4", "type-5", "save", "clear", "saved", "cancel"].includes(
-        value
-      );
+      return [
+        "type-1",
+        "type-3",
+        "secondary",
+        "type-4",
+        "primary",
+        "type-5",
+        "save",
+        "clear",
+        "saved",
+        "cancel",
+      ].includes(value);
     },
   },
   size: String,
@@ -54,6 +68,8 @@ const classes = computed(() => {
   background-color: var(--gray-50);
   color: var(--blue-700);
   border: none;
+  position: relative;
+  overflow: initial;
 
   &:hover {
     background-color: var(--gray-100);
@@ -80,6 +96,33 @@ const classes = computed(() => {
   }
 }
 
+.secondary,
+.type-3 {
+  background-color: white;
+  color: var(--blue-700);
+  border: 1px solid var(--blue-700);
+
+  :deep(svg path) {
+    fill: var(--blue-700);
+  }
+
+  &:hover {
+    background-color: var(--blue-50);
+    color: var(--blue-700);
+    border: 1px solid var(--blue-700);
+  }
+
+  &:focus {
+    background-color: var(--blue-100);
+    color: var(--blue-700);
+  }
+
+  &.is-active {
+    border: 1px solid var(--blue-700);
+  }
+}
+
+.primary,
 .type-4 {
   background-color: var(--blue-600);
   color: white;
@@ -188,6 +231,7 @@ const classes = computed(() => {
   &.is-disabled {
     background-color: var(--gray-200);
     color: var(--gray-500);
+    border-color: var(--gray-500);
     cursor: not-allowed;
     outline: 0;
     box-shadow: none;
@@ -251,5 +295,23 @@ const classes = computed(() => {
   padding: 3px 6px;
   font-size: 1rem;
   height: 24px;
+}
+
+// BADGES
+.wm-button__badge {
+  background-color: var(--yellow-400);
+  color: var(--gray-900);
+  height: 18px;
+  width: 18px;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 4px 0px #00000040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  transform: translate(-50%, -50%);
 }
 </style>

@@ -7,7 +7,7 @@
     @click="handleCompleteTasks"
   >
     <template #customIcon>
-      <div class="d-flex" v-html="DoneIcon" />
+      <div class="flex" v-html="DoneIcon" />
     </template>
   </WMTempButton>
 

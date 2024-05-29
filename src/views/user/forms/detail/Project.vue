@@ -2,27 +2,94 @@
   <WMDetailFormSubHeader
     :form-key="formKey"
     @save-form="saveForm()"
-    @refresh-table="refreshTable"
-  />
+    @refresh-table="refreshProject"
+  >
+    <template #custom-secondary-buttons>
+      <WMCancelButton
+        v-if="can('projects.cancel')"
+        :is-disabled="!isProjectCancellable"
+        @click="handleCancelProject"
+      />
+    </template>
+  </WMDetailFormSubHeader>
   <WMDetailProjectForm ref="detailProjectForm" :form-key="formKey" />
 </template>
 
 <script setup>
-import { ref } from "vue";
+// IMPORTS
+import { computed, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
+import { useUtilsStore } from "@/stores/utils";
+
+// DEPENDENCIES
+const utilsStore = useUtilsStore();
+const dialog = useDialog();
+const toast = useToast();
+const { can } = usePermissions();
+const { cancelProject } = useProjects();
+const { t } = useI18n();
+
+// INJECT
+
+// PROPS, EMITS
+
+// REFS
+const selectedProject = ref(null);
+const formKey = ref("projectDetailForm");
+const detailProjectForm = ref(null);
+
+// COMPUTED
+const isProjectCancellable = computed(() => {
+  return (
+    selectedProject.value &&
+    selectedProject.value.status.value !== "canceled" &&
+    selectedProject.value.status.value !== "completed" &&
+    selectedProject.value.status.value !== "closed"
+  );
+});
+
+// COMPONENT METHODS AND LOGIC
 useHead({
   title: "Project Detail",
 });
 
-const formKey = ref("projectDetailForm");
+const handleCancelProject = async () => {
+  if (selectedProject.value && !isProjectCancellable.value) return;
 
-const detailProjectForm = ref(null);
+  let response = await dialog.confirmCancelProject();
+
+  if (response) {
+    cancelProject(selectedProject.value.id).then(() => {
+      refreshProject();
+    });
+
+    toast.info({
+      message: t("project.toast-project-cancelled-message"),
+      title: t("project.toast-project-cancelled-title"),
+      life: 5000,
+      group: "br",
+    });
+  }
+};
 
 const saveForm = () => {
   detailProjectForm.value.onSave();
 };
 
-const refreshTable = () => {
+const refreshProject = () => {
   detailProjectForm.value.fetchData();
 };
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+watch(
+  () => utilsStore.selectedElements["project"],
+  (value) => {
+    selectedProject.value = value[0];
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

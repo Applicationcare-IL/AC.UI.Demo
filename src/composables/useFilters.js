@@ -3,6 +3,9 @@ import { useI18n } from "vue-i18n";
 export function useFilters() {
   const { getTasksTypesFromApi } = useTasks();
   const { getCustomersFromApi } = useCustomers();
+  const { getProjectsFromApi, getMilestones, getBudgetItems } = useProjects();
+  const { getContactsFromApi } = useContacts();
+
   const i18n = useI18n();
 
   const searchTaskTypes = (query) => {
@@ -13,6 +16,44 @@ export function useFilters() {
 
   const searchCustomers = (query) => {
     return getCustomersFromApi({
+      search: query,
+    });
+  };
+
+  const searchProjects = async (query) => {
+    const response = await getProjectsFromApi({
+      search: query,
+    });
+
+    return {
+      data: response.projects,
+    };
+  };
+
+  const searchMilestones = async (query) => {
+    const response = await getMilestones({
+      search: query,
+    });
+
+    return {
+      data: response,
+    };
+  };
+
+  const searchBudgetItems = async (query) => {
+    const response = await getBudgetItems({
+      search: query,
+    });
+
+    console.log("searchBudgetItems", response);
+
+    return {
+      data: response,
+    };
+  };
+
+  const searchContacts = (query) => {
+    return getContactsFromApi({
       search: query,
     });
   };
@@ -269,29 +310,21 @@ export function useFilters() {
     ],
     task: [
       {
+        type: "state",
+        name: "state",
+        label: i18n.t("state") + ":",
+      },
+      {
         type: "entity",
         name: "task_type",
         label: i18n.t("task.type") + ":",
         placeholder: i18n.t("task.task-type-placeholder") + ":",
         searchFunction: searchTaskTypes,
       },
-      // {
-      //   type: "dropdown",
-      //   name: "task_family",
-      //   optionSet: "task_family",
-      //   label: i18n.t("task.family") + ":",
-      //   placeholder: i18n.t("task.task-family-placeholder") + ":",
-      // },
       {
         type: "sla_status",
         name: "sla",
         label: i18n.t("filters.service-sla-status") + ":",
-      },
-      {
-        type: "buttons",
-        name: "state",
-        optionSet: "state",
-        label: i18n.t("status") + ":",
       },
       {
         type: "date",
@@ -391,6 +424,58 @@ export function useFilters() {
         label: i18n.t("filters.open-date") + ":",
         from: "usage_start_date_from",
         to: "usage_start_date_to",
+      },
+    ],
+    payment: [
+      {
+        toggable: true,
+        type: "dropdown",
+        name: "payment_status",
+        optionSet: "payment_status",
+        label: i18n.t("payments.status") + ":",
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "projects",
+        label: i18n.t("project.project") + ":",
+        searchFunction: searchProjects,
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "milestones",
+        label: i18n.t("milestone.milestones") + ":",
+        searchFunction: searchMilestones,
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "budget-item",
+        label: i18n.t("budget.budget-item") + ":",
+        searchFunction: searchBudgetItems,
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "customers",
+        label: i18n.t("project.organization") + ":",
+        searchFunction: searchCustomers,
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "contacts",
+        label: i18n.t("contact.contacts") + ":",
+        searchFunction: searchContacts,
+      },
+      {
+        toggable: true,
+        type: "date",
+        name: "open",
+        label: i18n.t("payments.payment-date") + ":",
+        from: "payment_date_from",
+        to: "payment_date_to",
       },
     ],
   };

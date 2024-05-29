@@ -17,6 +17,7 @@
           :options="contactProjects"
           custom-option-label="project_name"
           width="350"
+          required
           @update:selected-item="onProjectChange"
         />
 
@@ -29,6 +30,7 @@
           :options="contactRolesInProject"
           width="350"
           option-set
+          required
           @update:selected-item="onRoleChange"
         />
       </div>
@@ -39,6 +41,7 @@
           :label="$t('payments.remains-to-be-paid') + ':'"
           :read-only="true"
           name="remains-to-be-paid"
+          :small="true"
         />
 
         <WMInputCurrency
@@ -46,6 +49,7 @@
           :label="$t('payments.paid-so-far') + ':'"
           :read-only="true"
           name="paid-so-far"
+          :small="true"
         />
       </div>
 
@@ -58,6 +62,7 @@
           :options="invoiceTypeOptions"
           :value="selectedInvoiceType"
           width="80"
+          required
           @update:selected-item="onInvoiceTypeChange"
         />
       </div>
@@ -78,9 +83,18 @@
           required
           name="amount"
         />
+
+        <WMInput
+          v-model="paymentDate"
+          :value="paymentDate"
+          name="payment_date"
+          type="date"
+          :label="$t('payments.invoice-date') + ':'"
+          required
+        />
       </div>
 
-      <div class="flex flex-row gap-2">
+      <div class="flex-row gap-2" :class="file ? 'hidden' : 'flex'">
         <input
           ref="fileInput"
           type="file"
@@ -91,12 +105,17 @@
 
         <WMTempButton
           :text="$t('buttons.upload-file')"
-          type="type-5"
+          type="type-3"
+          size="small"
           @click="openUploadAttachment"
-        />
+        >
+          <template #customIcon>
+            <div class="flex" v-html="AttachIcon" />
+          </template>
+        </WMTempButton>
       </div>
 
-      <div v-if="file" class="flex flex-column gap-2 mt-3">
+      <div v-if="file" class="flex flex-column gap-2">
         <div class="flex w-full gap-3 flex-column">
           <div
             class="attachment flex w-full justify-content-between pl-3 align-items-center justify-content-center"
@@ -125,15 +144,16 @@
       </div>
 
       <div class="flex gap-2 mt-5 justify-content-end">
-        <Button
-          type="button"
-          :label="$t('buttons.cancel')"
-          severity="secondary"
+        <WMTempButton
+          :text="$t('buttons.cancel')"
+          type="type-3"
+          :is-active="false"
           @click="modelValue = false"
         />
-        <Button
-          type="button"
-          :label="$t('task.create-payment-request')"
+        <WMTempButton
+          :text="$t('task.create-payment-request')"
+          type="type-4"
+          :is-active="false"
           @click="handleCreatePaymentRequestTask"
         />
       </div>
@@ -143,10 +163,13 @@
 
 <script setup>
 // IMPORTS
+import { useForm } from "vee-validate";
 import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
+import AttachIcon from "/icons/attach_file_default.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
+import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const { getProjectsFromApi, getProjectTeamRoles } = useProjects();
@@ -154,6 +177,8 @@ const { layoutConfig } = useLayout();
 const { createTask, parseTask, getPaymentTaskInfo } = useTasks();
 const { t } = useI18n();
 const { uploadAttachment } = useAttachments();
+const { formatDate } = useDates();
+const formUtilsStore = useFormUtilsStore();
 
 // INJECT
 
@@ -174,9 +199,11 @@ const contactProjects = ref([]);
 const contactRolesInProject = ref([]);
 const invoiceNumber = ref("");
 const amount = ref(0);
+const paymentDate = ref(new Date());
 
 const fileInput = ref(null);
 const file = ref();
+const taskInfo = ref();
 
 const invoiceTypeOptions = [
   { value: "invoice", name: t("payments.invoice") },
@@ -190,6 +217,10 @@ const paidSoFar = ref(0);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const { handleSubmit } = useForm({
+  validationSchema: formUtilsStore.getPaymentRequestTaskFormValidationSchema,
+});
+
 const handleCreatePaymentRequestTask = () => {
   const payment = {
     project_team: selectedProjectTeam.value,
@@ -197,10 +228,12 @@ const handleCreatePaymentRequestTask = () => {
 
   if (selectedInvoiceType.value.value === "invoice") {
     payment.invoice_number = invoiceNumber.value;
-    payment.amount_paid = amount.value;
+    payment.invoice_amount = amount.value;
+    payment.invoice_date = formatDate(paymentDate.value);
   } else {
     payment.proforma_invoice_number = invoiceNumber.value;
     payment.proforma_invoice_amount = amount.value;
+    payment.proforma_invoice_date = formatDate(paymentDate.value);
   }
 
   const task = {
@@ -208,7 +241,15 @@ const handleCreatePaymentRequestTask = () => {
     payment,
   };
 
-  createTask(parseTask(task))
+  taskInfo.value = task;
+
+  onSave();
+};
+
+const onSave = handleSubmit((values) => {
+  console.log("values", values);
+
+  createTask(parseTask(taskInfo.value))
     .then(async (response) => {
       modelValue.value = false;
 
@@ -219,7 +260,7 @@ const handleCreatePaymentRequestTask = () => {
     .catch((error) => {
       console.error(error);
     });
-};
+});
 
 const uploadPaymentAttachment = async (paymentId) => {
   const formData = new FormData();

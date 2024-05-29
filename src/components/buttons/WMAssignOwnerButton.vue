@@ -8,15 +8,20 @@
     @click="toggle"
   >
     <template #customIcon>
-      <div class="d-flex" v-html="AsignIcon" />
+      <div class="flex" v-html="AsignIcon" />
     </template>
   </WMTempButton>
-  <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
+  <OverlayPanel
+    ref="isOpen"
+    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+  >
     <div class="flex flex-column gap-2">
       <span> {{ $t("selected-contacts") }}: </span>
       <div class="flex flex-row gap-2">
         <Chip
-          v-for="(item, index) in utilsStore.selectedElements[props.entity]?.slice(0, 3)"
+          v-for="(item, index) in utilsStore.selectedElements[
+            props.entity
+          ]?.slice(0, 3)"
           :key="index"
         >
           {{ item.name }}

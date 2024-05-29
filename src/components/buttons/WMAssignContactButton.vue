@@ -1,7 +1,7 @@
 <template>
   <WMTempButton :text="$t('buttons.link_contact')" type="type-4" @click="toggle">
     <template #customIcon>
-      <div class="d-flex" v-html="PersonIcon" />
+      <div class="flex" v-html="PersonIcon" />
     </template>
   </WMTempButton>
 
@@ -52,20 +52,8 @@
       <WMSearchContactsGroupedByCustomer
         v-if="isContactsSelected"
         v-model="selectedContacts"
-      />
-
-      <!-- <WMInputSearch
-        v-if="isContactsSelected"
-        name="contact"
-        :placeholder="$t('contact.search-contacts')"
-        :multiple="true"
-        width="248"
-        :search-function="searchContact"
-        :new="true"
         related-sidebar="newContactFromAssignContactButton"
-        :model-value="selectedContacts"
-        @update:model-value="onContactselected"
-      /> -->
+      />
 
       <WMTempButton
         :text="$t('buttons.link')"
@@ -110,7 +98,7 @@ import PersonIcon from "/icons/person.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES
-const { getContactsFromApi, getContactFromApi } = useContacts();
+const { getContactFromApi } = useContacts();
 const { layoutConfig } = useLayout();
 const { can } = usePermissions();
 const { getTeams } = useEmployees();
@@ -175,12 +163,14 @@ const handleLinkContacts = () => {
       team.employees.forEach((employee) => {
         if (!employee.contact) return;
 
-        selectedContacts.value.push(employee.contact);
+        selectedContacts.value.push({
+          ...employee.contact,
+          contact_id: employee.contact.id, // needed to unlink a contact
+        });
       });
     });
   }
 
-  console.log("emit", selectedContacts.value);
   emit("addContacts", selectedContacts.value);
 };
 

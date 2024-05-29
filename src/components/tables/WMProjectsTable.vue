@@ -286,8 +286,11 @@ const loadLazyData = () => {
     ...filters,
     page: nextPage,
     per_page: selectedRowsPerPageParam,
-    search: searchValueParam,
   });
+
+  if (searchValueParam) {
+    params.append("search", searchValueParam);
+  }
 
   if (props.relatedEntity == "contact") {
     params.append("contact", props.relatedEntityId);

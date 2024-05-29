@@ -625,7 +625,7 @@ export function useListUtils() {
         name: "proforma-invoice-file",
         type: "attachment",
         fileName: "proforma_invoice",
-        header: "payment.proforma-invoice-file",
+        header: "payments.proforma-invoice-file",
       },
       {
         name: "proforma-invoice-date",
@@ -649,7 +649,7 @@ export function useListUtils() {
         name: "proforma-invoice",
         type: "attachment",
         fileName: "invoice",
-        header: "payment.invoice-file",
+        header: "payments.invoice-file",
       },
       {
         name: "invoice-date",
@@ -658,9 +658,33 @@ export function useListUtils() {
         editable: true,
       },
       {
+        name: "invoice-amount",
+        type: "currency",
+        field: "invoice_amount",
+        editable: false,
+      },
+      {
         name: "terms-of-payment",
         type: "terms-of-payment",
         field: "basic_term",
+        editable: true,
+      },
+      {
+        name: "calculate-term",
+        type: "text",
+        field: "calculate_term",
+        editable: false,
+      },
+      {
+        name: "payment-date",
+        type: "calendar",
+        field: "payment_date",
+        editable: false,
+      },
+      {
+        name: "amount-approved-to-be-paid",
+        type: "currency",
+        field: "amount_approved",
         editable: true,
       },
       {
@@ -668,12 +692,6 @@ export function useListUtils() {
         type: "currency",
         field: "amount_paid",
         editable: true,
-      },
-      {
-        name: "payment-date",
-        type: "calendar",
-        field: "payment_date",
-        editable: false,
       },
       {
         name: "reported",
@@ -688,9 +706,143 @@ export function useListUtils() {
         editable: true,
       },
       {
+        name: "batch-number",
+        type: "text",
+        field: "batch_number",
+        editable: true,
+      },
+    ];
+  };
+
+  const getCustomerPaymentsColumns = () => {
+    return [
+      {
+        name: "payment-number",
+        type: "text",
+        field: "id",
+        editable: false,
+      },
+      {
+        name: "budget-item-number",
+        type: "budget-item",
+        editable: true,
+        field: "budget_item",
+      },
+      {
+        name: "project_team",
+        type: "project_team",
+        field: "project_team",
+        header: "project.team",
+        editable: true,
+      },
+      {
+        name: "project",
+        type: "project",
+        editable: false,
+        field: "project",
+        header: "project.project",
+      },
+      {
+        name: "milestone",
+        type: "milestone",
+        field: "milestone",
+        header: "milestone.milestone",
+        editable: true,
+      },
+      {
+        name: "status",
+        type: "status",
+        field: "payment_status",
+        editable: true,
+      },
+      {
+        name: "proforma-invoice-number",
+        type: "text",
+        field: "proforma_invoice_number",
+        editable: true,
+      },
+      {
+        name: "proforma-invoice-file",
+        type: "attachment",
+        fileName: "proforma_invoice",
+        header: "payments.proforma-invoice-file",
+      },
+      {
+        name: "proforma-invoice-date",
+        type: "calendar",
+        field: "proforma_invoice_date",
+        editable: true,
+      },
+      {
+        name: "proforma-invoice-amount",
+        type: "currency",
+        field: "proforma_invoice_amount",
+        editable: true,
+      },
+      {
+        name: "invoice-number",
+        type: "text",
+        field: "invoice_number",
+        editable: true,
+      },
+      {
+        name: "proforma-invoice",
+        type: "attachment",
+        fileName: "invoice",
+        header: "payments.invoice-file",
+      },
+      {
+        name: "invoice-date",
+        type: "calendar",
+        field: "invoice_date",
+        editable: true,
+      },
+      {
+        name: "invoice-amount",
+        type: "currency",
+        field: "invoice_amount",
+        editable: false,
+      },
+      {
+        name: "terms-of-payment",
+        type: "terms-of-payment",
+        field: "basic_term",
+        editable: true,
+      },
+      {
+        name: "calculate-term",
+        type: "text",
+        field: "calculate_term",
+        editable: false,
+      },
+      {
+        name: "payment-date",
+        type: "calendar",
+        field: "payment_date",
+        editable: false,
+      },
+      {
         name: "amount-approved-to-be-paid",
         type: "currency",
         field: "amount_approved",
+        editable: true,
+      },
+      {
+        name: "amount-paid",
+        type: "currency",
+        field: "amount_paid",
+        editable: true,
+      },
+      {
+        name: "reported",
+        type: "checkbox",
+        field: "reported",
+        editable: true,
+      },
+      {
+        name: "date-reported-date",
+        type: "calendar",
+        field: "report_date",
         editable: true,
       },
       {
@@ -859,6 +1011,17 @@ export function useListUtils() {
         editable: false,
       },
       { name: "customers", type: "customers", header: "project.organization" },
+      {
+        name: "basic_term",
+        type: "text",
+        optionSet: true,
+        header: "project.basic-term",
+      },
+      {
+        name: "calculate_term",
+        type: "text",
+        header: "project.calculate-term",
+      },
       {
         name: "role_project",
         type: "role_project",
@@ -1029,6 +1192,7 @@ export function useListUtils() {
     getProjectDocumentColumns,
     getBudgetItemsTableColumns,
     getPaymentsColumns,
+    getCustomerPaymentsColumns,
     getTaskDocumentColumns,
     getServiceDocumentsColumns,
     getSignatureTaskColumns,

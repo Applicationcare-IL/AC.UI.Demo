@@ -4,6 +4,7 @@ import { useProjectsStore } from "@/stores/projectsStore";
 export function useProjects() {
   const projectsStore = useProjectsStore();
   const optionSetsStore = useOptionSetsStore();
+  const { formatDateToAPI, formatDateFromAPI } = useDates();
 
   // ACTIONS
   const getProjectsFromApi = async (params) => {
@@ -68,11 +69,7 @@ export function useProjects() {
     return await projectsStore.updateProjectCustomer(projectId, data);
   };
 
-  const deleteProjectCustomer = async (
-    projectId,
-    customerId,
-    serviceAreaId
-  ) => {
+  const deleteProjectCustomer = async (projectId, customerId, serviceAreaId) => {
     const data = {
       customer: customerId,
       service_area: serviceAreaId,
@@ -83,6 +80,10 @@ export function useProjects() {
 
   const exportProjects = async (params) => {
     return await projectsStore.exportProjects(params);
+  };
+
+  const cancelProject = async (projectId) => {
+    return await projectsStore.cancelProject(projectId);
   };
 
   // TEAM
@@ -114,8 +115,8 @@ export function useProjects() {
     return await projectsStore.updateBudget(projectId, data);
   };
 
-  const getBudgetItems = async (projectId, params) => {
-    const response = await projectsStore.getBudgetItems(projectId, params);
+  const getBudgetItems = async (params) => {
+    const response = await projectsStore.getBudgetItems(params);
 
     const budgetItems = response.data.map((budgetItem) => {
       return mapBudgetItem(budgetItem);
@@ -126,18 +127,18 @@ export function useProjects() {
     return { budgetItems, totalRecords };
   };
 
-  const getBudgetItem = async (projectId, budgetItemId) => {
-    const response = await projectsStore.getBudgetItem(projectId, budgetItemId);
+  const getBudgetItem = async (budgetItemId) => {
+    const response = await projectsStore.getBudgetItem(budgetItemId);
 
     return mapBudgetItem(response.data);
   };
 
-  const createBudgetItem = async (projectId, data) => {
-    return await projectsStore.createBudgetItem(projectId, data);
+  const createBudgetItem = async (data) => {
+    return await projectsStore.createBudgetItem(data);
   };
 
-  const updateBudgetItem = async (projectId, budgetItemId, data) => {
-    return await projectsStore.updateBudgetItem(projectId, budgetItemId, data);
+  const updateBudgetItem = async (budgetItemId, data) => {
+    return await projectsStore.updateBudgetItem(budgetItemId, data);
   };
 
   const calculateBudget = async (projectId, data) => {
@@ -145,12 +146,8 @@ export function useProjects() {
     return response;
   };
 
-  const calculateBudgetItem = async (projectId, budgetItemId, data) => {
-    return await projectsStore.calculateBudgetItem(
-      projectId,
-      budgetItemId,
-      data
-    );
+  const calculateBudgetItem = async (budgetItemId, data) => {
+    return await projectsStore.calculateBudgetItem(budgetItemId, data);
   };
 
   const calculateNewBudgetItem = async (data) => {
@@ -179,29 +176,23 @@ export function useProjects() {
   };
 
   // MILESTONES
-  const createMilestone = async (projectId, data) => {
-    return await projectsStore.createMilestone(projectId, data);
+  // TODO: with the refactoring of the milestones, we should probably extract this to a separate composable
+  const createMilestone = async (data) => {
+    return await projectsStore.createMilestone(data);
   };
 
-  const getProjectMilestones = async (projectId, params) => {
-    return await projectsStore.getProjectMilestones(projectId, params);
+  const getMilestones = async (params) => {
+    return await projectsStore.getMilestones(params);
   };
 
-  const getProjectMilestone = async (projectId, milestoneId) => {
-    const response = await projectsStore.getProjectMilestone(
-      projectId,
-      milestoneId
-    );
+  const getProjectMilestone = async (milestoneId) => {
+    const response = await projectsStore.getProjectMilestone(milestoneId);
 
     return mapMilestone(response);
   };
 
-  const updateProjectMilestone = async (projectId, milestoneId, data) => {
-    return await projectsStore.updateProjectMilestone(
-      projectId,
-      milestoneId,
-      data
-    );
+  const updateProjectMilestone = async (milestoneId, data) => {
+    return await projectsStore.updateProjectMilestone(milestoneId, data);
   };
 
   const completeMilestone = async (projectId, milestoneId) => {
@@ -210,26 +201,19 @@ export function useProjects() {
       "complete"
     );
 
-    const inactiveStateId = await optionSetsStore.getValueId(
-      "state",
-      "not_active"
-    );
+    const inactiveStateId = await optionSetsStore.getValueId("state", "not_active");
 
     const data = {
       milestone_status: completeMilestoneStatusId,
       state: inactiveStateId,
     };
 
-    return await projectsStore.updateProjectMilestone(
-      projectId,
-      milestoneId,
-      data
-    );
+    return await projectsStore.updateProjectMilestone(milestoneId, data);
   };
 
   // UTILITIES
   const parseProject = (project) => {
-    return {
+    let parsedProject = {
       name: project["project-name"],
       description: project["project-description"],
       project_type: project.project_type?.id,
@@ -240,18 +224,43 @@ export function useProjects() {
         return {
           id: teamMember.id,
           role: teamMember.role_project,
+          customer: teamMember.customer.id,
         };
       }),
-      location: {
+    };
+
+    let location = {};
+
+    let addressOptions = {};
+    if (project.showAddressOptions) {
+      addressOptions = {
         city: project.city?.id,
         street: project.street?.id,
         house_number: project["house-number"],
+        neighborhood: project.neighborhood,
+      };
+    }
+
+    let cityData = {};
+    if (project.showCityDataOptions) {
+      cityData = {
         block: project.block,
         parcel: project.parcel,
         sub_parcel: project["sub-parcel"],
-        neighborhood: project.neighborhood,
-      },
+      };
+    }
+
+    location = {
+      ...addressOptions,
+      ...cityData,
     };
+
+    parsedProject = {
+      ...parsedProject,
+      location: location,
+    };
+
+    return parsedProject;
   };
 
   const parseUpdateProject = (project) => {
@@ -325,8 +334,7 @@ export function useProjects() {
   };
 
   const parseUpdateProjectConfig = (project) => {
-    let isTender =
-      project["contractor-option"].value === "tender" ? true : false;
+    let isTender = project["contractor-option"].value === "tender" ? true : false;
 
     let notTenderResponse = {
       tender: false,
@@ -372,9 +380,7 @@ export function useProjects() {
     const month = newDate.getMonth() + 1; // Note: months are 0-based
     const day = newDate.getDate();
 
-    const dateISO = `${year}-${month < 10 ? "0" : ""}${month}-${
-      day < 10 ? "0" : ""
-    }${day}`;
+    const dateISO = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
 
     return dateISO;
   }
@@ -395,27 +401,51 @@ export function useProjects() {
   };
 
   const parseProjectPayment = (payment) => {
-    return {
-      ...payment,
+    let result = {
       proforma_invoice_date: parseDate(payment.proforma_invoice_date),
+      proforma_invoice_number: payment.proforma_invoice_number
+        ? payment.proforma_invoice_number
+        : "",
+      proforma_invoice_amount: payment.proforma_invoice_amount
+        ? payment.proforma_invoice_amount
+        : 0,
       invoice_date: parseDate(payment.invoice_date),
+      invoice_number: payment.invoice_number,
       payment_date: parseDate(payment.payment_date),
       report_date: parseDate(payment.report_date),
-      terms_of_payment: payment.terms_of_payment_id,
-      milestone_id: payment.milestone,
+      budget_item: payment.budget_item.id,
       reported: payment.reported ? true : false,
+      payment_status: payment.payment_status,
+      amount_paid: payment.amount_paid ? payment.amount_paid : 0,
+      amount_approved: payment.amount_approved ? payment.amount_approved : 0,
+      batch_number: payment.batch_number,
+      basic_term: payment.basic_term,
     };
+
+    if (payment.terms_of_payment_id) {
+      payment.terms_of_payment = payment.terms_of_payment_id;
+    }
+
+    if (payment.milestone?.id) {
+      result.milestone = payment.milestone.id;
+    }
+
+    if (payment.project_team?.id) {
+      result.project_team = payment.project_team.id;
+    }
+
+    return result;
   };
 
   const parseMilestone = (milestone) => {
     return {
       name: milestone["milestone-name"],
-      project_id: milestone.project_id,
+      project: milestone.project,
       milestone_type: milestone.type?.id,
       description: milestone.description,
-      planned_date: parseDate(milestone.plannedDate),
-      actual_date: parseDate(milestone.actualDate),
-      base_date: parseDate(milestone.baseDate),
+      planned_date: formatDateToAPI(milestone.plannedDate),
+      actual_date: formatDateToAPI(milestone.actualDate),
+      base_date: formatDateToAPI(milestone.baseDate),
     };
   };
 
@@ -433,8 +463,8 @@ export function useProjects() {
       project_type: project.project_type,
       project_area: project.project_area,
       project_detail: project.project_detail,
-      open_tasks: 0, //project.open_tasks,
-      breached_tasks: 0, //project.breached_tasks,
+      open_tasks: project.open_tasks,
+      breached_tasks: project.breached_tasks,
       stage: project.process?.current_stage?.name,
       status: project.status,
       state: project.state,
@@ -481,26 +511,24 @@ export function useProjects() {
     return {
       title: budgetItem.name,
       ...budgetItem,
-      test: budgetItem.total_approved ? budgetItem.total_approved : 8,
-      total: budgetItem.total_approved
-        ? budgetItem.total_approved
-        : budgetItem.total,
+      total: budgetItem.total_approved ? budgetItem.total_approved : budgetItem.total,
     };
   };
 
   const mapProjectTeamMember = (teamMember) => {
     return {
-      id: teamMember.id,
-      contact_id: teamMember.contact.id,
+      id: teamMember?.id,
+      contact_id: teamMember?.contact?.id,
       name:
-        teamMember.contact.name +
+        teamMember?.contact?.name +
         " " +
-        teamMember.contact.surname +
+        teamMember?.contact?.surname +
         " - " +
-        teamMember.role_project?.value_en +
+        teamMember?.role_project?.value_en +
         " - " +
-        teamMember.customer?.name,
-      basic_term: teamMember.basic_term?.id,
+        teamMember?.customer?.name,
+      basic_term: teamMember.basic_term,
+      calculate_term: teamMember.calculate_term,
       contact_name: teamMember.contact.name,
       telephone: teamMember.contact.phone,
       email: teamMember.contact.email,
@@ -515,17 +543,22 @@ export function useProjects() {
     };
   };
 
+  const mapShortMilestone = (milestone) => {
+    return {
+      id: milestone.id,
+      name: milestone.name,
+    };
+  };
+
   const mapPayment = (payment) => {
     return {
       ...payment,
-      budget_item: payment.budget_item?.id,
-      // customer: payment.customer.id,
+      budget_item: mapBudgetItem(payment.budget_item),
       payment_status: payment.payment_status?.id,
-      proforma_invoice_date: formatDate(
-        new Date(payment.proforma_invoice_date),
-        "DD/MM/YY"
-      ),
-      project_team: payment.project_team?.id,
+      proforma_invoice_date: formatDate(new Date(payment.proforma_invoice_date), "DD/MM/YY"),
+      project_team: payment.project_team ? mapProjectTeamMember(payment.project_team) : null,
+      milestone: payment.milestone ? mapShortMilestone(payment.milestone) : null,
+      project: payment.budget_item?.project,
     };
   };
 
@@ -554,8 +587,7 @@ export function useProjects() {
     }
 
     const uniqueContacts = contacts.filter(
-      (contact, index, self) =>
-        index === self.findIndex((t) => t.id === contact.id)
+      (contact, index, self) => index === self.findIndex((t) => t.id === contact.id)
     );
 
     return uniqueContacts;
@@ -580,6 +612,9 @@ export function useProjects() {
   const mapMilestone = (milestone) => {
     return {
       ...milestone,
+      planned_date: formatDateFromAPI(milestone.planned_date),
+      actual_date: formatDateFromAPI(milestone.actual_date),
+      base_date: formatDateFromAPI(milestone.base_date),
       title: milestone.name,
     };
   };
@@ -612,7 +647,7 @@ export function useProjects() {
     calculateBudgetItem,
     calculateNewBudgetItem,
     getProjectMilestone,
-    getProjectMilestones,
+    getMilestones,
     createMilestone,
     updateProjectMilestone,
     completeMilestone,
@@ -620,6 +655,7 @@ export function useProjects() {
     getProjectTeam,
     getProjectTeamRoles,
     updateTeamMember,
+    cancelProject,
     // UTILITIES
     parseProject,
     parseBudget,
@@ -634,5 +670,6 @@ export function useProjects() {
     mapContactsFromProjects,
     mapProjectCustomer,
     mapMilestone,
+    mapShortMilestone,
   };
 }
