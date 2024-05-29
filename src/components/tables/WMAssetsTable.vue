@@ -1,19 +1,4 @@
 <template>
-  <WMSidebar
-    :visible="isVisible"
-    name="newService"
-    @close-sidebar="closeSidebar"
-    @open-sidebar="openSidebar"
-  >
-    <WMNewEntityFormHeader entity="service" name="newService" />
-    <WMNewServiceForm
-      :is-sidebar="true"
-      :related-entity="selectedAssets[0]"
-      :related-entity-id="selectedAssets[0]?.id"
-      @close-sidebar="closeSidebar"
-      @new-service-created="loadLazyData"
-    />
-  </WMSidebar>
   <h2 v-if="!hideTitle" class="h2">{{ $t("asset.asset") }}</h2>
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
@@ -25,17 +10,25 @@
           icon-position="right"
           :disabled="selectedAssets?.length != 1"
           @click="toggleSidebarVisibility"
-          >{{ t("new", ["service.service"]) }}</WMButton
         >
+          {{ t("new", ["service.service"]) }}
+        </WMButton>
 
-        <!-- <WMButton
-          v-if="can(utilsStore.pluralEntity + '.export')"
-          class="m-1 col-6"
-          name="export-white"
-          icon="export"
+        <WMSidebar
+          :visible="isVisible"
+          name="newAsset"
+          @close-sidebar="closeSidebar"
+          @open-sidebar="openSidebar"
         >
-          {{ $t("export") }}
-        </WMButton> -->
+          <WMNewEntityFormHeader entity="service" name="newAsset" />
+          <WMNewServiceForm
+            :is-sidebar="true"
+            :related-entity="selectedAssets[0]"
+            :related-entity-id="selectedAssets[0]?.id"
+            @close-sidebar="closeSidebar"
+            @new-service-created="loadLazyData"
+          />
+        </WMSidebar>
 
         <Divider layout="vertical" />
 
@@ -45,11 +38,7 @@
         />
       </div>
 
-      <WMButton
-        v-if="env.DEV"
-        name="refresh"
-        class="m-1 col-6"
-        @click="loadLazyData"
+      <WMButton v-if="env.DEV" name="refresh" class="m-1 col-6" @click="loadLazyData"
         >Refresh
       </WMButton>
       <div class="flex flex-row align-items-center gap-3">
@@ -74,6 +63,7 @@
       <WMSearchBox entity="asset" />
     </div>
   </div>
+
   <DataTable
     v-model:selection="selectedAssets"
     lazy
@@ -89,11 +79,7 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selection-mode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
