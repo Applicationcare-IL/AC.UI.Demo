@@ -163,7 +163,10 @@ const handleLinkContacts = () => {
       team.employees.forEach((employee) => {
         if (!employee.contact) return;
 
-        selectedContacts.value.push(employee.contact);
+        selectedContacts.value.push({
+          ...employee.contact,
+          contact_id: employee.contact.id, // needed to unlink a contact
+        });
       });
     });
   }
