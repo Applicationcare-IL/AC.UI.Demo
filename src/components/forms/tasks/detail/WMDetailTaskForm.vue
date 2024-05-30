@@ -208,7 +208,7 @@
         </Accordion>
       </div>
 
-      <Accordion>
+      <Accordion v-if="showPayments">
         <AccordionTab :header="$t('budget.payments')">
           <WMPaymentsTable
             ref="paymentsTableRef"
@@ -287,9 +287,11 @@ import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
+const optionSetsStore = useOptionSetsStore();
 const toast = useToast();
 const { updateTask, parseUpdateTask, getTaskFromApi, mapContactsFromTasks } = useTasks();
 const { optionLabelWithLang } = useLanguages();
@@ -317,6 +319,7 @@ const documentsColumns = ref(getTaskDocumentColumns());
 const task = ref();
 const service = ref();
 const project = ref();
+const PAYMENT_REQUEST_TASK_FAMILY_ID = ref(0);
 
 // COMPUTED
 const contactFullName = computed(() => {
@@ -333,6 +336,10 @@ const projectId = computed(() => {
   }
 
   return null;
+});
+
+const showPayments = computed(() => {
+  return task.value.task_family?.id === PAYMENT_REQUEST_TASK_FAMILY_ID.value;
 });
 
 // COMPONENT METHODS AND LOGIC
@@ -365,6 +372,12 @@ const loadTask = async () => {
     utilsStore.selectedElements["task"] = [task.value];
   });
 };
+
+optionSetsStore.getOptionSetValuesFromApiRaw("task_family").then((data) => {
+  PAYMENT_REQUEST_TASK_FAMILY_ID.value = data.find(
+    (taskFamily) => taskFamily.value === "payment"
+  ).id;
+});
 
 // EXPOSE
 defineExpose({
