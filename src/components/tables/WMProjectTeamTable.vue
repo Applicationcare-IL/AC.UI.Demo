@@ -2,30 +2,15 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMAssignContactButton :options="['contacts', 'teams']" @add-contacts="addContacts" />
+        <WMAssignContactButton
+          v-if="!props.readOnly"
+          :options="['contacts', 'teams']"
+          @add-contacts="addContacts"
+        />
       </div>
-      <!-- <div class="flex flex-row align-items-center gap-3">
-        <WMOwnerToggle entity="contact" />
-      </div> -->
-    </div>
-    <div class="flex flex-row gap-3">
-      <!-- <WMSearchBox v-model="searchValue" entity="contact" /> -->
-      <!-- <WMFilterButton
-        :is-active="isFilterApplied || isFilterVisible"
-        @click="openFilterSidebar"
-      />
-      <WMSidebar
-        :visible="isFilterVisible"
-        name="filterContact"
-        @close-sidebar="closeFilterSidebar"
-        @open-sidebar="openFilterSidebar"
-      >
-        <WMFilterForm entity="contact" filter-form-name="contact" />
-      </WMSidebar> -->
     </div>
   </div>
 
-  <!-- <pre>{{ contacts }}</pre> -->
   <DataTable
     v-model:selection="selectedContacts"
     lazy
@@ -40,7 +25,6 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <!-- <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column> -->
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -143,6 +127,7 @@
             file-name="contract"
             :has-file="slotProps.data.contract"
             :download-url="slotProps.data.contract?.download_url"
+            :disabled="props.readOnly"
           />
         </template>
         <template v-if="column.type === 'currency'">
@@ -179,8 +164,12 @@ const { optionLabelWithLang } = useLanguages();
 const { getAlertCellConditionalStyle } = useListUtils();
 const { getCustomersFromApi } = useCustomers();
 
-const { getProjectTeam, assignContactToProject, unassignContactFromProject, updateTeamMember } =
-  useProjects();
+const {
+  getProjectTeam,
+  assignContactToProject,
+  unassignContactFromProject,
+  updateTeamMember,
+} = useProjects();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -191,6 +180,10 @@ const props = defineProps({
   projectId: {
     type: String,
     required: true,
+  },
+  readOnly: {
+    type: Boolean,
+    default: false,
   },
 });
 

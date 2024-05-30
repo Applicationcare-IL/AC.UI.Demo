@@ -1,5 +1,6 @@
 <template>
   <WMSidebar
+    v-if="create"
     :visible="isVisible"
     name="newMilestone"
     @close-sidebar="closeSidebar"
@@ -17,6 +18,7 @@
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMButton
+          v-if="create"
           class="m-1 col-6"
           name="new"
           icon="new"
@@ -83,7 +85,7 @@
           <router-link
             :to="{
               name: 'projectMilestoneDetail',
-              params: { id: projectId, milestoneId: slotProps.data.id },
+              params: { id: project.id, milestoneId: slotProps.data.id },
             }"
             class="vertical-align-middle"
           >
@@ -141,6 +143,10 @@ const props = defineProps({
   project: {
     type: Number,
     required: true,
+  },
+  create: {
+    type: Boolean,
+    default: true,
   },
 });
 

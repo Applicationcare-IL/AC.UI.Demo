@@ -1032,6 +1032,64 @@ export function useListUtils() {
     ];
   };
 
+  const getPreviewProjectTeamColumns = () => {
+    return [
+      {
+        name: "contact_name",
+        type: "link",
+        to: "contact",
+        linkParameter: "contact_id",
+        class: "link-col",
+      },
+      { name: "telephone", type: "text" },
+      { name: "email", type: "text" },
+      {
+        name: "contract_number",
+        type: "text",
+        header: "project.contract-number",
+        editable: false,
+      },
+      { name: "contract", type: "attachment", header: "project.contract" },
+      {
+        name: "contract_amount",
+        type: "currency",
+        header: "project.contract-amount",
+        editable: false,
+      },
+      {
+        name: "contract_amount_paid",
+        type: "currency",
+        header: "project.paid-so-far",
+        editable: false,
+      },
+      {
+        name: "contract_amount_remaining",
+        type: "currency",
+        header: "project.remains-to-be-paid",
+        editable: false,
+      },
+      { name: "customers", type: "customers", header: "project.organization" },
+      {
+        name: "basic_term",
+        type: "text",
+        optionSet: false,
+        header: "project.basic-term",
+      },
+      {
+        name: "calculate_term",
+        type: "text",
+        header: "project.calculate-term",
+      },
+      {
+        name: "role_project",
+        type: "role_project",
+        header: "project.role_in_project",
+        optionSet: "contact_project_role",
+        class: "p-0",
+      },
+    ];
+  };
+
   const getCompetitionProcessColumns = () => {
     return [
       {
@@ -1142,9 +1200,7 @@ export function useListUtils() {
     return [
       {
         "bg-green-200 text-green-900": ["active", "open"].includes(status),
-        "bg-red-100 text-red-900": ["terminated", "not_active"].includes(
-          status
-        ),
+        "bg-red-100 text-red-900": ["terminated", "not_active"].includes(status),
       },
     ];
   };
@@ -1197,6 +1253,7 @@ export function useListUtils() {
     getServiceDocumentsColumns,
     getSignatureTaskColumns,
     getProjectTeamColumns,
+    getPreviewProjectTeamColumns,
     getCompetitionProcessColumns,
     getContactIncomingCallsColumns,
     getMilestonesTableColumns,

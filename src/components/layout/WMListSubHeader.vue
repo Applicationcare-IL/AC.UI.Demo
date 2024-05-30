@@ -1,7 +1,10 @@
 <template>
   <div class="wm-subheader shadow-1 flex-none">
     <div class="flex flex-column gap-5">
-      <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
+      <div
+        v-if="showHeader"
+        class="flex flex-row justify-content-between flex-wrap row-gap-4"
+      >
         <div class="flex flex-row flex-wrap gap-2">
           <WMButton
             v-if="can(utilsStore.pluralEntity + '.create') && entity != 'asset'"
@@ -54,8 +57,7 @@
 
           <WMAssignOwnerButton
             v-if="
-              can(utilsStore.pluralEntity + '.assign') &&
-              utilsStore.entity != 'asset'
+              can(utilsStore.pluralEntity + '.assign') && utilsStore.entity != 'asset'
             "
             :entity="utilsStore.entity"
             @owner-assigned="$emit('refreshTable')"
@@ -140,18 +142,16 @@ const { getScopes } = useActionBuilder();
 // INJECT
 
 // PROPS, EMITS
-defineEmits([
-  "new",
-  "taskCompleted",
-  "refreshTable",
-  "assetDeactivated",
-  "export",
-]);
+defineEmits(["new", "taskCompleted", "refreshTable", "assetDeactivated", "export"]);
 
 const props = defineProps({
   activeButtons: Boolean,
   defaultOption: Object,
   entity: String,
+  showHeader: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 // REFS
@@ -182,13 +182,7 @@ function openFilterSidebar() {
   isFilterVisible.value = true;
 }
 
-const enetitiesAvailableForExport = [
-  "task",
-  "customer",
-  "contact",
-  "service",
-  "project",
-];
+const enetitiesAvailableForExport = ["task", "customer", "contact", "service", "project"];
 
 const showExportButton = computed(() => {
   return (

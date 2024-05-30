@@ -144,7 +144,8 @@
     "projects": "Projects",
     "user": "User",
     "logout": "Logout",
-    "assets": "Assets"
+    "assets": "Assets",
+    "reports": "Reports"
   },
   "dashboard": {
     "my-tasks": "My Tasks",
