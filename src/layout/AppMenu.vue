@@ -82,7 +82,7 @@ const model = ref([
         label: computed(() => t("navigation.reports")),
         to: "/reports",
         image: new URL("/icons/nav/reports.svg", import.meta.url).href,
-        visibility: checkIfEntityIsActive("projects") && can("projects.read"), // until we have permissions for reports
+        visibility: can("reports.read"),
       },
     ],
   },

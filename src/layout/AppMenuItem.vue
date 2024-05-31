@@ -1,11 +1,6 @@
 <template>
-  <li
-    :class="{ 'layout-root-menuitem': root, 'active-menuitem': isActiveMenu }"
-  >
-    <div
-      v-if="root && item.visible !== false"
-      class="layout-menuitem-root-text"
-    >
+  <li :class="{ 'layout-root-menuitem': root, 'active-menuitem': isActiveMenu }">
+    <div v-if="root && item.visible !== false" class="layout-menuitem-root-text">
       {{ item.label }}
     </div>
     <router-link
@@ -22,10 +17,7 @@
         >{{ item.label }}</span
       >
     </router-link>
-    <Transition
-      v-if="item.items && item.visible !== false"
-      name="layout-submenu"
-    >
+    <Transition v-if="item.items && item.visible !== false" name="layout-submenu">
       <ul v-show="root ? true : isActiveMenu" class="layout-submenu">
         <template v-for="(child, i) in item.items" :key="i">
           <AppMenuItem
@@ -49,8 +41,7 @@ import { useLayout } from "@/layout/composables/layout";
 
 const route = useRoute();
 
-const { layoutConfig, layoutState, setActiveMenuItem, onMenuToggle } =
-  useLayout();
+const { layoutConfig, layoutState, setActiveMenuItem, onMenuToggle } = useLayout();
 
 const props = defineProps({
   item: {
