@@ -297,7 +297,7 @@ export function useFilters() {
             value: true,
           },
           {
-            name: "assigned_to_me",
+            name: "assigned_by_me",
             label: i18n.t("filters.assigned-by-me"),
             value: true,
           },
@@ -311,9 +311,40 @@ export function useFilters() {
         label: i18n.t("status") + ":",
       },
       {
-        type: "buttons",
+        type: "dropdown",
         name: "priority",
-        optionSet: "service_priority",
+        options: [
+          {
+            name: "all",
+            label: i18n.t("filters.all"),
+            value: true,
+          },
+          {
+            name: "priority",
+            label: 1,
+            value: 1,
+          },
+          {
+            name: "priority",
+            label: 2,
+            value: 2,
+          },
+          {
+            name: "priority",
+            label: 3,
+            value: 3,
+          },
+          {
+            name: "priority",
+            label: 4,
+            value: 4,
+          },
+          {
+            name: "priority",
+            label: 5,
+            value: 5,
+          },
+        ],
         label: i18n.t("service.priority") + ":",
       },
       {
