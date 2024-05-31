@@ -1,9 +1,5 @@
 <template>
-  <WMListSubHeader
-    entity="project"
-    :show-header="false"
-    @refresh-table="loadLazyData()"
-  />
+  <WMListSubHeader entity="project" :show-header="false" @refresh-table="loadLazyData()" />
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
       ref="dt"
@@ -85,16 +81,6 @@
         <template #body="slotProps">
           <WMInputCurrency
             v-model="slotProps.data.budget.balance"
-            :read-only="true"
-            :in-table="true"
-          />
-        </template>
-      </Column>
-
-      <Column field="budget.tbr_funding" :header="$t('budget.tbr-funding')">
-        <template #body="slotProps">
-          <WMInputCurrency
-            v-model="slotProps.data.budget.tbr_funding"
             :read-only="true"
             :in-table="true"
           />
