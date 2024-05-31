@@ -193,7 +193,7 @@ export function useFilters() {
             value: true,
           },
           {
-            name: "assigned_to_me",
+            name: "assigned_by_me",
             label: i18n.t("filters.assigned-by-me"),
             value: true,
           },
@@ -207,14 +207,14 @@ export function useFilters() {
         label: i18n.t("status") + ":",
       },
       {
-        type: "buttons",
+        type: "dropdown",
         name: "priority",
         optionSet: "service_priority",
         label: i18n.t("service.priority") + ":",
       },
       {
         type: "buttons",
-        name: "urgency",
+        name: "urgent",
         optionSet: "service_urgent",
         label: i18n.t("service.urgency") + ":",
       },
