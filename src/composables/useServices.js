@@ -66,11 +66,7 @@ export function useServices() {
     });
   };
 
-  const linkService = async (
-    parentServiceId,
-    relatedServiceId,
-    relationshipId
-  ) => {
+  const linkService = async (parentServiceId, relatedServiceId, relationshipId) => {
     return await servicesStore.linkService({
       parent_service_id: parentServiceId,
       related_service_id: relatedServiceId,
@@ -172,6 +168,7 @@ export function useServices() {
       request3: service.request_3,
       duration: service.process.sla.days_from_opening_date,
       owner: service.owner,
+      owner_name: service.owner?.name,
       relationship: service.relationship,
       staff: "",
       sla: service.process.sla.sla,
@@ -179,7 +176,7 @@ export function useServices() {
       recurring: service.recurring == 0 ? "no" : "yes",
       urgency: service.urgent,
       last_change: service.last_activity?.updater.at,
-      closed: service.process.closed ? service.process.closed : "--",
+      closed: service.process.completed_at ? service.process.completed_at : "--",
       days_for_closing: service.process.sla.days_for_closing,
       days_from_opening_date: service.process.sla.days_from_opening_date,
       stages: service.process.stages,
@@ -239,8 +236,7 @@ export function useServices() {
     }
 
     const uniqueContacts = contacts.filter(
-      (contact, index, self) =>
-        index === self.findIndex((t) => t.id === contact.id)
+      (contact, index, self) => index === self.findIndex((t) => t.id === contact.id)
     );
 
     return uniqueContacts;

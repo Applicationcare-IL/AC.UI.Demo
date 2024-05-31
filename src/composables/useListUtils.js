@@ -402,7 +402,7 @@ export function useListUtils() {
       { name: "type", type: "optionset", header: "classification-2" },
       { name: "request1", type: "optionset", header: "classification-3" },
       { name: "duration", type: "text", header: "service.duration" },
-      { name: "owner.name", type: "text", header: "service.owner" },
+      { name: "owner_name", type: "text", header: "service.owner" },
       { name: "sla", type: "sla", header: "service.sla", class: "sla" },
       { name: "status", type: "optionset", header: "service.status" },
       { name: "state", type: "optionset", header: "service.state" },
