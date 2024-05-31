@@ -349,7 +349,7 @@ export function useFilters() {
       },
       {
         type: "buttons",
-        name: "urgency",
+        name: "urgent",
         optionSet: "service_urgent",
         label: i18n.t("service.urgency") + ":",
       },
