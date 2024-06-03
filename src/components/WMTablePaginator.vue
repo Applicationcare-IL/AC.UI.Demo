@@ -1,22 +1,25 @@
 <template>
   <div class="flex gap-2 align-items-center">
-    {{ $t("entries-per-page") }}:
-    <Dropdown
-      v-model="rowsPerPage"
-      :options="rowsPerPageOptions"
-      class="small-dropdown"
-      @change="onRowsUpdate"
+    <div class="flex gap-2 align-items-center">
+      {{ $t("entries-per-page") }}:
+      <Dropdown
+        v-model="rowsPerPage"
+        :options="rowsPerPageOptions"
+        class="small-dropdown"
+        @change="onRowsUpdate"
+      />
+    </div>
+    <Divider layout="vertical" />
+    <Paginator
+      class="wm-table-paginator"
+      :rows="rowsPerPage"
+      :total-records="totalRecords"
+      :rows-per-page-options="rowsPerPageOptions"
+      template="CurrentPageReport"
+      :current-page-report-template="currentPageReportTemplate"
+      :first="currentOffset"
     />
   </div>
-  <Divider layout="vertical" />
-  <Paginator
-    class="wm-table-paginator"
-    :rows="rowsPerPage"
-    :total-records="totalRecords"
-    :rows-per-page-options="rowsPerPageOptions"
-    template="CurrentPageReport"
-    :current-page-report-template="currentPageReportTemplate"
-  />
 </template>
 
 <script setup>
@@ -41,11 +44,21 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  currentPage: {
+    type: Number,
+    default: 1,
+  },
+  currentOffset: {
+    type: Number,
+    default: 0,
+  },
 });
+
+const emit = defineEmits(["update:rows"]);
 
 // REFS
 const rowsPerPage = ref(props.rows);
-const rowsPerPageOptions = ref([10, 15, 25, 50, 100]);
+const rowsPerPageOptions = ref([2, 5, 10, 15, 25, 50, 100]);
 
 // COMPUTED
 const currentPageReportTemplate = computed(() => {
@@ -60,6 +73,7 @@ const currentPageReportTemplate = computed(() => {
 const onRowsUpdate = (event) => {
   rowsPerPage.value = event.value;
   selectedRowsPerPage.value = event.value;
+  emit("update:rows", event.value);
 };
 
 // PROVIDE, EXPOSE

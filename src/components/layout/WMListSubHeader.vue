@@ -102,7 +102,7 @@
           />
         </div>
         <div class="flex flex-row align-items-center">
-          <WMTablePaginator :total-records="totalRecords" />
+          <slot name="paginator" />
         </div>
       </div>
     </div>
@@ -127,7 +127,7 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const { can } = usePermissions();
-const { listRowsPerPage, selectedRowsPerPage } = useListUtils();
+
 const { getScopes } = useActionBuilder();
 
 // INJECT
@@ -143,16 +143,9 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  totalRecords: {
-    type: Number,
-    default: 0,
-  },
 });
 
 // REFS
-const numberOfRows = ref(
-  listRowsPerPage.find((x) => x.value === selectedRowsPerPage.value)
-);
 
 const scopes = ref();
 const selectedElements = ref([]);
@@ -165,10 +158,6 @@ const isFilterApplied = computed(() => {
 });
 
 // COMPONENT METHODS AND LOGIC
-const onChange = (event) => {
-  selectedRowsPerPage.value = event.value;
-};
-
 function closeFilterSidebar() {
   isFilterVisible.value = false;
 }

@@ -2,12 +2,19 @@
   <WMListSubHeader
     :active-buttons="isAnyRowSelected"
     entity="task"
-    :total-records="totalRecords"
     @new="toggleSidebarVisibility"
     @task-completed="handleRefreshTable"
     @refresh-table="handleRefreshTable"
     @export="handleExportTasks"
-  />
+  >
+    <!-- <template #paginator>
+      <WMTablePaginator
+        :total-records="totalRecords"
+        :current-page="currentPage"
+        :current-offset="datatableOffset"
+      />
+    </template> -->
+  </WMListSubHeader>
 
   <WMSidebar
     :visible="isVisible"
@@ -187,6 +194,7 @@ const searchValue = ref("");
 const dt = ref();
 const loading = ref(false);
 const totalRecords = ref(0);
+const currentPage = ref(1);
 
 const lazyParams = ref({
   page: 0,
@@ -217,14 +225,14 @@ const loadLazyData = () => {
   loading.value = true;
 
   const filters = utilsStore.filters["task"];
-  const nextPage = lazyParams.value.page + 1;
+  currentPage.value = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = selectedRowsPerPage.value;
 
   // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams({
     ...filters,
-    page: nextPage,
+    page: currentPage,
     per_page: selectedRowsPerPageParam,
     order_by: "stage_id",
   });

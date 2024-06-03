@@ -3,12 +3,7 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
-        <WMButton
-          name="new"
-          icon="new"
-          icon-position="right"
-          @click="handleNewDocument"
-        >
+        <WMButton name="new" icon="new" icon-position="right" @click="handleNewDocument">
           {{ $t("documents.new_document") }}
         </WMButton>
         <!-- <WMAssignOwnerButton
@@ -52,7 +47,7 @@
         /> -->
       </div>
     </div>
-    <div>
+    <div class="flex flex-row justify-content-between align-items-center">
       <span class="p-input-icon-left">
         <i class="pi pi-search" />
         <InputText
@@ -61,6 +56,12 @@
           :placeholder="$t('search')"
         />
       </span>
+      <WMTablePaginator
+        :total-records="totalRecords"
+        :current-page="currentPage"
+        :current-offset="datatableOffset"
+        @update:rows="handleNumberOfRowsPerPage"
+      />
     </div>
   </div>
   <DataTable
@@ -72,19 +73,17 @@
     table-style="min-width: 50rem"
     scrollable
     paginator
+    :first="datatableOffset"
     :total-records="totalRecords"
     lazy
-    :rows="rows"
+    :rows="rowsPerPage"
     sort-field="id"
     :loading="loading"
     @update:selection="onSelectionChanged"
     @page="onPage($event)"
+    @update:first="datatableOffset = $event"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selection-mode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
 
     <Column
       v-for="column in columns"
@@ -283,6 +282,9 @@ const documents = ref([]);
 const lazyParams = ref({});
 const totalRecords = ref(0);
 const options = ref();
+const rowsPerPage = ref(props.rows);
+const currentPage = ref(1);
+const datatableOffset = ref(0);
 
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -297,6 +299,13 @@ const filters = ref({
 // COMPONENT METHODS AND LOGIC
 const handleEditRow = (id) => {
   editMode.value[id] = true;
+};
+
+const handleNumberOfRowsPerPage = (numberOfRowsPerPage) => {
+  currentPage.value = 1;
+  datatableOffset.value = 0;
+  rowsPerPage.value = numberOfRowsPerPage;
+  loadLazyData();
 };
 
 const handleNewDocument = () => {
@@ -351,15 +360,11 @@ const rowClass = (data) => {
 };
 
 const loadLazyData = () => {
-  const nextPage = lazyParams.value.page + 1;
-  // const filters = utilsStore.filters["documents"];
-  // const searchValueParam = searchValue.value;
+  currentPage.value = lazyParams.value.page ? lazyParams.value.page + 1 : 1;
 
   const params = new URLSearchParams({
-    page: nextPage,
-    per_page: props.rows,
-    // search: searchValueParam,
-    // ...filters,
+    page: currentPage.value,
+    per_page: rowsPerPage.value,
   });
 
   if (props.relatedEntity === "project") {
@@ -480,8 +485,9 @@ const loadOptionSets = async () => {
   //for each option set in columns, get the option set values
   props.columns.forEach(async (column) => {
     if (column.optionSet) {
-      optionSets.value[column.optionSet] =
-        await optionSetsStore.getOptionSetValues(column.optionSet);
+      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
+        column.optionSet
+      );
     }
   });
 };
