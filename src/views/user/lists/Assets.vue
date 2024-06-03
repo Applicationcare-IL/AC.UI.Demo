@@ -2,6 +2,7 @@
   <WMListSubHeader
     v-if="permissions.services.read"
     entity="asset"
+    :total-records="totalRecords"
     @new="toggleSidebarVisibility"
     @refresh-table="
       loadLazyData();
@@ -108,10 +109,7 @@
           </router-link>
         </template>
       </Column>
-      <Column
-        field="usage_start_date"
-        :header="$t('asset.usage_start_date')"
-      ></Column>
+      <Column field="usage_start_date" :header="$t('asset.usage_start_date')"></Column>
       <Column
         field="status"
         :header="$t('project.status')"
@@ -127,11 +125,7 @@
           </div>
         </template>
       </Column>
-      <Column
-        field="address"
-        :header="$t('location.address')"
-        style="width: 30px"
-      >
+      <Column field="address" :header="$t('location.address')" style="width: 30px">
         <template #body="slotProps">
           <div class="overflow-x-auto">
             {{ formatAddress(slotProps.data.location) }}
@@ -159,11 +153,7 @@
         :header="$t('asset.open-tasks')"
         class="numeric"
       ></Column>
-      <Column
-        field="breached_tasks"
-        :header="$t('asset.breached-tasks')"
-        class="numeric"
-      >
+      <Column field="breached_tasks" :header="$t('asset.breached-tasks')" class="numeric">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.breached_tasks)">
             {{ slotProps.data.breached_tasks }}
@@ -193,8 +183,7 @@ const { formatAddress, formatCityData } = useUtils();
 
 const { selectedRowsPerPage, getStatusConditionalStyle } = useListUtils();
 
-const { getAssetsFromApi, setSelectedAssets, resetSelectedAssets } =
-  useAssets();
+const { getAssetsFromApi, setSelectedAssets, resetSelectedAssets } = useAssets();
 
 onMounted(() => {
   utilsStore.entity = "asset";

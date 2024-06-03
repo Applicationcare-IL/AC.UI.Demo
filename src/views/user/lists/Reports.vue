@@ -1,5 +1,10 @@
 <template>
-  <WMListSubHeader entity="project" :show-header="false" @refresh-table="loadLazyData()" />
+  <WMListSubHeader
+    :total-records="totalRecords"
+    entity="project"
+    :show-header="false"
+    @refresh-table="loadLazyData()"
+  />
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
       ref="dt"

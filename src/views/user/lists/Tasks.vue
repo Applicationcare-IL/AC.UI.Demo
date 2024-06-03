@@ -2,6 +2,7 @@
   <WMListSubHeader
     :active-buttons="isAnyRowSelected"
     entity="task"
+    :total-records="totalRecords"
     @new="toggleSidebarVisibility"
     @task-completed="handleRefreshTable"
     @refresh-table="handleRefreshTable"

@@ -2,6 +2,7 @@
   <WMListSubHeader
     v-if="permissions.contacts.read"
     entity="contact"
+    :total-records="totalRecords"
     @new="toggleSidebarVisibility"
     @refresh-table="
       loadLazyData();
