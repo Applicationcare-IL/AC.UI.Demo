@@ -15,15 +15,17 @@
     :total-records="totalRecords"
     :rows-per-page-options="rowsPerPageOptions"
     template="CurrentPageReport"
-    current-page-report-template="Showing {first}-{last} of {totalRecords}"
+    :current-page-report-template="currentPageReportTemplate"
   />
 </template>
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
+const { locale } = useI18n();
 
 const { selectedRowsPerPage } = useListUtils();
 
@@ -46,6 +48,13 @@ const rowsPerPage = ref(props.rows);
 const rowsPerPageOptions = ref([10, 15, 25, 50, 100]);
 
 // COMPUTED
+const currentPageReportTemplate = computed(() => {
+  if (locale.value === "en") {
+    return "Showing {first} to {last} of {totalRecords}";
+  }
+
+  return "מציג {first}-{last} מתוך {totalRecords}";
+});
 
 // COMPONENT METHODS AND LOGIC
 const onRowsUpdate = (event) => {
