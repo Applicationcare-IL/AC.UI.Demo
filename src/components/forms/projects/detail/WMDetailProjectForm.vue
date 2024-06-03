@@ -183,10 +183,10 @@ const selectedProjectType = ref(false);
 const project = ref();
 
 // PROJECT TYPES
-const COMPETITION_PROJECT_ID = "project_type10";
-const ROUND_OF_SIGNATURES_PROJECT_ID = "project_type12";
-const TENDER_PROJECT_ID = "project_type11";
-const CONTRACTOR_PROJECT_ID = "consec";
+const COMPETITION_PROJECT_ID = "competition_project";
+const ROUND_OF_SIGNATURES_PROJECT_ID = "round_of_signatures";
+const TENDER_PROJECT_ID = "tender";
+const CONTRACTOR_PROJECT_ID = "contractor";
 
 const props = defineProps({
   formKey: {
