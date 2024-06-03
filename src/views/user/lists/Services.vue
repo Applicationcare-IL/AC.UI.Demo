@@ -1,6 +1,7 @@
 <template>
   <WMListSubHeader
     entity="service"
+    :total-records="totalRecords"
     @new="toggleSidebarVisibility"
     @refresh-table="
       loadLazyData();

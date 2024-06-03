@@ -71,8 +71,6 @@
           <WMFilterForm entity="task" filter-form-name="task" />
         </WMSidebar>
       </div>
-
-      <!-- <WMTablePaginator /> -->
     </div>
   </div>
 
