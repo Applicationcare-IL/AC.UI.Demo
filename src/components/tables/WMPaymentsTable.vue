@@ -17,7 +17,10 @@
     </div>
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="payment" />
-      <WMFilterButton :is-active="isFilterApplied || isFilterVisible" @click="openFilterSidebar" />
+      <WMFilterButton
+        :is-active="isFilterApplied || isFilterVisible"
+        @click="openFilterSidebar"
+      />
 
       <WMSidebar
         :visible="isFilterVisible"
@@ -50,7 +53,12 @@
   >
     <Column v-if="multiselect" style="width: 40px" selection-mode="multiple" />
 
-    <Column v-if="!props.readOnly" :row-editor="true" :frozen="true" align-frozen="right" />
+    <Column
+      v-if="!props.readOnly"
+      :row-editor="true"
+      :frozen="true"
+      align-frozen="right"
+    />
 
     <template v-for="column in columns">
       <Column
@@ -102,7 +110,11 @@
           />
         </template>
         <template v-if="column.editable" #editor="{ data }">
-          <WMInputCurrency v-model="data[column.field]" :name="column.field" :read-only="false" />
+          <WMInputCurrency
+            v-model="data[column.field]"
+            :name="column.field"
+            :read-only="false"
+          />
         </template>
       </Column>
 
@@ -227,7 +239,10 @@
         </template>
         <template #body="slotProps">
           <div
-            v-if="slotProps.data[column.field] && getStatus(slotProps.data[column.field]).value"
+            v-if="
+              slotProps.data[column.field] &&
+              getStatus(slotProps.data[column.field]).value
+            "
             class="w-full p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
             :class="`p-dropdown-payment-status p-dropdown-payment-status--${
               getStatus(slotProps.data[column.field]).value
@@ -486,7 +501,7 @@ const loadLazyData = () => {
   });
 
   getMilestones({ project: props.projectId }).then((response) => {
-    milestones.value = response.map((milestone) => {
+    milestones.value = response.milestones.map((milestone) => {
       return mapShortMilestone(milestone);
     });
   });

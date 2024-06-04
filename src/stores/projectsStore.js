@@ -353,7 +353,7 @@ export const useProjectsStore = defineStore("projects", {
       return axiosConfig
         .get("/milestones", { params })
         .then((response) => {
-          return response.data.data;
+          return response.data;
         })
         .catch((error) => {
           console.error(error);

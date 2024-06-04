@@ -182,7 +182,12 @@ export function useProjects() {
   };
 
   const getMilestones = async (params) => {
-    return await projectsStore.getMilestones(params);
+    const response = await projectsStore.getMilestones(params);
+
+    const milestones = response.data;
+    const totalRecords = response.meta.total;
+
+    return { milestones, totalRecords };
   };
 
   const getProjectMilestone = async (milestoneId) => {

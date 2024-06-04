@@ -73,9 +73,9 @@
     table-style="min-width: 50rem"
     scrollable
     paginator
+    lazy
     :first="datatableOffset"
     :total-records="totalRecords"
-    lazy
     :rows="rowsPerPage"
     sort-field="id"
     :loading="loading"
