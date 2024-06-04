@@ -439,15 +439,26 @@ export function useProjects() {
   };
 
   const parseMilestone = (milestone) => {
-    return {
+    const parsedMilestone = {
       name: milestone["milestone-name"],
       project: milestone.project,
       milestone_type: milestone.type?.id,
       description: milestone.description,
-      planned_date: formatDateToAPI(milestone.plannedDate),
-      actual_date: formatDateToAPI(milestone.actualDate),
-      base_date: formatDateToAPI(milestone.baseDate),
     };
+
+    if (milestone.plannedDate) {
+      parsedMilestone.planned_date = formatDateToAPI(milestone.plannedDate);
+    }
+
+    if (milestone.actualDate) {
+      parsedMilestone.actual_date = formatDateToAPI(milestone.actualDate);
+    }
+
+    if (milestone.baseDate) {
+      parsedMilestone.base_date = formatDateToAPI(milestone.baseDate);
+    }
+
+    return parsedMilestone;
   };
 
   const mapProject = (project) => {

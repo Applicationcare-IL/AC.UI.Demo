@@ -47,21 +47,21 @@ const selectedMilestone = computed(() => {
 });
 
 const isMilestoneCompleted = computed(() => {
-  return selectedMilestone.value.milestone_status.value == "complete";
+  return selectedMilestone.value.milestone_status?.value == "complete";
 });
 
 // COMPONENT METHODS AND LOGIC
 const isMilestoneCompletable = computed(() => {
   // check if selected milestone status is complete
-  if (selectedMilestone.value.milestone_status.value == "complete") {
+  if (selectedMilestone.value.milestone_status?.value == "complete") {
     return false;
   }
 
   // check if selected milestone is of type project and not completed
   if (utilsStore.selectedElements["milestone"].length == 1) {
     if (
-      selectedMilestone.value.milestone_type.value == "project" &&
-      selectedMilestone.value.milestone_status.value !== "completed"
+      selectedMilestone.value.milestone_type?.value == "project" &&
+      selectedMilestone.value.milestone_status?.value !== "completed"
     ) {
       return true;
     }
@@ -75,10 +75,7 @@ const isMilestoneCompletable = computed(() => {
   }
 
   // check if all payments have the status complete
-  if (
-    selectedMilestone.value.milestone_type.value == "payment" &&
-    payments.length
-  ) {
+  if (selectedMilestone.value.milestone_type?.value == "payment" && payments.length) {
     return payments.every((payment) => {
       return payment.payment_status == paymentStatusCompleteId.value;
     });
@@ -99,10 +96,7 @@ const handleCompleteMilestone = async () => {
   let result = await dialog.confirmCompleteMilestone();
 
   if (result) {
-    completeMilestone(
-      selectedMilestone.value.project.id,
-      selectedMilestone.value.id
-    )
+    completeMilestone(selectedMilestone.value.project.id, selectedMilestone.value.id)
       .then(() => {
         toast.successAction("milestone", "completed");
         emit("milestoneCompleted");

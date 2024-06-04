@@ -11,10 +11,7 @@
     </template>
   </WMDetailFormSubHeader>
 
-  <WMDetailProjectMilestoneForm
-    ref="projectMilestoneForm"
-    :form-key="formKey"
-  />
+  <WMDetailProjectMilestoneForm ref="projectMilestoneForm" :form-key="formKey" />
 </template>
 
 <script setup>

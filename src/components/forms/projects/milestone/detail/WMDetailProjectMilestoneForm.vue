@@ -1,6 +1,9 @@
 <template>
   <!-- <pre>{{ milestone }}</pre> -->
-  <div v-if="milestone" class="wm-detail-form-container flex flex-column overflow-auto gap-5">
+  <div
+    v-if="milestone"
+    class="wm-detail-form-container flex flex-column overflow-auto gap-5"
+  >
     <div class="flex flex-row gap-5 flex-wrap">
       <div class="flex-1 card-container top-info-card">
         <Card>
@@ -106,7 +109,10 @@
       </div>
     </div>
 
-    <div v-if="milestone.milestone_type.value === 'payment'" class="flex flex-row gap-5 flex-wrap">
+    <div
+      v-if="milestone.milestone_type.value === 'payment'"
+      class="flex flex-row gap-5 flex-wrap"
+    >
       <Accordion>
         <AccordionTab :header="$t('budget.payments')">
           <WMPaymentsTable
@@ -163,7 +169,7 @@ const selectedMilestoneType = ref(null);
 
 // COMPUTED
 const isMilestoneCompleted = computed(() => {
-  return milestone.value.milestone_status.value == "complete";
+  return milestone.value.milestone_status?.value == "complete";
 });
 
 // COMPONENT METHODS AND LOGIC
@@ -220,7 +226,9 @@ watch(
 onMounted(async () => {
   await fetchData();
 
-  milestoneTypes.value = await optionSetsStore.getOptionSetValuesFromApi("milestone_type");
+  milestoneTypes.value = await optionSetsStore.getOptionSetValuesFromApi(
+    "milestone_type"
+  );
 
   if (milestone.value.milestone_type) {
     selectedMilestoneType.value = milestoneTypes.value.find(

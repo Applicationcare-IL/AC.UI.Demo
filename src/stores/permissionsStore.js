@@ -4,7 +4,12 @@ import axiosConfig from "@/service/axiosConfig";
 
 export const usePermissionsStore = defineStore("permissions", {
   state: () => ({
-    permissions: {},
+    // Code managed permissions
+    permissions: {
+      milestones: {
+        update: true,
+      },
+    },
   }),
   getters: {
     isPermissionsLoaded: () => {
@@ -53,7 +58,10 @@ export const usePermissionsStore = defineStore("permissions", {
       return axiosConfig
         .get("/auth/permissions")
         .then((response) => {
-          this.permissions = response.data.data;
+          this.permissions = {
+            ...this.permissions,
+            ...response.data.data,
+          };
         })
         .catch((error) => {
           console.error(error);
