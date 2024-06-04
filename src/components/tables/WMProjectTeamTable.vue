@@ -8,6 +8,12 @@
           @add-contacts="addContacts"
         />
       </div>
+      <WMTablePaginator
+        :total-records="totalRecords"
+        :current-page="currentPage"
+        :current-offset="datatableOffset"
+        @update:rows="handleNumberOfRowsPerPage"
+      />
     </div>
   </div>
 
@@ -18,8 +24,8 @@
     data-key="contact_id"
     table-style="min-width: 50rem"
     scrollable
-    :paginator="showControls"
-    :rows="props.rows"
+    paginator
+    :rows="rowsPerPage"
     :total-records="totalRecords"
     class="w-full"
     @page="onPage($event)"
@@ -199,11 +205,15 @@ const emit = defineEmits([
 const selectedContacts = ref(null);
 // const isFilterOpen = ref(false);
 // const isFilterApplied = ref(false);
-const totalRecords = ref(0);
 const editMode = ref([]);
 const contacts = ref([]);
 const searchValue = ref(props.searchValue);
 const lazyParams = ref({});
+
+const totalRecords = ref(0);
+const rowsPerPage = ref(10);
+const currentPage = ref(1);
+const datatableOffset = ref(0);
 
 // COMPUTED
 // If the source of data is external, we don't need to load the
@@ -219,8 +229,7 @@ const loadLazyData = () => {
   const searchValueParam = searchValue.value;
 
   const paramOptions = {
-    // ...filters,
-    per_page: 10,
+    per_page: rowsPerPage.value,
   };
 
   if (nextPage && nextPage > 1) {
@@ -244,6 +253,13 @@ const loadLazyData = () => {
 
 const onPage = (event) => {
   lazyParams.value = event;
+  loadLazyData();
+};
+
+const handleNumberOfRowsPerPage = (numberOfRowsPerPage) => {
+  currentPage.value = 1;
+  datatableOffset.value = 0;
+  rowsPerPage.value = numberOfRowsPerPage;
   loadLazyData();
 };
 
