@@ -1,9 +1,16 @@
 <template>
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
-      <div class="flex flex-row">
-        <WMAssignCustomerButton @add-customers="addCustomers" />
-      </div>
+      <WMAssignCustomerButton @add-customers="addCustomers" />
+
+      <!-- <WMFlowmazeDropdown
+        label="Flowmaze options"
+        :selected-elements="selectedCustomers"
+        :actions="[
+          { name: 'option-1', action: 'option-1' },
+          { name: 'option-2', action: 'option-2' },
+        ]"
+      /> -->
     </div>
   </div>
   <DataTable
@@ -19,8 +26,8 @@
     :total-records="totalRecords"
     :class="`p-datatable-${tableClass}`"
     @page="onPage($event)"
-    @update:selection="onSelectionChanged"
   >
+    <Column style="width: 40px" selection-mode="multiple" />
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -267,10 +274,6 @@ const loadLazyData = () => {
 const onPage = (event) => {
   lazyParams.value = event;
   loadLazyData();
-};
-
-const onSelectionChanged = () => {
-  utilsStore.selectedElements["customer"] = selectedCustomers.value;
 };
 
 const addCustomers = (addedCustomers) => {
