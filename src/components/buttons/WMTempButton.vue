@@ -39,6 +39,7 @@ const props = defineProps({
         "clear",
         "saved",
         "cancel",
+        "new",
       ].includes(value);
     },
   },
@@ -168,6 +169,26 @@ const classes = computed(() => {
 
   &.is-active {
     border: 1px solid var(--blue-700);
+  }
+}
+
+.new {
+  background-color: var(--orange-500);
+  color: white;
+  border: none;
+
+  :deep(svg path) {
+    fill: white;
+  }
+
+  &:hover {
+    background-color: var(--orange-400);
+    color: white;
+  }
+
+  &:focus {
+    background-color: var(--orange-600);
+    color: white;
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <Story :layout="{ type: 'grid', width: '50%' }">
+  <Story :layout="{ type: 'grid', width: '200px' }">
     <Variant title="Default">
       <WMTempButton :text="state.content" :is-active="state.active" type="type-1" />
     </Variant>
@@ -82,6 +82,18 @@
 
     <Variant title="Type-5 (with custom icon)">
       <WMTempButton :text="state.content" type="type-5" :is-active="state.active">
+        <template #customIcon>
+          <div class="flex" v-html="FilterIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
+
+    <Variant title="New">
+      <WMTempButton :text="state.content" type="new" :is-active="state.active" />
+    </Variant>
+
+    <Variant title="New (with custom icon)">
+      <WMTempButton :text="state.content" type="new" :is-active="state.active">
         <template #customIcon>
           <div class="flex" v-html="FilterIcon" />
         </template>
