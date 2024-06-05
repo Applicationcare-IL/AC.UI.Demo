@@ -49,8 +49,7 @@
     </Variant>
 
     <Variant title="Type 4 (primary)">
-      <WMTempButton :text="state.content" type="type-4" :is-active="state.active">
-      </WMTempButton>
+      <WMTempButton :text="state.content" type="type-4" :is-active="state.active" />
     </Variant>
 
     <Variant title="Type-4 (primary) (with custom icon)">

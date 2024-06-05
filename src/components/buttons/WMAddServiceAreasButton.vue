@@ -5,7 +5,7 @@
     <WMInputSearch
       ref="inputSearch"
       name="service-areas"
-      placeholder="חיפוש תחום שירות"
+      :placeholder="$t('project.service-area-placeholder')"
       :multiple="true"
       :model-value="selectedServiceAreas"
       theme="purple"
@@ -16,16 +16,16 @@
       @update:model-value="updateSelectedServiceAreas"
     />
 
-    <Button
+    <WMTempButton
+      class="mt-4"
+      :text="$t('buttons.add')"
+      type="primary"
       :disabled="selectedServiceAreas == 0"
-      class="custom-input-search__clear mt-4"
       @click="
         emit('addServiceAreas', selectedServiceAreas);
         resetSelectedServiceAreas();
       "
-    >
-      הוספה
-    </Button>
+    />
   </OverlayPanel>
 </template>
 <script setup>
