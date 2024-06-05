@@ -258,7 +258,7 @@
     "service-area": "Service area",
     "service-type": "Service type",
     "request-1": "Request 1",
-    "service-area-placeholder": "Service areas",
+    "service-area-placeholder": "Select service areas",
     "service-type-placeholder": "Service types",
     "notification-created-header": "New service Created",
     "notification-created-message": "The new service was successfully created! \n From now on he will appear in your customer list",

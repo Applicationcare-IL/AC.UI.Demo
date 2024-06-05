@@ -13,14 +13,14 @@
     </Variant>
 
     <Variant title="Type 3 (secondary)">
-      <WMTempButton :text="state.content" type="type-3" :is-active="state.active">
+      <WMTempButton :text="state.content" type="secondary" :is-active="state.active">
       </WMTempButton>
     </Variant>
 
     <Variant title="Type 3 (secondary) (small)">
       <WMTempButton
         :text="state.content"
-        type="type-3"
+        type="secondary"
         :is-active="state.active"
         size="small"
       >
@@ -28,7 +28,7 @@
     </Variant>
 
     <Variant title="Type-3 (secondary) (with custom icon)">
-      <WMTempButton :text="state.content" type="type-3" :is-active="state.active">
+      <WMTempButton :text="state.content" type="secondary" :is-active="state.active">
         <template #customIcon>
           <div class="flex" v-html="FilterIcon" />
         </template>
@@ -38,7 +38,7 @@
     <Variant title="Type-3 (secondary) (small) (with custom icon)">
       <WMTempButton
         :text="state.content"
-        type="type-3"
+        type="secondary"
         :is-active="state.active"
         size="small"
       >
@@ -49,11 +49,11 @@
     </Variant>
 
     <Variant title="Type 4 (primary)">
-      <WMTempButton :text="state.content" type="type-4" :is-active="state.active" />
+      <WMTempButton :text="state.content" type="primary" :is-active="state.active" />
     </Variant>
 
     <Variant title="Type-4 (primary) (with custom icon)">
-      <WMTempButton :text="state.content" type="type-4" :is-active="state.active">
+      <WMTempButton :text="state.content" type="primary" :is-active="state.active">
         <template #customIcon>
           <div class="flex" v-html="FilterIcon" />
         </template>
@@ -63,7 +63,7 @@
     <Variant title="Type-4 (primary) (with custom icon) (with badge)">
       <WMTempButton
         :text="state.content"
-        type="type-4"
+        type="primary"
         :is-active="state.active"
         badge="2"
         class="mt-2"
@@ -100,7 +100,7 @@
     </Variant>
 
     <Variant title="Icon only">
-      <WMTempButton :is-active="state.active" type="type-4">
+      <WMTempButton :is-active="state.active" type="primary">
         <template #customIcon>
           <div class="flex" v-html="FilterIcon" />
         </template>

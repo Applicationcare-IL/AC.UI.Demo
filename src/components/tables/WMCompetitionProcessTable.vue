@@ -5,25 +5,6 @@
         <WMAssignCustomerButton @add-customers="addCustomers" />
       </div>
     </div>
-    <div class="flex flex-row gap-3">
-      <!-- <WMSearchBox entity="customer" /> -->
-      <!-- <WMButton
-        name="filter"
-        icon="filter"
-        :open="isFilterOpen"
-        :applied="isFilterApplied"
-        @click="openFilterSidebar"
-        >{{ t("filter") }}
-      </WMButton>
-      <WMSidebar
-        :visible="isFilterVisible"
-        @close-sidebar="closeFilterSidebar"
-        @open-sidebar="openFilterSidebar"
-        name="filterCustomer"
-      >
-        <WMFilterForm entity="customer" filterFormName="customer" />
-      </WMSidebar> -->
-    </div>
   </div>
   <DataTable
     v-model:filters="filters"
@@ -40,21 +21,6 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <!-- <Column style="width: 35px">
-      <template #body="slotProps">
-        <img
-          @click="console.log('preview customer')"
-          src="/icons/eye.svg"
-          alt=""
-          class="vertical-align-middle"
-        />
-      </template>
-    </Column> -->
-    <!-- <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selectionMode="multiple"
-    ></Column> -->
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -249,6 +215,7 @@ const selectedCustomers = ref(null);
 const utilsStore = useUtilsStore();
 const totalRecords = ref(0);
 const searchValue = ref("");
+const optionSets = ref([]);
 
 const customers = ref([]);
 const lazyParams = ref({});
@@ -256,17 +223,9 @@ const lazyParams = ref({});
 const editMode = ref([]);
 const createMode = ref([]);
 
-const isFilterVisible = ref(false);
-
-// const isFilterOpen = ref(false);
-// const isFilterApplied = ref(false);
-// const selectedOption = ref(1);
-// const formUtilsStore = useFormUtilsStore();
-
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-
 function formatDate(dateString) {
   var date = new Date(dateString);
 
@@ -310,21 +269,9 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-// const alertCellConditionalStyle = (data) => {
-//   return getAlertCellConditionalStyle(data);
-// };
-
 const onSelectionChanged = () => {
   utilsStore.selectedElements["customer"] = selectedCustomers.value;
 };
-
-// function closeFilterSidebar() {
-//   isFilterVisible.value = false;
-// }
-
-// function openFilterSidebar() {
-//   isFilterVisible.value = true;
-// }
 
 const addCustomers = (addedCustomers) => {
   addedCustomers.forEach((customer) => {
@@ -392,6 +339,17 @@ const handleUnlinkProjectCustomer = (row) => {
     });
 };
 
+const loadOptionSets = async () => {
+  //for each option set in columns, get the option set values
+  props.columns.forEach(async (column) => {
+    if (column.optionSet) {
+      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
+        column.optionSet
+      );
+    }
+  });
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
@@ -414,17 +372,4 @@ onMounted(() => {
   loadOptionSets();
   loadLazyData();
 });
-
-const optionSets = ref([]);
-
-const loadOptionSets = async () => {
-  //for each option set in columns, get the option set values
-  props.columns.forEach(async (column) => {
-    if (column.optionSet) {
-      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
-        column.optionSet
-      );
-    }
-  });
-};
 </script>
