@@ -200,17 +200,19 @@ export function useProjects() {
     return await projectsStore.updateProjectMilestone(milestoneId, data);
   };
 
-  const completeMilestone = async (projectId, milestoneId) => {
+  const completeMilestone = async (milestoneId) => {
     const completeMilestoneStatusId = await optionSetsStore.getValueId(
       "milestone_status",
       "complete"
     );
 
     const inactiveStateId = await optionSetsStore.getValueId("state", "not_active");
+    const today = formatDateToAPI(new Date());
 
     const data = {
       milestone_status: completeMilestoneStatusId,
       state: inactiveStateId,
+      actual_date: today,
     };
 
     return await projectsStore.updateProjectMilestone(milestoneId, data);
@@ -629,9 +631,9 @@ export function useProjects() {
   const mapMilestone = (milestone) => {
     return {
       ...milestone,
-      planned_date: formatDateFromAPI(milestone.planned_date),
-      actual_date: formatDateFromAPI(milestone.actual_date),
-      base_date: formatDateFromAPI(milestone.base_date),
+      planned_date: milestone.planned_date ? formatDateFromAPI(milestone.planned_date) : null,
+      actual_date: milestone.actual_date ? formatDateFromAPI(milestone.actual_date) : null,
+      base_date: milestone.base_date ? formatDateFromAPI(milestone.base_date) : null,
       title: milestone.name,
     };
   };

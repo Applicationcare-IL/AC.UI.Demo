@@ -73,7 +73,7 @@
                   type="date"
                   :label="$t('milestone.base-date') + ':'"
                   :value="milestone.base_date"
-                  :disabled="isMilestoneCompleted"
+                  disabled
                 />
 
                 <WMInput
@@ -81,7 +81,7 @@
                   type="date"
                   :label="$t('milestone.actual-date') + ':'"
                   :value="milestone.actual_date"
-                  :disabled="isMilestoneCompleted"
+                  disabled
                 />
               </div>
             </div>

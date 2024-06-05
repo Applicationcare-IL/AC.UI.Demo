@@ -78,7 +78,11 @@
         :class="column.class"
       >
         <template #body="slotProps">
-          {{ formatDate(new Date(slotProps.data[column.field]), "DD/MM/YY") }}
+          {{
+            slotProps.data[column.field]
+              ? formatDate(new Date(slotProps.data[column.field]), "DD/MM/YY")
+              : ""
+          }}
         </template>
       </Column>
 

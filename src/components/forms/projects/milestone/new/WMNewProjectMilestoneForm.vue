@@ -35,11 +35,11 @@
             :option-set="true"
           />
 
-          <WMInput name="plannedDate" type="date" :label="$t('milestone.planned-date') + ':'" />
-
-          <WMInput name="baseDate" type="date" :label="$t('milestone.base-date') + ':'" />
-
-          <WMInput name="actualDate" type="date" :label="$t('milestone.actual-date') + ':'" />
+          <WMInput
+            name="plannedDate"
+            type="date"
+            :label="$t('milestone.planned-date') + ':'"
+          />
 
           <WMInput
             id="description"
@@ -103,7 +103,13 @@ const { handleSubmit, meta, resetForm } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  createMilestone(parseMilestone({ ...values, project: props.relatedProject.id }))
+  const data = {
+    ...values,
+    project: props.relatedProject.id,
+    baseDate: values.plannedDate, // base date should be the same as the planned date - 86bz26b56
+  };
+
+  createMilestone(parseMilestone(data))
     .then(() => {
       toast.successAction("milestone", "created");
 
