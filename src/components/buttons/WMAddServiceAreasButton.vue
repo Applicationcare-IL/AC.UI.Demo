@@ -1,24 +1,19 @@
 <template>
-  <WMButton name="new" icon="new" @click="toggle">
-    {{ $t("project.add_service_area") }}
-  </WMButton>
+  <WMNewButton :text="$t('project.add_service_area')" @click="toggle" />
 
-  <OverlayPanel
-    ref="isOpen"
-    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-  >
+  <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
     <WMInputSearch
+      ref="inputSearch"
       name="service-areas"
       placeholder="חיפוש תחום שירות"
       :multiple="true"
-      :modelValue="selectedServiceAreas"
-      @update:modelValue="updateSelectedServiceAreas"
+      :model-value="selectedServiceAreas"
       theme="purple"
       width="248"
       class="custom-input-search__input"
-      ref="inputSearch"
       :options="serviceAreas"
-      :optionSet="true"
+      :option-set="true"
+      @update:model-value="updateSelectedServiceAreas"
     />
 
     <Button
@@ -34,7 +29,8 @@
   </OverlayPanel>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
+
 import { useLayout } from "@/layout/composables/layout";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
