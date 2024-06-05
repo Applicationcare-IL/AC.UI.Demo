@@ -131,7 +131,8 @@
     "link-services": "Link services",
     "select-all": "Select all",
     "upload-file": "Upload file",
-    "announcements": "Announcements"
+    "announcements": "Announcements",
+    "remove": "Remove"
   },
   "navigation": {
     "dashboard": "Dashboard",

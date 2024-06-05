@@ -1,16 +1,16 @@
 <template>
   <WMButton
-    @click="toggle"
     aria-haspopup="true"
     name="kebab"
     aria-controls="overlay_menu"
     icon="kebab"
+    @click="toggle"
   />
-  <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
+  <Menu id="overlay_menu" ref="menu" :model="items" :popup="true">
     <template #item="slotProps">
       <button
-        @click="handleOverlayMenuClick(slotProps.item.action)"
         class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2"
+        @click="handleOverlayMenuClick(slotProps.item.action)"
       >
         <img :src="slotProps.item.image" />
         <div class="flex flex-column align">
@@ -83,7 +83,7 @@ const items = ref([
   // },
   {
     label: "Delete",
-    image: new URL("/icons/menu/delete.svg", import.meta.url).href,
+    image: new URL("/icons/delete.svg", import.meta.url).href,
     action: "delete",
   },
 ]);

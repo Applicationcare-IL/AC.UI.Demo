@@ -5,17 +5,21 @@
     <Accordion class="p-accordion--compact">
       <AccordionTab>
         <template #header>
-          <span class="flex gap-2 w-full justify-between">
+          <span class="flex gap-2 w-full justify-between align-items-center">
             <span class="font-bold white-space-nowrap ml-auto">
               <WMOptionSetValue :option-set="serviceArea" />
             </span>
 
-            <Button
-              icon="pi pi-trash"
-              label="הסרה"
-              severity="secondary"
+            <WMTempButton
+              :text="$t('buttons.remove')"
+              type="type-3"
+              size="small"
               @click="deleteServiceArea(serviceArea.id)"
-            />
+            >
+              <template #customIcon>
+                <div class="flex" v-html="DeleteIcon" />
+              </template>
+            </WMTempButton>
           </span>
         </template>
 
@@ -30,6 +34,9 @@
 </template>
 <script setup>
 import { onMounted, ref } from "vue";
+
+import DeleteIcon from "/icons/delete.svg?raw";
+
 const { getCompetitionProcessColumns } = useListUtils();
 
 const { addServiceArea, removeServiceArea } = useProjects();

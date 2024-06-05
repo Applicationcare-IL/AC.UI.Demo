@@ -700,11 +700,11 @@ a {
         border: none;
     }
 
-    .p-accordion-tab-active .p-accordion-header .p-accordion-header-action{
+    .p-accordion-tab-active > .p-accordion-header > .p-accordion-header-action{
         background-color: var(--blue-50) !important;
     }
 
-    .p-accordion-tab-active .p-accordion-header:hover .p-accordion-header-action{
+    .p-accordion-tab-active > .p-accordion-header:hover > .p-accordion-header-action{
         background-color: var(--blue-100) !important;
     }
 }
