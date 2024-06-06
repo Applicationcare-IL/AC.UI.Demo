@@ -18,12 +18,7 @@
     </Variant>
 
     <Variant title="Type 3 (secondary) (small)">
-      <WMTempButton
-        :text="state.content"
-        type="secondary"
-        :is-active="state.active"
-        size="small"
-      >
+      <WMTempButton :text="state.content" type="secondary" :is-active="state.active" size="small">
       </WMTempButton>
     </Variant>
 
@@ -36,12 +31,7 @@
     </Variant>
 
     <Variant title="Type-3 (secondary) (small) (with custom icon)">
-      <WMTempButton
-        :text="state.content"
-        type="secondary"
-        :is-active="state.active"
-        size="small"
-      >
+      <WMTempButton :text="state.content" type="secondary" :is-active="state.active" size="small">
         <template #customIcon>
           <div class="flex" v-html="FilterIcon" />
         </template>
@@ -75,8 +65,7 @@
     </Variant>
 
     <Variant title="Type 5">
-      <WMTempButton :text="state.content" type="type-5" :is-active="state.active">
-      </WMTempButton>
+      <WMTempButton :text="state.content" type="type-5" :is-active="state.active"> </WMTempButton>
     </Variant>
 
     <Variant title="Type-5 (with custom icon)">
@@ -100,9 +89,25 @@
     </Variant>
 
     <Variant title="Icon only">
-      <WMTempButton :is-active="state.active" type="primary">
+      <WMTempButton :is-active="state.active" type="primary" :icon-only="true">
         <template #customIcon>
           <div class="flex" v-html="FilterIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
+
+    <Variant title="Icon only (edit)">
+      <WMTempButton :is-active="state.active" type="type-5" :icon-only="true">
+        <template #customIcon>
+          <div class="flex" v-html="EditIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
+
+    <Variant title="Icon only (save)">
+      <WMTempButton :is-active="state.active" type="save" :icon-only="true">
+        <template #customIcon>
+          <div class="flex" v-html="SaveIcon" />
         </template>
       </WMTempButton>
     </Variant>
@@ -123,7 +128,9 @@
 <script setup>
 import { reactive } from "vue";
 
+import EditIcon from "/icons/edit_default.svg?raw";
 import FilterIcon from "/icons/filter.svg?raw";
+import SaveIcon from "/icons/save_default.svg?raw";
 
 const state = reactive({
   content: "Button",

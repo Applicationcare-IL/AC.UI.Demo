@@ -9,7 +9,8 @@
           icon="new"
           icon-position="right"
           @click="toggleSidebarVisibility"
-          >{{ t("new") }}
+        >
+          {{ t("new") }}
         </WMButton>
 
         <WMSidebar

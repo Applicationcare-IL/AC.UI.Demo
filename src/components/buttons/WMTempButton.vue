@@ -43,6 +43,7 @@ const props = defineProps({
       ].includes(value);
     },
   },
+  iconOnly: Boolean,
   size: String,
   isActive: Boolean,
   isDisabled: Boolean,
@@ -52,8 +53,10 @@ const classes = computed(() => {
   return `${props.type}
   ${props.isActive ? "is-active" : ""}
   ${props.isDisabled ? "is-disabled" : ""}
-  ${props.text ? "gap-2" : "p-button-icon-only"}
-  ${props.size ? `${props.size}` : ""}`;
+  ${props.text ? "gap-2" : ""}
+  ${props.size ? `${props.size}` : ""}
+  ${props.iconOnly ? "p-button-icon-only" : ""}
+  `;
 });
 </script>
 
@@ -334,5 +337,14 @@ const classes = computed(() => {
   left: 2px;
   top: 2px;
   transform: translate(-50%, -50%);
+}
+
+// ICON ONLY
+.wm-button.p-button-icon-only {
+  border-radius: 4px;
+
+  :deep(svg) {
+    max-height: initial;
+  }
 }
 </style>
