@@ -103,16 +103,15 @@
               icon="edit"
               @click="editMode[slotProps.index] = true"
             />
-            <WMButton
+
+            <WMSaveButtonIconOnly
               v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
-              name="save"
-              icon="save"
-              class="in_table"
               @click="
                 saveRow(slotProps.data);
                 editMode[slotProps.index] = false;
               "
             />
+
             <WMButton
               v-if="column.buttons?.includes('unlink')"
               name="unlink"
@@ -170,12 +169,8 @@ const { optionLabelWithLang } = useLanguages();
 const { getAlertCellConditionalStyle } = useListUtils();
 const { getCustomersFromApi } = useCustomers();
 
-const {
-  getProjectTeam,
-  assignContactToProject,
-  unassignContactFromProject,
-  updateTeamMember,
-} = useProjects();
+const { getProjectTeam, assignContactToProject, unassignContactFromProject, updateTeamMember } =
+  useProjects();
 
 // PROPS, EMITS
 const props = defineProps({

@@ -126,22 +126,16 @@
               @click="editMode[slotProps.index] = true"
             />
 
-            <WMButton
+            <WMSaveButtonIconOnly
               v-if="column.buttons?.includes('edit') && createMode[slotProps.index]"
-              name="save"
-              icon="save"
-              class="in_table"
               @click="
                 saveRow(slotProps.data);
                 createMode[slotProps.index] = false;
               "
             />
 
-            <WMButton
+            <WMSaveButtonIconOnly
               v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
-              name="save"
-              icon="save"
-              class="in_table"
               @click="editRow(slotProps.data, slotProps.index)"
             />
 

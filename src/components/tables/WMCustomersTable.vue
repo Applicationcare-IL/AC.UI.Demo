@@ -124,16 +124,15 @@
               icon="edit"
               @click="editMode[slotProps.index] = true"
             />
-            <WMButton
+
+            <WMSaveButtonIconOnly
               v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
-              name="save"
-              icon="save"
-              class="in_table"
               @click="
                 saveRow(slotProps.data);
                 editMode[slotProps.index] = false;
               "
             />
+
             <WMButton
               v-if="column.buttons?.includes('unlink')"
               name="unlink"

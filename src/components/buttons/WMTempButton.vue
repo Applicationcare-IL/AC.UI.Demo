@@ -342,6 +342,8 @@ const classes = computed(() => {
 // ICON ONLY
 .wm-button.p-button-icon-only {
   border-radius: 4px;
+  width: 27px;
+  height: 27px;
 
   :deep(svg) {
     max-height: initial;
