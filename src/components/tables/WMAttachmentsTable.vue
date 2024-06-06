@@ -1,14 +1,7 @@
 <template>
   <div>
-    <WMButton
-      class="mb-3"
-      name="new"
-      icon="new"
-      icon-position="right"
-      @click="openUploadAttachment"
-    >
-      {{ $t("attachments.upload-attachment") }}
-    </WMButton>
+
+    <WMNewButton :text="$t('attachments.upload-attachment')" @click="openUploadAttachment" />
 
     <input
       ref="fileInput"

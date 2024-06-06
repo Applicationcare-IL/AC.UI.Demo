@@ -16,15 +16,9 @@
         ref="isRemindersOpen"
         :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
       >
-        <WMButton
-          v-if="can('tasks.create')"
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          @click="toggleSidebarVisibility"
-        >
-          {{ $t("buttons.new") }}
-        </WMButton>
+
+        <WMNewButton v-if="can('tasks.create')" :text="$t('buttons.new')" @click="toggleSidebarVisibility" />
+
         <WMTasksTable
           :columns="taskSummaryColumns"
           :hide-title="true"
@@ -53,15 +47,9 @@
         ref="isFollowUpOpen"
         :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
       >
-        <WMButton
-          v-if="can('tasks.create')"
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          @click="toggleSidebarVisibility"
-        >
-          {{ $t("buttons.new") }}
-        </WMButton>
+
+        <WMNewButton v-if="can('tasks.create')" :text="$t('buttons.new')" @click="toggleSidebarVisibility" />
+
         <WMTasksTable
           :columns="taskSummaryColumns"
           :hide-title="true"

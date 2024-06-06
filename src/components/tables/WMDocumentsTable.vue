@@ -3,16 +3,58 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
-        <WMButton name="new" icon="new" icon-position="right" @click="handleNewDocument">
-          {{ $t("documents.new_document") }}
+
+        <WMNewButton :text="$t('documents.new_document')" @click="handleNewDocument" />
+
+        <!-- <WMAssignOwnerButton
+          entity="document"
+          @owner-assigned="
+            loadLazyData();
+            clearSelectedDocuments();
+          "
+        /> -->
+        <!-- <WMButton
+          class="m-1 col-6"
+          name="mail-white"
+          icon="mail"
+          :disabled="selectedElements == 0"
+        >
+          Email
         </WMButton>
+        <WMButton
+          class="m-1 col-6"
+          name="mail-white"
+          :disabled="selectedElements == 0"
+        >
+          Download
+        </WMButton> -->
       </div>
-      <div class="flex flex-row align-items-center gap-3"></div>
+      <div class="flex flex-row align-items-center gap-3">
+        <!-- <WMButton
+          name="filter"
+          icon="filter"
+          :open="isFilterOpen"
+          :applied="isFilterApplied"
+          >{{ t("filter") }}
+        </WMButton> -->
+        <!-- <SelectButton
+          v-model="selectedOption"
+          :options="options"
+          optionLabel="name"
+          optionValue="value"
+          class="flex flex-nowrap"
+          @change="onChangeOwnerFilter"
+        /> -->
+      </div>
     </div>
     <div class="flex flex-row justify-content-between align-items-center">
       <span class="p-input-icon-left">
         <i class="pi pi-search" />
-        <InputText v-model="filters['global'].value" class="w-30rem" :placeholder="$t('search')" />
+        <InputText
+          v-model="filters['global'].value"
+          class="w-30rem"
+          :placeholder="$t('search')"
+        />
       </span>
       <WMTablePaginator
         :total-records="totalRecords"
@@ -182,7 +224,12 @@ const utilsStore = useUtilsStore();
 
 const documentDetails = ref([]);
 
-const { getDocumentsFromApi, updateDocument, parseUpdateDocument, createDocument } = useDocuments();
+const {
+  getDocumentsFromApi,
+  updateDocument,
+  parseUpdateDocument,
+  createDocument,
+} = useDocuments();
 
 // PROPS, EMITS
 const props = defineProps({
