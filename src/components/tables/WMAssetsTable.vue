@@ -3,8 +3,11 @@
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-
-        <WMNewButton :disabled="selectedAssets?.length != 1" :text="$t('new', ['service.service'])" @click="toggleSidebarVisibility" />
+        <WMNewButton
+          :text="$t('service.service')"
+          :disabled="selectedAssets?.length != 1"
+          @click="toggleSidebarVisibility"
+        />
 
         <WMSidebar
           :visible="isVisible"
