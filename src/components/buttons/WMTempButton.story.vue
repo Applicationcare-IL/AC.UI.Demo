@@ -88,6 +88,18 @@
       </WMTempButton>
     </Variant>
 
+    <Variant title="Clear">
+      <WMTempButton text="Clear" :is-active="state.active" type="clear" />
+    </Variant>
+
+    <Variant title="Cancel">
+      <WMTempButton text="Cancel task" type="cancel" />
+    </Variant>
+
+    <Variant title="Cancel (small)">
+      <WMTempButton text="Cancel task" type="cancel" size="small" />
+    </Variant>
+
     <Variant title="Icon only">
       <WMTempButton :is-active="state.active" type="primary" :icon-only="true">
         <template #customIcon>
@@ -110,18 +122,6 @@
           <div class="flex" v-html="SaveIcon" />
         </template>
       </WMTempButton>
-    </Variant>
-
-    <Variant title="Clear">
-      <WMTempButton text="Clear" :is-active="state.active" type="clear" />
-    </Variant>
-
-    <Variant title="Cancel">
-      <WMTempButton text="Cancel task" type="cancel" />
-    </Variant>
-
-    <Variant title="Cancel (small)">
-      <WMTempButton text="Cancel task" type="cancel" size="small" />
     </Variant>
   </Story>
 </template>

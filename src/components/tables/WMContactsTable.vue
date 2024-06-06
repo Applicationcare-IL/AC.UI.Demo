@@ -125,10 +125,8 @@
         </template>
         <template v-if="column.type === 'actions'">
           <div class="flex flex-row gap-2">
-            <WMButton
+            <WMEditButtonIconOnly
               v-if="column.buttons?.includes('edit') && !editMode[slotProps.index]"
-              name="edit"
-              icon="edit"
               @click="editMode[slotProps.index] = true"
             />
 
