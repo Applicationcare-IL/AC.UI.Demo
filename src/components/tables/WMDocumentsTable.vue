@@ -3,9 +3,9 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
-        <WMButton name="new" icon="new" icon-position="right" @click="handleNewDocument">
-          {{ $t("documents.new_document") }}
-        </WMButton>
+
+        <WMNewButton :text="$t('documents.new_document')" @click="handleNewDocument" />
+
         <!-- <WMAssignOwnerButton
           entity="document"
           @owner-assigned="
