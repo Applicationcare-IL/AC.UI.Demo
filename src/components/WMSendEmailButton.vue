@@ -4,7 +4,11 @@
     type="type-5"
     :disabled="selectedElements == 0"
     :is-disabled="selectedElements == 0"
-    @click="sendEmailDialogVisible = true"
+    :click="
+      () => {
+        sendEmailDialogVisible = true;
+      }
+    "
   >
     <template #customIcon>
       <div class="flex" v-html="EmailIcon" />
@@ -172,21 +176,16 @@ watch(
   }
 );
 
-const fillSelectedContactDropdownWithSelectedContacts = (
-  newSelectedContacts
-) => {
+const fillSelectedContactDropdownWithSelectedContacts = (newSelectedContacts) => {
   if (newSelectedContacts?.length == 0 || !contactOptions.value?.data) {
     return;
   }
 
-  const newSelectedContactsIds =
-    getContactsIdsFromSelectedContacts(newSelectedContacts);
+  const newSelectedContactsIds = getContactsIdsFromSelectedContacts(newSelectedContacts);
 
-  const filteredContactOptions = contactOptions.value?.data.filter(
-    (contact) => {
-      return newSelectedContactsIds.includes(contact.id);
-    }
-  );
+  const filteredContactOptions = contactOptions.value?.data.filter((contact) => {
+    return newSelectedContactsIds.includes(contact.id);
+  });
 
   selectedDropdownContacts.value = filteredContactOptions;
 

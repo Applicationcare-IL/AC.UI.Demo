@@ -21,6 +21,7 @@
       :text="$t('buttons.add')"
       type="primary"
       :disabled="selectedServiceAreas == 0"
+      :is-disabled="selectedServiceAreas == 0"
       @click="
         emit('addServiceAreas', selectedServiceAreas);
         resetSelectedServiceAreas();

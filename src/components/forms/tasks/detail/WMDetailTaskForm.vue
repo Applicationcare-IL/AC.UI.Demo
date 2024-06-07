@@ -225,7 +225,7 @@
         <AccordionTab :header="$t('round-of-signatures')">
           <WMSignatureTasksTable
             related-entity="project"
-            :related-entity-id="projectId"
+            :related-entity-id="task.project_created.id"
             :columns="signatureTasksColumns"
             multiselect
             :hide-title="true"
@@ -363,7 +363,7 @@ const showPayments = computed(() => {
 });
 
 const showRoundOfSignatures = computed(() => {
-  return false;
+  return task.value.project_created.id && task.value.task_family.value === "payment";
 });
 
 // COMPONENT METHODS AND LOGIC

@@ -93,6 +93,7 @@ const classes = computed(() => {
     cursor: not-allowed;
     outline: 0;
     box-shadow: none;
+    border-color: var(--gray-500) !important;
 
     :deep(svg path) {
       fill: var(--gray-500);

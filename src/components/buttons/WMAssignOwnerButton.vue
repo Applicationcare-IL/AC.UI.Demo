@@ -55,9 +55,12 @@
         @change="ownerChanged"
       />
 
-      <WMButton class="m-1 col-6" name="basic-secondary" @click="assignOwner">
-        {{ $t("buttons.assign") }}
-      </WMButton>
+      <WMTempButton
+        class="mt-3"
+        :text="$t('buttons.assign')"
+        type="primary"
+        @click="assignOwner"
+      />
     </div>
   </OverlayPanel>
 </template>

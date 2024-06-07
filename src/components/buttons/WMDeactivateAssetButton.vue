@@ -1,11 +1,11 @@
 <template>
-  <WMButton
-    name="basic-secondary"
+  <WMTempButton
+    :text="t('asset.deactivate')"
+    type="secondary"
     :disabled="selectedElements == 0"
+    :is-disabled="selectedElements == 0"
     @click="handleDeactivateAsset"
-  >
-    {{ t("asset.deactivate") }}
-  </WMButton>
+  />
 </template>
 
 <script setup>
@@ -13,21 +13,17 @@
 import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
-import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { t } = useI18n();
 const { deactivateAsset } = useAssets();
 const utilsStore = useUtilsStore();
-const formUtilsStore = useFormUtilsStore();
-const dialog = useDialog();
 const toast = useToast();
 
 // INJECT
 
 // PROPS, EMITS
-
 const emit = defineEmits(["assetDeactivated"]);
 
 // REFS
@@ -37,14 +33,13 @@ const areAssetsActive = ref(false);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-
 const handleDeactivateAsset = () => {
-  deactivateAsset(utilsStore.selectedElements["asset"].map((x) => x.id)).then(
-    () => {
-      toast.successAction("asset", "deactivated");
-      emit("assetDeactivated");
-    }
-  );
+  console.log("handleDeactivateAsset");
+
+  deactivateAsset(utilsStore.selectedElements["asset"].map((x) => x.id)).then(() => {
+    toast.successAction("asset", "deactivated");
+    emit("assetDeactivated");
+  });
 };
 
 const updateStates = () => {
