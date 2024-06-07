@@ -325,20 +325,20 @@ const onSelectionChanged = () => {
   utilsStore.selectedElements["contact"] = selectedContacts.value;
 };
 
-const saveRow = (contact) => {
+const saveRow = (teamMember) => {
   const projectId = parseInt(props.projectId);
-  const teamMemberId = contact.id;
+  const teamMemberId = teamMember.id;
 
   const contactParams = {
     project: projectId,
-    contact: teamMemberId,
-    role: contact.role_project?.id,
-    customer: contact.customer.id,
-    contract_number: contact.contract_number ? contact.contract_number : 0,
-    contract_amount: contact.contract_amount ? contact.contract_amount : 0,
+    contact: teamMember.contact_id,
+    role: teamMember.role_project?.id,
+    customer: teamMember.customer.id,
+    contract_number: teamMember.contract_number ? teamMember.contract_number : 0,
+    contract_amount: teamMember.contract_amount ? teamMember.contract_amount : 0,
   };
 
-  if (contact.state === "not-saved") {
+  if (teamMember.state === "not-saved") {
     assignContactToProject(contactParams)
       .then((response) => {
         updateTeamMember(projectId, response.data.id, contactParams);
