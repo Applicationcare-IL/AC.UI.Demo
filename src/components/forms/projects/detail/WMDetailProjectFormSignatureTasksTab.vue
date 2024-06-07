@@ -7,7 +7,7 @@
     :hide-title="true"
     :show-filters="true"
     rows="10"
-    @documentSigned="onDocumentSigned"
+    @document-signed="onDocumentSigned"
   />
 </template>
 <script setup>

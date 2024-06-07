@@ -171,8 +171,10 @@
 
     <Column style="width: 40px" :header="$t('documents.file')">
       <template #body="slotProps">
-        <WMUploadDocumentButton
-          :document-id="slotProps.data.id"
+        <WMUploadAttachmentButton
+          :entity="relatedEntity"
+          :entity-id="relatedEntityId"
+          file-name="document"
           :has-file="slotProps.data.has_file"
         />
       </template>

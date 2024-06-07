@@ -72,7 +72,7 @@
       </Accordion>
 
       <Accordion v-if="project.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID">
-        <AccordionTab header="Round of signatures">
+        <AccordionTab :header="$t('round-of-signatures')">
           <WMDetailProjectFormSignatureTasksTab
             :project="project"
             @document-signed="onDocumentSigned"

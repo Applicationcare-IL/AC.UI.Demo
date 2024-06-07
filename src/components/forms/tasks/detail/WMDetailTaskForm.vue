@@ -136,6 +136,7 @@
           "
           :project="project"
         />
+
         <div
           v-if="task.related_entity == null"
           class="card-container top-info-card flex-1"
@@ -220,6 +221,20 @@
         </AccordionTab>
       </Accordion>
 
+      <Accordion v-if="showRoundOfSignatures">
+        <AccordionTab :header="$t('round-of-signatures')">
+          <WMSignatureTasksTable
+            related-entity="task"
+            :related-entity-id="route.params.id"
+            :columns="signatureTasksColumns"
+            multiselect
+            :hide-title="true"
+            :show-filters="true"
+            rows="10"
+          />
+        </AccordionTab>
+      </Accordion>
+
       <div class="flex flex-row flex-wrap mb-5">
         <Accordion>
           <AccordionTab :header="$t('attachments.attachments')">
@@ -296,7 +311,11 @@ const toast = useToast();
 const { updateTask, parseUpdateTask, getTaskFromApi, mapContactsFromTasks } = useTasks();
 const { optionLabelWithLang } = useLanguages();
 const formUtilsStore = useFormUtilsStore();
-const { getTaskDocumentColumns, getPaymentsColumns } = useListUtils();
+const {
+  getTaskDocumentColumns,
+  getPaymentsColumns,
+  getSignatureTaskColumns,
+} = useListUtils();
 const utilsStore = useUtilsStore();
 const route = useRoute();
 const { getServiceFromApi } = useServices();
@@ -316,10 +335,12 @@ const emit = defineEmits(["taskUpdated"]);
 
 // REFS
 const documentsColumns = ref(getTaskDocumentColumns());
+const signatureTasksColumns = ref(getSignatureTaskColumns());
 const task = ref();
 const service = ref();
 const project = ref();
 const PAYMENT_REQUEST_TASK_FAMILY_ID = ref(0);
+const ROUND_OF_SIGNATURES_PROJECT_ID = "round_of_signatures";
 
 // COMPUTED
 const contactFullName = computed(() => {
@@ -340,6 +361,17 @@ const projectId = computed(() => {
 
 const showPayments = computed(() => {
   return task.value.task_family?.id === PAYMENT_REQUEST_TASK_FAMILY_ID.value;
+});
+
+const showRoundOfSignatures = computed(() => {
+  if (
+    task.value.related_entity?.type === "project" &&
+    project.value.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID
+  ) {
+    return true;
+  }
+
+  return false;
 });
 
 // COMPONENT METHODS AND LOGIC

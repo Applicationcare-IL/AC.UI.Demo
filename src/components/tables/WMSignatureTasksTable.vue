@@ -207,7 +207,7 @@ const { getSignatureTaskFromApi, generateSignaturesDocument } = useTasks();
 
 const loadLazyData = () => {
   const filters = utilsStore.filters["task"];
-  const nextPage = lazyParams.value.page + 1;
+  const nextPage = lazyParams.value.page ? lazyParams.value.page + 1 : 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = props.rows;
 
@@ -216,8 +216,11 @@ const loadLazyData = () => {
     ...filters,
     page: nextPage,
     per_page: selectedRowsPerPageParam,
-    search: searchValueParam,
   });
+
+  if (searchValueParam) {
+    params.append("search", searchValueParam);
+  }
 
   params.append("entity_type", props.relatedEntity);
   params.append("entity_id", props.relatedEntityId);
