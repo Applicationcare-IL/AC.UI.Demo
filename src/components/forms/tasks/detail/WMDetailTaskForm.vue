@@ -224,8 +224,8 @@
       <Accordion v-if="showRoundOfSignatures">
         <AccordionTab :header="$t('round-of-signatures')">
           <WMSignatureTasksTable
-            related-entity="task"
-            :related-entity-id="route.params.id"
+            related-entity="project"
+            :related-entity-id="projectId"
             :columns="signatureTasksColumns"
             multiselect
             :hide-title="true"
@@ -340,7 +340,6 @@ const task = ref();
 const service = ref();
 const project = ref();
 const PAYMENT_REQUEST_TASK_FAMILY_ID = ref(0);
-const ROUND_OF_SIGNATURES_PROJECT_ID = "round_of_signatures";
 
 // COMPUTED
 const contactFullName = computed(() => {
@@ -364,13 +363,6 @@ const showPayments = computed(() => {
 });
 
 const showRoundOfSignatures = computed(() => {
-  if (
-    task.value.related_entity?.type === "project" &&
-    project.value.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID
-  ) {
-    return true;
-  }
-
   return false;
 });
 

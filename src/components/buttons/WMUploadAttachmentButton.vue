@@ -57,6 +57,7 @@ const { uploadAttachment } = useAttachments();
 
 const fileInput = ref(null);
 const file = ref();
+const downloadUrl = ref(props.downloadUrl);
 
 const hasFileUploaded = ref(props.hasFile);
 
@@ -77,8 +78,9 @@ function uploadAttachmentToAPI() {
   formData.append("entity_id", props.entityId);
   formData.append("field", props.fileName);
 
-  uploadAttachment(formData).then(() => {
+  uploadAttachment(formData).then(({ data }) => {
     hasFileUploaded.value = true;
+    downloadUrl.value = data.download_url;
     emit("fileUploaded");
   });
 }

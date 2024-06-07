@@ -133,7 +133,8 @@
     "select-all": "Select all",
     "upload-file": "Upload file",
     "announcements": "Announcements",
-    "remove": "Remove"
+    "remove": "Remove",
+    "sign": "Sign"
   },
   "navigation": {
     "dashboard": "Dashboard",

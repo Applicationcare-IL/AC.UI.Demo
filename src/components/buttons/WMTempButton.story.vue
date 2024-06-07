@@ -13,12 +13,16 @@
     </Variant>
 
     <Variant title="Type 3 (secondary)">
-      <WMTempButton :text="state.content" type="secondary" :is-active="state.active">
-      </WMTempButton>
+      <WMTempButton :text="state.content" type="secondary" :is-active="state.active" />
     </Variant>
 
     <Variant title="Type 3 (secondary) (small)">
-      <WMTempButton :text="state.content" type="secondary" :is-active="state.active" size="small">
+      <WMTempButton
+        :text="state.content"
+        type="secondary"
+        :is-active="state.active"
+        size="small"
+      >
       </WMTempButton>
     </Variant>
 
@@ -31,7 +35,12 @@
     </Variant>
 
     <Variant title="Type-3 (secondary) (small) (with custom icon)">
-      <WMTempButton :text="state.content" type="secondary" :is-active="state.active" size="small">
+      <WMTempButton
+        :text="state.content"
+        type="secondary"
+        :is-active="state.active"
+        size="small"
+      >
         <template #customIcon>
           <div class="flex" v-html="FilterIcon" />
         </template>
@@ -65,7 +74,8 @@
     </Variant>
 
     <Variant title="Type 5">
-      <WMTempButton :text="state.content" type="type-5" :is-active="state.active"> </WMTempButton>
+      <WMTempButton :text="state.content" type="type-5" :is-active="state.active">
+      </WMTempButton>
     </Variant>
 
     <Variant title="Type-5 (with custom icon)">

@@ -19,9 +19,10 @@
   <h2 v-if="!hideTitle" class="h2">{{ $t("task.tasks") }}</h2>
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
-      <div class="flex flex-row">
-
+      <div class="flex flex-row gap-2">
         <WMNewButton :text="$t('new')" @click="toggleSidebarVisibility" />
+
+        <Divider layout="vertical" />
 
         <WMAssignOwnerButton
           v-if="can('tasks.assign')"
@@ -31,37 +32,34 @@
             clearSelectedTasks();
           "
         />
-        <WMButton
-          class="m-1 col-6"
-          name="basic-secondary"
+
+        <WMTempButton
+          :text="$t('buttons.sign')"
+          type="secondary"
           :disabled="tasks.length === 0"
           @click="onSign"
-          >{{ t("task.sign_button") }}
-        </WMButton>
+        />
       </div>
       <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
-        <WMButton
-          name="filter"
-          icon="filter"
-          :open="isFilterOpen"
-          :applied="isFilterApplied"
-          @click="openFilterSidebar"
-          >{{ t("filter") }}
-        </WMButton>
-
-        <WMSidebar
-          :visible="isFilterVisible"
-          name="filterTask"
-          @close-sidebar="closeFilterSidebar"
-          @open-sidebar="openFilterSidebar"
-        >
-          <WMFilterForm entity="task" filter-form-name="task" />
-        </WMSidebar>
         <WMOwnerToggle entity="task" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="task" />
+
+      <WMFilterButton
+        :is-active="isFilterOpen || isFilterApplied"
+        @click="openFilterSidebar"
+      />
+
+      <WMSidebar
+        :visible="isFilterVisible"
+        name="filterTask"
+        @close-sidebar="closeFilterSidebar"
+        @open-sidebar="openFilterSidebar"
+      >
+        <WMFilterForm entity="task" filter-form-name="task" />
+      </WMSidebar>
     </div>
   </div>
   <DataTable

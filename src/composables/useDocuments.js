@@ -101,12 +101,8 @@ export function useDocuments() {
     return {
       id: document.id,
       name: document.name,
-      document_type: document.document_type
-        ? document.document_type
-        : { id: null },
-      document_detail: document.document_detail
-        ? document.document_detail
-        : { id: null },
+      document_type: document.document_type ? document.document_type : { id: null },
+      document_detail: document.document_detail ? document.document_detail : { id: null },
       uploaded_from: getUploadedFromData(document),
       upload_date: document.upload_date,
       owner: document.owner.name,
@@ -114,6 +110,7 @@ export function useDocuments() {
       file_name: document.file_name,
       has_file: document.file_name ? true : false,
       mode: "saved",
+      attachment: document.attachment ? document.attachment : false,
     };
   };
 

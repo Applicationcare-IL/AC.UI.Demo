@@ -3,48 +3,7 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
-
         <WMNewButton :text="$t('documents.new_document')" @click="handleNewDocument" />
-
-        <!-- <WMAssignOwnerButton
-          entity="document"
-          @owner-assigned="
-            loadLazyData();
-            clearSelectedDocuments();
-          "
-        /> -->
-        <!-- <WMButton
-          class="m-1 col-6"
-          name="mail-white"
-          icon="mail"
-          :disabled="selectedElements == 0"
-        >
-          Email
-        </WMButton>
-        <WMButton
-          class="m-1 col-6"
-          name="mail-white"
-          :disabled="selectedElements == 0"
-        >
-          Download
-        </WMButton> -->
-      </div>
-      <div class="flex flex-row align-items-center gap-3">
-        <!-- <WMButton
-          name="filter"
-          icon="filter"
-          :open="isFilterOpen"
-          :applied="isFilterApplied"
-          >{{ t("filter") }}
-        </WMButton> -->
-        <!-- <SelectButton
-          v-model="selectedOption"
-          :options="options"
-          optionLabel="name"
-          optionValue="value"
-          class="flex flex-nowrap"
-          @change="onChangeOwnerFilter"
-        /> -->
       </div>
     </div>
     <div class="flex flex-row justify-content-between align-items-center">
@@ -172,10 +131,11 @@
     <Column style="width: 40px" :header="$t('documents.file')">
       <template #body="slotProps">
         <WMUploadAttachmentButton
-          :entity="relatedEntity"
-          :entity-id="relatedEntityId"
+          entity="document"
+          :entity-id="slotProps.data.id"
           file-name="document"
-          :has-file="slotProps.data.has_file"
+          :has-file="slotProps.data.attachment"
+          :download-url="slotProps.data.attachment?.download_url"
         />
       </template>
     </Column>
