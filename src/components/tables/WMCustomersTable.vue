@@ -4,35 +4,35 @@
   </h2>
   <div v-if="showControls" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
-      <div class="flex flex-row">
+      <div class="flex flex-row gap-2">
         <WMAssignCustomerButton @add-customers="addCustomers" />
 
-        <WMButton v-if="env.DEV" name="refresh" class="m-1 col-6" @click="loadLazyData"
-          >Refresh
-        </WMButton>
+        <WMTempButton
+          v-if="env.DEV"
+          text="Refresh"
+          type="secondary"
+          @click="loadLazyData"
+        />
       </div>
       <div class="flex flex-row align-items-center gap-3">
-        <WMButton
-          name="filter"
-          icon="filter"
-          :open="isFilterOpen"
-          :applied="isFilterApplied"
-          @click="openFilterSidebar"
-          >{{ t("filter") }}
-        </WMButton>
-        <WMSidebar
-          :visible="isFilterVisible"
-          name="filterCustomer"
-          @close-sidebar="closeFilterSidebar"
-          @open-sidebar="openFilterSidebar"
-        >
-          <WMFilterForm entity="customer" filter-form-name="customer" />
-        </WMSidebar>
         <WMOwnerToggle entity="customer" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="customer" />
+      <WMFilterButton
+        :is-active="isFilterOpen || isFilterApplied"
+        @click="openFilterSidebar"
+      />
+
+      <WMSidebar
+        :visible="isFilterVisible"
+        name="filterCustomer"
+        @close-sidebar="closeFilterSidebar"
+        @open-sidebar="openFilterSidebar"
+      >
+        <WMFilterForm entity="customer" filter-form-name="customer" />
+      </WMSidebar>
     </div>
   </div>
   <DataTable
