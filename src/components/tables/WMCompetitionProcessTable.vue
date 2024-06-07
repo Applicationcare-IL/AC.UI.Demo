@@ -115,33 +115,25 @@
 
         <template v-if="column.type === 'actions'">
           <div class="flex flex-row gap-2">
-            <WMButton
+            <WMEditButtonIconOnly
               v-if="
                 column.buttons?.includes('edit') &&
                 !editMode[slotProps.index] &&
                 !createMode[slotProps.index]
               "
-              name="edit"
-              icon="edit"
               @click="editMode[slotProps.index] = true"
             />
 
-            <WMButton
+            <WMSaveButtonIconOnly
               v-if="column.buttons?.includes('edit') && createMode[slotProps.index]"
-              name="save"
-              icon="save"
-              class="in_table"
               @click="
                 saveRow(slotProps.data);
                 createMode[slotProps.index] = false;
               "
             />
 
-            <WMButton
+            <WMSaveButtonIconOnly
               v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
-              name="save"
-              icon="save"
-              class="in_table"
               @click="editRow(slotProps.data, slotProps.index)"
             />
 

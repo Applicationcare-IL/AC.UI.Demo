@@ -2,17 +2,11 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMButton
-          v-if="!props.readOnly"
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          icon-position="right"
-          :disabled="budgetItems.length < 1 || isSomePaymentInCreateMode"
-          @click="handleNewPayment"
-        >
-          {{ t("new") }}
-        </WMButton>
+        <WMNewButton 
+            v-if="!props.readOnly" 
+            :text="$t('new')" 
+            :disabled="budgetItems.length < 1 || isSomePaymentInCreateMode" 
+            @click="handleNewPayment" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
