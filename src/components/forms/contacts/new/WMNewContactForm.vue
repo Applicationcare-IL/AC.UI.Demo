@@ -39,6 +39,7 @@
         />
 
         <WMInput
+          v-if="genders"
           name="gender"
           :highlighted="true"
           type="input-select"
@@ -93,12 +94,7 @@
           :label="$t('mobilephone') + ':'"
           width="88"
         />
-        <WMInput
-          name="landline"
-          type="input-text"
-          :label="$t('landline') + ':'"
-          width="88"
-        />
+        <WMInput name="landline" type="input-text" :label="$t('landline') + ':'" width="88" />
         <WMInput name="fax" type="input-text" :label="$t('fax') + ':'" width="88" />
       </div>
 
