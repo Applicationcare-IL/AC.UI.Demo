@@ -133,6 +133,22 @@
         </template>
       </WMTempButton>
     </Variant>
+
+    <Variant title="Sign button">
+      <WMTempButton :is-active="state.active" type="sign" text="Sign button">
+        <template #customIcon>
+          <div class="flex" v-html="EditIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
+
+    <Variant title="Sign button (small)">
+      <WMTempButton :is-active="state.active" type="sign" text="Sign button" size="small">
+        <template #customIcon>
+          <div class="flex" v-html="EditIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
   </Story>
 </template>
 <script setup>

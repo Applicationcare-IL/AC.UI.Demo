@@ -134,7 +134,8 @@
     "upload-file": "Upload file",
     "announcements": "Announcements",
     "remove": "Remove",
-    "sign": "Sign"
+    "sign": "Sign",
+    "sign-document": "Sign document"
   },
   "navigation": {
     "dashboard": "Dashboard",

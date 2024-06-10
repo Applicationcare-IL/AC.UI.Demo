@@ -40,6 +40,7 @@ const props = defineProps({
         "saved",
         "cancel",
         "new",
+        "sign",
       ].includes(value);
     },
   },
@@ -312,6 +313,43 @@ const classes = computed(() => {
 
   :deep(svg path) {
     fill: var(--green-700);
+  }
+}
+
+.sign {
+  background-color: var(--green-50);
+  color: var(--green-700);
+  border: 1px solid var(--green-500);
+  font-weight: 700;
+  border-radius: 8px !important;
+
+  :deep(svg path) {
+    fill: var(--green-700);
+  }
+
+  &:hover,
+  &:active {
+    background-color: var(--green-100);
+    color: var(--green-700);
+    border: 1px solid var(--green-500);
+  }
+
+  &:focus {
+    background-color: var(--green-200);
+    color: var(--green-700);
+    border: 1px solid var(--green-500);
+  }
+
+  &.is-disabled {
+    background-color: var(--gray-200);
+    color: var(--gray-500);
+    cursor: not-allowed;
+    outline: 0;
+    box-shadow: none;
+
+    :deep(svg path) {
+      fill: var(--gray-500);
+    }
   }
 }
 

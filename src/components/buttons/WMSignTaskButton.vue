@@ -1,5 +1,14 @@
 <template>
-  <WMButton name="edit" icon="edit" @click="openDialog" />
+  <WMTempButton
+    type="sign"
+    :text="$t('buttons.sign-document')"
+    size="small"
+    @click="openDialog"
+  >
+    <template #customIcon>
+      <div class="flex" v-html="InkPenIcon" />
+    </template>
+  </WMTempButton>
 
   <Dialog
     v-model:visible="isOpen"
@@ -16,6 +25,7 @@
 <script setup>
 import { ref } from "vue";
 
+import InkPenIcon from "/icons/ink_pen.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
 
 defineProps({
