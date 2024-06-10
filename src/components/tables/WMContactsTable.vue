@@ -32,7 +32,10 @@
     <div class="flex flex-row gap-3">
       <WMSearchBox v-model="searchValue" entity="contact" />
 
-      <WMFilterButton :is-active="isFilterApplied || isFilterVisible" @click="openFilterSidebar" />
+      <WMFilterButton
+        :is-active="isFilterApplied || isFilterVisible"
+        @click="openFilterSidebar"
+      />
       <WMSidebar
         :visible="isFilterVisible"
         name="filterContact"
@@ -138,10 +141,8 @@
               "
             />
 
-            <WMButton
+            <WMUnlinkButtonIconOnly
               v-if="column.buttons?.includes('unlink')"
-              name="unlink"
-              icon="unlink"
               @click="unlinkContact(slotProps.data.contact_id)"
             />
           </div>
@@ -190,7 +191,11 @@ const optionSetsStore = useOptionSetsStore();
 const { optionLabelWithLang } = useLanguages();
 const { getAlertCellConditionalStyle } = useListUtils();
 const { getContactsFromApi } = useContacts();
-const { getCustomerFromApi, assignContactToCustomer, unassignContactFromCustomer } = useCustomers();
+const {
+  getCustomerFromApi,
+  assignContactToCustomer,
+  unassignContactFromCustomer,
+} = useCustomers();
 const { takeCall } = useCalls();
 
 const { formatAddress } = useUtils();

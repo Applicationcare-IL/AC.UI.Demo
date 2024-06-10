@@ -24,10 +24,7 @@
         <div v-if="error != ''" class="bg-red-100 text-red-700 p-2">
           <template v-if="error === 'login.password_expired'">
             {{ $t("login.password-expired") }}
-            <span
-              class="underline cursor-pointer"
-              @click="handleResetExpiredPassword"
-            >
+            <span class="underline cursor-pointer" @click="handleResetExpiredPassword">
               {{ $t("login.send-email-reset-password") }}
             </span>
           </template>
@@ -40,18 +37,13 @@
           {{ message }}
         </div>
 
-        <WMButton
-          class="w-full mt-4"
-          name="new"
-          type="submit"
+        <WMTempButton
+          :text="loginTextButton"
+          type="new"
           :disabled="loading"
+          class="w-full"
           @click="handleLogin"
-        >
-          <span v-if="loading"> Loading... </span>
-          <span v-else>
-            {{ $t("login.submit") }}
-          </span>
-        </WMButton>
+        />
       </div>
     </div>
   </AuthLayout>
@@ -60,7 +52,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 
@@ -85,9 +77,11 @@ const message = ref("");
 const loading = ref(false);
 
 // COMPUTED
+const loginTextButton = computed(() => {
+  return loading.value ? t("login.loading") : t("login.submit");
+});
 
 // COMPONENT METHODS AND LOGIC
-
 const { handleSubmit, values, resetForm } = useForm({
   validationSchema: formUtilsStore.getLoginFormValidationSchema,
 });

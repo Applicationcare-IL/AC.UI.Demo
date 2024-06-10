@@ -133,10 +133,8 @@
               "
             />
 
-            <WMButton
+            <WMUnlinkButtonIconOnly
               v-if="column.buttons?.includes('unlink')"
-              name="unlink"
-              icon="unlink"
               @click="unlinkCustomer(slotProps.data.id)"
             />
           </div>

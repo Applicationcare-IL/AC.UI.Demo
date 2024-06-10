@@ -137,10 +137,8 @@
               @click="editRow(slotProps.data, slotProps.index)"
             />
 
-            <WMButton
+            <WMUnlinkButtonIconOnly
               v-if="column.buttons?.includes('unlink')"
-              name="unlink"
-              icon="unlink"
               @click="handleUnlinkProjectCustomer(slotProps.data)"
             />
           </div>

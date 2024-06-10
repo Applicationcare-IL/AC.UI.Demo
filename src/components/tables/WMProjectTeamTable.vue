@@ -112,10 +112,8 @@
               "
             />
 
-            <WMButton
+            <WMUnlinkButtonIconOnly
               v-if="column.buttons?.includes('unlink')"
-              name="unlink"
-              icon="unlink"
               @click="unlinkContact(slotProps.data)"
             />
           </div>
@@ -169,8 +167,12 @@ const { optionLabelWithLang } = useLanguages();
 const { getAlertCellConditionalStyle } = useListUtils();
 const { getCustomersFromApi } = useCustomers();
 
-const { getProjectTeam, assignContactToProject, unassignContactFromProject, updateTeamMember } =
-  useProjects();
+const {
+  getProjectTeam,
+  assignContactToProject,
+  unassignContactFromProject,
+  updateTeamMember,
+} = useProjects();
 
 // PROPS, EMITS
 const props = defineProps({
