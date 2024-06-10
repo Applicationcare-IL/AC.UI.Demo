@@ -1,10 +1,7 @@
 <template>
-  <div class="flex flex-row flex-wrap gap-4">
+  <div class="flex flex-row flex-wrap gap-2">
     <WMSaveButton @click="saveForm()" />
-
-    <WMButton name="cancel" icon="cancel" icon-position="left" @click="cancelForm()">
-      {{ $t("buttons.cancel") }}
-    </WMButton>
+    <WMCancelButton @click="cancelForm()" />
   </div>
 </template>
 

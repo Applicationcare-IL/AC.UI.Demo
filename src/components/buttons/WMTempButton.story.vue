@@ -118,6 +118,14 @@
       </WMTempButton>
     </Variant>
 
+    <Variant title="More button">
+      <WMTempButton :is-active="state.active" type="more" :icon-only="true">
+        <template #customIcon>
+          <div class="flex" v-html="MoreIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
+
     <Variant title="Icon only (edit)">
       <WMTempButton :is-active="state.active" type="type-5" :icon-only="true">
         <template #customIcon>
@@ -156,6 +164,7 @@ import { reactive } from "vue";
 
 import EditIcon from "/icons/edit_default.svg?raw";
 import FilterIcon from "/icons/filter.svg?raw";
+import MoreIcon from "/icons/more_vert.svg?raw";
 import SaveIcon from "/icons/save_default.svg?raw";
 
 const state = reactive({

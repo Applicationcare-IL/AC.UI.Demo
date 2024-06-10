@@ -8,6 +8,7 @@
       <WMCancelButton
         v-if="can('projects.cancel')"
         :is-disabled="!isProjectCancellable"
+        size="small"
         @click="handleCancelProject"
       />
     </template>

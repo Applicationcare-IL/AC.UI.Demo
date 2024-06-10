@@ -41,6 +41,7 @@ const props = defineProps({
         "cancel",
         "new",
         "sign",
+        "more",
       ].includes(value);
     },
   },

@@ -1,11 +1,10 @@
 <template>
-  <WMButton
-    aria-haspopup="true"
-    name="kebab"
-    aria-controls="overlay_menu"
-    icon="kebab"
-    @click="toggle"
-  />
+  <WMTempButton type="more" :icon-only="true" @click="toggle">
+    <template #customIcon>
+      <div class="flex" v-html="MoreIcon" />
+    </template>
+  </WMTempButton>
+
   <Menu id="overlay_menu" ref="menu" :model="items" :popup="true">
     <template #item="slotProps">
       <button
@@ -22,6 +21,8 @@
 </template>
 <script setup>
 import { ref } from "vue";
+
+import MoreIcon from "/icons/more_vert.svg?raw";
 
 const { deleteDocument } = useDocuments();
 

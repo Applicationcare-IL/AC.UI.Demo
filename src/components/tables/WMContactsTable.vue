@@ -16,14 +16,6 @@
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMAssignContactButton :options="['contacts']" @add-contacts="addContacts" />
-        <!-- <WMButton
-          v-if="can('contacts.export')"
-          class="m-1 col-6"
-          name="export-white"
-          icon="export"
-        >
-          {{ $t("export") }}
-        </WMButton> -->
       </div>
       <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMOwnerToggle entity="contact" />
