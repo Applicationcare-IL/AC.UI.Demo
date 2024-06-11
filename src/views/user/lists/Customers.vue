@@ -147,7 +147,7 @@
         </template>
       </Column>
       <Column field="number" :header="$t('customer.number')"></Column>
-      <Column field="owner.name" :header="$t('owner')" frozen></Column>
+      <Column field="owner.name" :header="$t('owner')"></Column>
       <Column field="status" :header="$t('status')" class="numeric">
         <template #body="slotProps">
           <div :class="highlightStatusClass(slotProps.data.status.value.toLowerCase())">
