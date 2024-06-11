@@ -1,6 +1,11 @@
 <template>
   <div class="filter-header flex flex-row justify-content-between p-4">
-    <WMTempButton :text="$t('buttons.apply-filters')" type="primary" @click="applyFilters()" />
+    <pre>  {{ filters }}</pre>
+    <WMTempButton
+      :text="$t('buttons.apply-filters')"
+      type="primary"
+      @click="applyFilters()"
+    />
     <div class="flex flex-column align-items-center">
       <div class="h3">
         {{ translatedTitle }}
@@ -8,7 +13,9 @@
       <span v-if="numberOfAppliedFilters == 0">
         {{ $t("filters.no-filters-applied") }}
       </span>
-      <span v-else> {{ $t("filters.filters-applied") + ": " + numberOfAppliedFilters }}</span>
+      <span v-else>
+        {{ $t("filters.filters-applied") + ": " + numberOfAppliedFilters }}</span
+      >
     </div>
 
     <WMTempButton :text="$t('buttons.clear-all')" type="clear mx-0 px-0" @click="clear" />

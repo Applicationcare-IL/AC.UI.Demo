@@ -34,8 +34,6 @@ const areAssetsActive = ref(false);
 
 // COMPONENT METHODS AND LOGIC
 const handleDeactivateAsset = () => {
-  console.log("handleDeactivateAsset");
-
   deactivateAsset(utilsStore.selectedElements["asset"].map((x) => x.id)).then(() => {
     toast.successAction("asset", "deactivated");
     emit("assetDeactivated");

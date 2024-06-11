@@ -2,10 +2,7 @@
   <div class="relative">
     <!-- Toggable label-->
     <div v-if="label != '' && toggable">
-      <div
-        class="flex flex-row align-items-center gap-3"
-        @click="toggleContent"
-      >
+      <div class="flex flex-row align-items-center gap-3" @click="toggleContent">
         <div
           class="toggable w-full hover:bg-blue-50"
           :class="isToggled || hasSelectedOptions ? 'bg-blue-50' : 'bg-gray-50'"
@@ -23,18 +20,12 @@
             <div class="p-button-svg flex" v-html="ExpandIcon" />
           </div>
         </div>
-        <WMTempButton
-          :text="$t('buttons.clear')"
-          type="clear mx-0 px-0"
-          @click="clear"
-        />
+        <WMTempButton :text="$t('buttons.clear')" type="clear mx-0 px-0" @click="clear" />
       </div>
     </div>
 
     <!-- Non-toggable label -->
-    <label v-if="label != '' && !toggable" class="wm-form-label">
-      {{ label }}</label
-    >
+    <label v-if="label != '' && !toggable" class="wm-form-label"> {{ label }}</label>
     <div
       class="flex-row justify-content-between"
       :class="!toggable || isToggled ? 'flex' : 'hidden'"
@@ -100,9 +91,7 @@
       <!-- DATES -->
       <div v-if="type == 'date'" class="flex flex-row gap-2 p-2">
         <div class="flex flex-column">
-          <label v-if="label != ''" class="wm-form-label">
-            {{ $t("from") }}:
-          </label>
+          <label v-if="label != ''" class="wm-form-label"> {{ $t("from") }}: </label>
           <Calendar
             v-model="fromDate"
             show-icon
@@ -110,9 +99,7 @@
           />
         </div>
         <div class="flex flex-column">
-          <label v-if="label != ''" class="wm-form-label">
-            {{ $t("to") }}:
-          </label>
+          <label v-if="label != ''" class="wm-form-label"> {{ $t("to") }}: </label>
           <Calendar
             v-model="toDate"
             show-icon
@@ -237,9 +224,7 @@ const selectedOptionsPreviewText = computed(() => {
   if (selectedOptions.value.lenght == 0) return "";
 
   if (props.type == "dropdown" && props.optionSet) {
-    return selectedOptions.value
-      .map((x) => x[optionLabelWithLang.value])
-      .join(", ");
+    return selectedOptions.value.map((x) => x[optionLabelWithLang.value]).join(", ");
   }
 
   if (props.type == "entity") {
@@ -298,9 +283,11 @@ const removeUnselectedOptionsFromFilter = (selectedOption) => {
 };
 
 const onButtonChanged = (value, option) => {
-  if (value) selectedButtons.value.push(option.id);
-  else
+  if (value) {
+    selectedButtons.value.push(option.id);
+  } else {
     selectedButtons.value = selectedButtons.value.filter((x) => x != option.id);
+  }
 
   emits("update:filter", {
     name: props.filterName,
@@ -372,9 +359,7 @@ const clear = () => {
 };
 
 const onRemoveEntityDropdownOption = (option) => {
-  selectedOptions.value = selectedOptions.value.filter(
-    (x) => x.id != option.id
-  );
+  selectedOptions.value = selectedOptions.value.filter((x) => x.id != option.id);
 
   emits("update:filter", {
     name: props.filterName,
@@ -385,8 +370,9 @@ const onRemoveEntityDropdownOption = (option) => {
 const handleSelectedSLAs = () => {
   if (props.appliedFilters && props.type == "sla_status") {
     if (props.appliedFilters[props.filterName]) {
-      const selected = props.appliedFilters[props.filterName];
-      selected.forEach((element) => {
+      selectedButtons.value = props.appliedFilters[props.filterName];
+
+      selectedButtons.value.forEach((element) => {
         const index = SLAoptions.findIndex((x) => x.id == element);
         isButtonSelected.value[index] = true;
       });
@@ -492,9 +478,7 @@ defineExpose({ clear });
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   if (props.optionSet) {
-    optionSetsOptions.value = await optionSetsStore.getOptionSetValues(
-      props.optionSet
-    );
+    optionSetsOptions.value = await optionSetsStore.getOptionSetValues(props.optionSet);
   }
 
   if (props.options) {
