@@ -62,6 +62,7 @@ const chartOptions = ref({
       },
     },
     datalabels: {
+      display: "auto",
       align: "end",
       anchor: "end",
       color: (context) => {
