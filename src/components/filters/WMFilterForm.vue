@@ -1,6 +1,6 @@
 <template>
   <div class="filter-header flex flex-row justify-content-between p-4">
-    <pre>  {{ filters }}</pre>
+    <!-- <pre>{{ filters }}</pre> -->
     <WMTempButton
       :text="$t('buttons.apply-filters')"
       type="primary"
