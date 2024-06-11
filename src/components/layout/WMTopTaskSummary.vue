@@ -6,25 +6,11 @@
         @click="toggleReminders"
       >
         <span class="font-bold">תזכורות</span>
-        <span
-          class="bg-blue-100 font-bold px-2 py-1 mx-1 border-round-lg text-blue-700 flex"
-        >
+        <span class="bg-blue-100 font-bold px-2 py-1 mx-1 border-round-lg text-blue-700 flex">
           {{ reminders?.totalRecords || 0 }}
         </span>
       </div>
-      <OverlayPanel
-        ref="isRemindersOpen"
-        :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-      >
-        <WMButton
-          v-if="can('tasks.create')"
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          @click="toggleSidebarVisibility"
-        >
-          {{ $t("buttons.new") }}
-        </WMButton>
+      <OverlayPanel ref="isRemindersOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
         <WMTasksTable
           :columns="taskSummaryColumns"
           :hide-title="true"
@@ -43,25 +29,12 @@
         @click="toggleFollowUps"
       >
         <span class="font-bold">מעקבים</span>
-        <span
-          class="bg-blue-100 font-bold px-2 py-1 mx-1 border-round-lg text-blue-700"
-        >
+        <span class="bg-blue-100 font-bold px-2 py-1 mx-1 border-round-lg text-blue-700">
           {{ followUps?.totalRecords || 0 }}
         </span>
       </div>
-      <OverlayPanel
-        ref="isFollowUpOpen"
-        :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-      >
-        <WMButton
-          v-if="can('tasks.create')"
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          @click="toggleSidebarVisibility"
-        >
-          {{ $t("buttons.new") }}
-        </WMButton>
+      <OverlayPanel ref="isFollowUpOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
+        {{ $t("buttons.new") }}
         <WMTasksTable
           :columns="taskSummaryColumns"
           :hide-title="true"
