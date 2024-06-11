@@ -38,7 +38,6 @@ if (import.meta.env.VITE_PUSHER_APP_KEY) {
 
 const app = createApp(App)
   .use(PrimeVue, { ripple: true })
-  .use(mazeComponents)
   .use(ConfirmationService)
   .use(ToastService)
   .use(Vue3Signature)
