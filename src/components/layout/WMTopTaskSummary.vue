@@ -11,6 +11,12 @@
         </span>
       </div>
       <OverlayPanel ref="isRemindersOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
+        <WMNewButton
+          v-if="can('tasks.create')"
+          :text="$t('buttons.new')"
+          @click="toggleSidebarVisibility"
+        />
+
         <WMTasksTable
           :columns="taskSummaryColumns"
           :hide-title="true"
@@ -34,7 +40,12 @@
         </span>
       </div>
       <OverlayPanel ref="isFollowUpOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
-        {{ $t("buttons.new") }}
+        <WMNewButton
+          v-if="can('tasks.create')"
+          :text="$t('buttons.new')"
+          @click="toggleSidebarVisibility"
+        />
+
         <WMTasksTable
           :columns="taskSummaryColumns"
           :hide-title="true"

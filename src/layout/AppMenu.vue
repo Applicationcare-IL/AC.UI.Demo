@@ -1,11 +1,7 @@
 <template>
   <ul class="layout-menu">
     <template v-for="(item, i) in model" :key="item">
-      <app-menu-item
-        v-if="!item.separator"
-        :item="item"
-        :index="i"
-      ></app-menu-item>
+      <app-menu-item v-if="!item.separator" :item="item" :index="i"></app-menu-item>
       <li v-if="item.separator" class="menu-separator"></li>
     </template>
   </ul>
@@ -80,7 +76,13 @@ const model = ref([
         label: computed(() => t("navigation.assets")),
         to: "/assets_list",
         image: new URL("/icons/nav/assets.svg", import.meta.url).href,
-        visibility: checkIfEntityIsActive("assets") && can("assets.read"),
+        visibility: checkIfEntityIsActive("assets"),
+      },
+      {
+        label: computed(() => t("navigation.reports")),
+        to: "/reports",
+        image: new URL("/icons/nav/reports.svg", import.meta.url).href,
+        visibility: can("reports.read"),
       },
     ],
   },

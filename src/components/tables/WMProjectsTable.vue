@@ -1,44 +1,9 @@
 <template>
-  <!-- <WMSidebar
-    :visible="isVisible"
-    @close-sidebar="closeSidebar"
-    @open-sidebar="openSidebar"
-    name="newProject"
-  >
-    <WMNewProjectForm :isSidebar="true" @close-sidebar="closeSidebar" />
-  </WMSidebar> -->
-
   <h2 v-if="!hideTitle" class="h2">{{ $t("project.projects") }}</h2>
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMButton
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          icon-position="right"
-          @click="toggleSidebarVisibility"
-          >{{ t("new") }}</WMButton
-        >
-      </div>
-      <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
-        <!-- <WMButton
-          name="filter"
-          icon="filter"
-          :open="isFilterOpen"
-          :applied="isFilterApplied"
-          @click="openFilterSidebar"
-          >{{ t("filter") }}
-        </WMButton> -->
-        <!-- <WMSidebar
-          :visible="isFilterVisible"
-          @close-sidebar="closeFilterSidebar"
-          @open-sidebar="openFilterSidebar"
-          name="filterTask"
-        >
-          <WMFilterForm entity="task" filterFormName="task" />
-        </WMSidebar>
-        <WMOwnerToggle entity="task" /> -->
+        <WMNewButton :text="$t('new')" @click="toggleSidebarVisibility" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
@@ -68,11 +33,7 @@
     @update:selection="onSelectionChanged"
   >
     <Column expander style="width: 0px"> </Column>
-    <Column
-      style="width: 0px"
-      class="th-selection"
-      selection-mode="multiple"
-    ></Column>
+    <Column style="width: 0px" class="th-selection" selection-mode="multiple"></Column>
 
     <Column
       field="project_number"
@@ -93,11 +54,7 @@
       </template>
     </Column>
 
-    <Column
-      field="project_name"
-      :header="$t('project.project_name')"
-      style="width: 60px"
-    >
+    <Column field="project_name" :header="$t('project.project_name')" style="width: 60px">
       <template #body="slotProps">
         <div class="overflow-x-auto">
           {{ slotProps.data.project_name }}
@@ -105,11 +62,7 @@
       </template>
     </Column>
 
-    <Column
-      field="city_data"
-      :header="$t('project.city_data')"
-      style="width: 30px"
-    >
+    <Column field="city_data" :header="$t('project.city_data')" style="width: 30px">
       <template #body="slotProps">
         {{ formatCityData(slotProps.data.location) }}
       </template>
@@ -123,21 +76,13 @@
       </template>
     </Column>
 
-    <Column
-      field="project_type"
-      :header="$t('project.project_type')"
-      style="width: 30px"
-    >
+    <Column field="project_type" :header="$t('project.project_type')" style="width: 30px">
       <template #body="slotProps">
         <WMOptionSetValue :option-set="slotProps.data.project_type" />
       </template>
     </Column>
 
-    <Column
-      field="project_area"
-      :header="$t('project.project_area')"
-      style="width: 30px"
-    >
+    <Column field="project_area" :header="$t('project.project_area')" style="width: 30px">
       <template #body="slotProps">
         <WMOptionSetValue :option-set="slotProps.data.project_area" />
       </template>

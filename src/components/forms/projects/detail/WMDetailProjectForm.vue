@@ -40,11 +40,7 @@
       </div>
 
       <div class="mt-5">
-        <WMStepper
-          :steps="stages"
-          :current-step="currentStage"
-          aria-label="Form Steps"
-        />
+        <WMStepper :steps="stages" :current-step="currentStage" aria-label="Form Steps" />
       </div>
 
       <Accordion v-if="can('tasks.read')">
@@ -55,10 +51,7 @@
 
       <Accordion>
         <AccordionTab :header="$t('journal')">
-          <WMJournalDataView
-            entity-type="project"
-            :entity-id="project.project_id"
-          />
+          <WMJournalDataView entity-type="project" :entity-id="project.project_id" />
         </AccordionTab>
       </Accordion>
 
@@ -78,10 +71,8 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion
-        v-if="project.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID"
-      >
-        <AccordionTab header="Round of signatures">
+      <Accordion v-if="project.project_type.value === ROUND_OF_SIGNATURES_PROJECT_ID">
+        <AccordionTab :header="$t('round-of-signatures')">
           <WMDetailProjectFormSignatureTasksTab
             :project="project"
             @document-signed="onDocumentSigned"
@@ -192,10 +183,10 @@ const selectedProjectType = ref(false);
 const project = ref();
 
 // PROJECT TYPES
-const COMPETITION_PROJECT_ID = "project_type10";
-const ROUND_OF_SIGNATURES_PROJECT_ID = "project_type12";
-const TENDER_PROJECT_ID = "project_type11";
-const CONTRACTOR_PROJECT_ID = "consec";
+const COMPETITION_PROJECT_ID = "competition_project";
+const ROUND_OF_SIGNATURES_PROJECT_ID = "round_of_signatures";
+const TENDER_PROJECT_ID = "tender";
+const CONTRACTOR_PROJECT_ID = "contractor";
 
 const props = defineProps({
   formKey: {

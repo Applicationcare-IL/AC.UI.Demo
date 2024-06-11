@@ -60,6 +60,7 @@
   "additional-information": "Additional Information",
   "logs": "Logs",
   "rows-per-page": "Rows per page",
+  "entries-per-page": "Entries per page",
   "no-results": "No results have been found",
   "selected-contacts": "Selected contacts",
   "options": "Options",
@@ -85,6 +86,7 @@
   "same-day-each-month": "Same day each month",
   "teams": "Teams",
   "related-entity": "Related entity",
+  "round-of-signatures": "Round of signatures",
   "week-days": {
     "monday": "Monday",
     "monday-short": "Mo",
@@ -111,6 +113,7 @@
     "link_contact": "Link contact",
     "link_customer": "Link customer",
     "assign": "Assign",
+    "add": "Add",
     "view_map": "View map",
     "email": "Email",
     "message": "Message",
@@ -129,7 +132,10 @@
     "link-services": "Link services",
     "select-all": "Select all",
     "upload-file": "Upload file",
-    "announcements": "Announcements"
+    "announcements": "Announcements",
+    "remove": "Remove",
+    "sign": "Sign",
+    "sign-document": "Sign document"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -144,7 +150,8 @@
     "projects": "Projects",
     "user": "User",
     "logout": "Logout",
-    "assets": "Assets"
+    "assets": "Assets",
+    "reports": "Reports"
   },
   "dashboard": {
     "my-tasks": "My Tasks",
@@ -254,7 +261,7 @@
     "service-area": "Service area",
     "service-type": "Service type",
     "request-1": "Request 1",
-    "service-area-placeholder": "Service areas",
+    "service-area-placeholder": "Select service areas",
     "service-type-placeholder": "Service types",
     "notification-created-header": "New service Created",
     "notification-created-message": "The new service was successfully created! \n From now on he will appear in your customer list",
@@ -400,6 +407,7 @@
     "organization": "Organization",
     "competition_process": "Competition process",
     "add_service_area": "Add service area",
+    "service-area-placeholder": "Select service area",
     "location_information": "Location Information",
     "subproject_information": "Subproject Information",
     "subproject_name": "Subproject Name",
@@ -648,7 +656,8 @@
     "password-expired": "Your password has expired",
     "login.user_locked": "Your account has been locked",
     "send-email-reset-password": "Send email to reset password",
-    "expired-password-reset-email-sent": "An email has been sent to you with a link to reset your password"
+    "expired-password-reset-email-sent": "An email has been sent to you with a link to reset your password",
+    "loading": "Loading..."
   },
   "sla": {
     "one_day_left": "1 day left",

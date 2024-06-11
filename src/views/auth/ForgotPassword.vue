@@ -17,13 +17,8 @@
           {{ $t(error) }}
         </div>
 
-        <WMButton
-          class="w-full mt-4"
-          name="new"
-          type="submit"
-          @click="handleForgotPassword"
-          >{{ $t("login.send-reset-link") }}
-        </WMButton>
+        <WMNewButton :text="$t('login.send-reset-link')" @click="handleForgotPassword" />
+
       </div>
     </div>
   </AuthLayout>

@@ -71,6 +71,7 @@
             :hide-title="true"
             :show-filter="false"
             :filters="dashboardTaskFilters"
+            :show-pagination-options="false"
           />
         </template>
       </Card>

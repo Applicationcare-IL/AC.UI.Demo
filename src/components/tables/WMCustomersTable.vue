@@ -4,39 +4,35 @@
   </h2>
   <div v-if="showControls" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
-      <div class="flex flex-row">
+      <div class="flex flex-row gap-2">
         <WMAssignCustomerButton @add-customers="addCustomers" />
 
-        <WMButton
+        <WMTempButton
           v-if="env.DEV"
-          name="refresh"
-          class="m-1 col-6"
+          text="Refresh"
+          type="secondary"
           @click="loadLazyData"
-          >Refresh
-        </WMButton>
+        />
       </div>
       <div class="flex flex-row align-items-center gap-3">
-        <WMButton
-          name="filter"
-          icon="filter"
-          :open="isFilterOpen"
-          :applied="isFilterApplied"
-          @click="openFilterSidebar"
-          >{{ t("filter") }}
-        </WMButton>
-        <WMSidebar
-          :visible="isFilterVisible"
-          name="filterCustomer"
-          @close-sidebar="closeFilterSidebar"
-          @open-sidebar="openFilterSidebar"
-        >
-          <WMFilterForm entity="customer" filter-form-name="customer" />
-        </WMSidebar>
         <WMOwnerToggle entity="customer" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="customer" />
+      <WMFilterButton
+        :is-active="isFilterOpen || isFilterApplied"
+        @click="openFilterSidebar"
+      />
+
+      <WMSidebar
+        :visible="isFilterVisible"
+        name="filterCustomer"
+        @close-sidebar="closeFilterSidebar"
+        @open-sidebar="openFilterSidebar"
+      >
+        <WMFilterForm entity="customer" filter-form-name="customer" />
+      </WMSidebar>
     </div>
   </div>
   <DataTable
@@ -54,18 +50,12 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selection-mode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
       :field="column.name"
-      :header="
-        column.header ? $t(column.header) : $t(`customer.${column.name}`)
-      "
+      :header="column.header ? $t(column.header) : $t(`customer.${column.name}`)"
       :class="column.class"
     >
       <template #body="slotProps">
@@ -98,11 +88,7 @@
           <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
         </template>
         <template v-if="column.type === 'star'">
-          <div
-            @click="
-              editMode[slotProps.index] && onStarClicked(slotProps.data.id)
-            "
-          >
+          <div @click="editMode[slotProps.index] && onStarClicked(slotProps.data.id)">
             <img
               v-if="isMainContact(slotProps.data)"
               src="/icons/star.svg"
@@ -132,30 +118,21 @@
         </template>
         <template v-if="column.type === 'actions'">
           <div class="flex flex-row gap-2">
-            <WMButton
-              v-if="
-                column.buttons?.includes('edit') && !editMode[slotProps.index]
-              "
-              name="edit"
-              icon="edit"
+            <WMEditButtonIconOnly
+              v-if="column.buttons?.includes('edit') && !editMode[slotProps.index]"
               @click="editMode[slotProps.index] = true"
             />
-            <WMButton
-              v-if="
-                column.buttons?.includes('edit') && editMode[slotProps.index]
-              "
-              name="save"
-              icon="save"
-              class="in_table"
+
+            <WMSaveButtonIconOnly
+              v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
               @click="
                 saveRow(slotProps.data);
                 editMode[slotProps.index] = false;
               "
             />
-            <WMButton
+
+            <WMUnlinkButtonIconOnly
               v-if="column.buttons?.includes('unlink')"
-              name="unlink"
-              icon="unlink"
               @click="unlinkCustomer(slotProps.data.id)"
             />
           </div>
@@ -340,7 +317,6 @@ const addCustomers = (addedCustomers) => {
   addedCustomers.forEach((customer) => {
     if (customers.value.find((c) => c.customer_id === customer.id)) return;
 
-    console.log(customer);
     customer.main = false;
     customer.role = defaultRole.value;
     customer.asset_role = defaultRole.value;
@@ -455,8 +431,9 @@ const loadOptionSets = async () => {
   //for each option set in columns, get the option set values
   props.columns.forEach(async (column) => {
     if (column.optionSet) {
-      optionSets.value[column.optionSet] =
-        await optionSetsStore.getOptionSetValues(column.optionSet);
+      optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
+        column.optionSet
+      );
     }
   });
 };

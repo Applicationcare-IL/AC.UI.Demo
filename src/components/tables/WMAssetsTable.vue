@@ -3,16 +3,11 @@
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMButton
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          icon-position="right"
+        <WMNewButton
+          :text="$t('service.service')"
           :disabled="selectedAssets?.length != 1"
           @click="toggleSidebarVisibility"
-        >
-          {{ t("new", ["service.service"]) }}
-        </WMButton>
+        />
 
         <WMSidebar
           :visible="isVisible"
@@ -38,9 +33,13 @@
         />
       </div>
 
-      <WMButton v-if="env.DEV" name="refresh" class="m-1 col-6" @click="loadLazyData"
-        >Refresh
-      </WMButton>
+      <WMTempButton
+        v-if="env.DEV"
+        text="Refresh"
+        type="secondary"
+        @click="loadLazyData"
+      />
+
       <div class="flex flex-row align-items-center gap-3">
         <WMFilterButton
           :is-active="isFilterApplied || isFilterOpen"
@@ -224,7 +223,6 @@ const loadLazyData = async () => {
   getAssetsFromApi(params).then((result) => {
     assets.value = result.data;
     totalRecords.value = result.totalRecords;
-    console.log("assets", assets.value);
   });
 };
 

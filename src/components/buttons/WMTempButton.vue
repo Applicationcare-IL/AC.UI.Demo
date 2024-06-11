@@ -39,9 +39,13 @@ const props = defineProps({
         "clear",
         "saved",
         "cancel",
+        "new",
+        "sign",
+        "more",
       ].includes(value);
     },
   },
+  iconOnly: Boolean,
   size: String,
   isActive: Boolean,
   isDisabled: Boolean,
@@ -51,8 +55,10 @@ const classes = computed(() => {
   return `${props.type}
   ${props.isActive ? "is-active" : ""}
   ${props.isDisabled ? "is-disabled" : ""}
-  ${props.text ? "gap-2" : "p-button-icon-only"}
-  ${props.size ? `${props.size}` : ""}`;
+  ${props.text ? "gap-2" : ""}
+  ${props.size ? `${props.size}` : ""}
+  ${props.iconOnly ? "p-button-icon-only" : ""}
+  `;
 });
 </script>
 
@@ -89,6 +95,7 @@ const classes = computed(() => {
     cursor: not-allowed;
     outline: 0;
     box-shadow: none;
+    border-color: var(--gray-500) !important;
 
     :deep(svg path) {
       fill: var(--gray-500);
@@ -168,6 +175,26 @@ const classes = computed(() => {
 
   &.is-active {
     border: 1px solid var(--blue-700);
+  }
+}
+
+.new {
+  background-color: var(--orange-500);
+  color: white;
+  border: none;
+
+  :deep(svg path) {
+    fill: white;
+  }
+
+  &:hover {
+    background-color: var(--orange-400);
+    color: white;
+  }
+
+  &:focus {
+    background-color: var(--orange-600);
+    color: white;
   }
 }
 
@@ -290,6 +317,43 @@ const classes = computed(() => {
   }
 }
 
+.sign {
+  background-color: var(--green-50);
+  color: var(--green-700);
+  border: 1px solid var(--green-500);
+  font-weight: 700;
+  border-radius: 8px !important;
+
+  :deep(svg path) {
+    fill: var(--green-700);
+  }
+
+  &:hover,
+  &:active {
+    background-color: var(--green-100);
+    color: var(--green-700);
+    border: 1px solid var(--green-500);
+  }
+
+  &:focus {
+    background-color: var(--green-200);
+    color: var(--green-700);
+    border: 1px solid var(--green-500);
+  }
+
+  &.is-disabled {
+    background-color: var(--gray-200);
+    color: var(--gray-500);
+    cursor: not-allowed;
+    outline: 0;
+    box-shadow: none;
+
+    :deep(svg path) {
+      fill: var(--gray-500);
+    }
+  }
+}
+
 // SIZES
 .wm-button.small {
   padding: 3px 6px;
@@ -313,5 +377,16 @@ const classes = computed(() => {
   left: 2px;
   top: 2px;
   transform: translate(-50%, -50%);
+}
+
+// ICON ONLY
+.wm-button.p-button-icon-only {
+  border-radius: 4px;
+  width: 27px;
+  height: 27px;
+
+  :deep(svg) {
+    max-height: initial;
+  }
 }
 </style>

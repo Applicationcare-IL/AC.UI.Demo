@@ -132,12 +132,12 @@
 
 "@esbuild/darwin-x64@0.18.20":
   version "0.18.20"
-  resolved "https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.18.20.tgz"
+  resolved "https://registry.yarnpkg.com/@esbuild/darwin-x64/-/darwin-x64-0.18.20.tgz#d70d5790d8bf475556b67d0f8b7c5bdff053d85d"
   integrity sha512-pc5gxlMDxzm513qPGbCbDukOdsGtKhfxD1zJKXjCCcU7ju50O7MeAZ8c4krSJcOIJGFR+qx21yMMVYwiQvyTyQ==
 
 "@esbuild/darwin-x64@0.20.2":
   version "0.20.2"
-  resolved "https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.20.2.tgz"
+  resolved "https://registry.yarnpkg.com/@esbuild/darwin-x64/-/darwin-x64-0.20.2.tgz#90ed098e1f9dd8a9381695b207e1cff45540a0d0"
   integrity sha512-tBcXp9KNphnNH0dfhv8KYkZhjc+H3XBkF5DKtswJblV7KlT9EI2+jeA8DgBjp908WEuYll6pF+UStUCfEpdysA==
 
 "@esbuild/freebsd-arm64@0.18.20":
@@ -302,12 +302,12 @@
 
 "@esbuild/win32-x64@0.18.20":
   version "0.18.20"
-  resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.18.20.tgz#786c5f41f043b07afb1af37683d7c33668858f6d"
+  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.18.20.tgz"
   integrity sha512-kTdfRcSiDfQca/y9QIkng02avJ+NCaQvrMejlsB3RRv5sE9rRoeBPISaZpKxHELzRxZyLvNts1P27W3wV+8geQ==
 
 "@esbuild/win32-x64@0.20.2":
   version "0.20.2"
-  resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.20.2.tgz#9c907b21e30a52db959ba4f80bb01a0cc403d5cc"
+  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.20.2.tgz"
   integrity sha512-N49X4lJX27+l9jbLKSqZ6bKNjzQvHaT8IIFUy+YIqmXQdjYCToGWwOItDrfby14c78aDd5NHQl29xingXfCdLQ==
 
 "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
@@ -351,7 +351,7 @@
 
 "@formkit/tempo@^0.1.1":
   version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@formkit/tempo/-/tempo-0.1.1.tgz#7371bb1aa0e18bf2edc94b271e998da0de80ea30"
+  resolved "https://registry.npmjs.org/@formkit/tempo/-/tempo-0.1.1.tgz"
   integrity sha512-nepRwKnCIjukLkblqh339sSXYI6P3cqktF/T7ECj3vURW+Pd+YzTv/I/lwjRqPGmlQJG93LORodIAkvgoExIAg==
 
 "@googlemaps/markerclusterer@^2.0.3":
@@ -585,7 +585,7 @@
 
 "@rollup/rollup-darwin-x64@4.14.1":
   version "4.14.1"
-  resolved "https://registry.npmjs.org/@rollup/rollup-darwin-x64/-/rollup-darwin-x64-4.14.1.tgz"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-darwin-x64/-/rollup-darwin-x64-4.14.1.tgz#217737f9f73de729fdfd7d529afebb6c8283f554"
   integrity sha512-2pYRzEjVqq2TB/UNv47BV/8vQiXkFGVmPFwJb+1E0IFFZbIX8/jo1olxqqMbo6xCXf8kabANhp5bzCij2tFLUA==
 
 "@rollup/rollup-linux-arm-gnueabihf@4.14.1":
@@ -640,7 +640,7 @@
 
 "@rollup/rollup-win32-x64-msvc@4.14.1":
   version "4.14.1"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.14.1.tgz#299eee74b7d87e116083ac5b1ce8dd9434668294"
+  resolved "https://registry.npmjs.org/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.14.1.tgz"
   integrity sha512-wQGI+LY/Py20zdUPq+XCem7JcPOyzIJBm3dli+56DJsQOHbnXZFEwgmnC6el1TPAfC8lBT3m+z69RmLykNUbew==
 
 "@sinclair/typebox@^0.27.8":
@@ -1967,7 +1967,7 @@ fs.realpath@^1.0.0:
 
 fsevents@~2.3.2, fsevents@~2.3.3:
   version "2.3.3"
-  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
   integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
 function-bind@^1.1.2:
@@ -2593,15 +2593,6 @@ markdown-it@^12.3.2:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
-maze-components@^0.0.21:
-  version "0.0.21"
-  resolved "https://registry.npmjs.org/maze-components/-/maze-components-0.0.21.tgz"
-  integrity sha512-AiPs0bBXOxYmWuXfCLsYHc66L8e9mctIdQV3wVGZIiHVX4woo+pGUq+NEhl6AKEKXc5wB66FhJ4I1wOHgmwvWA==
-  dependencies:
-    primeicons "^6.0.1"
-    primevue "^3.26.1"
-    vue "^3.2.45"
-
 mdn-data@2.0.28:
   version "2.0.28"
   resolved "https://registry.npmjs.org/mdn-data/-/mdn-data-2.0.28.tgz"
@@ -3008,7 +2999,7 @@ primeicons@^6.0.1:
   resolved "https://registry.npmjs.org/primeicons/-/primeicons-6.0.1.tgz"
   integrity sha512-KDeO94CbWI4pKsPnYpA1FPjo79EsY9I+M8ywoPBSf9XMXoe/0crjbUK7jcQEDHuc0ZMRIZsxH3TYLv4TUtHmAA==
 
-primevue@^3.22.1, primevue@^3.26.1:
+primevue@^3.22.1:
   version "3.43.0"
   resolved "https://registry.npmjs.org/primevue/-/primevue-3.43.0.tgz"
   integrity sha512-iW2gEbM79v5RzRYIrg010fN1DRr5CIRdMsVMG3pBUCq0rzUGnm/hlzJ9ThDZyJrA0/tEKByAo/Pra56s5PnvqQ==
@@ -3839,7 +3830,7 @@ vue3-signature@^0.2.3:
     signature_pad "^3.0.0-beta.4"
     vue "^3.2.37"
 
-vue@^3.2.37, vue@^3.2.45, vue@^3.4.15:
+vue@^3.2.37, vue@^3.4.15:
   version "3.4.15"
   resolved "https://registry.npmjs.org/vue/-/vue-3.4.15.tgz"
   integrity sha512-jC0GH4KkWLWJOEQjOpkqU1bQsBwf4R1rsFtw5GQJbjHVKWDzO6P0nWWBTmjp1xSemAioDFj1jdaK1qa3DnMQoQ==

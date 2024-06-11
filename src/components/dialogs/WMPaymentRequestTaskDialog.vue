@@ -1,3 +1,4 @@
+<!-- eslint-disable max-len -->
 <template>
   <Dialog
     v-model:visible="modelValue"
@@ -246,9 +247,7 @@ const handleCreatePaymentRequestTask = () => {
   onSave();
 };
 
-const onSave = handleSubmit((values) => {
-  console.log("values", values);
-
+const onSave = handleSubmit(() => {
   createTask(parseTask(taskInfo.value))
     .then(async (response) => {
       modelValue.value = false;

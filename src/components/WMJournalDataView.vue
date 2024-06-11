@@ -1,25 +1,5 @@
 <template>
   <DataView :value="entries">
-    <!-- <template #header>
-      <div
-        class="flex flex-row justify-content-between align-items-center gap-4"
-      >
-        <div class="flex justify-content-start gap-2">
-          <div>
-            <span class="p-input-icon-left">
-              <i class="pi pi-search" />
-              <InputText class="" :placeholder="$t('search')" />
-            </span>
-          </div>
-          <WMButtonSort sortUpLabel="Sort Up" sortDownLabel="Sort Down">
-            Sort
-          </WMButtonSort>
-          <WMButton name="filter" icon="filter" @click="onAttachClick">
-            Attach
-          </WMButton>
-        </div>
-      </div>
-    </template> -->
     <template #list="slotProps">
       <div
         v-for="(item, index) in slotProps.items"
@@ -59,28 +39,6 @@
           </div>
           <div>{{ item.content }}</div>
         </div>
-        <!-- <div class="flex flex-row justify-items-end align-items-center gap-2">
-          <WMButton
-            @click="toggle"
-            aria-haspopup="true"
-            name="kebab"
-            aria-controls="overlay_menu"
-            icon="kebab"
-          />
-          <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
-            <template #item="slotProps">
-              <button
-                @click="profileClick"
-                class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2"
-              >
-                <img :src="slotProps.item.image" />
-                <div class="flex flex-column align">
-                  {{ slotProps.item.label }}
-                </div>
-              </button>
-            </template>
-          </Menu>
-        </div> -->
       </div>
     </template>
   </DataView>
@@ -99,14 +57,6 @@
       />
     </span>
   </div>
-
-  <!-- <WMButton class="my-3" name="attach" icon="attach" @click="onAttachClick">Attach</WMButton> -->
-  <!-- <div v-if='uploadedFiles.length > 0'>
-        <span>Uploaded Files</span>
-        <div v-for="(file, index) of uploadedFiles" class="flex flex-row justify-content-between align-items-center gap-4">
-            {{ file.name }}
-        </div>
-    </div> -->
 </template>
 
 <script setup>

@@ -45,10 +45,8 @@ export function useFilters() {
       search: query,
     });
 
-    console.log("searchBudgetItems", response);
-
     return {
-      data: response,
+      data: response.budgetItems,
     };
   };
 
@@ -195,7 +193,7 @@ export function useFilters() {
             value: true,
           },
           {
-            name: "assigned_to_me",
+            name: "assigned_by_me",
             label: i18n.t("filters.assigned-by-me"),
             value: true,
           },
@@ -209,14 +207,45 @@ export function useFilters() {
         label: i18n.t("status") + ":",
       },
       {
-        type: "buttons",
+        type: "dropdown",
         name: "priority",
-        optionSet: "service_priority",
+        options: [
+          {
+            name: "all",
+            label: i18n.t("filters.all"),
+            value: true,
+          },
+          {
+            name: "priority",
+            label: 1,
+            value: 1,
+          },
+          {
+            name: "priority",
+            label: 2,
+            value: 2,
+          },
+          {
+            name: "priority",
+            label: 3,
+            value: 3,
+          },
+          {
+            name: "priority",
+            label: 4,
+            value: 4,
+          },
+          {
+            name: "priority",
+            label: 5,
+            value: 5,
+          },
+        ],
         label: i18n.t("service.priority") + ":",
       },
       {
         type: "buttons",
-        name: "urgency",
+        name: "urgent",
         optionSet: "service_urgent",
         label: i18n.t("service.urgency") + ":",
       },
@@ -268,7 +297,7 @@ export function useFilters() {
             value: true,
           },
           {
-            name: "assigned_to_me",
+            name: "assigned_by_me",
             label: i18n.t("filters.assigned-by-me"),
             value: true,
           },
@@ -282,14 +311,45 @@ export function useFilters() {
         label: i18n.t("status") + ":",
       },
       {
-        type: "buttons",
+        type: "dropdown",
         name: "priority",
-        optionSet: "service_priority",
+        options: [
+          {
+            name: "all",
+            label: i18n.t("filters.all"),
+            value: true,
+          },
+          {
+            name: "priority",
+            label: 1,
+            value: 1,
+          },
+          {
+            name: "priority",
+            label: 2,
+            value: 2,
+          },
+          {
+            name: "priority",
+            label: 3,
+            value: 3,
+          },
+          {
+            name: "priority",
+            label: 4,
+            value: 4,
+          },
+          {
+            name: "priority",
+            label: 5,
+            value: 5,
+          },
+        ],
         label: i18n.t("service.priority") + ":",
       },
       {
         type: "buttons",
-        name: "urgency",
+        name: "urgent",
         optionSet: "service_urgent",
         label: i18n.t("service.urgency") + ":",
       },
@@ -444,14 +504,14 @@ export function useFilters() {
       {
         toggable: true,
         type: "entity",
-        name: "milestones",
+        name: "milestone",
         label: i18n.t("milestone.milestones") + ":",
         searchFunction: searchMilestones,
       },
       {
         toggable: true,
         type: "entity",
-        name: "budget-item",
+        name: "budget_item",
         label: i18n.t("budget.budget-item") + ":",
         searchFunction: searchBudgetItems,
       },

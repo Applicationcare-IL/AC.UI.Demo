@@ -28,30 +28,27 @@
           </div>
         </div>
         <div>
-          <WMButton
+          <WMTempButton
             v-if="
               showUpdateEntityStateButton &&
               isEntityActive &&
               can(utilsStore.pluralEntity + '.deactivate')
             "
-            class="m-1 col-6"
-            name="basic-secondary"
+            :text="$t('buttons.deactivate')"
+            type="secondary"
             @click="deactivateEntity()"
-          >
-            {{ $t("buttons.deactivate") }}
-          </WMButton>
-          <WMButton
+          />
+
+          <WMTempButton
             v-if="
               showUpdateEntityStateButton &&
               !isEntityActive &&
               can(utilsStore.pluralEntity + '.activate')
             "
-            class="m-1 col-6"
-            name="basic-secondary"
+            :text="$t('buttons.activate')"
+            type="secondary"
             @click="activateEntity()"
-          >
-            {{ $t("buttons.activate") }}
-          </WMButton>
+          />
         </div>
       </div>
       <Divider v-if="utilsStore.entity != 'asset'" />
@@ -85,15 +82,6 @@
             :multiple="false"
           />
 
-          <!-- <WMButton
-            class="m-1 col-6"
-            name="phone-white"
-            icon="phone"
-            :disabled="selectedElements == 0"
-          >
-            שיחה
-          </WMButton> -->
-
           <WMSendEmailButton
             v-if="can('global.mail') && showEmailButton"
             :selected-elements="selectedElements"
@@ -109,15 +97,12 @@
           <slot name="custom-buttons" />
         </div>
         <div class="flex gap-3 align-items-center">
-          <WMButton
+          <WMCancelButton
             v-if="isActiveTask"
-            class="m-1 col-6"
-            name="cancel"
-            icon="cancel"
+            size="small"
             @click="dialog.cancelService(route.params.id)"
-          >
-            Cancel
-          </WMButton>
+          />
+
           <WMAnnouncementsButton
             v-if="['customer', 'service', 'project'].includes(entityType)"
             :id="route.params.id"

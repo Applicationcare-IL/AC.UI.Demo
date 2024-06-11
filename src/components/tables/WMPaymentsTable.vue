@@ -2,17 +2,11 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMButton
-          v-if="!props.readOnly"
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          icon-position="right"
-          :disabled="budgetItems.length < 1 || isSomePaymentInCreateMode"
-          @click="handleNewPayment"
-        >
-          {{ t("new") }}
-        </WMButton>
+        <WMNewButton 
+            v-if="!props.readOnly" 
+            :text="$t('new')" 
+            :disabled="budgetItems.length < 1 || isSomePaymentInCreateMode" 
+            @click="handleNewPayment" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
@@ -194,10 +188,7 @@
         :header="getColumHeader(column)"
         :class="column.class"
       >
-        <template
-          v-if="column.editable && !props.milestoneId"
-          #editor="{ data, field }"
-        >
+        <template v-if="column.editable && !props.milestoneId" #editor="{ data, field }">
           <Dropdown
             v-model="data[field]"
             :options="milestones"
@@ -504,7 +495,7 @@ const loadLazyData = () => {
   });
 
   getMilestones({ project: props.projectId }).then((response) => {
-    milestones.value = response.map((milestone) => {
+    milestones.value = response.milestones.map((milestone) => {
       return mapShortMilestone(milestone);
     });
   });
@@ -532,6 +523,10 @@ const onRowEditSave = (event) => {
     return;
   }
 
+  if (props.relatedEntity === "task") {
+    newData.task = props.relatedEntityId;
+  }
+
   if (newData.mode === "create") {
     createProjectPayment(props.projectId, parseProjectPayment(newData))
       .then((response) => {
@@ -549,16 +544,14 @@ const onRowEditSave = (event) => {
     return;
   }
 
-  updateProjectPayment(
-    props.projectId,
-    paymentId,
-    parseProjectPayment(newData)
-  ).then((response) => {
-    newData.basic_term = getTermOfPayment(response.basic_term?.id);
-    newData.payment_date = response.payment_date;
-    payments.value[index] = newData;
-    toast.successAction("payment", "updated");
-  });
+  updateProjectPayment(props.projectId, paymentId, parseProjectPayment(newData)).then(
+    (response) => {
+      newData.basic_term = getTermOfPayment(response.basic_term?.id);
+      newData.payment_date = response.payment_date;
+      payments.value[index] = newData;
+      toast.successAction("payment", "updated");
+    }
+  );
 };
 
 const validateForm = (obj) => {
@@ -579,7 +572,6 @@ const validateForm = (obj) => {
 
   for (const field of requiredFields) {
     if (!obj.hasOwnProperty(field) || obj[field] === "") {
-      console.log("field", field);
       return false;
     }
   }

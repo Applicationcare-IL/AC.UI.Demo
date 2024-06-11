@@ -118,8 +118,6 @@ const addFilter = (filter) => {
 };
 
 const clear = () => {
-  console.log("clearing filters");
-
   filterElementRefs.value.forEach((filterElement) => {
     filterElement.clear();
   });

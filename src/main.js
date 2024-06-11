@@ -3,11 +3,9 @@ import "@/assets/styles.scss";
 import "@/assets/themes/mytheme/theme.scss";
 
 import VueGoogleMaps from "@fawmi/vue-google-maps";
-// import 'maze-components/dist/index.css'
 import { createHead } from "@unhead/vue";
 import { QuillEditor } from "@vueup/vue-quill";
 import Echo from "laravel-echo";
-import mazeComponents from "maze-components";
 import { createPinia } from "pinia";
 import BadgeDirective from "primevue/badgedirective";
 import PrimeVue from "primevue/config";
@@ -40,7 +38,6 @@ if (import.meta.env.VITE_PUSHER_APP_KEY) {
 
 const app = createApp(App)
   .use(PrimeVue, { ripple: true })
-  .use(mazeComponents)
   .use(ConfirmationService)
   .use(ToastService)
   .use(Vue3Signature)

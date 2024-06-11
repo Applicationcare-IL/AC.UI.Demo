@@ -3,32 +3,20 @@
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
         <WMAssignContactButton
+          v-if="!props.readOnly"
           :options="['contacts', 'teams']"
           @add-contacts="addContacts"
         />
       </div>
-      <!-- <div class="flex flex-row align-items-center gap-3">
-        <WMOwnerToggle entity="contact" />
-      </div> -->
-    </div>
-    <div class="flex flex-row gap-3">
-      <!-- <WMSearchBox v-model="searchValue" entity="contact" /> -->
-      <!-- <WMFilterButton
-        :is-active="isFilterApplied || isFilterVisible"
-        @click="openFilterSidebar"
+      <WMTablePaginator
+        :total-records="totalRecords"
+        :current-page="currentPage"
+        :current-offset="datatableOffset"
+        @update:rows="handleNumberOfRowsPerPage"
       />
-      <WMSidebar
-        :visible="isFilterVisible"
-        name="filterContact"
-        @close-sidebar="closeFilterSidebar"
-        @open-sidebar="openFilterSidebar"
-      >
-        <WMFilterForm entity="contact" filter-form-name="contact" />
-      </WMSidebar> -->
     </div>
   </div>
 
-  <!-- <pre>{{ contacts }}</pre> -->
   <DataTable
     v-model:selection="selectedContacts"
     lazy
@@ -36,14 +24,13 @@
     data-key="contact_id"
     table-style="min-width: 50rem"
     scrollable
-    :paginator="showControls"
-    :rows="props.rows"
+    paginator
+    :rows="rowsPerPage"
     :total-records="totalRecords"
     class="w-full"
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <!-- <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column> -->
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -110,26 +97,21 @@
         </template>
         <template v-if="column.type === 'actions'">
           <div class="flex flex-row gap-2">
-            <WMButton
+            <WMEditButtonIconOnly
               v-if="column.buttons?.includes('edit') && !editMode[slotProps.index]"
-              name="edit"
-              icon="edit"
               @click="editMode[slotProps.index] = true"
             />
-            <WMButton
+
+            <WMSaveButtonIconOnly
               v-if="column.buttons?.includes('edit') && editMode[slotProps.index]"
-              name="save"
-              icon="save"
-              class="in_table"
               @click="
                 saveRow(slotProps.data);
                 editMode[slotProps.index] = false;
               "
             />
-            <WMButton
+
+            <WMUnlinkButtonIconOnly
               v-if="column.buttons?.includes('unlink')"
-              name="unlink"
-              icon="unlink"
               @click="unlinkContact(slotProps.data)"
             />
           </div>
@@ -146,6 +128,7 @@
             file-name="contract"
             :has-file="slotProps.data.contract"
             :download-url="slotProps.data.contract?.download_url"
+            :disabled="props.readOnly"
           />
         </template>
         <template v-if="column.type === 'currency'">
@@ -199,6 +182,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  readOnly: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -213,11 +200,15 @@ const emit = defineEmits([
 const selectedContacts = ref(null);
 // const isFilterOpen = ref(false);
 // const isFilterApplied = ref(false);
-const totalRecords = ref(0);
 const editMode = ref([]);
 const contacts = ref([]);
 const searchValue = ref(props.searchValue);
 const lazyParams = ref({});
+
+const totalRecords = ref(0);
+const rowsPerPage = ref(10);
+const currentPage = ref(1);
+const datatableOffset = ref(0);
 
 // COMPUTED
 // If the source of data is external, we don't need to load the
@@ -233,8 +224,7 @@ const loadLazyData = () => {
   const searchValueParam = searchValue.value;
 
   const paramOptions = {
-    // ...filters,
-    per_page: 10,
+    per_page: rowsPerPage.value,
   };
 
   if (nextPage && nextPage > 1) {
@@ -261,9 +251,14 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const addContacts = (addedContacts) => {
-  console.log("addContacts", addedContacts);
+const handleNumberOfRowsPerPage = (numberOfRowsPerPage) => {
+  currentPage.value = 1;
+  datatableOffset.value = 0;
+  rowsPerPage.value = numberOfRowsPerPage;
+  loadLazyData();
+};
 
+const addContacts = (addedContacts) => {
   addedContacts.forEach(async (contact) => {
     contact.role_project = getDefaultRole();
     contact.main = false;
@@ -325,20 +320,20 @@ const onSelectionChanged = () => {
   utilsStore.selectedElements["contact"] = selectedContacts.value;
 };
 
-const saveRow = (contact) => {
+const saveRow = (teamMember) => {
   const projectId = parseInt(props.projectId);
-  const teamMemberId = contact.id;
+  const teamMemberId = teamMember.id;
 
   const contactParams = {
     project: projectId,
-    contact: teamMemberId,
-    role: contact.role_project?.id,
-    customer: contact.customer.id,
-    contract_number: contact.contract_number ? contact.contract_number : 0,
-    contract_amount: contact.contract_amount ? contact.contract_amount : 0,
+    contact: teamMember.contact_id,
+    role: teamMember.role_project?.id,
+    customer: teamMember.customer.id,
+    contract_number: teamMember.contract_number ? teamMember.contract_number : 0,
+    contract_amount: teamMember.contract_amount ? teamMember.contract_amount : 0,
   };
 
-  if (contact.state === "not-saved") {
+  if (teamMember.state === "not-saved") {
     assignContactToProject(contactParams)
       .then((response) => {
         updateTeamMember(projectId, response.data.id, contactParams);

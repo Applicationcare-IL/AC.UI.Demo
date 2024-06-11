@@ -9,6 +9,7 @@
       <WMCancelButton
         v-if="can('tasks.cancel')"
         :is-disabled="!isTaskCancellable"
+        size="small"
         @click="handleCancelTasks"
       />
     </template>

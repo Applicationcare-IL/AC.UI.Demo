@@ -35,13 +35,8 @@
           {{ $t(firstError) }}
         </div>
 
-        <WMButton
-          class="w-full mt-4"
-          name="new"
-          type="submit"
-          @click="handleLogin"
-          >{{ $t("login.save-new-password") }}
-        </WMButton>
+        <WMNewButton :text="$t('login.save-new-password')" @click="handleLogin" />
+
       </div>
     </div>
   </AuthLayout>

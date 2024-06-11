@@ -31,7 +31,6 @@ const fetchTasks = async () => {
   };
 
   await getTasksFromApi(params).then(({ data }) => {
-    console.log("getTasksFromApi fetchTasks", params);
     tasks.value = data;
   });
 };

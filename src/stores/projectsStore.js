@@ -85,7 +85,6 @@ export const useProjectsStore = defineStore("projects", {
         });
     },
     updateTeamMember(projectId, teamMemberId, params) {
-      console.log("params", params);
       return axiosConfig
         .patch(`/projects/${projectId}/team/${teamMemberId}`, params)
         .then((response) => {
@@ -354,7 +353,7 @@ export const useProjectsStore = defineStore("projects", {
       return axiosConfig
         .get("/milestones", { params })
         .then((response) => {
-          return response.data.data;
+          return response.data;
         })
         .catch((error) => {
           console.error(error);

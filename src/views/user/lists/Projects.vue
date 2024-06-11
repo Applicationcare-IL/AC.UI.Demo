@@ -1,6 +1,7 @@
 <template>
   <WMListSubHeader
     entity="project"
+    :total-records="totalRecords"
     @new="toggleSidebarVisibility"
     @refresh-table="
       loadLazyData();

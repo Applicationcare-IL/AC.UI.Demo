@@ -99,7 +99,7 @@ export function useDialog() {
         message: i18n.t("project.notification-cancel-project-message"),
         header: i18n.t("project.notification-cancel-project-header"),
         acceptLabel: i18n.t("project.notification-cancel-project-yes"),
-        rejectLabel: i18n.t("project.notification-cancel-task-no"),
+        rejectLabel: i18n.t("project.notification-cancel-project-no"),
         accept: () => {
           resolve(true);
         },

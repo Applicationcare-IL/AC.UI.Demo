@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="loaded"
-    class="wm-detail-form-container pt-5 flex flex-auto flex-column overflow-auto"
-  >
+  <div v-if="loaded" class="wm-detail-form-container pt-5 flex flex-auto flex-column overflow-auto">
     <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="flex-1 card-container top-info-card">
@@ -177,9 +174,7 @@
         </div>
         <div class="card-container flex-1 middle-info-card">
           <Card>
-            <template #title>
-              {{ $t("service.open") }} : {{ customer.open_services }}
-            </template>
+            <template #title> {{ $t("service.open") }} : {{ customer.open_services }} </template>
 
             <template #content>
               <div class="flex flex-column gap-3 font-bold">
@@ -195,9 +190,7 @@
                   class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900"
                 >
                   <span class="font-size-20">{{ $t("sla.breached") }}</span>
-                  <span class="font-size-24">{{
-                    customer.breached_services
-                  }}</span>
+                  <span class="font-size-24">{{ customer.breached_services }}</span>
                 </div>
               </div>
             </template>
@@ -205,9 +198,7 @@
         </div>
         <div class="card-container flex-1 middle-info-card">
           <Card>
-            <template #title>
-              {{ $t("task.open") }} : {{ customer.open_tasks }}</template
-            >
+            <template #title> {{ $t("task.open") }} : {{ customer.open_tasks }}</template>
             <template #content>
               <div class="flex flex-column gap-3 font-bold">
                 <div
@@ -243,9 +234,7 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion
-        v-if="checkIfEntityIsActive('services') && can('services.read')"
-      >
+      <Accordion v-if="checkIfEntityIsActive('services') && can('services.read')">
         <AccordionTab :header="$t('service.services')">
           <WMServicesTable
             related-entity="customer"
@@ -269,9 +258,7 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion
-        v-if="can('projects.read') && checkIfEntityIsActive('projects')"
-      >
+      <Accordion v-if="can('projects.read') && checkIfEntityIsActive('projects')">
         <AccordionTab :header="$t('project.projects')">
           <WMProjectsTable
             related-entity="customer"
@@ -493,28 +480,16 @@ const fetchData = async () => {
     selectedServiceAreas.value = service_areas.value.filter((item) =>
       customer.value.service_areas.find((x) => x.id == item.id)
     );
-    selectedRating.value = ratings.value.find(
-      (rating) => rating.id == customer.value.rating.id
-    );
+    selectedRating.value = ratings.value.find((rating) => rating.id == customer.value.rating.id);
 
-    selectedType.value = types.value.find(
-      (type) => type.id == customer.value.type.id
-    );
+    selectedType.value = types.value.find((type) => type.id == customer.value.type.id);
 
-    selectedTerm.value = basicTerms.value.find(
-      (term) => term.id == customer.value.basic_term?.id
-    );
+    selectedTerm.value = basicTerms.value.find((term) => term.id == customer.value.basic_term?.id);
 
-    selectedStatus.value = t(
-      "option-set.customer_status." + customer.value.status.value
-    );
+    selectedStatus.value = t("option-set.customer_status." + customer.value.status.value);
 
-    statusConditionalStyle.value = getStatusConditionalStyle(
-      customer.value.status.value
-    );
-    isProvider.value = yesNoOptions.find(
-      (option) => option.value == customer.value.is_provider
-    );
+    statusConditionalStyle.value = getStatusConditionalStyle(customer.value.status.value);
+    isProvider.value = yesNoOptions.find((option) => option.value == customer.value.is_provider);
   });
 
   loaded.value = true;
@@ -534,13 +509,13 @@ const { handleSubmit, setFieldError, meta, resetForm } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  if (customerNumberExists.value) {
-    setFieldError("number", {
-      key: "validation.exists",
-      values: { label: "customer.customer" },
-    });
-    return;
-  }
+  // if (customerNumberExists.value) {
+  //   setFieldError("number", {
+  //     key: "validation.exists",
+  //     values: { label: "customer.customer" },
+  //   });
+  //   return;
+  // }
 
   updateCustomer(route.params.id, parseCustomer(values))
     .then(() => {

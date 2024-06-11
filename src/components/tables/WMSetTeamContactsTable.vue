@@ -47,10 +47,8 @@
       </template>
       <template v-if="column.type === 'actions'" #body="slotProps">
         <div class="flex flex-row gap-2">
-          <WMButton
+          <WMUnlinkButtonIconOnly
             v-if="column.buttons?.includes('unlink')"
-            name="unlink"
-            icon="unlink"
             @click="unlinkContact(slotProps.data.contact_id)"
           />
         </div>
@@ -129,7 +127,6 @@ const contacts = ref(props.contacts);
 const loadOptionSets = async () => {
   //for each option set in columns, get the option set values
   props.columns.forEach(async (column) => {
-    console.log(column.optionSet);
     if (column.optionSet) {
       optionSets.value[column.optionSet] = await optionSetsStore.getOptionSetValues(
         column.optionSet

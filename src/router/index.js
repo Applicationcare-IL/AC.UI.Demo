@@ -57,12 +57,6 @@ const router = createRouter({
           // component: () => import("@/views/user/Dashboard.vue"),
         },
         {
-          path: "/buttons",
-          name: "buttons",
-          exact: true,
-          component: () => import("@/views/Buttons.vue"),
-        },
-        {
           path: "/search/:query",
           name: "search",
           component: () => import("@/views/user/Search.vue"),
@@ -156,20 +150,17 @@ const router = createRouter({
         {
           path: "/project/:id/budget",
           name: "projectBudget",
-          component: () =>
-            import("@/views/user/forms/detail/ProjectBudget.vue"),
+          component: () => import("@/views/user/forms/detail/ProjectBudget.vue"),
         },
         {
           path: "/project/:id/milestone/:milestoneId",
           name: "projectMilestoneDetail",
-          component: () =>
-            import("@/views/user/forms/detail/ProjectMilestone.vue"),
+          component: () => import("@/views/user/forms/detail/ProjectMilestone.vue"),
         },
         {
           path: "/project/:id/budget-item/:budgetItemId",
           name: "projectBudgetItemDetail",
-          component: () =>
-            import("@/views/user/forms/detail/ProjectBudgetItem.vue"),
+          component: () => import("@/views/user/forms/detail/ProjectBudgetItem.vue"),
         },
         //The path assets is reserved, so we can't use it
         {
@@ -202,6 +193,11 @@ const router = createRouter({
           path: "/create-new-service",
           name: "newServiceMobile",
           component: () => import("@/views/mobile/MobileNewService.vue"),
+        },
+        {
+          path: "/reports",
+          name: "reports",
+          component: () => import("@/views/user/lists/Reports.vue"),
         },
       ],
     },

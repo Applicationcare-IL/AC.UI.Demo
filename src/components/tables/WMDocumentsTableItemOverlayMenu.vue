@@ -1,16 +1,15 @@
 <template>
-  <WMButton
-    @click="toggle"
-    aria-haspopup="true"
-    name="kebab"
-    aria-controls="overlay_menu"
-    icon="kebab"
-  />
-  <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
+  <WMTempButton type="more" :icon-only="true" @click="toggle">
+    <template #customIcon>
+      <div class="flex" v-html="MoreIcon" />
+    </template>
+  </WMTempButton>
+
+  <Menu id="overlay_menu" ref="menu" :model="items" :popup="true">
     <template #item="slotProps">
       <button
-        @click="handleOverlayMenuClick(slotProps.item.action)"
         class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2"
+        @click="handleOverlayMenuClick(slotProps.item.action)"
       >
         <img :src="slotProps.item.image" />
         <div class="flex flex-column align">
@@ -22,6 +21,8 @@
 </template>
 <script setup>
 import { ref } from "vue";
+
+import MoreIcon from "/icons/more_vert.svg?raw";
 
 const { deleteDocument } = useDocuments();
 
@@ -83,7 +84,7 @@ const items = ref([
   // },
   {
     label: "Delete",
-    image: new URL("/icons/menu/delete.svg", import.meta.url).href,
+    image: new URL("/icons/delete.svg", import.meta.url).href,
     action: "delete",
   },
 ]);

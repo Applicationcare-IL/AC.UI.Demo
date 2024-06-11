@@ -11,17 +11,12 @@
       <div class="flex" v-html="AsignIcon" />
     </template>
   </WMTempButton>
-  <OverlayPanel
-    ref="isOpen"
-    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-  >
+  <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
     <div class="flex flex-column gap-2">
       <span> {{ $t("selected-contacts") }}: </span>
       <div class="flex flex-row gap-2">
         <Chip
-          v-for="(item, index) in utilsStore.selectedElements[
-            props.entity
-          ]?.slice(0, 3)"
+          v-for="(item, index) in utilsStore.selectedElements[props.entity]?.slice(0, 3)"
           :key="index"
         >
           {{ item.name }}
@@ -32,22 +27,19 @@
       </div>
       <span>{{ $t("buttons.assign") }}</span>
       <div class="flex flex-row gap-2">
-        <WMButton
-          class="m-1 col-6"
-          :class="{ selected: assignTo == 'employee' }"
-          name="basic-secondary"
+        <WMTempButton
+          :text="$t('user')"
+          type="secondary"
+          :is-active="assignTo == 'employee'"
           @click="onAssignTo('employee')"
-        >
-          {{ $t("user") }}
-        </WMButton>
-        <WMButton
-          class="m-1 col-6"
-          :class="{ selected: assignTo == 'team' }"
-          name="basic-secondary"
+        />
+
+        <WMTempButton
+          :text="$t('team')"
+          type="secondary"
+          :is-active="assignTo == 'team'"
           @click="onAssignTo('team')"
-        >
-          {{ $t("team") }}
-        </WMButton>
+        />
       </div>
 
       <WMInputSearch
@@ -63,9 +55,12 @@
         @change="ownerChanged"
       />
 
-      <WMButton class="m-1 col-6" name="basic-secondary" @click="assignOwner">
-        {{ $t("buttons.assign") }}
-      </WMButton>
+      <WMTempButton
+        class="mt-3"
+        :text="$t('buttons.assign')"
+        type="primary"
+        @click="assignOwner"
+      />
     </div>
   </OverlayPanel>
 </template>

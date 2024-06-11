@@ -4,13 +4,8 @@
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
-        <WMButton
-          name="new"
-          icon="new"
-          icon-position="right"
-          @click="toggleSidebarVisibility"
-          >{{ t("new") }}
-        </WMButton>
+
+        <WMNewButton :text="$t('new')" @click="toggleSidebarVisibility" />
 
         <WMSidebar
           :visible="isVisible"
@@ -71,8 +66,13 @@
           <WMFilterForm entity="task" filter-form-name="task" />
         </WMSidebar>
       </div>
-
-      <!-- <WMTablePaginator /> -->
+      <WMTablePaginator
+        v-if="showPaginationOptions"
+        :total-records="totalRecords"
+        :current-page="currentPage"
+        :current-offset="datatableOffset"
+        @update:rows="handleNumberOfRowsPerPage"
+      />
     </div>
   </div>
 
@@ -86,12 +86,13 @@
     table-style="min-width: 50rem"
     scrollable
     :paginator="showPagination"
-    :rows="props.rows"
-    :first="0"
+    :rows="rowsPerPage"
+    :first="datatableOffset"
     :total-records="totalRecords"
     :class="`p-datatable-${tableClass}`"
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
+    @update:first="datatableOffset = $event"
   >
     <Column v-if="multiselect" style="width: 40px" selection-mode="multiple" />
     <Column
@@ -248,6 +249,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  showPaginationOptions: {
+    type: Boolean,
+    default: true,
+  },
   tableClass: {
     type: String,
     default: "",
@@ -267,6 +272,8 @@ const totalRecords = ref(0);
 const lazyParams = ref({});
 const searchValue = ref("");
 const currentPage = ref(1);
+const rowsPerPage = ref(props.rows);
+const datatableOffset = ref(0);
 
 const isVisible = ref(false);
 const isFilterVisible = ref(false);
@@ -280,9 +287,9 @@ const isFilterApplied = computed(() => {
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = () => {
   const filters = { ...utilsStore.filters["task"], ...props.filters };
-  currentPage.value = lazyParams.value.page + 1;
+  currentPage.value = lazyParams.value.page ? lazyParams.value.page + 1 : 1;
   const searchValueParam = searchValue.value;
-  const selectedRowsPerPageParam = props.rows;
+  const selectedRowsPerPageParam = rowsPerPage.value;
 
   // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams({
@@ -306,6 +313,13 @@ const loadLazyData = () => {
     tasks.value = result.data;
     totalRecords.value = result.totalRecords;
   });
+};
+
+const handleNumberOfRowsPerPage = (numberOfRowsPerPage) => {
+  currentPage.value = 1;
+  datatableOffset.value = 0;
+  rowsPerPage.value = numberOfRowsPerPage;
+  loadLazyData();
 };
 
 const onPage = (event) => {

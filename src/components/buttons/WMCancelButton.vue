@@ -1,10 +1,5 @@
 <template>
-  <WMTempButton
-    :text="text"
-    type="cancel"
-    size="small"
-    :is-disabled="isDisabled"
-  >
+  <WMTempButton :text="text" type="cancel" :size="size" :is-disabled="isDisabled">
     <template #customIcon>
       <div class="flex" v-html="CancelIcon" />
     </template>
@@ -23,5 +18,6 @@ const text = ref(t("buttons.cancel"));
 
 defineProps({
   isDisabled: Boolean,
+  size: String,
 });
 </script>

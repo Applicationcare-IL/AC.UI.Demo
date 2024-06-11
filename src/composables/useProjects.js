@@ -182,7 +182,12 @@ export function useProjects() {
   };
 
   const getMilestones = async (params) => {
-    return await projectsStore.getMilestones(params);
+    const response = await projectsStore.getMilestones(params);
+
+    const milestones = response.data;
+    const totalRecords = response.meta.total;
+
+    return { milestones, totalRecords };
   };
 
   const getProjectMilestone = async (milestoneId) => {
@@ -195,17 +200,19 @@ export function useProjects() {
     return await projectsStore.updateProjectMilestone(milestoneId, data);
   };
 
-  const completeMilestone = async (projectId, milestoneId) => {
+  const completeMilestone = async (milestoneId) => {
     const completeMilestoneStatusId = await optionSetsStore.getValueId(
       "milestone_status",
       "complete"
     );
 
     const inactiveStateId = await optionSetsStore.getValueId("state", "not_active");
+    const today = formatDateToAPI(new Date());
 
     const data = {
       milestone_status: completeMilestoneStatusId,
       state: inactiveStateId,
+      actual_date: today,
     };
 
     return await projectsStore.updateProjectMilestone(milestoneId, data);
@@ -420,6 +427,7 @@ export function useProjects() {
       amount_approved: payment.amount_approved ? payment.amount_approved : 0,
       batch_number: payment.batch_number,
       basic_term: payment.basic_term,
+      task: payment.task,
     };
 
     if (payment.terms_of_payment_id) {
@@ -438,15 +446,26 @@ export function useProjects() {
   };
 
   const parseMilestone = (milestone) => {
-    return {
+    const parsedMilestone = {
       name: milestone["milestone-name"],
       project: milestone.project,
       milestone_type: milestone.type?.id,
       description: milestone.description,
-      planned_date: formatDateToAPI(milestone.plannedDate),
-      actual_date: formatDateToAPI(milestone.actualDate),
-      base_date: formatDateToAPI(milestone.baseDate),
     };
+
+    if (milestone.plannedDate) {
+      parsedMilestone.planned_date = formatDateToAPI(milestone.plannedDate);
+    }
+
+    if (milestone.actualDate) {
+      parsedMilestone.actual_date = formatDateToAPI(milestone.actualDate);
+    }
+
+    if (milestone.baseDate) {
+      parsedMilestone.base_date = formatDateToAPI(milestone.baseDate);
+    }
+
+    return parsedMilestone;
   };
 
   const mapProject = (project) => {
@@ -612,9 +631,9 @@ export function useProjects() {
   const mapMilestone = (milestone) => {
     return {
       ...milestone,
-      planned_date: formatDateFromAPI(milestone.planned_date),
-      actual_date: formatDateFromAPI(milestone.actual_date),
-      base_date: formatDateFromAPI(milestone.base_date),
+      planned_date: milestone.planned_date ? formatDateFromAPI(milestone.planned_date) : null,
+      actual_date: milestone.actual_date ? formatDateFromAPI(milestone.actual_date) : null,
+      base_date: milestone.base_date ? formatDateFromAPI(milestone.base_date) : null,
       title: milestone.name,
     };
   };

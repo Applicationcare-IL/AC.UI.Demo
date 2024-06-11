@@ -1,10 +1,10 @@
 <template>
-  <WMButton class="m-1 col-6" name="location" icon="location" @click="toggle">
-    <span v-if="label">{{ label }}</span>
-    <span v-else>
-      {{ $t("buttons.view_map") }}
-    </span>
-  </WMButton>
+  <WMTempButton :text="viewMapTextButton" type="secondary" size="small" @click="toggle">
+    <template #customIcon>
+      <div class="flex" v-html="MapIcon" />
+    </template>
+  </WMTempButton>
+
   <OverlayPanel ref="isOpen">
     <div class="flex mb-4">
       <div v-if="showAddressData" class="flex-1">
@@ -73,7 +73,12 @@
 </template>
 
 <script setup>
-import { computed, inject, ref, watch } from "vue";
+import { computed, inject, ref } from "vue";
+import { useI18n } from "vue-i18n";
+
+import MapIcon from "/icons/location_on_default.svg?raw";
+
+const { t } = useI18n();
 
 const { location } = inject("location", {});
 
@@ -82,6 +87,14 @@ const isOpen = ref();
 const toggle = (event) => {
   isOpen.value.toggle(event);
 };
+
+const viewMapTextButton = computed(() => {
+  if (props.label) {
+    return props.label;
+  }
+
+  return t("buttons.view_map");
+});
 
 const showAddressData = computed(() => {
   if (location.value.city && location.value.street) {
@@ -92,11 +105,7 @@ const showAddressData = computed(() => {
 });
 
 const showCityData = computed(() => {
-  if (
-    location.value.block ||
-    location.value.parcel ||
-    location.value.sub_parcel
-  ) {
+  if (location.value.block || location.value.parcel || location.value.sub_parcel) {
     return true;
   }
 

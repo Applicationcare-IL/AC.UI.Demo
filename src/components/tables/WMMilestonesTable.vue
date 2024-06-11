@@ -1,5 +1,6 @@
 <template>
   <WMSidebar
+    v-if="create"
     :visible="isVisible"
     name="newMilestone"
     @close-sidebar="closeSidebar"
@@ -16,18 +17,19 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMButton
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          icon-position="right"
-          @click="toggleSidebarVisibility"
-        >
-          {{ $t("buttons.new") }}
-        </WMButton>
+
+        <WMNewButton v-if="create" :text="$t('buttons.new')" @click="toggleSidebarVisibility" />
+
       </div>
+      <WMTablePaginator
+        :total-records="totalRecords"
+        :current-page="currentPage"
+        :current-offset="datatableOffset"
+        @update:rows="handleNumberOfRowsPerPage"
+      />
     </div>
   </div>
+
   <DataTable
     v-model:selection="selectedMilestones"
     data-key="id"
@@ -36,11 +38,12 @@
     table-style="min-width: 50rem"
     scrollable
     paginator
-    :rows="10"
-    :first="0"
+    :rows="rowsPerPage"
+    :first="datatableOffset"
     :total-records="totalRecords"
     :class="`p-datatable-${tableClass}`"
     @page="onPage($event)"
+    @update:first="datatableOffset = $event"
   >
     <Column v-if="multiselect" style="width: 40px" selection-mode="multiple" />
 
@@ -68,7 +71,11 @@
         :class="column.class"
       >
         <template #body="slotProps">
-          {{ formatDate(new Date(slotProps.data[column.field]), "DD/MM/YY") }}
+          {{
+            slotProps.data[column.field]
+              ? formatDate(new Date(slotProps.data[column.field]), "DD/MM/YY")
+              : ""
+          }}
         </template>
       </Column>
 
@@ -83,7 +90,7 @@
           <router-link
             :to="{
               name: 'projectMilestoneDetail',
-              params: { id: projectId, milestoneId: slotProps.data.id },
+              params: { id: project.id, milestoneId: slotProps.data.id },
             }"
             class="vertical-align-middle"
           >
@@ -142,6 +149,10 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  create: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 // REFS
@@ -150,6 +161,10 @@ const totalRecords = ref(0);
 const milestones = ref([]);
 const columns = ref(getMilestonesTableColumns());
 const isVisible = ref(false);
+
+const rowsPerPage = ref(10);
+const currentPage = ref(1);
+const datatableOffset = ref(0);
 
 // COMPUTED
 
@@ -167,12 +182,15 @@ function openSidebar() {
 }
 
 const fetchData = () => {
-  const params = {
+  const params = new URLSearchParams({
+    page: currentPage.value,
+    per_page: rowsPerPage.value,
     project: props.project.id,
-  };
+  });
 
   getMilestones(params).then((response) => {
-    milestones.value = response;
+    milestones.value = response.milestones;
+    totalRecords.value = response.totalRecords;
   });
 };
 
@@ -182,9 +200,21 @@ const getColumHeader = (column) => {
   return column.header ? t(column.header) : t(`milestone.${column.name}`);
 };
 
-const getStatus = (id) => {
-  const status = milestones.value.find((item) => item.id === id);
-  return status ? status : "";
+// const getStatus = (id) => {
+//   const status = milestones.value.find((item) => item.id === id);
+//   return status ? status : "";
+// };
+
+const handleNumberOfRowsPerPage = (numberOfRowsPerPage) => {
+  currentPage.value = 1;
+  datatableOffset.value = 0;
+  rowsPerPage.value = numberOfRowsPerPage;
+  fetchData();
+};
+
+const onPage = (event) => {
+  currentPage.value = event.page + 1;
+  fetchData();
 };
 
 // PROVIDE, EXPOSE

@@ -1,10 +1,6 @@
 <template>
   <Button v-if="hasFileUploaded" class="p-button-only-icon p-lightblue-button">
-    <div
-      class="p-button-svg"
-      @click="handleDownloadFile(documentId)"
-      v-html="FileIcon"
-    />
+    <div class="p-button-svg" @click="handleDownloadFile(documentId)" v-html="FileIcon" />
   </Button>
   <Button
     v-else

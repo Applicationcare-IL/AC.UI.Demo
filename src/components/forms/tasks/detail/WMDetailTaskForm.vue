@@ -136,6 +136,7 @@
           "
           :project="project"
         />
+
         <div
           v-if="task.related_entity == null"
           class="card-container top-info-card flex-1"
@@ -208,7 +209,7 @@
         </Accordion>
       </div>
 
-      <Accordion>
+      <Accordion v-if="showPayments">
         <AccordionTab :header="$t('budget.payments')">
           <WMPaymentsTable
             ref="paymentsTableRef"
@@ -216,6 +217,20 @@
             related-entity="task"
             :related-entity-id="route.params.id"
             :columns="getPaymentsColumns()"
+          />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion v-if="showRoundOfSignatures">
+        <AccordionTab :header="$t('round-of-signatures')">
+          <WMSignatureTasksTable
+            related-entity="project"
+            :related-entity-id="task.project_created.id"
+            :columns="signatureTasksColumns"
+            multiselect
+            :hide-title="true"
+            :show-filters="true"
+            rows="10"
           />
         </AccordionTab>
       </Accordion>
@@ -287,14 +302,20 @@ import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
+const optionSetsStore = useOptionSetsStore();
 const toast = useToast();
 const { updateTask, parseUpdateTask, getTaskFromApi, mapContactsFromTasks } = useTasks();
 const { optionLabelWithLang } = useLanguages();
 const formUtilsStore = useFormUtilsStore();
-const { getTaskDocumentColumns, getPaymentsColumns } = useListUtils();
+const {
+  getTaskDocumentColumns,
+  getPaymentsColumns,
+  getSignatureTaskColumns,
+} = useListUtils();
 const utilsStore = useUtilsStore();
 const route = useRoute();
 const { getServiceFromApi } = useServices();
@@ -314,9 +335,11 @@ const emit = defineEmits(["taskUpdated"]);
 
 // REFS
 const documentsColumns = ref(getTaskDocumentColumns());
+const signatureTasksColumns = ref(getSignatureTaskColumns());
 const task = ref();
 const service = ref();
 const project = ref();
+const PAYMENT_REQUEST_TASK_FAMILY_ID = ref(0);
 
 // COMPUTED
 const contactFullName = computed(() => {
@@ -333,6 +356,14 @@ const projectId = computed(() => {
   }
 
   return null;
+});
+
+const showPayments = computed(() => {
+  return task.value.task_family?.id === PAYMENT_REQUEST_TASK_FAMILY_ID.value;
+});
+
+const showRoundOfSignatures = computed(() => {
+  return task.value.project_created.id && task.value.task_family.value === "payment";
 });
 
 // COMPONENT METHODS AND LOGIC
@@ -365,6 +396,12 @@ const loadTask = async () => {
     utilsStore.selectedElements["task"] = [task.value];
   });
 };
+
+optionSetsStore.getOptionSetValuesFromApiRaw("task_family").then((data) => {
+  PAYMENT_REQUEST_TASK_FAMILY_ID.value = data.find(
+    (taskFamily) => taskFamily.value === "payment"
+  ).id;
+});
 
 // EXPOSE
 defineExpose({

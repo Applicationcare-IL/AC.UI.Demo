@@ -1,26 +1,23 @@
 <template>
-  <div class="wm-subheader shadow-1 flex-none">
-    <div class="flex flex-column gap-5">
-      <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
+  <div class="wm-subheader pb-2 shadow-2 flex-none">
+    <div class="flex flex-column gap-3">
+      <div
+        v-if="showHeader"
+        class="flex flex-row justify-content-between flex-wrap row-gap-4"
+      >
         <div class="flex flex-row flex-wrap gap-2">
-          <WMButton
+          <WMNewButton
             v-if="can(utilsStore.pluralEntity + '.create') && entity != 'asset'"
-            name="new"
-            icon="new"
+            :text="$t('buttons.new')"
             @click="$emit('new')"
-          >
-            {{ $t("buttons.new") }}
-          </WMButton>
+          />
 
-          <WMButton
+          <WMNewButton
             v-if="entity == 'asset'"
-            name="new"
-            icon="new"
+            :text="$t('buttons.new') + ' ' + $t('service.service')"
             :disabled="utilsStore.selectedElements['asset']?.length != 1"
             @click="$emit('new')"
-          >
-            {{ $t("buttons.new") + " " + $t("service.service") }}
-          </WMButton>
+          />
 
           <WMLinkServicesButton
             v-if="utilsStore.entity == 'service'"
@@ -54,8 +51,7 @@
 
           <WMAssignOwnerButton
             v-if="
-              can(utilsStore.pluralEntity + '.assign') &&
-              utilsStore.entity != 'asset'
+              can(utilsStore.pluralEntity + '.assign') && utilsStore.entity != 'asset'
             "
             :entity="utilsStore.entity"
             @owner-assigned="$emit('refreshTable')"
@@ -90,7 +86,7 @@
           <WMOwnerToggle :entity="entity" />
         </div>
       </div>
-      <div class="flex flex-row justify-content-between">
+      <div class="flex flex-row justify-content-between align-items-center">
         <div class="flex flex-row gap-3">
           <WMSearchBox :entity="entity" />
 
@@ -99,17 +95,8 @@
             @click="openFilterSidebar"
           />
         </div>
-        <div class="flex flex-row align-items-center gap-3">
-          <span>{{ $t("rows-per-page") + ":" }}</span>
-          <WMInput
-            width="70"
-            name="status"
-            :highlighted="true"
-            type="input-select"
-            :options="listRowsPerPage"
-            :value="numberOfRows"
-            @update:selected-item="onChange"
-          />
+        <div class="flex flex-row align-items-center">
+          <slot name="paginator" />
         </div>
       </div>
     </div>
@@ -134,30 +121,25 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const { can } = usePermissions();
-const { listRowsPerPage, selectedRowsPerPage } = useListUtils();
+
 const { getScopes } = useActionBuilder();
 
 // INJECT
 
 // PROPS, EMITS
-defineEmits([
-  "new",
-  "taskCompleted",
-  "refreshTable",
-  "assetDeactivated",
-  "export",
-]);
+defineEmits(["new", "taskCompleted", "refreshTable", "assetDeactivated", "export"]);
 
 const props = defineProps({
   activeButtons: Boolean,
   defaultOption: Object,
   entity: String,
+  showHeader: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 // REFS
-const numberOfRows = ref(
-  listRowsPerPage.find((x) => x.value === selectedRowsPerPage.value)
-);
 
 const scopes = ref();
 const selectedElements = ref([]);
@@ -170,10 +152,6 @@ const isFilterApplied = computed(() => {
 });
 
 // COMPONENT METHODS AND LOGIC
-const onChange = (event) => {
-  selectedRowsPerPage.value = event.value;
-};
-
 function closeFilterSidebar() {
   isFilterVisible.value = false;
 }
@@ -182,13 +160,7 @@ function openFilterSidebar() {
   isFilterVisible.value = true;
 }
 
-const enetitiesAvailableForExport = [
-  "task",
-  "customer",
-  "contact",
-  "service",
-  "project",
-];
+const enetitiesAvailableForExport = ["task", "customer", "contact", "service", "project"];
 
 const showExportButton = computed(() => {
   return (

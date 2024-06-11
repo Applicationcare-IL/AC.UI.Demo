@@ -1,5 +1,5 @@
 <template>
-  <Story :layout="{ type: 'grid', width: '50%' }">
+  <Story :layout="{ type: 'grid', width: '200px' }">
     <Variant title="Default">
       <WMTempButton :text="state.content" :is-active="state.active" type="type-1" />
     </Variant>
@@ -13,14 +13,13 @@
     </Variant>
 
     <Variant title="Type 3 (secondary)">
-      <WMTempButton :text="state.content" type="type-3" :is-active="state.active">
-      </WMTempButton>
+      <WMTempButton :text="state.content" type="secondary" :is-active="state.active" />
     </Variant>
 
     <Variant title="Type 3 (secondary) (small)">
       <WMTempButton
         :text="state.content"
-        type="type-3"
+        type="secondary"
         :is-active="state.active"
         size="small"
       >
@@ -28,7 +27,7 @@
     </Variant>
 
     <Variant title="Type-3 (secondary) (with custom icon)">
-      <WMTempButton :text="state.content" type="type-3" :is-active="state.active">
+      <WMTempButton :text="state.content" type="secondary" :is-active="state.active">
         <template #customIcon>
           <div class="flex" v-html="FilterIcon" />
         </template>
@@ -38,7 +37,7 @@
     <Variant title="Type-3 (secondary) (small) (with custom icon)">
       <WMTempButton
         :text="state.content"
-        type="type-3"
+        type="secondary"
         :is-active="state.active"
         size="small"
       >
@@ -49,12 +48,11 @@
     </Variant>
 
     <Variant title="Type 4 (primary)">
-      <WMTempButton :text="state.content" type="type-4" :is-active="state.active">
-      </WMTempButton>
+      <WMTempButton :text="state.content" type="primary" :is-active="state.active" />
     </Variant>
 
     <Variant title="Type-4 (primary) (with custom icon)">
-      <WMTempButton :text="state.content" type="type-4" :is-active="state.active">
+      <WMTempButton :text="state.content" type="primary" :is-active="state.active">
         <template #customIcon>
           <div class="flex" v-html="FilterIcon" />
         </template>
@@ -64,7 +62,7 @@
     <Variant title="Type-4 (primary) (with custom icon) (with badge)">
       <WMTempButton
         :text="state.content"
-        type="type-4"
+        type="primary"
         :is-active="state.active"
         badge="2"
         class="mt-2"
@@ -88,8 +86,12 @@
       </WMTempButton>
     </Variant>
 
-    <Variant title="Icon only">
-      <WMTempButton :is-active="state.active" type="type-4">
+    <Variant title="New">
+      <WMTempButton :text="state.content" type="new" :is-active="state.active" />
+    </Variant>
+
+    <Variant title="New (with custom icon)">
+      <WMTempButton :text="state.content" type="new" :is-active="state.active">
         <template #customIcon>
           <div class="flex" v-html="FilterIcon" />
         </template>
@@ -107,12 +109,63 @@
     <Variant title="Cancel (small)">
       <WMTempButton text="Cancel task" type="cancel" size="small" />
     </Variant>
+
+    <Variant title="Icon only">
+      <WMTempButton :is-active="state.active" type="primary" :icon-only="true">
+        <template #customIcon>
+          <div class="flex" v-html="FilterIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
+
+    <Variant title="More button">
+      <WMTempButton :is-active="state.active" type="more" :icon-only="true">
+        <template #customIcon>
+          <div class="flex" v-html="MoreIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
+
+    <Variant title="Icon only (edit)">
+      <WMTempButton :is-active="state.active" type="type-5" :icon-only="true">
+        <template #customIcon>
+          <div class="flex" v-html="EditIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
+
+    <Variant title="Icon only (save)">
+      <WMTempButton :is-active="state.active" type="save" :icon-only="true">
+        <template #customIcon>
+          <div class="flex" v-html="SaveIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
+
+    <Variant title="Sign button">
+      <WMTempButton :is-active="state.active" type="sign" text="Sign button">
+        <template #customIcon>
+          <div class="flex" v-html="EditIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
+
+    <Variant title="Sign button (small)">
+      <WMTempButton :is-active="state.active" type="sign" text="Sign button" size="small">
+        <template #customIcon>
+          <div class="flex" v-html="EditIcon" />
+        </template>
+      </WMTempButton>
+    </Variant>
   </Story>
 </template>
 <script setup>
 import { reactive } from "vue";
 
+import EditIcon from "/icons/edit_default.svg?raw";
 import FilterIcon from "/icons/filter.svg?raw";
+import MoreIcon from "/icons/more_vert.svg?raw";
+import SaveIcon from "/icons/save_default.svg?raw";
 
 const state = reactive({
   content: "Button",

@@ -24,7 +24,6 @@
     "axios": "^1.4.0",
     "chart.js": "^4.2.1",
     "chartjs-plugin-datalabels": "^2.2.0",
-    "maze-components": "^0.0.21",
     "pinia": "^2.0.36",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",

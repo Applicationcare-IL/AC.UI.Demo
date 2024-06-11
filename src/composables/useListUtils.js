@@ -402,7 +402,7 @@ export function useListUtils() {
       { name: "type", type: "optionset", header: "classification-2" },
       { name: "request1", type: "optionset", header: "classification-3" },
       { name: "duration", type: "text", header: "service.duration" },
-      { name: "owner.name", type: "text", header: "service.owner" },
+      { name: "owner_name", type: "text", header: "service.owner" },
       { name: "sla", type: "sla", header: "service.sla", class: "sla" },
       { name: "status", type: "optionset", header: "service.status" },
       { name: "state", type: "optionset", header: "service.state" },
@@ -1033,6 +1033,64 @@ export function useListUtils() {
     ];
   };
 
+  const getPreviewProjectTeamColumns = () => {
+    return [
+      {
+        name: "contact_name",
+        type: "link",
+        to: "contact",
+        linkParameter: "contact_id",
+        class: "link-col",
+      },
+      { name: "telephone", type: "text" },
+      { name: "email", type: "text" },
+      {
+        name: "contract_number",
+        type: "text",
+        header: "project.contract-number",
+        editable: false,
+      },
+      { name: "contract", type: "attachment", header: "project.contract" },
+      {
+        name: "contract_amount",
+        type: "currency",
+        header: "project.contract-amount",
+        editable: false,
+      },
+      {
+        name: "contract_amount_paid",
+        type: "currency",
+        header: "project.paid-so-far",
+        editable: false,
+      },
+      {
+        name: "contract_amount_remaining",
+        type: "currency",
+        header: "project.remains-to-be-paid",
+        editable: false,
+      },
+      { name: "customers", type: "customers", header: "project.organization" },
+      {
+        name: "basic_term",
+        type: "text",
+        optionSet: false,
+        header: "project.basic-term",
+      },
+      {
+        name: "calculate_term",
+        type: "text",
+        header: "project.calculate-term",
+      },
+      {
+        name: "role_project",
+        type: "role_project",
+        header: "project.role_in_project",
+        optionSet: "contact_project_role",
+        class: "p-0",
+      },
+    ];
+  };
+
   const getCompetitionProcessColumns = () => {
     return [
       {
@@ -1196,6 +1254,7 @@ export function useListUtils() {
     getServiceDocumentsColumns,
     getSignatureTaskColumns,
     getProjectTeamColumns,
+    getPreviewProjectTeamColumns,
     getCompetitionProcessColumns,
     getContactIncomingCallsColumns,
     getMilestonesTableColumns,

@@ -25,7 +25,7 @@
               <div class="small-text counter__label">
                 {{ $t("dashboard.breached-services") }}
               </div>
-              <div class="text-5xl font-bold red">45</div>
+              <div class="text-5xl font-bold red">{{ breachedServices }}</div>
             </div>
             <div class="flex flex-column gap-2 py-2 w-25rem">
               <!-- <WMTeamsAverageTimeBlock /> -->
@@ -153,6 +153,14 @@ const openServices = computed(() => {
   return nearBreach + noBreach + breached;
 });
 
+const breachedServices = computed(() => {
+  if (!servicesSLAData.value) {
+    return 0;
+  }
+
+  return servicesSLAData.value.find((item) => item.sla_status === "breached")?.value || 0;
+});
+
 // COMPONENT METHODS AND LOGIC
 const openServicesSLADialog = () => {
   showServicesSLADialog.value = true;
@@ -182,6 +190,21 @@ const getTeamsAverageDuration = () => {
   return getAvgDuration(teamsAverageDurationFilters);
 };
 
+const getServicesSLAData = async () => {
+  const servicesSLADataFilters = {
+    ...dashboardServicesFilters.value,
+  };
+
+  if (props.selectedTeams && props.selectedTeams.length) {
+    servicesSLADataFilters.owner_id = props.selectedTeams
+      .map((team) => team.id)
+      .join(",");
+    servicesSLADataFilters.owner_type = "team";
+  }
+
+  servicesSLAData.value = await getServicesSLADistribution(servicesSLADataFilters);
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
@@ -189,6 +212,7 @@ watch(
   () => props.selectedTeams,
   async () => {
     teamsAvgDuration.value = await getTeamsAverageDuration();
+    getServicesSLAData();
   }
 );
 
@@ -208,9 +232,8 @@ onMounted(async () => {
   servicesTrendingAreas.value = await getServicesTrendingAreas(
     dashboardServicesFilters.value
   );
-  servicesSLAData.value = await getServicesSLADistribution(
-    dashboardServicesFilters.value
-  );
+
+  getServicesSLAData();
 
   myAvgDuration.value = await getMyAverageDuration();
   teamsAvgDuration.value = await getTeamsAverageDuration();

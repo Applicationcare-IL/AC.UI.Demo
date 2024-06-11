@@ -86,6 +86,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  inTable: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // REFS
@@ -103,6 +107,7 @@ const inputCurrencyClasses = computed(() => {
     "input-currency--editable": !props.readOnly,
     "layout-rtl": layoutConfig.isRTL.value,
     "text-base": props.small,
+    "justify-content-between": props.inTable,
   };
 });
 

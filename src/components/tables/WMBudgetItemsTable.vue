@@ -17,14 +17,9 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMButton
-          class="m-1 col-6"
-          name="new"
-          icon="new"
-          icon-position="right"
-          @click="toggleSidebarVisibility"
-          >{{ $t("new") }}</WMButton
-        >
+
+        <WMNewButton :text="$t('new')" @click="toggleSidebarVisibility" />
+
       </div>
     </div>
   </div>

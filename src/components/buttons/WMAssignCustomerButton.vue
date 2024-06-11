@@ -1,11 +1,11 @@
 <template>
-  <WMButton class="m-1 col-6" name="assign-white" icon="assign" @click="toggle">
-    {{ $t("buttons.link_customer") }}
-  </WMButton>
-  <OverlayPanel
-    ref="isOpen"
-    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-  >
+  <WMTempButton :text="$t('buttons.link_customer')" type="primary" @click="toggle">
+    <template #customIcon>
+      <div class="flex" v-html="WorkIcon" />
+    </template>
+  </WMTempButton>
+
+  <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
     <div class="flex flex-column gap-2">
       <WMInputSearch
         name="assignCustomer"
@@ -19,17 +19,17 @@
         :model-value="selectedCustomers"
         @update:model-value="updateSelectedCustomers"
       />
-      <WMButton
-        class="m-1 col-6"
-        name="basic-secondary"
+
+      <WMTempButton
+        class="mt-2"
+        :text="$t('buttons.assign')"
+        type="primary"
         @click="
           emit('addCustomers', selectedCustomers);
           closeOverlay();
           clearSelectedCustomers();
         "
-      >
-        {{ $t("buttons.assign") }}
-      </WMButton>
+      />
     </div>
   </OverlayPanel>
   <WMSidebar
@@ -52,6 +52,7 @@
 // IMPORTS
 import { ref } from "vue";
 
+import WorkIcon from "/icons/work.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES

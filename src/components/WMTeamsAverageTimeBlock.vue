@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="bg-gray-25 border-round-md w-full flex flex-column p-2 justify-content-between"
-  >
+  <div class="bg-gray-25 border-round-md w-full flex flex-column p-2 justify-content-between">
     <div class="flex w-full justify-content-between mb-3">
       <span>זמן ממוצע של הצוותים</span>
       <i class="pi pi-ellipsis-v cursor-pointer" @click="visible = true"></i>
@@ -15,12 +13,7 @@
     </div>
   </div>
 
-  <Dialog
-    v-model:visible="visible"
-    modal
-    header="Team’s average time"
-    :style="{ width: '50vw' }"
-  >
+  <Dialog v-model:visible="visible" modal header="Team’s average time" :style="{ width: '50vw' }">
     <Chart type="line" :data="chartData" :options="chartOptions" class="h-30rem" />
   </Dialog>
 </template>
@@ -72,9 +65,7 @@ const mapX = exampleData.map((data) => data.x);
 function minutesToTime(minutes) {
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
-  return `${hours < 10 ? "0" : ""}${hours}:${
-    remainingMinutes < 10 ? "0" : ""
-  }${remainingMinutes}`;
+  return `${hours < 10 ? "0" : ""}${hours}:${remainingMinutes < 10 ? "0" : ""}${remainingMinutes}`;
 }
 
 const setChartData = () => {
@@ -110,7 +101,6 @@ const setChartOptions = () => {
       tooltip: {
         callbacks: {
           label: function (context) {
-            console.log("context: ", context.dataset);
             return minutesToTime(context.parsed.y);
           },
         },

@@ -1,17 +1,15 @@
 <template>
-  <WMButton
-    class="m-1 col-6"
-    name="done-white"
-    icon="done"
+  <WMTempButton
+    :text="completeButtonText"
+    type="type-5"
+    :is-disabled="!isMilestoneCompletable"
     :disabled="!isMilestoneCompletable"
     @click="handleCompleteMilestone"
-    @confirm="doCompleteTasks"
   >
-    <span v-if="isMilestoneCompleted"> {{ t("milestone.completed") }} </span>
-    <span v-else>
-      {{ t("buttons.complete") }}
-    </span>
-  </WMButton>
+    <template #customIcon>
+      <div class="flex" v-html="DoneIcon" />
+    </template>
+  </WMTempButton>
 </template>
 
 <script setup>
@@ -19,6 +17,7 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
+import DoneIcon from "/icons/done.svg?raw";
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
@@ -42,26 +41,30 @@ const selectedElements = ref(0);
 const paymentStatusCompleteId = ref();
 
 // COMPUTED
+const completeButtonText = computed(() => {
+  return isMilestoneCompleted.value ? t("milestone.completed") : t("buttons.complete");
+});
+
 const selectedMilestone = computed(() => {
   return utilsStore.selectedElements["milestone"]?.[0];
 });
 
 const isMilestoneCompleted = computed(() => {
-  return selectedMilestone.value.milestone_status.value == "complete";
+  return selectedMilestone.value.milestone_status?.value == "complete";
 });
 
 // COMPONENT METHODS AND LOGIC
 const isMilestoneCompletable = computed(() => {
   // check if selected milestone status is complete
-  if (selectedMilestone.value.milestone_status.value == "complete") {
+  if (selectedMilestone.value.milestone_status?.value == "complete") {
     return false;
   }
 
   // check if selected milestone is of type project and not completed
   if (utilsStore.selectedElements["milestone"].length == 1) {
     if (
-      selectedMilestone.value.milestone_type.value == "project" &&
-      selectedMilestone.value.milestone_status.value !== "completed"
+      selectedMilestone.value.milestone_type?.value == "project" &&
+      selectedMilestone.value.milestone_status?.value !== "completed"
     ) {
       return true;
     }
@@ -75,10 +78,7 @@ const isMilestoneCompletable = computed(() => {
   }
 
   // check if all payments have the status complete
-  if (
-    selectedMilestone.value.milestone_type.value == "payment" &&
-    payments.length
-  ) {
+  if (selectedMilestone.value.milestone_type?.value == "payment" && payments.length) {
     return payments.every((payment) => {
       return payment.payment_status == paymentStatusCompleteId.value;
     });
@@ -96,13 +96,14 @@ const updateStates = () => {
 };
 
 const handleCompleteMilestone = async () => {
+  if (!isMilestoneCompletable.value) {
+    return;
+  }
+
   let result = await dialog.confirmCompleteMilestone();
 
   if (result) {
-    completeMilestone(
-      selectedMilestone.value.project.id,
-      selectedMilestone.value.id
-    )
+    completeMilestone(selectedMilestone.value.id)
       .then(() => {
         toast.successAction("milestone", "completed");
         emit("milestoneCompleted");
