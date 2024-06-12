@@ -1,10 +1,6 @@
 <template>
-  <div
-    class="layout-topbar flex justify-content-between flex-wrap md:flex-nowrap"
-  >
-    <div
-      class="flex justify-content-between align-items-center mx-3 w-full md:w-auto"
-    >
+  <div class="layout-topbar flex justify-content-between flex-wrap md:flex-nowrap">
+    <div class="flex justify-content-between align-items-center mx-3 w-full md:w-auto">
       <router-link :to="logoRedirectLink">
         <!-- <img :src="logoUrl" alt="logo" /> -->
         <img src="@/assets/images/logo.png" alt="EasyMaze small logo" />
@@ -35,19 +31,13 @@
         >
           <a href="#" @click="onTopbarItemClick($event, 'notifications')">
             <Button type="button" class="border-none bg-white">
-              <img
-                alt="logo"
-                src="/icons/notifications_bell.svg"
-                class="h-2rem"
-              />
+              <img alt="logo" src="/icons/notifications_bell.svg" class="h-2rem" />
               <!-- <Badge value="1" class="topbar-badge notifications-badge p-badge-warning"></Badge> -->
             </Button>
           </a>
 
           <ul class="notifications-dropdown fadeInDown p-4">
-            <li
-              class="layout-submenu-header flex flex-row justify-content-between"
-            >
+            <li class="layout-submenu-header flex flex-row justify-content-between">
               <h6 class="header-text">There are no notifications</h6>
               <!-- <span class="p-badge">3</span> -->
             </li>
@@ -131,8 +121,7 @@ import { useRouter } from "vue-router";
 import { useLayout } from "@/layout/composables/layout";
 import { useAuthStore } from "@/stores/auth";
 
-const orgLogo =
-  import.meta.env.VITE_ADMIN_URL + "/storage/logos/login.png?cache=false";
+const orgLogo = import.meta.env.VITE_ADMIN_URL + "/storage/logos/login.png?cache=false";
 
 const authStore = useAuthStore();
 

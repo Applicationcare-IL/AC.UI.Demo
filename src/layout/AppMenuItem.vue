@@ -92,6 +92,12 @@ const itemClick = (event, item) => {
     return;
   }
 
+  if (item.type === "switcher") {
+    event.preventDefault();
+    item.function();
+    return;
+  }
+
   const { overlayMenuActive, staticMenuMobileActive } = layoutState;
 
   if (

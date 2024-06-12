@@ -38,6 +38,7 @@ module.exports = {
           "Assets",
           "Search",
           "Reports",
+          "Scripts",
         ],
       },
     ],

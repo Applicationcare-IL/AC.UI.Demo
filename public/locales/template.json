@@ -151,7 +151,10 @@
     "user": "User",
     "logout": "Logout",
     "assets": "Assets",
-    "reports": "Reports"
+    "reports": "Reports",
+    "user-panel": "User Panel",
+    "admin-panel": "Admin Panel",
+    "scripts": "Scripts"
   },
   "dashboard": {
     "my-tasks": "My Tasks",

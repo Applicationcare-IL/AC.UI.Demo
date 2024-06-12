@@ -11,6 +11,7 @@ export const useUtilsStore = defineStore("utils", {
     debounceTimer: null,
     entity: "",
     dateFormat: "DD/MM/YY",
+    adminZone: false,
   }),
   getters: {
     pluralEntity: (state) => {
@@ -18,6 +19,9 @@ export const useUtilsStore = defineStore("utils", {
     },
   },
   actions: {
+    setAdminZoneState(value) {
+      this.adminZone = value;
+    },
     getNextEntityID(params) {
       return axiosConfig
         .get("/next-id", { params })
@@ -48,9 +52,7 @@ export const useUtilsStore = defineStore("utils", {
       return [
         {
           "bg-green-200 text-green-900": ["active", "open"].includes(status),
-          "bg-red-100 text-red-900": ["terminated", "not_active"].includes(
-            status
-          ),
+          "bg-red-100 text-red-900": ["terminated", "not_active"].includes(status),
         },
       ];
     },
