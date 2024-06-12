@@ -19,8 +19,7 @@ whenever(ctrl_s, () => {
 });
 
 const israeliPhoneRegex = /^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$/;
-const israeliLandlineRegex =
-  /^0(?:[234689]|5[0-689]|7[246789])(?![01])(\d{7})$/;
+const israeliLandlineRegex = /^0(?:[234689]|5[0-689]|7[246789])(?![01])(\d{7})$/;
 
 export const useFormUtilsStore = defineStore("formUtils", {
   state: () => ({
@@ -197,15 +196,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
         number: yup
           .string()
           .required()
-          .test(
-            "unique",
-            "validation.customer-already-exists",
-            async (value) => {
-              if (!value) return true;
-              const exists = await customersStore.checkIfCustomerExists(value);
-              return !exists;
-            }
-          ),
+          .test("unique", "validation.customer-already-exists", async (value) => {
+            if (!value) return true;
+            const exists = await customersStore.checkIfCustomerExists(value);
+            return !exists;
+          }),
         rating: yup
           .object()
           .required({
@@ -224,17 +219,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
             values: { label: "customer.field" },
           }),
         email: yup.string().email().required(),
-        phone: yup
-          .string()
-          .trim()
-          .matches(state.israeliPhoneRegex, "validation.phone")
-          .required(),
-        landline: yup
-          .string()
-          .test("landline", "validation.landline", (value) => {
-            if (!value) return true;
-            return value.match(state.israeliLandlineRegex);
-          }),
+        phone: yup.string().trim().matches(state.israeliPhoneRegex, "validation.phone").required(),
+        landline: yup.string().test("landline", "validation.landline", (value) => {
+          if (!value) return true;
+          return value.match(state.israeliLandlineRegex);
+        }),
         fax: yup.string().test("fax", "validation.fax", (value) => {
           if (!value) return true;
           return value.match(/^\d{9}$/);
@@ -280,11 +269,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
           values: { label: "customer.field" },
         }),
         email: yup.string().email().required(),
-        phone: yup
-          .string()
-          .trim()
-          .matches(state.israeliPhoneRegex, "validation.phone")
-          .required(),
+        phone: yup.string().trim().matches(state.israeliPhoneRegex, "validation.phone").required(),
       });
     },
 
@@ -294,17 +279,19 @@ export const useFormUtilsStore = defineStore("formUtils", {
       return yup.object({
         "contact-number": yup
           .string()
-          .min(9, "validation.contactid")
-          .required()
-          .test(
-            "unique",
-            "validation.contact-already-exists",
-            async (value) => {
-              if (!value) return true;
-              const exists = await contactsStore.checkIfContactExists(value);
-              return !exists;
-            }
-          ),
+          .test("min-digits", "validation.contactid", async (value) => {
+            if (!value) return true;
+
+            if (value.length < 9) return false;
+
+            return true;
+          })
+          .test("unique", "validation.contact-already-exists", async (value) => {
+            if (!value) return true;
+
+            const exists = await contactsStore.checkIfContactExists(value);
+            return !exists;
+          }),
         "first-name": yup.string().required(),
         "last-name": yup.string().required(),
         "mobile-phone": yup
@@ -312,37 +299,15 @@ export const useFormUtilsStore = defineStore("formUtils", {
           .trim()
           .matches(state.israeliPhoneRegex, "validation.phone")
           .required(),
-        landline: yup
-          .string()
-          .test("landline", "validation.landline", (value) => {
-            if (!value) return true;
-            return value.match(state.israeliLandlineRegex);
-          }),
+        landline: yup.string().test("landline", "validation.landline", (value) => {
+          if (!value) return true;
+          return value.match(state.israeliLandlineRegex);
+        }),
         fax: yup.string().test("fax", "validation.fax", (value) => {
           if (!value) return true;
           return value.match(/^\d{9}$/);
         }),
         email: yup.string().email().required(),
-        // city: yup
-        //   .object()
-        //   .required({
-        //     key: "validation.required-select",
-        //     values: { label: "address.city" },
-        //   })
-        //   .typeError({
-        //     key: "validation.required-select",
-        //     values: { label: "address.city" },
-        //   }),
-        // street: yup
-        //   .object()
-        //   .required({
-        //     key: "validation.required-select",
-        //     values: { label: "address.street" },
-        //   })
-        //   .typeError({
-        //     key: "validation.required-select",
-        //     values: { label: "address.street" },
-        //   }),
       });
     },
     getContactDetailFormValidationSchema: (state) => {
