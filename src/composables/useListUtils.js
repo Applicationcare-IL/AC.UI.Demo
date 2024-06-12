@@ -507,10 +507,11 @@ export function useListUtils() {
         class: "link-col",
       },
       { name: "related", type: "related_entity" },
-      { name: "status", type: "optionset", prefix: "statuses" },
-      { name: "due_date", type: "text" },
       { name: "contact", type: "contact", class: "link-col" },
       { name: "sla", type: "sla", class: "sla" },
+      { name: "due_date", type: "text" },
+      { name: "description", type: "text" },
+      { name: "status", type: "optionset", prefix: "statuses" },
       { name: "read", type: "text" },
     ];
   };
