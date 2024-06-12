@@ -106,10 +106,12 @@ const handleLogin = handleSubmit((values) => {
             error.value = "User Data not found";
           });
       } else {
+        loading.value = false;
         error.value = `login.${response.data.message}`;
       }
     })
     .catch((error) => {
+      loading.value = false;
       error.value = `login.${error.data.message}`;
     });
 });

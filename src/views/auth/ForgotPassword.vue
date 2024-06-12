@@ -17,8 +17,12 @@
           {{ $t(error) }}
         </div>
 
-        <WMNewButton :text="$t('login.send-reset-link')" @click="handleForgotPassword" />
-
+        <WMTempButton
+          :text="$t('login.send-reset-link')"
+          type="new"
+          class="w-full mt-3"
+          @click="handleForgotPassword"
+        />
       </div>
     </div>
   </AuthLayout>
@@ -34,11 +38,7 @@
     </span>
 
     <div class="flex justify-content-end gap-2">
-      <Button
-        type="button"
-        :label="$t('login.confirm')"
-        @click="visible = false"
-      />
+      <Button type="button" :label="$t('login.confirm')" @click="visible = false" />
     </div>
   </Dialog>
 </template>
