@@ -30,7 +30,7 @@ const items = ref([
         label: computed(() =>
           adminZone.value ? t("navigation.user-panel") : t("navigation.admin-panel")
         ),
-        to: "/admin",
+        to: computed(() => (adminZone.value ? "/dashboard" : "/admin")),
         type: "switcher",
         function: () => switchAdminZone(),
         image: new URL("/icons/nav/dashboard.svg", import.meta.url).href,

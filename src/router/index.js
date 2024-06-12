@@ -205,6 +205,13 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         {
+          path: "/admin",
+          name: "adminIndex",
+          redirect: () => {
+            return "/admin/scripts";
+          },
+        },
+        {
           path: "scripts",
           name: "adminScripts",
           component: () => import("@/views/admin/lists/Scripts.vue"),
