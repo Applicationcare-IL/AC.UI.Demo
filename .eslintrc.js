@@ -80,5 +80,6 @@ module.exports = {
     expect: true,
     useDates: true,
     useEmployees: true,
+    useAdminFlowmaze: true,
   },
 };

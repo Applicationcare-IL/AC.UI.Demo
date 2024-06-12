@@ -725,5 +725,12 @@
   },
   "password": {
     "alread_in_use": "Password already in use"
+  },
+  "scripts": {
+    "id": "ID",
+    "name": "Name",
+    "hash": "Hash",
+    "is-active": "Is active",
+    "flowmaze-id": "Flowmaze ID"
   }
 }
