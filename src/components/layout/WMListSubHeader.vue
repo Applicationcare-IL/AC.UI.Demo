@@ -58,13 +58,15 @@
           />
 
           <WMSendMessageButton
-            v-if="utilsStore.entity != 'asset'"
+            v-if="utilsStore.entity != 'asset' && showCommunications"
             :selected-elements="selectedElements"
             :multiple="true"
           />
 
           <WMSendEmailButton
-            v-if="can('global.mail') && utilsStore.entity != 'asset'"
+            v-if="
+              can('global.mail') && utilsStore.entity != 'asset' && showCommunications
+            "
             :selected-elements="selectedElements"
             :multiple="true"
           />
@@ -72,11 +74,12 @@
           <Divider v-if="scopes && scopes.length" layout="vertical" />
 
           <WMActionBuilderDropdowns
-            v-if="scopes && scopes.length"
+            v-if="scopes && scopes.length && hasActionBuilder"
             :scopes="scopes"
             :selected-elements="selectedElements"
             @post-action-executed="$emit('refreshTable')"
           />
+          <slot name="custom-buttons" />
         </div>
         <div class="flex flex-row align-items-center gap-3">
           <WMStateToggle
@@ -88,9 +91,10 @@
       </div>
       <div class="flex flex-row justify-content-between align-items-center">
         <div class="flex flex-row gap-3">
-          <WMSearchBox :entity="entity" />
+          <WMSearchBox v-if="showSearchBar" :entity="entity" />
 
           <WMFilterButton
+            v-if="showFilterButton"
             :is-active="isFilterApplied || isFilterVisible"
             @click="openFilterSidebar"
           />
@@ -133,7 +137,23 @@ const props = defineProps({
   activeButtons: Boolean,
   defaultOption: Object,
   entity: String,
+  hasActionBuilder: {
+    type: Boolean,
+    default: true,
+  },
   showHeader: {
+    type: Boolean,
+    default: true,
+  },
+  showFilterButton: {
+    type: Boolean,
+    default: true,
+  },
+  showSearchBar: {
+    type: Boolean,
+    default: true,
+  },
+  showCommunications: {
     type: Boolean,
     default: true,
   },
@@ -169,9 +189,11 @@ const showExportButton = computed(() => {
   );
 });
 
-getScopes(props.entity, "list").then((data) => {
-  scopes.value = data;
-});
+if (props.hasActionBuilder) {
+  getScopes(props.entity, "list").then((data) => {
+    scopes.value = data;
+  });
+}
 
 // PROVIDE, EXPOSE
 

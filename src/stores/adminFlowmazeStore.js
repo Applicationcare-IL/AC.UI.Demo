@@ -14,5 +14,15 @@ export const useAdminFlowmazeStore = defineStore("adminFlowmaze", {
           console.error(error);
         });
     },
+    syncScripts() {
+      return axiosConfig
+        .post("/admin/flowmaze/scripts/sync")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

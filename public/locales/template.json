@@ -135,7 +135,8 @@
     "announcements": "Announcements",
     "remove": "Remove",
     "sign": "Sign",
-    "sign-document": "Sign document"
+    "sign-document": "Sign document",
+    "sync": "Sync"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -731,6 +732,7 @@
     "name": "Name",
     "hash": "Hash",
     "is-active": "Is active",
-    "flowmaze-id": "Flowmaze ID"
+    "flowmaze-id": "Flowmaze ID",
+    "sync-scripts": "Sync scripts"
   }
 }

@@ -12,8 +12,13 @@ export function useAdminFlowmaze() {
     return { data: scripts, totalRecords };
   };
 
+  const syncScripts = async () => {
+    await adminFlowmazeStore.syncScripts();
+  };
+
   return {
     // ACTIONS
     getScripts,
+    syncScripts,
   };
 }
