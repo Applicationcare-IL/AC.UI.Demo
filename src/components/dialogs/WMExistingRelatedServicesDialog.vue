@@ -7,23 +7,14 @@
     :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
   >
     <div class="flex">
-      <div
-        class="flex flex-column border-left-1 existing-related-services-dialog__filters"
-      >
-        <WMFilterForm
-          entity="related-service"
-          filter-form-name="related-service"
-        />
+      <div class="flex flex-column border-left-1 existing-related-services-dialog__filters">
+        <WMFilterForm entity="related-service" filter-form-name="related-service" />
       </div>
       <div class="flex flex-column p-3 existing-related-services-dialog__table">
         <WMExistingServicesTable @update:selection="onSelectionChanged" />
         <div class="flex flex-row w-full justify-content-end gap-3 mt-3">
-          <WMTempButton
-            :text="$t('buttons.cancel')"
-            type="type-3"
-            @click="closeDialog"
-          />
-          <WMTempButton
+          <WMButton :text="$t('buttons.cancel')" type="type-3" @click="closeDialog" />
+          <WMButton
             :text="$t('buttons.link-service')"
             type="type-4"
             :disabled="!selectedService"

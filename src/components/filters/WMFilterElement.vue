@@ -20,7 +20,7 @@
             <div class="p-button-svg flex" v-html="ExpandIcon" />
           </div>
         </div>
-        <WMTempButton :text="$t('buttons.clear')" type="clear mx-0 px-0" @click="clear" />
+        <WMButton :text="$t('buttons.clear')" type="clear mx-0 px-0" @click="clear" />
       </div>
     </div>
 
@@ -100,11 +100,7 @@
         </div>
         <div class="flex flex-column">
           <label v-if="label != ''" class="wm-form-label"> {{ $t("to") }}: </label>
-          <Calendar
-            v-model="toDate"
-            show-icon
-            @update:model-value="onDateChanged($event, 'to')"
-          />
+          <Calendar v-model="toDate" show-icon @update:model-value="onDateChanged($event, 'to')" />
         </div>
       </div>
 
@@ -130,7 +126,7 @@
         />
       </div>
 
-      <WMTempButton
+      <WMButton
         v-if="!toggable"
         :text="$t('buttons.clear')"
         type="clear mx-0 px-0"
@@ -393,11 +389,7 @@ const handleSelectedDates = () => {
 };
 
 const handleSelectedButtons = () => {
-  if (
-    props.appliedFilters &&
-    props.appliedFilters[props.filterName] &&
-    props.type == "buttons"
-  ) {
+  if (props.appliedFilters && props.appliedFilters[props.filterName] && props.type == "buttons") {
     selectedButtons.value = props.appliedFilters[props.filterName];
     selectedButtons.value.forEach((element) => {
       const index = optionSetsOptions.value.findIndex((x) => x.id == element);
@@ -407,11 +399,7 @@ const handleSelectedButtons = () => {
 };
 
 const handleSelectedEntity = () => {
-  if (
-    props.appliedFilters &&
-    props.appliedFilters[props.filterName] &&
-    props.type == "entity"
-  ) {
+  if (props.appliedFilters && props.appliedFilters[props.filterName] && props.type == "entity") {
     props.searchFunction().then((options) => {
       selectedOptions.value = options.data.filter((x) =>
         props.appliedFilters[props.filterName].includes(x.id)
@@ -421,11 +409,7 @@ const handleSelectedEntity = () => {
 };
 
 const handleSelectedAutocompleteDropdown = () => {
-  if (
-    props.appliedFilters &&
-    props.appliedFilters[props.filterName] &&
-    props.type == "dropdown"
-  ) {
+  if (props.appliedFilters && props.appliedFilters[props.filterName] && props.type == "dropdown") {
     selectedOptions.value = props.appliedFilters[props.filterName];
   }
 };
@@ -447,11 +431,7 @@ const handleSelectedDropdown = () => {
 };
 
 const handleSelectedState = () => {
-  if (
-    props.appliedFilters &&
-    props.appliedFilters[props.filterName] &&
-    props.type == "state"
-  ) {
+  if (props.appliedFilters && props.appliedFilters[props.filterName] && props.type == "state") {
     selectedOption.value = props.appliedFilters[props.filterName];
   }
 };

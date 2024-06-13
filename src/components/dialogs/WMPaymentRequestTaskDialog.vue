@@ -104,7 +104,7 @@
           @change="handleFileChange"
         />
 
-        <WMTempButton
+        <WMButton
           :text="$t('buttons.upload-file')"
           type="type-3"
           size="small"
@@ -113,7 +113,7 @@
           <template #customIcon>
             <div class="flex" v-html="AttachIcon" />
           </template>
-        </WMTempButton>
+        </WMButton>
       </div>
 
       <div v-if="file" class="flex flex-column gap-2">
@@ -145,13 +145,13 @@
       </div>
 
       <div class="flex gap-2 mt-5 justify-content-end">
-        <WMTempButton
+        <WMButton
           :text="$t('buttons.cancel')"
           type="type-3"
           :is-active="false"
           @click="modelValue = false"
         />
-        <WMTempButton
+        <WMButton
           :text="$t('task.create-payment-request')"
           type="type-4"
           :is-active="false"

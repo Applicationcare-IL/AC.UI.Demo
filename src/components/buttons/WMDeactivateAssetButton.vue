@@ -1,5 +1,5 @@
 <template>
-  <WMTempButton
+  <WMButton
     :text="t('asset.deactivate')"
     type="secondary"
     :disabled="selectedElements == 0"
@@ -42,9 +42,7 @@ const handleDeactivateAsset = () => {
 
 const updateStates = () => {
   selectedElements.value = utilsStore.selectedElements["asset"].length;
-  areAssetsActive.value = utilsStore.selectedElements["asset"].every(
-    (x) => x.state == "active"
-  );
+  areAssetsActive.value = utilsStore.selectedElements["asset"].every((x) => x.state == "active");
 };
 
 // PROVIDE, EXPOSE

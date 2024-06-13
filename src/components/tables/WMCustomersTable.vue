@@ -7,12 +7,7 @@
       <div class="flex flex-row gap-2">
         <WMAssignCustomerButton @add-customers="addCustomers" />
 
-        <WMTempButton
-          v-if="env.DEV"
-          text="Refresh"
-          type="secondary"
-          @click="loadLazyData"
-        />
+        <WMButton v-if="env.DEV" text="Refresh" type="secondary" @click="loadLazyData" />
       </div>
       <div class="flex flex-row align-items-center gap-3">
         <WMOwnerToggle entity="customer" />
@@ -20,10 +15,7 @@
     </div>
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="customer" />
-      <WMFilterButton
-        :is-active="isFilterOpen || isFilterApplied"
-        @click="openFilterSidebar"
-      />
+      <WMFilterButton :is-active="isFilterOpen || isFilterApplied" @click="openFilterSidebar" />
 
       <WMSidebar
         :visible="isFilterVisible"

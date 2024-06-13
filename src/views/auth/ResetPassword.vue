@@ -35,7 +35,7 @@
           {{ $t(firstError) }}
         </div>
 
-        <WMTempButton
+        <WMButton
           :text="$t('login.save-new-password')"
           type="new"
           class="w-full mt-3"

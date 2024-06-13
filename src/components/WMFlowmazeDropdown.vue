@@ -1,5 +1,5 @@
 <template>
-  <WMTempButton
+  <WMButton
     :text="label"
     type="type-5"
     icon="pi-chevron-down"

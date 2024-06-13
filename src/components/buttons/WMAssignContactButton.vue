@@ -1,9 +1,9 @@
 <template>
-  <WMTempButton :text="$t('buttons.link_contact')" type="type-4" @click="toggle">
+  <WMButton :text="$t('buttons.link_contact')" type="type-4" @click="toggle">
     <template #customIcon>
       <div class="flex" v-html="PersonIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 
   <OverlayPanel
     ref="isOpen"
@@ -55,7 +55,7 @@
         related-sidebar="newContactFromAssignContactButton"
       />
 
-      <WMTempButton
+      <WMButton
         :text="$t('buttons.link')"
         type="type-4"
         @click="

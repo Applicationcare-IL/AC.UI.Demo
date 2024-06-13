@@ -37,7 +37,7 @@
           {{ message }}
         </div>
 
-        <WMTempButton
+        <WMButton
           :text="loginTextButton"
           type="new"
           :disabled="loading"

@@ -1,9 +1,9 @@
 <template>
-  <WMTempButton type="more" :icon-only="true" @click="toggle">
+  <WMButton type="more" :icon-only="true" @click="toggle">
     <template #customIcon>
       <div class="flex" v-html="MoreIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 
   <Menu id="overlay_menu" ref="menu" :model="items" :popup="true">
     <template #item="slotProps">

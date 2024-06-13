@@ -1,5 +1,5 @@
 <template>
-  <WMTempButton
+  <WMButton
     :text="completeButtonText"
     type="type-5"
     :is-disabled="!isMilestoneCompletable"
@@ -9,7 +9,7 @@
     <template #customIcon>
       <div class="flex" v-html="DoneIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 </template>
 
 <script setup>
@@ -135,10 +135,7 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
-  paymentStatusCompleteId.value = await optionSetsStore.getValueId(
-    "payment_status",
-    "complete"
-  );
+  paymentStatusCompleteId.value = await optionSetsStore.getValueId("payment_status", "complete");
 
   updateStates();
 });

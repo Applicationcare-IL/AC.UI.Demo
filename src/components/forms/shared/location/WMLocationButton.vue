@@ -1,9 +1,9 @@
 <template>
-  <WMTempButton :text="viewMapTextButton" type="secondary" size="small" @click="toggle">
+  <WMButton :text="viewMapTextButton" type="secondary" size="small" @click="toggle">
     <template #customIcon>
       <div class="flex" v-html="MapIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 
   <OverlayPanel ref="isOpen">
     <div class="flex mb-4">

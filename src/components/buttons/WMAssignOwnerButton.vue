@@ -1,5 +1,5 @@
 <template>
-  <WMTempButton
+  <WMButton
     :text="$t('buttons.assign')"
     type="type-5"
     :is-active="isActive"
@@ -10,7 +10,7 @@
     <template #customIcon>
       <div class="flex" v-html="AsignIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
   <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
     <div class="flex flex-column gap-2">
       <span> {{ $t("selected-contacts") }}: </span>
@@ -27,14 +27,14 @@
       </div>
       <span>{{ $t("buttons.assign") }}</span>
       <div class="flex flex-row gap-2">
-        <WMTempButton
+        <WMButton
           :text="$t('user')"
           type="secondary"
           :is-active="assignTo == 'employee'"
           @click="onAssignTo('employee')"
         />
 
-        <WMTempButton
+        <WMButton
           :text="$t('team')"
           type="secondary"
           :is-active="assignTo == 'team'"
@@ -55,12 +55,7 @@
         @change="ownerChanged"
       />
 
-      <WMTempButton
-        class="mt-3"
-        :text="$t('buttons.assign')"
-        type="primary"
-        @click="assignOwner"
-      />
+      <WMButton class="mt-3" :text="$t('buttons.assign')" type="primary" @click="assignOwner" />
     </div>
   </OverlayPanel>
 </template>

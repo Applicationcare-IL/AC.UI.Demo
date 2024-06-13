@@ -1,9 +1,9 @@
 <template>
-  <WMTempButton :text="text" type="new" @click="toggle">
+  <WMButton :text="text" type="new" @click="toggle">
     <template #customIcon>
       <div class="flex" v-html="PlusIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 </template>
 
 <script setup>

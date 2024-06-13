@@ -17,7 +17,7 @@
           {{ $t(error) }}
         </div>
 
-        <WMTempButton
+        <WMButton
           :text="$t('login.send-reset-link')"
           type="new"
           class="w-full mt-3"

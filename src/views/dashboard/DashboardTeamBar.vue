@@ -13,13 +13,13 @@
           type="no-tags"
           @update:model-value="onSelectedTeams"
         />
-        <WMTempButton
+        <WMButton
           :text="$t('buttons.select-all')"
           type="type-4"
           size="small"
           @click="handleSelectAllTeams"
         />
-        <WMTempButton
+        <WMButton
           :text="$t('buttons.clear')"
           type="clear mx-0 px-0"
           size="small"
@@ -27,16 +27,9 @@
         />
       </div>
       <div>
-        <Chip
-          v-for="(item, index) in selectedTeams"
-          :key="index"
-          :label="item.name"
-        >
+        <Chip v-for="(item, index) in selectedTeams" :key="index" :label="item.name">
           <span>{{ item.name }}</span>
-          <i
-            class="pi pi-times cursor-pointer"
-            @click="handleRemoveTeam(item)"
-          ></i>
+          <i class="pi pi-times cursor-pointer" @click="handleRemoveTeam(item)"></i>
         </Chip>
       </div>
     </div>
@@ -62,9 +55,7 @@ const handleSelectAllTeams = () => {
 };
 
 const handleRemoveTeam = (team) => {
-  selectedTeams.value = selectedTeams.value.filter(
-    (selectedTeam) => selectedTeam.id !== team.id
-  );
+  selectedTeams.value = selectedTeams.value.filter((selectedTeam) => selectedTeam.id !== team.id);
 };
 
 const clearSelectedTeams = () => {

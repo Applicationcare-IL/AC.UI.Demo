@@ -15,7 +15,7 @@
         }"
         class="p-2"
       >
-        <WMTempButton :text="$t('project.open-project')" type="primary" />
+        <WMButton :text="$t('project.open-project')" type="primary" />
       </router-link>
     </div>
 
@@ -85,11 +85,8 @@ const updateModelValue = (value) => {
   visible.value = value;
 };
 
-const {
-  getCustomerPreviewColumns,
-  getServicePreviewColumns,
-  getTaskPreviewColumns,
-} = useListUtils();
+const { getCustomerPreviewColumns, getServicePreviewColumns, getTaskPreviewColumns } =
+  useListUtils();
 
 const customerPreviewTableColumns = ref(getCustomerPreviewColumns());
 const servicePreviewTableColumns = ref(getServicePreviewColumns());

@@ -10,7 +10,7 @@
           }"
           target="_blank"
         >
-          <WMTempButton :text="$t('budget.open-budget')" type="primary" />
+          <WMButton :text="$t('budget.open-budget')" type="primary" />
         </router-link>
       </div>
     </template>

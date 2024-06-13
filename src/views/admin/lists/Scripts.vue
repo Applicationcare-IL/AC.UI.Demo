@@ -8,11 +8,7 @@
     :total-records="totalRecords"
   >
     <template #custom-buttons>
-      <WMTempButton
-        :text="$t('scripts.sync-scripts')"
-        type="secondary"
-        @click="handleSyncScripts"
-      />
+      <WMButton :text="$t('scripts.sync-scripts')" type="secondary" @click="handleSyncScripts" />
     </template>
   </WMListSubHeader>
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">

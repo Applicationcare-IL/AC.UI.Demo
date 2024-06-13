@@ -1,5 +1,5 @@
 <template>
-  <WMTempButton
+  <WMButton
     :text="label"
     type="type-5"
     icon="pi-chevron-down"
@@ -21,12 +21,7 @@
     </template>
   </Menu>
 
-  <Dialog
-    v-model:visible="visible"
-    :header="$t('response')"
-    modal
-    :style="{ minWidth: '25rem' }"
-  >
+  <Dialog v-model:visible="visible" :header="$t('response')" modal :style="{ minWidth: '25rem' }">
     <div class="py-0 my-0 px-2">
       <template v-for="row in responseData" :key="row.entity">
         <div class="flex flex-column gap-2">

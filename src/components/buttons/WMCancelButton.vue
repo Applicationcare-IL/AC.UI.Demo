@@ -1,9 +1,9 @@
 <template>
-  <WMTempButton :text="text" type="cancel" :size="size" :is-disabled="isDisabled">
+  <WMButton :text="text" type="cancel" :size="size" :is-disabled="isDisabled">
     <template #customIcon>
       <div class="flex" v-html="CancelIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 </template>
 
 <script setup>
