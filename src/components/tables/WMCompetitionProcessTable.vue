@@ -7,7 +7,7 @@
         :label="$t('scripts.scripts')"
         :selected-elements="selectedCustomers"
         :actions="flowmazeActions"
-        entity="project_service_area"
+        entity="project_customer"
       />
     </div>
   </div>
