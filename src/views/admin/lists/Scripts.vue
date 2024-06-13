@@ -11,7 +11,7 @@
       <WMTempButton
         :text="$t('scripts.sync-scripts')"
         type="secondary"
-        @click="syncScripts"
+        @click="handleSyncScripts"
       />
     </template>
   </WMListSubHeader>
@@ -83,6 +83,12 @@ const loadLazyData = () => {
 const onPage = (event) => {
   lazyParams.value = event;
   loadLazyData();
+};
+
+const handleSyncScripts = () => {
+  syncScripts().then(() => {
+    loadLazyData();
+  });
 };
 
 loadLazyData();
