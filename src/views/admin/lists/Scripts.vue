@@ -45,9 +45,7 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
-
 const { selectedRowsPerPage } = useListUtils();
-
 const { getScripts, syncScripts } = useAdminFlowmaze();
 
 // INJECT

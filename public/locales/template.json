@@ -733,6 +733,7 @@
     "hash": "Hash",
     "is-active": "Is active",
     "flowmaze-id": "Flowmaze ID",
-    "sync-scripts": "Sync scripts"
+    "sync-scripts": "Sync scripts",
+    "scripts": "Scripts"
   }
 }

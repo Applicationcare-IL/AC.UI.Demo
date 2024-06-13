@@ -3,14 +3,11 @@
     <div class="flex flex-row justify-content-between">
       <WMAssignCustomerButton @add-customers="addCustomers" />
 
-      <!-- <WMFlowmazeDropdown
-        label="Flowmaze options"
+      <WMFlowmazeDropdown
+        :label="$t('scripts.scripts')"
         :selected-elements="selectedCustomers"
-        :actions="[
-          { name: 'option-1', action: 'option-1' },
-          { name: 'option-2', action: 'option-2' },
-        ]"
-      /> -->
+        :actions="flowmazeActions"
+      />
     </div>
   </div>
   <DataTable
@@ -169,6 +166,7 @@ const {
 
 const { optionLabelWithLang } = useLanguages();
 const optionSetsStore = useOptionSetsStore();
+const { getScripts } = useFlowmaze();
 
 const { parseDate } = useDates();
 // const { getAlertCellConditionalStyle } = useListUtils();
@@ -219,6 +217,7 @@ const lazyParams = ref({});
 
 const editMode = ref([]);
 const createMode = ref([]);
+const flowmazeActions = ref([]);
 
 // COMPUTED
 
@@ -343,6 +342,11 @@ const loadOptionSets = async () => {
   });
 };
 
+const loadFlowmazeActions = async () => {
+  let response = await getScripts();
+  flowmazeActions.value = response.data;
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
@@ -354,6 +358,7 @@ watch(
   () => utilsStore.searchString["customer"],
   () => {
     searchValue.value = utilsStore.searchString["customer"];
+
     utilsStore.debounceAction(() => {
       loadLazyData();
     });
@@ -364,5 +369,6 @@ watch(
 onMounted(() => {
   loadOptionSets();
   loadLazyData();
+  loadFlowmazeActions();
 });
 </script>

@@ -81,5 +81,6 @@ module.exports = {
     useDates: true,
     useEmployees: true,
     useAdminFlowmaze: true,
+    useFlowmaze: true,
   },
 };
