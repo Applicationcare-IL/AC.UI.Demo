@@ -3,7 +3,7 @@
     :text="label"
     type="type-5"
     icon="pi-chevron-down"
-    :is-disabled="selectedElements == 0"
+    :is-disabled="isDisabled"
     @click="toggleDropdownMenu"
   />
 
@@ -11,11 +11,9 @@
     <template #item="slotProps">
       <button
         class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2 w-full"
-        @click="handleOverlayMenuClick(slotProps.item)"
+        @click="handleAction(slotProps.item.id)"
       >
-        <div class="flex flex-column align">
-          {{ $t(slotProps.item.name) }}
-        </div>
+        <div class="flex flex-column align">{{ $t(slotProps.item.name) }}</div>
       </button>
     </template>
   </Menu>
@@ -23,105 +21,61 @@
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
-const { currentEntity } = useUtils();
-const { executeAction } = useActionBuilder();
+const { executeIssue } = useFlowmaze();
 const toast = useToast();
-
 const { t } = useI18n();
 
 // INJECT
 
 // PROPS, EMITS
-const props = defineProps({
+let props = defineProps({
   label: String,
   actions: Array,
   selectedElements: {
-    type: Number,
-    default: 0,
+    type: Array,
+    default: () => [],
   },
   entity: String,
+  entityId: String,
 });
-
-const emit = defineEmits(["postActionExecuted"]);
 
 // REFS
 const dropdownMenu = ref();
-const visible = ref(false);
-const responseData = ref();
 
 // COMPUTED
+const isDisabled = computed(() => {
+  return props.selectedElements === 0 || props.selectedElements.length <= 0;
+});
 
 // COMPONENT METHODS AND LOGIC
 const toggleDropdownMenu = (event) => {
+  if (isDisabled.value) return;
+
   dropdownMenu.value.toggle(event);
 };
 
-const getIdsOfSelectedElements = () => {
-  return props.selectedElements.map((element) => element.id);
-};
+const handleAction = (scriptId) => {
+  const promises = props.selectedElements.map((element) => {
+    let params = {
+      entity_type: props.entity,
+      entity_id: element.id,
+      script_id: scriptId,
+    };
 
-const handleOverlayMenuClick = (action) => {
-  const params = {
-    url_action_builder: action.id,
-    entity_ids: getIdsOfSelectedElements(),
-    entity_type: currentEntity.value,
-  };
-
-  switch (action.action) {
-    case "get":
-      handleGetAction(params);
-      break;
-
-    case "post":
-      handlePostAction(params);
-      break;
-
-    case "redirect_to":
-      handleRedirectToAction(params);
-      break;
-
-    default:
-      break;
-  }
-};
-
-const handleGetAction = (params) => {
-  executeAction(params)
-    .then((response) => {
-      responseData.value = response.data;
-      visible.value = true;
-    })
-    .catch((error) => {
-      console.error("ERROR", error);
-    });
-};
-
-const handlePostAction = (params) => {
-  executeAction(params)
-    .then(() => {
-      toast.success({ message: t("toast.action-completed-successfully") });
-      emit("postActionExecuted");
-    })
-    .catch((error) => {
-      console.error("ERROR", error);
-    });
-};
-
-const handleRedirectToAction = (params) => {
-  executeAction(params).then((response) => {
-    response.data.forEach((element) => {
-      openLinkInNewTab(element.result.redirect_to);
-    });
+    return executeIssue(params);
   });
-};
 
-const openLinkInNewTab = (url) => {
-  const win = window.open(url, "_blank");
-  win.focus();
+  Promise.all(promises)
+    .then(() => {
+      toast.success(t("scripts.toast-issues-success"));
+    })
+    .catch(() => {
+      toast.error(t("scripts.toast-issues-error"));
+    });
 };
 
 // PROVIDE, EXPOSE

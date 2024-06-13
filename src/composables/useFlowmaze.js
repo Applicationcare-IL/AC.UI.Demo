@@ -17,13 +17,25 @@ export function useFlowmaze() {
       return {
         id: script.id,
         name: script.name,
-        action: script.name,
       };
     });
+  };
+
+  const executeIssue = async (params) => {
+    await flowmazeStore
+      .issue(params)
+      .then((res) => {
+        return res;
+      })
+      .catch((error) => {
+        console.error("Composable error: ", error);
+        throw new Error(error);
+      });
   };
 
   return {
     // ACTIONS
     getScripts,
+    executeIssue,
   };
 }

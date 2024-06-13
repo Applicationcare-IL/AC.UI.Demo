@@ -7,6 +7,7 @@
         :label="$t('scripts.scripts')"
         :selected-elements="selectedCustomers"
         :actions="flowmazeActions"
+        entity="project_service_area"
       />
     </div>
   </div>
@@ -206,7 +207,7 @@ const props = defineProps({
 });
 
 // REFS
-const selectedCustomers = ref(null);
+const selectedCustomers = ref(0);
 const utilsStore = useUtilsStore();
 const totalRecords = ref(0);
 const searchValue = ref("");

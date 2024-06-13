@@ -14,5 +14,16 @@ export const useFlowmazeStore = defineStore("flowmaze", {
           console.error(error);
         });
     },
+    issue(params) {
+      return axiosConfig
+        .post("/flowmaze/scripts/issue", params)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error("Store Error: ", error);
+          throw error;
+        });
+    },
   },
 });

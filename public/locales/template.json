@@ -734,6 +734,8 @@
     "is-active": "Is active",
     "flowmaze-id": "Flowmaze ID",
     "sync-scripts": "Sync scripts",
-    "scripts": "Scripts"
+    "scripts": "Scripts",
+    "toast-issues-success": "Scripts executed successfully",
+    "toast-issues-error": "An error occurred while executing the scripts"
   }
 }
