@@ -53,7 +53,7 @@
           <router-link
             v-if="
               (slotProps.data.task_family?.value === 'subproject' ||
-                task.task_family?.value === 'payment') &&
+                slotProps.data.task_family?.value === 'payment') &&
               slotProps.data.project_created &&
               checkIfEntityIsActive('projects')
             "
@@ -102,7 +102,7 @@
             <img
               v-if="
                 (slotProps.data.task_family?.value === 'subproject' ||
-                  task.task_family?.value === 'payment') &&
+                  slotProps.data.task_family?.value === 'payment') &&
                 slotProps.data.project_created &&
                 checkIfEntityIsActive('projects')
               "
@@ -230,7 +230,7 @@ const loadLazyData = () => {
   // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams({
     ...filters,
-    page: currentPage,
+    page: currentPage.value,
     per_page: selectedRowsPerPageParam,
     order_by: "stage_id",
   });
