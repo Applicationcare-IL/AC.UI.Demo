@@ -106,6 +106,11 @@ getCustomersFromApi(params).then((data) => {
 
 const openRelatedSidebar = () => {
   openSidebar(props.relatedSidebar);
+
+  // hide all the active overlays
+  document.querySelectorAll(".p-overlaypanel, .p-multiselect-panel").forEach((overlay) => {
+    overlay.style.display = "none";
+  });
 };
 
 const removeLastPartOfLabel = (label) => {
