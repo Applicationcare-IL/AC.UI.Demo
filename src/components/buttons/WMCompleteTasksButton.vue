@@ -1,5 +1,5 @@
 <template>
-  <WMTempButton
+  <WMButton
     :text="textButton"
     type="type-5"
     :is-disabled="isDisabled"
@@ -9,7 +9,7 @@
     <template #customIcon>
       <div class="flex" v-html="DoneIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 
   <WMCompleteServiceDialog />
   <WMCompleteProjectDialog />
@@ -77,10 +77,7 @@ const checkIfTasksAreCompletable = (tasks) => {
   }
 
   // prevent complete when some of the selected tasks are subproject tasks
-  if (
-    tasks.lenght > 1 &&
-    tasks.some((x) => x.task_family.value == "subproject")
-  ) {
+  if (tasks.lenght > 1 && tasks.some((x) => x.task_family.value == "subproject")) {
     return false;
   }
 
@@ -94,9 +91,7 @@ const updateStates = () => {
   }
 
   selectedElements.value = utilsStore.selectedElements[props.entity]?.length;
-  areTaskCompletable.value = checkIfTasksAreCompletable(
-    utilsStore.selectedElements[props.entity]
-  );
+  areTaskCompletable.value = checkIfTasksAreCompletable(utilsStore.selectedElements[props.entity]);
 };
 
 updateStates();

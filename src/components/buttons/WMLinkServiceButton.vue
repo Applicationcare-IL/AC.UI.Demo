@@ -1,13 +1,9 @@
 <template>
-  <WMTempButton
-    :text="$t('buttons.link-service')"
-    type="type-4"
-    @click="toggle"
-  >
+  <WMButton :text="$t('buttons.link-service')" type="type-4" @click="toggle">
     <template #customIcon>
       <div class="flex" v-html="TreeIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 
   <OverlayPanel ref="op">
     <div class="flex flex-column w-20rem">
@@ -28,7 +24,7 @@
         :allow-empty="false"
       />
 
-      <WMTempButton
+      <WMButton
         class="ml-auto mt-4"
         :text="$t('buttons.link-services')"
         type="type-4"
@@ -132,11 +128,7 @@ const showLinkServiceToast = () => {
 };
 
 const handleLinkService = async (relatedService) => {
-  await linkService(
-    currentServiceId.value,
-    relatedService.id,
-    selectedRelationType.value.id
-  );
+  await linkService(currentServiceId.value, relatedService.id, selectedRelationType.value.id);
 
   showLinkServiceToast();
 
@@ -149,11 +141,7 @@ const handleLinkService = async (relatedService) => {
 };
 
 const handleLinkNewService = async (newServiceData) => {
-  await linkService(
-    currentServiceId.value,
-    newServiceData.id,
-    newServiceData.relationType.id
-  );
+  await linkService(currentServiceId.value, newServiceData.id, newServiceData.relationType.id);
 
   showLinkServiceToast();
 
@@ -183,9 +171,7 @@ provide("preselectedRelationType", selectedRelationType);
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 
 onMounted(async () => {
-  relationTypes.value = await optionSetsStore.getOptionSetValues(
-    "service_related_relationship"
-  );
+  relationTypes.value = await optionSetsStore.getOptionSetValues("service_related_relationship");
 
   selectedRelationType.value = relationTypes.value[0];
 });

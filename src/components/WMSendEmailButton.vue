@@ -1,5 +1,5 @@
 <template>
-  <WMTempButton
+  <WMButton
     :text="$t('buttons.email')"
     type="type-5"
     :disabled="selectedElements == 0"
@@ -13,7 +13,7 @@
     <template #customIcon>
       <div class="flex" v-html="EmailIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 
   <Dialog
     v-model:visible="sendEmailDialogVisible"
@@ -74,11 +74,7 @@
       <div v-if="selectedContacts" class="flex flex-row gap-3">
         <Button label="Send" @click="handleSendEmail()" />
 
-        <Button
-          label="Cancel"
-          severity="secondary"
-          @click="sendEmailDialogVisible = false"
-        />
+        <Button label="Cancel" severity="secondary" @click="sendEmailDialogVisible = false" />
       </div>
     </template>
   </Dialog>

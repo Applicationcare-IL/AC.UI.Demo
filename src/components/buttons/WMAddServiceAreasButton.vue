@@ -16,7 +16,7 @@
       @update:model-value="updateSelectedServiceAreas"
     />
 
-    <WMTempButton
+    <WMButton
       class="mt-4"
       :text="$t('buttons.add')"
       type="primary"

@@ -3,9 +3,7 @@
     <div class="flex flex-column">
       <div class="flex flex-row justify-content-between align-items-center">
         <div class="flex flex-row align-items-center gap-4">
-          <h1 class="h1 mb-0">
-            {{ $t(entityType + "." + entityType) }}: {{ entityObject.title }}
-          </h1>
+          <h1 class="h1 mb-0">{{ $t(entityType + "." + entityType) }}: {{ entityObject.title }}</h1>
 
           <div v-if="entityObject.state" class="flex align-items-center gap-1">
             <span class="font-bold">{{ $t("state.state") }}: </span>
@@ -28,7 +26,7 @@
           </div>
         </div>
         <div>
-          <WMTempButton
+          <WMButton
             v-if="
               showUpdateEntityStateButton &&
               isEntityActive &&
@@ -39,7 +37,7 @@
             @click="deactivateEntity()"
           />
 
-          <WMTempButton
+          <WMButton
             v-if="
               showUpdateEntityStateButton &&
               !isEntityActive &&

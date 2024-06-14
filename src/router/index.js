@@ -42,6 +42,7 @@ const router = createRouter({
         };
       },
     },
+
     {
       path: "/",
       component: AppLayout,
@@ -50,11 +51,9 @@ const router = createRouter({
         {
           path: "/",
           name: "index",
-          // exact: true,
           redirect: () => {
             return "/dashboard";
           },
-          // component: () => import("@/views/user/Dashboard.vue"),
         },
         {
           path: "/search/:query",
@@ -62,11 +61,10 @@ const router = createRouter({
           component: () => import("@/views/user/Search.vue"),
         },
         {
+          // Note that nested paths that start with / will be treated as root paths.
+          // This allows you to leverage the component nesting without having to use a nested URL.
           path: "/dashboard",
           name: "dashboard",
-          // redirect: () => {
-          //   return "/tasks";
-          // },
           component: () => import("@/views/dashboard/Dashboard.vue"),
         },
         {
@@ -198,6 +196,25 @@ const router = createRouter({
           path: "/reports",
           name: "reports",
           component: () => import("@/views/user/lists/Reports.vue"),
+        },
+      ],
+    },
+    {
+      path: "/admin",
+      component: AppLayout,
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: "/admin",
+          name: "adminIndex",
+          redirect: () => {
+            return "/admin/scripts";
+          },
+        },
+        {
+          path: "scripts",
+          name: "adminScripts",
+          component: () => import("@/views/admin/lists/Scripts.vue"),
         },
       ],
     },

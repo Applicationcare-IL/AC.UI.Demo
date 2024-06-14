@@ -1,9 +1,9 @@
 <template>
-  <WMTempButton :text="$t('buttons.link_customer')" type="primary" @click="toggle">
+  <WMButton :text="$t('buttons.link_customer')" type="primary" @click="toggle">
     <template #customIcon>
       <div class="flex" v-html="WorkIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 
   <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
     <div class="flex flex-column gap-2">
@@ -20,7 +20,7 @@
         @update:model-value="updateSelectedCustomers"
       />
 
-      <WMTempButton
+      <WMButton
         class="mt-2"
         :text="$t('buttons.assign')"
         type="primary"

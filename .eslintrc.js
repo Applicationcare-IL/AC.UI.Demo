@@ -38,6 +38,7 @@ module.exports = {
           "Assets",
           "Search",
           "Reports",
+          "Scripts",
         ],
       },
     ],
@@ -79,5 +80,7 @@ module.exports = {
     expect: true,
     useDates: true,
     useEmployees: true,
+    useAdminFlowmaze: true,
+    useFlowmaze: true,
   },
 };

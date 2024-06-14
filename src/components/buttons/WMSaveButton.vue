@@ -1,10 +1,10 @@
 <template>
-  <WMTempButton :text="text" :type="type" :is-disabled="isDisabled">
+  <WMButton :text="text" :type="type" :is-disabled="isDisabled">
     <template #customIcon>
       <div v-if="!isSaved" class="flex" v-html="SaveIcon" />
       <div v-else class="flex" v-html="DoneIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 </template>
 
 <script setup>

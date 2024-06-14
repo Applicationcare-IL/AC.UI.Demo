@@ -33,7 +33,7 @@
           "
         />
 
-        <WMTempButton
+        <WMButton
           :text="$t('buttons.sign')"
           type="secondary"
           :disabled="tasks.length === 0"
@@ -47,10 +47,7 @@
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="task" />
 
-      <WMFilterButton
-        :is-active="isFilterOpen || isFilterApplied"
-        @click="openFilterSidebar"
-      />
+      <WMFilterButton :is-active="isFilterOpen || isFilterApplied" @click="openFilterSidebar" />
 
       <WMSidebar
         :visible="isFilterVisible"
@@ -118,10 +115,7 @@
           {{ slotProps.data[column.name] }}
         </template>
         <template v-if="column.type === 'sign_button'">
-          <WMSignTaskButton
-            :signature-id="slotProps.data.id"
-            @task-signed="loadLazyData"
-          />
+          <WMSignTaskButton :signature-id="slotProps.data.id" @task-signed="loadLazyData" />
         </template>
       </template>
     </Column>

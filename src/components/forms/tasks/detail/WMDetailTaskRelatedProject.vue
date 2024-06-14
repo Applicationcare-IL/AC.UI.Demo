@@ -11,7 +11,7 @@
             }"
             target="_blank"
           >
-            <WMTempButton :text="$t('project.open-project')" type="primary" />
+            <WMButton :text="$t('project.open-project')" type="primary" />
           </router-link>
         </div>
       </template>
@@ -82,11 +82,7 @@
               :to="'/customer/' + project.supervisor?.id"
             />
           </div>
-          <WMLocationButton
-            v-if="location"
-            :editable="false"
-            :label="showProjectLocationLabel"
-          />
+          <WMLocationButton v-if="location" :editable="false" :label="showProjectLocationLabel" />
         </div>
       </template>
     </Card>

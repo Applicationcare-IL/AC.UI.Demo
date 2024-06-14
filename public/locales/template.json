@@ -135,7 +135,8 @@
     "announcements": "Announcements",
     "remove": "Remove",
     "sign": "Sign",
-    "sign-document": "Sign document"
+    "sign-document": "Sign document",
+    "sync": "Sync"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -151,7 +152,10 @@
     "user": "User",
     "logout": "Logout",
     "assets": "Assets",
-    "reports": "Reports"
+    "reports": "Reports",
+    "user-panel": "User Panel",
+    "admin-panel": "Admin Panel",
+    "scripts": "Scripts"
   },
   "dashboard": {
     "my-tasks": "My Tasks",
@@ -722,5 +726,16 @@
   },
   "password": {
     "alread_in_use": "Password already in use"
+  },
+  "scripts": {
+    "id": "ID",
+    "name": "Name",
+    "hash": "Hash",
+    "is-active": "Is active",
+    "flowmaze-id": "Flowmaze ID",
+    "sync-scripts": "Sync scripts",
+    "scripts": "Scripts",
+    "toast-issues-success": "Scripts executed successfully",
+    "toast-issues-error": "An error occurred while executing the scripts"
   }
 }

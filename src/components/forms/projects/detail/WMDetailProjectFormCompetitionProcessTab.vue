@@ -10,7 +10,7 @@
               <WMOptionSetValue :option-set="serviceArea" />
             </span>
 
-            <WMTempButton
+            <WMButton
               :text="$t('buttons.remove')"
               type="type-3"
               size="small"
@@ -19,7 +19,7 @@
               <template #customIcon>
                 <div class="flex" v-html="DeleteIcon" />
               </template>
-            </WMTempButton>
+            </WMButton>
           </span>
         </template>
 

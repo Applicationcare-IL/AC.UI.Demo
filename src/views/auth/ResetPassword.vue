@@ -35,8 +35,12 @@
           {{ $t(firstError) }}
         </div>
 
-        <WMNewButton :text="$t('login.save-new-password')" @click="handleLogin" />
-
+        <WMButton
+          :text="$t('login.save-new-password')"
+          type="new"
+          class="w-full mt-3"
+          @click="handleLogin"
+        />
       </div>
     </div>
   </AuthLayout>
@@ -51,11 +55,7 @@
     </span>
 
     <div class="flex justify-content-end gap-2">
-      <Button
-        type="button"
-        :label="$t('login.confirm')"
-        @click="handleConfirm"
-      ></Button>
+      <Button type="button" :label="$t('login.confirm')" @click="handleConfirm"></Button>
     </div>
   </Dialog>
 </template>
@@ -110,12 +110,7 @@ const firstError = computed(() => {
 
 const handleLogin = handleSubmit((values) => {
   useAuthStore()
-    .resetPassword(
-      props.email,
-      props.token,
-      values.password,
-      values["password-confirm"]
-    )
+    .resetPassword(props.email, props.token, values.password, values["password-confirm"])
     .then((response) => {
       if (response.errors) {
         error.value = response.message;

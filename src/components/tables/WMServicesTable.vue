@@ -18,7 +18,6 @@
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
-
         <WMNewButton v-if="!hideCreateButton" :text="$t('new')" @click="toggleSidebarVisibility" />
 
         <WMLinkServiceButton
@@ -72,11 +71,7 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column
-      v-if="multiselect"
-      style="width: 40px"
-      selection-mode="multiple"
-    ></Column>
+    <Column v-if="multiselect" style="width: 40px" selection-mode="multiple"></Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -118,14 +113,11 @@
         <WMOptionSetValue :option-set="slotProps.data[column.name]" />
       </template>
       <template v-if="column.type === 'unlink'" #body="slotProps">
-        <WMTempButton
-          type="type-5"
-          @click="handleUnlinkRelatedService(slotProps.data.id)"
-        >
+        <WMButton type="type-5" @click="handleUnlinkRelatedService(slotProps.data.id)">
           <template #customIcon>
             <div class="flex" v-html="LinkOffIcon" />
           </template>
-        </WMTempButton>
+        </WMButton>
       </template>
     </Column>
   </DataTable>

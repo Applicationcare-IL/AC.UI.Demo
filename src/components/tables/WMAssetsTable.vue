@@ -27,24 +27,13 @@
 
         <Divider layout="vertical" />
 
-        <WMDeactivateAssetButton
-          entity="asset"
-          @asset-deactivated="$emit('assetDeactivated')"
-        />
+        <WMDeactivateAssetButton entity="asset" @asset-deactivated="$emit('assetDeactivated')" />
       </div>
 
-      <WMTempButton
-        v-if="env.DEV"
-        text="Refresh"
-        type="secondary"
-        @click="loadLazyData"
-      />
+      <WMButton v-if="env.DEV" text="Refresh" type="secondary" @click="loadLazyData" />
 
       <div class="flex flex-row align-items-center gap-3">
-        <WMFilterButton
-          :is-active="isFilterApplied || isFilterOpen"
-          @click="openFilterSidebar"
-        />
+        <WMFilterButton :is-active="isFilterApplied || isFilterOpen" @click="openFilterSidebar" />
 
         <WMSidebar
           :visible="isFilterVisible"

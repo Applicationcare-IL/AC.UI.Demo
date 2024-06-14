@@ -1,14 +1,9 @@
 <template>
-  <WMTempButton
-    type="sign"
-    :text="$t('buttons.sign-document')"
-    size="small"
-    @click="openDialog"
-  >
+  <WMButton type="sign" :text="$t('buttons.sign-document')" size="small" @click="openDialog">
     <template #customIcon>
       <div class="flex" v-html="InkPenIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 
   <Dialog
     v-model:visible="isOpen"

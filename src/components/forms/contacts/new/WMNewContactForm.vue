@@ -35,7 +35,6 @@
           name="contact-number"
           type="input-text"
           :label="$t('contact.number') + ':'"
-          required
         />
 
         <WMInput
@@ -94,7 +93,12 @@
           :label="$t('mobilephone') + ':'"
           width="88"
         />
-        <WMInput name="landline" type="input-text" :label="$t('landline') + ':'" width="88" />
+        <WMInput
+          name="landline"
+          type="input-text"
+          :label="$t('landline') + ':'"
+          width="88"
+        />
         <WMInput name="fax" type="input-text" :label="$t('fax') + ':'" width="88" />
       </div>
 

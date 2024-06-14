@@ -1,5 +1,5 @@
 <template>
-  <WMTempButton
+  <WMButton
     :text="$t('buttons.link-services')"
     type="type-4"
     :is-disabled="selectedElements.length < 1"
@@ -8,7 +8,7 @@
     <template #customIcon>
       <div class="flex" v-html="TreeIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 
   <OverlayPanel ref="op">
     <div class="flex flex-column w-15rem">
@@ -19,7 +19,7 @@
         :option-label="optionLabelWithLang"
         class="w-full md:w-10rem mb-5"
       />
-      <WMTempButton
+      <WMButton
         class="ml-auto"
         :text="$t('buttons.link-services')"
         type="type-4"
@@ -63,9 +63,7 @@ const toggle = (event) => {
 };
 
 const handleLinkServices = async () => {
-  const mappedSelectedElements = props.selectedElements.map(
-    (element) => element.id
-  );
+  const mappedSelectedElements = props.selectedElements.map((element) => element.id);
 
   await linkServices(mappedSelectedElements, selectedRelationType.value.id);
 
@@ -84,9 +82,7 @@ const handleLinkServices = async () => {
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 
 onMounted(async () => {
-  relationTypes.value = await optionSetsStore.getOptionSetValues(
-    "service_related_relationship"
-  );
+  relationTypes.value = await optionSetsStore.getOptionSetValues("service_related_relationship");
 
   selectedRelationType.value = relationTypes.value[0];
 });

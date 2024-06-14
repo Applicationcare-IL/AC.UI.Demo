@@ -103,26 +103,16 @@
           {{ formatAddress(slotProps.data.location) }}
         </template>
       </Column>
-      <Column field="open_services" :header="$t('contact.open-services')" class="numeric">
-      </Column>
-      <Column
-        field="breached_services"
-        :header="$t('contact.breached-services')"
-        class="numeric"
-      >
+      <Column field="open_services" :header="$t('contact.open-services')" class="numeric"> </Column>
+      <Column field="breached_services" :header="$t('contact.breached-services')" class="numeric">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.breached_services)">
             {{ slotProps.data.breached_services }}
           </div>
         </template>
       </Column>
-      <Column field="open_tasks" :header="$t('contact.open-tasks')" class="numeric">
-      </Column>
-      <Column
-        field="breached_tasks"
-        :header="$t('contact.breached-tasks')"
-        class="numeric"
-      >
+      <Column field="open_tasks" :header="$t('contact.open-tasks')" class="numeric"> </Column>
+      <Column field="breached_tasks" :header="$t('contact.breached-tasks')" class="numeric">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.breached_tasks)">
             {{ slotProps.data.breached_tasks }}
@@ -156,12 +146,8 @@ const permissionsStore = usePermissionsStore();
 const permissions = permissionsStore.permissions;
 const { formatAddress } = useUtils();
 
-const {
-  getContactsFromApi,
-  setSelectedContacts,
-  resetSelectedContacts,
-  exportContacts,
-} = useContacts();
+const { getContactsFromApi, setSelectedContacts, resetSelectedContacts, exportContacts } =
+  useContacts();
 const { selectedRowsPerPage } = useListUtils();
 
 onMounted(() => {

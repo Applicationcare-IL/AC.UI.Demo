@@ -1,10 +1,7 @@
 <template>
   <div class="wm-subheader pb-2 shadow-2 flex-none">
     <div class="flex flex-column gap-3">
-      <div
-        v-if="showHeader"
-        class="flex flex-row justify-content-between flex-wrap row-gap-4"
-      >
+      <div v-if="showHeader" class="flex flex-row justify-content-between flex-wrap row-gap-4">
         <div class="flex flex-row flex-wrap gap-2">
           <WMNewButton
             v-if="can(utilsStore.pluralEntity + '.create') && entity != 'asset'"
@@ -24,7 +21,7 @@
             :selected-elements="selectedElements"
           />
 
-          <WMTempButton
+          <WMButton
             v-if="showExportButton"
             :text="$t('export')"
             type="type-5"
@@ -33,7 +30,7 @@
             <template #customIcon>
               <div class="flex" v-html="ExportIcon" />
             </template>
-          </WMTempButton>
+          </WMButton>
 
           <Divider layout="vertical" />
 
@@ -50,21 +47,19 @@
           />
 
           <WMAssignOwnerButton
-            v-if="
-              can(utilsStore.pluralEntity + '.assign') && utilsStore.entity != 'asset'
-            "
+            v-if="can(utilsStore.pluralEntity + '.assign') && utilsStore.entity != 'asset'"
             :entity="utilsStore.entity"
             @owner-assigned="$emit('refreshTable')"
           />
 
           <WMSendMessageButton
-            v-if="utilsStore.entity != 'asset'"
+            v-if="utilsStore.entity != 'asset' && showCommunications"
             :selected-elements="selectedElements"
             :multiple="true"
           />
 
           <WMSendEmailButton
-            v-if="can('global.mail') && utilsStore.entity != 'asset'"
+            v-if="can('global.mail') && utilsStore.entity != 'asset' && showCommunications"
             :selected-elements="selectedElements"
             :multiple="true"
           />
@@ -72,25 +67,24 @@
           <Divider v-if="scopes && scopes.length" layout="vertical" />
 
           <WMActionBuilderDropdowns
-            v-if="scopes && scopes.length"
+            v-if="scopes && scopes.length && hasActionBuilder"
             :scopes="scopes"
             :selected-elements="selectedElements"
             @post-action-executed="$emit('refreshTable')"
           />
+          <slot name="custom-buttons" />
         </div>
         <div class="flex flex-row align-items-center gap-3">
-          <WMStateToggle
-            v-if="entity === 'task' || entity === 'service'"
-            :entity="entity"
-          />
+          <WMStateToggle v-if="entity === 'task' || entity === 'service'" :entity="entity" />
           <WMOwnerToggle :entity="entity" />
         </div>
       </div>
       <div class="flex flex-row justify-content-between align-items-center">
         <div class="flex flex-row gap-3">
-          <WMSearchBox :entity="entity" />
+          <WMSearchBox v-if="showSearchBar" :entity="entity" />
 
           <WMFilterButton
+            v-if="showFilterButton"
             :is-active="isFilterApplied || isFilterVisible"
             @click="openFilterSidebar"
           />
@@ -133,7 +127,23 @@ const props = defineProps({
   activeButtons: Boolean,
   defaultOption: Object,
   entity: String,
+  hasActionBuilder: {
+    type: Boolean,
+    default: true,
+  },
   showHeader: {
+    type: Boolean,
+    default: true,
+  },
+  showFilterButton: {
+    type: Boolean,
+    default: true,
+  },
+  showSearchBar: {
+    type: Boolean,
+    default: true,
+  },
+  showCommunications: {
     type: Boolean,
     default: true,
   },
@@ -169,9 +179,11 @@ const showExportButton = computed(() => {
   );
 });
 
-getScopes(props.entity, "list").then((data) => {
-  scopes.value = data;
-});
+if (props.hasActionBuilder) {
+  getScopes(props.entity, "list").then((data) => {
+    scopes.value = data;
+  });
+}
 
 // PROVIDE, EXPOSE
 

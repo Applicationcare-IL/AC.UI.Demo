@@ -1,9 +1,9 @@
 <template>
-  <WMTempButton :is-disabled="isDisabled" type="type-5" :icon-only="true">
+  <WMButton :is-disabled="isDisabled" type="type-5" :icon-only="true">
     <template #customIcon>
       <div class="flex" v-html="EditIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 </template>
 
 <script setup>

@@ -12,7 +12,7 @@
     </div>
   </Dialog>
 
-  <WMTempButton
+  <WMButton
     :text="$t('buttons.announcements')"
     type="primary"
     :badge="announcements?.length ? announcements.length : false"
@@ -23,7 +23,7 @@
     <template #customIcon>
       <div class="flex" v-html="PinIcon" />
     </template>
-  </WMTempButton>
+  </WMButton>
 </template>
 
 <script setup>
