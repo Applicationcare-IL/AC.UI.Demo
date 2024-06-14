@@ -148,7 +148,9 @@
             <WMOptionSetValue :option-set="slotProps.data.task_family" />
             <img
               v-if="
-                slotProps.data.task_family?.value === 'subproject' && slotProps.data.project_created
+                (slotProps.data.task_family?.value === 'subproject' ||
+                  slotProps.data.task_family?.value === 'payment') &&
+                slotProps.data.project_created
               "
               src="/icons/format_list_bulleted.svg"
               class="vertical-align-middle"
