@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="task"
-    class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
-  >
+  <div v-if="task" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="card-container top-info-card flex-1">
@@ -131,16 +128,11 @@
           :service="service"
         />
         <WMDetailTaskRelatedProject
-          v-if="
-            task.related_entity?.type == 'project' && checkIfEntityIsActive('projects')
-          "
+          v-if="task.related_entity?.type == 'project' && checkIfEntityIsActive('projects')"
           :project="project"
         />
 
-        <div
-          v-if="task.related_entity == null"
-          class="card-container top-info-card flex-1"
-        >
+        <div v-if="task.related_entity == null" class="card-container top-info-card flex-1">
           <Card class="flex align-items-center justify-content-center">
             <template #content>
               <h3>Task isn’t related to an entity</h3>
@@ -191,7 +183,10 @@
       </div>
 
       <WMDetailTaskSubprojectInfo
-        v-if="task.task_family?.value === 'subproject' && task.project_created"
+        v-if="
+          (task.task_family?.value === 'subproject' || task.task_family?.value === 'payment') &&
+          task.project_created
+        "
         :task="task"
       />
 
@@ -311,11 +306,7 @@ const toast = useToast();
 const { updateTask, parseUpdateTask, getTaskFromApi, mapContactsFromTasks } = useTasks();
 const { optionLabelWithLang } = useLanguages();
 const formUtilsStore = useFormUtilsStore();
-const {
-  getTaskDocumentColumns,
-  getPaymentsColumns,
-  getSignatureTaskColumns,
-} = useListUtils();
+const { getTaskDocumentColumns, getPaymentsColumns, getSignatureTaskColumns } = useListUtils();
 const utilsStore = useUtilsStore();
 const route = useRoute();
 const { getServiceFromApi } = useServices();

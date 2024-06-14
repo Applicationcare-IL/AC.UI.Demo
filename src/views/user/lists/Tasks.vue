@@ -22,11 +22,7 @@
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
   >
-    <WMNewEntityFormHeader
-      entity="task"
-      name="newTask"
-      title-translation-key="task.new_task"
-    />
+    <WMNewEntityFormHeader entity="task" name="newTask" title-translation-key="task.new_task" />
     <WMNewTaskForm :is-sidebar="true" @new-task-created="closeSidebar" />
   </WMSidebar>
 
@@ -56,7 +52,8 @@
         <template #body="slotProps">
           <router-link
             v-if="
-              slotProps.data.task_family?.value === 'subproject' &&
+              (slotProps.data.task_family?.value === 'subproject' ||
+                task.task_family?.value === 'payment') &&
               slotProps.data.project_created &&
               checkIfEntityIsActive('projects')
             "
@@ -104,7 +101,8 @@
             <WMOptionSetValue :option-set="slotProps.data.task_family" />
             <img
               v-if="
-                slotProps.data.task_family?.value === 'subproject' &&
+                (slotProps.data.task_family?.value === 'subproject' ||
+                  task.task_family?.value === 'payment') &&
                 slotProps.data.project_created &&
                 checkIfEntityIsActive('projects')
               "

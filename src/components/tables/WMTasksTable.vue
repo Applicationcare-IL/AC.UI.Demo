@@ -4,7 +4,6 @@
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
-
         <WMNewButton :text="$t('new')" @click="toggleSidebarVisibility" />
 
         <WMSidebar
@@ -106,7 +105,8 @@
         <template v-if="column.type === 'link'">
           <router-link
             v-if="
-              slotProps.data.task_family?.value === 'subproject' &&
+              (slotProps.data.task_family?.value === 'subproject' ||
+                slotProps.data.task_family?.value === 'payment') &&
               slotProps.data.project_created
             "
             :to="{
@@ -148,8 +148,7 @@
             <WMOptionSetValue :option-set="slotProps.data.task_family" />
             <img
               v-if="
-                slotProps.data.task_family?.value === 'subproject' &&
-                slotProps.data.project_created
+                slotProps.data.task_family?.value === 'subproject' && slotProps.data.project_created
               "
               src="/icons/format_list_bulleted.svg"
               class="vertical-align-middle"
@@ -179,8 +178,7 @@
               params: { id: slotProps.data.contact.id },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.contact.name }}
-            {{ slotProps.data.contact.surname }}</router-link
+            >{{ slotProps.data.contact.name }} {{ slotProps.data.contact.surname }}</router-link
           >
         </template>
         <template v-if="column.type === 'text'">
