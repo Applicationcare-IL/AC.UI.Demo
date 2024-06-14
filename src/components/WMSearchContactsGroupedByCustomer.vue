@@ -8,26 +8,24 @@
     display="chip"
     :placeholder="$t('contact.search-contacts')"
     filter
+    :filter-fields="['label']"
     :show-toggle-all="false"
     class="search-contact-grouped-by-customer"
   >
     <template #optiongroup="slotProps">
       <div class="flex align-items-center">
-        <div>
-          {{ slotProps.option.label }}
-        </div>
+        <div>{{ slotProps.option.label }}</div>
+      </div>
+    </template>
+    <template #option="slotProps">
+      <div class="flex align-items-center">
+        <div>{{ removeLastPartOfLabel(slotProps.option.label) }}</div>
       </div>
     </template>
     <template v-if="props.relatedSidebar" #emptyfilter>
-      <div
-        class="flex flex-column m-2"
-        :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-      >
+      <div class="flex flex-column m-2" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
         <span class="vertical-align-middle"> {{ $t("no-results") }} </span>
-        <a
-          class="vertical-align-middle orange-link cursor-pointer"
-          @click="openRelatedSidebar()"
-        >
+        <a class="vertical-align-middle orange-link cursor-pointer" @click="openRelatedSidebar()">
           {{ $t("buttons.create-new-one") + " + " }}
         </a>
       </div>
@@ -83,7 +81,8 @@ const mapContactsGroupedByCustomer = (customers) => {
 
     customer.contacts.forEach((contact) => {
       customerObj.items.push({
-        label: `${contact.name} - ${contact.role[optionLabelWithLang.value]}`,
+        // we need to add the customer to the label be able to filter duplicated contact.name and contact.role pairs
+        label: `${contact.name} - ${contact.role[optionLabelWithLang.value]}  - ${customer.name}`,
         value: contact.id,
         telephone: contact.phone,
         contact_id: contact.id,
@@ -107,6 +106,10 @@ getCustomersFromApi(params).then((data) => {
 
 const openRelatedSidebar = () => {
   openSidebar(props.relatedSidebar);
+};
+
+const removeLastPartOfLabel = (label) => {
+  return label.substring(0, label.lastIndexOf("-")).trim();
 };
 
 // PROVIDE, EXPOSE
