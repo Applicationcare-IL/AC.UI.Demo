@@ -11,17 +11,13 @@
       >
         <template #content>
           <div class="flex flex-row gap-6 justify-content-between">
-            <div
-              class="flex flex-row gap-4 px-5 py-2 counter counter-green align-items-center"
-            >
+            <div class="flex flex-row gap-4 px-5 py-2 counter counter-green align-items-center">
               <div class="small-text counter__label">
                 {{ $t("dashboard.open-services") }}
               </div>
               <div class="text-5xl font-bold green">{{ openServices }}</div>
             </div>
-            <div
-              class="flex flex-row gap-3 px-5 py-2 counter counter-red align-items-center"
-            >
+            <div class="flex flex-row gap-3 px-5 py-2 counter counter-red align-items-center">
               <div class="small-text counter__label">
                 {{ $t("dashboard.breached-services") }}
               </div>
@@ -54,10 +50,7 @@
                 <span>
                   {{ $t("dashboard.services-distribution-by-sla") }}
                 </span>
-                <i
-                  class="pi pi-ellipsis-v cursor-pointer"
-                  @click="openServicesSLADialog"
-                ></i>
+                <i class="pi pi-ellipsis-v cursor-pointer" @click="openServicesSLADialog"></i>
               </div>
             </template>
             <template #content>
@@ -72,10 +65,7 @@
           <Card v-if="servicesTrendingAreas" class="h-full">
             <template #title> {{ $t("dashboard.trending-service-areas") }}</template>
             <template #content>
-              <TrendingList
-                v-if="servicesTrendingAreas.length"
-                :data="servicesTrendingAreas"
-              />
+              <TrendingList v-if="servicesTrendingAreas.length" :data="servicesTrendingAreas" />
             </template>
           </Card>
         </div>
@@ -107,11 +97,7 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 const { can } = usePermissions();
 const optionSetsStore = useOptionSetsStore();
 const { getServiceColumns } = useListUtils();
-const {
-  getServicesTrendingAreas,
-  getServicesSLADistribution,
-  getAvgDuration,
-} = useServices();
+const { getServicesTrendingAreas, getServicesSLADistribution, getAvgDuration } = useServices();
 const authStore = useAuthStore();
 
 // INJECT
@@ -147,8 +133,7 @@ const openServices = computed(() => {
     servicesSLAData.value.find((item) => item.sla_status === "near_breach")?.value || 0;
   const noBreach =
     servicesSLAData.value.find((item) => item.sla_status === "no_breach")?.value || 0;
-  const breached =
-    servicesSLAData.value.find((item) => item.sla_status === "breached")?.value || 0;
+  const breached = servicesSLAData.value.find((item) => item.sla_status === "breached")?.value || 0;
 
   return nearBreach + noBreach + breached;
 });
@@ -159,6 +144,10 @@ const breachedServices = computed(() => {
   }
 
   return servicesSLAData.value.find((item) => item.sla_status === "breached")?.value || 0;
+});
+
+const selectedTeamIds = computed(() => {
+  return props.selectedTeams.map((team) => team.id).join(",");
 });
 
 // COMPONENT METHODS AND LOGIC
@@ -181,10 +170,7 @@ const getTeamsAverageDuration = () => {
   };
 
   if (props.selectedTeams && props.selectedTeams.length) {
-    teamsAverageDurationFilters.owner_id = props.selectedTeams
-      .map((team) => team.id)
-      .join(",");
-    teamsAverageDurationFilters.owner_type = "team";
+    teamsAverageDurationFilters.team = selectedTeamIds.value;
   }
 
   return getAvgDuration(teamsAverageDurationFilters);
@@ -196,10 +182,7 @@ const getServicesSLAData = async () => {
   };
 
   if (props.selectedTeams && props.selectedTeams.length) {
-    servicesSLADataFilters.owner_id = props.selectedTeams
-      .map((team) => team.id)
-      .join(",");
-    servicesSLADataFilters.owner_type = "team";
+    servicesSLADataFilters.team = selectedTeamIds.value;
   }
 
   servicesSLAData.value = await getServicesSLADistribution(servicesSLADataFilters);
@@ -219,19 +202,14 @@ watch(
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   activeStateId.value = await optionSetsStore.getValueId("state", "active");
-  completedStatusId.value = await optionSetsStore.getValueId(
-    "service_status",
-    "completed"
-  );
+  completedStatusId.value = await optionSetsStore.getValueId("service_status", "completed");
 
   dashboardServicesFilters.value = {
     ...dashboardServicesFilters.value,
     state: activeStateId.value,
   };
 
-  servicesTrendingAreas.value = await getServicesTrendingAreas(
-    dashboardServicesFilters.value
-  );
+  servicesTrendingAreas.value = await getServicesTrendingAreas(dashboardServicesFilters.value);
 
   getServicesSLAData();
 

@@ -354,7 +354,7 @@ const showPayments = computed(() => {
 });
 
 const showRoundOfSignatures = computed(() => {
-  return task.value.project_created.id && task.value.task_family.value === "payment";
+  return task.value.project_created?.id && task.value.task_family?.value === "payment";
 });
 
 // COMPONENT METHODS AND LOGIC
