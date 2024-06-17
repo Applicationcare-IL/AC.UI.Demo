@@ -1,5 +1,9 @@
 <template>
-  <Button class="wm-button align-items-center justify-content-center" :class="classes">
+  <Button
+    class="wm-button align-items-center justify-content-center"
+    :class="classes"
+    @click="handleClick"
+  >
     <span v-if="badge" class="wm-button__badge">{{ badge }}</span>
     <i v-if="icon" class="pi" :class="icon"></i>
     <slot name="customIcon"></slot>
@@ -49,6 +53,7 @@ const props = defineProps({
   size: String,
   isActive: Boolean,
   isDisabled: Boolean,
+  click: Function,
 });
 
 const classes = computed(() => {
@@ -60,6 +65,12 @@ const classes = computed(() => {
   ${props.iconOnly ? "p-button-icon-only" : ""}
   `;
 });
+
+const handleClick = () => {
+  if (props.isDisabled) return;
+  if (!props.click) return;
+  props.click();
+};
 </script>
 
 <style scoped lang="scss">
