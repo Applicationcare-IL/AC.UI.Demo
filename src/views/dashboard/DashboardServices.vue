@@ -188,14 +188,33 @@ const getServicesSLAData = async () => {
   servicesSLAData.value = await getServicesSLADistribution(servicesSLADataFilters);
 };
 
+const getServicesTrendAreas = async (filters) => {
+  const params = {
+    ...filters,
+    state: activeStateId.value,
+  };
+
+  if (props.selectedTeams && props.selectedTeams.length) {
+    params.team = selectedTeamIds.value;
+  }
+
+  return await getServicesTrendingAreas(filters);
+};
+
+const loadData = async () => {
+  servicesTrendingAreas.value = await getServicesTrendAreas();
+  myAvgDuration.value = await getMyAverageDuration();
+  teamsAvgDuration.value = await getTeamsAverageDuration();
+  getServicesSLAData();
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
 watch(
   () => props.selectedTeams,
   async () => {
-    teamsAvgDuration.value = await getTeamsAverageDuration();
-    getServicesSLAData();
+    loadData();
   }
 );
 
@@ -204,17 +223,7 @@ onMounted(async () => {
   activeStateId.value = await optionSetsStore.getValueId("state", "active");
   completedStatusId.value = await optionSetsStore.getValueId("service_status", "completed");
 
-  dashboardServicesFilters.value = {
-    ...dashboardServicesFilters.value,
-    state: activeStateId.value,
-  };
-
-  servicesTrendingAreas.value = await getServicesTrendingAreas(dashboardServicesFilters.value);
-
-  getServicesSLAData();
-
-  myAvgDuration.value = await getMyAverageDuration();
-  teamsAvgDuration.value = await getTeamsAverageDuration();
+  loadData();
 });
 </script>
 

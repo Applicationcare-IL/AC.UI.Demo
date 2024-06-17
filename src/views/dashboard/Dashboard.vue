@@ -1,8 +1,5 @@
 <template>
-  <DashboardTeamBar
-    v-if="can('global.is_team_manager')"
-    @update:selected-teams="onSelectedTeams"
-  />
+  <DashboardTeamBar v-if="can('global.is_team_manager')" @update:selected-teams="onSelectedTeams" />
   <div v-if="width > 768" class="dashboard-content">
     <DashboardServices
       v-if="checkIfEntityIsActive('services') && can('services.read')"
@@ -10,6 +7,7 @@
     />
     <DashboardTasks
       v-if="checkIfEntityIsActive('tasks') && can('tasks.read')"
+      :selected-teams="selectedTeams"
     />
   </div>
   <div v-else>

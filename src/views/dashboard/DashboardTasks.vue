@@ -37,20 +37,14 @@
                 <span>
                   {{ $t("dashboard.tasks-distribution-by-sla") }}
                 </span>
-                <i
-                  class="pi pi-ellipsis-v cursor-pointer"
-                  @click="openTasksSLADialog"
-                ></i>
+                <i class="pi pi-ellipsis-v cursor-pointer" @click="openTasksSLADialog"></i>
               </div>
             </template>
             <template #content>
               <SLAChart v-if="tasksSLAData" :data="tasksSLAData" />
             </template>
           </Card>
-          <DashboardTasksSLADialog
-            v-model="showTasksSLADialog"
-            :filters="dashboardTaskFilters"
-          />
+          <DashboardTasksSLADialog v-model="showTasksSLADialog" :filters="dashboardTaskFilters" />
         </div>
         <div style="width: 50%">
           <Card class="h-full">
@@ -81,7 +75,7 @@
 
 <script setup>
 // IMPORTS
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -96,12 +90,18 @@ const { getTopTaskFamilies } = useTasks();
 // INJECT
 
 // PROPS, EMITS
+const props = defineProps({
+  selectedTeams: Array,
+});
 
 // REFS
 const taskColumns = ref(getTaskColumns());
 const topTaskFamilies = ref([]);
 const tasksSLAData = ref(null);
 const showTasksSLADialog = ref(false);
+
+const activeStateId = ref(null);
+const openStatusId = ref(null);
 
 const dashboardTaskFilters = ref({
   order_by: "due_date",
@@ -115,10 +115,8 @@ const openTasks = computed(() => {
 
   const nearBreach =
     tasksSLAData.value.find((item) => item.sla_status === "near_breach")?.value || 0;
-  const noBreach =
-    tasksSLAData.value.find((item) => item.sla_status === "no_breach")?.value || 0;
-  const breached =
-    tasksSLAData.value.find((item) => item.sla_status === "breached")?.value || 0;
+  const noBreach = tasksSLAData.value.find((item) => item.sla_status === "no_breach")?.value || 0;
+  const breached = tasksSLAData.value.find((item) => item.sla_status === "breached")?.value || 0;
 
   return nearBreach + noBreach + breached;
 });
@@ -136,24 +134,38 @@ const openTasksSLADialog = () => {
   showTasksSLADialog.value = true;
 };
 
-// PROVIDE, EXPOSE
+const getTasksSLAData = async (filters) => {
+  tasksSLAData.value = await getTasksSLADistribution(filters);
+};
 
-// WATCHERS
-
-// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(async () => {
-  const activeStateId = await optionSetsStore.getValueId("state", "active");
-  const openStatusId = await optionSetsStore.getValueId("task_status", "open");
-
+const loadData = async () => {
   dashboardTaskFilters.value = {
     ...dashboardTaskFilters.value,
-    state: activeStateId,
-    status: openStatusId,
+    state: activeStateId.value,
+    status: openStatusId.value,
+    team: props.selectedTeams.map((team) => team.id).join(","),
   };
 
   topTaskFamilies.value = await getTopTaskFamilies(dashboardTaskFilters.value);
+  getTasksSLAData(dashboardTaskFilters.value);
+};
 
-  tasksSLAData.value = await getTasksSLADistribution(dashboardTaskFilters.value);
+// PROVIDE, EXPOSE
+
+// WATCHERS
+watch(
+  () => props.selectedTeams,
+  async () => {
+    loadData();
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  activeStateId.value = await optionSetsStore.getValueId("state", "active");
+  openStatusId.value = await optionSetsStore.getValueId("task_status", "open");
+
+  loadData();
 });
 </script>
 
