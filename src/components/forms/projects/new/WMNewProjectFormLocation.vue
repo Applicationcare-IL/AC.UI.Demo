@@ -2,10 +2,7 @@
   <h2 class="h2 mb-0">LOCATION</h2>
   <div class="wm-form-row gap-4">
     <WMSelectableButton v-model="showAddressOptionsRef" :label="$t('project.address')" />
-    <WMSelectableButton
-      v-model="showCityDataOptionsRef"
-      :label="$t('project.city_data')"
-    />
+    <WMSelectableButton v-model="showCityDataOptionsRef" :label="$t('project.city_data')" />
   </div>
   <div class="wm-form-row gap-5">
     <div v-show="showAddressOptionsRef">
@@ -122,35 +119,25 @@ const location = ref({
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleChange: handleChangeAddressOptions } = useField(
-  "showAddressOptions",
-  undefined,
-  {
-    type: "checkbox",
-    valueProp: showAddressOptionsRef.value,
-    initialValue: false,
-    uncheckedValue: false,
-  }
-);
+const { handleChange: handleChangeAddressOptions } = useField("showAddressOptions", undefined, {
+  type: "checkbox",
+  valueProp: showAddressOptionsRef.value,
+  initialValue: false,
+  uncheckedValue: false,
+});
 
-const { handleChange: handleChangeCityDataOptions } = useField(
-  "showCityDataOptions",
-  undefined,
-  {
-    type: "checkbox",
-    valueProp: showCityDataOptionsRef.value,
-    initialValue: false,
-    uncheckedValue: false,
-  }
-);
+const { handleChange: handleChangeCityDataOptions } = useField("showCityDataOptions", undefined, {
+  type: "checkbox",
+  valueProp: showCityDataOptionsRef.value,
+  initialValue: false,
+  uncheckedValue: false,
+});
 
 const updateStreets = (event) => {
   if (event.value) {
-    optionSetsStore
-      .getOptionSetValuesFromApiRaw("service_street", event.value.id)
-      .then((data) => {
-        streets.value = data;
-      });
+    optionSetsStore.getOptionSetValuesFromApiRaw("service_street", event.value.id).then((data) => {
+      streets.value = data;
+    });
 
     optionSetsStore
       .getOptionSetValuesFromApiRaw("service_neighborhood", event.value.id)

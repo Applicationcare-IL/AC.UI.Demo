@@ -17,21 +17,21 @@
       disableDefaultUi: false,
     }"
   >
-    <GMapMarker
-      v-for="(marker, index) in markers"
-      v-if="location.city"
-      :key="index"
-      ref="myMarkerRef"
-      :position="marker.position"
-      :draggable="props.editable"
-      @dragend="updateCoordinates"
-    />
+    <template v-for="(marker, index) in markers">
+      <GMapMarker
+        v-if="location.city"
+        :key="index"
+        ref="myMarkerRef"
+        :position="marker.position"
+        :draggable="props.editable"
+        @dragend="updateCoordinates"
+      />
+    </template>
   </GMapMap>
 </template>
 
 <script setup>
-import { inject, ref, watch } from "vue";
-import { onMounted } from "vue";
+import { inject, onMounted, ref, watch } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -83,33 +83,24 @@ const reverseGeocode = async () => {
   await myMapRef.value.$mapPromise.then(() => {
     geocoder = new window.google.maps.Geocoder();
 
-    geocoder.geocode(
-      { location: markers.value[0].position },
-      async (results) => {
-        const address = results[0].address_components;
+    geocoder.geocode({ location: markers.value[0].position }, async (results) => {
+      const address = results[0].address_components;
 
-        const cityName = await findCityName(address);
-        const streetName = await findStreetName(address);
-        const houseNumberName = await findHouseNumber(address);
+      const cityName = await findCityName(address);
+      const streetName = await findStreetName(address);
+      const houseNumberName = await findHouseNumber(address);
 
-        location.value.house_number = houseNumberName;
-        await optionSetsStore
-          .getOptionSetValueByName("service_city", cityName, null)
-          .then((city) => {
-            location.value.city = city;
-          });
+      location.value.house_number = houseNumberName;
+      await optionSetsStore.getOptionSetValueByName("service_city", cityName, null).then((city) => {
+        location.value.city = city;
+      });
 
-        await optionSetsStore
-          .getOptionSetValueByName(
-            "service_street",
-            streetName,
-            location.value.city.id
-          )
-          .then((street) => {
-            location.value.street = street;
-          });
-      }
-    );
+      await optionSetsStore
+        .getOptionSetValueByName("service_street", streetName, location.value.city.id)
+        .then((street) => {
+          location.value.street = street;
+        });
+    });
   });
 };
 
@@ -124,9 +115,7 @@ async function findStreetName(address) {
 }
 
 async function findHouseNumber(address) {
-  const houseNumberComponent = address.find((x) =>
-    x.types.includes("street_number")
-  );
+  const houseNumberComponent = address.find((x) => x.types.includes("street_number"));
   return houseNumberComponent ? houseNumberComponent.long_name : null;
 }
 
@@ -135,24 +124,25 @@ const updateCoordinates = (e) => {
   reverseGeocode();
 };
 
-const getsize = () => {
-  if (props.size === "small") {
-    return "width: 355px; height: 196px";
-  } else {
-    return "width: 710px; height: 392px";
-  }
-};
+// const getsize = () => {
+//   if (props.size === "small") {
+//     return "width: 355px; height: 196px";
+//   } else {
+//     return "width: 710px; height: 392px";
+//   }
+// };
 
 onMounted(() => {
   geocode();
 });
 
-//watch cont location value
 watch(
   () => location.value,
-  () => {
+  (newValue) => {
+    location.value = newValue;
     geocode();
-  }
+  },
+  { deep: true }
 );
 
 const getLocation = () => {
