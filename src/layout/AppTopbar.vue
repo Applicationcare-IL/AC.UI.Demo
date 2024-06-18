@@ -95,13 +95,23 @@
         </li>
 
         <ul class="profile-dropdown" :class="{ active: activeTopbarItem === 'profile' }">
-          <!-- <li role="menuitem">
-            <a href="#" @click="authStore.logout"> logout </a>
+          <li role="menuitem" class="flex gap-2 align-items-center">
+            <div class="flex" v-html="LanguageIcon" />
+            <SelectButton
+              v-model="value"
+              class="flex p-selectbutton--small p-selectbutton--orange"
+              :options="options"
+              aria-labelledby="basic"
+              @change="onLanguageChange"
+            />
           </li>
-          <Divider /> -->
+
+          <Divider />
+
           <li v-if="can('global.admin_zone')" role="menuitem">
             <AppAdminSwitcher />
           </li>
+
           <Divider v-if="can('global.admin_zone')" />
 
           <li role="menuitem ">
@@ -117,37 +127,45 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { useWindowSize } from "@vueuse/core";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
-// import { useRouter } from "vue-router";
 import ExitIcon from "/icons/exit.svg?raw";
+import LanguageIcon from "/icons/language.svg?raw";
+import { i18n, loadLocaleMessages, setI18nLanguage } from "@/i18n";
 import { useLayout } from "@/layout/composables/layout";
 import { useAuthStore } from "@/stores/auth";
 
 import AppAdminSwitcher from "./AppAdminSwitcher.vue";
 
+// DEPENDENCIES
 const orgLogo = import.meta.env.VITE_ADMIN_URL + "/storage/logos/login.png?cache=false";
 
+const { layoutConfig } = useLayout();
 const authStore = useAuthStore();
-
 const { can } = usePermissions();
+const { width } = useWindowSize();
 
-const emit = defineEmits(["topbar-item-click"]);
+// INJECT
 
-const { layoutConfig, onMenuToggle, contextPath } = useLayout();
-
-const outsideClickListener = ref(null);
-const topbarMenuActive = ref(false);
-// const router = useRouter();
-const searchValue = ref("");
+// PROPS, EMITS
 
 defineProps({
   activeTopbarItem: String,
 });
 
-const { width } = useWindowSize();
+const emit = defineEmits(["topbar-item-click"]);
 
+// REFS
+const value = ref("He");
+const options = ref(["En", "He"]);
+const outsideClickListener = ref(null);
+const topbarMenuActive = ref(false);
+const searchValue = ref("");
+
+// COMPUTED
 const logoRedirectLink = computed(() => {
   if (width.value < 768) {
     return "/dashboard";
@@ -156,37 +174,17 @@ const logoRedirectLink = computed(() => {
   }
 });
 
-onMounted(() => {
-  bindOutsideClickListener();
-});
-
-onBeforeUnmount(() => {
-  unbindOutsideClickListener();
-});
-
-// const logoUrl = computed(() => {
-//   return `${contextPath}Logo.svg`;
-// });
-
-// const onTopBarMenuButton = () => {
-//   topbarMenuActive.value = !topbarMenuActive.value;
-// };
-
-const onTopbarItemClick = (event, item) => {
-  emit("topbar-item-click", { originalEvent: event, item: item });
-  event.preventDefault();
-};
-
-// const onTopbarSubItemClick = (event) => {
-//   emit("topbar-subitem-click", { originalEvent: event, item: item });
-//   event.preventDefault();
-// };
-
 const topbarMenuClasses = computed(() => {
   return {
     "layout-topbar-menu-mobile-active": topbarMenuActive.value,
   };
 });
+
+// COMPONENT METHODS AND LOGIC
+const onTopbarItemClick = (event, item) => {
+  emit("topbar-item-click", { originalEvent: event, item: item });
+  event.preventDefault();
+};
 
 const bindOutsideClickListener = () => {
   if (!outsideClickListener.value) {
@@ -198,12 +196,14 @@ const bindOutsideClickListener = () => {
     document.addEventListener("click", outsideClickListener.value);
   }
 };
+
 const unbindOutsideClickListener = () => {
   if (outsideClickListener.value) {
     document.removeEventListener("click", outsideClickListener);
     outsideClickListener.value = null;
   }
 };
+
 const isOutsideClicked = (event) => {
   if (!topbarMenuActive.value) return;
 
@@ -217,6 +217,30 @@ const isOutsideClicked = (event) => {
     topbarEl.contains(event.target)
   );
 };
+
+const onLanguageChange = (event) => {
+  loadLocaleMessages(i18n.global, event.value.toLowerCase());
+  setI18nLanguage(i18n.global, event.value.toLowerCase());
+  layoutConfig.isRTL.value = event.value.toLowerCase() === "he";
+};
+
+const setCurrentLanguage = () => {
+  value.value = i18n.global.locale.value === "he" ? "He" : "En";
+};
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  bindOutsideClickListener();
+  setCurrentLanguage();
+});
+
+onBeforeUnmount(() => {
+  unbindOutsideClickListener();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -254,7 +278,7 @@ const isOutsideClicked = (event) => {
   position: fixed;
   left: 0;
   right: -3rem !important; // margin of the wrapper
-  padding: 48px;
+  padding: 20px 48px 48px 48px;
   list-style: none;
 
   &.active {

@@ -196,7 +196,6 @@ body {
 }
 
 
-
 .p-dataview-layout-options.p-selectbutton.p-buttonset .p-button:first-of-type{
     border-radius: 4px 0 0 4px;
     width: 24px;
@@ -207,6 +206,32 @@ body {
     border-radius: 0 4px 4px 0;
     width: 24px;
     height: 24px;
+}
+
+.p-selectbutton--small{
+    .p-button{
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+.p-selectbutton--orange.p-selectbutton.p-buttonset  {
+   .p-button{
+    color: var(--orange-500);
+    border-color: var(--orange-500);
+   }
+
+   .p-button.p-highlight{
+    background-color: var(--orange-500);
+    color: white;
+    border-color: var(--orange-500);
+   }
+
+    .p-button:not(.p-disabled):not(.p-highlight):hover {
+        background-color: var(--orange-50);
+        color: var(--orange-500);
+        border-color: var(--orange-500);
+    }
 }
 
 // Scroll

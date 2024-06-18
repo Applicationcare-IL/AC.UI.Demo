@@ -35,7 +35,6 @@ import { computed, ref, watch } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
 
-import AppConfig from "./AppConfig.vue";
 import AppFooter from "./AppFooter.vue";
 import AppResponsiveTopbar from "./AppResponsiveTopbar.vue";
 import AppSidebar from "./AppSidebar.vue";
