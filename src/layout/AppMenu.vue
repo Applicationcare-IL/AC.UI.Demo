@@ -4,8 +4,6 @@
       <AppMenuItem v-if="!item.separator" :item="item" :index="i"></AppMenuItem>
       <Divider v-if="item.separator" />
     </template>
-    <Divider v-if="can('global.admin_zone')" />
-    <AppMenuAdminSwitcher v-if="can('global.admin_zone')" />
   </ul>
 </template>
 
@@ -15,7 +13,6 @@ import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "../stores/utils";
-import AppMenuAdminSwitcher from "./AppMenuAdminSwitcher.vue";
 import AppMenuItem from "./AppMenuItem.vue";
 
 const utilsStore = useUtilsStore();
