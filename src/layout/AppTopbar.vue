@@ -13,10 +13,13 @@
         class="client-logo md:hidden"
       />
     </div>
-    <div class="hidden md:flex ml-auto">
+    <div class="hidden md:flex" :class="layoutConfig.isRTL.value ? 'ml-auto' : 'mr-auto'">
       <WMTopTaskSummary />
     </div>
-    <WMGlobalSearchBox v-model="searchValue" class="ml-auto" />
+    <WMGlobalSearchBox
+      v-model="searchValue"
+      :class="layoutConfig.isRTL.value ? 'ml-auto' : 'mr-auto'"
+    />
 
     <div class="hidden md:block mx-6">
       <div class="layout-topbar-menu" :class="topbarMenuClasses">
