@@ -94,7 +94,13 @@
           </a>
         </li>
 
-        <ul class="profile-dropdown" :class="{ active: activeTopbarItem === 'profile' }">
+        <ul
+          class="profile-dropdown"
+          :class="{
+            active: activeTopbarItem === 'profile',
+            'layout-rtl': layoutConfig.isRTL.value,
+          }"
+        >
           <li role="menuitem" class="flex gap-2 align-items-center">
             <div class="flex" v-html="LanguageIcon" />
             <SelectButton
@@ -268,7 +274,6 @@ onBeforeUnmount(() => {
   display: none;
   flex-direction: column;
   background-color: white;
-  border-radius: 0px 0px 40px 0;
   box-shadow: 1px 6px 8px 0px rgba(0, 0, 0, 0.14);
   overflow-y: auto;
   min-width: initial;
@@ -276,10 +281,17 @@ onBeforeUnmount(() => {
   top: 60px !important; // topbar height
   width: 360px;
   position: fixed;
-  left: 0;
-  right: -3rem !important; // margin of the wrapper
+  right: 0;
   padding: 20px 48px 48px 48px;
   list-style: none;
+
+  border-radius: 0px 0px 0px 40px;
+
+  &.layout-rtl {
+    right: -3rem !important;
+    left: 0;
+    border-radius: 0px 0px 40px 0;
+  }
 
   &.active {
     display: flex;

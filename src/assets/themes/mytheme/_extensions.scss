@@ -208,8 +208,10 @@ body {
     height: 24px;
 }
 
-.p-selectbutton--small{
+.p-selectbutton.p-buttonset.p-component.p-selectbutton--small{
+    height: 24px;
     .p-button{
+        height: 24px;
         padding: 0.5rem 1rem;
         font-size: 0.875rem;
     }
