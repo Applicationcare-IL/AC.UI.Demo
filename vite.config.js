@@ -14,7 +14,6 @@ export default defineConfig({
     svgLoader(),
     Components({
       resolvers: [PrimeVueResolver()],
-      dirs: ["src/components", "layout"],
     }),
     AutoImport({
       imports: [unheadVueComposablesImports],
