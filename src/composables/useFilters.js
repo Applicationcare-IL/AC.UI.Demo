@@ -36,7 +36,7 @@ export function useFilters() {
     });
 
     return {
-      data: response,
+      data: response.milestones,
     };
   };
 
