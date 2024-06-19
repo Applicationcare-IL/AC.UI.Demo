@@ -11,17 +11,16 @@
       @click="itemClick($event, item, index)"
     >
       <img :src="item.image" />
-      <span
-        v-if="layoutConfig.isSidebarExpanded.value"
-        class="layout-menuitem-text px-2"
-        >{{ item.label }}</span
-      >
+      <span v-if="layoutConfig.isSidebarExpanded.value" class="layout-menuitem-text px-2">{{
+        item.label
+      }}</span>
     </router-link>
     <Transition v-if="item.items && item.visible !== false" name="layout-submenu">
       <ul v-show="root ? true : isActiveMenu" class="layout-submenu">
         <template v-for="(child, i) in item.items" :key="i">
+          <Divider v-if="child.divider" />
           <AppMenuItem
-            v-if="child.visibility"
+            v-else-if="child.visibility"
             :index="i"
             :item="child"
             :parent-item-key="itemKey"
@@ -73,16 +72,13 @@ onBeforeMount(() => {
   const activeItem = layoutState.activeMenuItem;
 
   isActiveMenu.value =
-    activeItem === itemKey.value || activeItem
-      ? activeItem.startsWith(itemKey.value + "-")
-      : false;
+    activeItem === itemKey.value || activeItem ? activeItem.startsWith(itemKey.value + "-") : false;
 });
 
 watch(
   () => layoutConfig.activeMenuItem.value,
   (newVal) => {
-    isActiveMenu.value =
-      newVal === itemKey.value || newVal.startsWith(itemKey.value + "-");
+    isActiveMenu.value = newVal === itemKey.value || newVal.startsWith(itemKey.value + "-");
   }
 );
 
@@ -100,10 +96,7 @@ const itemClick = (event, item) => {
 
   const { overlayMenuActive, staticMenuMobileActive } = layoutState;
 
-  if (
-    (item.to || item.url) &&
-    (staticMenuMobileActive.value || overlayMenuActive.value)
-  ) {
+  if ((item.to || item.url) && (staticMenuMobileActive.value || overlayMenuActive.value)) {
     onMenuToggle();
   }
 

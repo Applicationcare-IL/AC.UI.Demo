@@ -1,8 +1,7 @@
 <template>
   <ul class="layout-menu">
     <template v-for="(item, i) in model" :key="item">
-      <AppMenuItem v-if="!item.separator" :item="item" :index="i"></AppMenuItem>
-      <Divider v-if="item.separator" />
+      <AppMenuItem :item="item" :index="i" />
     </template>
   </ul>
 </template>
@@ -97,6 +96,15 @@ const model = computed(() => {
           image: new URL("/icons/nav/reports.svg", import.meta.url).href,
           visibility: can("reports.read"),
         },
+        // {
+        //   divider: true,
+        // },
+        // {
+        //   label: t("navigation.scripts"),
+        //   to: "/admin/scripts",
+        //   image: new URL("/icons/nav/reports.svg", import.meta.url).href,
+        //   visibility: can("reports.read"),
+        // },
       ],
     },
   ];

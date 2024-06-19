@@ -27,7 +27,6 @@ body {
 }
 
 // Layout
-
 .layout-sidebar {
     height: calc(100vh - 76px);
     top: 76px;
@@ -40,7 +39,7 @@ body {
     text-align: right;
 
     &.expanded {
-        width: 10rem;
+        width: 256px;
     }
 }
 
@@ -88,8 +87,6 @@ body {
 .layout-menu ul a {
     justify-content: center;
     height: 48px;
-    margin-bottom: 24px;
-
 }
 
 
@@ -591,12 +588,32 @@ a {
 }
 
 // Side Menu
+.layout-menu{
+    width: 100%;
+}
+
+.layout-menu ul{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.layout-menu ul a{
+    width: calc(100% - 8px);
+    justify-content: start;
+    font-size: 1.2rem;
+    gap: 12px;
+}
 
 .layout-menu ul a.active-route,
 .layout-menu ul a:hover {
     background-color: var(--orange-100);
     border-radius: 6px 16px 6px 6px;
     box-shadow: none;
+
+    .layout-menuitem-text{
+        font-weight: 700;
+    }
 }
 
 //Dataview
