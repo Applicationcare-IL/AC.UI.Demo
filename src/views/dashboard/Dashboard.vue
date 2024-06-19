@@ -32,6 +32,10 @@ const { checkIfEntityIsActive } = useLicensing();
 
 const { width } = useWindowSize();
 
+useHead({
+  title: "Dashboard",
+});
+
 const onSelectedTeams = (value) => {
   selectedTeams.value = value;
 };

@@ -173,7 +173,7 @@ const rows = computed(() => {
 
 // COMPONENT METHODS AND LOGIC
 useHead({
-  title: "Projects",
+  title: "Reports",
 });
 
 const loadLazyData = () => {
