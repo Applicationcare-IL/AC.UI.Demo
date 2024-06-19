@@ -6,7 +6,7 @@ import { ENTITIES } from "@/constants";
 import AppLayout from "@/layout/AppLayout.vue";
 import { useAuthStore } from "@/stores/auth";
 
-function getEmail(string) {
+const getEmail = (string) => {
   const regex = /email=([^&]+)/;
 
   const match = string.match(regex);
@@ -16,7 +16,7 @@ function getEmail(string) {
   }
 
   return null;
-}
+};
 
 const router = createRouter({
   history: createWebHistory(),
@@ -241,16 +241,5 @@ router.beforeEach(async (to, from, next) => {
     next();
   }
 });
-
-// router.beforeResolve(async () => {
-//   const formUtilsStore = useFormUtilsStore();
-//   const { confirmCancelDialog } = useDialog();
-//   const { formMeta } = storeToRefs(formUtilsStore);
-
-//   // check if there's some dirty forms and show confirm dialog
-//   if (formMeta.value.dirty) {
-//     confirmCancelDialog();
-//   }
-// });
 
 export default router;
