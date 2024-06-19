@@ -10,12 +10,8 @@ export const usePermissionsStore = defineStore("permissions", {
         update: true,
       },
     },
+    isPermissionsLoaded: false,
   }),
-  getters: {
-    isPermissionsLoaded: () => {
-      return false;
-    },
-  },
   actions: {
     /**
      * Check if the user has a specific permission
@@ -54,7 +50,7 @@ export const usePermissionsStore = defineStore("permissions", {
 
       return true;
     },
-    getPermissionsFromApi() {
+    fetchPermissionsFromApi() {
       return axiosConfig
         .get("/auth/permissions")
         .then((response) => {
@@ -62,6 +58,8 @@ export const usePermissionsStore = defineStore("permissions", {
             ...this.permissions,
             ...response.data.data,
           };
+
+          this.isPermissionsLoaded = true;
         })
         .catch((error) => {
           console.error(error);

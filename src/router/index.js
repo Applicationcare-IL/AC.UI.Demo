@@ -221,9 +221,13 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  const { can } = usePermissions();
+  const { can, isPermissionsLoaded, fetchPermissionsFromApi } = usePermissions();
+
+  if (!isPermissionsLoaded.value) {
+    await fetchPermissionsFromApi();
+  }
 
   if (ENTITIES.includes(to.name)) {
     if (!can(`${to.name}.read`)) {

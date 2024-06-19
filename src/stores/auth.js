@@ -32,7 +32,7 @@ export const useAuthStore = defineStore("auth", {
             localStorage.setItem("isAuthenticated", true);
 
             await optionSetsStore.preloadOptionSets();
-            await permissionsStore.getPermissionsFromApi();
+            await permissionsStore.fetchPermissionsFromApi();
           })
           .catch((error) => {
             console.error(error);

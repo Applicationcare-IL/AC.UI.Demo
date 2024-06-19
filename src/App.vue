@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="loading"
-    class="flex flex-column justify-content-center h-screen align-items-center"
-  >
+  <div v-if="loading" class="flex flex-column justify-content-center h-screen align-items-center">
     <ProgressSpinner />
     <!-- <p v-if="loadingPermissions" class="ml-2">Loading...</p> -->
   </div>
@@ -60,14 +57,12 @@ if (window.Echo) {
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(() => {
+onMounted(async () => {
   if (authStore.isAuthenticated) {
     getLicensing();
 
     if (!permissionsStore.isPermissionsLoaded) {
-      permissionsStore
-        .getPermissionsFromApi()
-        .then(() => (loadingPermissions.value = false));
+      loadingPermissions.value = await permissionsStore.fetchPermissionsFromApi();
     } else {
       loadingPermissions.value = false;
     }
