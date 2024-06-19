@@ -1,6 +1,6 @@
 import { useI18n } from "vue-i18n";
 
-export function useFilters() {
+const useFilters = () => {
   const { getTasksTypesFromApi } = useTasks();
   const { getCustomersFromApi } = useCustomers();
   const { getProjectsFromApi, getMilestones, getBudgetItems } = useProjects();
@@ -518,14 +518,14 @@ export function useFilters() {
       {
         toggable: true,
         type: "entity",
-        name: "customers",
+        name: "customer",
         label: i18n.t("project.organization") + ":",
         searchFunction: searchCustomers,
       },
       {
         toggable: true,
         type: "entity",
-        name: "contacts",
+        name: "contact",
         label: i18n.t("contact.contacts") + ":",
         searchFunction: searchContacts,
       },
@@ -543,4 +543,6 @@ export function useFilters() {
   return {
     filterList,
   };
-}
+};
+
+export default useFilters;
