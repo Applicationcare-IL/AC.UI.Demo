@@ -11,6 +11,7 @@
       <WMButton :text="$t('scripts.sync-scripts')" type="secondary" @click="handleSyncScripts" />
     </template>
   </WMListSubHeader>
+
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
       :value="scripts"
@@ -57,6 +58,10 @@ const lazyParams = ref({});
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+useHead({
+  title: "Scripts",
+});
+
 const loadLazyData = () => {
   loading.value = true;
 
