@@ -5,6 +5,7 @@ module.exports = {
   plugins: ["simple-import-sort"],
   extends: ["eslint:recommended", "plugin:vue/vue3-recommended", "prettier"],
   rules: {
+    "func-style": ["error", "expression", { allowArrowFunctions: true }],
     "max-len": [
       "error",
       {
