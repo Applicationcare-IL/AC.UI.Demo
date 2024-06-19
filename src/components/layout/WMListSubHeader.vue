@@ -1,7 +1,10 @@
 <template>
   <div class="wm-subheader pb-2 shadow-2 flex-none">
     <div class="flex flex-column gap-3">
-      <div v-if="showHeader" class="flex flex-row justify-content-between flex-wrap row-gap-4">
+      <div
+        v-if="showHeader"
+        class="flex flex-row justify-content-between flex-wrap row-gap-4"
+      >
         <div class="flex flex-row flex-wrap gap-2">
           <WMNewButton
             v-if="can(utilsStore.pluralEntity + '.create') && entity != 'asset'"
@@ -47,7 +50,9 @@
           />
 
           <WMAssignOwnerButton
-            v-if="can(utilsStore.pluralEntity + '.assign') && utilsStore.entity != 'asset'"
+            v-if="
+              can(utilsStore.pluralEntity + '.assign') && utilsStore.entity != 'asset'
+            "
             :entity="utilsStore.entity"
             @owner-assigned="$emit('refreshTable')"
           />
@@ -59,7 +64,9 @@
           />
 
           <WMSendEmailButton
-            v-if="can('global.mail') && utilsStore.entity != 'asset' && showCommunications"
+            v-if="
+              can('global.mail') && utilsStore.entity != 'asset' && showCommunications
+            "
             :selected-elements="selectedElements"
             :multiple="true"
           />
@@ -75,7 +82,10 @@
           <slot name="custom-buttons" />
         </div>
         <div class="flex flex-row align-items-center gap-3">
-          <WMStateToggle v-if="entity === 'task' || entity === 'service'" :entity="entity" />
+          <WMStateToggle
+            v-if="entity === 'task' || entity === 'service'"
+            :entity="entity"
+          />
           <WMOwnerToggle :entity="entity" />
         </div>
       </div>

@@ -1,5 +1,6 @@
 <template>
   <WMDetailFormSubHeader
+    entity="project-budget"
     :form-key="formKey"
     :show-message-button="false"
     :show-email-button="false"

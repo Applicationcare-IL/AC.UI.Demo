@@ -1,4 +1,5 @@
 <template>
+  <!-- {{ selectedElements }} -->
   <WMButton
     :text="label"
     type="type-5"
@@ -39,7 +40,7 @@
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
@@ -70,20 +71,17 @@ const visible = ref(false);
 const responseData = ref();
 
 // COMPUTED
+const selectedElementsIds = computed(() => props.selectedElements.map((element) => element.id));
 
 // COMPONENT METHODS AND LOGIC
 const toggleDropdownMenu = (event) => {
   dropdownMenu.value.toggle(event);
 };
 
-const getIdsOfSelectedElements = () => {
-  return props.selectedElements.map((element) => element.id);
-};
-
 const handleOverlayMenuClick = (action) => {
   const params = {
     url_action_builder: action.id,
-    entity_ids: getIdsOfSelectedElements(),
+    entity_ids: selectedElementsIds.value,
     entity_type: currentEntity.value,
   };
 

@@ -92,6 +92,15 @@
             @task-completed="$emit('taskCompleted')"
           />
 
+          <Divider v-if="scopes && scopes.length" layout="vertical" />
+
+          <WMActionBuilderDropdowns
+            v-if="scopes && scopes.length && hasActionBuilder"
+            :scopes="scopes"
+            :selected-elements="[selectedElement]"
+            @post-action-executed="$emit('refreshTable')"
+          />
+
           <slot name="custom-buttons" />
         </div>
         <div class="flex gap-3 align-items-center">
@@ -132,9 +141,14 @@ const utilsStore = useUtilsStore();
 const entityType = ref("");
 const { can } = usePermissions();
 const { getStatusConditionalStyle, highlightStatusClass } = useListUtils();
+const { getScopes } = useActionBuilder();
 
 // PROPS, EMITS
 const props = defineProps({
+  entity: {
+    type: String,
+    required: true,
+  },
   formKey: {
     type: String,
     required: true,
@@ -144,6 +158,10 @@ const props = defineProps({
     default: true,
   },
   showEmailButton: {
+    type: Boolean,
+    default: true,
+  },
+  hasActionBuilder: {
     type: Boolean,
     default: true,
   },
@@ -159,8 +177,10 @@ const emit = defineEmits([
 
 // REFS
 const { getFormMeta, isFormSaved } = storeToRefs(formUtilsStore);
+const selectedElement = ref();
 const selectedElements = ref(0);
 const isEntityActive = ref(false);
+const scopes = ref();
 
 // COMPUTED
 const showUpdateEntityStateButton = computed(() => {
@@ -193,11 +213,18 @@ const statusClass = (data) => {
   return getStatusConditionalStyle(data);
 };
 
+if (props.hasActionBuilder) {
+  getScopes(props.entity, "list").then((data) => {
+    scopes.value = data;
+  });
+}
+
 // WATCHERS
 watch(
   () => utilsStore.selectedElements[utilsStore.entity],
   (value) => {
     selectedElements.value = value?.length;
+    selectedElement.value = value[0];
 
     isEntityActive.value =
       utilsStore.selectedElements[utilsStore.entity][0].state?.value === "active";

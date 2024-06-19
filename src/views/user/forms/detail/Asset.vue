@@ -1,5 +1,6 @@
 <template>
   <WMDetailFormSubHeader
+    entity="asset"
     :form-key="formKey"
     @save-form="saveForm()"
     @refresh-table="refreshTable"

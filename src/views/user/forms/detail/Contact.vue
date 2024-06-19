@@ -1,5 +1,6 @@
 <template>
   <WMDetailFormSubHeader
+    entity="contact"
     :form-key="formKey"
     @save-form="saveForm()"
     @deactivate-entity="handleDeactivateContact"

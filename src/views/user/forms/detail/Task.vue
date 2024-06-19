@@ -1,5 +1,6 @@
 <template>
   <WMDetailFormSubHeader
+    entity="task"
     :form-key="formKey"
     @save-form="saveForm()"
     @task-completed="refreshTask"

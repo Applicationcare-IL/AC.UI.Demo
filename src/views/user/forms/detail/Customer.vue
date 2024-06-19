@@ -1,5 +1,6 @@
 <template>
   <WMDetailFormSubHeader
+    entity="customer"
     :form-key="formKey"
     @save-form="saveForm()"
     @deactivate-entity="handleDeactivateCustomer"

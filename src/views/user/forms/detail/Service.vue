@@ -1,5 +1,6 @@
 <template>
   <WMDetailFormSubHeader
+    entity="service"
     :form-key="formKey"
     @save-form="saveForm()"
     @refresh-table="refreshTable"

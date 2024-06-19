@@ -1,5 +1,6 @@
 <template>
   <WMDetailFormSubHeader
+    entity="project"
     :form-key="formKey"
     @save-form="saveForm()"
     @refresh-table="refreshProject"
@@ -8,7 +9,6 @@
       <WMCancelButton
         v-if="can('projects.cancel')"
         :is-disabled="!isProjectCancellable"
-        size="small"
         @click="handleCancelProject"
       />
     </template>

@@ -39,6 +39,7 @@ module.exports = {
           "Search",
           "Reports",
           "Scripts",
+          "Asset",
         ],
       },
     ],

@@ -1,5 +1,6 @@
 <template>
   <WMDetailFormSubHeader
+    entity="milestone"
     :form-key="formKey"
     :show-message-button="false"
     :show-email-button="false"
