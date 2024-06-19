@@ -212,9 +212,94 @@ const router = createRouter({
           },
         },
         {
+          path: "users",
+          name: "adminUsers",
+          component: () => import("@/views/admin/lists/UsersListPage.vue"),
+        },
+        {
+          path: "teams",
+          name: "adminTeams",
+          component: () => import("@/views/admin/lists/TeamsListPage.vue"),
+        },
+        {
+          path: "roles",
+          name: "adminRoles",
+          component: () => import("@/views/admin/lists/RolesListPage.vue"),
+        },
+        {
+          path: "permissions",
+          name: "adminPermissions",
+          component: () => import("@/views/admin/lists/PermissionsListPage.vue"),
+        },
+        {
+          path: "processes",
+          name: "adminProcesses",
+          component: () => import("@/views/admin/lists/ProcessesListPage.vue"),
+        },
+        {
+          path: "classifications",
+          name: "adminClassifications",
+          component: () => import("@/views/admin/lists/ClassificationsListPage.vue"),
+        },
+        {
+          path: "sla-settings",
+          name: "adminSlaSettings",
+          component: () => import("@/views/admin/lists/SlaSettingsListPage.vue"),
+        },
+        {
+          path: "task-settings",
+          name: "adminTaskSettings",
+          component: () => import("@/views/admin/lists/TaskSettingsListPage.vue"),
+        },
+        {
+          path: "quick-codes",
+          name: "adminQuickCodes",
+          component: () => import("@/views/admin/lists/QuickCodesListPage.vue"),
+        },
+        {
+          path: "messages",
+          name: "adminMessages",
+          component: () => import("@/views/admin/lists/MessagesListPage.vue"),
+        },
+        {
+          path: "option-sets",
+          name: "adminOptionSets",
+          component: () => import("@/views/admin/lists/OptionSetsListPage.vue"),
+        },
+        {
+          path: "triggers",
+          name: "adminTriggers",
+          component: () => import("@/views/admin/lists/TriggersListPage.vue"),
+        },
+        {
+          path: "dynamic-attributes",
+          name: "adminDynamicAttributes",
+          component: () => import("@/views/admin/lists/DynamicAttributesListPage.vue"),
+        },
+        {
+          path: "url-action-builder",
+          name: "adminUrlActionBuilder",
+          component: () => import("@/views/admin/lists/UrlActionBuilderListPage.vue"),
+        },
+        {
+          path: "import",
+          name: "adminImport",
+          component: () => import("@/views/admin/lists/ImportListPage.vue"),
+        },
+        {
+          path: "translations",
+          name: "adminTranslations",
+          component: () => import("@/views/admin/lists/TranslationsListPage.vue"),
+        },
+        {
+          path: "system-settings",
+          name: "adminSystemSettings",
+          component: () => import("@/views/admin/lists/SystemSettingsListPage.vue"),
+        },
+        {
           path: "scripts",
           name: "adminScripts",
-          component: () => import("@/views/admin/lists/Scripts.vue"),
+          component: () => import("@/views/admin/lists/ScriptsListPage.vue"),
         },
       ],
     },

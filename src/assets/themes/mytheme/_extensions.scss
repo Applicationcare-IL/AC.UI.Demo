@@ -43,6 +43,7 @@ body {
     }
 }
 
+
 .layout-menu ul a{
     transition: none;
 }
@@ -588,6 +589,8 @@ a {
 }
 
 // Side Menu
+
+
 .layout-menu{
     width: 100%;
 }
@@ -599,10 +602,14 @@ a {
 }
 
 .layout-menu ul a{
-    width: calc(100% - 8px);
+    width: 48px;
     justify-content: start;
     font-size: 1.2rem;
     gap: 12px;
+}
+
+.layout-sidebar.expanded .layout-menu ul a{
+    width: calc(100% - 8px);
 }
 
 .layout-menu ul a.active-route,
