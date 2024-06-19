@@ -96,15 +96,36 @@ const model = computed(() => {
           image: new URL("/icons/nav/reports.svg", import.meta.url).href,
           visibility: can("reports.read"),
         },
-        // {
-        //   divider: true,
-        // },
-        // {
-        //   label: t("navigation.scripts"),
-        //   to: "/admin/scripts",
-        //   image: new URL("/icons/nav/reports.svg", import.meta.url).href,
-        //   visibility: can("reports.read"),
-        // },
+        {
+          divider: true,
+        },
+        {
+          label: t("navigation.import"),
+          to: "/admin/import",
+          image: new URL("/icons/nav/reports.svg", import.meta.url).href,
+          // visibility: can("reports.read"),
+        },
+        {
+          label: t("navigation.translations"),
+          to: "/admin/translations",
+          image: new URL("/icons/nav/reports.svg", import.meta.url).href,
+          // visibility: can("reports.read"),
+        },
+        {
+          label: t("navigation.system-settings"),
+          to: "/admin/system-settings",
+          image: new URL("/icons/nav/reports.svg", import.meta.url).href,
+          // visibility: can("reports.read"),
+        },
+        {
+          divider: true,
+        },
+        {
+          label: t("navigation.scripts"),
+          to: "/admin/scripts",
+          image: new URL("/icons/nav/reports.svg", import.meta.url).href,
+          visibility: can("reports.read"),
+        },
       ],
     },
   ];
