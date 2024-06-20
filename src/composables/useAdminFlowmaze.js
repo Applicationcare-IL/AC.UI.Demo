@@ -1,6 +1,6 @@
 import { useAdminFlowmazeStore } from "@/stores/adminFlowmazeStore";
 
-export function useAdminFlowmaze() {
+const useAdminFlowmaze = () => {
   const adminFlowmazeStore = useAdminFlowmazeStore();
 
   // ACTIONS
@@ -12,13 +12,30 @@ export function useAdminFlowmaze() {
     return { data: scripts, totalRecords };
   };
 
+  const getScript = async (id) => {
+    const response = await adminFlowmazeStore.getScript(id);
+    return mapScript(response.data);
+  };
+
   const syncScripts = async () => {
     await adminFlowmazeStore.syncScripts();
+  };
+
+  const mapScript = (script) => {
+    return {
+      title: script.name,
+      ...script,
+    };
   };
 
   return {
     // ACTIONS
     getScripts,
+    getScript,
     syncScripts,
+    // UTILITIES
+    mapScript,
   };
-}
+};
+
+export default useAdminFlowmaze;

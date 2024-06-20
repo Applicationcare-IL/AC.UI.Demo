@@ -1,6 +1,6 @@
 import { useFlowmazeStore } from "@/stores/flowmazeStore";
 
-export function useFlowmaze() {
+const useFlowmaze = () => {
   const flowmazeStore = useFlowmazeStore();
 
   // ACTIONS
@@ -38,4 +38,6 @@ export function useFlowmaze() {
     getScripts,
     executeIssue,
   };
-}
+};
+
+export default useFlowmaze;

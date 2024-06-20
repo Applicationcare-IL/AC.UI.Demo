@@ -301,6 +301,11 @@ const router = createRouter({
           name: "adminScripts",
           component: () => import("@/views/admin/lists/ScriptsListPage.vue"),
         },
+        {
+          path: "scripts/:id",
+          name: "scriptDetail",
+          component: () => import("@/views/admin/forms/detail/ScriptDetail.vue"),
+        },
       ],
     },
   ],

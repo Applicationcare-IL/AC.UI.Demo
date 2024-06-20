@@ -14,6 +14,16 @@ export const useAdminFlowmazeStore = defineStore("adminFlowmaze", {
           console.error(error);
         });
     },
+    getScript(id) {
+      return axiosConfig
+        .get(`/admin/flowmaze/scripts/${id}`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     syncScripts() {
       return axiosConfig
         .post("/admin/flowmaze/scripts/sync")

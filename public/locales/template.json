@@ -744,6 +744,9 @@
   "password": {
     "alread_in_use": "Password already in use"
   },
+  "script": {
+    "script": "Script"
+  },
   "scripts": {
     "id": "ID",
     "name": "Name",

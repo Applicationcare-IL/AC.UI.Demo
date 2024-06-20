@@ -25,7 +25,19 @@
       :loading="loading"
       @page="onPage($event)"
     >
-      <Column field="id" :header="$t('scripts.id')" />
+      <Column field="id" :header="$t('scripts.id')">
+        <template #body="slotProps">
+          <router-link
+            :to="{
+              name: 'scriptDetail',
+              params: { id: slotProps.data.id },
+            }"
+            class="vertical-align-middle"
+          >
+            {{ slotProps.data.id }}
+          </router-link>
+        </template>
+      </Column>
       <Column field="name" :header="$t('scripts.name')" />
       <Column field="hash" :header="$t('scripts.hash')" />
       <Column field="is_active" :header="$t('scripts.is-active')" />
