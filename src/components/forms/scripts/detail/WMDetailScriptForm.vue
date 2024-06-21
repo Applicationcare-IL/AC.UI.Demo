@@ -62,10 +62,8 @@
                     class="w-full md:w-14rem"
                     @change="onEntityChange($event.value)"
                   />
-                  <pre>{{ entities }}</pre>
                 </template>
                 <template v-if="script && script.related_entity">
-                  <!-- <pre>{{ script.related_entity }}</pre> -->
                   <div class="flex flex-auto flex-column gap-5">
                     <div class="flex flex-column gap-5">
                       <WMInput
