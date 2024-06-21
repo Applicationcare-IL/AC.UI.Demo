@@ -20,6 +20,8 @@
   "mobilephone": "Mobile Phone",
   "landline": "Landline",
   "email": "Email",
+  "email-subject": "Email Subject",
+  "email-body": "Email Body",
   "facebook": "Facebook",
   "fax": "Fax",
   "type": "Type",
@@ -756,6 +758,7 @@
     "sync-scripts": "Sync scripts",
     "scripts": "Scripts",
     "toast-issues-success": "Scripts executed successfully",
-    "toast-issues-error": "An error occurred while executing the scripts"
+    "toast-issues-error": "An error occurred while executing the scripts",
+    "send-email": "Send email"
   }
 }

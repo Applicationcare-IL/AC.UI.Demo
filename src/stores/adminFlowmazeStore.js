@@ -34,5 +34,15 @@ export const useAdminFlowmazeStore = defineStore("adminFlowmaze", {
           console.error(error);
         });
     },
+    relateScriptWithEntity(params) {
+      return axiosConfig
+        .post(`/admin/flowmaze/scripts/relate-to-entity`, { ...params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

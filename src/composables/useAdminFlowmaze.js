@@ -21,6 +21,13 @@ const useAdminFlowmaze = () => {
     await adminFlowmazeStore.syncScripts();
   };
 
+  const relateScriptWithEntity = async (scriptId, entityId) => {
+    await adminFlowmazeStore.relateScriptWithEntity({
+      easymaze_entity_id: scriptId,
+      flowmaze_script_id: entityId,
+    });
+  };
+
   const mapScript = (script) => {
     return {
       title: script.name,
@@ -37,6 +44,7 @@ const useAdminFlowmaze = () => {
     getScripts,
     getScript,
     syncScripts,
+    relateScriptWithEntity,
     // UTILITIES
     mapScript,
   };
