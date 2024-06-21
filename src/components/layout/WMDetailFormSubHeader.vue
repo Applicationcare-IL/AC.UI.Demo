@@ -49,75 +49,74 @@
           />
         </div>
       </div>
-      <Divider v-if="utilsStore.entity != 'asset'" />
-      <div
-        v-if="utilsStore.entity != 'asset'"
-        class="flex flex-row justify-content-between flex-wrap row-gap-4"
-      >
-        <div class="flex flex-row flex-wrap gap-3 align-items-center">
-          <WMSaveButton
-            v-if="can(utilsStore.pluralEntity + '.update')"
-            :is-disabled="!isFormDirty"
-            :is-saved="isFormSaved && !isFormDirty"
-            @click="saveForm"
-          />
+      <template v-if="showSubBar">
+        <Divider />
+        <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
+          <div class="flex flex-row flex-wrap gap-3 align-items-center">
+            <WMSaveButton
+              v-if="can(utilsStore.pluralEntity + '.update')"
+              :is-disabled="!isFormDirty"
+              :is-saved="isFormSaved && !isFormDirty"
+              @click="saveForm"
+            />
 
-          <Divider layout="vertical" />
+            <Divider layout="vertical" />
 
-          <WMAssignOwnerButton
-            v-if="
-              can(utilsStore.pluralEntity + '.assign') &&
-              utilsStore.entity !== 'budget-item' &&
-              utilsStore.entity !== 'milestone'
-            "
-            :entity="utilsStore.entity"
-            @owner-assigned="$emit('refreshTable')"
-          />
+            <WMAssignOwnerButton
+              v-if="
+                can(utilsStore.pluralEntity + '.assign') &&
+                utilsStore.entity !== 'budget-item' &&
+                utilsStore.entity !== 'milestone'
+              "
+              :entity="utilsStore.entity"
+              @owner-assigned="$emit('refreshTable')"
+            />
 
-          <WMSendMessageButton
-            v-if="showMessageButton"
-            :selected-elements="selectedElements"
-            :multiple="false"
-          />
+            <WMSendMessageButton
+              v-if="showMessageButton"
+              :selected-elements="selectedElements"
+              :multiple="false"
+            />
 
-          <WMSendEmailButton
-            v-if="can('global.mail') && showEmailButton"
-            :selected-elements="selectedElements"
-            :multiple="false"
-          />
+            <WMSendEmailButton
+              v-if="can('global.mail') && showEmailButton"
+              :selected-elements="selectedElements"
+              :multiple="false"
+            />
 
-          <WMCompleteTasksButton
-            v-if="utilsStore.entity == 'task'"
-            :entity="utilsStore.entity"
-            @task-completed="$emit('taskCompleted')"
-          />
+            <WMCompleteTasksButton
+              v-if="utilsStore.entity == 'task'"
+              :entity="utilsStore.entity"
+              @task-completed="$emit('taskCompleted')"
+            />
 
-          <Divider v-if="scopes && scopes.length" layout="vertical" />
+            <Divider v-if="scopes && scopes.length" layout="vertical" />
 
-          <WMActionBuilderDropdowns
-            v-if="scopes && scopes.length && hasActionBuilder"
-            :scopes="scopes"
-            :selected-elements="[selectedElement]"
-            @post-action-executed="$emit('refreshTable')"
-          />
+            <WMActionBuilderDropdowns
+              v-if="scopes && scopes.length && hasActionBuilder"
+              :scopes="scopes"
+              :selected-elements="[selectedElement]"
+              @post-action-executed="$emit('refreshTable')"
+            />
 
-          <slot name="custom-buttons" />
+            <slot name="custom-buttons" />
+          </div>
+          <div class="flex gap-3 align-items-center">
+            <WMCancelButton
+              v-if="isActiveTask"
+              size="small"
+              @click="dialog.cancelService(route.params.id)"
+            />
+
+            <WMAnnouncementsButton
+              v-if="['customer', 'service', 'project'].includes(entityType)"
+              :id="route.params.id"
+              :entity="entityType"
+            />
+            <slot name="custom-secondary-buttons" />
+          </div>
         </div>
-        <div class="flex gap-3 align-items-center">
-          <WMCancelButton
-            v-if="isActiveTask"
-            size="small"
-            @click="dialog.cancelService(route.params.id)"
-          />
-
-          <WMAnnouncementsButton
-            v-if="['customer', 'service', 'project'].includes(entityType)"
-            :id="route.params.id"
-            :entity="entityType"
-          />
-          <slot name="custom-secondary-buttons" />
-        </div>
-      </div>
+      </template>
     </div>
   </div>
   <WMCancelServiceDialog />
@@ -162,6 +161,10 @@ const props = defineProps({
     default: true,
   },
   hasActionBuilder: {
+    type: Boolean,
+    default: true,
+  },
+  showSubBar: {
     type: Boolean,
     default: true,
   },

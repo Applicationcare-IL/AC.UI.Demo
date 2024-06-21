@@ -4,6 +4,7 @@
     :form-key="formKey"
     @save-form="saveForm()"
     @refresh-table="refreshTable"
+    :showSubBar="false"
   />
   <WMDetailAssetForm ref="detailAssetForm" :form-key="formKey" />
 </template>

@@ -8,6 +8,7 @@
       loadLazyData();
       clearSelectedAssets();
     "
+    :showSubBar="false"
   >
   </WMListSubHeader>
 
@@ -117,10 +118,7 @@
         style="width: 30px"
       >
         <template #body="slotProps">
-          <div
-            :class="statusClass(slotProps.data.state.value)"
-            class="status-label h-full w-full"
-          >
+          <div :class="statusClass(slotProps.data.state.value)" class="status-label h-full w-full">
             <WMOptionSetValue :option-set="slotProps.data.state" />
           </div>
         </template>
@@ -132,27 +130,15 @@
           </div>
         </template>
       </Column>
-      <Column
-        field="open_services"
-        :header="$t('asset.open-services')"
-        class="numeric"
-      ></Column>
-      <Column
-        field="breached_services"
-        :header="$t('asset.breached-services')"
-        class="numeric"
-      >
+      <Column field="open_services" :header="$t('asset.open-services')" class="numeric"></Column>
+      <Column field="breached_services" :header="$t('asset.breached-services')" class="numeric">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.breached_services)">
             {{ slotProps.data.breached_services }}
           </div>
         </template>
       </Column>
-      <Column
-        field="open_tasks"
-        :header="$t('asset.open-tasks')"
-        class="numeric"
-      ></Column>
+      <Column field="open_tasks" :header="$t('asset.open-tasks')" class="numeric"></Column>
       <Column field="breached_tasks" :header="$t('asset.breached-tasks')" class="numeric">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.breached_tasks)">

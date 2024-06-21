@@ -1,6 +1,7 @@
 <template>
   <div class="m-5">
     <pre>{{ script }}</pre>
+    <pre>{{ entities }}</pre>
   </div>
 </template>
 
@@ -18,12 +19,15 @@ const route = useRoute();
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 
+const { getEasymazeEntitiesList } = useAdminSystem();
+
 // INJECT
 
 // PROPS, EMITS
 
 // REFS
 const script = ref(null);
+const entities = ref([]);
 
 // COMPUTED
 
@@ -35,7 +39,14 @@ const fetchScript = () => {
   });
 };
 
+const fetchEntities = () => {
+  getEasymazeEntitiesList().then((result) => {
+    entities.value = result;
+  });
+};
+
 fetchScript();
+fetchEntities();
 
 formUtilsStore.formEntity = "script";
 utilsStore.entity = "script";
