@@ -24,6 +24,10 @@ const useAdminFlowmaze = () => {
   const mapScript = (script) => {
     return {
       title: script.name,
+      state: {
+        value: script.is_active ? "active" : "not_active",
+        value_en: script.is_active ? "Active" : "Not Active",
+      },
       ...script,
     };
   };
