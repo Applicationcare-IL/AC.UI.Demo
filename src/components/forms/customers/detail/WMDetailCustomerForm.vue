@@ -223,7 +223,7 @@
         </div>
       </div>
 
-      <Accordion v-if="can('contacts.read')">
+      <Accordion v-if="can('contacts.read')" data-testid="contacts-accordion">
         <AccordionTab :header="$t('contact.contacts')">
           <WMContactsTable
             v-if="can('contacts.read')"
@@ -234,7 +234,10 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion v-if="checkIfEntityIsActive('services') && can('services.read')">
+      <Accordion
+        v-if="checkIfEntityIsActive('services') && can('services.read')"
+        data-testid="services-accordion"
+      >
         <AccordionTab :header="$t('service.services')">
           <WMServicesTable
             related-entity="customer"
@@ -246,7 +249,10 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion v-if="can('tasks.read') && checkIfEntityIsActive('tasks')">
+      <Accordion
+        v-if="can('tasks.read') && checkIfEntityIsActive('tasks')"
+        data-testid="tasks-accordion"
+      >
         <AccordionTab :header="$t('task.tasks')">
           <WMTasksTable
             related-entity="customer"
@@ -258,7 +264,10 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion v-if="can('projects.read') && checkIfEntityIsActive('projects')">
+      <Accordion
+        v-if="can('projects.read') && checkIfEntityIsActive('projects')"
+        data-testid="projects-accordion"
+      >
         <AccordionTab :header="$t('project.projects')">
           <WMProjectsTable
             related-entity="customer"
@@ -271,7 +280,7 @@
       </Accordion>
 
       <Accordion>
-        <AccordionTab :header="$t('budget.payments')">
+        <AccordionTab :header="$t('budget.payments')" data-testid="payments-accordion">
           <WMPaymentsTable
             :project-id="projectId"
             related-entity="customer"
@@ -283,7 +292,7 @@
       </Accordion>
 
       <Accordion>
-        <AccordionTab :header="$t('documents.documents')">
+        <AccordionTab :header="$t('documents.documents')" data-testid="documents-accordion">
           <WMDocumentsTable
             :columns="documentsColumns"
             :related-entity-id="customer.id"
@@ -295,7 +304,7 @@
       </Accordion>
 
       <Accordion>
-        <AccordionTab :header="$t('asset.assets')">
+        <AccordionTab :header="$t('asset.assets')" data-testid="assets-accordion">
           <WMAssetsTable
             :columns="assetColumns"
             related-entity="customer"
