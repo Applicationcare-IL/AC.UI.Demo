@@ -28,6 +28,22 @@ const useAdminFlowmaze = () => {
     });
   };
 
+  const updateScriptEntityRelationship = async ({
+    entityId,
+    scriptId,
+    sendEmail,
+    emailSubject,
+    emailBody,
+  }) => {
+    await adminFlowmazeStore.updateScriptEntityRelationship({
+      easymaze_entity_id: entityId,
+      flowmaze_script_id: scriptId,
+      send_email: sendEmail,
+      email_subject: emailSubject,
+      email_body: emailBody,
+    });
+  };
+
   const mapScript = (script) => {
     return {
       title: script.name,
@@ -45,6 +61,7 @@ const useAdminFlowmaze = () => {
     getScript,
     syncScripts,
     relateScriptWithEntity,
+    updateScriptEntityRelationship,
     // UTILITIES
     mapScript,
   };

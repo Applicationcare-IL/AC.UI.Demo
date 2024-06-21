@@ -94,17 +94,26 @@
                             type="input-text"
                             :highlighted="true"
                             :label="$t('email-subject') + ':'"
+                            v-model="emailSubject"
+                            :value="script.related_entity.email_subject"
+                            required
                           />
                           <WMInput
                             name="emailBody"
                             type="input-text"
                             :highlighted="true"
                             :label="$t('email-body') + ':'"
+                            v-model="emailBody"
+                            :value="script.related_entity.email_body"
+                            required
                           />
                         </div>
                       </template>
-
-                      <!-- <WMSaveButton /> -->
+                      <WMButton
+                        text="Update options"
+                        type="primary"
+                        @click="updateScriptEntityRelation"
+                      />
                     </div>
                   </div>
                 </template>
@@ -133,7 +142,7 @@ const utilsStore = useUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 const toast = useToast();
 
-const { getScript, relateScriptWithEntity } = useAdminFlowmaze();
+const { getScript, relateScriptWithEntity, updateScriptEntityRelationship } = useAdminFlowmaze();
 const { getEasymazeEntitiesList } = useAdminSystem();
 
 // INJECT
@@ -149,13 +158,20 @@ const entities = ref([]);
 const selectedEntity = ref();
 const sendEmail = ref(yesNoOptions[1]); // default value is 'No'
 
+const emailBody = ref("");
+const emailSubject = ref("");
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const fetchScript = () => {
   getScript(route.params.id).then((result) => {
     script.value = result;
-    utilsStore.selectedElements["script"] = [script.value];
+    utilsStore.selectedElements["script"] = [result];
+
+    sendEmail.value = result.related_entity.send_email === 1 ? yesNoOptions[0] : yesNoOptions[1];
+    emailBody.value = result.related_entity.email_body;
+    emailSubject.value = result.related_entity.email_subject;
   });
 };
 
@@ -183,6 +199,27 @@ const onEntityChange = (entity) => {
 
 const onSendEmailChange = (value) => {
   sendEmail.value = value;
+};
+
+const updateScriptEntityRelation = () => {
+  if (sendEmail.value.value && (!emailBody.value || !emailSubject.value)) {
+    toast.error("Email body and subject are required if the send email option is enabled");
+    return;
+  }
+
+  updateScriptEntityRelationship({
+    scriptId: script.value.id,
+    entityId: script.value.related_entity.id,
+    sendEmail: sendEmail.value.value,
+    emailSubject: emailSubject.value,
+    emailBody: emailBody.value,
+  }).then(() => {
+    toast.success({
+      title: "Options updated successfully",
+    });
+
+    fetchScript();
+  });
 };
 
 // PROVIDE, EXPOSE
