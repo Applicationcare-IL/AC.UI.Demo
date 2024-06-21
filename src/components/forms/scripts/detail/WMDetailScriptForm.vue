@@ -62,6 +62,7 @@
                     class="w-full md:w-14rem"
                     @change="onEntityChange($event.value)"
                   />
+                  <pre>{{ entities }}</pre>
                 </template>
                 <template v-if="script && script.related_entity">
                   <!-- <pre>{{ script.related_entity }}</pre> -->
@@ -130,6 +131,7 @@ const route = useRoute();
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 const optionSetsStore = useOptionSetsStore();
+const toast = useToast();
 
 const { getScript, relateScriptWithEntity } = useAdminFlowmaze();
 const { getEasymazeEntitiesList } = useAdminSystem();
@@ -170,8 +172,13 @@ formUtilsStore.formEntity = "script";
 utilsStore.entity = "script";
 
 const onEntityChange = (entity) => {
-  relateScriptWithEntity(script.value.id, entity.id);
-  fetchScript();
+  relateScriptWithEntity({ scriptId: script.value.id, entityId: entity.id }).then(() => {
+    toast.success({
+      title: "Script related to entity successfully",
+    });
+
+    fetchScript();
+  });
 };
 
 const onSendEmailChange = (value) => {
