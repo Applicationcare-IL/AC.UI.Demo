@@ -244,7 +244,7 @@ const router = createRouter({
         {
           path: "sla-settings",
           name: "adminSlaSettings",
-          component: () => import("@/views/admin/lists/SlaSettingsListPage.vue"),
+          component: () => import("@/views/admin/lists/SLASettingsListPage.vue"),
         },
         {
           path: "task-settings",
