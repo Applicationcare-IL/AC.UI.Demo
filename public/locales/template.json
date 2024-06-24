@@ -750,7 +750,12 @@
     "preview": "Preview"
   },
   "password": {
-    "alread_in_use": "Password already in use"
+    "alread_in_use": "Password already in use",
+    "cant_have_first_name": "Password can't contain first name",
+    "cant_have_last_name": "Password can't contain last name",
+    "cant_have_phone": "Password can't contain phone number",
+    "must_have_special_char_number_and_letter": "Password must contain at least one special character, one number and one letter",
+    "cant_have_email": "Password can't contain email"
   },
   "script": {
     "script": "Script"
