@@ -279,7 +279,7 @@ const router = createRouter({
         {
           path: "url-action-builder",
           name: "adminUrlActionBuilder",
-          component: () => import("@/views/admin/lists/UrlActionBuilderListPage.vue"),
+          component: () => import("@/views/admin/lists/URLActionBuilderListPage.vue"),
         },
         {
           path: "import",
