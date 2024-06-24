@@ -34,6 +34,8 @@ const useAdminFlowmaze = () => {
     sendEmail,
     emailSubject,
     emailBody,
+    openPopup,
+    managedBy,
   }) => {
     await adminFlowmazeStore.updateScriptEntityRelationship({
       easymaze_entity_id: entityId,
@@ -41,6 +43,8 @@ const useAdminFlowmaze = () => {
       send_email: sendEmail,
       email_subject: emailSubject,
       email_body: emailBody,
+      open_popup: openPopup,
+      managed_by: managedBy,
     });
   };
 

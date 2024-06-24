@@ -53,7 +53,6 @@
               <div class="flex flex-column gap-3">
                 <template v-if="script && script.related_entity === null">
                   <span class="h5"> This script is not related to any entity </span>
-
                   <Dropdown
                     v-model="selectedEntity"
                     :options="entities"
@@ -74,6 +73,21 @@
                         :value="script.related_entity.easymaze_entity"
                         width="300"
                       />
+
+                      <div class="flex flex-column gap-2">
+                        <label class="wm-form-label highlighted"
+                          >{{ $t("scripts.managed-by") }}:
+                        </label>
+                        <Dropdown
+                          v-model="managedBy"
+                          :options="managedByOptions"
+                          optionLabel="name"
+                          :placeholder="$t('select-an-option')"
+                          class="w-full md:w-14rem"
+                          @change="onManagerChange($event.value)"
+                        />
+                      </div>
+
                       <WMInput
                         name="send_email"
                         type="input-select-button"
@@ -107,6 +121,17 @@
                           />
                         </div>
                       </template>
+
+                      <WMInput
+                        name="open_popup"
+                        type="input-select-button"
+                        :highlighted="true"
+                        :label="$t('scripts.open-popup') + ':'"
+                        :options="yesNoOptions"
+                        :value="openPopup"
+                        width="80"
+                        @update:selected-item="onOpenPopupChange"
+                      />
                       <WMButton
                         text="Update options"
                         type="primary"
@@ -152,9 +177,15 @@ const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
 
 const script = ref(null);
 const entities = ref([]);
+const managedByOptions = [
+  { name: "Employee", value: "employee" },
+  { name: "Customer", value: "customer" },
+];
 
+const managedBy = ref(managedByOptions[0]);
 const selectedEntity = ref();
 const sendEmail = ref(yesNoOptions[1]); // default value is 'No'
+const openPopup = ref(yesNoOptions[1]); // default value is 'No'
 
 const emailBody = ref("");
 const emailSubject = ref("");
@@ -168,6 +199,12 @@ const fetchScript = () => {
     utilsStore.selectedElements["script"] = [result];
 
     sendEmail.value = result.related_entity.send_email === 1 ? yesNoOptions[0] : yesNoOptions[1];
+    openPopup.value = result.related_entity.open_popup === 1 ? yesNoOptions[0] : yesNoOptions[1];
+
+    managedBy.value = managedByOptions.find(
+      (option) => option.value === result.related_entity.managed_by
+    );
+
     emailBody.value = result.related_entity.email_body;
     emailSubject.value = result.related_entity.email_subject;
   });
@@ -199,6 +236,14 @@ const onSendEmailChange = (value) => {
   sendEmail.value = value;
 };
 
+const onManagerChange = (value) => {
+  managedBy.value = value;
+};
+
+const onOpenPopupChange = (value) => {
+  openPopup.value = value;
+};
+
 const updateScriptEntityRelation = () => {
   if (sendEmail.value.value && (!emailBody.value || !emailSubject.value)) {
     toast.error("Email body and subject are required if the send email option is enabled");
@@ -211,6 +256,8 @@ const updateScriptEntityRelation = () => {
     sendEmail: sendEmail.value.value,
     emailSubject: emailSubject.value,
     emailBody: emailBody.value,
+    openPopup: openPopup.value.value,
+    managedBy: managedBy.value.value,
   }).then(() => {
     toast.success({
       title: "Options updated successfully",
