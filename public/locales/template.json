@@ -395,7 +395,12 @@
     "create-payment-request": "Create payment request",
     "timing": "Timing",
     "start-task": "Start task",
-    "recurring-task": "Recurring task"
+    "recurring-task": "Recurring task",
+    "reminders": "Reminders",
+    "follow-ups": "Follow-ups",
+    "read": "Read",
+    "contact": "Contact",
+    "related": "Related"
   },
   "project": {
     "system-id": "System ID",

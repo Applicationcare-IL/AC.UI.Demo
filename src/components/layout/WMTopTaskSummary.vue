@@ -5,7 +5,7 @@
         class="class px-3 flex gap-1 align-items-center justify-content-center"
         @click="toggleReminders"
       >
-        <span class="font-bold">תזכורות</span>
+        <span class="font-bold">{{ $t("task.reminders") }}</span>
         <span class="bg-blue-100 font-bold px-2 py-1 mx-1 border-round-lg text-blue-700 flex">
           {{ reminders?.totalRecords || 0 }}
         </span>
@@ -34,7 +34,9 @@
         class="class px-3 flex gap-1 align-items-center justify-content-center"
         @click="toggleFollowUps"
       >
-        <span class="font-bold">מעקבים</span>
+        <span class="font-bold">
+          {{ $t("task.follow-ups") }}
+        </span>
         <span class="bg-blue-100 font-bold px-2 py-1 mx-1 border-round-lg text-blue-700">
           {{ followUps?.totalRecords || 0 }}
         </span>
