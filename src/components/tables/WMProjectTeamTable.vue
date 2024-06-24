@@ -165,12 +165,8 @@ const { optionLabelWithLang } = useLanguages();
 const { getAlertCellConditionalStyle } = useListUtils();
 const { getCustomersFromApi } = useCustomers();
 
-const {
-  getProjectTeam,
-  assignContactToProject,
-  unassignContactFromProject,
-  updateTeamMember,
-} = useProjects();
+const { getProjectTeam, assignContactToProject, unassignContactFromProject, updateTeamMember } =
+  useProjects();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -186,6 +182,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  filters: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 
 const emit = defineEmits([
@@ -198,8 +198,6 @@ const emit = defineEmits([
 
 // REFS
 const selectedContacts = ref(null);
-// const isFilterOpen = ref(false);
-// const isFilterApplied = ref(false);
 const editMode = ref([]);
 const contacts = ref([]);
 const searchValue = ref(props.searchValue);
@@ -219,12 +217,13 @@ const isSourceExternal = computed(() => {
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = () => {
-  // const filters = utilsStore.filters["contact"];
+  const filters = { ...props.filters };
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
 
   const paramOptions = {
     per_page: rowsPerPage.value,
+    ...filters,
   };
 
   if (nextPage && nextPage > 1) {
@@ -235,7 +234,6 @@ const loadLazyData = () => {
     paramOptions.search = searchValueParam;
   }
 
-  // Create a new URLSearchParams object by combining base filters and additional parameters
   const params = new URLSearchParams(paramOptions);
 
   getProjectTeam(props.projectId, params).then((response) => {
@@ -352,14 +350,6 @@ const saveRow = (teamMember) => {
       });
   }
 };
-
-// function closeFilterSidebar() {
-//   isFilterVisible.value = false;
-// }
-
-// function openFilterSidebar() {
-//   isFilterVisible.value = true;
-// }
 
 const getDefaultRole = () => {
   return unref(optionSets.value["contact_project_role"][0]);

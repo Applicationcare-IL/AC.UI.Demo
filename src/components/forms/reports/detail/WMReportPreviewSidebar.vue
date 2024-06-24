@@ -30,42 +30,28 @@
       :columns="projectTeamColumns"
       :project-id="project.id"
       :read-only="true"
+      :filters="reportPreviewTeamFilters"
     />
-
-    <!-- <WMServicesTable
-      v-if="can('services.read')"
-      related-entity="contact"
-      :related-entity-id="contact.id"
-      :columns="servicePreviewTableColumns"
-      :multiselect="false"
-      :show-header-options="false"
-      :rows="5"
-      table-class="compact"
-    />
-
-    <WMTasksTable
-      v-if="can('tasks.read')"
-      related-entity="contact"
-      :related-entity-id="contact.id"
-      :columns="taskPreviewTableColumns"
-      :multiselect="false"
-      :show-header-options="false"
-      :rows="5"
-      table-class="compact"
-    /> -->
   </Sidebar>
 </template>
 
 <script setup>
-import { ref } from "vue";
+// IMPORTS
+import { ref, onMounted } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
+// DEPENDENCIES
+const optionSetsStore = useOptionSetsStore();
 const { getPreviewProjectTeamColumns } = useListUtils();
 const projectTeamColumns = ref(getPreviewProjectTeamColumns());
-
 const { can } = usePermissions();
+const { layoutConfig } = useLayout();
 
+// INJECT
+
+// PROPS, EMITS
 defineProps({
   isVisible: {
     type: Boolean,
@@ -77,18 +63,30 @@ defineProps({
   },
 });
 
-const { layoutConfig } = useLayout();
-
+// REFS
 const visible = ref(false);
+const reportPreviewTeamFilters = ref();
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 
 const updateModelValue = (value) => {
   visible.value = value;
 };
 
-const { getCustomerPreviewColumns, getServicePreviewColumns, getTaskPreviewColumns } =
-  useListUtils();
+onMounted(async () => {
+  // We need to filter by supplier role
+  let supplierID = await optionSetsStore.getValueId("contact_project_role", "supplier");
 
-const customerPreviewTableColumns = ref(getCustomerPreviewColumns());
-const servicePreviewTableColumns = ref(getServicePreviewColumns());
-const taskPreviewTableColumns = ref(getTaskPreviewColumns());
+  reportPreviewTeamFilters.value = {
+    role: supplierID,
+  };
+});
 </script>

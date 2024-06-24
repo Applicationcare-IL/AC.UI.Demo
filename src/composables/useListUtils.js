@@ -1073,7 +1073,7 @@ export function useListUtils() {
       {
         name: "basic_term",
         type: "text",
-        optionSet: false,
+        optionSet: true,
         header: "project.basic-term",
       },
       {
