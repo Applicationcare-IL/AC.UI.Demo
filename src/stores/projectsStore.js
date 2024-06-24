@@ -317,9 +317,9 @@ export const useProjectsStore = defineStore("projects", {
           console.error(error);
         });
     },
-    getProjectPayments(projectId, params) {
+    getProjectPayments(params) {
       return axiosConfig
-        .get("/projects/" + projectId + "/payments", { params })
+        .get("/payments", { params })
         .then((response) => {
           return response.data;
         })

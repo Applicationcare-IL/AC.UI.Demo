@@ -2,19 +2,17 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row">
-        <WMNewButton 
-            v-if="!props.readOnly" 
-            :text="$t('new')" 
-            :disabled="budgetItems.length < 1 || isSomePaymentInCreateMode" 
-            @click="handleNewPayment" />
+        <WMNewButton
+          v-if="!props.readOnly"
+          :text="$t('new')"
+          :disabled="budgetItems.length < 1 || isSomePaymentInCreateMode"
+          @click="handleNewPayment"
+        />
       </div>
     </div>
     <div class="flex flex-row gap-3">
       <WMSearchBox entity="payment" />
-      <WMFilterButton
-        :is-active="isFilterApplied || isFilterVisible"
-        @click="openFilterSidebar"
-      />
+      <WMFilterButton :is-active="isFilterApplied || isFilterVisible" @click="openFilterSidebar" />
 
       <WMSidebar
         :visible="isFilterVisible"
@@ -47,12 +45,7 @@
   >
     <Column v-if="multiselect" style="width: 40px" selection-mode="multiple" />
 
-    <Column
-      v-if="!props.readOnly"
-      :row-editor="true"
-      :frozen="true"
-      align-frozen="right"
-    />
+    <Column v-if="!props.readOnly" :row-editor="true" :frozen="true" align-frozen="right" />
 
     <template v-for="column in columns">
       <Column
@@ -104,11 +97,7 @@
           />
         </template>
         <template v-if="column.editable" #editor="{ data }">
-          <WMInputCurrency
-            v-model="data[column.field]"
-            :name="column.field"
-            :read-only="false"
-          />
+          <WMInputCurrency v-model="data[column.field]" :name="column.field" :read-only="false" />
         </template>
       </Column>
 
@@ -233,10 +222,7 @@
         </template>
         <template #body="slotProps">
           <div
-            v-if="
-              slotProps.data[column.field] &&
-              getStatus(slotProps.data[column.field]).value
-            "
+            v-if="slotProps.data[column.field] && getStatus(slotProps.data[column.field]).value"
             class="w-full p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
             :class="`p-dropdown-payment-status p-dropdown-payment-status--${
               getStatus(slotProps.data[column.field]).value
@@ -479,9 +465,11 @@ const loadLazyData = () => {
     params.append("customer", props.relatedEntityId);
   }
 
-  let projectId = props.projectId ? props.projectId : -1;
+  if (props.projectId) {
+    params.append("project", props.projectId);
+  }
 
-  getProjectPayments(projectId, params).then((response) => {
+  getProjectPayments(params).then((response) => {
     payments.value = response.payments;
     totalRecords.value = response.totalRecords;
   });

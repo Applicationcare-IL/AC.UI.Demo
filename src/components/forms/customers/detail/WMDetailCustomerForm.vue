@@ -282,7 +282,6 @@
       <Accordion>
         <AccordionTab :header="$t('budget.payments')" data-testid="payments-accordion">
           <WMPaymentsTable
-            :project-id="projectId"
             related-entity="customer"
             :related-entity-id="route.params.id"
             :read-only="true"

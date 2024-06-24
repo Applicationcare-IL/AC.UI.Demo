@@ -155,8 +155,8 @@ export function useProjects() {
   };
 
   // PAYMENTS
-  const getProjectPayments = async (projectId, params) => {
-    const response = await projectsStore.getProjectPayments(projectId, params);
+  const getProjectPayments = async (params) => {
+    const response = await projectsStore.getProjectPayments(params);
 
     const payments = response.data.map((payment) => {
       return mapPayment(payment);
