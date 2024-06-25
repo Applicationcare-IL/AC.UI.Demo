@@ -57,7 +57,7 @@ const pluralEntityName = computed(() => {
 
 const allEntitiesLabel = computed(() => {
   if (props.team) {
-    return t("teams-entities", { label: getEntityPlural() });
+    return t("teams-entities", { label: getEntityPlural() }, { escapeParameter: true });
   }
   return t("all-entities", { label: getEntityPlural() });
 });

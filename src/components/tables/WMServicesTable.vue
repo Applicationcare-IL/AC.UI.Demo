@@ -44,7 +44,7 @@
           <WMFilterForm entity="service" filter-form-name="service" />
         </WMSidebar>
 
-        <WMOwnerToggle entity="service" />
+        <WMOwnerToggle entity="service" :team="teamTable" />
       </div>
     </div>
     <div class="flex flex-row gap-3">
@@ -190,6 +190,10 @@ const props = defineProps({
     default: null,
   },
   showLinkServiceButton: {
+    type: Boolean,
+    default: false,
+  },
+  teamTable: {
     type: Boolean,
     default: false,
   },

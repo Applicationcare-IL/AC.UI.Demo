@@ -79,6 +79,7 @@
             :show-filters="false"
             multiselect
             :filters="dashboardServicesFilters"
+            :team-table="can('global.is_team_manager')"
           />
         </template>
       </Card>
