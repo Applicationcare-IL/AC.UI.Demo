@@ -343,6 +343,7 @@ const teamMembers = ref([]);
 const basicTerms = ref([]);
 const milestones = ref([]);
 
+const milestonePaymentTypeID = ref();
 const isFilterVisible = ref(false);
 
 // COMPUTED
@@ -482,11 +483,13 @@ const loadLazyData = () => {
     teamMembers.value = contacts;
   });
 
-  getMilestones({ project: props.projectId }).then((response) => {
-    milestones.value = response.milestones.map((milestone) => {
-      return mapShortMilestone(milestone);
-    });
-  });
+  getMilestones({ project: props.projectId, type: milestonePaymentTypeID.value }).then(
+    (response) => {
+      milestones.value = response.milestones.map((milestone) => {
+        return mapShortMilestone(milestone);
+      });
+    }
+  );
 };
 
 const onPage = (event) => {
@@ -616,7 +619,9 @@ watch(
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(() => {
+onMounted(async () => {
+  milestonePaymentTypeID.value = await optionSetsStore.getValueId("milestone_type", "payment");
+
   loadLazyData();
 });
 </script>
