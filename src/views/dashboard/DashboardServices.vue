@@ -124,7 +124,6 @@ const dashboardServicesFilters = computed(() => {
   let filters = {
     order_by: "due_date",
     state: activeStateId.value,
-    status: completedStatusId.value,
   };
 
   if (props.selectedTeams && props.selectedTeams.length) {
@@ -187,7 +186,7 @@ const getTeamsAverageDuration = () => {
 };
 
 const getServicesSLAData = async () => {
-  servicesSLAData.value = await getServicesSLADistribution(dashboardServicesFilters);
+  servicesSLAData.value = await getServicesSLADistribution(dashboardServicesFilters.value);
 };
 
 const getServicesTrendAreas = async (filters) => {
