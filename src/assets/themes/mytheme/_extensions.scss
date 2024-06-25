@@ -589,8 +589,6 @@ a {
 }
 
 // Side Menu
-
-
 .layout-menu{
     width: 100%;
 }
@@ -606,6 +604,10 @@ a {
     justify-content: start;
     font-size: 1.2rem;
     gap: 12px;
+}
+
+.layout-menu .layout-submenu:last-child li:last-child{
+    margin-bottom: 24px; 
 }
 
 .layout-sidebar.expanded .layout-menu ul a{

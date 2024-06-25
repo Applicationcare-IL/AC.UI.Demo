@@ -344,7 +344,9 @@ const loadOptionSets = async () => {
 };
 
 const loadFlowmazeActions = async () => {
-  let response = await getScripts();
+  let response = await getScripts({
+    entity_type: "project_customer",
+  });
   flowmazeActions.value = response.data;
 };
 
