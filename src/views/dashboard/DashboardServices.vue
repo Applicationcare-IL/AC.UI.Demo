@@ -108,10 +108,6 @@ const props = defineProps({
 });
 
 // REFS
-const dashboardServicesFilters = ref({
-  order_by: "due_date",
-});
-
 const serviceColumns = ref(getServiceColumns());
 const servicesTrendingAreas = ref([]);
 const servicesSLAData = ref(false);
@@ -124,6 +120,20 @@ const activeStateId = ref(null);
 const completedStatusId = ref(null);
 
 // COMPUTED
+const dashboardServicesFilters = computed(() => {
+  let filters = {
+    order_by: "due_date",
+    state: activeStateId.value,
+    status: completedStatusId.value,
+  };
+
+  if (props.selectedTeams && props.selectedTeams.length) {
+    filters.team = selectedTeamIds.value;
+  }
+
+  return filters;
+});
+
 const openServices = computed(() => {
   if (!servicesSLAData.value) {
     return 0;
@@ -177,15 +187,7 @@ const getTeamsAverageDuration = () => {
 };
 
 const getServicesSLAData = async () => {
-  const servicesSLADataFilters = {
-    ...dashboardServicesFilters.value,
-  };
-
-  if (props.selectedTeams && props.selectedTeams.length) {
-    servicesSLADataFilters.team = selectedTeamIds.value;
-  }
-
-  servicesSLAData.value = await getServicesSLADistribution(servicesSLADataFilters);
+  servicesSLAData.value = await getServicesSLADistribution(dashboardServicesFilters);
 };
 
 const getServicesTrendAreas = async (filters) => {

@@ -103,11 +103,21 @@ const showTasksSLADialog = ref(false);
 const activeStateId = ref(null);
 const openStatusId = ref(null);
 
-const dashboardTaskFilters = ref({
-  order_by: "due_date",
+// COMPUTED
+const dashboardTaskFilters = computed(() => {
+  let filters = {
+    order_by: "due_date",
+    state: activeStateId.value,
+    status: openStatusId.value,
+  };
+
+  if (props.selectedTeams.length) {
+    filters.team = props.selectedTeams.map((team) => team.id).join(",");
+  }
+
+  return filters;
 });
 
-// COMPUTED
 const openTasks = computed(() => {
   if (!tasksSLAData.value) {
     return 0;
@@ -139,13 +149,6 @@ const getTasksSLAData = async (filters) => {
 };
 
 const loadData = async () => {
-  dashboardTaskFilters.value = {
-    ...dashboardTaskFilters.value,
-    state: activeStateId.value,
-    status: openStatusId.value,
-    team: props.selectedTeams.map((team) => team.id).join(","),
-  };
-
   topTaskFamilies.value = await getTopTaskFamilies(dashboardTaskFilters.value);
   getTasksSLAData(dashboardTaskFilters.value);
 };
