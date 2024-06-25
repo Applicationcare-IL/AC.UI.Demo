@@ -6,6 +6,7 @@ export const useUtilsStore = defineStore("utils", {
   id: "debounce",
   state: () => ({
     selectedElements: {},
+    selectedTeams: [],
     searchString: {},
     filters: {},
     debounceTimer: null,
@@ -46,6 +47,9 @@ export const useUtilsStore = defineStore("utils", {
         clearTimeout(this.debounceTimer);
         this.debounceTimer = null;
       }
+    },
+    setSelectedTeams(elements) {
+      this.selectedElements = elements;
     },
     //Style related Actions
     getStatusConditionalStyle: (status) => {

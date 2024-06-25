@@ -26,7 +26,7 @@
           @click="clearSelectedTeams"
         />
       </div>
-      <div>
+      <div class="flex gap-2">
         <Chip v-for="(item, index) in selectedTeams" :key="index" :label="item.name">
           <span>{{ item.name }}</span>
           <i class="pi pi-times cursor-pointer" @click="handleRemoveTeam(item)"></i>
@@ -41,10 +41,11 @@ import { onMounted, ref, watch } from "vue";
 
 import { OwnersService } from "@/service/OwnersService";
 
+const { selectedTeams } = useUtils();
+
 const emit = defineEmits(["update:selectedTeams"]);
 
 const teams = ref();
-const selectedTeams = ref([]);
 
 const onSelectedTeams = (value) => {
   selectedTeams.value = value;
@@ -65,10 +66,6 @@ const clearSelectedTeams = () => {
 onMounted(async () => {
   let teamsResponse = await OwnersService.getOwnersFromApi({}, "team");
   teams.value = teamsResponse.data;
-});
-
-watch(selectedTeams, (value) => {
-  emit("update:selectedTeams", value);
 });
 </script>
 

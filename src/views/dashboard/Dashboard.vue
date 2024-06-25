@@ -1,5 +1,5 @@
 <template>
-  <DashboardTeamBar v-if="can('global.is_team_manager')" @update:selected-teams="onSelectedTeams" />
+  <DashboardTeamBar v-if="can('global.is_team_manager')" />
   <div v-if="width > 768" class="dashboard-content">
     <DashboardServices
       v-if="checkIfEntityIsActive('services') && can('services.read')"
@@ -17,14 +17,13 @@
 
 <script setup>
 import { useWindowSize } from "@vueuse/core";
-import { ref } from "vue";
 
 import DashboardMobile from "./DashboardMobile.vue";
 import DashboardServices from "./DashboardServices.vue";
 import DashboardTasks from "./DashboardTasks.vue";
 import DashboardTeamBar from "./DashboardTeamBar.vue";
 
-const selectedTeams = ref([]);
+const { selectedTeams } = useUtils();
 
 const { can } = usePermissions();
 
@@ -35,10 +34,6 @@ const { width } = useWindowSize();
 useHead({
   title: "Dashboard",
 });
-
-const onSelectedTeams = (value) => {
-  selectedTeams.value = value;
-};
 </script>
 
 <style scoped lang="scss">

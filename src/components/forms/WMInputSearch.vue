@@ -1,10 +1,6 @@
 <template>
   <div class="wm-inputsearch flex flex-column relative">
-    <label
-      v-if="label != ''"
-      class="wm-form-label"
-      :class="[{ highlighted: props.highlighted }]"
-    >
+    <label v-if="label != ''" class="wm-form-label" :class="[{ highlighted: props.highlighted }]">
       {{ label }} <span v-if="required && label" class="text-red-500"> *</span>
     </label>
     <AutoComplete
@@ -29,15 +25,9 @@
       @click="handleClick"
     >
       <template v-if="props.relatedSidebar" #empty>
-        <div
-          class="flex flex-column m-2"
-          :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-        >
+        <div class="flex flex-column m-2" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
           <span class="vertical-align-middle"> {{ $t("no-results") }} </span>
-          <a
-            class="vertical-align-middle orange-link cursor-pointer"
-            @click="openRelatedSidebar()"
-          >
+          <a class="vertical-align-middle orange-link cursor-pointer" @click="openRelatedSidebar()">
             {{ $t("buttons.create-new-one") + " + " }}
           </a>
         </div>
@@ -52,16 +42,8 @@
           : $t(errorMessage.key, errorMessage.values)
       }}
     </span>
-    <div
-      v-if="props.multiple && type == 'tags'"
-      class="selected-options flex flex-row gap-2"
-    >
-      <Chip
-        v-for="(item, index) in value"
-        :key="index"
-        :label="item.name"
-        :class="chipThemeClass"
-      >
+    <div v-if="props.multiple && type == 'tags'" class="selected-options flex flex-row gap-2">
+      <Chip v-for="(item, index) in value" :key="index" :label="item.name" :class="chipThemeClass">
         <span v-if="optionSet">
           <WMOptionSetValue :option-set="item" />
         </span>
@@ -161,13 +143,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits([
-  "change",
-  "blur",
-  "update:value",
-  "customChange",
-  "update:modelValue",
-]);
+const emit = defineEmits(["change", "blur", "update:value", "customChange", "update:modelValue"]);
 
 // REFS
 const filteredOptions = ref();
@@ -175,9 +151,7 @@ const name = toRef(props, "name");
 
 // COMPUTED
 const chipThemeClass = computed(() => {
-  return props.theme == "default"
-    ? "p-chip--default"
-    : `p-chip--${props.theme}`;
+  return props.theme == "default" ? "p-chip--default" : `p-chip--${props.theme}`;
 });
 
 const optionLabel = computed(() => {
@@ -251,7 +225,11 @@ const search = (event) => {
         });
 
         if (returnValue) {
-          return option[optionLabelWithLang.value];
+          if (props.optionSet.value) {
+            return option[optionLabelWithLang.value];
+          }
+
+          return option.name;
         }
       });
     }

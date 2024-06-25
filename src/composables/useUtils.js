@@ -6,7 +6,7 @@ export function useUtils() {
   const utilsStore = useUtilsStore();
   const { optionLabelWithLang } = useLanguages();
 
-  const { entity } = storeToRefs(utilsStore);
+  const { entity, selectedTeams } = storeToRefs(utilsStore);
 
   const getNextEntityID = async (entity) => {
     const response = await utilsStore.getNextEntityID({
@@ -28,9 +28,7 @@ export function useUtils() {
     city = city ? city[optionLabelWithLang.value] : null;
     street = street ? street[optionLabelWithLang.value] : null;
 
-    const formattedAddress = [city, street, house_number]
-      .filter((value) => value)
-      .join(" - ");
+    const formattedAddress = [city, street, house_number].filter((value) => value).join(" - ");
 
     return formattedAddress;
   };
@@ -41,9 +39,7 @@ export function useUtils() {
     }
 
     const { block, parcel, sub_parcel } = location;
-    const formattedLocation = [block, parcel, sub_parcel]
-      .filter((value) => value)
-      .join(" - ");
+    const formattedLocation = [block, parcel, sub_parcel].filter((value) => value).join(" - ");
 
     return formattedLocation;
   };
@@ -77,5 +73,6 @@ export function useUtils() {
     formatCityData,
     getValueOf,
     currentEntity: entity,
+    selectedTeams,
   };
 }
