@@ -27,7 +27,13 @@ const { t } = useI18n();
 const utilsStore = useUtilsStore();
 
 const props = defineProps({
-  entity: String,
+  entity: {
+    type: String,
+  },
+  team: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const onChangeOwnerFilter = (event) => {
@@ -49,12 +55,19 @@ const pluralEntityName = computed(() => {
   return props.entity + "s";
 });
 
+const allEntitiesLabel = computed(() => {
+  if (props.team) {
+    return t("teams-entities", { label: getEntityPlural() });
+  }
+  return t("all-entities", { label: getEntityPlural() });
+});
+
 const options = computed(() => {
   const options = [{ name: t("my-entities", { label: getEntityPlural() }), value: "my" }];
 
   if (permissionsStore.permissions[pluralEntityName.value]?.all) {
     options.push({
-      name: t("all-entities", { label: getEntityPlural() }),
+      name: allEntitiesLabel.value,
       value: "all",
     });
   }

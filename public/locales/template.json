@@ -47,6 +47,7 @@
   "description": "Description",
   "all-entities": "All @.lower:{label}",
   "my-entities": "My @.lower:{label}",
+  "teams-entities": "Team's @.lower:{label}",
   "created_by": "Created by",
   "modified_by": "Changed by",
   "created_at": "Created at",

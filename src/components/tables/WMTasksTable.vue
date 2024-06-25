@@ -44,7 +44,7 @@
         />
       </div>
       <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
-        <WMOwnerToggle entity="task" />
+        <WMOwnerToggle entity="task" :team="teamTable" />
       </div>
     </div>
     <div class="flex flex-row justify-content-between">
@@ -260,6 +260,10 @@ const props = defineProps({
   filters: {
     type: Object,
     default: null,
+  },
+  teamTable: {
+    type: Boolean,
+    default: false,
   },
 });
 

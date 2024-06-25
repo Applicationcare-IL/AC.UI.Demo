@@ -66,6 +66,7 @@
             :show-filter="false"
             :filters="dashboardTaskFilters"
             :show-pagination-options="false"
+            :team-table="can('global.is_team_manager')"
           />
         </template>
       </Card>
