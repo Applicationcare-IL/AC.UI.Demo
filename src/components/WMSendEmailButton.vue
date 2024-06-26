@@ -19,7 +19,7 @@
     v-model:visible="sendEmailDialogVisible"
     modal
     header="Header"
-    :style="{ minWidth: '320px' }"
+    :style="{ minWidth: '500px' }"
   >
     <template #header>
       <span class="h4">Send email to contacts</span>

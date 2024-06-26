@@ -110,7 +110,7 @@
                             :value="script.related_entity.email_subject"
                             required
                           />
-                          <WMInput
+                          <!-- <WMInput
                             name="emailBody"
                             type="input-text"
                             :highlighted="true"
@@ -118,7 +118,20 @@
                             v-model="emailBody"
                             :value="script.related_entity.email_body"
                             required
-                          />
+                          /> -->
+                          <div>
+                            <label class="wm-form-label highlighted">
+                              {{ $t("email-body") + ":" }}
+                              <span class="text-red-500"> *</span>
+                            </label>
+                            <WMCommunicationsEditor
+                              v-model="emailBody"
+                              @update:attachments="updateAttachments"
+                              @update:subject="handleUpdateSubject"
+                              :hide-subject="true"
+                              :has-attachments="false"
+                            />
+                          </div>
                         </div>
                       </template>
 

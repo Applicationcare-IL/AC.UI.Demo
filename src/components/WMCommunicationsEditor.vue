@@ -20,7 +20,6 @@
     label="Subject"
     @change="emit('update:subject', subject)"
   />
-
   <QuillEditor
     ref="myQuillEditor"
     v-model:content="content"
@@ -29,7 +28,6 @@
     :options="options"
     :modules="modules"
     :class="editorClasses"
-    style="min-width: 500px"
   >
     <template #toolbar>
       <div id="my-toolbar" :class="toolbarClass">
@@ -44,6 +42,7 @@
         />
 
         <div
+          v-if="hasAttachments"
           class="p-button-only-icon p-orange-button cursor-pointer"
           @click="openUploadDocument"
         >
@@ -86,7 +85,7 @@
 
 <script setup>
 // import QuillMention from "quill-mention";
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, onMounted } from "vue";
 
 import AddFileIcon from "/icons/menu/add_file.svg?raw";
 
@@ -151,6 +150,10 @@ const props = defineProps({
   modelValue: {
     type: String,
     default: "",
+  },
+  hasAttachments: {
+    type: Boolean,
+    default: true,
   },
 });
 
@@ -226,9 +229,24 @@ watch(
   },
   { deep: true }
 );
+
+onMounted(() => {
+  if (props.modelValue) {
+    myQuillEditor.value.setText(props.modelValue);
+  }
+});
 </script>
 
-<style>
+<style lang="scss">
+.ql-container .ql-editor {
+  resize: vertical;
+  overflow-y: scroll;
+}
+
+.ql-container.ql-snow {
+  background: #fff;
+}
+
 .ql-toolbar.ql-snow + .toolbar-hidden.ql-container.ql-snow {
   border-radius: 8px;
   border: 1px solid var(--gray-300) !important;
