@@ -11,7 +11,7 @@
     <template #item="slotProps">
       <button
         class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2 w-full"
-        @click="handleAction(slotProps.item.id)"
+        @click="handleAction(slotProps.item)"
       >
         <div class="flex flex-column align">{{ $t(slotProps.item.name) }}</div>
       </button>
@@ -58,13 +58,30 @@ const toggleDropdownMenu = (event) => {
   dropdownMenu.value.toggle(event);
 };
 
-const handleAction = (scriptId) => {
+const executeNewPopupIssue = (params) => {
+  return new Promise((resolve, reject) => {
+    executeIssue(params)
+      .then((response) => {
+        window.open(response.data.url, "_blank");
+        resolve();
+      })
+      .catch(() => {
+        reject();
+      });
+  });
+};
+
+const handleAction = (script) => {
   const promises = props.selectedElements.map((element) => {
     let params = {
       entity_type: props.entity,
       entity_id: element.id,
-      script_id: scriptId,
+      script_id: script.id,
     };
+
+    if (script.open_popup === 1) {
+      return executeNewPopupIssue(params);
+    }
 
     return executeIssue(params);
   });

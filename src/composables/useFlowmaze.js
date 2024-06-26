@@ -15,22 +15,25 @@ const useFlowmaze = () => {
   const mapScripts = (scripts) => {
     return scripts.map((script) => {
       return {
+        ...script,
         id: script.id,
         name: script.name,
       };
     });
   };
 
-  const executeIssue = async (params) => {
-    await flowmazeStore
-      .issue(params)
-      .then((res) => {
-        return res;
-      })
-      .catch((error) => {
-        console.error("Composable error: ", error);
-        throw new Error(error);
-      });
+  const executeIssue = (params) => {
+    return new Promise((resolve, reject) => {
+      flowmazeStore
+        .issue(params)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((error) => {
+          console.error("Composable error: ", error);
+          reject(error);
+        });
+    });
   };
 
   return {
