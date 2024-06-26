@@ -773,6 +773,7 @@
     "toast-issues-error": "An error occurred while executing the scripts",
     "send-email": "Send email",
     "open-popup": "Open popup",
-    "managed-by": "Managed by"
+    "managed-by": "Managed by",
+    "availabe-merge-tags": "Available merge tags"
   }
 }

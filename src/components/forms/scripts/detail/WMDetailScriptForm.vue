@@ -110,15 +110,6 @@
                             :value="script.related_entity.email_subject"
                             required
                           />
-                          <!-- <WMInput
-                            name="emailBody"
-                            type="input-text"
-                            :highlighted="true"
-                            :label="$t('email-body') + ':'"
-                            v-model="emailBody"
-                            :value="script.related_entity.email_body"
-                            required
-                          /> -->
                           <div>
                             <label class="wm-form-label highlighted">
                               {{ $t("email-body") + ":" }}
@@ -131,6 +122,14 @@
                               :hide-subject="true"
                               :has-attachments="false"
                             />
+                            <div class="flex flex-column">
+                              <span class="font-bold mt-2">
+                                {{ $t("scripts.availabe-merge-tags") }}:
+                              </span>
+                              <span v-for="mtag in mtagsOfSelectedEntity" :key="mtag">
+                                {{ mtag }}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </template>
@@ -164,7 +163,7 @@
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -204,12 +203,22 @@ const emailBody = ref("");
 const emailSubject = ref("");
 
 // COMPUTED
+let mtagsOfSelectedEntity = computed(() => {
+  if (selectedEntity.value) {
+    const entity = entities.value.find((entity) => entity.name === selectedEntity.value);
+    return entity ? entity.mtags : [];
+  }
+
+  return [];
+});
 
 // COMPONENT METHODS AND LOGIC
 const fetchScript = () => {
   getScript(route.params.id).then((result) => {
     script.value = result;
     utilsStore.selectedElements["script"] = [result];
+
+    selectedEntity.value = result.related_entity.easymaze_entity;
 
     sendEmail.value = result.related_entity.send_email === 1 ? yesNoOptions[0] : yesNoOptions[1];
     openPopup.value = result.related_entity.open_popup === 1 ? yesNoOptions[0] : yesNoOptions[1];

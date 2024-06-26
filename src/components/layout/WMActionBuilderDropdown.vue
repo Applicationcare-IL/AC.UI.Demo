@@ -29,7 +29,6 @@
           <h5 class="mb-0">
             <span class="font-bold">{{ $t("entity") }}:</span> {{ row.entity }}
           </h5>
-          <pre class="custom-pre m-0 mb-3 text-base">{{ row.result.my_response }}</pre>
         </div>
         <!-- Print Divider when it's not the last row -->
         <Divider v-if="row !== responseData[responseData.length - 1]" class="mb-5" />
