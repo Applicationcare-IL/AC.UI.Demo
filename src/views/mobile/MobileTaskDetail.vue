@@ -1,12 +1,7 @@
 <template>
   <div class="mobile-task-detail">
-    <div
-      class="mobile-task-detail-header my-2 ml-2 flex flex-row overflow-x-scroll"
-    >
-      <WMCompleteTasksButton
-        entity="task"
-        @task-completed="fetchTaskInfo(route.params.id)"
-      />
+    <div class="mobile-task-detail-header my-2 ml-2 flex flex-row overflow-x-scroll">
+      <WMCompleteTasksButton entity="task" @task-completed="fetchTaskInfo(route.params.id)" />
       <WMAssignOwnerButton
         v-if="can(utilsStore.pluralEntity + '.assign')"
         entity="task"
@@ -14,10 +9,7 @@
       />
       <WMSendMessageButton :selected-elements="selectedElements" />
 
-      <WMSendEmailButton
-        v-if="can('global.mail')"
-        :selected-elements="selectedElements"
-      />
+      <WMSendEmailButton v-if="can('global.mail')" :selected-elements="selectedElements" />
     </div>
     <div class="mobile-task-detail-content mb-5 p-3 py-3">
       <WMInput
@@ -72,7 +64,7 @@
         :value="task.notes"
         type="text-area"
         name="notes"
-        width="full"
+        size="full"
       />
 
       <Button label="Save notes" class="mt-6" @click="onSave" />
@@ -176,8 +168,7 @@ const { setSelectedContacts, getContactFromApi } = useContacts();
 const { getCustomerFromApi } = useCustomers();
 const { getServiceFromApi } = useServices();
 
-const { getTaskFromApi, mapContactsFromTasks, updateTask, parseUpdateTask } =
-  useTasks();
+const { getTaskFromApi, mapContactsFromTasks, updateTask, parseUpdateTask } = useTasks();
 
 const { optionLabelWithLang } = useLanguages();
 

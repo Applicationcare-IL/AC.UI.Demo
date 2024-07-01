@@ -39,7 +39,7 @@
                   type="text-area"
                   name="description"
                   :value="budgetItem.description"
-                  width="full"
+                  size="full"
                 />
               </div>
             </div>

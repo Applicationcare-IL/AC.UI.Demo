@@ -165,7 +165,7 @@
                     :value="task.notes"
                     type="text-area"
                     name="notes"
-                    width="full"
+                    size="full"
                   />
                 </div>
               </div>

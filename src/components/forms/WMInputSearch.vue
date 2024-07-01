@@ -10,7 +10,7 @@
       :placeholder="placeholder"
       :multiple="props.multiple"
       :disabled="props.disabled"
-      :class="[{ 'wm-input-error': !!errorMessage }]"
+      :class="classes"
       complete-on-focus
       :focused="true"
       @complete="search"
@@ -105,10 +105,6 @@ const props = defineProps({
   options: {
     type: Object,
   },
-  width: {
-    type: String,
-    default: "120",
-  },
   multiple: {
     type: Boolean,
     default: false,
@@ -141,6 +137,19 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  size: {
+    type: String,
+    default: "sm",
+    validator: (value) =>
+      [
+        "xs", // 60px
+        "sm", // 152px
+        "md", // 336px
+        "lg", // 520px
+        "xl", // 704px
+        "full", // 100%
+      ].includes(value),
+  },
 });
 
 const emit = defineEmits(["change", "blur", "update:value", "customChange", "update:modelValue"]);
@@ -150,6 +159,19 @@ const filteredOptions = ref();
 const name = toRef(props, "name");
 
 // COMPUTED
+const classes = computed(() => {
+  let commonClasses = {
+    "wm-input-error": errorMessage.value ? true : false,
+  };
+
+  let widthClass = `wm-input-${props.size}`;
+
+  return {
+    ...commonClasses,
+    [widthClass]: true,
+  };
+});
+
 const chipThemeClass = computed(() => {
   return props.theme == "default" ? "p-chip--default" : `p-chip--${props.theme}`;
 });
@@ -292,18 +314,6 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-:deep(.p-autocomplete > input) {
-  width: v-bind(width);
-}
-
-:deep(.p-autocomplete) {
-  width: v-bind(width);
-}
-
-:deep(.p-autocomplete > ul) {
-  width: v-bind(width);
-}
-
 :deep(.p-autocomplete-token) {
   display: none;
 }

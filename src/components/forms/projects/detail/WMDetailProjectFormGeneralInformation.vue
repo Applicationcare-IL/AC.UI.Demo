@@ -35,7 +35,7 @@
             :label="$t('project.project_description') + ':'"
             name="project-description"
             :value="project.project_description"
-            width="full"
+            size="full"
           />
         </div>
         <div class="wm-form-row gap-2">
@@ -48,10 +48,7 @@
             :value="networkFolderLink"
             inline
           />
-          <Button
-            :label="$t('buttons.open')"
-            @click="openNetworkFolderLinkInNewTab"
-          />
+          <Button :label="$t('buttons.open')" @click="openNetworkFolderLinkInNewTab" />
         </div>
       </div>
     </template>

@@ -8,7 +8,6 @@
         :highlighted="true"
         :label="$t('address.city') + ':'"
         :options="cities"
-        width="152"
         :placeholder="$t('select', ['address.city'])"
         :option-set="true"
         :required="isCityRequired"
@@ -20,7 +19,6 @@
         :highlighted="true"
         :label="$t('address.street') + ':'"
         :options="streets"
-        width="152"
         :placeholder="$t('select', ['address.street'])"
         :option-set="true"
         :required="isStreetRequired"
@@ -31,7 +29,6 @@
         :highlighted="true"
         :label="$t('address.neighborhood') + ':'"
         :options="neighborhoods"
-        width="152"
         :placeholder="$t('select', ['address.neighborhood'])"
         :option-set="true"
       />
@@ -42,7 +39,7 @@
         type="input-text"
         :highlighted="true"
         :label="$t('address.house-number') + ':'"
-        width="48"
+        size="xs"
         value="1"
       />
       <WMInput
@@ -50,7 +47,7 @@
         type="input-text"
         :highlighted="true"
         :label="$t('address.apartment') + ':'"
-        width="48"
+        size="xs"
       />
       <WMInput
         name="entrance"
@@ -58,7 +55,7 @@
         :highlighted="true"
         :label="$t('address.entrance') + ':'"
         :options="formUtilsStore.getAlphabet"
-        width="48"
+        size="xs"
       />
     </div>
     <div class="wm-form-row gap-5">
@@ -66,9 +63,9 @@
         name="zip"
         :label="$t('address.zip') + ':'"
         :options="zips"
-        width="80"
         :placeholder="$t('select', ['address.zip'])"
         :option-set="true"
+        size="sm"
       />
     </div>
   </div>
@@ -107,19 +104,15 @@ const zips = ref();
 onMounted(async () => {
   cities.value = await optionSetsStore.getOptionSetValues("service_city");
   streets.value = await optionSetsStore.getOptionSetValues("service_street");
-  neighborhoods.value = await optionSetsStore.getOptionSetValues(
-    "service_neighborhood"
-  );
+  neighborhoods.value = await optionSetsStore.getOptionSetValues("service_neighborhood");
   zips.value = await optionSetsStore.getOptionSetValues("zip");
 });
 
 const updateStreets = (city) => {
   if (city) {
-    optionSetsStore
-      .getOptionSetValuesFromApiRaw("service_street", city.value.id)
-      .then((data) => {
-        streets.value = data;
-      });
+    optionSetsStore.getOptionSetValuesFromApiRaw("service_street", city.value.id).then((data) => {
+      streets.value = data;
+    });
 
     optionSetsStore
       .getOptionSetValuesFromApiRaw("service_neighborhood", city.value.id)

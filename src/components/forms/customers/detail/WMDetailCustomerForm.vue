@@ -165,7 +165,7 @@
                     type="text-area"
                     name="notes"
                     :value="customer.notes"
-                    width="full"
+                    size="full"
                   />
                 </div>
               </div>

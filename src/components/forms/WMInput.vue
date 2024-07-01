@@ -18,12 +18,7 @@
       :disabled="props.disabled"
       :placeholder="placeholder"
       :value="inputValue"
-      :class="[
-        {
-          'wm-input-error': !!errorMessage,
-        },
-      ]"
-      style="width: 100%"
+      :class="classes"
       @input="
         $emit('update:modelValue', $event.target.value);
         handleChange($event.target.value);
@@ -37,12 +32,7 @@
       :disabled="props.disabled"
       :placeholder="placeholder"
       :value="inputValue"
-      :class="[
-        {
-          'wm-input-error': !!errorMessage,
-        },
-      ]"
-      :style="{ width: width + 'px' }"
+      :class="classes"
       @input="
         $emit('update:modelValue', $event.value);
         handleChange($event.value);
@@ -56,7 +46,7 @@
       :disabled="props.disabled"
       :placeholder="placeholder"
       :feedback="false"
-      style="width: 100%"
+      :class="classes"
       @input="
         $emit('update:modelValue', $event.target.value);
         handleChange($event.target.value);
@@ -72,7 +62,7 @@
       :options="refOptions"
       :option-label="optionLabel"
       :placeholder="placeholder"
-      :style="{ width: width + 'px' }"
+      :class="classes"
       @change="
         $emit('update:selectedItem', $event.value);
         handleChange($event.value);
@@ -86,11 +76,7 @@
       :disabled="props.disabled"
       :placeholder="placeholder"
       :value="value"
-      :class="[
-        {
-          'wm-input-error': !!errorMessage,
-        },
-      ]"
+      :class="classes"
       :style="{ width: styleWidth }"
       auto-resize
       rows="6"
@@ -209,10 +195,6 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-  width: {
-    type: String,
-    default: "120",
-  },
   inline: {
     type: Boolean,
     default: false,
@@ -227,6 +209,19 @@ const props = defineProps({
   },
   customOptionLabel: {
     type: String,
+  },
+  size: {
+    type: String,
+    default: "sm",
+    validator: (value) =>
+      [
+        "xs", // 60px
+        "sm", // 152px
+        "md", // 336px
+        "lg", // 520px
+        "xl", // 704px
+        "full", // 100%
+      ].includes(value),
   },
 });
 
@@ -255,21 +250,32 @@ const optionLabel = computed(() => {
   return "label";
 });
 
-const styleWidth = computed(() => {
-  if (props.width === "full") {
-    return "100%";
+const classes = computed(() => {
+  let commonClasses = {
+    "wm-input-error": errorMessage.value ? true : false,
+  };
+
+  let widthClass = `wm-input-${props.size}`;
+
+  if (props.size === "full") {
+    widthClass = "w-full";
   }
-  return props.width + "px";
+
+  return {
+    ...commonClasses,
+    [widthClass]: true,
+  };
 });
 
 // COMPONENT METHODS AND LOGIC
-const { value: inputValue, errorMessage, handleBlur, handleChange } = useField(
-  name,
-  undefined,
-  {
-    initialValue: props.value,
-  }
-);
+const {
+  value: inputValue,
+  errorMessage,
+  handleBlur,
+  handleChange,
+} = useField(name, undefined, {
+  initialValue: props.value,
+});
 
 const handleDateChange = (newDate) => {
   if (newDate) {

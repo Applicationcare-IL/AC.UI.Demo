@@ -29,7 +29,7 @@
             :label="$t('description') + ':'"
             type="text-area"
             name="description"
-            width="full"
+            size="full"
           />
         </div>
       </div>

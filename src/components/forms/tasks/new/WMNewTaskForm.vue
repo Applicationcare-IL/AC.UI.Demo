@@ -144,7 +144,7 @@
             :required="true"
             :label="$t('description') + ':'"
             :highlighted="true"
-            width="full"
+            size="full"
           />
         </div>
       </div>
@@ -290,9 +290,7 @@ const searchTaskTypes = (query) => {
 };
 
 const onSubmit = handleSubmit((values) => {
-  const taskDate = values.start_date
-    ? formatDate(values.start_date, "YYYY-MM-DD")
-    : today.value;
+  const taskDate = values.start_date ? formatDate(values.start_date, "YYYY-MM-DD") : today.value;
 
   let task = {
     ...values,

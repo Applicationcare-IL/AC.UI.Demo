@@ -1,9 +1,6 @@
 <template>
   <div class="card-container top-info-card flex-1">
-    <WMServicePreviewSidebar
-      v-model:visible="isServicePreviewVisible"
-      :service="service"
-    />
+    <WMServicePreviewSidebar v-model:visible="isServicePreviewVisible" :service="service" />
     <Card v-if="service">
       <template #title>
         <div class="flex flex-row justify-content-between">
@@ -58,9 +55,7 @@
               type="info"
               :highlighted="true"
               :label="$t('classification-3') + ':'"
-              :value="
-                service.request1 ? service.request1[optionLabelWithLang] : ''
-              "
+              :value="service.request1 ? service.request1[optionLabelWithLang] : ''"
             />
           </div>
           <div class="wm-form-row gap-5">
@@ -69,18 +64,14 @@
               type="info"
               :highlighted="true"
               :label="$t('classification-4') + ':'"
-              :value="
-                service.request2 ? service.request2[optionLabelWithLang] : ''
-              "
+              :value="service.request2 ? service.request2[optionLabelWithLang] : ''"
             />
             <WMInput
               name="request3"
               type="info"
               :highlighted="true"
               :label="$t('classification-5') + ':'"
-              :value="
-                service.request3 ? service.request3[optionLabelWithLang] : ''
-              "
+              :value="service.request3 ? service.request3[optionLabelWithLang] : ''"
             />
           </div>
           <div class="wm-form-row gap-5">
@@ -91,7 +82,7 @@
               :label="$t('service.description') + ':'"
               :value="service.description"
               disabled
-              width="full"
+              size="full"
             />
           </div>
         </div>

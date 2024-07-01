@@ -95,7 +95,7 @@
                   type="text-area"
                   name="description"
                   :value="milestone.description"
-                  width="full"
+                  size="full"
                   :disabled="isMilestoneCompleted"
                 />
               </div>

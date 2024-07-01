@@ -125,7 +125,7 @@
                     name="description"
                     :value="service.description"
                     disabled
-                    width="full"
+                    size="full"
                   />
                 </div>
               </div>
@@ -168,10 +168,7 @@
                     option-set
                   />
                 </div>
-                <div
-                  v-if="service.is_active"
-                  class="wm-form-row flex align-items-start gap-5"
-                >
+                <div v-if="service.is_active" class="wm-form-row flex align-items-start gap-5">
                   <!-- Service subject -->
                   <WMInput
                     name="request2"
@@ -217,11 +214,7 @@
       <WMDetailFormAsset v-if="service.asset" :asset="service.asset" />
 
       <div class="my-5">
-        <WMStepper
-          :steps="stages"
-          :current-step="currentStage"
-          aria-label="Form Steps"
-        />
+        <WMStepper :steps="stages" :current-step="currentStage" aria-label="Form Steps" />
       </div>
 
       <Accordion v-if="can('tasks.read')">
@@ -269,10 +262,7 @@
 
       <Accordion>
         <AccordionTab :header="$t('attachments.attachments')">
-          <WMAttachmentsTable
-            :entity-id="route.params.id"
-            entity-type="service"
-          />
+          <WMAttachmentsTable :entity-id="route.params.id" entity-type="service" />
         </AccordionTab>
       </Accordion>
 
@@ -413,9 +403,7 @@ const fetchData = async () => {
 
   stages.value = data.stages.map((stage) => ({
     label: stage.name,
-    date: stage.sla.due_date
-      ? useDateFormat(stage.sla.due_date, "DD/MM/YY")
-      : null,
+    date: stage.sla.due_date ? useDateFormat(stage.sla.due_date, "DD/MM/YY") : null,
   }));
 
   updateDropdown("service_request_2", data.request1?.id, "requests2");
@@ -453,11 +441,9 @@ const setCustomer = (customerId) => {
 };
 
 const updateDropdown = (optionSet, selectedValue, dropdownOptions) => {
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw(optionSet, selectedValue)
-    .then((data) => {
-      optionRefs[dropdownOptions].value = data;
-    });
+  optionSetsStore.getOptionSetValuesFromApiRaw(optionSet, selectedValue).then((data) => {
+    optionRefs[dropdownOptions].value = data;
+  });
 };
 
 const { handleSubmit, meta } = useForm({

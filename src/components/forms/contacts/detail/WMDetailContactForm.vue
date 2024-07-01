@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="loaded"
-    class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
-  >
+  <div v-if="loaded" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="contact-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="flex-1 card-container top-info-card">
@@ -129,7 +126,7 @@
                     :value="contact.notes"
                     type="text-area"
                     name="notes"
-                    width="full"
+                    size="full"
                   />
                 </div>
               </div>
@@ -138,9 +135,7 @@
         </div>
         <div class="card-container flex-1 middle-info-card">
           <Card>
-            <template #title>
-              {{ $t("service.open") }} : {{ contact.open_services }}
-            </template>
+            <template #title> {{ $t("service.open") }} : {{ contact.open_services }} </template>
 
             <template #content>
               <div class="flex flex-column gap-3 font-bold">
@@ -304,19 +299,10 @@ const utilsStore = useUtilsStore();
 const route = useRoute();
 const toast = useToast();
 
-const {
-  getCustomerColumns,
-  getServiceColumns,
-  getTaskColumns,
-  getProjectDocumentColumns,
-} = useListUtils();
+const { getCustomerColumns, getServiceColumns, getTaskColumns, getProjectDocumentColumns } =
+  useListUtils();
 
-const {
-  getContactFromApi,
-  updateContact,
-  parseContact,
-  setSelectedContacts,
-} = useContacts();
+const { getContactFromApi, updateContact, parseContact, setSelectedContacts } = useContacts();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -413,9 +399,7 @@ onMounted(async () => {
 
   genders.value = await optionSetsStore.getOptionSetValues("gender");
 
-  genderSelected.value = genders.value.find(
-    (gender) => gender.id === contact.value.gender?.id
-  );
+  genderSelected.value = genders.value.find((gender) => gender.id === contact.value.gender?.id);
 });
 </script>
 

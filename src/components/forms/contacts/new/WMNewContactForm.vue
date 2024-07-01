@@ -14,7 +14,7 @@
           :value="authStore.userFullName"
         ></WMInput>
       </div>
-      <div class="wm-form-row gap-5">
+      <div class="wm-form-row gap-32px">
         <WMInput
           name="first-name"
           :required="true"
@@ -30,12 +30,8 @@
         />
       </div>
 
-      <div class="wm-form-row gap-4">
-        <WMInput
-          name="contact-number"
-          type="input-text"
-          :label="$t('contact.number') + ':'"
-        />
+      <div class="wm-form-row gap-32px">
+        <WMInput name="contact-number" type="input-text" :label="$t('contact.number') + ':'" />
 
         <WMInput
           v-if="genders"
@@ -56,7 +52,7 @@
           :placeholder="$t('select', ['customer'])"
           :label="$t('customer.customer') + ':'"
           :multiple="true"
-          width="248"
+          size="md"
           :highlighted="true"
           :search-function="searchCustomer"
           :new="true"
@@ -85,7 +81,7 @@
     <Divider class="my-5" layout="horizontal" style="height: 4px" />
     <div class="contact-address flex flex-auto flex-column gap-5 mb-5">
       <h2 class="h2 mb-0">{{ $t("communication-details") }}</h2>
-      <div class="wm-form-row gap-5">
+      <div class="wm-form-row gap-32px">
         <WMInput
           name="mobile-phone"
           :required="true"
@@ -93,22 +89,17 @@
           :label="$t('mobilephone') + ':'"
           width="88"
         />
-        <WMInput
-          name="landline"
-          type="input-text"
-          :label="$t('landline') + ':'"
-          width="88"
-        />
+        <WMInput name="landline" type="input-text" :label="$t('landline') + ':'" width="88" />
         <WMInput name="fax" type="input-text" :label="$t('fax') + ':'" width="88" />
       </div>
 
-      <div class="wm-form-row gap-5">
+      <div class="wm-form-row gap-32px">
         <WMInput
           name="email"
           :required="true"
           type="input-text"
           :label="$t('email') + ':'"
-          width="240"
+          size="md"
         />
       </div>
     </div>
@@ -123,7 +114,7 @@
       <h2 class="h2 mb-0">{{ $t("contact.notes") }}</h2>
 
       <div class="wm-form-row gap-5">
-        <WMInput id="notes" type="text-area" name="notes" width="full" />
+        <WMInput id="notes" type="text-area" name="notes" size="full" />
       </div>
     </div>
 

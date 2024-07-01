@@ -1,5 +1,4 @@
 // Form layout
-
 .wm-new-form-container{
     padding: 24px 48px;
 }
@@ -23,6 +22,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 32px; // default gap size
+
+    .wm-form-label{
+        width: 0;
+    }
 }
 
 // Input Component and dropdown
@@ -248,8 +252,7 @@
 
 
 
-//Contact
-
+// Contact
 .contact-data .top-info-card > .p-card{
     min-height: 288px;
 }
@@ -295,8 +298,7 @@ textarea {
     min-width: 104px;
 }
 
-//Link
-
+// Link
 .orange-link{
     color: var(--orange-500);
     text-decoration: underline;
@@ -316,4 +318,59 @@ textarea {
     align-items: center;
     gap: 10px;
     font-weight: 700;
+}
+
+/* WM INPUT SIZES */
+
+// :deep(.p-autocomplete > input) {
+//   width: v-bind(width);
+// }
+
+// :deep(.p-autocomplete) {
+//   width: v-bind(width);
+// }
+
+// :deep(.p-autocomplete > ul) {
+//   width: v-bind(width);
+// }
+
+
+.wm-input-xs,
+.wm-input-xs .p-inputtext,
+.wm-input-xs .p-autocomplete,
+.wm-input-xs .p-autocomplete > input,
+.wm-input-xs .p-autocomplete > ul {
+    width: 60px !important;
+}
+
+.wm-input-sm,
+.wm-input-sm .p-inputtext,
+.wm-input-sm .p-autocomplete,
+.wm-input-sm .p-autocomplete > input,
+.wm-input-sm .p-autocomplete > ul {
+    width: 152px !important;
+}
+
+.wm-input-md,
+.wm-input-md .p-inputtext,
+.wm-input-md .p-autocomplete,
+.wm-input-md .p-autocomplete > input,
+.wm-input-md .p-autocomplete > ul {
+    width: 336px !important;
+}
+
+.wm-input-lg,
+.wm-input-lg .p-inputtext,
+.wm-input-lg .p-autocomplete,
+.wm-input-lg .p-autocomplete > input,
+.wm-input-lg .p-autocomplete > ul {
+    width: 520px !important;
+}
+
+.wm-input-xl,
+.wm-input-xl .p-inputtext,
+.wm-input-xl .p-autocomplete,
+.wm-input-xl .p-autocomplete > input,
+.wm-input-xl .p-autocomplete > ul {
+    width: 704px !important;
 }

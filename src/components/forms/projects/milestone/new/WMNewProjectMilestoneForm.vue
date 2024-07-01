@@ -35,18 +35,14 @@
             :option-set="true"
           />
 
-          <WMInput
-            name="plannedDate"
-            type="date"
-            :label="$t('milestone.planned-date') + ':'"
-          />
+          <WMInput name="plannedDate" type="date" :label="$t('milestone.planned-date') + ':'" />
 
           <WMInput
             id="description"
             :label="$t('description') + ':'"
             type="text-area"
             name="description"
-            width="full"
+            size="full"
           />
         </div>
       </div>
