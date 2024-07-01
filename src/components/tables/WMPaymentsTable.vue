@@ -483,7 +483,7 @@ const loadLazyData = () => {
     teamMembers.value = contacts;
   });
 
-  getMilestones({ project: props.projectId, type: milestonePaymentTypeID.value }).then(
+  getMilestones({ project: props.projectId, milestone_type: milestonePaymentTypeID.value }).then(
     (response) => {
       milestones.value = response.milestones.map((milestone) => {
         return mapShortMilestone(milestone);
