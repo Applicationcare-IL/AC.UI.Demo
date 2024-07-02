@@ -166,6 +166,10 @@ const classes = computed(() => {
 
   let widthClass = `wm-input-${props.size}`;
 
+  if (props.size === "full") {
+    widthClass = "w-full";
+  }
+
   return {
     ...commonClasses,
     [widthClass]: true,
