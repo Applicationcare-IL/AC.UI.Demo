@@ -370,3 +370,10 @@ textarea {
 .wm-input-xl .p-autocomplete > ul {
     width: 704px !important;
 }
+
+.w-full .p-inputtext,
+.w-full .p-autocomplete,
+.w-full .p-autocomplete > input,
+.w-full .p-autocomplete > ul {
+    width: 100% !important;
+}
