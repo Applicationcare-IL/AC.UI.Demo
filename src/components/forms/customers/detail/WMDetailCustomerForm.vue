@@ -7,6 +7,7 @@
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
+
                 <div class="wm-form-row gap-5">
                   <WMInput
                     name="owner"
@@ -42,18 +43,18 @@
                     width="150"
                     required
                   />
+                  <WMInput
+                      name="type"
+                      :highlighted="true"
+                      type="input-select"
+                      :label="$t('type') + ':'"
+                      :options="types"
+                      width="80"
+                      :value="selectedType"
+                      option-set
+                  />
                 </div>
                 <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="type"
-                    :highlighted="true"
-                    type="input-select"
-                    :label="$t('type') + ':'"
-                    :options="types"
-                    width="80"
-                    :value="selectedType"
-                    option-set
-                  />
                   <WMInput
                     name="rating"
                     :highlighted="true"
@@ -95,58 +96,64 @@
                     :label="$t('customer.calculate_term') + ':'"
                   />
                 </div>
-                <div class="wm-form-row mt-5">
-                  <p class="p-card-title mb-0">
-                    {{ $t("communication-details") }}
-                  </p>
-                </div>
-                <div class="wm-form-row gap-5">
-                  <WMInput
+
+              </div>
+            </template>
+          </Card>
+        </div>
+        <WMDetailFormLocation :location="customer.location" editable />
+      </div>
+      <div class="flex flex-row gap-5 flex-wrap">
+        <div class="flex-1 card-container top-info-card">
+          <Card>
+            <template #title> {{ $t("communication-details") }} </template>
+            <template #content>
+              <div class="wm-form-row gap-5">
+                <WMInput
                     name="phone"
                     type="input-text"
                     :highlighted="true"
                     :label="$t('telephone') + ':'"
                     :value="customer.phone"
                     required
-                  />
-                  <WMInput
+                />
+                <WMInput
                     name="fax"
                     type="input-text"
                     :highlighted="true"
                     :label="$t('fax') + ':'"
                     :value="customer.fax"
-                  />
-                </div>
-                <div class="wm-form-row">
-                  <WMInput
+                />
+              </div>
+              <div class="wm-form-row">
+                <WMInput
                     name="email"
                     type="input-text"
                     :highlighted="true"
                     :label="$t('email') + ':'"
                     :value="customer.email"
+                    size="md"
                     required
-                  />
-                </div>
+                />
               </div>
             </template>
           </Card>
         </div>
-        <WMDetailFormLocation :location="customer.location" editable />
         <div class="flex-1 card-container top-info-card">
           <Card>
             <template #title> {{ $t("customer.areas") }} </template>
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
                 <WMInputSearch
-                  name="service_area"
-                  :placeholder="$t('select', ['customer.area'])"
-                  :required="true"
-                  :multiple="true"
-                  width="248"
-                  :options="service_areas"
-                  :highlighted="true"
-                  :model-value="selectedServiceAreas"
-                  :option-set="true"
+                    name="service_area"
+                    :placeholder="$t('select', ['customer.area'])"
+                    :required="true"
+                    :multiple="true"
+                    size="full"
+                    :options="service_areas"
+                    :highlighted="true"
+                    :model-value="selectedServiceAreas"
+                    :option-set="true"
                 />
               </div>
             </template>
@@ -172,54 +179,56 @@
             </template>
           </Card>
         </div>
-        <div class="card-container flex-1 middle-info-card">
-          <Card>
-            <template #title> {{ $t("service.open") }} : {{ customer.open_services }} </template>
+        <div class="card-container middle-info-card flex gap-5" style="flex: 2">
+          <div class="card-container flex-1 middle-info-card">
+            <Card>
+              <template #title> {{ $t("service.open") }} : {{ customer.open_services }} </template>
 
-            <template #content>
-              <div class="flex flex-column gap-3 font-bold">
-                <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
-                >
-                  <span class="font-size-20">{{ $t("sla.no_breach") }}</span>
-                  <span class="font-size-24">
-                    {{ customer.open_services - customer.breached_services }}
-                  </span>
+              <template #content>
+                <div class="flex flex-column gap-3 font-bold">
+                  <div
+                    class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
+                  >
+                    <span class="font-size-20">{{ $t("sla.no_breach") }}</span>
+                    <span class="font-size-24">
+                      {{ customer.open_services - customer.breached_services }}
+                    </span>
+                  </div>
+                  <div
+                    class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900"
+                  >
+                    <span class="font-size-20">{{ $t("sla.breached") }}</span>
+                    <span class="font-size-24">{{ customer.breached_services }}</span>
+                  </div>
                 </div>
-                <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900"
-                >
-                  <span class="font-size-20">{{ $t("sla.breached") }}</span>
-                  <span class="font-size-24">{{ customer.breached_services }}</span>
+              </template>
+            </Card>
+          </div>
+          <div class="card-container flex-1 middle-info-card">
+            <Card>
+              <template #title> {{ $t("task.open") }} : {{ customer.open_tasks }}</template>
+              <template #content>
+                <div class="flex flex-column gap-3 font-bold">
+                  <div
+                    class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
+                  >
+                    <span class="font-size-20">{{ $t("sla.no_breach") }}</span>
+                    <span class="font-size-24">{{
+                      customer.open_tasks - customer.breached_tasks
+                    }}</span>
+                  </div>
+                  <div
+                    class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-red-100 text-red-700"
+                  >
+                    <span class="font-size-20">{{ $t("sla.breached") }}</span>
+                    <span class="font-size-24">
+                      {{ customer.breached_tasks }}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </template>
-          </Card>
-        </div>
-        <div class="card-container flex-1 middle-info-card">
-          <Card>
-            <template #title> {{ $t("task.open") }} : {{ customer.open_tasks }}</template>
-            <template #content>
-              <div class="flex flex-column gap-3 font-bold">
-                <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
-                >
-                  <span class="font-size-20">{{ $t("sla.no_breach") }}</span>
-                  <span class="font-size-24">{{
-                    customer.open_tasks - customer.breached_tasks
-                  }}</span>
-                </div>
-                <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-red-100 text-red-700"
-                >
-                  <span class="font-size-20">{{ $t("sla.breached") }}</span>
-                  <span class="font-size-24">
-                    {{ customer.breached_tasks }}
-                  </span>
-                </div>
-              </div>
-            </template>
-          </Card>
+              </template>
+            </Card>
+          </div>
         </div>
       </div>
 

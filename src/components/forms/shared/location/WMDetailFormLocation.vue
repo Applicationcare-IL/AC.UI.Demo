@@ -9,7 +9,7 @@
       </template>
       <template #content>
         <div v-if="location" class="flex flex-auto flex-column gap-5">
-          <div class="wm-form-row gap-5 align-items-start">
+          <div class="wm-form-row align-items-start">
             <WMInputSearch
               v-if="editable"
               v-model="location.city"
@@ -53,42 +53,40 @@
               :value="location.street ? location.street[optionLabelWithLang] : ''"
             />
 
+            <WMInput
+                name="house-number"
+                :type="formType"
+                :label="$t('address.house-number') + ':'"
+                width="48"
+                :value="location.house_number"
+            ></WMInput>
+
+          </div>
+          <div class="wm-form-row align-items-start">
             <WMInputSearch
-              v-if="editable"
-              v-model="location.neighborhood"
-              name="neighborhood"
-              :highlighted="true"
-              :label="$t('address.neighborhood') + ':'"
-              :options="neighborhoods"
-              width="152"
-              :placeholder="$t('select', ['address.neighborhood'])"
-              :option-set="true"
+                v-if="editable"
+                name="zip"
+                :label="$t('address.zip') + ':'"
+                :options="zips"
+                width="80"
+                :placeholder="$t('select', ['address.zip'])"
+                :option-set="true"
+                :model-value="selectedZip"
+            />
+            <WMInput
+                v-else
+                name="zip"
+                :type="formType"
+                :highlighted="true"
+                :label="$t('address.zip') + ':'"
+                :value="location.zip"
             />
 
-            <WMInput
-              v-else
-              name="neighborhood"
-              :type="formType"
-              :highlighted="true"
-              :label="$t('address.neighborhood') + ':'"
-              :value="
-                location.neighborhood ? location.neighborhood[optionLabelWithLang] : ''
-              "
-            />
-          </div>
-          <div class="wm-form-row gap-5 align-items-start">
-            <WMInput
-              name="house-number"
-              :type="formType"
-              :label="$t('address.house-number') + ':'"
-              width="48"
-              :value="location.house_number"
-            ></WMInput>
             <WMInput
               name="apartment"
               :type="formType"
               :label="$t('address.apartment') + ':'"
-              width="48"
+              size="xs"
               :value="location.apartment"
             />
             <WMInput
@@ -97,7 +95,7 @@
               type="input-select"
               :label="$t('address.entrance') + ':'"
               :options="alphabet"
-              width="60"
+              size="xs"
               :value="selectedEntrance"
             />
             <WMInput
@@ -108,25 +106,27 @@
               :label="$t('address.entrance') + ':'"
               :value="location.entrance"
             />
-          </div>
-          <div class="wm-form-row gap-5">
+
             <WMInputSearch
-              v-if="editable"
-              name="zip"
-              :label="$t('address.zip') + ':'"
-              :options="zips"
-              width="80"
-              :placeholder="$t('select', ['address.zip'])"
-              :option-set="true"
-              :model-value="selectedZip"
+                v-if="editable"
+                v-model="location.neighborhood"
+                name="neighborhood"
+                :highlighted="true"
+                :label="$t('address.neighborhood') + ':'"
+                :options="neighborhoods"
+                width="152"
+                :placeholder="$t('select', ['address.neighborhood'])"
+                :option-set="true"
             />
             <WMInput
-              v-else
-              name="zip"
-              :type="formType"
-              :highlighted="true"
-              :label="$t('address.zip') + ':'"
-              :value="location.zip"
+                v-else
+                name="neighborhood"
+                :type="formType"
+                :highlighted="true"
+                :label="$t('address.neighborhood') + ':'"
+                :value="
+                location.neighborhood ? location.neighborhood[optionLabelWithLang] : ''
+              "
             />
           </div>
         </div>
