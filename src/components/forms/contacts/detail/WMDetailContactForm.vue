@@ -67,51 +67,6 @@
             </template>
           </Card>
         </div>
-        <div class="flex-1 card-container top-info-card">
-          <Card>
-            <template #title> {{ $t("communication-details") }} </template>
-            <template #content>
-              <div class="flex flex-auto flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <div class="wm-form-row gap-5">
-                    <WMInput
-                      name="mobile-phone"
-                      :required="true"
-                      type="input-text"
-                      :label="$t('mobilephone') + ':'"
-                      width="88"
-                      :value="contact.telephone"
-                    />
-                    <WMInput
-                      name="landline"
-                      type="input-text"
-                      :label="$t('landline') + ':'"
-                      width="88"
-                      :value="contact.landline"
-                    />
-                    <WMInput
-                      name="fax"
-                      type="input-text"
-                      :label="$t('fax') + ':'"
-                      width="88"
-                      :value="contact.fax"
-                    />
-                  </div>
-                </div>
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="email"
-                    :required="true"
-                    type="input-text"
-                    :label="$t('email') + ':'"
-                    :value="contact.email"
-                  />
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div>
-
         <WMDetailFormLocation :location="contact.location" editable />
       </div>
       <div class="flex flex-row gap-5 flex-wrap">
@@ -133,6 +88,52 @@
             </template>
           </Card>
         </div>
+        <div class="card-container middle-info-card" style="flex: 2">
+          <Card>
+            <template #title> {{ $t("communication-details") }} </template>
+            <template #content>
+              <div class="flex flex-auto flex-column gap-5">
+                <div class="wm-form-row gap-5">
+                  <div class="wm-form-row gap-5">
+                    <WMInput
+                        name="mobile-phone"
+                        :required="true"
+                        type="input-text"
+                        :label="$t('mobilephone') + ':'"
+                        width="88"
+                        :value="contact.telephone"
+                    />
+                    <WMInput
+                        name="landline"
+                        type="input-text"
+                        :label="$t('landline') + ':'"
+                        width="88"
+                        :value="contact.landline"
+                    />
+                    <WMInput
+                        name="fax"
+                        type="input-text"
+                        :label="$t('fax') + ':'"
+                        width="88"
+                        :value="contact.fax"
+                    />
+                  </div>
+                </div>
+                <div class="wm-form-row gap-5">
+                  <WMInput
+                      name="email"
+                      :required="true"
+                      type="input-text"
+                      :label="$t('email') + ':'"
+                      :value="contact.email"
+                  />
+                </div>
+              </div>
+            </template>
+          </Card>
+        </div>
+      </div>
+      <div class="flex flex-row gap-5 flex-wrap">
         <div class="card-container flex-1 middle-info-card">
           <Card>
             <template #title> {{ $t("service.open") }} : {{ contact.open_services }} </template>
@@ -140,7 +141,7 @@
             <template #content>
               <div class="flex flex-column gap-3 font-bold">
                 <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
+                    class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
                 >
                   <span class="font-size-20">{{ $t("sla.no_breach") }}</span>
                   <span class="font-size-24">
@@ -148,7 +149,7 @@
                   </span>
                 </div>
                 <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900"
+                    class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-gray-100 text-gray-900"
                 >
                   <span class="font-size-20">{{ $t("sla.breached") }}</span>
                   <span class="font-size-24">{{ contact.breached_services }}</span>
@@ -163,15 +164,15 @@
             <template #content>
               <div class="flex flex-column gap-3 font-bold">
                 <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
+                    class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-green-200 text-green-900"
                 >
                   <span class="font-size-20">{{ $t("sla.no_breach") }}</span>
                   <span class="font-size-24">{{
-                    contact.open_tasks - contact.breached_tasks
-                  }}</span>
+                      contact.open_tasks - contact.breached_tasks
+                    }}</span>
                 </div>
                 <div
-                  class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-red-100 text-red-700"
+                    class="contact-counter flex flex-row justify-content-between align-items-center border-round-sm bg-red-100 text-red-700"
                 >
                   <span class="font-size-20">{{ $t("sla.breached") }}</span>
                   <span class="font-size-24">

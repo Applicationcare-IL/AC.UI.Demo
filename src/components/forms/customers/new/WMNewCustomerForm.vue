@@ -42,7 +42,7 @@
           :highlighted="true"
           :label="$t('customer.type') + ':'"
           :options="types"
-          width="80"
+          size="xs"
           option-set
           required
         />
@@ -52,7 +52,7 @@
           :highlighted="true"
           :label="$t('customer.rating') + ':'"
           :options="ratings"
-          width="80"
+          size="xs"
           option-set
           required
         />
@@ -118,7 +118,13 @@
         </div>
 
         <div class="wm-form-row gap-5">
-          <WMInput name="email" required type="input-text" :label="$t('email') + ':'" width="240" />
+          <WMInput
+              name="email"
+              required
+              type="input-text"
+              :label="$t('email') + ':'"
+              size="md"
+          />
         </div>
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px" />
