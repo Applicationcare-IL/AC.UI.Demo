@@ -197,6 +197,11 @@ const router = createRouter({
           name: "reports",
           component: () => import("@/views/user/lists/Reports.vue"),
         },
+        {
+          path: "/reports-poc",
+          name: "reportsPoc",
+          component: () => import("@/views/user/lists/ReportsPOC.vue"),
+        },
       ],
     },
     {
