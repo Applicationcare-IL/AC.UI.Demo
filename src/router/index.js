@@ -202,6 +202,11 @@ const router = createRouter({
           name: "reportsPoc",
           component: () => import("@/views/user/lists/ReportsPOC.vue"),
         },
+        {
+          path: "/products",
+          name: "products",
+          component: () => import("@/views/user/lists/Products.vue"),
+        },
       ],
     },
     {
