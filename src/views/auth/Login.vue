@@ -9,6 +9,7 @@
           type="input-text"
           :highlighted="true"
           :label="$t('login.email') + ':'"
+          size="full"
         />
         <WMInput
           name="password"
@@ -16,6 +17,7 @@
           :highlighted="true"
           :label="$t('login.password') + ':'"
           style="margin-top: 32px"
+          size="full"
         />
         <router-link to="/forgot-password" class="align-self-end mb-4">{{
           $t("login.forgot_password")
