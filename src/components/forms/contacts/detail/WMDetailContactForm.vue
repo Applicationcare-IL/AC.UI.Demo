@@ -185,49 +185,70 @@
         </div>
       </div>
       <div>
-        <WMCustomersTable
-          v-if="can('customers.read')"
-          :related-entity-id="contact.id"
-          related-entity="contact"
-          :columns="customerColumns"
-        />
+        <Accordion v-if="can('customers.read')" data-testid="customers-accordion">
+          <AccordionTab :header="$t('customer.customer')">
+            <WMCustomersTable
+                v-if="can('customers.read')"
+                :related-entity-id="contact.id"
+                related-entity="contact"
+                :columns="customerColumns"
+            />
+          </AccordionTab>
+        </Accordion>
+
       </div>
       <div>
-        <WMServicesTable
-          v-if="checkIfEntityIsActive('services') && can('services.read')"
-          related-entity="contact"
-          :related-entity-id="contact.id"
-          :columns="serviceColumns"
-          multiselect
-        />
+        <Accordion v-if="checkIfEntityIsActive('services') && can('services.read')" data-testid="services-accordion">
+          <AccordionTab :header="$t('service.service')">
+            <WMServicesTable
+                v-if="checkIfEntityIsActive('services') && can('services.read')"
+                related-entity="contact"
+                :related-entity-id="contact.id"
+                :columns="serviceColumns"
+                multiselect
+            />
+          </AccordionTab>
+        </Accordion>
       </div>
       <div>
-        <WMTasksTable
-          v-if="can('tasks.read')"
-          related-entity="contact"
-          :related-entity-id="contact.id"
-          :columns="taskColumns"
-          multiselect
-        />
+        <Accordion v-if="can('tasks.read')" data-testid="tasks-accordion">
+          <AccordionTab :header="$t('task.tasks')">
+            <WMTasksTable
+                v-if="can('tasks.read')"
+                related-entity="contact"
+                :related-entity-id="contact.id"
+                :columns="taskColumns"
+                multiselect
+            />
+          </AccordionTab>
+        </Accordion>
       </div>
       <div>
-        <WMProjectsTable
-          v-if="can('projects.read') && checkIfEntityIsActive('projects')"
-          related-entity="contact"
-          :related-entity-id="contact.id"
-          :multiselect="false"
-          :show-header-options="false"
-        />
+        <Accordion v-if="can('projects.read')" data-testid="projects-accordion">
+          <AccordionTab :header="$t('project.projects')">
+            <WMProjectsTable
+                v-if="can('projects.read') && checkIfEntityIsActive('projects')"
+                related-entity="contact"
+                :related-entity-id="contact.id"
+                :multiselect="false"
+                :show-header-options="false"
+            />
+          </AccordionTab>
+        </Accordion>
       </div>
       <div>
-        <WMDocumentsTable
-          :columns="documentsColumns"
-          :related-entity-id="contact.id"
-          related-entity="contact"
-          :show-header-options="true"
-        />
+        <Accordion  data-testid="documents-accordion">
+          <AccordionTab :header="'Documents'">
+            <WMDocumentsTable
+                :columns="documentsColumns"
+                :related-entity-id="contact.id"
+                related-entity="contact"
+                :show-header-options="true"
+            />
+          </AccordionTab>
+        </Accordion>
       </div>
-      <div class="flex-1 tabs-container">
+      <div class="flex-1 tabs-container mt-5 pt-5">
         <TabView>
           <TabPanel :header="$t('additional-information')">
             <div class="flex flex-column gap-5 m-2">
