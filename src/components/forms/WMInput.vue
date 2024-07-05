@@ -107,7 +107,7 @@
       "
     />
 
-    <span v-if="type == 'info'" :class="styles" :style="{ width: width + 'px' }">
+    <span v-if="type == 'info'" :class="classes">
       <template v-if="optionSet">
         <WMOptionSetValue :option-set="refValue" />
       </template>
@@ -115,7 +115,7 @@
         {{ refValue }}
       </template>
     </span>
-    <span v-if="type == 'info-link' && value" :style="{ width: width + 'px' }">
+    <span v-if="type == 'info-link' && value">
       <router-link :to="props.to">{{ value }}</router-link>
     </span>
     <span v-if="errorMessage" class="wm-validation-message">
@@ -263,6 +263,13 @@ const classes = computed(() => {
 
   if (props.size === "full") {
     widthClass = "w-full";
+  }
+
+  if (styles.value) {
+    commonClasses = {
+      ...commonClasses,
+      [styles.value]: true,
+    };
   }
 
   return {
