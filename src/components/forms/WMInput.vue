@@ -1,5 +1,8 @@
 <template>
-  <div class="wm-input flex" :class="{ 'flex-row': inline, 'flex-column': !inline }">
+  <div
+    class="wm-input flex"
+    :class="{ 'flex-row': inline, 'flex-column': !inline, 'w-full': size === 'full' }"
+  >
     <label
       v-if="label != ''"
       class="wm-form-label"
@@ -143,6 +146,7 @@ import { computed, onMounted, toRef, watch } from "vue";
 const { optionLabelWithLang } = useLanguages();
 
 // PROPS, EMITS
+
 const props = defineProps({
   value: {
     type: String,
