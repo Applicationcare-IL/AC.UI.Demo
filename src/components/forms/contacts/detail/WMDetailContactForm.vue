@@ -192,6 +192,7 @@
                 :related-entity-id="contact.id"
                 related-entity="contact"
                 :columns="customerColumns"
+                :hideTitle="true"
             />
           </AccordionTab>
         </Accordion>
@@ -206,6 +207,7 @@
                 :related-entity-id="contact.id"
                 :columns="serviceColumns"
                 multiselect
+                :hideTitle="true"
             />
           </AccordionTab>
         </Accordion>
@@ -219,6 +221,7 @@
                 :related-entity-id="contact.id"
                 :columns="taskColumns"
                 multiselect
+                :hideTitle="true"
             />
           </AccordionTab>
         </Accordion>
@@ -232,6 +235,7 @@
                 :related-entity-id="contact.id"
                 :multiselect="false"
                 :show-header-options="false"
+                :hideTitle="true"
             />
           </AccordionTab>
         </Accordion>
@@ -244,6 +248,7 @@
                 :related-entity-id="contact.id"
                 related-entity="contact"
                 :show-header-options="true"
+                :hideTitle="true"
             />
           </AccordionTab>
         </Accordion>
