@@ -26,6 +26,7 @@
             type="input-text"
             :label="$t('project.project_name') + ':'"
             :value="project.project_name"
+            size="full"
           />
         </div>
         <div class="wm-form-row gap-5">
@@ -47,8 +48,14 @@
             name="network-folder"
             :value="networkFolderLink"
             inline
+            size="full"
           />
-          <Button :label="$t('buttons.open')" @click="openNetworkFolderLinkInNewTab" />
+          <WMButton
+              :text="$t('buttons.open')"
+              type="primary"
+              size="small"
+              @click="openNetworkFolderLinkInNewTab"
+          />
         </div>
       </div>
     </template>
