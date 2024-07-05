@@ -10,6 +10,11 @@ export function useSchema() {
     return entities.data.map((entity) => entity.name);
   };
 
+  const getSchema = async (entity) => {
+    const schema = await schemaStore.getSchema({ entity_type: entity });
+    return schema;
+  };
+
   const getSchemaFields = async (entity_type, deep = false) => {
     // get the schema
     let fullSchema = await schemaStore.getSchema();
@@ -92,6 +97,7 @@ export function useSchema() {
 
   return {
     // ACTIONS
+    getSchema,
     getSchemaFields,
   };
 }

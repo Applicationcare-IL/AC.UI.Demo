@@ -198,11 +198,6 @@ const router = createRouter({
           component: () => import("@/views/user/lists/Reports.vue"),
         },
         {
-          path: "/reports-poc",
-          name: "reportsPoc",
-          component: () => import("@/views/user/lists/ReportsPOC.vue"),
-        },
-        {
           path: "/products",
           name: "products",
           component: () => import("@/views/user/lists/Products.vue"),
@@ -315,6 +310,16 @@ const router = createRouter({
           path: "scripts/:id",
           name: "scriptDetail",
           component: () => import("@/views/admin/forms/detail/ScriptDetail.vue"),
+        },
+        {
+          path: "reports-poc",
+          name: "reportsPoc",
+          component: () => import("@/views/user/lists/ReportsPOC.vue"),
+        },
+        {
+          path: "schema",
+          name: "schema",
+          component: () => import("@/views/user/lists/Schema.vue"),
         },
       ],
     },

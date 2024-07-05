@@ -212,6 +212,18 @@ const model = computed(() => {
           image: new URL("/icons/nav/reports.svg", import.meta.url).href,
           visibility: can("reports.read"),
         },
+        {
+          label: t("navigation.reports-poc"),
+          to: "/admin/reports-poc",
+          image: new URL("/icons/nav/reports.svg", import.meta.url).href,
+          visibility: true,
+        },
+        {
+          label: t("navigation.schema"),
+          to: "/admin/schema",
+          image: new URL("/icons/nav/reports.svg", import.meta.url).href,
+          visibility: true,
+        },
       ],
     },
   ];
