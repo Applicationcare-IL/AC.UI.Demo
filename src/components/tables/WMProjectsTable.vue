@@ -88,11 +88,7 @@
       </template>
     </Column>
 
-    <Column
-      field="project_detail"
-      :header="$t('project.project_detail')"
-      style="width: 30px"
-    >
+    <Column field="project_detail" :header="$t('project.project_detail')" style="width: 30px">
       <template #body="slotProps">
         <WMOptionSetValue :option-set="slotProps.data.project_detail" />
       </template>
@@ -124,19 +120,17 @@
 
     <Column field="stage" :header="$t('project.stage')" style="width: 30px" />
 
-    <Column
-      field="status"
-      :header="$t('project.status')"
-      class="p-0 filled-td"
-      style="width: 30px"
-    >
+    <Column field="status" :header="$t('project.status')" class="p-0 filled-td" style="width: 30px">
       <template #body="slotProps">
-        <div
-          :class="statusClass(slotProps.data.state?.value)"
-          class="status-label h-full w-full"
-        >
+        <div :class="statusClass(slotProps.data.state?.value)" class="status-label h-full w-full">
           <WMOptionSetValue :option-set="slotProps.data.state" />
         </div>
+      </template>
+    </Column>
+
+    <Column style="width: 20px" field="state" class="p-0 filled-td" :header="$t('state.state')">
+      <template #body="slotProps">
+        <WMStateField :state="slotProps.data.state" />
       </template>
     </Column>
 
@@ -316,7 +310,6 @@ watch(
 
 <style scoped lang="scss">
 // TODO: duplicated CSS in Projects.vue
-
 .projects-table :deep(td) {
   background: var(--gray-100);
   overflow-x: hidden;

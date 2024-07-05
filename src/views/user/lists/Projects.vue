@@ -62,11 +62,7 @@
           </router-link>
         </template>
       </Column>
-      <Column
-        field="project_name"
-        :header="$t('project.project_name')"
-        style="width: 60px"
-      >
+      <Column field="project_name" :header="$t('project.project_name')" style="width: 60px">
         <template #body="slotProps">
           <div class="overflow-x-auto">
             {{ slotProps.data.project_name }}
@@ -87,29 +83,17 @@
           </div>
         </template>
       </Column>
-      <Column
-        field="project_type"
-        :header="$t('project.project_type')"
-        style="width: 30px"
-      >
+      <Column field="project_type" :header="$t('project.project_type')" style="width: 30px">
         <template #body="slotProps">
           <WMOptionSetValue :option-set="slotProps.data.project_type" />
         </template>
       </Column>
-      <Column
-        field="project_area"
-        :header="$t('project.project_area')"
-        style="width: 30px"
-      >
+      <Column field="project_area" :header="$t('project.project_area')" style="width: 30px">
         <template #body="slotProps">
           <WMOptionSetValue :option-set="slotProps.data.project_area" />
         </template>
       </Column>
-      <Column
-        field="project_detail"
-        :header="$t('project.project_detail')"
-        style="width: 30px"
-      >
+      <Column field="project_detail" :header="$t('project.project_detail')" style="width: 30px">
         <template #body="slotProps">
           <WMOptionSetValue :option-set="slotProps.data.project_detail" />
         </template>
@@ -151,21 +135,13 @@
         style="width: 20px"
       >
         <template #body="slotProps">
-          <div
-            :class="statusClass(slotProps.data.state.value)"
-            class="status-label h-full w-full"
-          >
+          <div :class="statusClass(slotProps.data.state.value)" class="status-label h-full w-full">
             <WMOptionSetValue :option-set="slotProps.data.state" />
           </div>
         </template>
       </Column>
 
-      <Column
-        style="width: 20px"
-        field="state"
-        class="p-0 filled-td"
-        :header="$t('state.state')"
-      >
+      <Column style="width: 20px" field="state" class="p-0 filled-td" :header="$t('state.state')">
         <template #body="slotProps">
           <WMStateField :state="slotProps.data.state" />
         </template>
