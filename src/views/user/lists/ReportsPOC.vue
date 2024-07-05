@@ -142,9 +142,7 @@ const fetchEntities = () => {
 fetchEntities();
 
 const onEntityChange = (entity) => {
-  getSchemaFields(entity.name).then((result) => {
-    console.log("result", result);
-
+  getSchemaFields(entity.name, true).then((result) => {
     schemaFields.value = result.map((item) => ({ name: item, id: item }));
     selectedFields.value = [];
   });

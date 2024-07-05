@@ -10,7 +10,7 @@ export function useSchema() {
     return entities.data.map((entity) => entity.name);
   };
 
-  const getSchemaFields = async (entity_type) => {
+  const getSchemaFields = async (entity_type, deep = false) => {
     // get the schema
     let fullSchema = await schemaStore.getSchema();
     fullSchema = Object.keys(fullSchema).map((key) => fullSchema[key])[0];
@@ -24,8 +24,6 @@ export function useSchema() {
     let optionSetSchema = fullSchema.filter((item) => {
       return item.entity === "option_set_value";
     })[0].schema;
-
-    console.log("entitySchema", entitySchema);
 
     // filter the fields that are not of type relationship
     let result = Object.keys(entitySchema).filter(
@@ -43,11 +41,36 @@ export function useSchema() {
       }
     });
 
+    // add the fields of type relationship but entity not "option_set_value"
+    if (deep) {
+      await Promise.all(
+        Object.keys(entitySchema).map(async (key) => {
+          if (
+            entitySchema[key].type === "relationship" &&
+            entitySchema[key].entity !== "option_set_value"
+          ) {
+            let relatedEntityFields = await getEntityFields(key, fullSchema);
+            result = result.concat(relatedEntityFields);
+          }
+        })
+      );
+    }
+
     return result;
   };
 
   const getOptionSetValueFields = (key, optionSetSchema) => {
     let result = Object.keys(optionSetSchema).map((field) => {
+      return `${key}.${field}`;
+    });
+
+    return result;
+  };
+
+  const getEntityFields = async (key) => {
+    let result = await getSchemaFields(key);
+
+    result = result.map((field) => {
       return `${key}.${field}`;
     });
 
