@@ -1,4 +1,7 @@
 <template>
+  <h2 v-if="!hideTitle" class="h2">
+    {{ $t("customer.customer") }}
+  </h2>
   <div v-if="showControls" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
@@ -224,6 +227,10 @@ const props = defineProps({
   relatedEntity: {
     type: String,
     default: "",
+  },
+  hideTitle: {
+    type: Boolean,
+    default: false,
   },
 });
 

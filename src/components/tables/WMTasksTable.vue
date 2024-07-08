@@ -1,5 +1,6 @@
 <template>
   <!-- HEADER -->
+  <h2 v-if="!hideTitle" class="h2">{{ $t("task.tasks") }}</h2>
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
