@@ -71,6 +71,7 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { onMounted, ref } from "vue";
 import { watch } from "vue";
 import { useRoute } from "vue-router";
@@ -78,28 +79,22 @@ import { useRoute } from "vue-router";
 import { useLayout } from "@/layout/composables/layout";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
+import { useAuthStore } from "@/stores/auth";
+
+// DEPENDENCIES
 const { layoutConfig } = useLayout();
-
 const { getTasksFromApi, getTaskTypes } = useTasks();
-
 const optionSetsStore = useOptionSetsStore();
-
 const { can } = usePermissions();
-
 const route = useRoute();
+const { getTaskSummaryColumns } = useListUtils();
+const authStore = useAuthStore();
 
-onMounted(() => {
-  fillTasksCounters();
-});
+// INJECT
 
-//Refresh on every route change
-watch(
-  () => route.fullPath,
-  async () => {
-    fillTasksCounters();
-  }
-);
+// PROPS, EMITS
 
+// REFS
 const taskTypes = ref();
 const reminderIds = ref();
 const followUpIds = ref();
@@ -108,12 +103,15 @@ const followUps = ref();
 const reminderFilters = ref();
 const followUpFilters = ref();
 
-const { getTaskSummaryColumns } = useListUtils();
-
 const taskSummaryColumns = ref(getTaskSummaryColumns());
-import { useAuthStore } from "@/stores/auth";
-const authStore = useAuthStore();
 
+const isRemindersOpen = ref();
+const isVisible = ref(false);
+const isFollowUpOpen = ref();
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
 const fillTasksCounters = async () => {
   const activeStateId = await optionSetsStore.getValueId("state", "active");
   taskTypes.value = await getTaskTypes();
@@ -159,20 +157,13 @@ const fillTasksCounters = async () => {
   getTasksFromApi(followUpParams).then((res) => (followUps.value = res));
 };
 
-const isRemindersOpen = ref();
-
 const toggleReminders = (event) => {
   isRemindersOpen.value.toggle(event);
 };
 
-const isFollowUpOpen = ref();
-
 const toggleFollowUps = (event) => {
   isFollowUpOpen.value.toggle(event);
 };
-
-//Display sidebars
-const isVisible = ref(false);
 
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
@@ -185,4 +176,29 @@ function closeSidebar() {
 function openSidebar() {
   isVisible.value = true;
 }
+
+if (window.Echo) {
+  window.Echo.channel(`employee.${authStore.user?.virtual_extension}`).listen(
+    ".tasks.update_follow_reminders",
+    () => {
+      fillTasksCounters();
+    }
+  );
+}
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+// Refresh on every route change
+watch(
+  () => route.fullPath,
+  async () => {
+    fillTasksCounters();
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  fillTasksCounters();
+});
 </script>
