@@ -5,11 +5,15 @@
     @new="toggleSidebarVisibility"
     :showSearchBar="false"
     :showFilterButton="false"
+    :hasActionBuilder="false"
   >
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newEmployee" @close-sidebar="closeSidebar">
-    <template v-if="can('employees.create')"> FORMULARIO DE CREACIÓN DE USER </template>
+    <template v-if="can('employees.create')">
+      <WMNewEntityFormHeader entity="employee" name="newEmployee" />
+      <!-- <WMNewContactForm :is-sidebar="true" @close-sidebar="closeSidebar" /> -->
+    </template>
     <template v-else>
       <div class="m-5">
         {{ $t("permissions.you-dont-have-permission") }}
