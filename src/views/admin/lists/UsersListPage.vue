@@ -8,6 +8,15 @@
   >
   </WMListSubHeader>
 
+  <WMSidebar :visible="isVisible" name="newEmployee" @close-sidebar="closeSidebar">
+    <template v-if="can('employees.create')"> FORMULARIO DE CREACIÓN DE USER </template>
+    <template v-else>
+      <div class="m-5">
+        {{ $t("permissions.you-dont-have-permission") }}
+      </div>
+    </template>
+  </WMSidebar>
+
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">TABLA</div>
 </template>
 
@@ -18,6 +27,7 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
+const { can } = usePermissions();
 
 // INJECT
 
@@ -35,6 +45,10 @@ useHead({
 
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
+}
+
+function closeSidebar() {
+  isVisible.value = false;
 }
 
 // PROVIDE, EXPOSE
