@@ -232,6 +232,11 @@ const router = createRouter({
           component: () => import("@/views/admin/lists/TeamsListPage.vue"),
         },
         {
+          path: "teams/new-team",
+          name: "newTeam",
+          component: () => import("@/views/admin/forms/new/newTeam.vue"),
+        },
+        {
           path: "roles",
           name: "adminRoles",
           component: () => import("@/views/admin/lists/RolesListPage.vue"),

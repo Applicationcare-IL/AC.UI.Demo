@@ -1,12 +1,26 @@
 <template>
   <WMListSubHeader
-      entity="employee"
+      entity="team"
       :total-records="0"
       @new="toggleSidebarVisibility"
       :showSearchBar="false"
       :showFilterButton="false"
+      :hasActionBuilder="false"
   >
   </WMListSubHeader>
+
+  <WMSidebar :visible="isVisible" name="newTeam" @close-sidebar="closeSidebar">
+    <template v-if="can('teams.create')">
+      <WMNewEntityFormHeader entity="team" name="newTeam" />
+<!--       <WMNewContactForm :is-sidebar="true" @close-sidebar="closeSidebar" />-->
+
+    </template>
+    <template v-else>
+      <div class="m-5">
+        {{ $t("permissions.you-dont-have-permission") }}
+      </div>
+    </template>
+  </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">tabla</div>
 </template>
@@ -14,16 +28,18 @@
 <script setup>
 // IMPORTS
 import {useUtilsStore} from "@/stores/utils";
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
+const { can } = usePermissions();
 
 // INJECT
 
 // PROPS, EMITS
 
 // REFS
+const isVisible = ref(false);
 
 // COMPUTED
 
@@ -31,6 +47,14 @@ const utilsStore = useUtilsStore();
 useHead({
   title: "Teams",
 });
+
+function toggleSidebarVisibility() {
+  isVisible.value = !isVisible.value;
+}
+
+function closeSidebar() {
+  isVisible.value = false;
+}
 
 // PROVIDE, EXPOSE
 
