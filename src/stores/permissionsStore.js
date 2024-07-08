@@ -12,6 +12,9 @@ export const usePermissionsStore = defineStore("permissions", {
       teams: {
         create: true,
       },
+      roles: {
+        create: true,
+      },
       milestones: {
         update: true,
       },
