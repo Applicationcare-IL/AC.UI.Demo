@@ -225,7 +225,7 @@ const search = (event) => {
       } else {
         filteredOptions.value = props.options.filter((option) => {
           // prevent errors with options that don't have translations
-          if (!option[optionLabelWithLang.value] || option.value == "") {
+          if ((!option[optionLabelWithLang.value] || option.value == "") && !option.name) {
             return false;
           }
 
