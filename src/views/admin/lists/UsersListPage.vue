@@ -9,10 +9,10 @@
   >
   </WMListSubHeader>
 
-  <WMSidebar :visible="isVisible" name="newEmployee" @close-sidebar="closeSidebar">
+  <WMSidebar :visible="isVisible" name="newUser" @close-sidebar="closeSidebar">
     <template v-if="can('employees.create')">
-      <WMNewEntityFormHeader entity="employee" name="newEmployee" />
-      <!-- <WMNewContactForm :is-sidebar="true" @close-sidebar="closeSidebar" /> -->
+      <WMNewEntityFormHeader entity="employee" name="newUser" />
+      <WMNewUserForm :is-sidebar="true" @close-sidebar="closeSidebar" />
     </template>
     <template v-else>
       <div class="m-5">
