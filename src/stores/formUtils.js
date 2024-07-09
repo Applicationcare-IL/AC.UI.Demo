@@ -470,6 +470,14 @@ export const useFormUtilsStore = defineStore("formUtils", {
     getUserNewFormValidationSchema: (state) => {
       return yup.object({
         "first-name": yup.string().required(),
+        "last-name": yup.string().required(),
+        "email": yup.string().email().required(),
+        "mobile": yup
+            .string()
+            .trim()
+            .matches(state.israeliPhoneRegex, "validation.phone")
+            .required(),
+        "manager": yup.string().required(),
       });
     },
   },
