@@ -46,7 +46,7 @@ import { useI18n } from "vue-i18n";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { t } = useI18n();
+const { t, te } = useI18n();
 const utilsStore = useUtilsStore();
 const { filterList } = useFilters();
 
@@ -54,9 +54,10 @@ const { filterList } = useFilters();
 const closeSidebar = inject("closeSidebar");
 
 // PROPS, EMITS
-const { entity, filterFormName } = defineProps({
+const { entity, filterFormName, extraFilters } = defineProps({
   entity: String,
   filterFormName: String,
+  extraFilters: Array,
 });
 
 const emit = defineEmits(["filters-applied"]);
@@ -64,11 +65,19 @@ const emit = defineEmits(["filters-applied"]);
 // REFS
 const filters = ref({});
 const filterElementRefs = ref([]);
-const filterElements = ref(filterList[filterFormName]);
 
 // COMPUTED
+const filterElements = computed(() => {
+  return {
+    ...filterList[filterFormName],
+    ...extraFilters,
+  };
+});
+
 const translatedTitle = computed(() => {
-  return t(`filters.${entity}-title`);
+  if (te(`filters.${entity}-title`)) return t(`filters.${entity}-title`);
+
+  return "Filters";
 });
 
 const appliedFilters = computed(() => {

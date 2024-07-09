@@ -82,19 +82,6 @@ export function useSchema() {
     return result;
   };
 
-  // const mapSchema = async (schemaObject) => {
-  //   let availableEntites = await fetchAvailableEntities();
-  //   let schema = Object.keys(schemaObject);
-
-  //   console.log("schema", schema);
-
-  //   // const result = Object.keys(schema).filter(
-  //   //   (key) => !availableEntites.includes(schema[key].type)
-  //   // );
-
-  //   return schema;
-  // };
-
   return {
     // ACTIONS
     getSchema,

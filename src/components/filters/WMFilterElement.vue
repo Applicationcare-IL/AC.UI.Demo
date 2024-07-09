@@ -1,5 +1,7 @@
 <template>
   <div class="relative">
+    <!-- <pre>appliedFilters {{ appliedFilters }}</pre>
+    <pre>selectedOptions {{ selectedOptions }}</pre> -->
     <!-- Toggable label-->
     <div v-if="label != '' && toggable">
       <div class="flex flex-row align-items-center gap-3" @click="toggleContent">
@@ -61,6 +63,19 @@
         width="248"
         option-label="name"
         :search-function="searchFunction"
+        @update:model-value="onAutocompleteDropdownChanged"
+        @remove="onRemoveEntityDropdownOption"
+      />
+
+      <!-- AUTOCOMPLETE WITH OPTIONS -->
+      <WMAutocomplete
+        v-if="type == 'autocomplete' && options"
+        v-model="selectedOptions"
+        :placeholder="placeholder"
+        :multiple="true"
+        width="248"
+        option-label="name"
+        :options="options"
         @update:model-value="onAutocompleteDropdownChanged"
         @remove="onRemoveEntityDropdownOption"
       />
@@ -430,6 +445,19 @@ const handleSelectedDropdown = () => {
   }
 };
 
+const handleAutocompleteOptions = () => {
+  if (
+    props.appliedFilters &&
+    props.type == "autocomplete" &&
+    props.options &&
+    props.appliedFilters[props.filterName]
+  ) {
+    selectedOptions.value = props.options.filter((x) =>
+      props.appliedFilters[props.filterName].includes(x.id)
+    );
+  }
+};
+
 const handleSelectedState = () => {
   if (props.appliedFilters && props.appliedFilters[props.filterName] && props.type == "state") {
     selectedOption.value = props.appliedFilters[props.filterName];
@@ -443,6 +471,7 @@ function handleSelectedFilters() {
   handleSelectedEntity();
   handleSelectedAutocompleteDropdown();
   handleSelectedDropdown();
+  handleAutocompleteOptions();
   handleSelectedState();
 }
 

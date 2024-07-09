@@ -1,14 +1,4 @@
 <template>
-  <!-- <WMListSubHeader
-    :total-records="totalRecords"
-    entity="project"
-    :show-header="false"
-    @refresh-table="loadLazyData()"
-  /> -->
-  <!-- <pre>{{ reportData }}</pre>
-  <pre>{{ columns }}</pre> -->
-  <pre style="height: 500px">{{ filters }}</pre>
-
   <div class="wm-detail-form-container flex flex-auto flex-column overflow-auto mt-5">
     <div class="flex flex-column gap-2">
       <label class="wm-form-label" for="entity">Select an entity:</label>
@@ -35,7 +25,6 @@
         :model-value="selectedFields"
         @update:model-value="selectedFields = $event"
       />
-      {{ schemaFields.length }}
 
       <div class="mt-4 flex gap-3">
         <WMInputSearch
@@ -84,6 +73,7 @@
     >
       <WMFilterForm
         :entity="entityNameForFilters"
+        :extra-filters="extraFilters"
         :filter-form-name="entityNameForFilters"
         @filters-applied="onFiltersApplied"
       />
@@ -119,14 +109,16 @@
 <script setup>
 // IMPORTS
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { getEasymazeEntitiesList } = useAdminSystem();
-const { getSchemaFields } = useSchema();
+const { getSchema, getSchemaFields } = useSchema();
 const { getReport } = useReports();
 
+const optionSetsStore = useOptionSetsStore();
 const utilsStore = useUtilsStore();
 
 // INJECT
@@ -154,6 +146,9 @@ const columns = ref([]);
 const showGraph = ref(false);
 const filters = ref([]);
 
+// used to pass the filters based on the schema to the filter form
+const extraFilters = ref([]);
+
 // COMPUTED
 const entityNameForFilters = computed(() => {
   return `${selectedEntity.value?.name}Report`;
@@ -173,10 +168,12 @@ const fetchEntities = () => {
 fetchEntities();
 
 const onEntityChange = (entity) => {
-  getSchemaFields(entity.name, true).then((result) => {
+  getSchemaFields(entity.name, true).then(async (result) => {
     schemaFields.value = result.map((item) => ({ name: item, id: item, value: item }));
     selectedFields.value = [];
     filters.value = utilsStore.filters[entity.name + "Report"];
+
+    extraFilters.value = await createFiltersBasedOnSchema(entity.name);
   });
 };
 
@@ -335,6 +332,78 @@ function closeFilterSidebar() {
 function openFilterSidebar() {
   isFilterVisible.value = true;
 }
+
+function getOptionSetValueNames(schema) {
+  const result = [];
+  for (const key in schema) {
+    if (schema[key].type === "relationship" && schema[key].entity === "option_set_value") {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+const createFiltersBasedOnSchema = async (entity) => {
+  const schemaData = await getSchema(entity);
+  const schema = schemaData.data.schema;
+  const optionSets = getOptionSetValueNames(schema);
+
+  let result = [];
+
+  for (const optionSet of optionSets) {
+    const name = entity + "_" + optionSet;
+
+    const optionSetValues = await optionSetsStore.getOptionSetValuesFromApi(name);
+
+    if (optionSetValues && optionSetValues.length > 0) {
+      result.push({
+        type: "autocomplete",
+        name: optionSet + ".id",
+        options: optionSetValues.map((item) => ({
+          id: item.id,
+          name: item.id,
+          value: item.id,
+        })),
+        label: optionSet + ".id",
+      });
+
+      result.push({
+        type: "autocomplete",
+        name: optionSet + ".value",
+        options: optionSetValues.map((item) => ({
+          id: item.value,
+          name: item.value,
+          value: item.value,
+        })),
+        label: optionSet + ".value",
+      });
+
+      result.push({
+        type: "autocomplete",
+        name: optionSet + ".value_en",
+        options: optionSetValues.map((item) => ({
+          id: item.value_en,
+          name: item.value_en,
+          value: item.value_en,
+        })),
+        label: optionSet + ".value_en",
+      });
+
+      result.push({
+        type: "autocomplete",
+        name: optionSet + ".value_he",
+        options: optionSetValues.map((item) => ({
+          id: item.value_he,
+          name: item.value_he,
+          value: item.value_he,
+        })),
+        label: optionSet + ".value_he",
+      });
+    }
+  }
+
+  return result;
+};
 </script>
 
 <style scoped lang="scss"></style>
