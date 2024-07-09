@@ -1,10 +1,6 @@
 <template>
   <div class="wm-inputsearch flex flex-column relative">
-    <label
-      v-if="label != ''"
-      class="wm-form-label"
-      :class="[{ highlighted: props.highlighted }]"
-    >
+    <label v-if="label != ''" class="wm-form-label" :class="[{ highlighted: props.highlighted }]">
       {{ label }}
     </label>
     <AutoComplete
@@ -24,10 +20,7 @@
       @change="emit('update:modelValue', value)"
     >
       <template v-if="props.relatedSidebar" #empty>
-        <div
-          class="flex flex-column m-2"
-          :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
-        >
+        <div class="flex flex-column m-2" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
           <span class="vertical-align-middle"> {{ $t("no-results") }} </span>
           <a class="vertical-align-middle orange-link" @click="openRelatedSidebar()">
             {{ $t("buttons.create-new-one") + " + " }}
@@ -45,16 +38,8 @@
           : $t(errorMessage.key, errorMessage.values)
       }}
     </span>
-    <div
-      v-if="props.multiple && type == 'tags'"
-      class="selected-options flex flex-row gap-2"
-    >
-      <Chip
-        v-for="item in value"
-        :key="item.id"
-        :label="item.name"
-        :class="chipThemeClass"
-      >
+    <div v-if="props.multiple && type == 'tags'" class="selected-options flex flex-row gap-2">
+      <Chip v-for="item in value" :key="item.id" :label="item.name" :class="chipThemeClass">
         <span v-if="optionSet">
           <WMOptionSetValue :option-set="item" />
         </span>

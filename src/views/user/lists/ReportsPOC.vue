@@ -189,8 +189,13 @@ const jsonToArray = (json) => {
   let result = [];
 
   for (let key in json) {
-    let entry = `${key}:${json[key].join(",")}`;
-    result.push(entry);
+    if (json[key].length > 1) {
+      let entry = `${key}:${json[key].join(",")}`;
+      result.push(entry);
+    } else {
+      let entry = `${key}:${json[key][0]}`;
+      result.push(entry);
+    }
   }
 
   return result;
