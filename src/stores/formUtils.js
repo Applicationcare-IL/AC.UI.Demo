@@ -467,6 +467,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
         }),
       });
     },
+    getUserNewFormValidationSchema: (state) => {
+      return yup.object({
+        "first-name": yup.string().required(),
+      });
+    },
   },
   actions: {
     closeForm() {

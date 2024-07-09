@@ -5,7 +5,14 @@
       <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
 
       <div class="wm-form-row align-items-end gap-5">
-        <div class="wm-form-row gap-5">FIELDS</div>
+        <div class="wm-form-row gap-5">
+          <WMInput
+            name="first-name"
+            :required="true"
+            type="input-text"
+            :label="$t('first-name') + ':'"
+          />
+        </div>
       </div>
 
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
@@ -15,10 +22,15 @@
 
 <script setup>
 // IMPORTS
+import { useForm } from "vee-validate";
+import { inject } from "vue";
+import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
+const formUtilsStore = useFormUtilsStore();
 
 // INJECT
+const closeSidebar = inject("closeSidebar");
 
 // PROPS, EMITS
 defineProps({
@@ -30,6 +42,17 @@ defineProps({
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const { handleSubmit } = useForm({
+  validationSchema: formUtilsStore.getUserNewFormValidationSchema,
+});
+
+const onSubmit = handleSubmit((values) => {
+  console.log("values", values);
+});
+
+const onCancel = () => {
+  closeSidebar();
+};
 
 // PROVIDE, EXPOSE
 
