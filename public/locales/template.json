@@ -176,7 +176,9 @@
     "url-action-builder": "URL Action Builder",
     "import": "Import",
     "translations": "Translations",
-    "system-settings": "System Settings"
+    "system-settings": "System Settings",
+    "reports-poc": "Reports POC",
+    "schema": "Schema"
   },
   "dashboard": {
     "my-tasks": "My Tasks",

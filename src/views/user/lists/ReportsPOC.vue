@@ -85,8 +85,6 @@
         lazy
         :value="reportData"
         paginator
-        scrollable
-        scroll-height="flex"
         :rows="rows"
         :first="0"
         :total-records="totalRecords"
@@ -272,8 +270,12 @@ const chartOptions = ref();
 const getGraphLabels = () => {
   if (!reportData.value) return [];
 
-  let key = Object.keys(reportData.value[0])[0];
-  return reportData.value.map((item) => item[key]);
+  return reportData.value.map((item) => {
+    const keys = Object.keys(item).filter((key) => key !== "total");
+    const values = keys.map((key) => item[key]);
+
+    return values.join(" - ");
+  });
 };
 
 const getGraphData = () => {
@@ -295,11 +297,19 @@ const setChartData = () => {
           documentStyle.getPropertyValue("--cyan-500"),
           documentStyle.getPropertyValue("--orange-500"),
           documentStyle.getPropertyValue("--gray-500"),
+          documentStyle.getPropertyValue("--blue-800"),
+          documentStyle.getPropertyValue("--green-800"),
+          documentStyle.getPropertyValue("--red-800"),
+          documentStyle.getPropertyValue("--purple-800"),
         ],
         hoverBackgroundColor: [
           documentStyle.getPropertyValue("--cyan-400"),
           documentStyle.getPropertyValue("--orange-400"),
           documentStyle.getPropertyValue("--gray-400"),
+          documentStyle.getPropertyValue("--blue-900"),
+          documentStyle.getPropertyValue("--green-900"),
+          documentStyle.getPropertyValue("--red-900"),
+          documentStyle.getPropertyValue("--purple-900"),
         ],
       },
     ],

@@ -23,7 +23,14 @@ export function useSchema() {
     // get the schema of the selected entity
     let entitySchema = fullSchema.filter((item) => {
       return item.entity === entity_type;
-    })[0].schema;
+    });
+
+    // some relationships doesn't have schema
+    if (entitySchema.length === 0) {
+      return [];
+    }
+
+    entitySchema = entitySchema[0].schema;
 
     // option set schema
     let optionSetSchema = fullSchema.filter((item) => {
