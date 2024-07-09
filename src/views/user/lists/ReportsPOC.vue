@@ -7,7 +7,7 @@
   /> -->
   <!-- <pre>{{ reportData }}</pre>
   <pre>{{ columns }}</pre> -->
-  <!-- <pre style="height: 500px">{{ reportData }}</pre> -->
+  <pre style="height: 500px">{{ filters }}</pre>
 
   <div class="wm-detail-form-container flex flex-auto flex-column overflow-auto mt-5">
     <div class="flex flex-column gap-2">
@@ -35,6 +35,7 @@
         :model-value="selectedFields"
         @update:model-value="selectedFields = $event"
       />
+      {{ schemaFields.length }}
 
       <div class="mt-4 flex gap-3">
         <WMInputSearch
@@ -55,7 +56,7 @@
           label="Order dir"
           :options="orderDirOptions"
           :value="orderDir"
-          @update:selected-item="onOrderDirChange($event)"
+          @update:selected-item="onOrderDirChange"
         />
       </div>
 
@@ -67,9 +68,28 @@
       <WMButton class="mt-3" text="Generate report" type="primary" @click="handleGenerateReport" />
     </template>
 
-    <template v-if="reportData">
-      <Divider class="mt-5 mb-6" />
+    <Divider />
 
+    <WMFilterButton
+      v-if="selectedEntity"
+      :is-active="isFilterApplied || isFilterVisible"
+      @click="openFilterSidebar"
+    />
+
+    <WMSidebar
+      :visible="isFilterVisible"
+      name="filter"
+      @close-sidebar="closeFilterSidebar"
+      @open-sidebar="openFilterSidebar"
+    >
+      <WMFilterForm
+        :entity="entityNameForFilters"
+        :filter-form-name="entityNameForFilters"
+        @filters-applied="onFiltersApplied"
+      />
+    </WMSidebar>
+
+    <div v-if="reportData" class="mt-5">
       <DataTable
         ref="dt"
         lazy
@@ -92,7 +112,7 @@
       <div class="card mt-5 flex justify-content-center" v-if="showGraph">
         <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-30rem" />
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -106,6 +126,8 @@ import { useUtilsStore } from "@/stores/utils";
 const { getEasymazeEntitiesList } = useAdminSystem();
 const { getSchemaFields } = useSchema();
 const { getReport } = useReports();
+
+const utilsStore = useUtilsStore();
 
 // INJECT
 
@@ -130,9 +152,18 @@ const rows = ref(10);
 const columns = ref([]);
 
 const showGraph = ref(false);
+const filters = ref([]);
+
 // COMPUTED
+const entityNameForFilters = computed(() => {
+  return `${selectedEntity.value?.name}Report`;
+});
 
 // COMPONENT METHODS AND LOGIC
+useHead({
+  title: "Reports POC",
+});
+
 const fetchEntities = () => {
   getEasymazeEntitiesList().then((result) => {
     entities.value = result.data;
@@ -143,9 +174,26 @@ fetchEntities();
 
 const onEntityChange = (entity) => {
   getSchemaFields(entity.name, true).then((result) => {
-    schemaFields.value = result.map((item) => ({ name: item, id: item }));
+    schemaFields.value = result.map((item) => ({ name: item, id: item, value: item }));
     selectedFields.value = [];
+    filters.value = utilsStore.filters[entity.name + "Report"];
   });
+};
+
+const onFiltersApplied = () => {
+  filters.value = utilsStore.filters[entityNameForFilters.value];
+  handleGenerateReport();
+};
+
+const jsonToArray = (json) => {
+  let result = [];
+
+  for (let key in json) {
+    let entry = `${key}:${json[key].join(",")}`;
+    result.push(entry);
+  }
+
+  return result;
 };
 
 const handleGenerateReport = () => {
@@ -163,7 +211,14 @@ const handleGenerateReport = () => {
 
   if (orderByField.value) {
     params.order_by = orderByField.value.name;
+  }
+
+  if (orderDir.value) {
     params.order_dir = orderDir.value.id;
+  }
+
+  if (filters.value) {
+    params.filters = jsonToArray(filters.value);
   }
 
   getReport(params).then((result) => {
@@ -180,8 +235,8 @@ const handleGenerateReport = () => {
   });
 };
 
-const onOrderDirChange = (orderDir) => {
-  orderDir.value = orderDir;
+const onOrderDirChange = (direction) => {
+  orderDir.value = direction;
 };
 
 const getColumns = () => {
@@ -264,6 +319,17 @@ const setChartOptions = () => {
     },
   };
 };
+
+// FILTERS
+const isFilterVisible = ref(false);
+
+function closeFilterSidebar() {
+  isFilterVisible.value = false;
+}
+
+function openFilterSidebar() {
+  isFilterVisible.value = true;
+}
 </script>
 
 <style scoped lang="scss"></style>

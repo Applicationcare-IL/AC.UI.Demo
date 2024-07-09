@@ -540,8 +540,22 @@ const useFilters = () => {
     ],
   };
 
+  const filterListReports = {
+    serviceReport: [
+      {
+        type: "dropdown",
+        name: "area",
+        optionSet: "service_area",
+        label: i18n.t("service.service-area-placeholder") + ":",
+      },
+    ],
+  };
+
   return {
-    filterList,
+    filterList: {
+      ...filterList,
+      ...filterListReports,
+    },
   };
 };
 

@@ -59,6 +59,8 @@ const { entity, filterFormName } = defineProps({
   filterFormName: String,
 });
 
+const emit = defineEmits(["filters-applied"]);
+
 // REFS
 const filters = ref({});
 const filterElementRefs = ref([]);
@@ -81,6 +83,8 @@ const numberOfAppliedFilters = computed(() => {
 // COMPONENT METHODS AND LOGIC
 const applyFilters = () => {
   utilsStore.filters[entity] = { ...filters.value };
+
+  emit("filters-applied");
 
   if (checkIfFiltersArrayKeysAreEmpty()) {
     clear();
