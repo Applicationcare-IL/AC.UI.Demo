@@ -55,6 +55,10 @@ const onCancel = () => {
 };
 
 // PROVIDE, EXPOSE
+defineExpose({
+  onSubmit,
+  onCancel,
+});
 
 // WATCHERS
 

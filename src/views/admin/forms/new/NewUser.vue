@@ -1,21 +1,21 @@
 <template>
   <WMNewFormSubHeader @save-form="saveForm()" @cancel-form="cancelForm()" />
-  <WMNewUserForm ref="newContactForm" />
+  <WMNewUserForm ref="newAdminUserForm" />
 </template>
 
 <script setup>
-// import { ref } from "vue";
+import { ref } from "vue";
 
-// import { useRouter } from "vue-router";
-// const router = useRouter();
+import { useRouter } from "vue-router";
+const router = useRouter();
 
-// const newContactForm = ref(null);
+const newAdminUserForm = ref(null);
 
-// const saveForm = () => {
-//   newContactForm.value.onSubmit();
-// };
+const saveForm = () => {
+  newAdminUserForm.value.onSubmit();
+};
 
-// const cancelForm = () => {
-//   router.push({ name: "contacts" });
-// };
+const cancelForm = () => {
+  router.push({ name: "adminUsers" });
+};
 </script>
