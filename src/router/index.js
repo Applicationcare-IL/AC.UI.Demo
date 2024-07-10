@@ -234,7 +234,7 @@ const router = createRouter({
         {
           path: "teams/new-team",
           name: "newTeam",
-          component: () => import("@/views/admin/forms/new/newTeam.vue"),
+          component: () => import("@/views/admin/forms/new/NewTeam.vue"),
         },
         {
           path: "roles",
@@ -244,7 +244,7 @@ const router = createRouter({
         {
           path: "roles/new-role",
           name: "newRole",
-          component: () => import("@/views/admin/forms/new/newRole.vue"),
+          component: () => import("@/views/admin/forms/new/NewRole.vue"),
         },
         {
           path: "permissions",
