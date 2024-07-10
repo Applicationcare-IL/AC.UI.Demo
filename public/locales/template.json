@@ -32,7 +32,9 @@
   "search": "Search",
   "rating": "Rating",
   "general-information": "General information",
-  "team": "Team",
+  "team": {
+    "team": "Team"
+  },
   "owner": "Owner",
   "orientation": "Orientation",
   "channel": "Channel",
