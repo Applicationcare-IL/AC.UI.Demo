@@ -12,7 +12,7 @@
   <WMSidebar :visible="isVisible" name="newTeam" @close-sidebar="closeSidebar">
     <template v-if="can('teams.create')">
       <WMNewEntityFormHeader entity="team" name="newTeam" />
-<!--       <WMNewContactForm :is-sidebar="true" @close-sidebar="closeSidebar" />-->
+      <WMNewTeamForm :is-sidebar="true" @close-sidebar="closeSidebar"/>
 
     </template>
     <template v-else>

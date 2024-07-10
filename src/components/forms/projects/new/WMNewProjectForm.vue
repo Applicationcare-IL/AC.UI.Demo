@@ -10,7 +10,7 @@
       <WMNewProjectFormLocation />
       <Divider class="mb-0" layout="horizontal" />
 
-      <h2 class="h2 mb-0">{{ $t("team") }}</h2>
+      <h2 class="h2 mb-0">{{ $t("team.team") }}</h2>
 
       <WMSetTeamContactsTable
         :contacts="selectedContacts"

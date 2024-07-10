@@ -10,10 +10,10 @@
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newRole" @close-sidebar="closeSidebar">
-    <template v-if="can('teams.create')">
+<!--    <template v-if="can('role.create')">-->
+    <template v-if="true">
       <WMNewEntityFormHeader entity="role" name="newRole" />
-      <!--       <WMNewContactForm :is-sidebar="true" @close-sidebar="closeSidebar" />-->
-
+      <WMNewRoleForm :is-sidebar="true" @close-sidebar="closeSidebar" />
     </template>
     <template v-else>
       <div class="m-5">

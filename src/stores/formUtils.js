@@ -475,9 +475,19 @@ export const useFormUtilsStore = defineStore("formUtils", {
         "mobile": yup
             .string()
             .trim()
-            .matches(state.israeliPhoneRegex, "validation.phone")
+            .matches(state.israeliLandlineRegex, "validation.phone")
             .required(),
         "manager": yup.string().required(),
+      });
+    },
+    getTeamNewFormValidationSchema: (state) => {
+      return yup.object({
+        "team-name": yup.string().required(),
+      });
+    },
+    getRoleNewFormValidationSchema: (state) => {
+      return yup.object({
+        "role-name": yup.string().required(),
       });
     },
   },

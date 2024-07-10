@@ -1,7 +1,7 @@
 <template>
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["task.task"]) }}</h1>
+      <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["employee.employee"]) }}</h1>
       <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
 
       <div class="wm-form-row align-items-end gap-5">
@@ -70,6 +70,7 @@ import { useForm } from "vee-validate";
 import { inject } from "vue";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import Checkbox from 'primevue/checkbox';
+import WMInput from "@/components/forms/WMInput.vue";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
