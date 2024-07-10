@@ -9,7 +9,9 @@
   "general-details": "General Details",
   "entry-details": "Entry Details",
   "communication-details": "Communication Details",
-  "role": "Role",
+  "role": {
+    "role": "Role"
+  },
   "actions": "Actions",
   "user": "User",
   "first-name": "First Name",
@@ -779,5 +781,8 @@
     "open-popup": "Open popup",
     "managed-by": "Managed by",
     "availabe-merge-tags": "Available merge tags"
+  },
+  "employee": {
+    "employee": "User"
   }
 }
