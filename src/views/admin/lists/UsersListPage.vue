@@ -26,8 +26,8 @@
 
 <script setup>
 // IMPORTS
-import { onMounted, ref, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
+import { onMounted, ref } from "vue";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();

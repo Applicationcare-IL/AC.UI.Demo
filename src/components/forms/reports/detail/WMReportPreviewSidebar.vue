@@ -24,7 +24,7 @@
     <h2 class="h2 m-0">{{ $t("milestone.milestones") }}</h2>
     <WMMilestonesTable :project="project" :create="false" />
 
-    <h2 class="h2 m-0">{{ $t("team") }}</h2>
+    <h2 class="h2 m-0">{{ $t("team.team") }}</h2>
     <WMProjectTeamTable
       v-if="can('contacts.read')"
       :columns="projectTeamColumns"

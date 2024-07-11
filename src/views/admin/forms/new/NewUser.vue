@@ -4,13 +4,23 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { ref } from "vue";
-
 import { useRouter } from "vue-router";
+
+// DEPENDENCIES
 const router = useRouter();
 
-const newAdminUserForm = ref(null);
+// INJECT
 
+// PROPS, EMITS
+
+// REFS
+const newAdminUserForm = ref();
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
 const saveForm = () => {
   newAdminUserForm.value.onSubmit();
 };
