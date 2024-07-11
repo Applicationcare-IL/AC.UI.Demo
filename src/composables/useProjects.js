@@ -5,6 +5,7 @@ export function useProjects() {
   const projectsStore = useProjectsStore();
   const optionSetsStore = useOptionSetsStore();
   const { formatDateToAPI, formatDateFromAPI } = useDates();
+  const { optionLabelWithLang } = useLanguages();
 
   // ACTIONS
   const getProjectsFromApi = async (params) => {
@@ -543,7 +544,7 @@ export function useProjects() {
         " " +
         teamMember?.contact?.surname +
         " - " +
-        teamMember?.role_project?.value_en +
+        teamMember?.role_project[optionLabelWithLang.value] +
         " - " +
         teamMember?.customer?.name,
       basic_term: teamMember.basic_term,
