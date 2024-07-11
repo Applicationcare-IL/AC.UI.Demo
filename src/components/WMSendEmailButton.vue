@@ -47,14 +47,13 @@
           :options="contactOptions"
           @update:model-value="onContactselected"
         />
-        <Button
+        <WMButton
+          text="Clear all"
           :disabled="selectedContacts == 0"
-          link
+          type="clear"
           class="custom-input-search__clear"
           @click="handleClearAllSelectedDropdownContacts"
-        >
-          Clear all
-        </Button>
+        />
       </div>
 
       <Divider />
@@ -257,7 +256,7 @@ const handleSendEmail = () => {
   &__clear {
     top: 0px;
     position: absolute;
-    left: 150px;
+    right: 0;
     font-weight: 700;
   }
 }
