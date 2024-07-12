@@ -496,6 +496,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
         "team-name": yup.string().required(),
       });
     },
+    getMessageNewFormValidationSchema: (state) => {
+      return yup.object({
+        "message-header": yup.string().required(),
+      });
+    },
   },
   actions: {
     closeForm() {
