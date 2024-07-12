@@ -95,6 +95,7 @@
   "related-entity": "Related entity",
   "round-of-signatures": "Round of signatures",
   "select-an-option": "Select an option",
+  "due-date": "Due date",
   "week-days": {
     "monday": "Monday",
     "monday-short": "Mo",
@@ -442,6 +443,7 @@
     "supervisor": "Supervisor",
     "organization": "Organization",
     "competition_process": "Competition process",
+    "expected-decision-date": "Expected decision date",
     "add_service_area": "Add service area",
     "service-area-placeholder": "Select service area",
     "location_information": "Location Information",

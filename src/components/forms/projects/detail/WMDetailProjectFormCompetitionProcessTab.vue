@@ -59,12 +59,13 @@ onMounted(() => {
 });
 
 // TODO: manage errors, toast, etc.
-const addServiceAreas = (newServiceAreas) => {
-  newServiceAreas.forEach((serviceArea) => {
+// Create a promise.all to manage errors
+const addServiceAreas = (data) => {
+  data.newServiceAreas.forEach((serviceArea) => {
     addServiceArea(props.project.project_id, { service_area: serviceArea.id });
   });
 
-  serviceAreas.value.push(...newServiceAreas);
+  serviceAreas.value.push(...data.newServiceAreas);
 };
 
 // TODO: manage errors, toast, etc.

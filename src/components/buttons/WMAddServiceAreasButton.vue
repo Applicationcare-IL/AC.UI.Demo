@@ -9,12 +9,31 @@
       :multiple="true"
       :model-value="selectedServiceAreas"
       theme="purple"
-      width="248"
-      class="custom-input-search__input"
+      class="custom-input-search__input mb-3"
       :options="serviceAreas"
       :option-set="true"
       @update:model-value="updateSelectedServiceAreas"
     />
+
+    <div class="flex flex-column gap-3">
+      <WMInput
+        v-model="dueDate"
+        :value="dueDate"
+        name="payment_date"
+        type="date"
+        :label="$t('due-date') + ':'"
+        required
+      />
+
+      <WMInput
+        v-model="expectedDecisionDate"
+        :value="expectedDecisionDate"
+        name="payment_date"
+        type="date"
+        :label="$t('project.expected-decision-date') + ':'"
+        required
+      />
+    </div>
 
     <WMButton
       class="mt-4"
@@ -23,7 +42,7 @@
       :disabled="selectedServiceAreas == 0"
       :is-disabled="selectedServiceAreas == 0"
       @click="
-        emit('addServiceAreas', selectedServiceAreas);
+        handleAddButton();
         resetSelectedServiceAreas();
       "
     />
@@ -36,6 +55,9 @@ import { useLayout } from "@/layout/composables/layout";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 const optionSetsStore = useOptionSetsStore();
+
+const dueDate = ref(new Date());
+const expectedDecisionDate = ref(new Date());
 
 const { layoutConfig } = useLayout();
 
@@ -50,6 +72,16 @@ const updateSelectedServiceAreas = (event) => {
 
 const resetSelectedServiceAreas = () => {
   selectedServiceAreas.value = [];
+};
+
+const handleAddButton = () => {
+  let data = {
+    newServiceAreas: selectedServiceAreas.value,
+    due_date: dueDate.value,
+    expected_decision_date: expectedDecisionDate.value,
+  };
+
+  emit("addServiceAreas", data);
 };
 
 const isOpen = ref();

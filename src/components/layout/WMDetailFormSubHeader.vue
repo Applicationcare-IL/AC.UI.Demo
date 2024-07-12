@@ -81,7 +81,7 @@
             <WMSendEmailButton
               v-if="can('global.mail') && showEmailButton"
               :selected-elements="selectedElements"
-              :multiple="false"
+              :multiple="true"
             />
 
             <WMCompleteTasksButton

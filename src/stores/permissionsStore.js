@@ -6,6 +6,13 @@ export const usePermissionsStore = defineStore("permissions", {
   state: () => ({
     // Code managed permissions
     permissions: {
+      budgets: {
+        create: true,
+        update: true,
+      },
+      "budget-items": {
+        update: true,
+      },
       employees: {
         create: true,
       },

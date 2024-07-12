@@ -355,13 +355,13 @@ export const useFormUtilsStore = defineStore("formUtils", {
     getNewBudgetItemFormValidationSchema: () => {
       return yup.object({
         "budget-item-name": yup.string().required(),
-        description: yup.string().required(),
-        planned_contract: yup.number().required(),
-        unexpected: yup.number().required(),
-        management_fee: yup.number().required(),
-        estimate: yup.number().required(),
-        approved_council: yup.number().required(),
-        approved_ministry: yup.number().required(),
+        // description: yup.string().required(),
+        // planned_contract: yup.number().required(),
+        // unexpected: yup.number().required(),
+        // management_fee: yup.number().required(),
+        // estimate: yup.number().required(),
+        // approved_council: yup.number().required(),
+        // approved_ministry: yup.number().required(),
       });
     },
     getNewMilestoneFormValidationSchema: () => {
@@ -471,13 +471,13 @@ export const useFormUtilsStore = defineStore("formUtils", {
       return yup.object({
         "first-name": yup.string().required(),
         "last-name": yup.string().required(),
-        "email": yup.string().email().required(),
-        "mobile": yup
-            .string()
-            .trim()
-            .matches(state.israeliLandlineRegex, "validation.phone")
-            .required(),
-        "manager": yup.string().required(),
+        email: yup.string().email().required(),
+        mobile: yup
+          .string()
+          .trim()
+          .matches(state.israeliLandlineRegex, "validation.phone")
+          .required(),
+        manager: yup.string().required(),
       });
     },
     getTeamNewFormValidationSchema: (state) => {
