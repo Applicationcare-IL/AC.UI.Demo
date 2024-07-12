@@ -490,6 +490,12 @@ export const useFormUtilsStore = defineStore("formUtils", {
         "role-name": yup.string().required(),
       });
     },
+    getQuickCodeNewFormValidationSchema: (state) => {
+      return yup.object({
+        "quickCode-name": yup.string().required(),
+        "team-name": yup.string().required(),
+      });
+    },
   },
   actions: {
     closeForm() {
