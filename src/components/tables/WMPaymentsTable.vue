@@ -396,17 +396,17 @@ const getPaymentTemplate = () => {
       id: "",
       name: "",
     },
-    proforma_invoice_number: "PRO-12345",
+    proforma_invoice_number: "-",
     proforma_invoice_date: new Date(),
-    proforma_invoice_amount: 100000,
-    invoice_number: "INV-67890",
+    proforma_invoice_amount: 0,
+    invoice_number: "-",
     invoice_date: new Date(),
     payment_date: new Date(),
-    amount_paid: 80000,
+    amount_paid: 0,
     reported: true,
     report_date: new Date(),
-    amount_approved: 80000,
-    batch_number: "BATCH-2024-02-12",
+    amount_approved: 0,
+    batch_number: "-",
     terms_of_payment_id: "",
     project_team: {
       id: "",
@@ -503,7 +503,7 @@ const onRowEditSave = (event) => {
   const paymentId = newData.id;
 
   if (!validateForm(newData)) {
-    toast.error("Please fill all the required fields");
+    toast.error("Please fill all the fields");
     editingRows.value = [...editingRows.value, newData]; // keep the rows in edit mode
     return;
   }
