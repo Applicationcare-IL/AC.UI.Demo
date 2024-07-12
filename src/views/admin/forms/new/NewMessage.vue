@@ -1,13 +1,6 @@
 <template>
   <WMNewFormSubHeader @save-form="saveForm()" @cancel-form="cancelForm()" />
-  <template v-if="can('role.create')">
-    <WMNewRoleForm ref="newAdminRoleForm" />
-  </template>
-  <template v-else>
-    <div class="m-5">
-      {{ $t("permissions.you-dont-have-permission") }}
-    </div>
-  </template>
+  <WMNewMessageForm ref="newAdminMessageForm" />
 </template>
 
 <script setup>
@@ -17,24 +10,22 @@ import { useRouter } from "vue-router";
 
 // DEPENDENCIES
 const router = useRouter();
-const { can } = usePermissions();
-
 
 // INJECT
 
 // PROPS, EMITS
 
 // REFS
-const newAdminRoleForm = ref();
+const newAdminMessageForm = ref();
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const saveForm = () => {
-  newAdminRoleForm.value.onSubmit();
+  newAdminMessageForm.value.onSubmit();
 };
 
 const cancelForm = () => {
-  router.push({ name: "adminRoles" });
+  router.push({ name: "adminMessages" });
 };
 </script>

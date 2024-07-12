@@ -789,5 +789,9 @@
   },
   "employee": {
     "employee": "User"
-  }
-}
+  },
+  "quick-code": {
+    "quick-code": "quick code",
+    "quick-code-name": "Quick code name"
+  },
+  "team-name": "Team name"
