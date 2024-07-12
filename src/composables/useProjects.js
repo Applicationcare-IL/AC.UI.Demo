@@ -626,6 +626,7 @@ export function useProjects() {
       offer_requested_at: customer.offer_requested_at,
       offer_refusal_to_win: customer.offer_refusal_to_win,
       customer_project_status: customer.customer_project_status,
+      reference_number: customer.reference_number,
     };
   };
 

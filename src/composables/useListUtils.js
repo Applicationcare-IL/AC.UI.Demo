@@ -1110,7 +1110,11 @@ export function useListUtils() {
       { name: "refusal_to_win", type: "refusal_to_win" },
       { name: "qualified_second", type: "qualified_second" },
       { name: "notes", type: "text" },
-
+      {
+        name: "reference_number",
+        type: "text",
+        header: "project.reference-number",
+      },
       {
         name: "actions",
         type: "actions",
