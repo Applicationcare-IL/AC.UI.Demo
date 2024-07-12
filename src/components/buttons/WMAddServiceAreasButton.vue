@@ -2,50 +2,55 @@
   <WMNewButton :text="$t('project.add_service_area')" @click="toggle" />
 
   <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
-    <WMInputSearch
-      ref="inputSearch"
-      name="service-areas"
-      :placeholder="$t('project.service-area-placeholder')"
-      :multiple="true"
-      :model-value="selectedServiceAreas"
-      theme="purple"
-      class="custom-input-search__input mb-3"
-      :options="serviceAreas"
-      :option-set="true"
-      @update:model-value="updateSelectedServiceAreas"
-    />
+    <div class="flex flex-column gap-4">
+      <div class="flex">
+        <WMInput
+          name="service-areas"
+          type="input-select"
+          :highlighted="true"
+          required="true"
+          :label="$t('project.service-area') + ':'"
+          :options="serviceAreas"
+          @update:selectedItem="updateSelectedServiceAreas"
+          size="full"
+          option-set
+        />
+      </div>
 
-    <div class="flex flex-column gap-3">
-      <WMInput
-        v-model="dueDate"
-        :value="dueDate"
-        name="payment_date"
-        type="date"
-        :label="$t('due-date') + ':'"
-        required
-      />
+      <div class="flex gap-3">
+        <WMInput
+          v-model="dueDate"
+          :value="dueDate"
+          name="payment_date"
+          type="date"
+          :label="$t('due-date') + ':'"
+          required
+        />
 
-      <WMInput
-        v-model="expectedDecisionDate"
-        :value="expectedDecisionDate"
-        name="payment_date"
-        type="date"
-        :label="$t('project.expected-decision-date') + ':'"
-        required
-      />
+        <WMInput
+          v-model="expectedDecisionDate"
+          :value="expectedDecisionDate"
+          name="payment_date"
+          type="date"
+          :label="$t('project.expected-decision-date') + ':'"
+          required
+        />
+      </div>
+
+      <div class="flex justify-content-end">
+        <WMButton
+          class="mt-3"
+          :text="$t('project.add_service_area')"
+          type="primary"
+          :disabled="selectedServiceAreas == 0"
+          :is-disabled="selectedServiceAreas == 0"
+          @click="
+            handleAddButton();
+            resetSelectedServiceAreas();
+          "
+        />
+      </div>
     </div>
-
-    <WMButton
-      class="mt-4"
-      :text="$t('buttons.add')"
-      type="primary"
-      :disabled="selectedServiceAreas == 0"
-      :is-disabled="selectedServiceAreas == 0"
-      @click="
-        handleAddButton();
-        resetSelectedServiceAreas();
-      "
-    />
   </OverlayPanel>
 </template>
 <script setup>
@@ -54,6 +59,7 @@ import { onMounted, ref } from "vue";
 import { useLayout } from "@/layout/composables/layout";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
+const { formatDateToAPI } = useDates();
 const optionSetsStore = useOptionSetsStore();
 
 const dueDate = ref(new Date());
@@ -76,10 +82,12 @@ const resetSelectedServiceAreas = () => {
 
 const handleAddButton = () => {
   let data = {
-    newServiceAreas: selectedServiceAreas.value,
-    due_date: dueDate.value,
-    expected_decision_date: expectedDecisionDate.value,
+    service_area: selectedServiceAreas.value,
+    due_date: formatDateToAPI(dueDate.value),
+    expected_decision_date: formatDateToAPI(expectedDecisionDate.value),
   };
+
+  isOpen.value.hide();
 
   emit("addServiceAreas", data);
 };

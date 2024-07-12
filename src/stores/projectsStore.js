@@ -108,9 +108,9 @@ export const useProjectsStore = defineStore("projects", {
           throw error;
         });
     },
-    addServiceArea(projectId, serviceArea) {
+    addServiceArea(projectId, data) {
       return axiosConfig
-        .post(`/projects/${projectId}/service-area`, serviceArea)
+        .post(`/projects/${projectId}/service-area`, data)
         .then((response) => {
           return response.data;
         })

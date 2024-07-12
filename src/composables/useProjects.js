@@ -50,8 +50,8 @@ export function useProjects() {
     return await projectsStore.unassignContactFromProject(params);
   };
 
-  const addServiceArea = async (projectId, serviceArea) => {
-    return await projectsStore.addServiceArea(projectId, serviceArea);
+  const addServiceArea = async (projectId, data) => {
+    return await projectsStore.addServiceArea(projectId, data);
   };
 
   const removeServiceArea = async (projectId, serviceArea) => {

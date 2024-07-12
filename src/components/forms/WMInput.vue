@@ -1,7 +1,11 @@
 <template>
   <div
     class="wm-input flex"
-    :class="{ 'flex-row': inline, 'flex-column': !inline, 'w-full': size === 'full' }"
+    :class="{
+      'flex-row align-items-center gap-2': inline,
+      'flex-column': !inline,
+      'w-full': size === 'full',
+    }"
   >
     <label
       v-if="label != ''"
@@ -132,6 +136,7 @@
       :disabled="props.disabled"
       date-format="dd/mm/yy"
       @date-select="handleDateChange($event)"
+      :class="classes"
     />
     <slot></slot>
   </div>
