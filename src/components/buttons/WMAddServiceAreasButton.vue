@@ -12,7 +12,7 @@
           :label="$t('project.service-area') + ':'"
           :options="serviceAreas"
           @update:selectedItem="updateSelectedServiceAreas"
-          size="full"
+          size="md"
           option-set
         />
       </div>
@@ -25,6 +25,7 @@
           type="date"
           :label="$t('due-date') + ':'"
           required
+          size="sm"
         />
 
         <WMInput
@@ -34,6 +35,7 @@
           type="date"
           :label="$t('project.expected-decision-date') + ':'"
           required
+          size="sm"
         />
       </div>
 

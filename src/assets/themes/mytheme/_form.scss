@@ -332,48 +332,69 @@ textarea {
 
 
 .wm-input-xs,
-.wm-input-xs .p-inputtext,
 .wm-input-xs .p-autocomplete,
 .wm-input-xs .p-autocomplete > input,
 .wm-input-xs .p-autocomplete > ul {
     width: 60px !important;
 }
 
+.wm-input-xs .p-inputtext{
+    width: 100%;
+}
+
+
 .wm-input-sm,
-.wm-input-sm .p-inputtext,
 .wm-input-sm .p-autocomplete,
 .wm-input-sm .p-autocomplete > input,
 .wm-input-sm .p-autocomplete > ul {
     width: 152px !important;
 }
 
+.wm-input-sm .p-inputtext{
+    width: 100%;
+}
+
 .wm-input-md,
-.wm-input-md .p-inputtext,
 .wm-input-md .p-autocomplete,
 .wm-input-md .p-autocomplete > input,
 .wm-input-md .p-autocomplete > ul {
     width: 336px !important;
 }
 
+.wm-input-md .p-inputtext{
+    width: 100%;
+
+}
+
 .wm-input-lg,
-.wm-input-lg .p-inputtext,
 .wm-input-lg .p-autocomplete,
 .wm-input-lg .p-autocomplete > input,
 .wm-input-lg .p-autocomplete > ul {
     width: 520px !important;
 }
 
+.wm-input-lg .p-inputtext{
+    width: 100%;
+
+}
+
 .wm-input-xl,
-.wm-input-xl .p-inputtext,
 .wm-input-xl .p-autocomplete,
 .wm-input-xl .p-autocomplete > input,
 .wm-input-xl .p-autocomplete > ul {
     width: 704px !important;
 }
 
+.wm-input-xl .p-inputtext{
+    width: 100%;
+}
+
 .w-full .p-inputtext,
-.w-full .p-autocomplete,
 .w-full .p-autocomplete > input,
 .w-full .p-autocomplete > ul {
+    width: 100% !important;
+}
+
+.w-full .p-autocomplete{
     width: 100% !important;
 }
