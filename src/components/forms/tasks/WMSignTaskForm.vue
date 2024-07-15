@@ -16,9 +16,9 @@
       <WMInput
         name="notes"
         :required="true"
-        type="input-text"
-        class="w-full"
+        type="text-area"
         :label="$t('notes') + ':'"
+        size="full"
       />
     </div>
     <div class="wm-form-column w-7">
