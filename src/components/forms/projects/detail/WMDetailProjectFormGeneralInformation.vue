@@ -19,6 +19,16 @@
             :value="project.team"
           />
         </div>
+        <div v-if="project.parent" class="wm-form-row gap-5">
+          <WMInput
+              name="parent"
+              type="info-link"
+              :highlighted="true"
+              :label="$t('project.parent') + ':'"
+              :value="project.parent.name"
+              :to="'/project/' + project.parent.id"
+          />
+        </div>
         <div class="wm-form-row gap-5">
           <WMInput
             name="project-name"

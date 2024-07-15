@@ -480,7 +480,8 @@
     "paid-so-far": "Paid so far",
     "calculate-term": "Calculate Term",
     "basic-term": "Basic Term",
-    "reference-number": "Reference number"
+    "reference-number": "Reference number",
+    "parent": "Parent project"
   },
   "budget": {
     "approved-council": "Approved (Council)",

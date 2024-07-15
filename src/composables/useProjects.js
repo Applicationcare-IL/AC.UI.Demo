@@ -509,6 +509,7 @@ export function useProjects() {
         site_tour_date: project.site_tour_date,
         quality_commitee: project.quality_commitee,
       },
+      parent: project.parent,
     };
   };
 
