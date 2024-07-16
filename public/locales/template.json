@@ -96,6 +96,7 @@
   "round-of-signatures": "Round of signatures",
   "select-an-option": "Select an option",
   "due-date": "Due date",
+  "team-name": "Team name",
   "week-days": {
     "monday": "Monday",
     "monday-short": "Mo",
@@ -795,6 +796,5 @@
   "quick-code": {
     "quick-code": "quick code",
     "quick-code-name": "Quick code name"
-  },
-  "team-name": "Team name"
+  }
 }
