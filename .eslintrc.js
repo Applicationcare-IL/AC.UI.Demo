@@ -1,5 +1,3 @@
-const { useActiveElement } = require("@vueuse/core");
-
 module.exports = {
   env: {
     node: true,
@@ -86,6 +84,5 @@ module.exports = {
     useEmployees: true,
     useAdminFlowmaze: true,
     useFlowmaze: true,
-    useActiveElement,
   },
 };
