@@ -1,6 +1,6 @@
 import { useProductsStore } from "@/stores/productsStore";
 
-export function useProducts() {
+const useProducts = () => {
   const productsStore = useProductsStore();
 
   const getProducts = async (params) => {
@@ -13,4 +13,6 @@ export function useProducts() {
   return {
     getProducts,
   };
-}
+};
+
+export default useProducts;

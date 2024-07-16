@@ -241,17 +241,18 @@ const rows = computed(() => {
 // new project sidebar
 const isVisible = ref(false);
 
-function toggleSidebarVisibility() {
+const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
-}
+};
 
-function closeSidebar() {
+const closeSidebar = () => {
   isVisible.value = false;
-}
+};
 
-function openSidebar() {
+const openSidebar = () => {
   isVisible.value = true;
-}
+};
+
 const { handleExport } = useExports();
 
 const handleExportProjects = async () => {
@@ -283,9 +284,9 @@ watch(
   }
 );
 
-function showExpander(data) {
+const showExpander = (data) => {
   return data.subprojects && data.subprojects.length ? "" : "no-expander";
-}
+};
 
 const statusClass = (data) => {
   return getStatusConditionalStyle(data);

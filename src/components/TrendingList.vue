@@ -5,7 +5,6 @@
         <span>{{ truncate(item.value) }}</span>
         <span class="font-bold trending-item__number">{{ item.actual }}</span>
       </div>
-
       <TrendingMarker :increment="item.increment" />
     </div>
   </div>

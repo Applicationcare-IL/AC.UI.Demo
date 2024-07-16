@@ -1,5 +1,6 @@
 <template>
   <span>Products</span>
+  {{ totalRecords }}
   <pre>
   {{ products }}
   </pre>
@@ -18,15 +19,19 @@ const { getProducts } = useProducts();
 
 // REFS
 const products = ref([]);
+const totalRecords = ref(0);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const fetchProducts = async () => {
-  products.value = await getProducts();
+const loadLazyData = async () => {
+  const response = await getProducts();
+
+  products.value = response.data;
+  totalRecords.value = response.totalRecords;
 };
 
-fetchProducts();
+loadLazyData();
 // PROVIDE, EXPOSE
 
 // WATCHERS

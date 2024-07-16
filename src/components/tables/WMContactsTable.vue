@@ -24,10 +24,7 @@
     <div class="flex flex-row gap-3">
       <WMSearchBox v-model="searchValue" entity="contact" />
 
-      <WMFilterButton
-        :is-active="isFilterApplied || isFilterVisible"
-        @click="openFilterSidebar"
-      />
+      <WMFilterButton :is-active="isFilterApplied || isFilterVisible" @click="openFilterSidebar" />
       <WMSidebar
         :visible="isFilterVisible"
         name="filterContact"
@@ -72,11 +69,10 @@
           {{ slotProps.data[column.name] }}
         </template>
         <template v-if="column.type === 'link'">
-          <router-link
+          <WMTableFieldLink
             :to="'/' + column.to + '/' + slotProps.data[column.linkParameter]"
-            class="vertical-align-middle"
-            >{{ slotProps.data[column.name] }}</router-link
-          >
+            :text="slotProps.data[column.name]"
+          />
         </template>
         <template v-if="column.type === 'star'">
           <div @click="editMode[slotProps.index] && onStarClicked(slotProps.data)">
@@ -183,11 +179,7 @@ const optionSetsStore = useOptionSetsStore();
 const { optionLabelWithLang } = useLanguages();
 const { getAlertCellConditionalStyle } = useListUtils();
 const { getContactsFromApi } = useContacts();
-const {
-  getCustomerFromApi,
-  assignContactToCustomer,
-  unassignContactFromCustomer,
-} = useCustomers();
+const { getCustomerFromApi, assignContactToCustomer, unassignContactFromCustomer } = useCustomers();
 const { takeCall } = useCalls();
 
 const { formatAddress } = useUtils();

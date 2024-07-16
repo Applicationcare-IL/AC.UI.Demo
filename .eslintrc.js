@@ -41,6 +41,7 @@ module.exports = {
           "Reports",
           "Scripts",
           "Asset",
+          "Products",
         ],
       },
     ],
@@ -84,5 +85,6 @@ module.exports = {
     useEmployees: true,
     useAdminFlowmaze: true,
     useFlowmaze: true,
+    useProducts: true,
   },
 };
