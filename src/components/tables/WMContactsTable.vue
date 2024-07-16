@@ -69,10 +69,11 @@
           {{ slotProps.data[column.name] }}
         </template>
         <template v-if="column.type === 'link'">
-          <WMTableFieldLink
+          <router-link
             :to="'/' + column.to + '/' + slotProps.data[column.linkParameter]"
-            :text="slotProps.data[column.name]"
-          />
+            class="vertical-align-middle"
+            >{{ slotProps.data[column.name] }}</router-link
+          >
         </template>
         <template v-if="column.type === 'star'">
           <div @click="editMode[slotProps.index] && onStarClicked(slotProps.data)">
