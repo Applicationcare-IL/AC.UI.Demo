@@ -67,7 +67,7 @@ const projectTypeValue = computed(() => {
     return null;
   }
 
-  return props.task.task_type?.project_type[optionLabelWithLang];
+  return props.task.task_type?.project_type[optionLabelWithLang.value];
 });
 
 const projectAreaValue = computed(() => {
@@ -75,7 +75,7 @@ const projectAreaValue = computed(() => {
     return null;
   }
 
-  return props.task.task_type?.project_area[optionLabelWithLang];
+  return props.task.task_type?.project_area[optionLabelWithLang.value];
 });
 
 const projectDetailValue = computed(() => {
@@ -83,6 +83,6 @@ const projectDetailValue = computed(() => {
     return null;
   }
 
-  return props.task.task_type?.project_detail[optionLabelWithLang];
+  return props.task.task_type?.project_detail[optionLabelWithLang.value];
 });
 </script>
