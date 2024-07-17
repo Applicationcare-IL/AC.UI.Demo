@@ -227,7 +227,7 @@ const router = createRouter({
           component: () => import("@/views/admin/forms/new/NewUser.vue"),
         },
         {
-          path: "users/:id",
+          path: "user/:id",
           name: "usersDetail",
           component: () => import("@/views/admin/forms/detail/UserDetail.vue"),
         },
