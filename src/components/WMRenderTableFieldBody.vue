@@ -1,24 +1,25 @@
 <template>
   <!-- Type text -->
-  <template v-if="type == 'text'">
-    {{ value }}
+  <template v-if="columnData.type == 'text'">
+    {{ modelValue }}
   </template>
   <!-- Type project-link -->
-  <template v-if="type == 'project-link'">
+  <template v-if="columnData.type == 'link'">
     <router-link
-      v-if="value"
+      v-if="modelValue"
       :to="{
-        name: 'projectDetail',
-        params: { id: value.id },
+        name: columnData.routeName,
+        params: { id: modelValue.id },
       }"
     >
-      {{ value.name }}
+      {{ modelValue.text }}
     </router-link>
   </template>
 </template>
 <script setup>
 defineProps({
-  type: String,
-  value: String,
+  columnData: Object,
 });
+
+const modelValue = defineModel();
 </script>

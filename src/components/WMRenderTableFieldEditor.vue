@@ -1,11 +1,10 @@
 <template>
   <!-- Type text -->
-  <InputText v-model="modelValue" />
+  <InputText v-if="columnData.type == 'text'" v-model="modelValue" />
 </template>
 <script setup>
 defineProps({
-  type: String,
-  value: String,
+  columnData: Object,
 });
 
 const modelValue = defineModel();

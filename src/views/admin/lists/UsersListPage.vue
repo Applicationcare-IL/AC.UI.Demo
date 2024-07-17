@@ -22,7 +22,7 @@
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <pre>{{ users }}</pre>
+    <WMAdminUserTable />
   </div>
 </template>
 
@@ -35,14 +35,12 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const { can } = usePermissions();
-const { getUsers } = useAdminUsers();
 
 // INJECT
 
 // PROPS, EMITS
 
 // REFS
-const users = ref([]);
 const isVisible = ref(false);
 
 // COMPUTED
@@ -51,13 +49,6 @@ const isVisible = ref(false);
 useHead({
   title: "Users",
 });
-
-const loadLazyData = async () => {
-  let response = await getUsers();
-  users.value = response.data;
-};
-
-loadLazyData();
 
 const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;

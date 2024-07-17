@@ -6,7 +6,7 @@ const useAdminFlowmaze = () => {
   // ACTIONS
   const getUsers = async (params) => {
     const response = await adminUsersStore.getUsers(params);
-    const users = response.data;
+    const users = response.data.map((user) => mapUser(user));
     const totalRecords = response.meta.total;
 
     return { data: users, totalRecords };
@@ -14,7 +14,18 @@ const useAdminFlowmaze = () => {
 
   const getUser = async (id) => {
     const response = await adminUsersStore.getUser(id);
-    return response.data;
+
+    return mapUser(response.data);
+  };
+
+  const mapUser = (user) => {
+    return {
+      ...user,
+      link_detail: {
+        text: user.id,
+        id: user.id,
+      },
+    };
   };
 
   return {
