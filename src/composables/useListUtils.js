@@ -2,7 +2,7 @@ import { ref } from "vue";
 
 const selectedRowsPerPage = ref(15);
 
-export function useListUtils() {
+const useListUtils = () => {
   const listRowsPerPage = [
     { label: "15", value: 15 },
     { label: "30", value: 30 },
@@ -1269,4 +1269,6 @@ export function useListUtils() {
     getPriorityClasses,
     highlightStatusClass,
   };
-}
+};
+
+export default useListUtils;
