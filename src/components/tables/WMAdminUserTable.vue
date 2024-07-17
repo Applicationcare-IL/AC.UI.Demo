@@ -35,7 +35,6 @@ const { getUsers } = useAdminUsers();
 // PROPS, EMITS
 
 // REFS
-const editingRows = ref([]);
 
 // const selectedContacts = ref([]);
 // const contacts = ref([]);
@@ -56,6 +55,18 @@ const columns = [
     field: "link_detail",
     header: "id",
     routeName: "adminUserDetail",
+  },
+  {
+    name: "email",
+    type: "text",
+    field: "email",
+    header: "email",
+  },
+  {
+    name: "phone",
+    type: "text",
+    field: "phone",
+    header: "phone",
   },
 ];
 
