@@ -1,4 +1,5 @@
 <template>
+  <!-- <pre>lazyParams: {{ lazyParams }}</pre> -->
   <!-- <pre>{{ users[0] }}</pre> -->
   <DataTable
     v-model:selection="selectedUsers"
@@ -6,9 +7,11 @@
     :value="users"
     data-key="id"
     scrollable
+    paginator
     :rows="10"
     :total-records="totalRecords"
     class="w-full"
+    @page="onPage($event)"
   >
     <Column style="width: 40px" selection-mode="multiple" />
     <Column
@@ -40,6 +43,7 @@ const { getUsers } = useAdminUsers();
 const selectedUsers = ref([]);
 const totalRecords = ref(0);
 const users = ref([]);
+const lazyParams = ref({});
 
 const columns = [
   {
@@ -73,12 +77,24 @@ const columns = [
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  let response = await getUsers();
+  const nextPage = lazyParams.value.page + 1;
+
+  const params = {
+    page: nextPage,
+    per_page: 10,
+  };
+
+  let response = await getUsers(params);
   users.value = response.data;
   totalRecords.value = response.totalRecords;
 };
 
 loadLazyData();
+
+const onPage = (event) => {
+  lazyParams.value = event;
+  loadLazyData();
+};
 
 // const onSelectionChanged = (event) => {
 //   selectedContacts.value = event;
