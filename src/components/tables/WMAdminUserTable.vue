@@ -1,6 +1,7 @@
 <template>
-  <pre>{{ users[0] }}</pre>
+  <!-- <pre>{{ users[0] }}</pre> -->
   <DataTable
+    v-model:selection="selectedUsers"
     lazy
     :value="users"
     data-key="id"
@@ -9,6 +10,7 @@
     :total-records="totalRecords"
     class="w-full"
   >
+    <Column style="width: 40px" selection-mode="multiple" />
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -35,11 +37,8 @@ const { getUsers } = useAdminUsers();
 // PROPS, EMITS
 
 // REFS
-
-// const selectedContacts = ref([]);
-// const contacts = ref([]);
+const selectedUsers = ref([]);
 const totalRecords = ref(0);
-// const showControls = ref(true);
 const users = ref([]);
 
 const columns = [
