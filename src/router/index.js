@@ -227,6 +227,11 @@ const router = createRouter({
           component: () => import("@/views/admin/forms/new/NewUser.vue"),
         },
         {
+          path: "users/:id",
+          name: "usersDetail",
+          component: () => import("@/views/admin/forms/detail/UserDetail.vue"),
+        },
+        {
           path: "teams",
           name: "adminTeams",
           component: () => import("@/views/admin/lists/TeamsListPage.vue"),

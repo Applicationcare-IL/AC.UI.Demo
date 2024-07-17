@@ -56,7 +56,7 @@
                   <Dropdown
                     v-model="selectedEntity"
                     :options="entities"
-                    optionLabel="name"
+                    option-label="name"
                     placeholder="Select an entity"
                     class="w-full md:w-14rem"
                     @change="onEntityChange($event.value)"
@@ -81,7 +81,7 @@
                         <Dropdown
                           v-model="managedBy"
                           :options="managedByOptions"
-                          optionLabel="name"
+                          option-label="name"
                           :placeholder="$t('select-an-option')"
                           class="w-full md:w-14rem"
                           @change="onManagerChange($event.value)"
@@ -102,11 +102,11 @@
                       <template v-if="sendEmail && sendEmail.value">
                         <div style="width: 280px" class="flex flex-column gap-3">
                           <WMInput
+                            v-model="emailSubject"
                             name="emailSubject"
                             type="input-text"
                             :highlighted="true"
                             :label="$t('email-subject') + ':'"
-                            v-model="emailSubject"
                             :value="script.related_entity.email_subject"
                             required
                           />
@@ -117,10 +117,10 @@
                             </label>
                             <WMCommunicationsEditor
                               v-model="emailBody"
-                              @update:attachments="updateAttachments"
-                              @update:subject="handleUpdateSubject"
                               :hide-subject="true"
                               :has-attachments="false"
+                              @update:attachments="updateAttachments"
+                              @update:subject="handleUpdateSubject"
                             />
                             <div class="flex flex-column">
                               <span class="font-bold mt-2">
@@ -163,11 +163,11 @@
 
 <script setup>
 // IMPORTS
-import { ref, computed } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import { useOptionSetsStore } from "@/stores/optionSets";
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
