@@ -86,5 +86,6 @@ module.exports = {
     useAdminFlowmaze: true,
     useFlowmaze: true,
     useProducts: true,
+    useAdminUsers: true,
   },
 };

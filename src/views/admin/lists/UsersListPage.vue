@@ -2,10 +2,10 @@
   <WMListSubHeader
     entity="employee"
     :total-records="0"
+    :show-search-bar="false"
+    :show-filter-button="false"
+    :has-action-builder="false"
     @new="toggleSidebarVisibility"
-    :showSearchBar="false"
-    :showFilterButton="false"
-    :hasActionBuilder="false"
   >
   </WMListSubHeader>
 
@@ -21,23 +21,28 @@
     </template>
   </WMSidebar>
 
-  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">TABLA</div>
+  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
+    <pre>{{ users }}</pre>
+  </div>
 </template>
 
 <script setup>
 // IMPORTS
-import { useUtilsStore } from "@/stores/utils";
 import { onMounted, ref } from "vue";
+
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const { can } = usePermissions();
+const { getUsers } = useAdminUsers();
 
 // INJECT
 
 // PROPS, EMITS
 
 // REFS
+const users = ref([]);
 const isVisible = ref(false);
 
 // COMPUTED
@@ -47,13 +52,20 @@ useHead({
   title: "Users",
 });
 
-function toggleSidebarVisibility() {
-  isVisible.value = !isVisible.value;
-}
+const loadLazyData = async () => {
+  let response = await getUsers();
+  users.value = response.data;
+};
 
-function closeSidebar() {
+loadLazyData();
+
+const toggleSidebarVisibility = () => {
+  isVisible.value = !isVisible.value;
+};
+
+const closeSidebar = () => {
   isVisible.value = false;
-}
+};
 
 // PROVIDE, EXPOSE
 
