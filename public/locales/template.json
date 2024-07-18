@@ -9,6 +9,9 @@
   "general-details": "General Details",
   "entry-details": "Entry Details",
   "communication-details": "Communication Details",
+  "role": {
+    "role": "Role"
+  },
   "actions": "Actions",
   "user": "User",
   "first-name": "First Name",
@@ -31,6 +34,9 @@
   "search": "Search",
   "rating": "Rating",
   "general-information": "General information",
+  "team": {
+    "team": "Team"
+  },
   "owner": "Owner",
   "orientation": "Orientation",
   "channel": "Channel",
@@ -91,13 +97,6 @@
   "select-an-option": "Select an option",
   "due-date": "Due date",
   "team-name": "Team name",
-  "manager": "Manager",
-  "role": {
-    "role": "Role"
-  },
-  "team": {
-    "team": "Team"
-  },
   "week-days": {
     "monday": "Monday",
     "monday-short": "Mo",
@@ -793,10 +792,11 @@
   },
   "employee": {
     "employee": "User",
+    "username": "Username",
     "general-info": "User information"
   },
   "quick-code": {
     "quick-code": "quick code",
     "quick-code-name": "Quick code name"
-  }
+  },
 }

@@ -1,6 +1,6 @@
 <template>
   <!-- <pre>lazyParams: {{ lazyParams }}</pre> -->
-  <!-- <pre>{{ users[0] }}</pre> -->
+  <pre>{{ users }}</pre>
   <DataTable
     v-model:selection="selectedUsers"
     lazy

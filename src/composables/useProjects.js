@@ -1,7 +1,7 @@
 import { useOptionSetsStore } from "@/stores/optionSets";
 import { useProjectsStore } from "@/stores/projectsStore";
 
-export function useProjects() {
+const useProjects = () => {
   const projectsStore = useProjectsStore();
   const optionSetsStore = useOptionSetsStore();
   const { formatDateToAPI, formatDateFromAPI } = useDates();
@@ -381,7 +381,7 @@ export function useProjects() {
   };
 
   // return date in format YYYY-MM-DD
-  function formatDate(date) {
+  const formatDate = (date) => {
     const newDate = new Date(date);
 
     const year = newDate.getFullYear();
@@ -391,7 +391,7 @@ export function useProjects() {
     const dateISO = `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
 
     return dateISO;
-  }
+  };
 
   const parseProjectCustomer = (customer, serviceAreaId) => {
     let result = {
@@ -561,6 +561,7 @@ export function useProjects() {
       contract_amount_paid: teamMember.contract_amount_paid,
       contract_amount_remaining: teamMember.contract_amount_remaining,
       contract: teamMember.contract,
+      has_payments: teamMember.has_payments,
     };
   };
 
@@ -694,4 +695,6 @@ export function useProjects() {
     mapMilestone,
     mapShortMilestone,
   };
-}
+};
+
+export default useProjects;
