@@ -791,7 +791,8 @@
     "availabe-merge-tags": "Available merge tags"
   },
   "employee": {
-    "employee": "User"
+    "employee": "User",
+    "username": "Username"
   },
   "quick-code": {
     "quick-code": "quick code",
