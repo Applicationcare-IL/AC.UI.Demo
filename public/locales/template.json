@@ -482,7 +482,8 @@
     "calculate-term": "Calculate Term",
     "basic-term": "Basic Term",
     "reference-number": "Reference number",
-    "parent": "Parent project"
+    "parent": "Parent project",
+    "this-team-member-has-related-payments": "This team member has related payments"
   },
   "budget": {
     "approved-council": "Approved (Council)",

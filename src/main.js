@@ -61,6 +61,7 @@ app.config.globalProperties.$appState = reactive({
   isNewThemeLoaded: false,
   layoutMode: "light",
 });
+
 app.directive("badge", BadgeDirective);
 app.directive("tooltip", Tooltip);
 

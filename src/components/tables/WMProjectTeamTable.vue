@@ -112,7 +112,17 @@
 
             <WMUnlinkButtonIconOnly
               v-if="column.buttons?.includes('unlink')"
-              @click="unlinkContact(slotProps.data)"
+              v-tooltip.top="
+                slotProps.data.has_payments
+                  ? $t('project.this-team-member-has-related-payments')
+                  : ''
+              "
+              :is-disabled="slotProps.data.has_payments"
+              :click="
+                () => {
+                  unlinkContact(slotProps.data);
+                }
+              "
             />
           </div>
         </template>
