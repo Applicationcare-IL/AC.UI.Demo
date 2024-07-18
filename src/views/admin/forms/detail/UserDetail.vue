@@ -1,32 +1,31 @@
 <template>
   <!-- <WMDetailFormSubHeader
-    entity="script"
+    entity="employee"
     :form-key="formKey"
     @save-form="saveForm()"
     @refresh-table="refreshTable"
     :showSubBar="false"
     :hasActionBuilder="false"
   /> -->
-  <!-- <WMDetailScriptForm ref="detailScriptForm" :form-key="formKey" /> -->
-  <WMDetailUserForm />
+  <WMDetailUserForm ref="detailUserForm" :form-key="formKey" />
 </template>
 
 <script setup>
-// import { ref } from "vue";
+import { ref } from "vue";
 
 useHead({
   title: "User Detail",
 });
 
-// const formKey = ref("assetDetailForm");
+const formKey = ref("adminUserDetailForm");
 
-// const detailScriptForm = ref(null);
+const detailUserForm = ref();
 
 // const saveForm = () => {
-//   detailScriptForm.value.onSave();
+//   detailUserForm.value.onSave();
 // };
 
 // const refreshTable = () => {
-//   detailScriptForm.value.fetchData();
+//   detailUserForm.value.fetchData();
 // };
 </script>
