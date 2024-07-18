@@ -18,7 +18,7 @@
       v-for="column in columns"
       :key="column.name"
       :field="column.name"
-      :header="column.header"
+      :header="$t(column.header)"
       :class="column.class"
     >
       <template #body="{ data }">
@@ -47,12 +47,6 @@ const lazyParams = ref({});
 
 const columns = [
   {
-    name: "first_name",
-    type: "text",
-    field: "first_name",
-    header: "first_name",
-  },
-  {
     name: "id",
     type: "link",
     field: "link_detail",
@@ -60,16 +54,23 @@ const columns = [
     routeName: "adminUserDetail",
   },
   {
-    name: "email",
+    name: "username",
     type: "text",
-    field: "email",
-    header: "email",
+    field: "username",
+    header: "employee.username",
   },
+
   {
     name: "phone",
     type: "text",
     field: "phone",
-    header: "phone",
+    header: "mobilephone",
+  },
+  {
+    name: "email",
+    type: "text",
+    field: "email",
+    header: "email",
   },
 ];
 
