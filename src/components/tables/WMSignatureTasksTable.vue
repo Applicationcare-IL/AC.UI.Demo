@@ -33,12 +33,12 @@
           "
         />
 
-        <WMButton
+        <!-- <WMButton
           :text="$t('buttons.sign')"
           type="secondary"
           :disabled="tasks.length === 0"
           @click="onSign"
-        />
+        /> -->
       </div>
       <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMOwnerToggle entity="task" />
@@ -59,12 +59,13 @@
       </WMSidebar>
     </div>
   </div>
+
   <DataTable
     v-model:selection="selectedTasks"
     lazy
     :row-class="rowClass"
     :value="tasks"
-    data-key="task_number"
+    data-key="task_id"
     table-style="min-width: 50rem"
     scrollable
     paginator
@@ -123,26 +124,20 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { onMounted, ref, watch, watchEffect } from "vue";
-import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
 
-const { t } = useI18n();
-
+// DEPENDENCIES
 const { can } = usePermissions();
-
-const selectedTasks = ref([]);
-const isFilterOpen = ref(false);
-const isFilterApplied = ref(false);
-
-const tasks = ref([]);
-const totalRecords = ref(0);
-const lazyParams = ref({});
-const searchValue = ref("");
-
 const utilsStore = useUtilsStore();
+const toast = useToast();
+const { getSignatureTaskFromApi, generateSignaturesDocument } = useTasks();
 
+// INJECT
+
+// PROPS, EMITS
 const props = defineProps({
   rows: {
     type: Number,
@@ -182,15 +177,24 @@ const props = defineProps({
   },
 });
 
-const toast = useToast();
-
 const emit = defineEmits(["documentSigned"]);
 
-onMounted(() => {
-  loadLazyData();
-});
+// REFS
+const selectedTasks = ref([]);
+const isFilterOpen = ref(false);
+const isFilterApplied = ref(false);
 
-const { getSignatureTaskFromApi, generateSignaturesDocument } = useTasks();
+const tasks = ref([]);
+const totalRecords = ref(0);
+const lazyParams = ref({});
+const searchValue = ref("");
+
+const isVisible = ref(false);
+const isFilterVisible = ref(false);
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
 
 const loadLazyData = () => {
   const filters = utilsStore.filters["task"];
@@ -239,7 +243,7 @@ const onSign = () => {
   generateSignaturesDocument(utilsStore.selectedElements["project"][0].id)
     .then(() => {
       toast.success({ message: "Document Signed" });
-      emit("document-signed");
+      emit("documentSigned");
     })
     .catch((error) => {
       console.error(error);
@@ -247,30 +251,29 @@ const onSign = () => {
     });
 };
 
-// first sidebar
-const isVisible = ref(false);
-
-function toggleSidebarVisibility() {
+const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
-}
+};
 
-function closeSidebar() {
+const closeSidebar = () => {
   isVisible.value = false;
-}
+};
 
-function openSidebar() {
+const openSidebar = () => {
   isVisible.value = true;
-}
+};
 
-const isFilterVisible = ref(false);
-
-function closeFilterSidebar() {
+const closeFilterSidebar = () => {
   isFilterVisible.value = false;
-}
+};
 
-function openFilterSidebar() {
+const openFilterSidebar = () => {
   isFilterVisible.value = true;
-}
+};
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
 watchEffect(() => {
   loadLazyData();
 });
@@ -284,4 +287,9 @@ watch(
     });
   }
 );
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  loadLazyData();
+});
 </script>

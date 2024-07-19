@@ -67,7 +67,7 @@ const checkIfTasksAreCompletable = (tasks) => {
   }
 
   // we cant complete if the selected task is a subproject task
-  if (tasks.length == 1 && tasks[0].task_family.value == "subproject") {
+  if (tasks.length == 1 && tasks[0].task_family?.value == "subproject") {
     return false;
   }
 
@@ -77,7 +77,7 @@ const checkIfTasksAreCompletable = (tasks) => {
   }
 
   // prevent complete when some of the selected tasks are subproject tasks
-  if (tasks.lenght > 1 && tasks.some((x) => x.task_family.value == "subproject")) {
+  if (tasks.lenght > 1 && tasks.some((x) => x.task_family?.value == "subproject")) {
     return false;
   }
 
