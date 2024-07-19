@@ -11,9 +11,9 @@
           required="true"
           :label="$t('project.service-area') + ':'"
           :options="serviceAreas"
-          @update:selectedItem="updateSelectedServiceAreas"
           size="md"
           option-set
+          @update:selected-item="updateSelectedServiceAreas"
         />
       </div>
 
@@ -21,7 +21,7 @@
         <WMInput
           v-model="dueDate"
           :value="dueDate"
-          name="payment_date"
+          name="due_date"
           type="date"
           :label="$t('due-date') + ':'"
           required
@@ -31,7 +31,7 @@
         <WMInput
           v-model="expectedDecisionDate"
           :value="expectedDecisionDate"
-          name="payment_date"
+          name="expected_decision_date"
           type="date"
           :label="$t('project.expected-decision-date') + ':'"
           required
