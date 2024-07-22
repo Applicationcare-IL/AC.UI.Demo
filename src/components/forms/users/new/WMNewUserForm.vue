@@ -70,7 +70,7 @@ const props = defineProps({
   isSidebar: Boolean,
 });
 
-const emit = defineEmits(["newTaskCreated"]);
+const emit = defineEmits(["newUserCreated"]);
 
 // REFS
 const canUseApi = ref(false);
@@ -90,7 +90,7 @@ const onSubmit = handleSubmit((values) => {
 
   createUser(parseUser(newUser))
     .then((data) => {
-      emit("newTaskCreated");
+      emit("newUserCreated");
       dialog.confirmNewAdminUser({ id: data.data.id, emit });
 
       resetForm();

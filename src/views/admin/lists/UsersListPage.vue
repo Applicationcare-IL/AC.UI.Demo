@@ -13,7 +13,11 @@
   <WMSidebar :visible="isVisible" name="newUser" @close-sidebar="closeSidebar">
     <template v-if="can('employees.create')">
       <WMNewEntityFormHeader entity="employee" name="newUser" />
-      <WMNewUserForm :is-sidebar="true" @close-sidebar="closeSidebar" />
+      <WMNewUserForm
+        :is-sidebar="true"
+        @close-sidebar="closeSidebar"
+        @new-user-created="handleNewUserCreated"
+      />
     </template>
     <template v-else>
       <div class="m-5">
@@ -23,7 +27,7 @@
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMAdminUserTable />
+    <WMAdminUserTable ref="adminUserTable" />
   </div>
 </template>
 
@@ -42,6 +46,7 @@ const { can } = usePermissions();
 // PROPS, EMITS
 
 // REFS
+const adminUserTable = ref();
 const isVisible = ref(false);
 
 // COMPUTED
@@ -57,6 +62,10 @@ const toggleSidebarVisibility = () => {
 
 const closeSidebar = () => {
   isVisible.value = false;
+};
+
+const handleNewUserCreated = () => {
+  adminUserTable.value.loadLazyData();
 };
 
 // PROVIDE, EXPOSE
