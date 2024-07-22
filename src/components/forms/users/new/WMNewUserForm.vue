@@ -6,14 +6,9 @@
 
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
+          <WMInput name="name" :required="true" type="input-text" :label="$t('first-name') + ':'" />
           <WMInput
-            name="first-name"
-            :required="true"
-            type="input-text"
-            :label="$t('first-name') + ':'"
-          />
-          <WMInput
-            name="last-name"
+            name="surname"
             :required="true"
             type="input-text"
             :label="$t('last-name') + ':'"
@@ -29,12 +24,12 @@
             :label="$t('email') + ':'"
             size="md"
           />
-          <WMInput name="mobile" :required="true" type="input-text" :label="$t('Mobile') + ':'" />
+          <WMInput name="phone" :required="true" type="input-text" :label="$t('Mobile') + ':'" />
         </div>
       </div>
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
-          <WMInputDropdownManager />
+          <WMInputDropdownManager size="sm" />
         </div>
       </div>
 
@@ -55,15 +50,15 @@
 
 <script setup>
 // IMPORTS
-import Checkbox from "primevue/checkbox";
 import { useForm } from "vee-validate";
 import { inject } from "vue";
 
-import WMInput from "@/components/forms/WMInput.vue";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
+const { createUser, parseUser } = useAdminUsers();
+const toast = useToast();
 
 // INJECT
 const closeSidebar = inject("closeSidebar");
@@ -83,7 +78,23 @@ const { handleSubmit } = useForm({
 });
 
 const onSubmit = handleSubmit((values) => {
-  console.log("values", values);
+  createUser(parseUser(values))
+    .then((data) => {
+      console.log("data", data);
+      // emit("newTaskCreated");
+      // dialog.confirmNewTask({ id: data.data.id, emit });
+
+      // resetForm();
+      // isFormDirty.value = false;
+
+      closeSidebar();
+
+      toast.successAction({ title: "User created", message: "User created successfully" });
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Error");
+    });
 });
 
 const onCancel = () => {

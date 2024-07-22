@@ -24,5 +24,15 @@ export const useAdminUsersStore = defineStore("adminUsers", {
           console.error(error);
         });
     },
+    createUser(user) {
+      return axiosConfig
+        .post("/admin/employees", user)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

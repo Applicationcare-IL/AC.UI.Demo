@@ -7,7 +7,8 @@
     :highlighted="true"
     :label="$t('manager') + ':'"
     :options="employeeList"
-    size="md"
+    :size="size"
+    required
   />
 </template>
 
@@ -21,6 +22,12 @@ const { getUsers } = useAdminUsers();
 // INJECT
 
 // PROPS, EMITS
+defineProps({
+  size: {
+    type: String,
+    default: "md",
+  },
+});
 
 // REFS
 const employeeList = ref([]);

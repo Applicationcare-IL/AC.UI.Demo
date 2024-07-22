@@ -469,15 +469,24 @@ export const useFormUtilsStore = defineStore("formUtils", {
     },
     getUserNewFormValidationSchema: (state) => {
       return yup.object({
-        "first-name": yup.string().required(),
-        "last-name": yup.string().required(),
+        name: yup.string().required(),
+        surname: yup.string().required(),
         email: yup.string().email().required(),
-        mobile: yup
+        phone: yup
           .string()
           .trim()
           .matches(state.israeliLandlineRegex, "validation.phone")
           .required(),
-        // manager: yup.string().required(),
+        manager: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          }),
       });
     },
     getTeamNewFormValidationSchema: (state) => {

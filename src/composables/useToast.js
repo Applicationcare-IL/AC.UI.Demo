@@ -1,6 +1,7 @@
 import { useToast as useToastPrime } from "primevue/usetoast";
 import { useI18n } from "vue-i18n";
 
+// eslint-disable-next-line func-style
 export function useToast() {
   const toast = useToastPrime();
   const i18n = useI18n();

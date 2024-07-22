@@ -2,6 +2,7 @@
   <WMListSubHeader
     entity="employee"
     :total-records="0"
+    :show-communications="false"
     :show-search-bar="false"
     :show-filter-button="false"
     :has-action-builder="false"

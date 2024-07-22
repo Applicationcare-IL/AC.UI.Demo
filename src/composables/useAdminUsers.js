@@ -18,6 +18,11 @@ const useAdminFlowmaze = () => {
     return mapUser(response.data);
   };
 
+  const createUser = async (user) => {
+    return await adminUsersStore.createUser(user);
+  };
+
+  // UTILITIES
   const mapUser = (user) => {
     return {
       ...user,
@@ -29,10 +34,23 @@ const useAdminFlowmaze = () => {
     };
   };
 
+  const parseUser = (user) => {
+    console.log("parseUser", user);
+
+    return {
+      ...user,
+      manager_id: user.manager?.id,
+    };
+  };
+
   return {
     // ACTIONS
     getUsers,
     getUser,
+    createUser,
+    // UTILITIES
+    mapUser,
+    parseUser,
   };
 };
 
