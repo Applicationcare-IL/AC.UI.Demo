@@ -81,6 +81,18 @@ const columns = [
     width: "100px",
     class: "p-0 filled-td",
   },
+  {
+    name: "roles",
+    type: "chips",
+    field: "roles",
+    header: "roles",
+  },
+  {
+    name: "teams",
+    type: "chips",
+    field: "teams",
+    header: "teams",
+  },
 ];
 
 // COMPUTED

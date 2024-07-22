@@ -19,6 +19,12 @@
   <template v-if="columnData.type == 'state'">
     <WMStateField :state="stateValue" />
   </template>
+  <!-- Type tags -->
+  <template v-if="columnData.type == 'chips'">
+    <div class="flex flex-row gap-2 overflow-x-auto max-w-15rem">
+      <Chip v-for="(chip, index) in modelValue" :key="index" :label="chip.name" />
+    </div>
+  </template>
 </template>
 <script setup>
 // IMPORTS
