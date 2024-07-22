@@ -34,16 +34,7 @@
       </div>
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
-          <WMInput
-            v-if="employeeList.length > 0"
-            v-model="selectedManager"
-            name="manager"
-            type="input-select"
-            :highlighted="true"
-            :label="$t('manager') + ':'"
-            :options="employeeList"
-            size="md"
-          />
+          <WMInputDropdownManager />
         </div>
       </div>
 
@@ -66,14 +57,13 @@
 // IMPORTS
 import Checkbox from "primevue/checkbox";
 import { useForm } from "vee-validate";
-import { inject, ref } from "vue";
+import { inject } from "vue";
 
 import WMInput from "@/components/forms/WMInput.vue";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
-const { getUsers } = useAdminUsers();
 
 // INJECT
 const closeSidebar = inject("closeSidebar");
@@ -84,8 +74,6 @@ defineProps({
 });
 
 // REFS
-const employeeList = ref([]);
-const selectedManager = ref();
 
 // COMPUTED
 
@@ -107,18 +95,6 @@ defineExpose({
   onSubmit,
   onCancel,
 });
-
-const loadEmployees = async () => {
-  let response = await getUsers();
-  employeeList.value = response.data.map((employee) => {
-    return {
-      id: employee.id,
-      label: employee.username,
-    };
-  });
-};
-
-loadEmployees();
 
 // WATCHERS
 

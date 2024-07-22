@@ -9,56 +9,47 @@
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
-                      name="id"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('id') + ':'"
-                      :value="user.id"
+                    name="id"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('id') + ':'"
+                    :value="user.id"
                   />
                 </div>
                 <div class="wm-form-row gap-5">
                   <WMInput
-                      name="first_name"
-                      type="input-text"
-                      :highlighted="true"
-                      :label="$t('first-name') + ':'"
-                      :value="user.first_name"
+                    name="first_name"
+                    type="input-text"
+                    :highlighted="true"
+                    :label="$t('first-name') + ':'"
+                    :value="user.first_name"
                   />
                   <WMInput
-                      name="last_name"
-                      type="input-text"
-                      :highlighted="true"
-                      :label="$t('last-name') + ':'"
-                      :value="user.last_name"
+                    name="last_name"
+                    type="input-text"
+                    :highlighted="true"
+                    :label="$t('last-name') + ':'"
+                    :value="user.last_name"
                   />
                 </div>
                 <div class="wm-form-row gap-5">
                   <WMInput
-                      name="phone"
-                      type="input-text"
-                      :highlighted="true"
-                      :label="$t('mobilephone') + ':'"
-                      :value="user.phone"
+                    name="phone"
+                    type="input-text"
+                    :highlighted="true"
+                    :label="$t('mobilephone') + ':'"
+                    :value="user.phone"
                   />
                   <WMInput
-                      name="email"
-                      type="input-text"
-                      :highlighted="true"
-                      :label="$t('email') + ':'"
-                      :value="user.email"
-                      size="md"
+                    name="email"
+                    type="input-text"
+                    :highlighted="true"
+                    :label="$t('email') + ':'"
+                    :value="user.email"
+                    size="md"
                   />
                 </div>
-<!--                <div class="wm-form-row gap-5">-->
-<!--                  <WMInput-->
-<!--                      name="manager"-->
-<!--                      type="input-select"-->
-<!--                      :highlighted="true"-->
-<!--                      :label="$t('manager') + ':'"-->
-<!--                      :value="user.manager"-->
-<!--                      size="md"-->
-<!--                  />-->
-<!--                </div>-->
+                <WMInputDropdownManager />
               </div>
             </template>
           </Card>
@@ -66,15 +57,16 @@
       </div>
     </div>
   </div>
-
+  <!-- 
   USER DETAIL:
-  <pre>{{ user }}</pre>
+  <pre>{{ user }}</pre> -->
 </template>
 
 <script setup>
 // IMPORTS
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+
 import WMInput from "@/components/forms/WMInput.vue";
 
 // DEPENDENCIES
