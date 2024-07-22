@@ -1,6 +1,6 @@
 import { useTasksStore } from "@/stores/tasksStore";
 
-export function useTasks() {
+const useTasks = () => {
   const tasksStore = useTasksStore();
   const { parseDate } = useDates();
 
@@ -233,8 +233,7 @@ export function useTasks() {
     }
 
     const uniqueContacts = contacts.filter(
-      (contact, index, self) =>
-        index === self.findIndex((t) => t.id === contact.id)
+      (contact, index, self) => index === self.findIndex((t) => t.id === contact.id)
     );
 
     return uniqueContacts;
@@ -265,4 +264,6 @@ export function useTasks() {
     parseUpdateTask,
     mapContactsFromTasks,
   };
-}
+};
+
+export default useTasks;

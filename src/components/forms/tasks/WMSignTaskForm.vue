@@ -21,10 +21,15 @@
         size="full"
       />
     </div>
+    <div class="wm-form-row">
+      <WMInputCurrency
+        v-model="approvedAmount"
+        :label="$t('project.approved-amount') + ':'"
+        name="approved-amount"
+      />
+    </div>
     <div class="wm-form-column w-7">
-      <span class="wm-form-label">
-        Signature: <span class="text-red-500"> *</span>
-      </span>
+      <span class="wm-form-label"> Signature: <span class="text-red-500"> *</span> </span>
       <Vue3Signature
         ref="signature1"
         :sig-option="state.option"
@@ -32,13 +37,7 @@
         :disabled="state.disabled"
         class="sign-area my-3"
       />
-      <Button
-        label="Clear signature"
-        text
-        severity="secondary"
-        class="my-2"
-        @click="clear"
-      />
+      <Button label="Clear signature" text severity="secondary" class="my-2" @click="clear" />
     </div>
   </div>
   <Divider />
@@ -83,6 +82,8 @@ const state = reactive({
 
 const signature1 = ref(null);
 
+const approvedAmount = ref(0);
+
 // COMPUTED
 // COMPONENT METHODS AND LOGIC
 const { handleSubmit } = useForm({
@@ -102,6 +103,7 @@ const onSave = handleSubmit((values) => {
     signature_status: values.signature_status.id,
     remarks: values.notes,
     signature: cleanBase64Signature,
+    approved_amount: approvedAmount.value,
   };
 
   signTask(props.signatureId, data)
@@ -123,11 +125,9 @@ const clear = () => {
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  optionSetsStore
-    .getOptionSetValuesFromApi("status_round_of_signatures")
-    .then((data) => {
-      signatureStatusOptions.value = data;
-    });
+  optionSetsStore.getOptionSetValuesFromApi("status_round_of_signatures").then((data) => {
+    signatureStatusOptions.value = data;
+  });
 });
 </script>
 
