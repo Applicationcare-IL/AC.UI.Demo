@@ -21,7 +21,7 @@ const useAdminFlowmaze = () => {
   const mapUser = (user) => {
     return {
       ...user,
-      username: `${user.first_name} ${user.last_name}`,
+      username: `${user.name} ${user.surname}`,
       link_detail: {
         text: user.id,
         id: user.id,
