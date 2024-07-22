@@ -20,6 +20,7 @@
       :field="column.name"
       :header="$t(column.header)"
       :class="column.class"
+      :style="column.width ? { width: column.width } : {}"
     >
       <template #body="{ data }">
         <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
@@ -71,6 +72,14 @@ const columns = [
     type: "text",
     field: "email",
     header: "email",
+  },
+  {
+    name: "active",
+    type: "state",
+    field: "active",
+    header: "state.state",
+    width: "100px",
+    class: "p-0 filled-td",
   },
 ];
 

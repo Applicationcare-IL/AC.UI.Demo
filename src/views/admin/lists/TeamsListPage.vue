@@ -1,19 +1,18 @@
 <template>
   <WMListSubHeader
-      entity="team"
-      :total-records="0"
-      @new="toggleSidebarVisibility"
-      :showSearchBar="false"
-      :showFilterButton="false"
-      :hasActionBuilder="false"
+    entity="team"
+    :total-records="0"
+    :show-search-bar="false"
+    :show-filter-button="false"
+    :has-action-builder="false"
+    @new="toggleSidebarVisibility"
   >
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newTeam" @close-sidebar="closeSidebar">
     <template v-if="can('teams.create')">
       <WMNewEntityFormHeader entity="team" name="newTeam" />
-      <WMNewTeamForm :is-sidebar="true" @close-sidebar="closeSidebar"/>
-
+      <WMNewTeamForm :is-sidebar="true" @close-sidebar="closeSidebar" />
     </template>
     <template v-else>
       <div class="m-5">
@@ -29,9 +28,9 @@
 
 <script setup>
 // IMPORTS
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
-import {useUtilsStore} from "@/stores/utils";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
@@ -53,11 +52,11 @@ useHead({
 
 const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
-}
+};
 
 const closeSidebar = () => {
   isVisible.value = false;
-}
+};
 
 // PROVIDE, EXPOSE
 
@@ -67,7 +66,6 @@ const closeSidebar = () => {
 onMounted(() => {
   utilsStore.entity = "team";
 });
-
 </script>
 
 <style scoped lang="scss"></style>

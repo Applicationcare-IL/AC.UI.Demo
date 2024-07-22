@@ -34,9 +34,6 @@
   "search": "Search",
   "rating": "Rating",
   "general-information": "General information",
-  "team": {
-    "team": "Team"
-  },
   "owner": "Owner",
   "orientation": "Orientation",
   "channel": "Channel",
@@ -805,5 +802,9 @@
   "quick-code": {
     "quick-code": "quick code",
     "quick-code-name": "Quick code name"
+  },
+  "team": {
+    "team": "Team",
+    "name": "Team name"
   }
 }
