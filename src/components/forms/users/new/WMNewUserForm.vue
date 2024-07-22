@@ -33,13 +33,13 @@
         </div>
       </div>
 
-      <Divider class="my-5" layout="horizontal" style="height: 4px" />
-      <Divider class="my-5" layout="horizontal" style="height: 4px" />
+      <!-- <Divider class="my-5" layout="horizontal" style="height: 4px" />
+      <Divider class="my-5" layout="horizontal" style="height: 4px" /> -->
 
       <div class="wm-form-row align-items-end gap-5">
-        <div class="wm-form-row gap-5">
-          <label for="api" class="wm-form-label"> Can use API </label>
-          <Checkbox v-model="api" input-id="api" name="" value="" />
+        <div class="wm-form-row gap-2">
+          <label for="api" class="wm-form-label"> {{ $t("can-use-api") }} </label>
+          <Checkbox v-model="canUseApi" name="can_use_api" :binary="true" />
         </div>
       </div>
 
@@ -51,7 +51,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { inject, watch } from "vue";
+import { inject, ref, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -66,13 +66,14 @@ const closeSidebar = inject("closeSidebar");
 const isFormDirty = inject("isFormDirty");
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   isSidebar: Boolean,
 });
 
 const emit = defineEmits(["newTaskCreated"]);
 
 // REFS
+const canUseApi = ref(false);
 
 // COMPUTED
 
@@ -82,15 +83,22 @@ const { handleSubmit, meta, resetForm } = useForm({
 });
 
 const onSubmit = handleSubmit((values) => {
-  createUser(parseUser(values))
+  const newUser = {
+    ...values,
+    can_use_api: canUseApi.value ? 1 : 0,
+  };
+
+  createUser(parseUser(newUser))
     .then((data) => {
       emit("newTaskCreated");
       dialog.confirmNewAdminUser({ id: data.data.id, emit });
 
       resetForm();
-      isFormDirty.value = false;
 
-      closeSidebar();
+      if (props.isSidebar) {
+        isFormDirty.value = false;
+        closeSidebar();
+      }
 
       toast.success({ title: "User created", message: "User created successfully" });
     })
@@ -114,6 +122,8 @@ defineExpose({
 watch(
   () => meta.value,
   (value) => {
+    if (!isFormDirty) return;
+
     isFormDirty.value = value.dirty;
   }
 );

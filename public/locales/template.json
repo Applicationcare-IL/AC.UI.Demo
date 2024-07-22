@@ -98,6 +98,7 @@
   "due-date": "Due date",
   "team-name": "Team name",
   "manager": "Manager",
+  "can-use-api": "Can use API",
   "week-days": {
     "monday": "Monday",
     "monday-short": "Mo",
