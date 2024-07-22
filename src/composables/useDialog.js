@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
-export function useDialog() {
+const useDialog = () => {
   const confirm = useConfirm();
   const formUtilsStore = useFormUtilsStore();
   const i18n = useI18n();
@@ -50,6 +50,23 @@ export function useDialog() {
       rejectLabel: i18n.t("task.notification-created-close"),
       accept: () => {
         formUtilsStore.goToDetail(id, "task");
+      },
+      reject: () => {
+        if (emit) {
+          emit("closeSidebar");
+        }
+      },
+    });
+  };
+
+  const confirmNewAdminUser = ({ id, emit }) => {
+    confirm.require({
+      message: i18n.t("employee.notification-created-message"),
+      header: i18n.t("employee.notification-created-header"),
+      acceptLabel: i18n.t("employee.notification-created-detail"),
+      rejectLabel: i18n.t("employee.notification-created-close"),
+      accept: () => {
+        formUtilsStore.goToAdminDetail(id, "user");
       },
       reject: () => {
         if (emit) {
@@ -224,6 +241,7 @@ export function useDialog() {
     confirmNewCustomer,
     confirmNewContact,
     confirmNewTask,
+    confirmNewAdminUser,
     confirmNewService,
     confirmNewProject,
     cancelService,
@@ -234,6 +252,6 @@ export function useDialog() {
     confirmCompleteMilestone,
     confirmUnlinkRelatedService,
   };
-}
+};
 
 export default useDialog;

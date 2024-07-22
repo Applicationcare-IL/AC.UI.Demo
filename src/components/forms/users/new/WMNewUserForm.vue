@@ -51,7 +51,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { inject } from "vue";
+import { inject, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -59,33 +59,36 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 const formUtilsStore = useFormUtilsStore();
 const { createUser, parseUser } = useAdminUsers();
 const toast = useToast();
+const dialog = useDialog();
 
 // INJECT
 const closeSidebar = inject("closeSidebar");
+const isFormDirty = inject("isFormDirty");
 
 // PROPS, EMITS
 defineProps({
   isSidebar: Boolean,
 });
 
+const emit = defineEmits(["newTaskCreated"]);
+
 // REFS
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit } = useForm({
+const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getUserNewFormValidationSchema,
 });
 
 const onSubmit = handleSubmit((values) => {
   createUser(parseUser(values))
     .then((data) => {
-      console.log("data", data);
-      // emit("newTaskCreated");
-      // dialog.confirmNewTask({ id: data.data.id, emit });
+      emit("newTaskCreated");
+      dialog.confirmNewAdminUser({ id: data.data.id, emit });
 
-      // resetForm();
-      // isFormDirty.value = false;
+      resetForm();
+      isFormDirty.value = false;
 
       closeSidebar();
 
@@ -108,6 +111,12 @@ defineExpose({
 });
 
 // WATCHERS
+watch(
+  () => meta.value,
+  (value) => {
+    isFormDirty.value = value.dirty;
+  }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

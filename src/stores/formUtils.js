@@ -530,6 +530,9 @@ export const useFormUtilsStore = defineStore("formUtils", {
       const entityPath = entity || this.formEntity;
       this.router.push("/" + entityPath + "/" + id);
     },
+    goToAdminDetail(id, entity) {
+      this.router.push("/admin/" + entity + "/" + id);
+    },
     setFormMetas(meta, key) {
       const index = this.formMetas.findIndex((meta) => meta.key === key);
 
