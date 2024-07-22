@@ -22,13 +22,16 @@
     </template>
   </WMSidebar>
 
-  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">tabla</div>
+  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
+    <WMAdminTeamsTable />
+  </div>
 </template>
 
 <script setup>
 // IMPORTS
-import {useUtilsStore} from "@/stores/utils";
 import {onMounted, ref} from "vue";
+
+import {useUtilsStore} from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
@@ -48,11 +51,11 @@ useHead({
   title: "Teams",
 });
 
-function toggleSidebarVisibility() {
+const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
 }
 
-function closeSidebar() {
+const closeSidebar = () => {
   isVisible.value = false;
 }
 

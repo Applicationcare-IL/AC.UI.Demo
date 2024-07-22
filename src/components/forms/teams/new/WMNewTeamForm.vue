@@ -13,7 +13,11 @@
               type="input-text"
               :label="$t('team-name') + ':'"
           />
-
+        </div>
+      </div>
+      <div class="wm-form-row align-items-end gap-5">
+        <div class="wm-form-row gap-5">
+          <WMInputDropdownManager size="sm" />
         </div>
       </div>
 
@@ -25,10 +29,10 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { inject } from "vue";
-import { useFormUtilsStore } from "@/stores/formUtils";
-import Checkbox from 'primevue/checkbox';
+import {inject, ref} from "vue";
+
 import WMInput from "@/components/forms/WMInput.vue";
+import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
