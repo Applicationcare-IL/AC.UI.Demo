@@ -2,6 +2,7 @@ import { useMagicKeys, whenever } from "@vueuse/core";
 import { defineStore } from "pinia";
 import * as yup from "yup";
 
+import { useAdminUsersStore } from "@/stores/adminUsersStore";
 import { useContactsStore } from "@/stores/contactsStore";
 import { useCustomersStore } from "@/stores/customersStore";
 
@@ -468,10 +469,19 @@ export const useFormUtilsStore = defineStore("formUtils", {
       });
     },
     getUserNewFormValidationSchema: (state) => {
+      // const adminUsersStore = useAdminUsersStore();
+
       return yup.object({
         name: yup.string().required(),
         surname: yup.string().required(),
-        email: yup.string().email().required(),
+        // email: yup
+        //   .string()
+        //   .required()
+        //   .test("unique", "validation.user-already-exists", async (value) => {
+        //     if (!value) return true;
+        //     const exists = await adminUsersStore.checkIfUserExists(value);
+        //     return !exists;
+        //   }),
         phone: yup
           .string()
           .trim()

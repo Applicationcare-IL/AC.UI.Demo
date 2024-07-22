@@ -89,7 +89,7 @@ const onSubmit = handleSubmit((values) => {
 
       closeSidebar();
 
-      toast.successAction({ title: "User created", message: "User created successfully" });
+      toast.success({ title: "User created", message: "User created successfully" });
     })
     .catch((error) => {
       console.error(error);

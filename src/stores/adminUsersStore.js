@@ -34,5 +34,19 @@ export const useAdminUsersStore = defineStore("adminUsers", {
           console.error(error);
         });
     },
+    checkIfUserExists(userEmail) {
+      return axiosConfig
+        .get("/admin/employees", { params: { email: userEmail } })
+        .then((response) => {
+          if (response.data.meta.total > 0) {
+            return true;
+          }
+
+          return false;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });
