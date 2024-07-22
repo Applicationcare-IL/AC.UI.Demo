@@ -56,9 +56,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
   }),
   getters: {
     isOptionSetsPreloaded() {
-      return this.optionSetsToPreload.every((r) =>
-        Object.keys(this.optionSets).includes(r)
-      );
+      return this.optionSetsToPreload.every((r) => Object.keys(this.optionSets).includes(r));
     },
   },
   actions: {
@@ -69,7 +67,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
     },
 
     getOptionSetValues(optionSet) {
-      //If the option set is defined in the store, return it otherwise get it from API
+      // If the option set is defined in the store, return it otherwise get it from API
       if (this[optionSet]) {
         return this[optionSet].map((option) => ({
           value: option.value,
@@ -91,11 +89,11 @@ export const useOptionSetsStore = defineStore("optionSets", {
             const returnOption = {
               value: option.value,
               id: option.id,
+              attributes: option.attributes,
             };
 
             for (const lang of LANGUAGES) {
-              returnOption["value_" + lang.value] =
-                option["value_" + lang.value];
+              returnOption["value_" + lang.value] = option["value_" + lang.value];
             }
 
             return returnOption;
@@ -121,8 +119,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
             };
 
             for (const lang of LANGUAGES) {
-              returnOption["value_" + lang.value] =
-                option["value_" + lang.value];
+              returnOption["value_" + lang.value] = option["value_" + lang.value];
             }
 
             return returnOption;
@@ -165,8 +162,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
     },
 
     getId(optionSet, value) {
-      return this.optionSets[optionSet].find((option) => option.value === value)
-        .id;
+      return this.optionSets[optionSet].find((option) => option.value === value).id;
     },
   },
 });

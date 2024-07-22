@@ -11,9 +11,9 @@
           required="true"
           :label="$t('project.service-area') + ':'"
           :options="serviceAreas"
-          @update:selectedItem="updateSelectedServiceAreas"
           size="md"
           option-set
+          @update:selected-item="updateSelectedServiceAreas"
         />
       </div>
 
@@ -21,7 +21,7 @@
         <WMInput
           v-model="dueDate"
           :value="dueDate"
-          name="payment_date"
+          name="due_date"
           type="date"
           :label="$t('due-date') + ':'"
           required
@@ -31,7 +31,7 @@
         <WMInput
           v-model="expectedDecisionDate"
           :value="expectedDecisionDate"
-          name="payment_date"
+          name="expected_decision_date"
           type="date"
           :label="$t('project.expected-decision-date') + ':'"
           required
@@ -56,24 +56,36 @@
   </OverlayPanel>
 </template>
 <script setup>
+// IMPORTS
 import { onMounted, ref } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
+// DEPENDENCIES
 const { formatDateToAPI } = useDates();
 const optionSetsStore = useOptionSetsStore();
 
-const dueDate = ref(new Date());
-const expectedDecisionDate = ref(new Date());
-
 const { layoutConfig } = useLayout();
 
+// INJECT
+
+// PROPS, EMITS
+
 const emit = defineEmits(["addServiceAreas"]);
+
+// REFS
+const dueDate = ref(new Date());
+const expectedDecisionDate = ref(new Date());
 
 const selectedServiceAreas = ref([]);
 const serviceAreas = ref({});
 
+const isOpen = ref();
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
 const updateSelectedServiceAreas = (event) => {
   selectedServiceAreas.value = event;
 };
@@ -94,11 +106,15 @@ const handleAddButton = () => {
   emit("addServiceAreas", data);
 };
 
-const isOpen = ref();
 const toggle = (event) => {
   isOpen.value.toggle(event);
 };
 
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
   optionSetsStore.getOptionSetValuesFromApi("service_area").then((data) => {
     serviceAreas.value = data;

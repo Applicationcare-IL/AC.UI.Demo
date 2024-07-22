@@ -37,6 +37,8 @@
       :field="column.name"
       :header="column.header ? $t(column.header) : $t(`contact.${column.name}`)"
       :class="column.class"
+      :frozen="column.frozen"
+      :align-frozen="column.alignFrozen"
     >
       <template #body="slotProps">
         <template v-if="column.type === 'text'">
@@ -55,8 +57,9 @@
           <router-link
             :to="'/' + column.to + '/' + slotProps.data[column.linkParameter]"
             class="vertical-align-middle"
-            >{{ slotProps.data[column.name] }}</router-link
           >
+            {{ slotProps.data[column.name] }}
+          </router-link>
         </template>
 
         <template v-if="column.type === 'role'">
@@ -93,6 +96,18 @@
           />
           <div v-else>
             <WMOptionSetValue :option-set="slotProps.data.role_project" />
+          </div>
+        </template>
+        <template v-if="column.type === 'basic_term'">
+          <Dropdown
+            v-if="editMode[slotProps.index]"
+            v-model="slotProps.data.basic_term"
+            :options="optionSets[column.optionSet]"
+            :option-label="optionLabelWithLang"
+            class="w-full p-0"
+          />
+          <div v-else>
+            <WMOptionSetValue :option-set="slotProps.data.basic_term" />
           </div>
         </template>
         <template v-if="column.type === 'actions'">
@@ -339,6 +354,8 @@ const saveRow = (teamMember) => {
     customer: teamMember.customer.id,
     contract_number: teamMember.contract_number ? teamMember.contract_number : 0,
     contract_amount: teamMember.contract_amount ? teamMember.contract_amount : 0,
+    calculate_term: teamMember.calculate_term ? teamMember.calculate_term : 0,
+    basic_term: teamMember.basic_term?.id,
   };
 
   if (teamMember.state === "not-saved") {
@@ -351,6 +368,7 @@ const saveRow = (teamMember) => {
         toast.error("Contact assign Failed");
       });
   } else {
+    console.log("contactParams", contactParams);
     updateTeamMember(projectId, teamMemberId, contactParams)
       .then(() => {
         toast.success({ message: "Contact Successfully updated" });

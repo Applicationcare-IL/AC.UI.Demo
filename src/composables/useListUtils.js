@@ -976,6 +976,8 @@ const useListUtils = () => {
         header: "actions",
         class: "buttons",
         buttons: ["unlink", "edit"],
+        frozen: true,
+        alignFrozen: "right",
       },
       {
         name: "contact_name",
@@ -1014,14 +1016,16 @@ const useListUtils = () => {
       { name: "customers", type: "customers", header: "project.organization" },
       {
         name: "basic_term",
-        type: "text",
-        optionSet: true,
+        type: "basic_term",
         header: "project.basic-term",
+        optionSet: "basic_term",
+        editable: true,
       },
       {
         name: "calculate_term",
         type: "text",
         header: "project.calculate-term",
+        editable: true,
       },
       {
         name: "role_project",
