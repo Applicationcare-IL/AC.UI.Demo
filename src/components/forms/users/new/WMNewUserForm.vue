@@ -4,21 +4,21 @@
       <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["employee.employee"]) }}</h1>
       <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
 
-      <div class="wm-form-row align-items-end gap-5">
-        <div class="wm-form-row gap-5">
-          <WMInput
-            name="first-name"
-            :required="true"
-            type="input-text"
-            :label="$t('first-name') + ':'"
-          />
-          <WMInput
-              name="last-name"
+        <div class="wm-form-row align-items-end gap-5">
+          <div class="wm-form-row gap-5">
+            <WMInput
+              name="first-name"
               :required="true"
               type="input-text"
-              :label="$t('last-name') + ':'"
-          />
-        </div>
+              :label="$t('first-name') + ':'"
+            />
+            <WMInput
+                name="last-name"
+                :required="true"
+                type="input-text"
+                :label="$t('last-name') + ':'"
+            />
+          </div>
         </div>
         <div class="wm-form-row align-items-end gap-5">
           <div class="wm-form-row gap-5">
@@ -37,16 +37,20 @@
             />
           </div>
         </div>
-      <div class="wm-form-row align-items-end gap-5">
-        <div class="wm-form-row gap-5">
-          <WMInput
-              name="manager"
-              :required="true"
-              type="input-select"
-              :label="$t('Manager') + ':'"
-          />
+        <div class="wm-form-row align-items-end gap-5">
+          <div class="wm-form-row gap-5">
+            <WMInput
+                v-if="employeeList.length > 0"
+                v-model="selectedManager"
+                name="manager"
+                type="input-select"
+                :highlighted="true"
+                :label="$t('manager') + ':'"
+                :options="employeeList"
+                size="md"
+            />
+          </div>
         </div>
-      </div>
 
       <Divider class="my-5" layout="horizontal" style="height: 4px" />
       <Divider class="my-5" layout="horizontal" style="height: 4px" />
@@ -54,7 +58,7 @@
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
           <label for="api" class="wm-form-label"> Can use API </label>
-          <Checkbox v-model="api" inputId="api" name="pizza" value="Cheese" />
+          <Checkbox v-model="api" input-id="api" name="" value="" />
         </div>
       </div>
 
@@ -67,13 +71,14 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { inject } from "vue";
-import { useFormUtilsStore } from "@/stores/formUtils";
-import Checkbox from 'primevue/checkbox';
+import { inject, ref } from "vue";
+
 import WMInput from "@/components/forms/WMInput.vue";
+import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
+const { getUsers } = useAdminUsers();
 
 // INJECT
 const closeSidebar = inject("closeSidebar");
@@ -84,6 +89,8 @@ defineProps({
 });
 
 // REFS
+const employeeList = ref([]);
+const selectedManager = ref();
 
 // COMPUTED
 
@@ -105,6 +112,18 @@ defineExpose({
   onSubmit,
   onCancel,
 });
+
+const loadEmployees = async () => {
+  let response = await getUsers();
+  employeeList.value = response.data.map(employee => {
+    return {
+      id: employee.id,
+      label: employee.username
+    }
+  });
+}
+
+loadEmployees();
 
 // WATCHERS
 
