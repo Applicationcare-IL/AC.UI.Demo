@@ -981,6 +981,11 @@ const useListUtils = () => {
         alignFrozen: "right",
       },
       {
+        name: "budget_item",
+        type: "text",
+        header: "budget.budget-item",
+      },
+      {
         name: "contact_name",
         type: "link",
         to: "contact",

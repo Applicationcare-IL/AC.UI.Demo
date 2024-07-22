@@ -562,6 +562,7 @@ const useProjects = () => {
       contract_amount_remaining: teamMember.contract_amount_remaining,
       contract: teamMember.contract,
       has_payments: teamMember.has_payments,
+      budget_item: teamMember.budget_item,
     };
   };
 
