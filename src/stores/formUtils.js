@@ -477,7 +477,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
           .trim()
           .matches(state.israeliLandlineRegex, "validation.phone")
           .required(),
-        manager: yup.string().required(),
+        // manager: yup.string().required(),
       });
     },
     getTeamNewFormValidationSchema: (state) => {
