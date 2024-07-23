@@ -35,8 +35,6 @@ const useAdminFlowmaze = () => {
   };
 
   const parseUser = (user) => {
-    console.log("parseUser", user);
-
     return {
       ...user,
       manager_id: user.manager?.id,

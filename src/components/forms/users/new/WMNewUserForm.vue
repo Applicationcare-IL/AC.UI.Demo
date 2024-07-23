@@ -33,15 +33,11 @@
         </div>
       </div>
 
-      <!-- <Divider class="my-5" layout="horizontal" style="height: 4px" />
-      <Divider class="my-5" layout="horizontal" style="height: 4px" /> -->
+<!--      &lt;!&ndash; <Divider class="my-5" layout="horizontal" style="height: 4px" />-->
 
-      <div class="wm-form-row align-items-end gap-5">
-        <div class="wm-form-row gap-2">
-          <label for="api" class="wm-form-label"> {{ $t("can-use-api") }} </label>
-          <Checkbox v-model="canUseApi" name="can_use_api" :binary="true" />
-        </div>
-      </div>
+
+
+      <Divider class="my-5" layout="horizontal" style="height: 4px" />
 
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
