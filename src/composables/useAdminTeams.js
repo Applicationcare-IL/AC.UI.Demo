@@ -17,6 +17,10 @@ const useAdminFlowmaze = () => {
     return mapTeam(response.data);
   };
 
+  const createTeam = async (params) => {
+    return await adminTeamsStore.createTeam(params);
+  };
+
   const mapTeam = (team) => {
     return {
       ...team,
@@ -28,10 +32,21 @@ const useAdminFlowmaze = () => {
     };
   };
 
+  const parseTeam = (team) => {
+    return {
+      ...team,
+      'manager_id': team.manager?.id,
+    }
+  };
+
   return {
     //ACTIONS
     getTeams,
     getTeam,
+    createTeam,
+    // UTILITIES
+    mapTeam,
+    parseTeam,
   };
 };
 export default useAdminFlowmaze;
