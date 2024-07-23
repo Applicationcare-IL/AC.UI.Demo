@@ -169,6 +169,7 @@ const useTasks = () => {
       open_date: task.last_activity?.creator?.at,
       state: task.state?.value,
       is_open: task.status?.value == "open",
+      approved_amount: task.approved_amount,
     };
   };
 
