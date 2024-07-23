@@ -469,19 +469,19 @@ export const useFormUtilsStore = defineStore("formUtils", {
       });
     },
     getUserNewFormValidationSchema: (state) => {
-      // const adminUsersStore = useAdminUsersStore();
+      const adminUsersStore = useAdminUsersStore();
 
       return yup.object({
         name: yup.string().required(),
         surname: yup.string().required(),
-        // email: yup
-        //   .string()
-        //   .required()
-        //   .test("unique", "validation.user-already-exists", async (value) => {
-        //     if (!value) return true;
-        //     const exists = await adminUsersStore.checkIfUserExists(value);
-        //     return !exists;
-        //   }),
+        email: yup
+          .string()
+          .required()
+          .test("unique", "validation.user-already-exists", async (value) => {
+            if (!value) return true;
+            const exists = await adminUsersStore.checkIfUserExists(value);
+            return !exists;
+          }),
         phone: yup
           .string()
           .trim()

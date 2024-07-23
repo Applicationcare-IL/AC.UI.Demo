@@ -36,13 +36,9 @@ export const useAdminUsersStore = defineStore("adminUsers", {
     },
     checkIfUserExists(userEmail) {
       return axiosConfig
-        .get("/admin/employees", { params: { email: userEmail } })
+        .post("/admin/employees/exists", { email: userEmail })
         .then((response) => {
-          if (response.data.meta.total > 0) {
-            return true;
-          }
-
-          return false;
+          return response.data.exists;
         })
         .catch((error) => {
           console.error(error);
