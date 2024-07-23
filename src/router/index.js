@@ -213,7 +213,7 @@ const router = createRouter({
           path: "/admin",
           name: "adminIndex",
           redirect: () => {
-            return "/admin/scripts";
+            return "/admin/users";
           },
         },
         {
