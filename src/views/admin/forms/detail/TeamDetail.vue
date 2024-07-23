@@ -1,32 +1,54 @@
 <template>
-  TEAM DETAIL
-  <!-- <WMDetailFormSubHeader
-    entity="employee"
+  <WMDetailFormSubHeader
+    entity="team"
     :form-key="formKey"
+    :has-action-builder="false"
+    :show-message-button="false"
+    :show-email-button="false"
     @save-form="saveForm()"
-    @refresh-table="refreshTable"
-    :showSubBar="false"
-    :hasActionBuilder="false"
-  /> -->
-  <!-- <WMDetailUserForm ref="detailUserForm" :form-key="formKey" /> -->
+  />
+  <WMDetailTeamForm ref="detailTeamForm" :form-key="formKey" />
 </template>
 
 <script setup>
-// import { ref } from "vue";
+// IMPORTS
+import { ref } from "vue";
 
-useHead({
-  title: "Team Detail",
-});
+// DEPENDENCIES
 
-// const formKey = ref("adminUserDetailForm");
+// INJECT
 
-// const detailUserForm = ref();
+// PROPS, EMITS
 
-// const saveForm = () => {
-//   detailUserForm.value.onSave();
-// };
+// REFS
+const formKey = ref("adminTeamDetailForm");
+const detailTeamForm = ref();
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
+const saveForm = () => {
+  detailTeamForm.value.onSave();
+};
 
 // const refreshTable = () => {
 //   detailUserForm.value.fetchData();
 // };
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+
+useHead({
+  title: "Team Detail",
+});
 </script>
+
+
+
+
+
+
+

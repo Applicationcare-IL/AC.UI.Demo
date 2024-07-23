@@ -808,6 +808,7 @@
   "team": {
     "team": "Team",
     "name": "Team name",
+    "general-info": "Team information",
     "notification-created-message": "The new team was successfully created! \n From now on he will appear in your team list",
     "notification-created-header": "New Team Created",
     "notification-created-detail": "View Team",
