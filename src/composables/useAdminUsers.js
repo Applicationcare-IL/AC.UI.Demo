@@ -34,6 +34,7 @@ const useAdminFlowmaze = () => {
         id: user.id,
       },
       title: username,
+      manager_fullname: `${user.manager?.name} ${user.manager?.surname}`,
     };
   };
 

@@ -1,4 +1,5 @@
 <template>
+  <!-- <pre>{{ user }}</pre> -->
   <div v-if="user" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="asset-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
@@ -18,18 +19,20 @@
                 </div>
                 <div class="wm-form-row gap-5">
                   <WMInput
-                    name="first_name"
+                    name="name"
                     type="input-text"
                     :highlighted="true"
                     :label="$t('first-name') + ':'"
-                    :value="user.first_name"
+                    :value="user.name"
+                    required
                   />
                   <WMInput
-                    name="last_name"
+                    name="surname"
                     type="input-text"
                     :highlighted="true"
                     :label="$t('last-name') + ':'"
-                    :value="user.last_name"
+                    :value="user.surname"
+                    required
                   />
                 </div>
                 <div class="wm-form-row gap-5">
@@ -39,6 +42,7 @@
                     :highlighted="true"
                     :label="$t('mobilephone') + ':'"
                     :value="user.phone"
+                    required
                   />
                   <WMInput
                     name="email"
@@ -47,9 +51,10 @@
                     :label="$t('email') + ':'"
                     :value="user.email"
                     size="md"
+                    required
                   />
                 </div>
-                <WMInputDropdownManager />
+                <WMInputDropdownManager :selected-manager="user.manager" />
               </div>
             </template>
           </Card>

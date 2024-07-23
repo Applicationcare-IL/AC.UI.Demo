@@ -1,7 +1,7 @@
 <template>
   <WMInput
     v-if="employeeList.length > 0"
-    v-model="selectedManager"
+    :value="selectedOption"
     name="manager"
     type="input-select"
     :highlighted="true"
@@ -14,7 +14,7 @@
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 // DEPENDENCIES
 const { getUsers } = useAdminUsers();
@@ -22,22 +22,26 @@ const { getUsers } = useAdminUsers();
 // INJECT
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   size: {
     type: String,
     default: "md",
+  },
+  selectedManager: {
+    type: Object,
+    default: null,
   },
 });
 
 // REFS
 const employeeList = ref([]);
-const selectedManager = ref();
+const selectedOption = ref(null);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const loadEmployees = async () => {
-  let response = await getUsers();
+  let response = await getUsers({ per_page: 999999999 });
   employeeList.value = response.data.map((employee) => {
     return {
       id: employee.id,
@@ -46,13 +50,21 @@ const loadEmployees = async () => {
   });
 };
 
-loadEmployees();
+const loadSelectedOption = async () => {
+  selectedOption.value = employeeList.value.find((manager) => {
+    return manager.id == props.selectedManager.id;
+  });
+};
 
 // PROVIDE, EXPOSE
 
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  await loadEmployees();
+  await loadSelectedOption();
+});
 </script>
 
 <style scoped></style>

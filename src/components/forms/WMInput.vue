@@ -135,8 +135,8 @@
       show-icon
       :disabled="props.disabled"
       date-format="dd/mm/yy"
-      @date-select="handleDateChange($event)"
       :class="classes"
+      @date-select="handleDateChange($event)"
     />
     <slot></slot>
   </div>

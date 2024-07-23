@@ -60,7 +60,12 @@ const columns = [
     field: "username",
     header: "employee.username",
   },
-
+  {
+    name: "manager",
+    type: "text",
+    field: "manager_fullname",
+    header: "manager",
+  },
   {
     name: "phone",
     type: "text",
