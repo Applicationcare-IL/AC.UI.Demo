@@ -501,7 +501,17 @@ export const useFormUtilsStore = defineStore("formUtils", {
     },
     getTeamNewFormValidationSchema: (state) => {
       return yup.object({
-        "team-name": yup.string().required(),
+        name: yup.string().required(),
+        manager: yup
+            .object()
+            .required({
+              key: "validation.required-select",
+              values: { label: "manager" },
+            })
+            .typeError({
+              key: "validation.required-select",
+              values: { label: "manager" },
+            }),
       });
     },
     getRoleNewFormValidationSchema: (state) => {

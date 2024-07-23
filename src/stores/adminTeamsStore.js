@@ -24,5 +24,15 @@ export const useAdminTeamsStore = defineStore("adminTeams", {
                     console.error(error);
                 });
         },
+        createTeam(team) {
+            return axiosConfig
+                .post("/admin/teams", team)
+                .then((response) => {
+                    return response.data;
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
     },
 });

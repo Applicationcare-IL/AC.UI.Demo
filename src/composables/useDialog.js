@@ -76,6 +76,23 @@ const useDialog = () => {
     });
   };
 
+  const confirmNewAdminTeam = ({ id, emit }) => {
+    confirm.require({
+      message: i18n.t("team.notification-created-message"),
+      header: i18n.t("team.notification-created-header"),
+      acceptLabel: i18n.t("team.notification-created-detail"),
+      rejectLabel: i18n.t("team.notification-created-close"),
+      accept: () => {
+        formUtilsStore.goToAdminDetail(id, "team");
+      },
+      reject: () => {
+        if (emit) {
+          emit("closeSidebar");
+        }
+      },
+    });
+  };
+
   const confirmNewService = ({ id, emit }) => {
     confirm.require({
       message: i18n.t("service.notification-created-message"),
@@ -242,6 +259,7 @@ const useDialog = () => {
     confirmNewContact,
     confirmNewTask,
     confirmNewAdminUser,
+    confirmNewAdminTeam,
     confirmNewService,
     confirmNewProject,
     cancelService,

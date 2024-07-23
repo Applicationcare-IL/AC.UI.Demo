@@ -6,9 +6,8 @@
 
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
-
           <WMInput
-              name="team-name"
+              name="name"
               :required="true"
               type="input-text"
               :label="$t('team-name') + ':'"
@@ -29,33 +28,57 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import {inject, ref} from "vue";
+import {inject, ref, watch} from "vue";
 
 import WMInput from "@/components/forms/WMInput.vue";
 import { useFormUtilsStore } from "@/stores/formUtils";
+import useAdminTeams from "@/composables/useAdminTeams";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
+const { createTeam, parseTeam } = useAdminTeams();
+const toast = useToast();
+const dialog = useDialog();
 
 // INJECT
 const closeSidebar = inject("closeSidebar");
+const isFormDirty = inject("isFormDirty");
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   isSidebar: Boolean,
 });
+
+const emit = defineEmits(["newTeamCreated"]);
 
 // REFS
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit } = useForm({
+const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getTeamNewFormValidationSchema,
 });
 
 const onSubmit = handleSubmit((values) => {
-  console.log("values", values);
+  createTeam(parseTeam(values))
+      .then((data) => {
+        emit("newTeamCreated");
+        dialog.confirmNewAdminTeam({ id: data.data.id, emit });
+
+        resetForm();
+
+        if (props.isSidebar) {
+          isFormDirty.value = false;
+          closeSidebar();
+        }
+
+        toast.success({ title: "Team created", message: "Team created successfully" });
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Error");
+      });
 });
 
 const onCancel = () => {
@@ -69,6 +92,14 @@ defineExpose({
 });
 
 // WATCHERS
+watch(
+    () => meta.value,
+    (value) => {
+      if (!isFormDirty) return;
+
+      isFormDirty.value = value.dirty;
+    }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
