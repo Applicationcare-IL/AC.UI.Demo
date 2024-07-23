@@ -24,13 +24,16 @@ const useAdminFlowmaze = () => {
 
   // UTILITIES
   const mapUser = (user) => {
+    const username = `${user.name} ${user.surname}`;
+
     return {
       ...user,
-      username: `${user.name} ${user.surname}`,
+      username: username,
       link_detail: {
         text: user.id,
         id: user.id,
       },
+      title: username,
     };
   };
 

@@ -15,6 +15,7 @@ export const usePermissionsStore = defineStore("permissions", {
       },
       employees: {
         create: true,
+        update: true,
       },
       teams: {
         create: true,
