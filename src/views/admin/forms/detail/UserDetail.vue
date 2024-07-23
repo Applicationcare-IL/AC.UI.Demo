@@ -1,12 +1,11 @@
 <template>
-  <!-- <WMDetailFormSubHeader
+  <WMDetailFormSubHeader
     entity="employee"
     :form-key="formKey"
+    :show-sub-bar="false"
+    :has-action-builder="false"
     @save-form="saveForm()"
-    @refresh-table="refreshTable"
-    :showSubBar="false"
-    :hasActionBuilder="false"
-  /> -->
+  />
   <WMDetailUserForm ref="detailUserForm" :form-key="formKey" />
 </template>
 
@@ -21,11 +20,7 @@ const formKey = ref("adminUserDetailForm");
 
 const detailUserForm = ref();
 
-// const saveForm = () => {
-//   detailUserForm.value.onSave();
-// };
-
-// const refreshTable = () => {
-//   detailUserForm.value.fetchData();
-// };
+const saveForm = () => {
+  detailUserForm.value.onSave();
+};
 </script>

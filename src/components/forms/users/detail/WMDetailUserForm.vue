@@ -67,11 +67,15 @@
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 
-import WMInput from "@/components/forms/WMInput.vue";
+import { useFormUtilsStore } from "@/stores/formUtils";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const route = useRoute();
 const { getUser } = useAdminUsers();
+
+const formUtilsStore = useFormUtilsStore();
+const utilsStore = useUtilsStore();
 
 // INJECT
 
@@ -86,9 +90,13 @@ const user = ref(null);
 const loadLazyData = async () => {
   let response = await getUser(route.params.id);
   user.value = response;
+  utilsStore.selectedElements["employee"] = [user.value];
 };
 
 loadLazyData();
+
+formUtilsStore.formEntity = "employee";
+utilsStore.entity = "employee";
 
 // PROVIDE, EXPOSE
 
