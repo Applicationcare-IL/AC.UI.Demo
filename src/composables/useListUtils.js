@@ -573,7 +573,11 @@ const useListUtils = () => {
       { name: "sla", type: "sla", class: "sla" },
       { name: "signature_status", type: "optionset", header: "status" },
       { name: "notes", type: "text" },
-      { name: "approved_amount", type: "currency", header: "project.approved-amount" },
+      {
+        name: "approved_amount",
+        type: "currency",
+        header: "project.approved-amount",
+      },
       {
         name: "sign_button",
         type: "sign_button",
@@ -979,6 +983,11 @@ const useListUtils = () => {
         buttons: ["unlink", "edit"],
         frozen: true,
         alignFrozen: "right",
+      },
+      {
+        name: "budget_item",
+        type: "text",
+        header: "budget.budget-item",
       },
       {
         name: "contact_name",
