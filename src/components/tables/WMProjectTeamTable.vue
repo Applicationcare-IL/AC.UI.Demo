@@ -98,6 +98,17 @@
             <WMOptionSetValue :option-set="slotProps.data.role_project" />
           </div>
         </template>
+        <template v-if="column.type === 'budget_item'">
+          <Dropdown
+            v-if="editMode[slotProps.index]"
+            v-model="slotProps.data.budget_item"
+            :options="budgetItems"
+            option-label="name"
+            placeholder="Select a budget item"
+          />
+
+          <div v-else>{{ slotProps.data.budget_item?.name }}</div>
+        </template>
         <template v-if="column.type === 'basic_term'">
           <Dropdown
             v-if="editMode[slotProps.index]"
@@ -190,8 +201,13 @@ const { optionLabelWithLang } = useLanguages();
 const { getAlertCellConditionalStyle } = useListUtils();
 const { getCustomersFromApi } = useCustomers();
 
-const { getProjectTeam, assignContactToProject, unassignContactFromProject, updateTeamMember } =
-  useProjects();
+const {
+  getProjectTeam,
+  assignContactToProject,
+  unassignContactFromProject,
+  updateTeamMember,
+  getBudgetItems,
+} = useProjects();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -233,6 +249,8 @@ const rowsPerPage = ref(10);
 const currentPage = ref(1);
 const datatableOffset = ref(0);
 
+const budgetItems = ref([]);
+
 // COMPUTED
 // If the source of data is external, we don't need to load the
 // data from the API and the functions are dealt internally
@@ -266,6 +284,13 @@ const loadLazyData = () => {
 
     contacts.value = response.contacts;
     totalRecords.value = response.totalRecords;
+  });
+
+  getBudgetItems({ project: props.projectId }).then((response) => {
+    budgetItems.value = response.budgetItems.map((item) => ({
+      name: item.name,
+      id: item.id,
+    }));
   });
 };
 
@@ -356,6 +381,7 @@ const saveRow = (teamMember) => {
     contract_amount: teamMember.contract_amount ? teamMember.contract_amount : 0,
     calculate_term: teamMember.calculate_term ? teamMember.calculate_term : 0,
     basic_term: teamMember.basic_term?.id,
+    budget_item: teamMember.budget_item?.id,
   };
 
   if (teamMember.state === "not-saved") {
@@ -368,7 +394,6 @@ const saveRow = (teamMember) => {
         toast.error("Contact assign Failed");
       });
   } else {
-    console.log("contactParams", contactParams);
     updateTeamMember(projectId, teamMemberId, contactParams)
       .then(() => {
         toast.success({ message: "Contact Successfully updated" });

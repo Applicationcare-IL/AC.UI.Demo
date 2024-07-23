@@ -986,7 +986,7 @@ const useListUtils = () => {
       },
       {
         name: "budget_item",
-        type: "text",
+        type: "budget_item",
         header: "budget.budget-item",
       },
       {
