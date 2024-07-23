@@ -13,7 +13,10 @@
   <WMSidebar :visible="isVisible" name="newTeam" @close-sidebar="closeSidebar">
     <template v-if="can('teams.create')">
       <WMNewEntityFormHeader entity="team" name="newTeam" />
-      <WMNewTeamForm :is-sidebar="true" @close-sidebar="closeSidebar" />
+      <WMNewTeamForm
+          :is-sidebar="true"
+          @close-sidebar="closeSidebar"
+          @new-team-created="handleNewTeamCreated"/>
     </template>
     <template v-else>
       <div class="m-5">
@@ -23,7 +26,7 @@
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMAdminTeamsTable />
+    <WMAdminTeamsTable ref="adminTeamTable" />
   </div>
 </template>
 
@@ -43,6 +46,7 @@ const { can } = usePermissions();
 
 // REFS
 const isVisible = ref(false);
+const adminTeamTable = ref();
 
 // COMPUTED
 
@@ -57,6 +61,10 @@ const toggleSidebarVisibility = () => {
 
 const closeSidebar = () => {
   isVisible.value = false;
+};
+
+const handleNewTeamCreated = () => {
+  adminTeamTable.value.loadLazyData();
 };
 
 // PROVIDE, EXPOSE

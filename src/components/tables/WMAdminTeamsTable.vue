@@ -102,6 +102,9 @@ const onPage = (event) => {
 };
 
 // PROVIDE, EXPOSE
+defineExpose({
+  loadLazyData,
+});
 
 // WATCHERS
 
