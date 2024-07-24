@@ -78,10 +78,11 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const route = useRoute();
-const { getUser } = useAdminUsers();
+const { getUser, updateUser, parseUpdateUser } = useAdminUsers();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
+const toast = useToast();
 
 // INJECT
 
@@ -93,14 +94,29 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(["userUpdated"]);
+
 // REFS
 const user = ref(null);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { meta } = useForm({
-  // validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
+const { handleSubmit, meta, resetForm } = useForm({
+  validationSchema: formUtilsStore.getUserUpdateFormValidationSchema,
+});
+
+const onSave = handleSubmit((values) => {
+  updateUser(route.params.id, parseUpdateUser(values))
+    .then(() => {
+      toast.success({ message: "User updated successfully" });
+      resetForm({ values: values });
+      emit("userUpdated");
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Error updating user");
+    });
 });
 
 const loadLazyData = async () => {
@@ -115,6 +131,9 @@ formUtilsStore.formEntity = "employee";
 utilsStore.entity = "employee";
 
 // PROVIDE, EXPOSE
+defineExpose({
+  onSave,
+});
 
 // WATCHERS
 watch(

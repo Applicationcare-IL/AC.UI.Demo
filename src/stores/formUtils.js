@@ -499,19 +499,57 @@ export const useFormUtilsStore = defineStore("formUtils", {
           }),
       });
     },
+    getUserUpdateFormValidationSchema: (state) => {
+      // const adminUsersStore = useAdminUsersStore();
+
+      return yup.object({
+        name: yup.string().required(),
+        surname: yup.string().required(),
+        // email: yup
+        //   .string()
+        //   .required()
+        //   .test("unique", "validation.user-already-exists", async (email) => {
+        //     if (!email) return true;
+
+        //     console.log("test", this.getFormMeta("email"));
+
+        //     if (adminUsersStore.checkIfUserEmailExists(this.id, email)) {
+        //       return true;
+        //     }
+
+        //     const exists = await adminUsersStore.checkIfUserExists(email);
+        //     return !exists;
+        //   }),
+        phone: yup
+          .string()
+          .trim()
+          .matches(state.israeliLandlineRegex, "validation.phone")
+          .required(),
+        manager: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          }),
+      });
+    },
     getTeamNewFormValidationSchema: (state) => {
       return yup.object({
         name: yup.string().required(),
         manager: yup
-            .object()
-            .required({
-              key: "validation.required-select",
-              values: { label: "manager" },
-            })
-            .typeError({
-              key: "validation.required-select",
-              values: { label: "manager" },
-            }),
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          }),
       });
     },
     getRoleNewFormValidationSchema: (state) => {

@@ -22,6 +22,10 @@ const useAdminFlowmaze = () => {
     return await adminUsersStore.createUser(user);
   };
 
+  const updateUser = async (userId, data) => {
+    return await adminUsersStore.updateUser(userId, data);
+  };
+
   // UTILITIES
   const mapUser = (user) => {
     const username = `${user.name} ${user.surname}`;
@@ -46,14 +50,23 @@ const useAdminFlowmaze = () => {
     };
   };
 
+  const parseUpdateUser = (user) => {
+    return {
+      ...user,
+      manager_id: user.manager?.id,
+    };
+  };
+
   return {
     // ACTIONS
     getUsers,
     getUser,
     createUser,
+    updateUser,
     // UTILITIES
     mapUser,
     parseUser,
+    parseUpdateUser,
   };
 };
 
