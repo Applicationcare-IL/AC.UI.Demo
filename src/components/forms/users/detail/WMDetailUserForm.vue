@@ -69,7 +69,8 @@
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { useForm } from "vee-validate";
+import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -85,6 +86,12 @@ const utilsStore = useUtilsStore();
 // INJECT
 
 // PROPS, EMITS
+const props = defineProps({
+  formKey: {
+    type: String,
+    required: true,
+  },
+});
 
 // REFS
 const user = ref(null);
@@ -92,6 +99,10 @@ const user = ref(null);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const { meta } = useForm({
+  // validationSchema: formUtilsStore.getContactDetailFormValidationSchema,
+});
+
 const loadLazyData = async () => {
   let response = await getUser(route.params.id);
   user.value = response;
@@ -106,6 +117,15 @@ utilsStore.entity = "employee";
 // PROVIDE, EXPOSE
 
 // WATCHERS
+watch(
+  () => meta.value,
+  (value) => {
+    if (value.touched) {
+      formUtilsStore.formMeta = value;
+      formUtilsStore.setFormMetas(value, props.formKey);
+    }
+  }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
