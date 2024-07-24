@@ -9,7 +9,10 @@
     @new="toggleSidebarVisibility"
   >
     <template #custom-buttons>
-      <WMActivateAdminUsersButton :selected-users="selectedUsers" />
+      <WMActivateAdminUsersButton
+        :selected-users="selectedUsers"
+        @activate-user="handleActivateUser"
+      />
     </template>
   </WMListSubHeader>
 
@@ -74,6 +77,11 @@ const handleNewUserCreated = () => {
 
 const onSelectionChanged = (newSelectedUsers) => {
   selectedUsers.value = newSelectedUsers;
+};
+
+const handleActivateUser = () => {
+  console.log("Activate user");
+  adminUserTable.value.loadLazyData();
 };
 
 // PROVIDE, EXPOSE

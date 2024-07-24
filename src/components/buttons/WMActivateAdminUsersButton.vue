@@ -28,6 +28,8 @@ const props = defineProps({
   selectedUsers: Array,
 });
 
+const emit = defineEmits(["activateUser"]);
+
 // REFS
 
 // COMPUTED
@@ -55,7 +57,9 @@ const isDisabled = computed(() => {
 const handleActivateUsers = () => {
   const inactiveUsers = props.selectedUsers.filter((user) => user.active === 0);
   const selectedUsersIds = inactiveUsers.map((user) => user.id);
-  activateUsers(selectedUsersIds);
+  activateUsers(selectedUsersIds).then(() => {
+    emit("activateUser");
+  });
 };
 
 // PROVIDE, EXPOSE
