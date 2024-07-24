@@ -29,13 +29,14 @@ const useAdminFlowmaze = () => {
         id: team.id,
       },
       manager_name: `${team.manager?.name} ${team.manager?.surname}`,
+      title: team.name,
     };
   };
 
   const parseTeam = (team) => {
     return {
       ...team,
-      'manager_id': team.manager?.id,
+      manager_id: team.manager?.id,
     }
   };
 
