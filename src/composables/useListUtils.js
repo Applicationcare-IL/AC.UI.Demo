@@ -929,7 +929,7 @@ const useListUtils = () => {
         name: "planned-contract",
         field: "planned_contract",
         type: "currency",
-        editable: true,
+        editable: false,
       },
       {
         name: "unexpected",
