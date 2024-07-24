@@ -9,11 +9,7 @@
     @new="toggleSidebarVisibility"
   >
     <template #custom-buttons>
-      <WMButton :text="'Activate'" type="type-5" @click="handleActivateUsers">
-        <template #customIcon>
-          <div class="flex" v-html="ActivateUserIcon" />
-        </template>
-      </WMButton>
+      <WMActivateAdminUsersButton :selected-users="selectedUsers" />
     </template>
   </WMListSubHeader>
 
@@ -34,7 +30,7 @@
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMAdminUserTable ref="adminUserTable" />
+    <WMAdminUserTable ref="adminUserTable" @update:selection="onSelectionChanged" />
   </div>
 </template>
 
@@ -42,7 +38,6 @@
 // IMPORTS
 import { onMounted, ref } from "vue";
 
-import ActivateUserIcon from "/icons/activate_user.svg?raw";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
@@ -56,6 +51,7 @@ const { can } = usePermissions();
 // REFS
 const adminUserTable = ref();
 const isVisible = ref(false);
+const selectedUsers = ref([]);
 
 // COMPUTED
 
@@ -76,9 +72,8 @@ const handleNewUserCreated = () => {
   adminUserTable.value.loadLazyData();
 };
 
-const handleActivateUsers = () => {
-  alert("activate users");
-  // adminUserTable.value.activateUsers();
+const onSelectionChanged = (newSelectedUsers) => {
+  selectedUsers.value = newSelectedUsers;
 };
 
 // PROVIDE, EXPOSE

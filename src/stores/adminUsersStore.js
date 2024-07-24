@@ -58,5 +58,15 @@ export const useAdminUsersStore = defineStore("adminUsers", {
       console.log("userId", userId);
       console.log("userEmail", userEmail);
     },
+    activateUser(userId) {
+      return axiosConfig
+        .post(`/admin/employees/${userId}/activate`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

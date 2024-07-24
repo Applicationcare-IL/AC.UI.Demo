@@ -12,6 +12,7 @@
     :total-records="totalRecords"
     class="w-full"
     @page="onPage($event)"
+    @update:selection="onSelectionChanged"
   >
     <Column style="width: 40px" selection-mode="multiple" />
     <Column
@@ -39,6 +40,7 @@ const { getUsers } = useAdminUsers();
 // INJECT
 
 // PROPS, EMITS
+const emit = defineEmits(["update:selection"]);
 
 // REFS
 const selectedUsers = ref([]);
@@ -123,9 +125,9 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-// const onSelectionChanged = (event) => {
-//   selectedContacts.value = event;
-// };
+const onSelectionChanged = () => {
+  emit("update:selection", selectedUsers.value);
+};
 
 // const onPage = (event) => {
 //   console.log(event);

@@ -10,10 +10,7 @@
     @export="handleExportCustomers"
   />
 
-  <WMCustomerPreviewSidebar
-    v-model:visible="isDetailsVisible"
-    :customer="customerDetail"
-  />
+  <WMCustomerPreviewSidebar v-model:visible="isDetailsVisible" :customer="customerDetail" />
 
   <WMSidebar
     :visible="isVisible"
@@ -93,32 +90,16 @@
           {{ formatAddress(slotProps.data.location) }}
         </template>
       </Column>
-      <Column
-        field="open_services"
-        :header="$t('customer.open-services')"
-        class="numeric"
-      ></Column>
-      <Column
-        field="breached_services"
-        :header="$t('customer.breached-services')"
-        class="numeric"
-      >
+      <Column field="open_services" :header="$t('customer.open-services')" class="numeric"></Column>
+      <Column field="breached_services" :header="$t('customer.breached-services')" class="numeric">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.breached_services)">
             {{ slotProps.data.breached_services }}
           </div>
         </template>
       </Column>
-      <Column
-        field="open_tasks"
-        :header="$t('customer.open-tasks')"
-        class="numeric"
-      ></Column>
-      <Column
-        field="breached_tasks"
-        :header="$t('customer.breached-tasks')"
-        class="numeric"
-      >
+      <Column field="open_tasks" :header="$t('customer.open-tasks')" class="numeric"></Column>
+      <Column field="breached_tasks" :header="$t('customer.breached-tasks')" class="numeric">
         <template #body="slotProps">
           <div :class="highlightCellClass(slotProps.data.breached_tasks)">
             {{ slotProps.data.breached_tasks }}
@@ -300,8 +281,7 @@ const setSelectedContacsFromCustomers = async (selectedCustomers) => {
 
   // filter duplicated selected contacts based on ids and check if they are not null
   const uniqueSelectedContacts = selectedContacts.data.filter(
-    (contact, index, self) =>
-      contact && index === self.findIndex((t) => t.id === contact.id)
+    (contact, index, self) => contact && index === self.findIndex((t) => t.id === contact.id)
   );
 
   if (uniqueSelectedContacts.length > 0) {

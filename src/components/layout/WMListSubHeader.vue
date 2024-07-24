@@ -162,13 +162,13 @@ const isFilterApplied = computed(() => {
 });
 
 // COMPONENT METHODS AND LOGIC
-function closeFilterSidebar() {
+const closeFilterSidebar = () => {
   isFilterVisible.value = false;
-}
+};
 
-function openFilterSidebar() {
+const openFilterSidebar = () => {
   isFilterVisible.value = true;
-}
+};
 
 const enetitiesAvailableForExport = ["task", "customer", "contact", "service", "project"];
 
