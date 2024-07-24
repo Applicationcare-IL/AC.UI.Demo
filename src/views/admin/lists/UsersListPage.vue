@@ -8,6 +8,13 @@
     :has-action-builder="false"
     @new="toggleSidebarVisibility"
   >
+    <template #custom-buttons>
+      <WMButton :text="'Activate'" type="type-5" @click="handleActivateUsers">
+        <template #customIcon>
+          <div class="flex" v-html="ActivateUserIcon" />
+        </template>
+      </WMButton>
+    </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newUser" @close-sidebar="closeSidebar">
@@ -35,6 +42,7 @@
 // IMPORTS
 import { onMounted, ref } from "vue";
 
+import ActivateUserIcon from "/icons/activate_user.svg?raw";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
@@ -66,6 +74,11 @@ const closeSidebar = () => {
 
 const handleNewUserCreated = () => {
   adminUserTable.value.loadLazyData();
+};
+
+const handleActivateUsers = () => {
+  alert("activate users");
+  // adminUserTable.value.activateUsers();
 };
 
 // PROVIDE, EXPOSE

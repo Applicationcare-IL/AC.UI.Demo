@@ -72,7 +72,6 @@
             :selected-elements="selectedElements"
             @post-action-executed="$emit('refreshTable')"
           />
-
           <slot name="custom-buttons" />
         </div>
         <div class="flex flex-row align-items-center gap-3">
