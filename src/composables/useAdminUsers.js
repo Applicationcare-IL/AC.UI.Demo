@@ -25,6 +25,7 @@ const useAdminFlowmaze = () => {
   // UTILITIES
   const mapUser = (user) => {
     const username = `${user.name} ${user.surname}`;
+    const manager_fullname = `${user.manager?.name} ${user.manager?.surname}`;
 
     return {
       ...user,
@@ -34,7 +35,7 @@ const useAdminFlowmaze = () => {
         id: user.id,
       },
       title: username,
-      manager_fullname: `${user.manager?.name} ${user.manager?.surname}`,
+      manager_fullname: user.manager?.name && user.manager?.surname ? manager_fullname : "",
     };
   };
 
