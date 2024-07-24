@@ -39,24 +39,36 @@
 
 <script setup>
 // IMPORTS
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import {useRoute} from "vue-router";
 
 import WMInput from "@/components/forms/WMInput.vue";
 import useAdminTeams from "@/composables/useAdminTeams";
 import {useFormUtilsStore} from "@/stores/formUtils";
 import {useUtilsStore} from "@/stores/utils";
+import {useForm} from "vee-validate";
 
 // DEPENDENCIES
 const route = useRoute();
-const { getTeam } = useAdminTeams();
+const { getTeam, updateTeam, parseTeam } = useAdminTeams();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
+const toast = useToast();
+
 
 // INJECT
 
 // PROPS, EMITS
+const props = defineProps({
+  formKey: {
+    type: String,
+    required: true,
+  },
+});
+
+const emit = defineEmits(["teamUpdated"]);
+
 
 // REFS
 const team = ref(null);
@@ -65,6 +77,22 @@ const team = ref(null);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const { handleSubmit, meta, resetForm } = useForm({
+  validationSchema: formUtilsStore.getTeamUpdateFormValidationSchema,
+});
+
+const onSave = handleSubmit((values) => {
+  updateTeam(route.params.id, parseTeam(values))
+      .then(() => {
+        toast.success({ message: "User updated successfully" });
+        resetForm({ values: values });
+        emit("teamUpdated");
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Error updating team");
+      });
+});
 const loadLazyData = async () => {
   team.value = await getTeam(route.params.id);
   utilsStore.selectedElements["team"] = [team.value];
@@ -76,8 +104,20 @@ formUtilsStore.formEntity = "team";
 utilsStore.entity = "team";
 
 // PROVIDE, EXPOSE
+defineExpose({
+  onSave,
+});
 
 // WATCHERS
+watch(
+    () => meta.value,
+    (value) => {
+      if (value.touched) {
+        formUtilsStore.formMeta = value;
+        formUtilsStore.setFormMetas(value, props.formKey);
+      }
+    }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

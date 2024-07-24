@@ -551,6 +551,20 @@ export const useFormUtilsStore = defineStore("formUtils", {
             values: { label: "manager" },
           }),
       });
+    },getTeamUpdateFormValidationSchema: (state) => {
+      return yup.object({
+        name: yup.string().required(),
+        manager: yup
+            .object()
+            .required({
+              key: "validation.required-select",
+              values: { label: "manager" },
+            })
+            .typeError({
+              key: "validation.required-select",
+              values: { label: "manager" },
+            }),
+      });
     },
     getRoleNewFormValidationSchema: (state) => {
       return yup.object({

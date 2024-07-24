@@ -21,6 +21,10 @@ const useAdminFlowmaze = () => {
     return await adminTeamsStore.createTeam(params);
   };
 
+  const updateTeam = async (teamId, params) => {
+    return await adminTeamsStore.updateTeam(teamId, params);
+  };
+
   const mapTeam = (team) => {
     return {
       ...team,
@@ -45,6 +49,7 @@ const useAdminFlowmaze = () => {
     getTeams,
     getTeam,
     createTeam,
+    updateTeam,
     // UTILITIES
     mapTeam,
     parseTeam,

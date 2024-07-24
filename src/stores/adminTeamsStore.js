@@ -34,5 +34,15 @@ export const useAdminTeamsStore = defineStore("adminTeams", {
                     console.error(error);
                 });
         },
+        updateTeam(teamId, data) {
+            return axiosConfig
+                .patch(`/admin/teams/${teamId}`, data)
+                .then((response) => {
+                    return response.data;
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
     },
 });
