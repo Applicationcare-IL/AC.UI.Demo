@@ -80,8 +80,8 @@ const onSelectionChanged = (newSelectedUsers) => {
 };
 
 const handleActivateUser = () => {
-  console.log("Activate user");
   adminUserTable.value.loadLazyData();
+  adminUserTable.value.cleanSelectedUsers();
 };
 
 // PROVIDE, EXPOSE

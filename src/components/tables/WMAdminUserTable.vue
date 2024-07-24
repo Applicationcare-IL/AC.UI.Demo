@@ -129,6 +129,11 @@ const onSelectionChanged = () => {
   emit("update:selection", selectedUsers.value);
 };
 
+const cleanSelectedUsers = () => {
+  selectedUsers.value = [];
+  onSelectionChanged();
+};
+
 // const onPage = (event) => {
 //   console.log(event);
 // };
@@ -136,6 +141,7 @@ const onSelectionChanged = () => {
 // PROVIDE, EXPOSE
 defineExpose({
   loadLazyData,
+  cleanSelectedUsers,
 });
 
 // WATCHERS
