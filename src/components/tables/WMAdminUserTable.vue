@@ -32,7 +32,9 @@
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { ref, watch } from "vue";
+
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { getUsers } = useAdminUsers();
@@ -47,6 +49,9 @@ const selectedUsers = ref([]);
 const totalRecords = ref(0);
 const users = ref([]);
 const lazyParams = ref({});
+
+const utilsStore = useUtilsStore();
+const searchValue = ref("");
 
 const columns = [
   {
@@ -107,11 +112,16 @@ const columns = [
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
   const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
 
-  const params = {
-    page: nextPage,
+  const params = new URLSearchParams({
+    page: nextPage ? nextPage : 1,
     per_page: 10,
-  };
+  });
+
+  if (searchValueParam) {
+    params.append("search", searchValueParam);
+  }
 
   let response = await getUsers(params);
   users.value = response.data;
@@ -145,6 +155,16 @@ defineExpose({
 });
 
 // WATCHERS
+watch(
+  () => utilsStore.searchString["employee"],
+  () => {
+    searchValue.value = utilsStore.searchString["employee"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  },
+  { deep: true }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
