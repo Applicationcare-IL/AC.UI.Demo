@@ -1,7 +1,6 @@
 <template>
   <!-- <pre>{{ reports }}</pre> -->
   <DataTable
-    v-model:selection="selectedReports"
     lazy
     :value="reports"
     data-key="id"
@@ -11,9 +10,7 @@
     :total-records="totalRecords"
     class="w-full"
     @page="onPage($event)"
-    @update:selection="onSelectionChanged"
   >
-    <!-- <Column style="width: 40px" selection-mode="multiple" /> -->
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -41,10 +38,8 @@ const { getReports } = useAdminReports();
 // INJECT
 
 // PROPS, EMITS
-const emit = defineEmits(["update:selection"]);
 
 // REFS
-const selectedReports = ref([]);
 const totalRecords = ref(0);
 const reports = ref([]);
 const lazyParams = ref({});
@@ -72,50 +67,13 @@ const columns = [
     field: "description",
     header: "description",
   },
-  // {
-  //   name: "manager",
-  //   type: "text",
-  //   field: "manager_fullname",
-  //   header: "manager",
-  // },
-  // {
-  //   name: "phone",
-  //   type: "text",
-  //   field: "phone",
-  //   header: "mobilephone",
-  // },
-  // {
-  //   name: "email",
-  //   type: "text",
-  //   field: "email",
-  //   header: "email",
-  // },
-  // {
-  //   name: "active",
-  //   type: "state",
-  //   field: "active",
-  //   header: "state.state",
-  //   width: "100px",
-  //   class: "p-0 filled-td",
-  // },
-  // {
-  //   name: "roles",
-  //   type: "chips",
-  //   field: "roles",
-  //   header: "roles",
-  // },
-  // {
-  //   name: "teams",
-  //   type: "chips",
-  //   field: "teams",
-  //   header: "teams",
-  // },
 ];
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
+  console.log("loadLazyData");
   const filters = utilsStore.filters["admin-reports"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
@@ -142,15 +100,6 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const onSelectionChanged = () => {
-  emit("update:selection", selectedReports.value);
-};
-
-const cleanSelectedReports = () => {
-  selectedReports.value = [];
-  onSelectionChanged();
-};
-
 // const onPage = (event) => {
 //   console.log(event);
 // };
@@ -158,7 +107,6 @@ const cleanSelectedReports = () => {
 // PROVIDE, EXPOSE
 defineExpose({
   loadLazyData,
-  cleanSelectedReports,
 });
 
 // WATCHERS

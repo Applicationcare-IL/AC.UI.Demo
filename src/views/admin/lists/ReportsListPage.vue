@@ -14,7 +14,7 @@
       <WMNewAdminReportForm
         :is-sidebar="true"
         @close-sidebar="closeSidebar"
-        @new-user-created="handleNewUserCreated"
+        @new-report-created="handleNewReportCreated"
       />
     </template>
     <template v-else>
@@ -25,41 +25,8 @@
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMAdminReportsTable ref="adminUserTable" @update:selection="onSelectionChanged" />
+    <WMAdminReportsTable ref="adminReportsTable" @update:selection="onSelectionChanged" />
   </div>
-
-  <!-- <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <DataTable
-      :value="scripts"
-      lazy
-      paginator
-      scrollable
-      scroll-height="flex"
-      :rows="selectedRowsPerPage"
-      :first="0"
-      :total-records="totalRecords"
-      :loading="loading"
-      @page="onPage($event)"
-    >
-      <Column field="id" :header="$t('scripts.id')">
-        <template #body="slotProps">
-          <router-link
-            :to="{
-              name: 'scriptDetail',
-              params: { id: slotProps.data.id },
-            }"
-            class="vertical-align-middle"
-          >
-            {{ slotProps.data.id }}
-          </router-link>
-        </template>
-      </Column>
-      <Column field="name" :header="$t('scripts.name')" />
-      <Column field="hash" :header="$t('scripts.hash')" />
-      <Column field="is_active" :header="$t('scripts.is-active')" />
-      <Column field="flowmaze_id" :header="$t('scripts.flowmaze-id')" />
-    </DataTable>
-  </div> -->
 </template>
 
 <script setup>
@@ -70,7 +37,6 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
-const { selectedRowsPerPage } = useListUtils();
 const { can } = usePermissions();
 
 // INJECT
@@ -78,9 +44,8 @@ const { can } = usePermissions();
 // PROPS, EMITS
 
 // REFS
-const reports = ref([]);
-
 const isVisible = ref(false);
+const adminReportsTable = ref();
 
 // COMPUTED
 
@@ -97,6 +62,11 @@ const toggleSidebarVisibility = () => {
 
 const closeSidebar = () => {
   isVisible.value = false;
+};
+
+const handleNewReportCreated = () => {
+  console.log("handleNewReportCreated");
+  adminReportsTable.value.loadLazyData();
 };
 
 // PROVIDE, EXPOSE
