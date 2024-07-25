@@ -347,6 +347,16 @@ const router = createRouter({
           component: () => import("@/views/admin/forms/detail/ScriptDetail.vue"),
         },
         {
+          path: "reports",
+          name: "adminReports",
+          component: () => import("@/views/admin/lists/ReportsListPage.vue"),
+        },
+        {
+          path: "reports/:id",
+          name: "adminReportDetail",
+          component: () => import("@/views/admin/forms/detail/ReportDetail.vue"),
+        },
+        {
           path: "reports-poc",
           name: "reportsPoc",
           component: () => import("@/views/user/lists/ReportsPOC.vue"),

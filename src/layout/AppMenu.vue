@@ -213,8 +213,8 @@ const model = computed(() => {
           visibility: can("reports.read"),
         },
         {
-          label: t("navigation.reports-poc"),
-          to: "/admin/reports-poc",
+          label: t("navigation.reports"),
+          to: "/admin/reports",
           image: new URL("/icons/nav/reports.svg", import.meta.url).href,
           visibility: true,
         },

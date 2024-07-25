@@ -33,6 +33,10 @@ export const usePermissionsStore = defineStore("permissions", {
       milestones: {
         update: true,
       },
+      reports: {
+        create: true,
+        assign: false,
+      },
     },
     isPermissionsLoaded: false,
   }),
