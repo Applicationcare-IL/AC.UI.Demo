@@ -48,7 +48,7 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
-const { createReport } = useAdminReports();
+const { createReport, parseReport } = useAdminReports();
 const { getEasymazeEntitiesList } = useAdminSystem();
 
 const toast = useToast();
@@ -79,7 +79,7 @@ const { handleSubmit, meta, resetForm } = useForm({
 const onSubmit = handleSubmit((values) => {
   const newReport = {
     ...values,
-    is_private: isPrivate.value ? 1 : 0,
+    private: isPrivate.value ? 1 : 0,
   };
 
   createReport(parseReport(newReport))
@@ -94,7 +94,7 @@ const onSubmit = handleSubmit((values) => {
         closeSidebar();
       }
 
-      toast.success({ title: "User created", message: "User created successfully" });
+      toast.success({ title: "Report created", message: "Report created successfully" });
     })
     .catch((error) => {
       console.error(error);

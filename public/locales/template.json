@@ -815,5 +815,11 @@
     "notification-created-header": "New Team Created",
     "notification-created-detail": "View Team",
     "notification-created-close": "Close"
+  },
+  "admin-report": {
+    "notification-created-message": "The new report was successfully created! \n From now on he will appear in your report list",
+    "notification-created-header": "New report Created",
+    "notification-created-detail": "View report",
+    "notification-created-close": "Close"
   }
 }

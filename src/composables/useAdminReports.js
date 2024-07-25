@@ -28,9 +28,10 @@ const useAdminReports = () => {
   };
 
   const parseReport = (report) => {
+    console.log("parseRepport", report);
     return {
       ...report,
-      easymaze_entity: report.easymaze_entity.id,
+      easymaze_entity: report.entity.id,
     };
   };
 
