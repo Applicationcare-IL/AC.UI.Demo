@@ -31,6 +31,11 @@ const useAdminFlowmaze = () => {
     return await Promise.all(promises);
   };
 
+  const resetPassUsers = async (userIds) => {
+    const promises = userIds.map((userId) => adminUsersStore.resetPassUser(userId));
+    return await Promise.all(promises);
+  };
+
   // UTILITIES
   const mapUser = (user) => {
     const username = `${user.name} ${user.surname}`;
@@ -69,6 +74,7 @@ const useAdminFlowmaze = () => {
     createUser,
     updateUser,
     activateUsers,
+    resetPassUsers,
     // UTILITIES
     mapUser,
     parseUser,
