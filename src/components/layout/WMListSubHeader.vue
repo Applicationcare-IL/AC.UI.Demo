@@ -75,7 +75,10 @@
           <slot name="custom-buttons" />
         </div>
         <div class="flex flex-row align-items-center gap-3">
-          <WMStateToggle v-if="entity === 'task' || entity === 'service'" :entity="entity" />
+          <WMStateToggle
+            v-if="entity === 'task' || entity === 'service' || entity === 'employee'"
+            :entity="entity"
+          />
           <WMOwnerToggle :entity="entity" />
         </div>
       </div>

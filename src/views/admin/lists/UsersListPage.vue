@@ -3,7 +3,6 @@
     entity="employee"
     :total-records="0"
     :show-communications="false"
-    :show-filter-button="false"
     :has-action-builder="false"
     @new="toggleSidebarVisibility"
   >

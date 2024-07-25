@@ -538,6 +538,14 @@ const useFilters = () => {
         to: "payment_date_to",
       },
     ],
+    employee: [
+      {
+        type: "buttons",
+        name: "state",
+        optionSet: "state",
+        label: i18n.t("status") + ":",
+      },
+    ],
   };
 
   return {

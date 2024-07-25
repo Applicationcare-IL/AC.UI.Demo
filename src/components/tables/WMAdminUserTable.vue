@@ -32,7 +32,7 @@
 
 <script setup>
 // IMPORTS
-import { ref, watch } from "vue";
+import { ref, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
@@ -111,10 +111,12 @@ const columns = [
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
+  const filters = utilsStore.filters["employee"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
 
   const params = new URLSearchParams({
+    ...filters,
     page: nextPage ? nextPage : 1,
     per_page: 10,
   });
@@ -155,6 +157,10 @@ defineExpose({
 });
 
 // WATCHERS
+watchEffect(() => {
+  loadLazyData();
+});
+
 watch(
   () => utilsStore.searchString["employee"],
   () => {
