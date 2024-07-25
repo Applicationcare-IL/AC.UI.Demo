@@ -39,6 +39,7 @@ export const usePermissionsStore = defineStore("permissions", {
       },
       "admin-reports": {
         create: true,
+        update: true,
       },
     },
     isPermissionsLoaded: false,

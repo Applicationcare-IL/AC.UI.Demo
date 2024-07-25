@@ -1,6 +1,6 @@
 <template>
   <WMNewFormSubHeader @save-form="saveForm()" @cancel-form="cancelForm()" />
-  <WMNewUserForm ref="newAdminUserForm" />
+  <WMNewAdminReportForm ref="newAdminReportForm" />
 </template>
 
 <script setup>
@@ -16,16 +16,16 @@ const router = useRouter();
 // PROPS, EMITS
 
 // REFS
-const newAdminUserForm = ref();
+const newAdminReportForm = ref();
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const saveForm = () => {
-  newAdminUserForm.value.onSubmit();
+  newAdminReportForm.value.onSubmit();
 };
 
 const cancelForm = () => {
-  router.push({ name: "adminUsers" });
+  router.push({ name: "adminReport" });
 };
 </script>

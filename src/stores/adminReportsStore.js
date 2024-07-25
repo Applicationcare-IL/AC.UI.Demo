@@ -34,5 +34,15 @@ export const useAdminReportsStore = defineStore("adminReports", {
           console.error(error);
         });
     },
+    updateReport(reportId, data) {
+      return axiosConfig
+        .patch(`/admin/reports/${reportId}`, data)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

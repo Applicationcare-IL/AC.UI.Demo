@@ -22,6 +22,10 @@ const useAdminReports = () => {
     await adminReportsStore.createReport(data);
   };
 
+  const updateReport = async (reportId, data) => {
+    await adminReportsStore.updateReport(reportId, data);
+  };
+
   // UTILITIES
   const mapReport = (report) => {
     return {
@@ -46,6 +50,7 @@ const useAdminReports = () => {
     getReports,
     getReport,
     createReport,
+    updateReport,
     //  UTILITIES
     parseReport,
   };

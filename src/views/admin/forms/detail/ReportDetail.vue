@@ -2,8 +2,9 @@
   <WMDetailFormSubHeader
     entity="admin-report"
     :form-key="formKey"
-    :show-sub-bar="false"
     :has-action-builder="false"
+    :show-message-button="false"
+    :show-email-button="false"
     @save-form="saveForm()"
     @refresh-table="refreshTable"
   />

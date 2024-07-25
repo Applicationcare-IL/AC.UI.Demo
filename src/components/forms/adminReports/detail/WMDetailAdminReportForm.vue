@@ -1,24 +1,22 @@
 <template>
-  <!-- <pre>{{ report }}</pre> -->
   <div v-if="report" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="asset-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="flex-1 card-container top-info-card">
           <Card>
             <template #content>
-              <pre>{{ report }}</pre>
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <!-- <WMInput
+                  <WMInput
                     name="id"
                     type="info"
                     :highlighted="true"
                     :label="$t('id') + ':'"
                     :value="report.id"
-                  /> -->
+                  />
                 </div>
-                <div class="wm-form-row gap-5">
-                  <!-- <WMInput
+                <div class="flex flex-column gap-5">
+                  <WMInput
                     name="name"
                     type="input-text"
                     :highlighted="true"
@@ -27,32 +25,14 @@
                     required
                   />
                   <WMInput
-                    name="surname"
-                    type="input-text"
-                    :highlighted="true"
-                    :label="$t('last-name') + ':'"
-                    :value="report.surname"
-                    required
-                  /> -->
-                </div>
-                <div class="wm-form-row gap-5">
-                  <!-- <WMInput
-                    name="phone"
-                    type="input-text"
-                    :highlighted="true"
-                    :label="$t('mobilephone') + ':'"
-                    :value="report.phone"
+                    id="description"
+                    type="text-area"
+                    :label="$t('description') + ':'"
+                    name="description"
+                    size="md"
+                    :value="report.description"
                     required
                   />
-                  <WMInput
-                    name="email"
-                    type="input-text"
-                    :highlighted="true"
-                    :label="$t('email') + ':'"
-                    :value="report.email"
-                    size="md"
-                    required
-                  /> -->
                 </div>
               </div>
             </template>
@@ -77,7 +57,7 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const route = useRoute();
-const { getReport } = useAdminReports();
+const { getReport, updateReport, parseReport } = useAdminReports();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
@@ -106,9 +86,14 @@ const { handleSubmit, meta, resetForm } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  updatereport(route.params.id, parseUpdatereport(values))
+  const updateReportData = {
+    ...values,
+    entity: report.value.entity,
+  };
+
+  updateReport(route.params.id, parseReport(updateReportData))
     .then(() => {
-      toast.success({ message: "report updated successfully" });
+      toast.success({ message: "Report updated successfully" });
       resetForm({ values: values });
       emit("reportUpdated");
     })
