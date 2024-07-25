@@ -19,7 +19,7 @@ const useAdminReports = () => {
   };
 
   const createReport = async (data) => {
-    await adminReportsStore.createReport(data);
+    return await adminReportsStore.createReport(data);
   };
 
   const updateReport = async (reportId, data) => {
