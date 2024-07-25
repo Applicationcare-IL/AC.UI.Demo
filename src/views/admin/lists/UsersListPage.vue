@@ -45,8 +45,8 @@
 // IMPORTS
 import { onMounted, ref } from "vue";
 
-import { useUtilsStore } from "@/stores/utils";
 import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
