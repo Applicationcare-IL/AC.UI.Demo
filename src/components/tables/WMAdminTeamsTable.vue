@@ -11,6 +11,7 @@
     :total-records="totalRecords"
     class="w-full"
     @page="onPage($event)"
+    @update:selection="onSelectionChanged"
   >
     <Column style="width: 40px" selection-mode="multiple" />
     <Column
@@ -30,9 +31,11 @@
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import {ref, watch} from "vue";
 
 import useAdminTeams from "@/composables/useAdminTeams";
+import { useUtilsStore } from "@/stores/utils";
+
 
 // DEPENDENCIES
 const { getTeams } = useAdminTeams();
@@ -40,11 +43,15 @@ const { getTeams } = useAdminTeams();
 // INJECT
 
 // PROPS, EMITS
+const emit = defineEmits(["update:selection"]);
 
 // REFS
 const teams = ref([]);
 const totalRecords = ref(0);
 const lazyParams = ref({});
+
+const utilsStore = useUtilsStore();
+const searchValue = ref("");
 
 const selectedTeams = ref([]);
 
@@ -101,12 +108,32 @@ const onPage = (event) => {
   loadLazyData();
 };
 
+const onSelectionChanged = () => {
+  emit("update:selection", selectedTeams.value);
+};
+
+const cleanSelectedTeams = () => {
+  selectedTeams.value = [];
+  onSelectionChanged();
+};
+
 // PROVIDE, EXPOSE
 defineExpose({
   loadLazyData,
+  cleanSelectedTeams,
 });
 
 // WATCHERS
+watch(
+    () => utilsStore.searchString["team"],
+    () => {
+      searchValue.value = utilsStore.searchString["team"];
+      utilsStore.debounceAction(() => {
+        loadLazyData();
+      });
+    },
+    { deep: true }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

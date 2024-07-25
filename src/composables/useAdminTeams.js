@@ -25,6 +25,11 @@ const useAdminFlowmaze = () => {
     return await adminTeamsStore.updateTeam(teamId, params);
   };
 
+  const activateTeams = async (teamIds) => {
+    const promises = teamIds.map((teamId) => adminTeamsStore.activateTeam(teamId));
+    return await Promise.all(promises);
+  };
+
   const mapTeam = (team) => {
     return {
       ...team,
@@ -50,6 +55,7 @@ const useAdminFlowmaze = () => {
     getTeam,
     createTeam,
     updateTeam,
+    activateTeams,
     // UTILITIES
     mapTeam,
     parseTeam,

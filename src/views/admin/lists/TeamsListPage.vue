@@ -8,6 +8,12 @@
     :show-communications="false"
     @new="toggleSidebarVisibility"
   >
+    <template #custom-buttons>
+      <WMActivateAdminTeamsButton
+          :selected-teams="selectedTeams"
+          @activate-team="handleActivateTeam"
+      />
+    </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newTeam" @close-sidebar="closeSidebar">
@@ -26,7 +32,7 @@
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMAdminTeamsTable ref="adminTeamTable" />
+    <WMAdminTeamsTable ref="adminTeamTable" @update:selection="onSelectionChanged" />
   </div>
 </template>
 
@@ -34,6 +40,7 @@
 // IMPORTS
 import { onMounted, ref } from "vue";
 
+import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
@@ -47,6 +54,7 @@ const { can } = usePermissions();
 // REFS
 const isVisible = ref(false);
 const adminTeamTable = ref();
+const selectedTeams = ref([])
 
 // COMPUTED
 
@@ -65,6 +73,16 @@ const closeSidebar = () => {
 
 const handleNewTeamCreated = () => {
   adminTeamTable.value.loadLazyData();
+};
+
+const onSelectionChanged = (newSelectedTeams) => {
+  selectedTeams.value = newSelectedTeams;
+  console.log(selectedTeams.value);
+};
+
+const handleActivateTeam = () => {
+  adminTeamTable.value.loadLazyData();
+  adminTeamTable.value.cleanSelectedTeams();
 };
 
 // PROVIDE, EXPOSE
