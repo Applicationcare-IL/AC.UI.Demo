@@ -1,7 +1,7 @@
 <template>
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
-      <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["employee.employee"]) }}</h1>
+      <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["admin-report.report"]) }}</h1>
 
       <div class="flex flex-column gap-2">
         <WMInput name="name" required size="md" type="input-text" :label="$t('name') + ':'" />
@@ -80,6 +80,7 @@ const onSubmit = handleSubmit((values) => {
   const newReport = {
     ...values,
     private: isPrivate.value ? 1 : 0,
+    order_dir: "desc",
   };
 
   createReport(parseReport(newReport))
