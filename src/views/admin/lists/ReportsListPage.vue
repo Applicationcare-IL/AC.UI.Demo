@@ -1,13 +1,32 @@
 <template>
   <WMListSubHeader
-    entity="report"
+    entity="admin-report"
     :show-filter-button="false"
     :show-search-bar="false"
     :show-communications="false"
     :has-action-builder="false"
-    :total-records="totalRecords"
     @new="toggleSidebarVisibility"
   />
+
+  <WMSidebar :visible="isVisible" name="newAdminReport" @close-sidebar="closeSidebar">
+    <template v-if="can('admin-reports.create')">
+      <WMNewEntityFormHeader entity="admin-report" name="newAdminReport" />
+      <WMNewAdminReportForm
+        :is-sidebar="true"
+        @close-sidebar="closeSidebar"
+        @new-user-created="handleNewUserCreated"
+      />
+    </template>
+    <template v-else>
+      <div class="m-5">
+        {{ $t("permissions.you-dont-have-permission") }}
+      </div>
+    </template>
+  </WMSidebar>
+
+  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
+    <WMAdminReportsTable ref="adminUserTable" @update:selection="onSelectionChanged" />
+  </div>
 
   <!-- <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <DataTable
@@ -52,56 +71,33 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
 const { selectedRowsPerPage } = useListUtils();
-const { getScripts, syncScripts } = useAdminFlowmaze();
+const { can } = usePermissions();
 
 // INJECT
 
 // PROPS, EMITS
 
 // REFS
-const scripts = ref([]);
-const loading = ref(false);
-const totalRecords = ref(0);
-const lazyParams = ref({});
+const reports = ref([]);
+
+const isVisible = ref(false);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 useHead({
-  title: "Scripts",
+  title: "Reports",
 });
 
-const loadLazyData = () => {
-  loading.value = true;
+utilsStore.entity = "admin-report";
 
-  const nextPage = lazyParams.value.page ? lazyParams.value.page + 1 : 0;
-
-  const params = new URLSearchParams({
-    page: nextPage,
-    per_page: selectedRowsPerPage.value,
-  });
-
-  getScripts(params).then((result) => {
-    scripts.value = result.data;
-    totalRecords.value = result.totalRecords;
-    loading.value = false;
-  });
+const toggleSidebarVisibility = () => {
+  isVisible.value = !isVisible.value;
 };
 
-const onPage = (event) => {
-  lazyParams.value = event;
-  loadLazyData();
+const closeSidebar = () => {
+  isVisible.value = false;
 };
-
-const handleSyncScripts = () => {
-  syncScripts().then(() => {
-    loadLazyData();
-  });
-};
-
-loadLazyData();
-
-utilsStore.entity = "report";
 
 // PROVIDE, EXPOSE
 

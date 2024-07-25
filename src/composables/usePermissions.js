@@ -14,6 +14,7 @@ const usePermissions = () => {
    * @returns false if the user does not have the permission or the permission does not exist
    */
   const can = (permission) => {
+    console.log("permission", permission, !permissionsStore.permissionExists(permission));
     if (!permissionsStore.permissionExists(permission)) {
       return false;
     }
