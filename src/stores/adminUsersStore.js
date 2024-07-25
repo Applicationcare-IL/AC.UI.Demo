@@ -68,5 +68,15 @@ export const useAdminUsersStore = defineStore("adminUsers", {
           console.error(error);
         });
     },
+    resetPassUser(userId) {
+      return axiosConfig
+          .post(`/admin/employees/${userId}/send-reset-password-email`)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+    },
   },
 });

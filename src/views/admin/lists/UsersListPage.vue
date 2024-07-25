@@ -7,10 +7,16 @@
     @new="toggleSidebarVisibility"
   >
     <template #custom-buttons>
-      <WMActivateAdminUsersButton
-        :selected-users="selectedUsers"
-        @activate-user="handleActivateUser"
-      />
+      <div class="flex gap-3">
+        <WMActivateAdminUsersButton
+          :selected-users="selectedUsers"
+          @activate-user="handleActivateUser"
+        />
+        <WMResetPassAdminUsersButton
+          :selected-users="selectedUsers"
+          @reset-pass-user="handleResetPass"
+        />
+      </div>
     </template>
   </WMListSubHeader>
 
@@ -40,6 +46,7 @@
 import { onMounted, ref } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
+import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
@@ -78,6 +85,11 @@ const onSelectionChanged = (newSelectedUsers) => {
 };
 
 const handleActivateUser = () => {
+  adminUserTable.value.loadLazyData();
+  adminUserTable.value.cleanSelectedUsers();
+};
+
+const handleResetPass = () => {
   adminUserTable.value.loadLazyData();
   adminUserTable.value.cleanSelectedUsers();
 };
