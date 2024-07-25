@@ -818,6 +818,7 @@
   },
   "admin-report": {
     "report": "Report",
+    "admin-report": "Report",
     "notification-created-message": "The new report was successfully created! \n From now on he will appear in your report list",
     "notification-created-header": "New report Created",
     "notification-created-detail": "View report",
