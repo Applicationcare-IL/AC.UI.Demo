@@ -14,5 +14,15 @@ export const useAdminReportsStore = defineStore("adminReports", {
           console.error(error);
         });
     },
+    createReport(data) {
+      return axiosConfig
+        .post("/admin/reports", data)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

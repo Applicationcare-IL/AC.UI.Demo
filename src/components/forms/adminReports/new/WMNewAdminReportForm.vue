@@ -2,42 +2,37 @@
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
       <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["employee.employee"]) }}</h1>
-      <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
 
-      <div class="wm-form-row align-items-end gap-5">
-        <div class="wm-form-row gap-5">
-          <WMInput name="name" :required="true" type="input-text" :label="$t('first-name') + ':'" />
-          <WMInput
-            name="surname"
-            :required="true"
-            type="input-text"
-            :label="$t('last-name') + ':'"
-          />
-        </div>
-      </div>
-      <div class="wm-form-row align-items-end gap-5">
-        <div class="wm-form-row gap-5">
-          <WMInput
-            name="email"
-            :required="true"
-            type="input-text"
-            :label="$t('email') + ':'"
-            size="md"
-          />
-          <WMInput name="phone" :required="true" type="input-text" :label="$t('Mobile') + ':'" />
-        </div>
-      </div>
-      <div class="wm-form-row align-items-end gap-5">
-        <div class="wm-form-row gap-5">
-          <WMInputDropdownManager size="sm" />
-        </div>
+      <div class="flex flex-column gap-2">
+        <WMInput name="name" required size="md" type="input-text" :label="$t('name') + ':'" />
+        <WMInput
+          id="description"
+          type="text-area"
+          :label="$t('description') + ':'"
+          name="description"
+          size="md"
+          required
+        />
       </div>
 
-<!--      &lt;!&ndash; <Divider class="my-5" layout="horizontal" style="height: 4px" />-->
+      <div class="flex flex-column gap-2">
+        <WMInput
+          v-if="entities.length > 0"
+          name="entity"
+          type="input-select"
+          :highlighted="true"
+          :label="$t('entity') + ':'"
+          :options="entities"
+          custom-option-label="name"
+          required
+          size="md"
+        />
+      </div>
 
-
-
-      <Divider class="my-5" layout="horizontal" style="height: 4px" />
+      <div class="flex mt-4 gap-2">
+        <label class="wm-form-label" for="is_private">{{ $t("private") + ":" }}</label>
+        <Checkbox v-model="isPrivate" name="is_private" :binary="true" />
+      </div>
 
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
@@ -53,7 +48,9 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
-const { createUser, parseUser } = useAdminUsers();
+const { createReport } = useAdminReports();
+const { getEasymazeEntitiesList } = useAdminSystem();
+
 const toast = useToast();
 const dialog = useDialog();
 
@@ -66,27 +63,28 @@ const props = defineProps({
   isSidebar: Boolean,
 });
 
-const emit = defineEmits(["newUserCreated"]);
+const emit = defineEmits(["newReportCreated"]);
 
 // REFS
-const canUseApi = ref(false);
+const entities = ref([]);
+const isPrivate = ref(false);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const { handleSubmit, meta, resetForm } = useForm({
-  validationSchema: formUtilsStore.getUserNewFormValidationSchema,
+  validationSchema: formUtilsStore.getAdminReportNewFormValidationSchema,
 });
 
 const onSubmit = handleSubmit((values) => {
-  const newUser = {
+  const newReport = {
     ...values,
-    can_use_api: canUseApi.value ? 1 : 0,
+    is_private: isPrivate.value ? 1 : 0,
   };
 
-  createUser(parseUser(newUser))
+  createReport(parseReport(newReport))
     .then((data) => {
-      emit("newUserCreated");
+      emit("newReportCreated");
       dialog.confirmNewAdminUser({ id: data.data.id, emit });
 
       resetForm();
@@ -107,6 +105,14 @@ const onSubmit = handleSubmit((values) => {
 const onCancel = () => {
   closeSidebar();
 };
+
+const fetchEntities = () => {
+  getEasymazeEntitiesList().then((result) => {
+    entities.value = result.data;
+  });
+};
+
+fetchEntities();
 
 // PROVIDE, EXPOSE
 defineExpose({

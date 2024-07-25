@@ -88,5 +88,7 @@ module.exports = {
     useProducts: true,
     useAdminUsers: true,
     useAdminReports: true,
+    useAdminSystem: true,
+    useSchema: true,
   },
 };

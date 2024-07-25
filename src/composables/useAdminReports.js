@@ -12,6 +12,10 @@ const useAdminReports = () => {
     return { data: reports, totalRecords };
   };
 
+  const createReport = async (data) => {
+    await adminReportsStore.createReport(data);
+  };
+
   // UTILITIES
   const mapReport = (report) => {
     return {
@@ -23,9 +27,19 @@ const useAdminReports = () => {
     };
   };
 
+  const parseReport = (report) => {
+    return {
+      ...report,
+      easymaze_entity: report.easymaze_entity.id,
+    };
+  };
+
   return {
     // ACTIONS
     getReports,
+    createReport,
+    //  UTILITIES
+    parseReport,
   };
 };
 
