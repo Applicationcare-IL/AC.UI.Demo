@@ -30,6 +30,7 @@ const useAdminReports = () => {
   const mapReport = (report) => {
     return {
       ...report,
+      entity_name: report.easymaze_entity?.name,
       link_detail: {
         text: report.id,
         id: report.id,
@@ -38,7 +39,6 @@ const useAdminReports = () => {
   };
 
   const parseReport = (report) => {
-    console.log("parseRepport", report);
     return {
       ...report,
       easymaze_entity: report.entity.id,

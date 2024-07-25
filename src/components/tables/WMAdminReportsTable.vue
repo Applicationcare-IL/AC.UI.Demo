@@ -67,6 +67,12 @@ const columns = [
     field: "description",
     header: "description",
   },
+  {
+    name: "entity",
+    type: "text",
+    field: "entity_name",
+    header: "entity",
+  },
 ];
 
 // COMPUTED
