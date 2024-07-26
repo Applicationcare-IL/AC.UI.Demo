@@ -265,16 +265,17 @@ const loadLazyData = async () => {
   utilsStore.selectedElements["admin-report"] = [report.value];
 };
 
-loadLazyData();
-
 formUtilsStore.formEntity = "admin-report";
 utilsStore.entity = "admin-report";
 
 const setSelectedEntity = () => {
   if (report.value.easymaze_entity) {
+    console.log("selectedEntity.value", report.value.easymaze_entity);
+
     selectedEntity.value = entities.value.find(
       (entity) => entity.id === report.value.easymaze_entity.id
     );
+    console.log("filtro");
 
     onEntityChange(selectedEntity.value);
   }
@@ -287,9 +288,8 @@ const fetchEntities = () => {
   });
 };
 
-fetchEntities();
-
 const onEntityChange = (entity) => {
+  console.log("onEntityChange", entity);
   getSchemaFields(entity.name, true).then(async (result) => {
     schemaFields.value = result.map((item) => ({ name: item, id: item, value: item }));
     selectedFields.value = [];
@@ -550,5 +550,8 @@ watch(
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(() => {});
+onMounted(async () => {
+  await loadLazyData();
+  await fetchEntities();
+});
 </script>
