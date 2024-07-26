@@ -822,6 +822,8 @@
     "notification-created-message": "The new report was successfully created! \n From now on he will appear in your report list",
     "notification-created-header": "New report Created",
     "notification-created-detail": "View report",
-    "notification-created-close": "Close"
+    "notification-created-close": "Close",
+    "report-configuration": "Report Configuration",
+    "report-preview": "Report Preview"
   }
 }

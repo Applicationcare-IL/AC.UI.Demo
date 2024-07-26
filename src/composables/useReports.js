@@ -1,6 +1,6 @@
 import { useReportsStore } from "@/stores/reportsStore";
 
-export function useReports() {
+const useReports = () => {
   const reportsStore = useReportsStore();
 
   const getReport = async ({
@@ -29,4 +29,6 @@ export function useReports() {
     // ACTIONS
     getReport,
   };
-}
+};
+
+export default useReports;
