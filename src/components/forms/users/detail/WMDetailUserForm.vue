@@ -59,6 +59,24 @@
             </template>
           </Card>
         </div>
+        <div class="card-container top-info-card" style="flex: 2">
+          <Card>
+            <template #title> {{ $t("employee.teams-and-roles") }} </template>
+            <template #content>
+              <WMInputSearch
+                  name="service_area"
+                  :placeholder="$t('select', ['customer.area'])"
+                  :required="true"
+                  :multiple="true"
+                  size="full"
+                  :options="teams"
+                  :highlighted="true"
+                  :model-value="selectedServiceAreas"
+              />
+              <pre>{{ teams }}</pre>
+            </template>
+          </Card>
+        </div>
       </div>
     </div>
   </div>
@@ -69,16 +87,18 @@
 
 <script setup>
 // IMPORTS
-import { useForm } from "vee-validate";
-import { ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import {useForm} from "vee-validate";
+import {ref, watch} from "vue";
+import {useRoute} from "vue-router";
 
-import { useFormUtilsStore } from "@/stores/formUtils";
-import { useUtilsStore } from "@/stores/utils";
+import useAdminTeams from "@/composables/useAdminTeams";
+import {useFormUtilsStore} from "@/stores/formUtils";
+import {useUtilsStore} from "@/stores/utils";
 
 // DEPENDENCIES
 const route = useRoute();
 const { getUser, updateUser, parseUpdateUser } = useAdminUsers();
+const { getTeams } = useAdminTeams();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
@@ -98,6 +118,7 @@ const emit = defineEmits(["userUpdated"]);
 
 // REFS
 const user = ref(null);
+const teams = ref();
 
 // COMPUTED
 
@@ -120,9 +141,10 @@ const onSave = handleSubmit((values) => {
 });
 
 const loadLazyData = async () => {
-  let response = await getUser(route.params.id);
-  user.value = response;
+  user.value = await getUser(route.params.id);
   utilsStore.selectedElements["employee"] = [user.value];
+
+  teams.value = await getTeams();
 };
 
 loadLazyData();
