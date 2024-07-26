@@ -3,10 +3,10 @@
     <div class="flex flex-column gap-2">
       <label class="wm-form-label" for="entity">Select an entity:</label>
       <Dropdown
-        name="entity"
         v-model="selectedEntity"
+        name="entity"
         :options="entities"
-        optionLabel="name"
+        option-label="name"
         placeholder="Select an entity"
         class="w-full md:w-14rem"
         @change="onEntityChange($event.value)"
@@ -97,7 +97,7 @@
         />
       </DataTable>
 
-      <div class="card mt-5 flex justify-content-center" v-if="showGraph">
+      <div v-if="showGraph" class="card mt-5 flex justify-content-center">
         <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-30rem" />
       </div>
     </div>
@@ -107,8 +107,8 @@
 <script setup>
 // IMPORTS
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
-import { useOptionSetsStore } from "@/stores/optionSets";
 
+import { useOptionSetsStore } from "@/stores/optionSets";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES

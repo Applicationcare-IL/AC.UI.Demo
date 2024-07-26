@@ -352,7 +352,12 @@ const router = createRouter({
           component: () => import("@/views/admin/lists/ReportsListPage.vue"),
         },
         {
-          path: "reports/:id",
+          path: "reports/new-report",
+          name: "newAdminReport",
+          component: () => import("@/views/admin/forms/new/NewReport.vue"),
+        },
+        {
+          path: "report/:id",
           name: "adminReportDetail",
           component: () => import("@/views/admin/forms/detail/ReportDetail.vue"),
         },

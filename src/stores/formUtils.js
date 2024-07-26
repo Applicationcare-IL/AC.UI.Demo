@@ -551,35 +551,52 @@ export const useFormUtilsStore = defineStore("formUtils", {
             values: { label: "manager" },
           }),
       });
-    },getTeamUpdateFormValidationSchema: (state) => {
+    },
+    getTeamUpdateFormValidationSchema: () => {
       return yup.object({
         name: yup.string().required(),
         manager: yup
-            .object()
-            .required({
-              key: "validation.required-select",
-              values: { label: "manager" },
-            })
-            .typeError({
-              key: "validation.required-select",
-              values: { label: "manager" },
-            }),
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          }),
       });
     },
-    getRoleNewFormValidationSchema: (state) => {
+    getRoleNewFormValidationSchema: () => {
       return yup.object({
         "role-name": yup.string().required(),
       });
     },
-    getQuickCodeNewFormValidationSchema: (state) => {
+    getQuickCodeNewFormValidationSchema: () => {
       return yup.object({
         "quickCode-name": yup.string().required(),
         "team-name": yup.string().required(),
       });
     },
-    getMessageNewFormValidationSchema: (state) => {
+    getMessageNewFormValidationSchema: () => {
       return yup.object({
         "message-header": yup.string().required(),
+      });
+    },
+    getAdminReportNewFormValidationSchema: () => {
+      return yup.object({
+        name: yup.string().required(),
+        description: yup.string().required(),
+        entity: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "entity" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "entity" },
+          }),
       });
     },
   },

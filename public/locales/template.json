@@ -15,6 +15,7 @@
   },
   "actions": "Actions",
   "user": "User",
+  "name": "Name",
   "first-name": "First Name",
   "last-name": "Last Name",
   "id": "System ID",
@@ -97,6 +98,7 @@
   "team-name": "Team name",
   "manager": "Manager",
   "can-use-api": "Can use API",
+  "private": "Private",
   "week-days": {
     "monday": "Monday",
     "monday-short": "Mo",
@@ -814,5 +816,15 @@
     "notification-created-header": "New Team Created",
     "notification-created-detail": "View Team",
     "notification-created-close": "Close"
+  },
+  "admin-report": {
+    "report": "Report",
+    "admin-report": "Report",
+    "notification-created-message": "The new report was successfully created! \n From now on he will appear in your report list",
+    "notification-created-header": "New report Created",
+    "notification-created-detail": "View report",
+    "notification-created-close": "Close",
+    "report-configuration": "Report Configuration",
+    "report-preview": "Report Preview"
   }
 }

@@ -1,31 +1,32 @@
 <template>
   <WMDetailFormSubHeader
-    entity="script"
+    entity="admin-report"
     :form-key="formKey"
-    :show-sub-bar="false"
     :has-action-builder="false"
+    :show-message-button="false"
+    :show-email-button="false"
     @save-form="saveForm()"
     @refresh-table="refreshTable"
   />
-  <WMDetailScriptForm ref="detailScriptForm" :form-key="formKey" />
+  <WMDetailAdminReportForm ref="detailAdminReportForm" :form-key="formKey" />
 </template>
 
 <script setup>
 import { ref } from "vue";
 
 useHead({
-  title: "Script Detail",
+  title: "Report Detail",
 });
 
-const formKey = ref("assetDetailForm");
+const formKey = ref("adminReportDetailForm");
 
-const detailScriptForm = ref(null);
+const detailAdminReportForm = ref(null);
 
 const saveForm = () => {
-  detailScriptForm.value.onSave();
+  detailAdminReportForm.value.onSave();
 };
 
 const refreshTable = () => {
-  detailScriptForm.value.fetchData();
+  detailAdminReportForm.value.fetchData();
 };
 </script>

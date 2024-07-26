@@ -16,10 +16,7 @@
             @click="$emit('new')"
           />
 
-          <WMLinkServicesButton
-            v-if="utilsStore.entity == 'service'"
-            :selected-elements="selectedElements"
-          />
+          <WMLinkServicesButton v-if="entity == 'service'" :selected-elements="selectedElements" />
 
           <WMButton
             v-if="showExportButton"
@@ -35,31 +32,31 @@
           <Divider layout="vertical" />
 
           <WMCompleteTasksButton
-            v-if="utilsStore.entity == 'task'"
-            :entity="utilsStore.entity"
+            v-if="entity == 'task'"
+            :entity="entity"
             @task-completed="$emit('taskCompleted')"
           />
 
           <WMDeactivateAssetButton
-            v-if="utilsStore.entity == 'asset'"
-            :entity="utilsStore.entity"
+            v-if="entity == 'asset'"
+            :entity="entity"
             @asset-deactivated="$emit('assetDeactivated')"
           />
 
           <WMAssignOwnerButton
-            v-if="can(utilsStore.pluralEntity + '.assign') && utilsStore.entity != 'asset'"
-            :entity="utilsStore.entity"
+            v-if="can(utilsStore.pluralEntity + '.assign') && entity != 'asset'"
+            :entity="entity"
             @owner-assigned="$emit('refreshTable')"
           />
 
           <WMSendMessageButton
-            v-if="utilsStore.entity != 'asset' && showCommunications"
+            v-if="entity != 'asset' && showCommunications"
             :selected-elements="selectedElements"
             :multiple="true"
           />
 
           <WMSendEmailButton
-            v-if="can('global.mail') && utilsStore.entity != 'asset' && showCommunications"
+            v-if="can('global.mail') && entity != 'asset' && showCommunications"
             :selected-elements="selectedElements"
             :multiple="true"
           />
@@ -177,8 +174,7 @@ const enetitiesAvailableForExport = ["task", "customer", "contact", "service", "
 
 const showExportButton = computed(() => {
   return (
-    can(utilsStore.pluralEntity + ".export") &&
-    enetitiesAvailableForExport.includes(utilsStore.entity)
+    can(utilsStore.pluralEntity + ".export") && enetitiesAvailableForExport.includes(props.entity)
   );
 });
 

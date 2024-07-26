@@ -1,46 +1,32 @@
 <template>
   <WMListSubHeader
-    entity="report"
+    entity="admin-report"
     :show-filter-button="false"
     :show-search-bar="false"
     :show-communications="false"
     :has-action-builder="false"
-    :total-records="totalRecords"
     @new="toggleSidebarVisibility"
   />
 
-  <!-- <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <DataTable
-      :value="scripts"
-      lazy
-      paginator
-      scrollable
-      scroll-height="flex"
-      :rows="selectedRowsPerPage"
-      :first="0"
-      :total-records="totalRecords"
-      :loading="loading"
-      @page="onPage($event)"
-    >
-      <Column field="id" :header="$t('scripts.id')">
-        <template #body="slotProps">
-          <router-link
-            :to="{
-              name: 'scriptDetail',
-              params: { id: slotProps.data.id },
-            }"
-            class="vertical-align-middle"
-          >
-            {{ slotProps.data.id }}
-          </router-link>
-        </template>
-      </Column>
-      <Column field="name" :header="$t('scripts.name')" />
-      <Column field="hash" :header="$t('scripts.hash')" />
-      <Column field="is_active" :header="$t('scripts.is-active')" />
-      <Column field="flowmaze_id" :header="$t('scripts.flowmaze-id')" />
-    </DataTable>
-  </div> -->
+  <WMSidebar :visible="isVisible" name="newAdminReport" @close-sidebar="closeSidebar">
+    <template v-if="can('admin-reports.create')">
+      <WMNewEntityFormHeader entity="admin-report" name="newAdminReport" />
+      <WMNewAdminReportForm
+        :is-sidebar="true"
+        @close-sidebar="closeSidebar"
+        @new-report-created="handleNewReportCreated"
+      />
+    </template>
+    <template v-else>
+      <div class="m-5">
+        {{ $t("permissions.you-dont-have-permission") }}
+      </div>
+    </template>
+  </WMSidebar>
+
+  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
+    <WMAdminReportsTable ref="adminReportsTable" @update:selection="onSelectionChanged" />
+  </div>
 </template>
 
 <script setup>
@@ -51,57 +37,37 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
-const { selectedRowsPerPage } = useListUtils();
-const { getScripts, syncScripts } = useAdminFlowmaze();
+const { can } = usePermissions();
 
 // INJECT
 
 // PROPS, EMITS
 
 // REFS
-const scripts = ref([]);
-const loading = ref(false);
-const totalRecords = ref(0);
-const lazyParams = ref({});
+const isVisible = ref(false);
+const adminReportsTable = ref();
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 useHead({
-  title: "Scripts",
+  title: "Reports",
 });
 
-const loadLazyData = () => {
-  loading.value = true;
+utilsStore.entity = "admin-report";
 
-  const nextPage = lazyParams.value.page ? lazyParams.value.page + 1 : 0;
-
-  const params = new URLSearchParams({
-    page: nextPage,
-    per_page: selectedRowsPerPage.value,
-  });
-
-  getScripts(params).then((result) => {
-    scripts.value = result.data;
-    totalRecords.value = result.totalRecords;
-    loading.value = false;
-  });
+const toggleSidebarVisibility = () => {
+  isVisible.value = !isVisible.value;
 };
 
-const onPage = (event) => {
-  lazyParams.value = event;
-  loadLazyData();
+const closeSidebar = () => {
+  isVisible.value = false;
 };
 
-const handleSyncScripts = () => {
-  syncScripts().then(() => {
-    loadLazyData();
-  });
+const handleNewReportCreated = () => {
+  console.log("handleNewReportCreated");
+  adminReportsTable.value.loadLazyData();
 };
-
-loadLazyData();
-
-utilsStore.entity = "report";
 
 // PROVIDE, EXPOSE
 
