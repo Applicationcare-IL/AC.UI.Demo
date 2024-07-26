@@ -60,35 +60,33 @@
           </Card>
         </div>
         <div class="card-container top-info-card" style="flex: 2">
-          <Card>
+          <Card >
             <template #title> {{ $t("employee.teams-and-roles") }} </template>
             <template #content>
               <WMInputSearch
-                  name="service_area"
-                  :placeholder="$t('select', ['customer.area'])"
+                  v-if="teams"
+                  name="teams"
+                  :placeholder="$t('select-team')"
                   :required="true"
                   :multiple="true"
                   size="full"
-                  :options="teams"
+                  :options="teams.data"
                   :highlighted="true"
-                  :model-value="selectedServiceAreas"
               />
-              <pre>{{ teams }}</pre>
+
+              <pre>{{ updateTeams }}</pre>
             </template>
           </Card>
         </div>
       </div>
     </div>
   </div>
-  <!-- 
-  USER DETAIL:
-  <pre>{{ user }}</pre> -->
 </template>
 
 <script setup>
 // IMPORTS
 import {useForm} from "vee-validate";
-import {ref, watch} from "vue";
+import {computed,ref, watch} from "vue";
 import {useRoute} from "vue-router";
 
 import useAdminTeams from "@/composables/useAdminTeams";
@@ -121,13 +119,18 @@ const user = ref(null);
 const teams = ref();
 
 // COMPUTED
+const updateTeams = computed(() => {
+  return values.teams?.map((team) => team.id);
+});
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, meta, resetForm } = useForm({
+const { handleSubmit, meta, resetForm, values } = useForm({
   validationSchema: formUtilsStore.getUserUpdateFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {
+  values.teams?.map((team) => team.id);
+
   updateUser(route.params.id, parseUpdateUser(values))
     .then(() => {
       toast.success({ message: "User updated successfully" });
@@ -138,6 +141,7 @@ const onSave = handleSubmit((values) => {
       console.error(error);
       toast.error("Error updating user");
     });
+
 });
 
 const loadLazyData = async () => {

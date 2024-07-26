@@ -500,8 +500,6 @@ export const useFormUtilsStore = defineStore("formUtils", {
       });
     },
     getUserUpdateFormValidationSchema: (state) => {
-      // const adminUsersStore = useAdminUsersStore();
-
       return yup.object({
         name: yup.string().required(),
         surname: yup.string().required(),
@@ -535,6 +533,13 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "manager" },
           }),
+        teams: yup
+            .array()
+            .required()
+            .min(1, {
+              key: "validation.required-select",
+              values: { label: "teams" },
+            }),
       });
     },
     getTeamNewFormValidationSchema: (state) => {
