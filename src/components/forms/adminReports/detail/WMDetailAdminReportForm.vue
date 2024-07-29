@@ -34,6 +34,13 @@
                     :value="report.description"
                     required
                   />
+
+                  <WMInputCheckbox
+                    :v-model="isPrivate"
+                    :value="isPrivate"
+                    name="private"
+                    :label="$t('private')"
+                  />
                 </div>
               </div>
             </template>
@@ -216,6 +223,7 @@ const orderDirOptions = ref([
   { name: "ASC", id: "ASC" },
   { name: "DESC", id: "DESC" },
 ]);
+const isPrivate = ref(false);
 const orderDir = ref(orderDirOptions.value[0]);
 const reportData = ref();
 
@@ -244,7 +252,7 @@ const { handleSubmit, meta, resetForm } = useForm({
 const onSave = handleSubmit((values) => {
   const updateReportData = {
     ...values,
-    entity: report.value.entity,
+    easymaze_entity: selectedEntity.value.id,
   };
 
   updateReport(route.params.id, parseReport(updateReportData))
@@ -262,6 +270,7 @@ const onSave = handleSubmit((values) => {
 const loadLazyData = async () => {
   let response = await getAdminReport(route.params.id);
   report.value = response;
+  isPrivate.value = report.value.private === 1 ? true : false;
   utilsStore.selectedElements["admin-report"] = [report.value];
 };
 
@@ -270,12 +279,9 @@ utilsStore.entity = "admin-report";
 
 const setSelectedEntity = () => {
   if (report.value.easymaze_entity) {
-    console.log("selectedEntity.value", report.value.easymaze_entity);
-
     selectedEntity.value = entities.value.find(
       (entity) => entity.id === report.value.easymaze_entity.id
     );
-    console.log("filtro");
 
     onEntityChange(selectedEntity.value);
   }
@@ -289,7 +295,6 @@ const fetchEntities = () => {
 };
 
 const onEntityChange = (entity) => {
-  console.log("onEntityChange", entity);
   getSchemaFields(entity.name, true).then(async (result) => {
     schemaFields.value = result.map((item) => ({ name: item, id: item, value: item }));
     selectedFields.value = [];
