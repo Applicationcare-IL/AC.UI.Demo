@@ -1,5 +1,5 @@
 <template>
-  <div class="wm-inputsearch flex flex-column relative">
+  <div class="wm-inputsearch flex flex-column relative" :class="classes">
     <label v-if="label != ''" class="wm-form-label" :class="[{ highlighted: props.highlighted }]">
       {{ label }} <span v-if="required && label" class="text-red-500"> *</span>
     </label>

@@ -82,6 +82,7 @@ const handleNewUserCreated = () => {
 
 const onSelectionChanged = (newSelectedUsers) => {
   selectedUsers.value = newSelectedUsers;
+  console.log(newSelectedUsers);
 };
 
 const handleActivateUser = () => {
@@ -90,7 +91,6 @@ const handleActivateUser = () => {
 };
 
 const handleResetPass = () => {
-  adminUserTable.value.loadLazyData();
   adminUserTable.value.cleanSelectedUsers();
 };
 

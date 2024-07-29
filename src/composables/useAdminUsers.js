@@ -57,6 +57,7 @@ const useAdminFlowmaze = () => {
     return {
       ...user,
       manager_id: user.manager?.id,
+      teams: user.teams?.map((team) => team.id),
     };
   };
 
@@ -64,6 +65,7 @@ const useAdminFlowmaze = () => {
     return {
       ...user,
       manager_id: user.manager?.id,
+      teams: user.teams?.map((team) => team.id),
     };
   };
 
