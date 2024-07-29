@@ -2,8 +2,8 @@
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
       <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["admin-report.report"]) }}</h1>
-
       <div class="flex flex-column gap-2">
+        <pre>{{ values }}</pre>
         <WMInput name="name" required size="md" type="input-text" :label="$t('name') + ':'" />
         <WMInput
           id="description"
@@ -30,8 +30,7 @@
       </div>
 
       <div class="flex mt-4 gap-2">
-        <label class="wm-form-label" for="is_private">{{ $t("private") + ":" }}</label>
-        <Checkbox v-model="isPrivate" name="is_private" :binary="true" />
+        <WMInputCheckbox :value="false" name="private" :label="$t('private')" />
       </div>
 
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
@@ -67,19 +66,17 @@ const emit = defineEmits(["newReportCreated"]);
 
 // REFS
 const entities = ref([]);
-const isPrivate = ref(false);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, meta, resetForm } = useForm({
+const { handleSubmit, meta, resetForm, values } = useForm({
   validationSchema: formUtilsStore.getAdminReportNewFormValidationSchema,
 });
 
 const onSubmit = handleSubmit((values) => {
   const newReport = {
     ...values,
-    private: isPrivate.value ? 1 : 0,
     order_dir: "desc",
   };
 

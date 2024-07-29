@@ -65,7 +65,6 @@ const closeSidebar = () => {
 };
 
 const handleNewReportCreated = () => {
-  console.log("handleNewReportCreated");
   adminReportsTable.value.loadLazyData();
 };
 

@@ -41,7 +41,9 @@ const useAdminReports = () => {
   const parseReport = (report) => {
     return {
       ...report,
-      easymaze_entity: report.entity.id,
+      easymaze_entity: report.easymaze_entity ? report.easymaze_entity : report.entity.id,
+      private: report.private ? 1 : 0,
+      order_dir: report.order_dir ? report.order_dir : report.orderDir?.name.toLowerCase(),
     };
   };
 

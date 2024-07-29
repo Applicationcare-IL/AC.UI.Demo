@@ -10,8 +10,8 @@
   >
     <template #custom-buttons>
       <WMActivateAdminTeamsButton
-          :selected-teams="selectedTeams"
-          @activate-team="handleActivateTeam"
+        :selected-teams="selectedTeams"
+        @activate-team="handleActivateTeam"
       />
     </template>
   </WMListSubHeader>
@@ -20,9 +20,10 @@
     <template v-if="can('teams.create')">
       <WMNewEntityFormHeader entity="team" name="newTeam" />
       <WMNewTeamForm
-          :is-sidebar="true"
-          @close-sidebar="closeSidebar"
-          @new-team-created="handleNewTeamCreated"/>
+        :is-sidebar="true"
+        @close-sidebar="closeSidebar"
+        @new-team-created="handleNewTeamCreated"
+      />
     </template>
     <template v-else>
       <div class="m-5">
@@ -54,7 +55,7 @@ const { can } = usePermissions();
 // REFS
 const isVisible = ref(false);
 const adminTeamTable = ref();
-const selectedTeams = ref([])
+const selectedTeams = ref([]);
 
 // COMPUTED
 
@@ -77,7 +78,6 @@ const handleNewTeamCreated = () => {
 
 const onSelectionChanged = (newSelectedTeams) => {
   selectedTeams.value = newSelectedTeams;
-  console.log(selectedTeams.value);
 };
 
 const handleActivateTeam = () => {

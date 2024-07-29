@@ -102,12 +102,12 @@ const model = computed(() => {
           image: new URL("/icons/nav/groups.svg", import.meta.url).href,
           visibility: true,
         },
-        // {
-        //   label: t("navigation.roles"),
-        //   to: "/admin/roles",
-        //   image: new URL("/icons/nav/badge.svg", import.meta.url).href,
-        //   visibility: true,
-        // },
+        {
+          label: t("navigation.roles"),
+          to: "/admin/roles",
+          image: new URL("/icons/nav/badge.svg", import.meta.url).href,
+          visibility: true,
+        },
         // {
         //   label: t("navigation.permissions"),
         //   to: "/admin/permissions",
