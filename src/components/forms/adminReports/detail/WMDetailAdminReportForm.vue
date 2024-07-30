@@ -6,7 +6,7 @@
           <Card>
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
-              <!-- <pre>{{ meta }}</pre> -->
+              <pre>{{ selectedEntity }}</pre>
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
@@ -64,7 +64,7 @@
                   :options="entities"
                   custom-option-label="name"
                   size="w-full"
-                  @update:selected-item="reloadEntityRelatedFields"
+                  @update:selected-item="setSelectedEntity"
                 />
 
                 <template v-if="selectedEntity && schemaFields">
