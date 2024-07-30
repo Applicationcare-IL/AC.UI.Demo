@@ -257,6 +257,11 @@ const router = createRouter({
           component: () => import("@/views/admin/forms/new/NewRole.vue"),
         },
         {
+          path: "role/:id",
+          name: "adminRoleDetail",
+          component: () => import("@/views/admin/forms/detail/RoleDetail.vue"),
+        },
+        {
           path: "permissions",
           name: "adminPermissions",
           component: () => import("@/views/admin/lists/PermissionsListPage.vue"),
