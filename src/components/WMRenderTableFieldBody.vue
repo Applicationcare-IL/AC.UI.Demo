@@ -17,7 +17,7 @@
   </template>
   <!-- Type state -->
   <template v-if="columnData.type == 'state'">
-    <WMStateField :state="stateValue" />
+    <WMStateField :state="modelValue" />
   </template>
   <!-- Type tags -->
   <template v-if="columnData.type == 'chips'">
@@ -28,7 +28,6 @@
 </template>
 <script setup>
 // IMPORTS
-import { computed } from "vue";
 
 // DEPENDENCIES
 
@@ -44,9 +43,6 @@ const modelValue = defineModel();
 // REFS
 
 // COMPUTED
-const stateValue = computed(() => {
-  return modelValue.value === 1 ? { value: "active" } : { value: "not-active" };
-});
 
 // COMPONENT METHODS AND LOGIC
 
