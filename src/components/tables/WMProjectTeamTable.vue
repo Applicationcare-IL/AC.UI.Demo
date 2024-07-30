@@ -343,7 +343,7 @@ const alertCellConditionalStyle = (data) => {
 
 const unlinkContact = (contact) => {
   if (contact.state === "not-saved") {
-    contacts.value = contacts.value.filter((c) => c.contact_id !== contact.contact_id);
+    contacts.value = contacts.value.filter((c) => c.id !== contact.id);
     return;
   }
 
@@ -356,7 +356,7 @@ const unlinkContact = (contact) => {
 
   unassignContactFromProject(params)
     .then(() => {
-      contacts.value = contacts.value.filter((c) => c.contact_id !== contact.contact_id);
+      contacts.value = contacts.value.filter((c) => c.id !== contact.id);
       toast.success({ message: "Contact Successfully unlinked" });
     })
     .catch(() => {
