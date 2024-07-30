@@ -6,8 +6,7 @@
           <Card>
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
-              <pre>{{ values }}</pre>
-
+              <!-- <pre>{{ meta }}</pre> -->
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
@@ -51,7 +50,7 @@
           <Card>
             <template #title> {{ $t("admin-report.report-configuration") }} </template>
             <template #content>
-              <pre>{{ report }}</pre>
+              <!-- <pre>{{ report }}</pre> -->
               <div class="flex flex-column gap-2">
                 <label class="wm-form-label" for="entity">{{ $t("entity") }}:</label>
                 <WMInput
@@ -80,8 +79,6 @@
                     :model-value="selectedFields"
                     @update:model-value="selectedFields = $event"
                   />
-
-                  {{ selectedFields }}
 
                   <div class="mt-4 flex gap-3">
                     <WMInputSearch
@@ -152,7 +149,7 @@
                 />
               </WMSidebar>
 
-              <pre>{{ reportData }}</pre>
+              <!-- <pre>{{ reportData }}</pre> -->
               <DataTable
                 ref="dt"
                 lazy
@@ -169,7 +166,7 @@
                   :header="$t(column.header)"
                 />
               </DataTable>
-
+              showGraph {{ showGraph }}
               <div v-if="showGraph" class="card mt-5 flex justify-content-center">
                 <Chart
                   type="pie"
@@ -310,9 +307,7 @@ const setSelectedEntity = (easymaze_entity) => {
 };
 
 const setSelectedFields = (fields) => {
-  console.log("a ", fields);
   selectedFields.value = schemaFields.value.filter((field) => fields.includes(field.id));
-  console.log("selectedFields", selectedFields.value);
 };
 
 const fetchEntities = () => {
@@ -384,8 +379,8 @@ const handleGenerateReport = () => {
 
   getReportData(params).then((result) => {
     columns.value = getColumns();
-    showGraph.value = reportData.value && reportData.value.length > 0 && values.group_by;
     reportData.value = result.data;
+    showGraph.value = values.group_by;
     totalRecords.value = result.meta.total;
 
     // graph
@@ -585,6 +580,8 @@ watch(
 onMounted(async () => {
   await fetchEntities();
   await loadLazyData();
-  resetForm();
+  setTimeout(() => {
+    resetForm();
+  }, 500);
 });
 </script>
