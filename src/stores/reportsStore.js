@@ -4,9 +4,9 @@ import axiosConfig from "@/service/axiosConfig";
 
 export const useReportsStore = defineStore("reports", {
   actions: {
-    getReport(params) {
+    getReportData(params) {
       return axiosConfig
-        .get("/reports", { params })
+        .get("/reports/data", { params })
         .then((response) => {
           return response.data;
         })

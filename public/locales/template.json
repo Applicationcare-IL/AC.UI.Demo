@@ -99,6 +99,7 @@
   "manager": "Manager",
   "can-use-api": "Can use API",
   "private": "Private",
+  "group": "Group",
   "week-days": {
     "monday": "Monday",
     "monday-short": "Mo",
@@ -826,6 +827,7 @@
     "notification-created-detail": "View report",
     "notification-created-close": "Close",
     "report-configuration": "Report Configuration",
-    "report-preview": "Report Preview"
+    "report-preview": "Report Preview",
+    "select-an-entity": "Select an entity"
   }
 }

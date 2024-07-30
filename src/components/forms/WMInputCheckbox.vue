@@ -129,13 +129,10 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["update:value", "update:selectedItem", "update:modelValue"]);
-
 // REFS
 const styles = toRef(props, "class");
 const name = toRef(props, "name");
 const refValue = toRef(props, "value");
-const refOptions = toRef(props, "options");
 
 // COMPUTED
 const classes = computed(() => {
@@ -167,28 +164,18 @@ const {
   value: inputValue,
   errorMessage,
   handleBlur,
+  resetField,
 } = useField(name, undefined, {
   initialValue: props.value,
 });
 
 // WATCHERS
-/**
- * Set the first option as the default value when prop value is empty
- */
-watch(
-  () => refOptions.value,
-  (options) => {
-    if (!options) return;
-    if (props.value) return;
-
-    inputValue.value = options[0];
-  }
-);
-
 watch(
   () => refValue.value,
   (newValue) => {
-    inputValue.value = newValue;
+    resetField({
+      value: newValue,
+    });
   }
 );
 

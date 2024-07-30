@@ -6,6 +6,8 @@
           <Card>
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
+              <pre>{{ values }}</pre>
+
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
@@ -34,7 +36,6 @@
                     :value="report.description"
                     required
                   />
-
                   <WMInputCheckbox
                     :v-model="isPrivate"
                     :value="isPrivate"
@@ -50,19 +51,24 @@
           <Card>
             <template #title> {{ $t("admin-report.report-configuration") }} </template>
             <template #content>
+              <pre>{{ report }}</pre>
               <div class="flex flex-column gap-2">
                 <label class="wm-form-label" for="entity">{{ $t("entity") }}:</label>
-                <Dropdown
-                  v-model="selectedEntity"
+                <WMInput
+                  v-if="entities.length > 0"
+                  :value="selectedEntity"
                   name="entity"
+                  type="input-select"
+                  :highlighted="true"
+                  required="true"
+                  :label="$t('admin-reports.select-an-entity') + ':'"
                   :options="entities"
-                  option-label="name"
-                  placeholder="Select an entity"
-                  class="w-full md:w-14rem"
-                  @change="onEntityChange($event.value)"
+                  custom-option-label="name"
+                  size="w-full"
+                  @update:selected-item="reloadEntityRelatedFields"
                 />
 
-                <template v-if="selectedEntity">
+                <template v-if="selectedEntity && schemaFields">
                   <WMInputSearch
                     label="Fields to include"
                     name="fields"
@@ -74,6 +80,8 @@
                     :model-value="selectedFields"
                     @update:model-value="selectedFields = $event"
                   />
+
+                  {{ selectedFields }}
 
                   <div class="mt-4 flex gap-3">
                     <WMInputSearch
@@ -99,8 +107,12 @@
                   </div>
 
                   <div class="flex mt-4 gap-2">
-                    <label class="wm-form-label" for="entity">Group</label>
-                    <Checkbox v-model="groupBy" name="group_by" :binary="true" />
+                    <WMInputCheckbox
+                      :v-model="groupBy"
+                      :value="groupBy"
+                      name="group_by"
+                      :label="$t('group')"
+                    />
                   </div>
 
                   <WMButton
@@ -140,6 +152,7 @@
                 />
               </WMSidebar>
 
+              <pre>{{ reportData }}</pre>
               <DataTable
                 ref="dt"
                 lazy
@@ -188,7 +201,7 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const route = useRoute();
-const { getReport } = useReports();
+const { getReportData } = useReports();
 const { getAdminReport, updateReport, parseReport } = useAdminReports();
 const { getEasymazeEntitiesList } = useAdminSystem();
 const { getSchema, getSchemaFields } = useSchema();
@@ -245,7 +258,7 @@ const entityNameForFilters = computed(() => {
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, meta, resetForm } = useForm({
+const { handleSubmit, meta, values, resetForm } = useForm({
   validationSchema: formUtilsStore.getreportUpdateFormValidationSchema,
 });
 
@@ -270,33 +283,48 @@ const onSave = handleSubmit((values) => {
 const loadLazyData = async () => {
   let response = await getAdminReport(route.params.id);
   report.value = response;
+
+  setSelectedEntity(report.value.easymaze_entity);
+  await reloadEntityRelatedFields(report.value.easymaze_entity.name);
+
+  // load dropdowns
   isPrivate.value = report.value.private === 1 ? true : false;
+  groupBy.value = report.value.group_by === 1 ? true : false;
+
+  if (report.value.fields) {
+    setSelectedFields(report.value.fields);
+  }
+
+  orderByField.value = schemaFields.value.find((item) => item.id === report.value.fields_order_by);
+
   utilsStore.selectedElements["admin-report"] = [report.value];
 };
 
 formUtilsStore.formEntity = "admin-report";
 utilsStore.entity = "admin-report";
 
-const setSelectedEntity = () => {
-  if (report.value.easymaze_entity) {
-    selectedEntity.value = entities.value.find(
-      (entity) => entity.id === report.value.easymaze_entity.id
-    );
+const setSelectedEntity = (easymaze_entity) => {
+  selectedEntity.value = entities.value.find((entity) => entity.id === easymaze_entity.id);
 
-    onEntityChange(selectedEntity.value);
-  }
+  reloadEntityRelatedFields(selectedEntity.value);
+};
+
+const setSelectedFields = (fields) => {
+  console.log("a ", fields);
+  selectedFields.value = schemaFields.value.filter((field) => fields.includes(field.id));
+  console.log("selectedFields", selectedFields.value);
 };
 
 const fetchEntities = () => {
   getEasymazeEntitiesList().then((result) => {
     entities.value = result.data;
-    setSelectedEntity();
   });
 };
 
-const onEntityChange = (entity) => {
-  getSchemaFields(entity.name, true).then(async (result) => {
+const reloadEntityRelatedFields = async (entity) => {
+  await getSchemaFields(entity.name, true).then(async (result) => {
     schemaFields.value = result.map((item) => ({ name: item, id: item, value: item }));
+
     selectedFields.value = [];
     filters.value = utilsStore.filters[entity.name + "Report"];
 
@@ -354,9 +382,9 @@ const handleGenerateReport = () => {
     params.filters = jsonToArray(filters.value);
   }
 
-  getReport(params).then((result) => {
+  getReportData(params).then((result) => {
     columns.value = getColumns();
-    showGraph.value = groupBy.value ? true : false;
+    showGraph.value = reportData.value && reportData.value.length > 0 && values.group_by;
     reportData.value = result.data;
     totalRecords.value = result.meta.total;
 
@@ -547,16 +575,16 @@ defineExpose({
 watch(
   () => meta.value,
   (value) => {
-    if (value.touched) {
-      formUtilsStore.formMeta = value;
-      formUtilsStore.setFormMetas(value, props.formKey);
-    }
-  }
+    formUtilsStore.formMeta = value;
+    formUtilsStore.setFormMetas(value, props.formKey);
+  },
+  { deep: true }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
-  await loadLazyData();
   await fetchEntities();
+  await loadLazyData();
+  resetForm();
 });
 </script>

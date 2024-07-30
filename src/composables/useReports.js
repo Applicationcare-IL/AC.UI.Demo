@@ -3,7 +3,7 @@ import { useReportsStore } from "@/stores/reportsStore";
 const useReports = () => {
   const reportsStore = useReportsStore();
 
-  const getReport = async ({
+  const getReportData = async ({
     entity_type,
     fields,
     group_by,
@@ -12,7 +12,7 @@ const useReports = () => {
     order_dir,
     filters,
   }) => {
-    let report = await reportsStore.getReport({
+    let report = await reportsStore.getReportData({
       entity_type,
       fields,
       group_by,
@@ -27,7 +27,7 @@ const useReports = () => {
 
   return {
     // ACTIONS
-    getReport,
+    getReportData,
   };
 };
 
