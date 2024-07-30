@@ -59,22 +59,30 @@
             </template>
           </Card>
         </div>
-        <div class="card-container top-info-card" style="flex: 2">
+        <div class="card-container top-info-card" style="flex: 2 ">
           <Card >
             <template #title> {{ $t("employee.teams-and-roles") }} </template>
             <template #content>
-              <WMInputSearch
-                  v-if="teams"
-                  name="teams"
-                  :placeholder="$t('select-team')"
-                  :required="true"
-                  :multiple="true"
-                  size="full"
-                  :options="teams.data"
-                  :highlighted="true"
-              />
+              <div class="flex flex-column gap-5">
+                <div class="wm-form-row gap-5">
+                  <WMInputSearch
+                      v-if="teams"
+                      name="teams"
+                      :label="$t('teams') + ':'"
+                      :placeholder="$t('select-team')"
+                      :required="true"
+                      :multiple="true"
+                      size="full"
+                      :options="teams.data"
+                      :model-value="selectedTeams"
+                      :highlighted="true"
+                  />
+                </div>
+                <div class="wm-form-row gap-5">
+                  <WMInputDropdownTeam :selected-team="user.team" size="full"/>
+                </div>
+              </div>
 
-              <pre>{{ updateTeams }}</pre>
             </template>
           </Card>
         </div>
@@ -86,7 +94,7 @@
 <script setup>
 // IMPORTS
 import {useForm} from "vee-validate";
-import {computed,ref, watch} from "vue";
+import {ref, watch} from "vue";
 import {useRoute} from "vue-router";
 
 import useAdminTeams from "@/composables/useAdminTeams";
@@ -117,20 +125,16 @@ const emit = defineEmits(["userUpdated"]);
 // REFS
 const user = ref(null);
 const teams = ref();
+const selectedTeams = ref();
 
 // COMPUTED
-const updateTeams = computed(() => {
-  return values.teams?.map((team) => team.id);
-});
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, meta, resetForm, values } = useForm({
+const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getUserUpdateFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {
-  values.teams?.map((team) => team.id);
-
   updateUser(route.params.id, parseUpdateUser(values))
     .then(() => {
       toast.success({ message: "User updated successfully" });
@@ -141,7 +145,6 @@ const onSave = handleSubmit((values) => {
       console.error(error);
       toast.error("Error updating user");
     });
-
 });
 
 const loadLazyData = async () => {
@@ -149,6 +152,11 @@ const loadLazyData = async () => {
   utilsStore.selectedElements["employee"] = [user.value];
 
   teams.value = await getTeams();
+
+  selectedTeams.value = teams.value.data.filter((item) =>
+      user.value.teams.find((x) => x.id == item.id)
+  );
+
 };
 
 loadLazyData();
@@ -159,6 +167,7 @@ utilsStore.entity = "employee";
 // PROVIDE, EXPOSE
 defineExpose({
   onSave,
+  loadLazyData,
 });
 
 // WATCHERS

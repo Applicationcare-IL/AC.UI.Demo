@@ -801,6 +801,7 @@
     "general-info": "User information",
     "teams-and-roles": "Teams & Roles",
     "select-team": "Select team",
+    "default-team": "Default team",
     "notification-created-message": "The new user was successfully created! \n From now on he will appear in your user list",
     "notification-created-header": "New User Created",
     "notification-created-detail": "View User",
