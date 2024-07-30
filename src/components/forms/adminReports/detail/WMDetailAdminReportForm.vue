@@ -149,24 +149,12 @@
                 />
               </WMSidebar>
 
-              <!-- <pre>{{ reportData }}</pre> -->
-              <DataTable
-                ref="dt"
-                lazy
-                :value="reportData"
-                paginator
-                :rows="rows"
-                :first="0"
+              <WMReportTable
+                :report-data="reportData"
+                :columns="columns"
                 :total-records="totalRecords"
-              >
-                <Column
-                  v-for="column in columns"
-                  :key="column.field"
-                  :field="column.field"
-                  :header="$t(column.header)"
-                />
-              </DataTable>
-              showGraph {{ showGraph }}
+              />
+
               <div v-if="showGraph" class="card mt-5 flex justify-content-center">
                 <Chart
                   type="pie"
@@ -198,7 +186,7 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const route = useRoute();
-const { getReportData } = useReports();
+const { getReportData, getReportTableColumns } = useReports();
 const { getAdminReport, updateReport, parseReport } = useAdminReports();
 const { getEasymazeEntitiesList } = useAdminSystem();
 const { getSchema, getSchemaFields } = useSchema();
@@ -235,10 +223,9 @@ const orderDirOptions = ref([
 ]);
 const isPrivate = ref(false);
 const orderDir = ref(orderDirOptions.value[0]);
-const reportData = ref();
 
+const reportData = ref();
 const totalRecords = ref(0);
-const rows = ref(10);
 const columns = ref([]);
 
 const showGraph = ref(false);
@@ -378,7 +365,12 @@ const handleGenerateReport = () => {
   }
 
   getReportData(params).then((result) => {
-    columns.value = getColumns();
+    columns.value = getReportTableColumns(
+      selectedFields.value,
+      selectedEntity.value,
+      groupBy.value
+    );
+
     reportData.value = result.data;
     showGraph.value = values.group_by;
     totalRecords.value = result.meta.total;
@@ -389,24 +381,6 @@ const handleGenerateReport = () => {
       chartOptions.value = setChartOptions();
     }
   });
-};
-
-const getColumns = () => {
-  if (!selectedFields.value) return [];
-
-  let columns = selectedFields.value.map((item) => ({
-    field: item.id,
-    header: selectedEntity.value.name + "." + item.name,
-  }));
-
-  if (groupBy.value) {
-    columns.unshift({
-      field: "total",
-      header: "Count",
-    });
-  }
-
-  return columns;
 };
 
 // CHARTS DEMO
