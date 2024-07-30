@@ -395,7 +395,10 @@ const saveRow = (teamMember) => {
       });
   } else {
     updateTeamMember(projectId, teamMemberId, contactParams)
-      .then(() => {
+      .then(({ data: teamMember }) => {
+        const index = contacts.value.findIndex((c) => c.id === teamMember.id);
+        contacts.value[index] = teamMember;
+
         toast.success({ message: "Contact Successfully updated" });
       })
       .catch(() => {
