@@ -1,12 +1,13 @@
 <template>
   <WMInput
-      v-if="teamList.length > 0"
+      v-if="true"
       :value="selectedOption"
       name="default-team"
       type="input-select"
       :highlighted="true"
       :label="$t('default-team') + ':'"
-      :options="teamList"
+      :options="teams"
+      custom-option-label="name"
       :size="size"
       required
   />
@@ -14,17 +15,13 @@
 
 <script setup>
 // IMPORTS
+import {onMounted, ref} from "vue";
 
 // DEPENDENCIES
-import useAdminTeams from "@/composables/useAdminTeams";
-
-const { getTeams } = useAdminTeams();
 
 // INJECT
 
 // PROPS, EMITS
-import {onMounted, ref} from "vue";
-
 const props = defineProps({
   size: {
     type: String,
@@ -34,28 +31,21 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  teams: {
+    type: Array,
+    default: null,
+  }
 });
 
 // REFS
-const teamList = ref([]);
 const selectedOption = ref(null);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const loadTeams = async () => {
-  let response = await getTeams({ per_page: 999999999 });
-  teamList.value = response.data.map((team) => {
-    return {
-      id: team.id,
-      label: team.name,
-    };
-  });
-};
-
 const loadSelectedOption = async () => {
-  if (props.selectedTeam) {
-    selectedOption.value = teamList.value.find((team) => {
+  if (props.teams){
+    selectedOption.value = props.teams.find((team) => {
       return team.id === props.selectedTeam.id;
     });
   }
@@ -67,7 +57,6 @@ const loadSelectedOption = async () => {
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
-  await loadTeams();
   await loadSelectedOption();
 });
 </script>

@@ -35,18 +35,40 @@
 
       <Divider class="my-5" layout="horizontal" style="height: 4px" />
 
-      <WMInputSearch
-          v-if="teams"
-          name="teams"
-          :placeholder="$t('select-team')"
-          :required="true"
-          :multiple="true"
-          size="full"
-          :options="teams.data"
-          :highlighted="true"
-      />
-
-      <WMInputDropdownTeam />
+      <div class="flex flex-column gap-5">
+        <div class="wm-form-row gap-5">
+          <WMInputSearch
+              v-if="teams"
+              name="teams"
+              :label="$t('teams') + ':'"
+              :placeholder="$t('select-team')"
+              :required="true"
+              :multiple="true"
+              size="full"
+              :options="teams.data"
+              :highlighted="true"
+          />
+        </div>
+        <div class="wm-form-row gap-5">
+          <WMInputDropdownDefaultTeam
+              :teams="values.teams"
+              size="full"
+          />
+        </div>
+        <div class="wm-form-row gap-5">
+          <WMInputSearch
+              v-if="roles"
+              name="roles"
+              :label="$t('roles') + ':'"
+              :placeholder="$t('select-role')"
+              :required="true"
+              :multiple="true"
+              size="full"
+              :options="roles.data"
+              :highlighted="true"
+          />
+        </div>
+      </div>
 
       <Divider class="my-5" layout="horizontal" style="height: 4px" />
 
@@ -62,11 +84,14 @@ import { inject, ref, watch, onMounted } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import useAdminTeams from "@/composables/useAdminTeams";
+import useAdminRoles from "@/composables/useAdminRoles";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
 const { createUser, parseUser } = useAdminUsers();
 const { getTeams } = useAdminTeams();
+const { getRoles } = useAdminRoles();
+
 const toast = useToast();
 const dialog = useDialog();
 
@@ -84,11 +109,12 @@ const emit = defineEmits(["newUserCreated"]);
 // REFS
 const canUseApi = ref(false);
 const teams = ref([]);
+const roles = ref([]);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, meta, resetForm } = useForm({
+const { handleSubmit, meta, resetForm, values } = useForm({
   validationSchema: formUtilsStore.getUserNewFormValidationSchema,
 });
 
@@ -140,6 +166,7 @@ watch(
 
 onMounted(async () => {
   teams.value = await getTeams();
+  roles.value = await getRoles();
 });
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
