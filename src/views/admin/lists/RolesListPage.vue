@@ -6,6 +6,7 @@
       :showSearchBar="false"
       :showFilterButton="false"
       :hasActionBuilder="false"
+      :showCommunications="false"
   >
   </WMListSubHeader>
 
@@ -21,14 +22,16 @@
     </template>
   </WMSidebar>
 
-  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">tabla</div>
-
+  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
+    <WMAdminRolesTable ref="adminRoleTable" @update:selection="onSelectionChanged" />
+  </div>
 </template>
 
 <script setup>
 // IMPORTS
-import {useUtilsStore} from "@/stores/utils";
 import {onMounted, ref} from "vue";
+
+import {useUtilsStore} from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
@@ -40,6 +43,8 @@ const { can } = usePermissions();
 
 // REFS
 const isVisible = ref(false);
+const adminRoleTable = ref();
+const selectedRoles = ref();
 
 // COMPUTED
 
@@ -48,11 +53,15 @@ useHead({
   title: "Roles",
 });
 
-function toggleSidebarVisibility() {
+const onSelectionChanged = (newSelectedRoles) => {
+  selectedRoles.value = newSelectedRoles;
+};
+
+const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
 }
 
-function closeSidebar() {
+const closeSidebar = () => {
   isVisible.value = false;
 }
 
