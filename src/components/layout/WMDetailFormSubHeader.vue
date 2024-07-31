@@ -55,7 +55,7 @@
         <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
           <div class="flex flex-row flex-wrap gap-3 align-items-center">
             <WMSaveButton
-              v-if="can(utilsStore.pluralEntity + '.update')"
+              v-if="can(utilsStore.pluralEntity + '.update') && showSaveButton"
               :is-disabled="!isFormDirty"
               :is-saved="isFormSaved && !isFormDirty"
               @click="saveForm"
@@ -64,11 +64,7 @@
             <Divider v-if="can(utilsStore.pluralEntity + '.update')" layout="vertical" />
 
             <WMAssignOwnerButton
-              v-if="
-                can(utilsStore.pluralEntity + '.assign') &&
-                utilsStore.entity !== 'budget-item' &&
-                utilsStore.entity !== 'milestone'
-              "
+              v-if="can(utilsStore.pluralEntity + '.assign') && showAssignOwnerButton"
               :entity="utilsStore.entity"
               @owner-assigned="$emit('refreshTable')"
             />
@@ -158,6 +154,14 @@ const props = defineProps({
     default: true,
   },
   showEmailButton: {
+    type: Boolean,
+    default: true,
+  },
+  showAssignOwnerButton: {
+    type: Boolean,
+    default: true,
+  },
+  showSaveButton: {
     type: Boolean,
     default: true,
   },

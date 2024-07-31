@@ -6,7 +6,7 @@
           <Card>
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
-              <!-- <pre>{{ selectedEntity }}</pre> -->
+              <!-- <pre>{{ values.fields }}</pre> -->
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
@@ -128,15 +128,15 @@
         </div>
       </div>
       <div>
-        <div v-if="reportData" class="mt-5">
+        <div v-if="reportData && showReportPreview" class="mt-5">
           <Accordion :active-index="0">
             <AccordionTab :header="$t('admin-report.report')">
-              <WMFilterButton
+              <!-- <WMFilterButton
                 v-if="selectedEntity"
                 :is-active="isFilterApplied || isFilterVisible"
                 class="mt-2 mb-3"
                 @click="openFilterSidebar"
-              />
+              /> -->
 
               <WMSidebar
                 :visible="isFilterVisible"
@@ -213,6 +213,7 @@ const emit = defineEmits(["reportUpdated"]);
 
 // REFS
 const report = ref(null);
+const showReportPreview = ref(false);
 
 const entities = ref([]);
 const selectedEntity = ref();
@@ -343,10 +344,15 @@ const jsonToArray = (json) => {
 
 const handleGenerateReport = () => {
   if (!selectedEntity.value) return;
-  if (!selectedFields.value.length) {
+
+  if (!values.fields.length) {
     alert("Please select fields to include in the report");
+    showReportPreview.value = false;
+
     return;
   }
+
+  showReportPreview.value = true;
 
   let params = {
     entity_type: selectedEntity.value.name,
@@ -368,7 +374,7 @@ const handleGenerateReport = () => {
 
   getReportData(params).then((result) => {
     columns.value = getReportTableColumns(
-      selectedFields.value,
+      selectedFields.value.map((field) => field.name),
       selectedEntity.value,
       groupBy.value
     );

@@ -47,9 +47,9 @@ const useReports = () => {
   const getReportTableColumns = (selectedFields, selectedEntity, groupBy) => {
     if (!selectedFields) return [];
 
-    let columns = selectedFields.map((item) => ({
-      field: item.id,
-      header: selectedEntity.name + "." + item.name,
+    let columns = selectedFields.map((field) => ({
+      field: field,
+      header: selectedEntity.name + "." + field,
     }));
 
     if (groupBy) {

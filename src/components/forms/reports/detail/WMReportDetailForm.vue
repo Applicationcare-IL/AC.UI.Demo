@@ -17,9 +17,11 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-// const { getReportData, getReportTableColumns } = useReports();
+const { getReportData, getReportTableColumns } = useReports();
+const { getAdminReport } = useAdminReports();
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
+const route = useRoute();
 
 // INJECT
 
@@ -31,13 +33,42 @@ const reportData = ref();
 const totalRecords = ref(0);
 const columns = ref([]);
 
+const showGraph = ref(false);
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  report.value = await getAdminReport(route.params.id);
-  // team.value = await getTeam(route.params.id);
-  // utilsStore.selectedElements["team"] = [team.value];
+  let reportInfo = await getAdminReport(route.params.id);
+
+  report.value = reportInfo;
+  utilsStore.selectedElements["report"] = [report.value];
+
+  let params = {
+    entity_type: reportInfo.easymaze_entity.name,
+    fields: reportInfo.fields.join(","),
+    group_by: reportInfo.group_by,
+    order_by: reportInfo.fields_order_by,
+    order_dir: reportInfo.order_dir,
+  };
+
+  getReportData(params).then((result) => {
+    columns.value = getReportTableColumns(
+      reportInfo.fields,
+      reportInfo.easymaze_entity,
+      reportInfo.group_by
+    );
+
+    reportData.value = result.data;
+    totalRecords.value = result.meta.total;
+
+    showGraph.value = reportInfo.group_by === "1" ? true : false;
+
+    // if (showGraph.value) {
+    //   chartData.value = setChartData();
+    //   chartOptions.value = setChartOptions();
+    // }
+  });
 };
 
 loadLazyData();

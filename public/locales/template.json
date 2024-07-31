@@ -820,6 +820,9 @@
     "notification-created-detail": "View Team",
     "notification-created-close": "Close"
   },
+  "report": {
+    "report": "Report"
+  },
   "admin-report": {
     "report": "Report",
     "admin-report": "Report",
