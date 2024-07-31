@@ -7,7 +7,7 @@
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
           <WMInput
-              name="role-name"
+              name="name"
               :required="true"
               type="input-text"
               :label="$t('role-name') + ':'"
@@ -21,28 +21,64 @@
 </template>
 
 <script setup>
-
-import WMInput from "@/components/forms/WMInput.vue";
+// IMPORTS
 import {useForm} from "vee-validate";
 import {inject} from "vue";
-import {useFormUtilsStore} from "@/stores/formUtils";
 
+import WMInput from "@/components/forms/WMInput.vue";
+import {useFormUtilsStore} from "@/stores/formUtils";
+import useAdminRoles from "@/composables/useAdminRoles";
+
+// DEPENDENCIES
+const { createRole, parseRole } = useAdminRoles();
 const formUtilsStore = useFormUtilsStore();
 
 const closeSidebar = inject("closeSidebar");
 const { can } = usePermissions();
+const dialog = useDialog();
+const toast = useToast();
 
 
-defineProps({
+// INJECT
+const isFormDirty = inject("isFormDirty");
+
+
+// PROPS, EMITS
+const props = defineProps({
   isSidebar: Boolean,
 });
 
-const { handleSubmit } = useForm({
+const emit = defineEmits(["newRoleCreated"]);
+
+// REFS
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
+const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getRoleNewFormValidationSchema,
 });
 
 const onSubmit = handleSubmit((values) => {
-  console.log("values", values);
+  console.log(parseRole(values));
+  createRole(parseRole(values))
+      .then((data) => {
+        emit("newRoleCreated");
+        dialog.confirmNewAdminRole({ id: data.data.id, emit });
+
+        resetForm();
+
+        if (props.isSidebar) {
+          isFormDirty.value = false;
+          closeSidebar();
+        }
+
+        toast.success({ title: "Role created", message: "Role created successfully" });
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Error");
+      });
 });
 
 const onCancel = () => {
@@ -55,4 +91,9 @@ defineExpose({
   onCancel,
 });
 
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
+
+<style scoped></style>

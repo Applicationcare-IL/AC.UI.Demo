@@ -10,9 +10,6 @@
   "entry-details": "Entry Details",
   "communication-details": "Communication Details",
   "roles": "Roles",
-  "role": {
-    "role": "Role"
-  },
   "actions": "Actions",
   "user": "User",
   "name": "Name",
@@ -818,6 +815,15 @@
     "notification-created-message": "The new team was successfully created! \n From now on he will appear in your team list",
     "notification-created-header": "New Team Created",
     "notification-created-detail": "View Team",
+    "notification-created-close": "Close"
+  },
+  "role": {
+    "role": "Role",
+    "details": "Role details",
+    "name": "Role name",
+    "notification-created-message": "The new role was successfully created! \n From now on he will appear in your role list",
+    "notification-created-header": "New Role Created",
+    "notification-created-detail": "View Role",
     "notification-created-close": "Close"
   },
   "admin-report": {

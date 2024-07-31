@@ -19,7 +19,7 @@
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newRole" @close-sidebar="closeSidebar">
-    <template v-if="can('role.create')">
+    <template v-if="can('roles.create')">
       <WMNewEntityFormHeader entity="role" name="newRole" />
       <WMNewRoleForm :is-sidebar="true" @close-sidebar="closeSidebar" />
     </template>
