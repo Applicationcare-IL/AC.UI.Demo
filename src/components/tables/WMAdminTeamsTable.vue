@@ -1,5 +1,5 @@
 <template>
-  <!-- <pre>{{ teams }}</pre> -->
+<!--   <pre>{{ teams }}</pre>-->
   <DataTable
     v-model:selection="selectedTeams"
     lazy
@@ -78,7 +78,7 @@ const columns = [
   {
     name: "active",
     type: "state",
-    field: "active",
+    field: "state",
     header: "state.state",
     width: "100px",
     class: "p-0 filled-td",
