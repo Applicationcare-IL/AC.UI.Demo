@@ -82,7 +82,6 @@ const handleNewUserCreated = () => {
 
 const onSelectionChanged = (newSelectedUsers) => {
   selectedUsers.value = newSelectedUsers;
-  console.log(newSelectedUsers);
 };
 
 const handleActivateUser = () => {
