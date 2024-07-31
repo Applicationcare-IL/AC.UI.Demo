@@ -25,7 +25,6 @@ const useAdminFlowmaze = () => {
         return await adminRolesStore.updateRole(roleId, data);
     };
 
-
     const mapRole = (role) => {
         return{
             ...role,
@@ -33,7 +32,14 @@ const useAdminFlowmaze = () => {
                 text: role.id,
                 id: role.id,
             },
+            title: role.name,
         } 
+    };
+
+    const parseRole = (role) => {
+        return{
+            ...role,
+        }
     };
 
     return{
@@ -44,6 +50,7 @@ const useAdminFlowmaze = () => {
         updateRole,
       // UTILITIES
         mapRole,
+        parseRole,
     };
 };
 

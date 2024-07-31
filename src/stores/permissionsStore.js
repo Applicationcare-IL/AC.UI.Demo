@@ -23,6 +23,7 @@ export const usePermissionsStore = defineStore("permissions", {
       },
       roles: {
         create: true,
+        update: true,
       },
       quickCodes: {
         create: true,

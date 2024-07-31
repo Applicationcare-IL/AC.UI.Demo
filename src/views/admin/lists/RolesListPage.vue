@@ -6,6 +6,7 @@
       :showSearchBar="false"
       :showFilterButton="false"
       :hasActionBuilder="false"
+      :showCommunications="false"
   >
   </WMListSubHeader>
 
