@@ -9,22 +9,22 @@
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
-                      name="id"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('id') + ':'"
-                      :value="team.id"
+                    name="id"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('id') + ':'"
+                    :value="team.id"
                   />
 
                   <WMInput
-                      name="name"
-                      :required="true"
-                      type="input-text"
-                      :label="$t('team-name') + ':'"
-                      :value="team.name"
-                      size="md"
+                    name="name"
+                    :required="true"
+                    type="input-text"
+                    :label="$t('team-name') + ':'"
+                    :value="team.name"
+                    size="md"
                   />
-                  
+
                   <WMInputDropdownManager :selected-manager="team.manager" size="md" />
                 </div>
               </div>
@@ -34,19 +34,18 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script setup>
 // IMPORTS
-import {ref, watch} from "vue";
-import {useRoute} from "vue-router";
+import { useForm } from "vee-validate";
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 import WMInput from "@/components/forms/WMInput.vue";
 import useAdminTeams from "@/composables/useAdminTeams";
-import {useFormUtilsStore} from "@/stores/formUtils";
-import {useUtilsStore} from "@/stores/utils";
-import {useForm} from "vee-validate";
+import { useFormUtilsStore } from "@/stores/formUtils";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const route = useRoute();
@@ -55,7 +54,6 @@ const { getTeam, updateTeam, parseTeam } = useAdminTeams();
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 const toast = useToast();
-
 
 // INJECT
 
@@ -69,10 +67,8 @@ const props = defineProps({
 
 const emit = defineEmits(["teamUpdated"]);
 
-
 // REFS
 const team = ref(null);
-
 
 // COMPUTED
 
@@ -83,15 +79,15 @@ const { handleSubmit, meta, resetForm } = useForm({
 
 const onSave = handleSubmit((values) => {
   updateTeam(route.params.id, parseTeam(values))
-      .then(() => {
-        toast.success({ message: "User updated successfully" });
-        resetForm({ values: values });
-        emit("teamUpdated");
-      })
-      .catch((error) => {
-        console.error(error);
-        toast.error("Error updating team");
-      });
+    .then(() => {
+      toast.success({ message: "User updated successfully" });
+      resetForm({ values: values });
+      emit("teamUpdated");
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Error updating team");
+    });
 });
 const loadLazyData = async () => {
   team.value = await getTeam(route.params.id);
@@ -110,13 +106,13 @@ defineExpose({
 
 // WATCHERS
 watch(
-    () => meta.value,
-    (value) => {
-      if (value.touched) {
-        formUtilsStore.formMeta = value;
-        formUtilsStore.setFormMetas(value, props.formKey);
-      }
+  () => meta.value,
+  (value) => {
+    if (value.touched) {
+      formUtilsStore.formMeta = value;
+      formUtilsStore.setFormMetas(value, props.formKey);
     }
+  }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)

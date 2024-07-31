@@ -7,7 +7,6 @@
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
-
                 <div class="wm-form-row gap-5">
                   <WMInput
                     name="owner"
@@ -44,14 +43,14 @@
                     required
                   />
                   <WMInput
-                      name="type"
-                      :highlighted="true"
-                      type="input-select"
-                      :label="$t('type') + ':'"
-                      :options="types"
-                      width="80"
-                      :value="selectedType"
-                      option-set
+                    name="type"
+                    :highlighted="true"
+                    type="input-select"
+                    :label="$t('type') + ':'"
+                    :options="types"
+                    width="80"
+                    :value="selectedType"
+                    option-set
                   />
                 </div>
                 <div class="wm-form-row gap-5">
@@ -96,7 +95,6 @@
                     :label="$t('customer.calculate_term') + ':'"
                   />
                 </div>
-
               </div>
             </template>
           </Card>
@@ -110,30 +108,30 @@
             <template #content>
               <div class="wm-form-row gap-5">
                 <WMInput
-                    name="phone"
-                    type="input-text"
-                    :highlighted="true"
-                    :label="$t('telephone') + ':'"
-                    :value="customer.phone"
-                    required
+                  name="phone"
+                  type="input-text"
+                  :highlighted="true"
+                  :label="$t('telephone') + ':'"
+                  :value="customer.phone"
+                  required
                 />
                 <WMInput
-                    name="fax"
-                    type="input-text"
-                    :highlighted="true"
-                    :label="$t('fax') + ':'"
-                    :value="customer.fax"
+                  name="fax"
+                  type="input-text"
+                  :highlighted="true"
+                  :label="$t('fax') + ':'"
+                  :value="customer.fax"
                 />
               </div>
               <div class="wm-form-row">
                 <WMInput
-                    name="email"
-                    type="input-text"
-                    :highlighted="true"
-                    :label="$t('email') + ':'"
-                    :value="customer.email"
-                    size="md"
-                    required
+                  name="email"
+                  type="input-text"
+                  :highlighted="true"
+                  :label="$t('email') + ':'"
+                  :value="customer.email"
+                  size="md"
+                  required
                 />
               </div>
             </template>
@@ -145,15 +143,15 @@
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
                 <WMInputSearch
-                    name="service_area"
-                    :placeholder="$t('select', ['customer.area'])"
-                    :required="true"
-                    :multiple="true"
-                    size="full"
-                    :options="service_areas"
-                    :highlighted="true"
-                    :model-value="selectedServiceAreas"
-                    :option-set="true"
+                  name="service_area"
+                  :placeholder="$t('select', ['customer.area'])"
+                  :required="true"
+                  :multiple="true"
+                  size="full"
+                  :options="service_areas"
+                  :highlighted="true"
+                  :model-value="selectedServiceAreas"
+                  :option-set="true"
                 />
               </div>
             </template>
