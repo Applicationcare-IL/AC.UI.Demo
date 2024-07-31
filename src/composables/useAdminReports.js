@@ -35,6 +35,7 @@ const useAdminReports = () => {
         text: report.id,
         id: report.id,
       },
+      title: report.name,
     };
   };
 
@@ -44,6 +45,9 @@ const useAdminReports = () => {
       easymaze_entity: report.easymaze_entity ? report.easymaze_entity : report.entity.id,
       private: report.private ? 1 : 0,
       order_dir: report.order_dir ? report.order_dir : report.orderDir?.name.toLowerCase(),
+      group_by: report.group_by ? 1 : 0,
+      fields_order_by: report.orderByField?.value,
+      fields: report.fields?.map((field) => field.value),
     };
   };
 

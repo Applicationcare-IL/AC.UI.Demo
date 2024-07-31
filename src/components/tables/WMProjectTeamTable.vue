@@ -343,7 +343,7 @@ const alertCellConditionalStyle = (data) => {
 
 const unlinkContact = (contact) => {
   if (contact.state === "not-saved") {
-    contacts.value = contacts.value.filter((c) => c.contact_id !== contact.contact_id);
+    contacts.value = contacts.value.filter((c) => c.id !== contact.id);
     return;
   }
 
@@ -356,7 +356,7 @@ const unlinkContact = (contact) => {
 
   unassignContactFromProject(params)
     .then(() => {
-      contacts.value = contacts.value.filter((c) => c.contact_id !== contact.contact_id);
+      contacts.value = contacts.value.filter((c) => c.id !== contact.id);
       toast.success({ message: "Contact Successfully unlinked" });
     })
     .catch(() => {
@@ -395,7 +395,10 @@ const saveRow = (teamMember) => {
       });
   } else {
     updateTeamMember(projectId, teamMemberId, contactParams)
-      .then(() => {
+      .then(({ data: teamMember }) => {
+        const index = contacts.value.findIndex((c) => c.id === teamMember.id);
+        contacts.value[index] = teamMember;
+
         toast.success({ message: "Contact Successfully updated" });
       })
       .catch(() => {
