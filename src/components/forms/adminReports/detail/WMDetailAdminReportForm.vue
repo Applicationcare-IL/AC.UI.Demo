@@ -6,7 +6,7 @@
           <Card>
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
-              <pre>{{ selectedEntity }}</pre>
+              <!-- <pre>{{ selectedEntity }}</pre> -->
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
@@ -68,7 +68,10 @@
                 />
 
                 <template v-if="selectedEntity && schemaFields">
+                  <!-- <pre>{{ selectedFields }}</pre>
+                  <pre>{{ schemaFields[0] }}</pre> -->
                   <WMInputSearch
+                    v-if="schemaFields"
                     label="Fields to include"
                     name="fields"
                     placeholder="Select fields"
@@ -268,12 +271,14 @@ const loadLazyData = async () => {
   let response = await getAdminReport(route.params.id);
   report.value = response;
 
-  setSelectedEntity(report.value.easymaze_entity);
-  await reloadEntityRelatedFields(report.value.easymaze_entity.name);
+  await setSelectedEntity(report.value.easymaze_entity);
 
   // load dropdowns
   isPrivate.value = report.value.private === 1 ? true : false;
   groupBy.value = report.value.group_by === 1 ? true : false;
+  orderDir.value = orderDirOptions.value.find(
+    (item) => item.id === report.value.order_dir.toUpperCase()
+  );
 
   if (report.value.fields) {
     setSelectedFields(report.value.fields);
@@ -287,10 +292,10 @@ const loadLazyData = async () => {
 formUtilsStore.formEntity = "admin-report";
 utilsStore.entity = "admin-report";
 
-const setSelectedEntity = (easymaze_entity) => {
+const setSelectedEntity = async (easymaze_entity) => {
   selectedEntity.value = entities.value.find((entity) => entity.id === easymaze_entity.id);
 
-  reloadEntityRelatedFields(selectedEntity.value);
+  await loadEntityRelatedFields(selectedEntity.value);
 };
 
 const setSelectedFields = (fields) => {
@@ -303,13 +308,10 @@ const fetchEntities = () => {
   });
 };
 
-const reloadEntityRelatedFields = async (entity) => {
+const loadEntityRelatedFields = async (entity) => {
   await getSchemaFields(entity.name, true).then(async (result) => {
     schemaFields.value = result.map((item) => ({ name: item, id: item, value: item }));
-
-    selectedFields.value = [];
     filters.value = utilsStore.filters[entity.name + "Report"];
-
     extraFilters.value = await createFiltersBasedOnSchema(entity.name);
   });
 };
@@ -554,8 +556,5 @@ watch(
 onMounted(async () => {
   await fetchEntities();
   await loadLazyData();
-  setTimeout(() => {
-    resetForm();
-  }, 500);
 });
 </script>
