@@ -15,6 +15,17 @@
     @update:selection="onSelectionChanged"
   >
     <Column style="width: 40px" selection-mode="multiple" />
+    <Column>
+      <template #body="{ data }">
+        <img
+            src="/icons/eye.svg"
+            alt=""
+            class="vertical-align-middle"
+            @click="openSidebar(data.id)"
+        />
+        <WMUserPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :user="data"/>
+      </template>
+    </Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -52,6 +63,8 @@ const lazyParams = ref({});
 
 const utilsStore = useUtilsStore();
 const searchValue = ref("");
+
+const isPreviewVisible = ref([]);
 
 const columns = [
   {
@@ -145,6 +158,10 @@ const cleanSelectedUsers = () => {
   selectedUsers.value = [];
   onSelectionChanged();
 };
+
+const openSidebar = (data) => {
+  isPreviewVisible.value[data] = true;
+}
 
 // const onPage = (event) => {
 //   console.log(event);

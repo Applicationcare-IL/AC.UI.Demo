@@ -79,10 +79,27 @@
                   />
                 </div>
                 <div class="wm-form-row gap-5">
-                  <WMInputDropdownTeam :selected-team="user.team" size="full"/>
+                  <WMInputDropdownDefaultTeam
+                      v-if="values.teams"
+                      :teams="values.teams"
+                      :selected-team="user.team"
+                      size="full"
+                  />
+                </div>
+                <div class="wm-form-row gap-5">
+                  <WMInputSearch
+                      v-if="roles"
+                      name="roles"
+                      :label="$t('roles') + ':'"
+                      :placeholder="$t('select-role')"
+                      :required="true"
+                      :multiple="true"
+                      size="full"
+                      :model-value="selectedRoles"
+                      :highlighted="true"
+                  />
                 </div>
               </div>
-
             </template>
           </Card>
         </div>
@@ -97,14 +114,17 @@ import {useForm} from "vee-validate";
 import {ref, watch} from "vue";
 import {useRoute} from "vue-router";
 
+import WMInputDropdownDefaultTeam from "@/components/forms/users/shared/WMInputDropdownDefaultTeam.vue";
 import useAdminTeams from "@/composables/useAdminTeams";
 import {useFormUtilsStore} from "@/stores/formUtils";
 import {useUtilsStore} from "@/stores/utils";
+import useAdminRoles from "@/composables/useAdminRoles";
 
 // DEPENDENCIES
 const route = useRoute();
 const { getUser, updateUser, parseUpdateUser } = useAdminUsers();
 const { getTeams } = useAdminTeams();
+const { getRoles } = useAdminRoles();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
@@ -124,13 +144,15 @@ const emit = defineEmits(["userUpdated"]);
 
 // REFS
 const user = ref(null);
-const teams = ref();
-const selectedTeams = ref();
+const teams = ref([]);
+const roles = ref([]);
+const selectedTeams = ref([]);
+const selectedRoles = ref([]);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, meta, resetForm } = useForm({
+const { handleSubmit, meta, resetForm, values } = useForm({
   validationSchema: formUtilsStore.getUserUpdateFormValidationSchema,
 });
 
@@ -152,9 +174,14 @@ const loadLazyData = async () => {
   utilsStore.selectedElements["employee"] = [user.value];
 
   teams.value = await getTeams();
+  roles.value = await getRoles();
 
   selectedTeams.value = teams.value.data.filter((item) =>
       user.value.teams.find((x) => x.id == item.id)
+  );
+
+  selectedRoles.value = roles.value.data.filter((item) =>
+      user.value.roles.find((x) => x.id == item.id)
   );
 
 };

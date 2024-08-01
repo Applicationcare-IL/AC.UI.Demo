@@ -44,5 +44,15 @@ export const useAdminRolesStore = defineStore("adminRoles", {
                     console.error(error);
                 });
         },
+        activateRole(roleId) {
+            return axiosConfig
+                .post(`/admin/roles/${roleId}/activate`)
+                .then((response) => {
+                    return response.data;
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
     },
 });

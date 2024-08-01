@@ -8,10 +8,18 @@
       :hasActionBuilder="false"
       :showCommunications="false"
   >
+    <template #custom-buttons>
+      <div class="flex gap-3">
+        <WMActivateAdminRolesButton
+            :selected-roles="selectedRoles"
+            @activate-role="handleActivateRole"
+        />
+      </div>
+    </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newRole" @close-sidebar="closeSidebar">
-    <template v-if="can('role.create')">
+    <template v-if="can('roles.create')">
       <WMNewEntityFormHeader entity="role" name="newRole" />
       <WMNewRoleForm :is-sidebar="true" @close-sidebar="closeSidebar" />
     </template>
@@ -44,7 +52,7 @@ const { can } = usePermissions();
 // REFS
 const isVisible = ref(false);
 const adminRoleTable = ref();
-const selectedRoles = ref();
+const selectedRoles = ref([]);
 
 // COMPUTED
 
@@ -55,6 +63,11 @@ useHead({
 
 const onSelectionChanged = (newSelectedRoles) => {
   selectedRoles.value = newSelectedRoles;
+};
+
+const handleActivateRole = () => {
+  adminRoleTable.value.loadLazyData();
+  adminRoleTable.value.cleanSelectedRoles();
 };
 
 const toggleSidebarVisibility = () => {

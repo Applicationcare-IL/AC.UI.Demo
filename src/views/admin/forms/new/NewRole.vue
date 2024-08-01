@@ -1,6 +1,6 @@
 <template>
   <WMNewFormSubHeader @save-form="saveForm()" @cancel-form="cancelForm()" />
-  <template v-if="can('role.create')">
+  <template v-if="can('roles.create')">
     <WMNewRoleForm ref="newAdminRoleForm" />
   </template>
   <template v-else>

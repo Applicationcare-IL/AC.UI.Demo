@@ -107,11 +107,20 @@ const onPage = (event) => {
   loadLazyData();
 };
 
+const cleanSelectedRoles = () => {
+  selectedRoles.value = [];
+  onSelectionChanged();
+};
+
 const onSelectionChanged = () => {
   emit("update:selection", selectedRoles.value);
 };
 
 // PROVIDE, EXPOSE
+defineExpose({
+  loadLazyData,
+  cleanSelectedRoles,
+});
 
 // WATCHERS
 

@@ -1,5 +1,5 @@
 <template>
-  <!-- <pre>{{ teams }}</pre> -->
+<!--   <pre>{{ teams }}</pre>-->
   <DataTable
     v-model:selection="selectedTeams"
     lazy

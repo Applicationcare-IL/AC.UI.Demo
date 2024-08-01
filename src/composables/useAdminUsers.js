@@ -50,6 +50,7 @@ const useAdminFlowmaze = () => {
       },
       title: username,
       manager_fullname: user.manager?.name && user.manager?.surname ? manager_fullname : "",
+      team: user.teams[0],  /*pendiente de cambiar esperando al backend*/
     };
   };
 
@@ -58,6 +59,7 @@ const useAdminFlowmaze = () => {
       ...user,
       manager_id: user.manager?.id,
       teams: user.teams?.map((team) => team.id),
+      roles: user.roles?.map((role) => role.id),
     };
   };
 
@@ -66,6 +68,7 @@ const useAdminFlowmaze = () => {
       ...user,
       manager_id: user.manager?.id,
       teams: user.teams?.map((team) => team.id),
+      roles: user.roles?.map((role) => role.id),
     };
   };
 
