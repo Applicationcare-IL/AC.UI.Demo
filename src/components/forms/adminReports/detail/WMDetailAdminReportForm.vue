@@ -6,7 +6,7 @@
           <Card>
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
-              <pre>{{ selectedEntity }}</pre>
+              <!-- <pre>{{ values.fields }}</pre> -->
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
@@ -68,7 +68,10 @@
                 />
 
                 <template v-if="selectedEntity && schemaFields">
+                  <!-- <pre>{{ selectedFields }}</pre>
+                  <pre>{{ schemaFields[0] }}</pre> -->
                   <WMInputSearch
+                    v-if="schemaFields"
                     label="Fields to include"
                     name="fields"
                     placeholder="Select fields"
@@ -104,12 +107,7 @@
                   </div>
 
                   <div class="flex mt-4 gap-2">
-                    <WMInputCheckbox
-                      :v-model="groupBy"
-                      :value="groupBy"
-                      name="group_by"
-                      :label="$t('group')"
-                    />
+                    <WMInputCheckbox :value="groupBy" name="group_by" :label="$t('group')" />
                   </div>
 
                   <WMButton
@@ -125,15 +123,15 @@
         </div>
       </div>
       <div>
-        <div v-if="reportData" class="mt-5">
+        <div v-if="reportData && showReportPreview" class="mt-5">
           <Accordion :active-index="0">
             <AccordionTab :header="$t('admin-report.report')">
-              <WMFilterButton
+              <!-- <WMFilterButton
                 v-if="selectedEntity"
                 :is-active="isFilterApplied || isFilterVisible"
                 class="mt-2 mb-3"
                 @click="openFilterSidebar"
-              />
+              /> -->
 
               <WMSidebar
                 :visible="isFilterVisible"
@@ -156,12 +154,7 @@
               />
 
               <div v-if="showGraph" class="card mt-5 flex justify-content-center">
-                <Chart
-                  type="pie"
-                  :data="chartData"
-                  :options="chartOptions"
-                  class="w-full md:w-30rem"
-                />
+                <WMReportGraphPieChart :data="reportData" />
               </div>
             </AccordionTab>
           </Accordion>
@@ -169,9 +162,6 @@
       </div>
     </div>
   </div>
-  <!-- 
-  report DETAIL:
-  <pre>{{ report }}</pre> -->
 </template>
 
 <script setup>
@@ -210,6 +200,7 @@ const emit = defineEmits(["reportUpdated"]);
 
 // REFS
 const report = ref(null);
+const showReportPreview = ref(false);
 
 const entities = ref([]);
 const selectedEntity = ref();
@@ -268,12 +259,14 @@ const loadLazyData = async () => {
   let response = await getAdminReport(route.params.id);
   report.value = response;
 
-  setSelectedEntity(report.value.easymaze_entity);
-  await reloadEntityRelatedFields(report.value.easymaze_entity.name);
+  await setSelectedEntity(report.value.easymaze_entity);
 
   // load dropdowns
   isPrivate.value = report.value.private === 1 ? true : false;
   groupBy.value = report.value.group_by === 1 ? true : false;
+  orderDir.value = orderDirOptions.value.find(
+    (item) => item.id === report.value.order_dir.toUpperCase()
+  );
 
   if (report.value.fields) {
     setSelectedFields(report.value.fields);
@@ -287,10 +280,10 @@ const loadLazyData = async () => {
 formUtilsStore.formEntity = "admin-report";
 utilsStore.entity = "admin-report";
 
-const setSelectedEntity = (easymaze_entity) => {
+const setSelectedEntity = async (easymaze_entity) => {
   selectedEntity.value = entities.value.find((entity) => entity.id === easymaze_entity.id);
 
-  reloadEntityRelatedFields(selectedEntity.value);
+  await loadEntityRelatedFields(selectedEntity.value);
 };
 
 const setSelectedFields = (fields) => {
@@ -303,13 +296,10 @@ const fetchEntities = () => {
   });
 };
 
-const reloadEntityRelatedFields = async (entity) => {
+const loadEntityRelatedFields = async (entity) => {
   await getSchemaFields(entity.name, true).then(async (result) => {
     schemaFields.value = result.map((item) => ({ name: item, id: item, value: item }));
-
-    selectedFields.value = [];
     filters.value = utilsStore.filters[entity.name + "Report"];
-
     extraFilters.value = await createFiltersBasedOnSchema(entity.name);
   });
 };
@@ -341,15 +331,20 @@ const jsonToArray = (json) => {
 
 const handleGenerateReport = () => {
   if (!selectedEntity.value) return;
-  if (!selectedFields.value.length) {
+
+  if (!values.fields.length) {
     alert("Please select fields to include in the report");
+    showReportPreview.value = false;
+
     return;
   }
+
+  showReportPreview.value = true;
 
   let params = {
     entity_type: selectedEntity.value.name,
     fields: selectedFields.value.map((item) => item.id).join(","),
-    group_by: groupBy.value ? "1" : "0",
+    group_by: values.group_by ? "1" : "0",
   };
 
   if (orderByField.value) {
@@ -366,90 +361,15 @@ const handleGenerateReport = () => {
 
   getReportData(params).then((result) => {
     columns.value = getReportTableColumns(
-      selectedFields.value,
+      selectedFields.value.map((field) => field.name),
       selectedEntity.value,
-      groupBy.value
+      values.group_by
     );
 
     reportData.value = result.data;
     showGraph.value = values.group_by;
     totalRecords.value = result.meta.total;
-
-    // graph
-    if (showGraph.value) {
-      chartData.value = setChartData();
-      chartOptions.value = setChartOptions();
-    }
   });
-};
-
-// CHARTS DEMO
-const chartData = ref();
-const chartOptions = ref();
-
-const getGraphLabels = () => {
-  if (!reportData.value) return [];
-
-  return reportData.value.map((item) => {
-    const keys = Object.keys(item).filter((key) => key !== "total");
-    const values = keys.map((key) => item[key]);
-
-    return values.join(" - ");
-  });
-};
-
-const getGraphData = () => {
-  if (!reportData.value) return [];
-
-  let key = Object.keys(reportData.value[0])[1];
-  return reportData.value.map((item) => item[key]);
-};
-
-const setChartData = () => {
-  const documentStyle = getComputedStyle(document.body);
-
-  return {
-    labels: getGraphLabels(),
-    datasets: [
-      {
-        data: getGraphData(),
-        backgroundColor: [
-          documentStyle.getPropertyValue("--cyan-500"),
-          documentStyle.getPropertyValue("--orange-500"),
-          documentStyle.getPropertyValue("--gray-500"),
-          documentStyle.getPropertyValue("--blue-800"),
-          documentStyle.getPropertyValue("--green-800"),
-          documentStyle.getPropertyValue("--red-800"),
-          documentStyle.getPropertyValue("--purple-800"),
-        ],
-        hoverBackgroundColor: [
-          documentStyle.getPropertyValue("--cyan-400"),
-          documentStyle.getPropertyValue("--orange-400"),
-          documentStyle.getPropertyValue("--gray-400"),
-          documentStyle.getPropertyValue("--blue-900"),
-          documentStyle.getPropertyValue("--green-900"),
-          documentStyle.getPropertyValue("--red-900"),
-          documentStyle.getPropertyValue("--purple-900"),
-        ],
-      },
-    ],
-  };
-};
-
-const setChartOptions = () => {
-  const documentStyle = getComputedStyle(document.documentElement);
-  const textColor = documentStyle.getPropertyValue("--text-color");
-
-  return {
-    plugins: {
-      legend: {
-        labels: {
-          usePointStyle: true,
-          color: textColor,
-        },
-      },
-    },
-  };
 };
 
 // FILTERS
@@ -554,8 +474,5 @@ watch(
 onMounted(async () => {
   await fetchEntities();
   await loadLazyData();
-  setTimeout(() => {
-    resetForm();
-  }, 500);
 });
 </script>

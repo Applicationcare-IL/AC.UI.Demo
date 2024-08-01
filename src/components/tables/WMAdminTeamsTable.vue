@@ -31,11 +31,10 @@
 
 <script setup>
 // IMPORTS
-import {ref, watch} from "vue";
+import { ref, watch } from "vue";
 
 import useAdminTeams from "@/composables/useAdminTeams";
 import { useUtilsStore } from "@/stores/utils";
-
 
 // DEPENDENCIES
 const { getTeams } = useAdminTeams();
@@ -125,14 +124,14 @@ defineExpose({
 
 // WATCHERS
 watch(
-    () => utilsStore.searchString["team"],
-    () => {
-      searchValue.value = utilsStore.searchString["team"];
-      utilsStore.debounceAction(() => {
-        loadLazyData();
-      });
-    },
-    { deep: true }
+  () => utilsStore.searchString["team"],
+  () => {
+    searchValue.value = utilsStore.searchString["team"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  },
+  { deep: true }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)

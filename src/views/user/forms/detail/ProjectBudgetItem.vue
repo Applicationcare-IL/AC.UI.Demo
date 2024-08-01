@@ -4,6 +4,7 @@
     :form-key="formKey"
     :show-message-button="false"
     :show-email-button="false"
+    :show-assign-owner-button="false"
     @save-form="saveForm()"
     @refresh-table="refreshTable"
   />
