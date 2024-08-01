@@ -11,6 +11,12 @@ const useReports = () => {
     return { data: reports, totalRecords };
   };
 
+  const getReport = async (id) => {
+    const report = await reportsStore.getReport(id);
+
+    return report;
+  };
+
   const getReportData = async ({
     entity_type,
     fields,
@@ -44,6 +50,12 @@ const useReports = () => {
     };
   };
 
+  const exportReport = async (id, params) => {
+    const response = await reportsStore.exportReport(id, params);
+
+    return response;
+  };
+
   const getReportTableColumns = (selectedFields, selectedEntity, groupBy) => {
     console.log("groupBy", groupBy);
 
@@ -67,7 +79,9 @@ const useReports = () => {
   return {
     // ACTIONS
     getReports,
+    getReport,
     getReportData,
+    exportReport,
     getReportTableColumns,
   };
 };

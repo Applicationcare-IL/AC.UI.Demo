@@ -14,6 +14,26 @@ export const useReportsStore = defineStore("reports", {
           console.error(error);
         });
     },
+    getReport(id) {
+      return axiosConfig
+        .get(`/reports/${id}`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    exportReport(id, params) {
+      return axiosConfig
+        .get(`/reports/${id}/export`, { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     getReportData(params) {
       return axiosConfig
         .get("/reports/data", { params })

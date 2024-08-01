@@ -20,15 +20,15 @@
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getReportData, getReportTableColumns } = useReports();
-const { getAdminReport } = useAdminReports();
+const { getReportData, getReport, getReportTableColumns, exportReport } = useReports();
+
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 const route = useRoute();
@@ -44,35 +44,35 @@ const totalRecords = ref(0);
 const columns = ref([]);
 
 const showGraph = ref(false);
+const params = ref({});
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  let reportInfo = await getAdminReport(route.params.id);
-
-  report.value = reportInfo;
+  let response = await getReport(route.params.id);
+  report.value = response.data;
   utilsStore.selectedElements["report"] = [report.value];
 
-  let params = {
-    entity_type: reportInfo.easymaze_entity.name,
-    fields: reportInfo.fields.join(","),
-    group_by: reportInfo.group_by,
-    order_by: reportInfo.fields_order_by,
-    order_dir: reportInfo.order_dir,
+  params.value = {
+    entity_type: report.value.easymaze_entity.name,
+    fields: report.value.fields.join(","),
+    group_by: report.value.group_by,
+    order_by: report.value.fields_order_by,
+    order_dir: report.value.order_dir,
   };
 
-  getReportData(params).then((result) => {
+  getReportData(params.value).then((result) => {
     columns.value = getReportTableColumns(
-      reportInfo.fields,
-      reportInfo.easymaze_entity,
-      reportInfo.group_by
+      report.value.fields,
+      report.value.easymaze_entity,
+      report.value.group_by
     );
 
     reportData.value = result.data;
     totalRecords.value = result.meta.total;
 
-    showGraph.value = reportInfo.group_by === 1 ? true : false;
+    showGraph.value = report.value.group_by === 1 ? true : false;
   });
 };
 
@@ -81,7 +81,14 @@ loadLazyData();
 formUtilsStore.formEntity = "report";
 utilsStore.entity = "report";
 
+const handleExportReport = () => {
+  exportReport(route.params.id, params.value);
+};
+
 // PROVIDE, EXPOSE
+defineExpose({
+  handleExportReport,
+});
 
 // WATCHERS
 

@@ -10,7 +10,7 @@
     @refresh-table="refreshTable"
   >
     <template #custom-buttons>
-      <WMButton :text="$t('export')" type="type-5">
+      <WMButton :text="$t('export')" type="type-5" @click="handleExportReport">
         <template #customIcon>
           <div class="flex" v-html="ExportIcon" />
         </template>
@@ -34,11 +34,7 @@ const formKey = ref("reportDetailForm");
 
 const reportForm = ref(null);
 
-// const saveForm = () => {
-//   reportForm.value.onSave();
-// };
-
-// const refreshTable = () => {
-//   reportForm.value.fetchData();
-// };
+const handleExportReport = () => {
+  reportForm.value.handleExportReport();
+};
 </script>
