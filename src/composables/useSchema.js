@@ -1,14 +1,7 @@
 import { useSchemaStore } from "@/stores/schemaStore";
 
-export function useSchema() {
+const useSchema = () => {
   const schemaStore = useSchemaStore();
-
-  const { getEasymazeEntitiesList } = useAdminSystem();
-
-  const fetchAvailableEntities = async () => {
-    const entities = await getEasymazeEntitiesList();
-    return entities.data.map((entity) => entity.name);
-  };
 
   const getSchema = async (entity) => {
     const schema = await schemaStore.getSchema({ entity_type: entity });
@@ -94,4 +87,6 @@ export function useSchema() {
     getSchema,
     getSchemaFields,
   };
-}
+};
+
+export default useSchema;

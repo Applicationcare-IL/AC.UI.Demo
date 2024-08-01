@@ -45,6 +45,8 @@ const useReports = () => {
   };
 
   const getReportTableColumns = (selectedFields, selectedEntity, groupBy) => {
+    console.log("groupBy", groupBy);
+
     if (!selectedFields) return [];
 
     let columns = selectedFields.map((field) => ({

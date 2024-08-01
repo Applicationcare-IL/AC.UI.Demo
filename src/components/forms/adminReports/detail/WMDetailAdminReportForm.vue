@@ -107,12 +107,7 @@
                   </div>
 
                   <div class="flex mt-4 gap-2">
-                    <WMInputCheckbox
-                      :v-model="groupBy"
-                      :value="groupBy"
-                      name="group_by"
-                      :label="$t('group')"
-                    />
+                    <WMInputCheckbox :value="groupBy" name="group_by" :label="$t('group')" />
                   </div>
 
                   <WMButton
@@ -357,7 +352,7 @@ const handleGenerateReport = () => {
   let params = {
     entity_type: selectedEntity.value.name,
     fields: selectedFields.value.map((item) => item.id).join(","),
-    group_by: groupBy.value ? "1" : "0",
+    group_by: values.group_by ? "1" : "0",
   };
 
   if (orderByField.value) {
@@ -376,7 +371,7 @@ const handleGenerateReport = () => {
     columns.value = getReportTableColumns(
       selectedFields.value.map((field) => field.name),
       selectedEntity.value,
-      groupBy.value
+      values.group_by
     );
 
     reportData.value = result.data;
