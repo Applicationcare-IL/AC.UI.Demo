@@ -1,8 +1,18 @@
 <template>
   <div class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="asset-data flex flex-auto flex-column gap-5 mb-5">
+      <div class="flex flex-row gap-5 flex-wrap w-full mt-5">
+        <WMReportTable
+          class="w-full"
+          :report-data="reportData"
+          :columns="columns"
+          :total-records="totalRecords"
+        />
+      </div>
       <div class="flex flex-row gap-5 flex-wrap">
-        <WMReportTable :report-data="reportData" :columns="columns" :total-records="totalRecords" />
+        <div v-if="showGraph" class="card mt-5 flex justify-content-center">
+          <WMReportGraphPieChart :data="reportData" />
+        </div>
       </div>
     </div>
   </div>
@@ -62,12 +72,7 @@ const loadLazyData = async () => {
     reportData.value = result.data;
     totalRecords.value = result.meta.total;
 
-    showGraph.value = reportInfo.group_by === "1" ? true : false;
-
-    // if (showGraph.value) {
-    //   chartData.value = setChartData();
-    //   chartOptions.value = setChartOptions();
-    // }
+    showGraph.value = reportInfo.group_by === 1 ? true : false;
   });
 };
 
@@ -75,13 +80,6 @@ loadLazyData();
 
 formUtilsStore.formEntity = "report";
 utilsStore.entity = "report";
-
-// getReportData(params).then((result) => {
-//     columns.value = getColumns();
-//     reportData.value = result.data;
-//     totalRecords.value = result.meta.total;
-
-//   });
 
 // PROVIDE, EXPOSE
 

@@ -61,7 +61,10 @@
               @click="saveForm"
             />
 
-            <Divider v-if="can(utilsStore.pluralEntity + '.update')" layout="vertical" />
+            <Divider
+              v-if="can(utilsStore.pluralEntity + '.update') && showSaveButton"
+              layout="vertical"
+            />
 
             <WMAssignOwnerButton
               v-if="can(utilsStore.pluralEntity + '.assign') && showAssignOwnerButton"

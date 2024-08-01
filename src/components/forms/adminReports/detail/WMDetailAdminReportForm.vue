@@ -154,12 +154,7 @@
               />
 
               <div v-if="showGraph" class="card mt-5 flex justify-content-center">
-                <Chart
-                  type="pie"
-                  :data="chartData"
-                  :options="chartOptions"
-                  class="w-full md:w-30rem"
-                />
+                <WMReportGraphPieChart :data="reportData" />
               </div>
             </AccordionTab>
           </Accordion>
@@ -167,9 +162,6 @@
       </div>
     </div>
   </div>
-  <!-- 
-  report DETAIL:
-  <pre>{{ report }}</pre> -->
 </template>
 
 <script setup>
@@ -377,82 +369,7 @@ const handleGenerateReport = () => {
     reportData.value = result.data;
     showGraph.value = values.group_by;
     totalRecords.value = result.meta.total;
-
-    // graph
-    if (showGraph.value) {
-      chartData.value = setChartData();
-      chartOptions.value = setChartOptions();
-    }
   });
-};
-
-// CHARTS DEMO
-const chartData = ref();
-const chartOptions = ref();
-
-const getGraphLabels = () => {
-  if (!reportData.value) return [];
-
-  return reportData.value.map((item) => {
-    const keys = Object.keys(item).filter((key) => key !== "total");
-    const values = keys.map((key) => item[key]);
-
-    return values.join(" - ");
-  });
-};
-
-const getGraphData = () => {
-  if (!reportData.value) return [];
-
-  let key = Object.keys(reportData.value[0])[1];
-  return reportData.value.map((item) => item[key]);
-};
-
-const setChartData = () => {
-  const documentStyle = getComputedStyle(document.body);
-
-  return {
-    labels: getGraphLabels(),
-    datasets: [
-      {
-        data: getGraphData(),
-        backgroundColor: [
-          documentStyle.getPropertyValue("--cyan-500"),
-          documentStyle.getPropertyValue("--orange-500"),
-          documentStyle.getPropertyValue("--gray-500"),
-          documentStyle.getPropertyValue("--blue-800"),
-          documentStyle.getPropertyValue("--green-800"),
-          documentStyle.getPropertyValue("--red-800"),
-          documentStyle.getPropertyValue("--purple-800"),
-        ],
-        hoverBackgroundColor: [
-          documentStyle.getPropertyValue("--cyan-400"),
-          documentStyle.getPropertyValue("--orange-400"),
-          documentStyle.getPropertyValue("--gray-400"),
-          documentStyle.getPropertyValue("--blue-900"),
-          documentStyle.getPropertyValue("--green-900"),
-          documentStyle.getPropertyValue("--red-900"),
-          documentStyle.getPropertyValue("--purple-900"),
-        ],
-      },
-    ],
-  };
-};
-
-const setChartOptions = () => {
-  const documentStyle = getComputedStyle(document.documentElement);
-  const textColor = documentStyle.getPropertyValue("--text-color");
-
-  return {
-    plugins: {
-      legend: {
-        labels: {
-          usePointStyle: true,
-          color: textColor,
-        },
-      },
-    },
-  };
 };
 
 // FILTERS
