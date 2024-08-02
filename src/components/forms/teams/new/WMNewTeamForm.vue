@@ -15,7 +15,9 @@
         </div>
       </div>
 
-      <!-- <WMAdminUserSelectorTable @user-selected="onUserSelect" /> -->
+      <Divider/>
+
+       <WMAdminUserSelectorTable />
 
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>

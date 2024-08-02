@@ -58,21 +58,6 @@
 
         <Divider />
 
-        <!-- <WMInputSearch
-            name="contact"
-            :placeholder="$t('select', ['contact'])"
-            type="table"
-            :label="$t('contact.contacts') + ':'"
-            width="160"
-            :highlighted="true"
-            :search-function="searchUsers"
-            :new="true"
-            related-sidebar="newUser"
-            :multiple="true"
-            @change="onUserSelected"
-        />
-        <pre>{{ selectedUsers }}</pre> -->
-
         <WMAdminUserTable :columns="columns" />
       </div>
     </div>
@@ -82,8 +67,6 @@
 <script setup>
 // IMPORTS
 import { ref } from "vue";
-
-import useAdminUsers from "@/composables/useAdminUsers";
 
 // DEPENDENCIES
 const { getStatusConditionalStyle } = useListUtils();
@@ -104,7 +87,6 @@ const props = defineProps({
 
 // REFS
 const visible = ref(false);
-const selectedUsers = ref([]);
 
 const columns = [
   {
@@ -134,22 +116,6 @@ const columns = [
 const statusClass = (data) => {
   return getStatusConditionalStyle(data);
 };
-
-// const searchUsers = (query) => {
-//   let params = {
-//     per_page: 99999,
-//     search: query,
-//   };
-
-//   return getUsers(params);
-// };
-
-// const onUserSelected = (newUser) => {
-//   if (selectedUsers.value.some((contact) => contact.id === newUser.value.id)) {
-//     return;
-//   }
-//   selectedUsers.value.push(newUser.value);
-// };
 
 // PROVIDE, EXPOSE
 
