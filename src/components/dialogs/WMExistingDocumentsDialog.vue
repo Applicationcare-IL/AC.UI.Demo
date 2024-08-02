@@ -33,6 +33,7 @@ import { ref } from "vue";
 import { useLayout } from "@/layout/composables/layout";
 
 const { layoutConfig } = useLayout();
+
 const modelValue = defineModel();
 
 const emit = defineEmits(["selectDocument"]);

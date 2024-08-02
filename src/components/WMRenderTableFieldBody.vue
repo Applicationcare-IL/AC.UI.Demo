@@ -25,6 +25,10 @@
       <Chip v-for="(chip, index) in modelValue" :key="index" :label="chip.name" />
     </div>
   </template>
+  <!-- Type option set -->
+  <template v-if="columnData.type == 'option-set'">
+    <WMOptionSetValue :option-set="modelValue" />
+  </template>
 </template>
 <script setup>
 // IMPORTS
