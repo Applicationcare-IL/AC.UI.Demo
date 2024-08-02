@@ -14,16 +14,16 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column style="width: 40px" selection-mode="multiple" />
-    <Column>
+    <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
+    <Column v-if="preview">
       <template #body="{ data }">
         <img
-            src="/icons/eye.svg"
-            alt=""
-            class="vertical-align-middle"
-            @click="openSidebar(data.id)"
+          src="/icons/eye.svg"
+          alt=""
+          class="vertical-align-middle"
+          @click="openSidebar(data.id)"
         />
-        <WMUserPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :user="data"/>
+        <WMUserPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :user="data" />
       </template>
     </Column>
     <Column
@@ -53,6 +53,21 @@ const { getUsers } = useAdminUsers();
 // INJECT
 
 // PROPS, EMITS
+defineProps({
+  columns: {
+    type: Array,
+    required: true,
+  },
+  preview: {
+    type: Boolean,
+    default: false,
+  },
+  selectable: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const emit = defineEmits(["update:selection"]);
 
 // REFS
@@ -65,60 +80,6 @@ const utilsStore = useUtilsStore();
 const searchValue = ref("");
 
 const isPreviewVisible = ref([]);
-
-const columns = [
-  {
-    name: "id",
-    type: "link",
-    field: "link_detail",
-    header: "id",
-    routeName: "adminUserDetail",
-  },
-  {
-    name: "username",
-    type: "text",
-    field: "username",
-    header: "employee.username",
-  },
-  {
-    name: "manager",
-    type: "text",
-    field: "manager_fullname",
-    header: "manager",
-  },
-  {
-    name: "phone",
-    type: "text",
-    field: "phone",
-    header: "mobilephone",
-  },
-  {
-    name: "email",
-    type: "text",
-    field: "email",
-    header: "email",
-  },
-  {
-    name: "active",
-    type: "state",
-    field: "state",
-    header: "state.state",
-    width: "100px",
-    class: "p-0 filled-td",
-  },
-  {
-    name: "roles",
-    type: "chips",
-    field: "roles",
-    header: "roles",
-  },
-  {
-    name: "teams",
-    type: "chips",
-    field: "teams",
-    header: "teams",
-  },
-];
 
 // COMPUTED
 
@@ -161,7 +122,7 @@ const cleanSelectedUsers = () => {
 
 const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
-}
+};
 
 // const onPage = (event) => {
 //   console.log(event);

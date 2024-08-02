@@ -37,7 +37,13 @@
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMAdminUserTable ref="adminUserTable" @update:selection="onSelectionChanged" />
+    <WMAdminUserTable
+      ref="adminUserTable"
+      :columns="columns"
+      preview
+      selectable
+      @update:selection="onSelectionChanged"
+    />
   </div>
 </template>
 
@@ -60,6 +66,60 @@ const { can } = usePermissions();
 const adminUserTable = ref();
 const isVisible = ref(false);
 const selectedUsers = ref([]);
+
+const columns = [
+  {
+    name: "id",
+    type: "link",
+    field: "link_detail",
+    header: "id",
+    routeName: "adminUserDetail",
+  },
+  {
+    name: "username",
+    type: "text",
+    field: "username",
+    header: "employee.username",
+  },
+  {
+    name: "manager",
+    type: "text",
+    field: "manager_fullname",
+    header: "manager",
+  },
+  {
+    name: "phone",
+    type: "text",
+    field: "phone",
+    header: "mobilephone",
+  },
+  {
+    name: "email",
+    type: "text",
+    field: "email",
+    header: "email",
+  },
+  {
+    name: "active",
+    type: "state",
+    field: "state",
+    header: "state.state",
+    width: "100px",
+    class: "p-0 filled-td",
+  },
+  {
+    name: "roles",
+    type: "chips",
+    field: "roles",
+    header: "roles",
+  },
+  {
+    name: "teams",
+    type: "chips",
+    field: "teams",
+    header: "teams",
+  },
+];
 
 // COMPUTED
 
