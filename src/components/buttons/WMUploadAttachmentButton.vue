@@ -16,12 +16,18 @@
     <div class="flex gap-3">
       <WMButton :text="$t('documents.new-document')" type="primary" @click="openUploadAttachment" />
       <WMButton
-        :text="$t('documents.existing-document')"
+        :text="$t('documents.select-document')"
         type="primary"
-        @click="openDocumentSelector"
+        @click="openExistingDocumentsDialog"
       />
     </div>
   </OverlayPanel>
+
+  <WMExistingDocumentsDialog
+    v-if="showExistingDocumentsDialog"
+    v-model="showExistingDocumentsDialog"
+    @link-service="handleLinkService"
+  />
 </template>
 <script setup>
 // IMPORTS
@@ -67,6 +73,7 @@ const emit = defineEmits(["fileUploaded"]);
 
 // REFS
 const uploadDocumentOverlay = ref();
+const showExistingDocumentsDialog = ref(false);
 
 const fileInput = ref(null);
 const file = ref();
@@ -106,8 +113,8 @@ const toggleUploadDocumentOverlay = (event) => {
   uploadDocumentOverlay.value.toggle(event);
 };
 
-const openDocumentSelector = () => {
-  console.log("openDocumentSelector");
+const openExistingDocumentsDialog = () => {
+  showExistingDocumentsDialog.value = true;
 };
 
 // PROVIDE, EXPOSE

@@ -146,7 +146,8 @@
     "remove": "Remove",
     "sign": "Sign",
     "sign-document": "Sign document",
-    "sync": "Sync"
+    "sync": "Sync",
+    "select-document": "Select document"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -609,7 +610,8 @@
     "existing-document": "Existing Document",
     "select_detail_type": "Select detail type",
     "select_type": "Select type",
-    "owner": "Owner"
+    "owner": "Owner",
+    "select-an-existing-document": "Select an existing document"
   },
   "site": {
     "details": "Site Details",
