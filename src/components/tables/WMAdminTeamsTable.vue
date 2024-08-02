@@ -14,6 +14,17 @@
     @update:selection="onSelectionChanged"
   >
     <Column style="width: 40px" selection-mode="multiple" />
+    <Column>
+      <template #body="{ data }">
+        <img
+            src="/icons/eye.svg"
+            alt=""
+            class="vertical-align-middle"
+            @click="openSidebar(data.id)"
+        />
+        <WMTeamPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :team="data"/>
+      </template>
+    </Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -53,6 +64,8 @@ const utilsStore = useUtilsStore();
 const searchValue = ref("");
 
 const selectedTeams = ref([]);
+
+const isPreviewVisible = ref([]);
 
 const columns = [
   {
@@ -115,6 +128,10 @@ const cleanSelectedTeams = () => {
   selectedTeams.value = [];
   onSelectionChanged();
 };
+
+const openSidebar = (data) => {
+  isPreviewVisible.value[data] = true;
+}
 
 // PROVIDE, EXPOSE
 defineExpose({
