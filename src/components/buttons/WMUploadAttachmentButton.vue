@@ -6,24 +6,36 @@
     v-else
     class="p-button-only-icon p-orange-button"
     :disabled="disabled"
-    @click="openUploadAttachment"
+    @click="toggleUploadDocumentOverlay"
   >
     <div class="p-button-svg" v-html="AddFileIcon" />
   </Button>
-  <input
-    ref="fileInput"
-    style="display: none"
-    type="file"
-    multiple
-    @change="handleFileChange"
-  />
+  <input ref="fileInput" style="display: none" type="file" multiple @change="handleFileChange" />
+
+  <OverlayPanel ref="uploadDocumentOverlay">
+    <div class="flex gap-3">
+      <WMButton :text="$t('documents.new-document')" type="primary" @click="openUploadAttachment" />
+      <WMButton
+        :text="$t('documents.existing-document')"
+        type="primary"
+        @click="openDocumentSelector"
+      />
+    </div>
+  </OverlayPanel>
 </template>
 <script setup>
+// IMPORTS
 import { ref } from "vue";
 
 import AddFileIcon from "/icons/menu/add_file.svg?raw";
 import FileIcon from "/icons/menu/file.svg?raw";
 
+// DEPENDENCIES
+const { uploadAttachment } = useAttachments();
+
+// INJECT
+
+// PROPS, EMITS
 const props = defineProps({
   entity: {
     type: String,
@@ -53,7 +65,8 @@ const props = defineProps({
 
 const emit = defineEmits(["fileUploaded"]);
 
-const { uploadAttachment } = useAttachments();
+// REFS
+const uploadDocumentOverlay = ref();
 
 const fileInput = ref(null);
 const file = ref();
@@ -61,16 +74,19 @@ const downloadUrl = ref(props.downloadUrl);
 
 const hasFileUploaded = ref(props.hasFile);
 
-function openUploadAttachment() {
-  fileInput.value.click();
-}
+// COMPUTED
 
-function handleFileChange(event) {
+// COMPONENT METHODS AND LOGIC
+const openUploadAttachment = () => {
+  fileInput.value.click();
+};
+
+const handleFileChange = (event) => {
   file.value = event.target.files[0];
   uploadAttachmentToAPI();
-}
+};
 
-function uploadAttachmentToAPI() {
+const uploadAttachmentToAPI = () => {
   const formData = new FormData();
 
   formData.append("file", file.value);
@@ -81,9 +97,24 @@ function uploadAttachmentToAPI() {
   uploadAttachment(formData).then(({ data }) => {
     hasFileUploaded.value = true;
     downloadUrl.value = data.download_url;
+    uploadDocumentOverlay.value.toggle();
     emit("fileUploaded");
   });
-}
+};
+
+const toggleUploadDocumentOverlay = (event) => {
+  uploadDocumentOverlay.value.toggle(event);
+};
+
+const openDocumentSelector = () => {
+  console.log("openDocumentSelector");
+};
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
 <style scoped></style>

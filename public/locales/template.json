@@ -605,7 +605,8 @@
     "type": "Type",
     "name": "Name",
     "id": "ID",
-    "new_document": "New Document",
+    "new-document": "New Document",
+    "existing-document": "Existing Document",
     "select_detail_type": "Select detail type",
     "select_type": "Select type",
     "owner": "Owner"
