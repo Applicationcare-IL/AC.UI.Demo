@@ -2,12 +2,12 @@
   <Sidebar
       v-if="props.role"
       v-model:visible="visible"
-      class="details-sidebar w-6"
+      class="details-sidebar w-4"
       :show-close-icon="false"
       :class="''"
       @update:model-value="updateModelValue"
   >
-    <div class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
+    <div class="flex flex-auto flex-column overflow-auto w-full px-2">
 
       <div class="flex justify-content-between">
         <h2 class="h2">{{ props.role.name }}</h2>
@@ -44,6 +44,9 @@
           </div>
         </div>
         <Divider/>
+
+        <WMAdminUserTable :columns="columns" />
+
       </div>
     </div>
   </Sidebar>
@@ -71,6 +74,28 @@ const props = defineProps({
 
 // REFS
 const visible = ref(false);
+
+const columns = [
+  {
+    name: "id",
+    type: "link",
+    field: "link_detail",
+    header: "id",
+    routeName: "adminUserDetail",
+  },
+  {
+    name: "username",
+    type: "text",
+    field: "username",
+    header: "employee.username",
+  },
+  {
+    name: "email",
+    type: "text",
+    field: "email",
+    header: "email",
+  },
+];
 
 // COMPUTED
 
