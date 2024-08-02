@@ -20,7 +20,7 @@
 
 <script setup>
 // IMPORTS
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -28,6 +28,7 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { getReportData, getReport, getReportTableColumns, exportReport } = useReports();
+const { handleExport } = useExports();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
@@ -81,8 +82,12 @@ loadLazyData();
 formUtilsStore.formEntity = "report";
 utilsStore.entity = "report";
 
+const exportReportFunction = () => {
+  return exportReport(route.params.id, params.value);
+};
+
 const handleExportReport = () => {
-  exportReport(route.params.id, params.value);
+  handleExport({ exportFunction: exportReportFunction });
 };
 
 // PROVIDE, EXPOSE
