@@ -14,7 +14,7 @@
     @update:selection="onSelectionChanged"
   >
     <Column style="width: 40px" selection-mode="multiple" />
-    <Column>
+    <Column style="width: 40px">
       <template #body="{ data }">
         <img
             src="/icons/eye.svg"

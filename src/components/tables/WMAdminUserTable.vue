@@ -15,7 +15,7 @@
     @update:selection="onSelectionChanged"
   >
     <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
-    <Column v-if="preview">
+    <Column v-if="preview" style="width: 40px">
       <template #body="{ data }">
         <img
           src="/icons/eye.svg"
