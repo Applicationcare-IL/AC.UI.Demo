@@ -7,15 +7,45 @@
       :class="''"
       @update:model-value="updateModelValue"
   >
-
     <div class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
+
       <div class="flex justify-content-between">
+        <h2 class="h2">{{ props.role.name }}</h2>
+        <router-link
+            :to="{
+          name: 'adminRoleDetail',
+          params: { id: props.role.id },
+        }"
+            class="p-2"
+        >
+          <Button>Edit</Button>
+        </router-link>
+      </div>
+      <Divider />
 
-        <pre>{{ props.role }}</pre>
+      <div class="task-data flex flex-auto flex-column gap-5 mb-5">
 
+        <div class="wm-form-row align-items-end gap-5">
+          <div class="wm-form-row gap-5">
+            <WMInput
+                name="id"
+                type="info"
+                :highlighted="true"
+                :label="$t('id') + ':'"
+                :value="props.role.id"
+            />
+            <WMInput
+                name="state"
+                type="info"
+                :highlighted="true"
+                :label="$t('state') + ':'"
+                :value="props.role.state.value"
+            />
+          </div>
+        </div>
+        <Divider/>
       </div>
     </div>
-
   </Sidebar>
 </template>
 

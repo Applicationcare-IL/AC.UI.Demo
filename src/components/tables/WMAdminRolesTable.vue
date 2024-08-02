@@ -21,7 +21,7 @@
             class="vertical-align-middle"
             @click="openSidebar(data.id)"
         />
-        <WMTeamPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :team="data"/>
+        <WMRolePreviewSidebar v-model:visible="isPreviewVisible[data.id]" :role="data"/>
       </template>
     </Column>
     <Column
