@@ -40,6 +40,7 @@
                 :highlighted="true"
                 :label="$t('state') + ':'"
                 :value="props.role.state.value"
+                :class="statusClass(props.role.state.value)"
             />
           </div>
         </div>
@@ -57,6 +58,7 @@
 import  { ref } from 'vue';
 
 // DEPENDENCIES
+const { getStatusConditionalStyle } = useListUtils();
 
 // INJECT
 
@@ -100,6 +102,9 @@ const columns = [
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const statusClass = (data) => {
+  return getStatusConditionalStyle(data);
+};
 
 // PROVIDE, EXPOSE
 

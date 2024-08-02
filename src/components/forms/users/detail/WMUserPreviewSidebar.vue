@@ -38,6 +38,7 @@
                 :highlighted="true"
                 :label="$t('state') + ':'"
                 :value="props.user.state.value"
+                :class="statusClass(props.user.state.value)"
             />
             </div>
         </div>
@@ -111,6 +112,7 @@
 import  { ref } from 'vue';
 
 // DEPENDENCIES
+const { getStatusConditionalStyle } = useListUtils();
 
 // INJECT
 
@@ -132,6 +134,9 @@ const visible = ref(false);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const statusClass = (data) => {
+  return getStatusConditionalStyle(data);
+};
 
 // PROVIDE, EXPOSE
 

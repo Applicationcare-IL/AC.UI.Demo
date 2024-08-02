@@ -38,6 +38,8 @@
               :highlighted="true"
               :label="$t('state') + ':'"
               :value="props.team.state.value"
+              :class="statusClass(props.team.state.value)"
+
             />
           </div>
         </div>
@@ -84,7 +86,7 @@ import { ref } from "vue";
 import useAdminUsers from "@/composables/useAdminUsers";
 
 // DEPENDENCIES
-const { getUsers } = useAdminUsers();
+const { getStatusConditionalStyle } = useListUtils();
 
 // INJECT
 
@@ -129,6 +131,10 @@ const columns = [
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const statusClass = (data) => {
+  return getStatusConditionalStyle(data);
+};
+
 // const searchUsers = (query) => {
 //   let params = {
 //     per_page: 99999,
