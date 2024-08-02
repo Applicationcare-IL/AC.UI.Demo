@@ -2,12 +2,12 @@
   <Sidebar
     v-if="props.team"
     v-model:visible="visible"
-    class="details-sidebar w-6"
+    class="details-sidebar w-4"
     :show-close-icon="false"
     :class="''"
     @update:model-value="updateModelValue"
   >
-    <div class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
+    <div class="flex flex-auto flex-column overflow-auto w-full px-2">
       <div class="flex justify-content-between">
         <h2 class="h2">{{ props.team.name }}</h2>
         <router-link

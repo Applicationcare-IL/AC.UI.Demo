@@ -6,12 +6,7 @@
 
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
-          <WMInput
-              name="name"
-              :required="true"
-              type="input-text"
-              :label="$t('team-name') + ':'"
-          />
+          <WMInput name="name" :required="true" type="input-text" :label="$t('team-name') + ':'" />
         </div>
       </div>
       <div class="wm-form-row align-items-end gap-5">
@@ -19,6 +14,8 @@
           <WMInputDropdownManager size="sm" />
         </div>
       </div>
+
+      <!-- <WMAdminUserSelectorTable @user-selected="onUserSelect" /> -->
 
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
@@ -28,11 +25,11 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import {inject, ref, watch} from "vue";
+import { inject, watch } from "vue";
 
 import WMInput from "@/components/forms/WMInput.vue";
-import { useFormUtilsStore } from "@/stores/formUtils";
 import useAdminTeams from "@/composables/useAdminTeams";
+import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
@@ -62,23 +59,23 @@ const { handleSubmit, meta, resetForm } = useForm({
 
 const onSubmit = handleSubmit((values) => {
   createTeam(parseTeam(values))
-      .then((data) => {
-        emit("newTeamCreated");
-        dialog.confirmNewAdminTeam({ id: data.data.id, emit });
+    .then((data) => {
+      emit("newTeamCreated");
+      dialog.confirmNewAdminTeam({ id: data.data.id, emit });
 
-        resetForm();
+      resetForm();
 
-        if (props.isSidebar) {
-          isFormDirty.value = false;
-          closeSidebar();
-        }
+      if (props.isSidebar) {
+        isFormDirty.value = false;
+        closeSidebar();
+      }
 
-        toast.success({ title: "Team created", message: "Team created successfully" });
-      })
-      .catch((error) => {
-        console.error(error);
-        toast.error("Error");
-      });
+      toast.success({ title: "Team created", message: "Team created successfully" });
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Error");
+    });
 });
 
 const onCancel = () => {
@@ -93,12 +90,12 @@ defineExpose({
 
 // WATCHERS
 watch(
-    () => meta.value,
-    (value) => {
-      if (!isFormDirty) return;
+  () => meta.value,
+  (value) => {
+    if (!isFormDirty) return;
 
-      isFormDirty.value = value.dirty;
-    }
+    isFormDirty.value = value.dirty;
+  }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
