@@ -19,8 +19,6 @@
 
        <WMAdminUserSelectorTable />
 
-<!--      <pre>{{ values }}</pre>-->
-
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
   </div>
@@ -34,14 +32,12 @@ import { inject, watch } from "vue";
 import WMInput from "@/components/forms/WMInput.vue";
 import useAdminTeams from "@/composables/useAdminTeams";
 import { useFormUtilsStore } from "@/stores/formUtils";
-import {useRoute} from "vue-router";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
 const { createTeam, parseTeam, addUsers } = useAdminTeams();
 const toast = useToast();
 const dialog = useDialog();
-const route = useRoute();
 
 // INJECT
 const closeSidebar = inject("closeSidebar");

@@ -2,9 +2,9 @@
   <!-- search -->
   <WMInputSearch
     name="userList"
-    :placeholder="$t('select', ['contact'])"
+    :placeholder="$t('select', ['user'])"
     type="table"
-    :label="$t('contact.contacts') + ':'"
+    :label="$t('users_in_team') + ':'"
     size="lg"
     :highlighted="true"
     :search-function="searchUsers"
@@ -36,7 +36,9 @@
         <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
       </template>
     </Column>
-    <Column style="width: 40px">
+    <Column
+        :header="$t('actions')"
+        style="width: 40px">
       <template #body="{ data }">
         <WMUnlinkButtonIconOnly @click="unlinkUser(data.id)" />
       </template>
