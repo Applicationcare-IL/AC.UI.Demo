@@ -4,7 +4,7 @@
     name="userList"
     :placeholder="$t('select', ['user'])"
     type="table"
-    :label="$t('users_in_team') + ':'"
+    :label="$t('add-user') + ':'"
     size="lg"
     :highlighted="true"
     :search-function="searchUsers"
