@@ -2,8 +2,6 @@
   <WMListSubHeader
     entity="team"
     :total-records="0"
-    :show-search-bar="false"
-    :show-filter-button="false"
     :has-action-builder="false"
     :show-communications="false"
     @new="toggleSidebarVisibility"

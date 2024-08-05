@@ -42,7 +42,7 @@
 
 <script setup>
 // IMPORTS
-import { ref, watch } from "vue";
+import {ref, watch, watchEffect} from "vue";
 
 import useAdminTeams from "@/composables/useAdminTeams";
 import { useUtilsStore } from "@/stores/utils";
@@ -107,12 +107,19 @@ const columns = [
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
+  const filters = utilsStore.filters["team"];
   const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
 
-  const params = {
-    page: nextPage,
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage ? nextPage : 1,
     per_page: 10,
-  };
+  });
+
+  if (searchValueParam) {
+    params.append("search", searchValueParam);
+  }
 
   let response = await getTeams(params);
   teams.value = response.data;
@@ -146,6 +153,10 @@ defineExpose({
 });
 
 // WATCHERS
+watchEffect(() => {
+  loadLazyData();
+});
+
 watch(
   () => utilsStore.searchString["team"],
   () => {
