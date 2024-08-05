@@ -88,6 +88,12 @@ const columns = [
     header: "manager",
   },
   {
+    name: "users_in_team",
+    type: "text",
+    field: "employees",
+    header: "users_in_team",
+  },
+  {
     name: "active",
     type: "state",
     field: "state",
