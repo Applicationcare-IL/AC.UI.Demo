@@ -11,12 +11,33 @@
     <template #item="slotProps">
       <button
         class="p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround gap-2 w-full"
-        @click="handleAction(slotProps.item)"
+        @click="openDialog(slotProps.item)"
       >
         <div class="flex flex-column align">{{ $t(slotProps.item.name) }}</div>
       </button>
     </template>
   </Menu>
+
+  <Dialog
+    v-model:visible="attachDocumentsDialogVisibility"
+    modal
+    :header="$t('scripts.attach-documents')"
+    :style="{ width: '40rem' }"
+  >
+    <span class="block mb-5">{{ $t("scripts.do-you-want-to-attach-documents") }} </span>
+    <div class="flex gap-3">
+      <WMButton
+        :text="$t('scripts.send-without-attachments')"
+        type="primary"
+        @click="handleAction(selectedItem)"
+      />
+      <!-- <WMButton
+        :text="$t('scripts.send-with-attachments')"
+        type="primary"
+        @click="openExistingDocumentsDialog"
+      /> -->
+    </div>
+  </Dialog>
 </template>
 
 <script setup>
@@ -45,6 +66,8 @@ let props = defineProps({
 
 // REFS
 const dropdownMenu = ref();
+const attachDocumentsDialogVisibility = ref(false);
+const selectedItem = ref(null);
 
 // COMPUTED
 const isDisabled = computed(() => {
@@ -79,6 +102,8 @@ const handleAction = (script) => {
       script_id: script.id,
     };
 
+    attachDocumentsDialogVisibility.value = false;
+
     if (script.open_popup === 1) {
       return executeNewPopupIssue(params);
     }
@@ -93,6 +118,11 @@ const handleAction = (script) => {
     .catch(() => {
       toast.error(t("scripts.toast-issues-error"));
     });
+};
+
+const openDialog = (item) => {
+  attachDocumentsDialogVisibility.value = true;
+  selectedItem.value = item;
 };
 
 // PROVIDE, EXPOSE

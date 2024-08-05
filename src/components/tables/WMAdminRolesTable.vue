@@ -1,36 +1,36 @@
 <template>
   <DataTable
-      v-model:selection="selectedRoles"
-      lazy
-      :value="roles"
-      data-key="id"
-      scrollable
-      paginator
-      :rows="10"
-      :total-records="totalRecords"
-      class="w-full"
-      @page="onPage($event)"
-      @update:selection="onSelectionChanged"
+    v-model:selection="selectedRoles"
+    lazy
+    :value="roles"
+    data-key="id"
+    scrollable
+    paginator
+    :rows="10"
+    :total-records="totalRecords"
+    class="w-full"
+    @page="onPage($event)"
+    @update:selection="onSelectionChanged"
   >
     <Column style="width: 40px" selection-mode="multiple" />
     <Column style="width: 40px">
       <template #body="{ data }">
         <img
-            src="/icons/eye.svg"
-            alt=""
-            class="vertical-align-middle"
-            @click="openSidebar(data.id)"
+          src="/icons/eye.svg"
+          alt=""
+          class="vertical-align-middle"
+          @click="openSidebar(data.id)"
         />
-        <WMRolePreviewSidebar v-model:visible="isPreviewVisible[data.id]" :role="data"/>
+        <WMRolePreviewSidebar v-model:visible="isPreviewVisible[data.id]" :role="data" />
       </template>
     </Column>
     <Column
-        v-for="column in columns"
-        :key="column.name"
-        :field="column.name"
-        :header="$t(column.header)"
-        :class="column.class"
-        :style="column.width ? { width: column.width } : {}"
+      v-for="column in columns"
+      :key="column.name"
+      :field="column.name"
+      :header="$t(column.header)"
+      :class="column.class"
+      :style="column.width ? { width: column.width } : {}"
     >
       <template #body="{ data }">
         <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
@@ -41,14 +41,13 @@
 
 <script setup>
 // IMPORTS
-import {ref} from "vue";
+import { ref } from "vue";
 
 import useAdminRoles from "@/composables/useAdminRoles";
-import {useUtilsStore} from "@/stores/utils";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getRoles } = useAdminRoles()
-
+const { getRoles } = useAdminRoles();
 
 // INJECT
 
@@ -131,7 +130,7 @@ const onSelectionChanged = () => {
 
 const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
-}
+};
 
 // PROVIDE, EXPOSE
 defineExpose({

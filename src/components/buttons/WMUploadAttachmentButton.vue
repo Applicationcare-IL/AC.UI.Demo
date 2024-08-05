@@ -26,7 +26,7 @@
   <WMExistingDocumentsDialog
     v-if="showExistingDocumentsDialog"
     v-model="showExistingDocumentsDialog"
-    @link-service="handleLinkService"
+    @select-document="handleSelectExistingDocument"
   />
 </template>
 <script setup>
@@ -115,6 +115,15 @@ const toggleUploadDocumentOverlay = (event) => {
 
 const openExistingDocumentsDialog = () => {
   showExistingDocumentsDialog.value = true;
+};
+
+const handleSelectExistingDocument = (documentId) => {
+  console.log("documentId", documentId);
+
+  // downloadUrl.value = document.download_url;
+  // hasFileUploaded.value = true;
+  // showExistingDocumentsDialog.value = false;
+  // emit("fileUploaded");
 };
 
 // PROVIDE, EXPOSE

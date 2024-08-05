@@ -1,6 +1,6 @@
 import { useDocumentsStore } from "@/stores/documentsStore";
 
-export function useDocuments() {
+const useDocuments = () => {
   const documentsStore = useDocumentsStore();
 
   // ACTIONS
@@ -161,4 +161,6 @@ export function useDocuments() {
     // MOCKED DATA
     getDocuments,
   };
-}
+};
+
+export default useDocuments;

@@ -5,24 +5,20 @@
 
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row gap-3">
-      <WMSearchBox entity="related-service" />
+      <WMSearchBox entity="existing-document" />
     </div>
   </div>
-
   <DataTable
-    v-model:selection="selectedService"
-    :value="services"
+    v-model:selection="selectedDocument"
     selection-mode="single"
-    data-key="service_number"
-    table-style="min-width: 50rem"
-    scrollable
-    scroll-height="400px"
-    paginator
     lazy
-    :rows="rows"
-    :row-class="rowClass"
+    :value="documents"
+    data-key="id"
+    scrollable
+    paginator
+    :rows="10"
     :total-records="totalRecords"
-    :class="`p-datatable-${tableClass}`"
+    class="w-full"
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
@@ -30,46 +26,12 @@
       v-for="column in columns"
       :key="column.name"
       :field="column.name"
-      :header="column.header ? $t(column.header) : $t(`service.${column.name}`)"
+      :header="$t(column.header)"
       :class="column.class"
+      :style="column.width ? { width: column.width } : {}"
     >
-      <template #body="slotProps">
-        <template v-if="column.type === 'text'">
-          {{ slotProps.data[column.name] }}
-        </template>
-        <template v-if="column.type === 'detail'">
-          <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
-        </template>
-        <template v-if="column.type === 'link'">
-          <router-link
-            :to="{
-              name: 'serviceDetail',
-              params: { id: slotProps.data.service_number },
-            }"
-            class="vertical-align-middle"
-            >{{ slotProps.data.service_number }}</router-link
-          >
-        </template>
-        <template v-if="column.type === 'sla'">
-          <WMSLATag
-            v-if="slotProps.data.sla"
-            :sla="slotProps.data.sla"
-            :days-for-closing="slotProps.data.days_for_closing"
-            :state="slotProps.data.state.value"
-          >
-          </WMSLATag>
-        </template>
-        <template v-if="column.type === 'priority'">
-          <div :class="priorityClass(slotProps.data)">
-            {{ slotProps.data.is_active ? slotProps.data.priority : "-" }}
-          </div>
-        </template>
-        <template v-if="column.type === 'translate'">
-          {{ $t(slotProps.data[column.name]) }}
-        </template>
-        <template v-if="column.type === 'optionset'">
-          <WMOptionSetValue :option-set="slotProps.data[column.name]" />
-        </template>
+      <template #body="{ data }">
+        <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
       </template>
     </Column>
   </DataTable>
@@ -82,11 +44,8 @@ import { onMounted, ref, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getExistingServiceColumns } = useListUtils();
-const { getServicesFromApi } = useServices();
-
+const { getDocumentsFromApi } = useDocuments();
 const utilsStore = useUtilsStore();
-const { getPriorityClasses } = useListUtils();
 
 // INJECT
 
@@ -102,18 +61,44 @@ const emit = defineEmits(["update:selection"]);
 
 // REFS
 const totalRecords = ref(0);
-const selectedService = ref();
+const selectedDocument = ref();
 const rows = ref(20);
 const lazyParams = ref({});
-const services = ref([]);
+const documents = ref([]);
 const searchValue = ref("");
-const columns = ref(getExistingServiceColumns());
+
+const columns = [
+  {
+    name: "id",
+    type: "text",
+    field: "id",
+    header: "documents.id",
+  },
+  {
+    name: "document_type",
+    type: "option-set",
+    field: "document_type",
+    header: "documents.type",
+  },
+  {
+    name: "document_detail",
+    type: "option-set",
+    field: "document_detail",
+    header: "documents.detail",
+  },
+  {
+    name: "name",
+    type: "text",
+    field: "name",
+    header: "documents.name",
+  },
+];
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  const filters = utilsStore.filters["related-service"];
+  const filters = utilsStore.filters["existing-document"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
   const selectedRowsPerPageParam = rows.value;
@@ -126,18 +111,10 @@ const loadLazyData = async () => {
     search: searchValueParam,
   });
 
-  getServicesFromApi(params).then((result) => {
-    services.value = result.data;
+  getDocumentsFromApi(params).then((result) => {
+    documents.value = result.data;
     totalRecords.value = result.totalRecords;
   });
-};
-
-const rowClass = (data) => {
-  return [{ inactive_row: !data.is_active }];
-};
-
-const priorityClass = (data) => {
-  return getPriorityClasses(data);
 };
 
 const onPage = (event) => {
@@ -146,7 +123,7 @@ const onPage = (event) => {
 };
 
 const onSelectionChanged = () => {
-  emit("update:selection", selectedService.value);
+  emit("update:selection", selectedDocument.value);
 };
 
 // PROVIDE, EXPOSE
@@ -157,9 +134,9 @@ watchEffect(() => {
 });
 
 watch(
-  () => utilsStore.searchString["related-service"],
+  () => utilsStore.searchString["existing-document"],
   () => {
-    searchValue.value = utilsStore.searchString["related-service"];
+    searchValue.value = utilsStore.searchString["existing-document"];
     utilsStore.debounceAction(() => {
       loadLazyData();
     });
