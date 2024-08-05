@@ -8,7 +8,7 @@
   >
     <div class="flex">
       <!-- <div class="flex flex-column border-left-1 existing-documents-dialog__filters">
-        <WMFilterForm entity="related-service" filter-form-name="related-service" />
+        <WMFilterForm entity="existing-document" filter-form-name="existing-document" />
       </div> -->
       <div class="flex flex-column p-3 existing-documents-dialog__table">
         <WMExistingDocumentsTable @update:selection="onSelectionChanged" />
