@@ -35,7 +35,7 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
-const { createTeam, parseTeam } = useAdminTeams();
+const { createTeam, parseTeam, addUsers } = useAdminTeams();
 const toast = useToast();
 const dialog = useDialog();
 
@@ -59,25 +59,30 @@ const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getTeamNewFormValidationSchema,
 });
 
-const onSubmit = handleSubmit((values) => {
-  createTeam(parseTeam(values))
-    .then((data) => {
-      emit("newTeamCreated");
-      dialog.confirmNewAdminTeam({ id: data.data.id, emit });
+const onSubmit = handleSubmit(async (values)  =>  {
+  try {
+    let data = await createTeam(parseTeam(values));
 
-      resetForm();
+    if (values.userList.length > 0) {
+      let userIds = values.userList.map((user) => user.id);
+      await addUsers(data.data.id, {employees: userIds});
+    }
 
-      if (props.isSidebar) {
-        isFormDirty.value = false;
-        closeSidebar();
-      }
+    emit("newTeamCreated");
+    dialog.confirmNewAdminTeam({ id: data.data.id, emit });
 
-      toast.success({ title: "Team created", message: "Team created successfully" });
-    })
-    .catch((error) => {
-      console.error(error);
-      toast.error("Error");
-    });
+    resetForm();
+
+    if (props.isSidebar) {
+      isFormDirty.value = false;
+      closeSidebar();
+    }
+
+    toast.success({ title: "Team created", message: "Team created successfully" });
+
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const onCancel = () => {

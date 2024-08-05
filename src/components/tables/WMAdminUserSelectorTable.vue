@@ -1,20 +1,19 @@
 <template>
   <!-- search -->
   <WMInputSearch
-              name="newUser"
-              :placeholder="$t('select', ['contact'])"
-              type="table"
-              :label="$t('contact.contacts') + ':'"
-              width="160"
-              :highlighted="true"
-              :search-function="searchUsers"
-              :new="true"
-              related-sidebar="newUser"
-              :multiple="true"
-              @change="onUserSelected"
-          />
-<!--          <pre>{{ selectedUsers }}</pre>-->
-  <!-- table -->
+    name="userList"
+    :placeholder="$t('select', ['user'])"
+    type="table"
+    :label="$t('add-user') + ':'"
+    size="lg"
+    :highlighted="true"
+    :search-function="searchUsers"
+    :new="true"
+    related-sidebar="newUser"
+    :multiple="true"
+    @change="onUserSelected"
+  />
+<!--   table -->
   <DataTable
       lazy
       :value="selectedUsers"
@@ -24,8 +23,6 @@
       :rows="10"
       :total-records="selectedUsers.length"
       class="w-full"
-      @page="onPage($event)"
-      @update:selection="onSelectionChanged"
   >
     <Column
         v-for="column in columns"
@@ -37,6 +34,13 @@
     >
       <template #body="{ data }">
         <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
+      </template>
+    </Column>
+    <Column
+        :header="$t('actions')"
+        style="width: 40px">
+      <template #body="{ data }">
+        <WMUnlinkButtonIconOnly @click="unlinkUser(data.id)" />
       </template>
     </Column>
   </DataTable>
@@ -84,13 +88,21 @@ const columns = [
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const searchUsers = (query) => {
+const searchUsers = async (query) => {
   let params = {
     per_page: 99999,
     search: query,
   };
 
-  return getUsers(params);
+  let response = await getUsers(params);
+
+  if(selectedUsers.value.length > 0 ){
+    let usersFiltered = response.data.filter((userFromApi) => !isUserSelected(userFromApi));
+
+    return {data: usersFiltered};
+  }
+
+  return response;
 };
 
 const onUserSelected = (newUser) => {
@@ -99,6 +111,16 @@ const onUserSelected = (newUser) => {
   }
   selectedUsers.value.push(newUser.value);
 };
+
+const isUserSelected = (user) => {
+  return selectedUsers.value.some((selectedUser) => selectedUser.id === user.id);
+}
+
+const unlinkUser = (userId) => {
+  selectedUsers.value = selectedUsers.value.filter((user) => {
+    return user.id !== userId;
+  });
+}
 
 // PROVIDE, EXPOSE
 

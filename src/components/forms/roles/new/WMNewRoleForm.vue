@@ -15,6 +15,10 @@
         </div>
       </div>
 
+      <Divider />
+
+      <WMAdminUserSelectorTable />
+
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
   </div>
@@ -26,11 +30,11 @@ import {useForm} from "vee-validate";
 import {inject} from "vue";
 
 import WMInput from "@/components/forms/WMInput.vue";
-import {useFormUtilsStore} from "@/stores/formUtils";
 import useAdminRoles from "@/composables/useAdminRoles";
+import {useFormUtilsStore} from "@/stores/formUtils";
 
 // DEPENDENCIES
-const { createRole, parseRole } = useAdminRoles();
+const { createRole, parseRole, addUsers } = useAdminRoles();
 const formUtilsStore = useFormUtilsStore();
 
 const closeSidebar = inject("closeSidebar");
@@ -59,26 +63,30 @@ const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getRoleNewFormValidationSchema,
 });
 
-const onSubmit = handleSubmit((values) => {
-  console.log(parseRole(values));
-  createRole(parseRole(values))
-      .then((data) => {
-        emit("newRoleCreated");
-        dialog.confirmNewAdminRole({ id: data.data.id, emit });
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    let data = await createRole(parseRole(values));
 
-        resetForm();
+    if (values.userList.length > 0) {
+      let userIds = values.userList.map((user) => user.id);
+      await addUsers(data.data.id, {users: userIds});
+    }
 
-        if (props.isSidebar) {
-          isFormDirty.value = false;
-          closeSidebar();
-        }
+    emit("newRoleCreated");
+    dialog.confirmNewAdminRole({ id: data.data.id, emit });
 
-        toast.success({ title: "Role created", message: "Role created successfully" });
-      })
-      .catch((error) => {
-        console.error(error);
-        toast.error("Error");
-      });
+    resetForm();
+
+    if (props.isSidebar) {
+      isFormDirty.value = false;
+      closeSidebar();
+    }
+
+    toast.success({ title: "Role created", message: "Role created successfully" });
+
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const onCancel = () => {
