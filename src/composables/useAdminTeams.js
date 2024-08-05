@@ -30,6 +30,10 @@ const useAdminFlowmaze = () => {
     return await Promise.all(promises);
   };
 
+  const addUsers = async (teamId, params) => {
+    return adminTeamsStore.addUsers(teamId, params);
+  };
+
   const mapTeam = (team) => {
     return {
       ...team,
@@ -56,6 +60,7 @@ const useAdminFlowmaze = () => {
     createTeam,
     updateTeam,
     activateTeams,
+    addUsers,
     // UTILITIES
     mapTeam,
     parseTeam,
