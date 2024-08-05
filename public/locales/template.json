@@ -793,7 +793,11 @@
     "send-email": "Send email",
     "open-popup": "Open popup",
     "managed-by": "Managed by",
-    "availabe-merge-tags": "Available merge tags"
+    "availabe-merge-tags": "Available merge tags",
+    "attach-documents": "Attach documents",
+    "do-you-want-to-attach-documents": "Do you want to attach documents?",
+    "send-without-attachments": "Send without attachments",
+    "send-with-attachments": "Send with attachments"
   },
   "employee": {
     "employee": "User",
