@@ -2,22 +2,20 @@
   <Sidebar
       v-if="props.user"
       v-model:visible="visible"
-      class="details-sidebar w-6"
+      class="details-sidebar w-4"
       :show-close-icon="false"
       :class="''"
       @update:model-value="updateModelValue"
   >
-
-    <div class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
-
+    <div class="flex flex-auto flex-column overflow-auto w-full px-2">
       <div class="flex justify-content-between">
         <h2 class="h2">{{ props.user.username }}</h2>
         <router-link
-            :to="{
-          name: 'adminUserDetail',
-          params: { id: props.user.id },
-        }"
-            class="p-2"
+          :to="{
+            name: 'adminUserDetail',
+            params: { id: props.user.id },
+          }"
+          class="p-2"
         >
           <Button>Edit</Button>
         </router-link>
@@ -25,7 +23,6 @@
       <Divider />
 
       <div class="task-data flex flex-auto flex-column gap-5 mb-5">
-
         <div class="wm-form-row align-items-end gap-5">
           <div class="wm-form-row gap-5">
             <WMInput
@@ -41,6 +38,7 @@
                 :highlighted="true"
                 :label="$t('state') + ':'"
                 :value="props.user.state.value"
+                :class="statusClass(props.user.state.value)"
             />
             </div>
         </div>
@@ -114,6 +112,7 @@
 import  { ref } from 'vue';
 
 // DEPENDENCIES
+const { getStatusConditionalStyle } = useListUtils();
 
 // INJECT
 
@@ -135,6 +134,9 @@ const visible = ref(false);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const statusClass = (data) => {
+  return getStatusConditionalStyle(data);
+};
 
 // PROVIDE, EXPOSE
 
