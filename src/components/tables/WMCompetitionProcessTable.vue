@@ -8,6 +8,7 @@
         :selected-elements="selectedCustomers"
         :actions="flowmazeActions"
         entity="project_customer"
+        :project-id="projectId"
       />
     </div>
   </div>

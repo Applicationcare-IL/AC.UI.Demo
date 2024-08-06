@@ -31,13 +31,21 @@
         type="primary"
         @click="handleAction(selectedItem)"
       />
-      <!-- <WMButton
+      <WMButton
         :text="$t('scripts.send-with-attachments')"
         type="primary"
-        @click="openExistingDocumentsDialog"
-      /> -->
+        @click="openDocumentSelectorDialog"
+      />
     </div>
   </Dialog>
+
+  <WMDocumentsSelectorDialog
+    v-if="showDocumentsSelectorDialog"
+    v-model="showDocumentsSelectorDialog"
+    related-entity="project"
+    :related-entity-id="projectId"
+    @select-documents="handleSelectDocuments"
+  />
 </template>
 
 <script setup>
@@ -62,12 +70,15 @@ let props = defineProps({
   },
   entity: String,
   entityId: String,
+  projectId: String,
 });
 
 // REFS
 const dropdownMenu = ref();
 const attachDocumentsDialogVisibility = ref(false);
 const selectedItem = ref(null);
+const showDocumentsSelectorDialog = ref(false);
+const selectedDocuments = ref([]);
 
 // COMPUTED
 const isDisabled = computed(() => {
@@ -100,6 +111,7 @@ const handleAction = (script) => {
       entity_type: props.entity,
       entity_id: element.id,
       script_id: script.id,
+      document_ids: selectedDocuments.value ? selectedDocuments.value.map((doc) => doc.id) : [],
     };
 
     attachDocumentsDialogVisibility.value = false;
@@ -123,6 +135,16 @@ const handleAction = (script) => {
 const openDialog = (item) => {
   attachDocumentsDialogVisibility.value = true;
   selectedItem.value = item;
+};
+
+const openDocumentSelectorDialog = () => {
+  showDocumentsSelectorDialog.value = true;
+};
+
+const handleSelectDocuments = (documents) => {
+  console.log("handle action with selected documents", documents);
+  selectedDocuments.value = documents;
+  handleAction(selectedItem.value);
 };
 
 // PROVIDE, EXPOSE
