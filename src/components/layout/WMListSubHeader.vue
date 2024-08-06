@@ -73,7 +73,13 @@
         </div>
         <div class="flex flex-row align-items-center gap-3">
           <WMStateToggle
-            v-if="entity === 'task' || entity === 'service' || entity === 'employee' || entity === 'team' || entity === 'role'"
+            v-if="
+              entity === 'task' ||
+              entity === 'service' ||
+              entity === 'employee' ||
+              entity === 'team' ||
+              entity === 'role'
+            "
             :entity="entity"
           />
           <WMOwnerToggle :entity="entity" />

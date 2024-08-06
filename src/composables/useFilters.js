@@ -540,10 +540,22 @@ const useFilters = () => {
     ],
     employee: [
       {
-        type: "buttons",
+        type: "state",
         name: "state",
-        optionSet: "state",
-        label: i18n.t("status") + ":",
+        label: i18n.t("state") + ":",
+      },
+      {
+        type: "entity",
+        name: "teams",
+        label: i18n.t("teams") + ":",
+        searchFunction: searchBudgetItems,
+      },
+    ],
+    team: [
+      {
+        type: "state",
+        name: "state",
+        label: i18n.t("state") + ":",
       },
     ],
   };
