@@ -73,7 +73,7 @@
         </div>
         <div class="flex flex-row align-items-center gap-3">
           <WMStateToggle
-            v-if="entity === 'task' || entity === 'service' || entity === 'employee'"
+            v-if="entity === 'task' || entity === 'service' || entity === 'employee' || entity === 'team' || entity === 'role'"
             :entity="entity"
           />
           <WMOwnerToggle :entity="entity" />
@@ -102,6 +102,7 @@
     @open-sidebar="openFilterSidebar"
   >
     <WMFilterForm :entity="props.entity" :filter-form-name="props.entity" />
+    hola
   </WMSidebar>
 </template>
 
