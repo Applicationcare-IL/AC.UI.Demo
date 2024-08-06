@@ -158,19 +158,15 @@
           </div>
         </template>
         <template v-if="column.type === 'related_entity'">
-          <Column field="related_entity" :header="$t('task.related_entity')">
-            <template #body="slotProps">
-              <router-link
-                :to="{
-                  name: slotProps.data.related_entity?.type + 'Detail',
-                  params: { id: slotProps.data.related_entity?.id },
-                }"
-                class="vertical-align-middle"
-              >
-                {{ slotProps.data.related_entity?.name }}
-              </router-link>
-            </template>
-          </Column>
+          <router-link
+            :to="{
+              name: slotProps.data.related_entity?.type + 'Detail',
+              params: { id: slotProps.data.related_entity?.id },
+            }"
+            class="vertical-align-middle"
+          >
+            {{ slotProps.data.related_entity?.id }}
+          </router-link>
         </template>
         <template v-if="column.type === 'contact'">
           <router-link
@@ -182,6 +178,9 @@
             class="vertical-align-middle"
             >{{ slotProps.data.contact.name }} {{ slotProps.data.contact.surname }}</router-link
           >
+        </template>
+        <template v-if="column.type === 'bool'">
+          {{ slotProps.data[column.name] ? $t("yes") : $t("no") }}
         </template>
         <template v-if="column.type === 'text'">
           {{ getValueOf(slotProps.data, column.name) }}
