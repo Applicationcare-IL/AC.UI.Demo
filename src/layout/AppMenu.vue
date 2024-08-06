@@ -149,15 +149,15 @@ const model = computed(() => {
         //   visibility: true,
         // },
 
-        // {
-        //   divider: true,
-        // },
-        // {
-        //   label: t("navigation.messages"),
-        //   to: "/admin/messages",
-        //   image: new URL("/icons/nav/comment.svg", import.meta.url).href,
-        //   visibility: true,
-        // },
+        {
+          divider: true,
+        },
+        {
+          label: t("navigation.messages"),
+          to: "/admin/messages",
+          image: new URL("/icons/nav/comment.svg", import.meta.url).href,
+          visibility: true,
+        },
         // {
         //   label: t("navigation.option-sets"),
         //   to: "/admin/option-sets",
