@@ -3,14 +3,21 @@
       entity="role"
       :total-records="0"
       @new="toggleSidebarVisibility"
-      :showSearchBar="false"
-      :showFilterButton="false"
       :hasActionBuilder="false"
+      :showCommunications="false"
   >
+    <template #custom-buttons>
+      <div class="flex gap-3">
+        <WMActivateAdminRolesButton
+            :selected-roles="selectedRoles"
+            @activate-role="handleActivateRole"
+        />
+      </div>
+    </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newRole" @close-sidebar="closeSidebar">
-    <template v-if="can('role.create')">
+    <template v-if="can('roles.create')">
       <WMNewEntityFormHeader entity="role" name="newRole" />
       <WMNewRoleForm :is-sidebar="true" @close-sidebar="closeSidebar" />
     </template>
@@ -21,14 +28,16 @@
     </template>
   </WMSidebar>
 
-  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">tabla</div>
-
+  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
+    <WMAdminRolesTable ref="adminRoleTable" @update:selection="onSelectionChanged" />
+  </div>
 </template>
 
 <script setup>
 // IMPORTS
-import {useUtilsStore} from "@/stores/utils";
 import {onMounted, ref} from "vue";
+
+import {useUtilsStore} from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
@@ -40,6 +49,8 @@ const { can } = usePermissions();
 
 // REFS
 const isVisible = ref(false);
+const adminRoleTable = ref();
+const selectedRoles = ref([]);
 
 // COMPUTED
 
@@ -48,11 +59,20 @@ useHead({
   title: "Roles",
 });
 
-function toggleSidebarVisibility() {
+const onSelectionChanged = (newSelectedRoles) => {
+  selectedRoles.value = newSelectedRoles;
+};
+
+const handleActivateRole = () => {
+  adminRoleTable.value.loadLazyData();
+  adminRoleTable.value.cleanSelectedRoles();
+};
+
+const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
 }
 
-function closeSidebar() {
+const closeSidebar = () => {
   isVisible.value = false;
 }
 

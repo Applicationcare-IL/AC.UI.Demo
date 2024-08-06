@@ -3,11 +3,21 @@
     entity="employee"
     :total-records="0"
     :show-communications="false"
-    :show-search-bar="false"
-    :show-filter-button="false"
     :has-action-builder="false"
     @new="toggleSidebarVisibility"
   >
+    <template #custom-buttons>
+      <div class="flex gap-3">
+        <WMActivateAdminUsersButton
+          :selected-users="selectedUsers"
+          @activate-user="handleActivateUser"
+        />
+        <WMResetPassAdminUsersButton
+          :selected-users="selectedUsers"
+          @reset-pass-user="handleResetPass"
+        />
+      </div>
+    </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newUser" @close-sidebar="closeSidebar">
@@ -27,7 +37,13 @@
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMAdminUserTable ref="adminUserTable" />
+    <WMAdminUserTable
+      ref="adminUserTable"
+      :columns="columns"
+      preview
+      selectable
+      @update:selection="onSelectionChanged"
+    />
   </div>
 </template>
 
@@ -35,6 +51,7 @@
 // IMPORTS
 import { onMounted, ref } from "vue";
 
+import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
@@ -48,6 +65,61 @@ const { can } = usePermissions();
 // REFS
 const adminUserTable = ref();
 const isVisible = ref(false);
+const selectedUsers = ref([]);
+
+const columns = [
+  {
+    name: "id",
+    type: "link",
+    field: "link_detail",
+    header: "id",
+    routeName: "adminUserDetail",
+  },
+  {
+    name: "username",
+    type: "text",
+    field: "username",
+    header: "employee.username",
+  },
+  {
+    name: "manager",
+    type: "text",
+    field: "manager_fullname",
+    header: "manager",
+  },
+  {
+    name: "phone",
+    type: "text",
+    field: "phone",
+    header: "mobilephone",
+  },
+  {
+    name: "email",
+    type: "text",
+    field: "email",
+    header: "email",
+  },
+  {
+    name: "active",
+    type: "state",
+    field: "state",
+    header: "state.state",
+    width: "100px",
+    class: "p-0 filled-td",
+  },
+  {
+    name: "roles",
+    type: "chips",
+    field: "roles",
+    header: "roles",
+  },
+  {
+    name: "teams",
+    type: "chips",
+    field: "teams",
+    header: "teams",
+  },
+];
 
 // COMPUTED
 
@@ -66,6 +138,19 @@ const closeSidebar = () => {
 
 const handleNewUserCreated = () => {
   adminUserTable.value.loadLazyData();
+};
+
+const onSelectionChanged = (newSelectedUsers) => {
+  selectedUsers.value = newSelectedUsers;
+};
+
+const handleActivateUser = () => {
+  adminUserTable.value.loadLazyData();
+  adminUserTable.value.cleanSelectedUsers();
+};
+
+const handleResetPass = () => {
+  adminUserTable.value.cleanSelectedUsers();
 };
 
 // PROVIDE, EXPOSE

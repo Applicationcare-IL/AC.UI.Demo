@@ -19,9 +19,11 @@ export const usePermissionsStore = defineStore("permissions", {
       },
       teams: {
         create: true,
+        update: true,
       },
       roles: {
         create: true,
+        update: true,
       },
       quickCodes: {
         create: true,
@@ -30,6 +32,14 @@ export const usePermissionsStore = defineStore("permissions", {
         create: true,
       },
       milestones: {
+        update: true,
+      },
+      reports: {
+        create: true,
+        assign: false,
+      },
+      "admin-reports": {
+        create: true,
         update: true,
       },
     },

@@ -1,4 +1,4 @@
-export function useExports() {
+const useExports = () => {
   const toast = useToast();
 
   const handleExport = async ({ filters, searchValue, exportFunction }) => {
@@ -11,6 +11,8 @@ export function useExports() {
     }
 
     const response = await exportFunction(params);
+
+    console.log("response", response);
 
     const { hash, exists_url, download_url } = response.data;
 
@@ -35,4 +37,6 @@ export function useExports() {
     // ACTIONS
     handleExport,
   };
-}
+};
+
+export default useExports;

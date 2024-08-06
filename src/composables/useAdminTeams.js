@@ -21,6 +21,19 @@ const useAdminFlowmaze = () => {
     return await adminTeamsStore.createTeam(params);
   };
 
+  const updateTeam = async (teamId, params) => {
+    return await adminTeamsStore.updateTeam(teamId, params);
+  };
+
+  const activateTeams = async (teamIds) => {
+    const promises = teamIds.map((teamId) => adminTeamsStore.activateTeam(teamId));
+    return await Promise.all(promises);
+  };
+
+  const addUsers = async (teamId, params) => {
+    return adminTeamsStore.addUsers(teamId, params);
+  };
+
   const mapTeam = (team) => {
     return {
       ...team,
@@ -29,13 +42,14 @@ const useAdminFlowmaze = () => {
         id: team.id,
       },
       manager_name: `${team.manager?.name} ${team.manager?.surname}`,
+      title: team.name,
     };
   };
 
   const parseTeam = (team) => {
     return {
       ...team,
-      'manager_id': team.manager?.id,
+      manager_id: team.manager?.id,
     }
   };
 
@@ -44,6 +58,9 @@ const useAdminFlowmaze = () => {
     getTeams,
     getTeam,
     createTeam,
+    updateTeam,
+    activateTeams,
+    addUsers,
     // UTILITIES
     mapTeam,
     parseTeam,

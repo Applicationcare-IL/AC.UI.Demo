@@ -1,9 +1,23 @@
 import { useReportsStore } from "@/stores/reportsStore";
 
-export function useReports() {
+const useReports = () => {
   const reportsStore = useReportsStore();
 
-  const getReport = async ({
+  const getReports = async (params) => {
+    const response = await reportsStore.getReports(params);
+    const reports = response.data.map((report) => mapReport(report));
+    const totalRecords = response.meta.total;
+
+    return { data: reports, totalRecords };
+  };
+
+  const getReport = async (id) => {
+    const report = await reportsStore.getReport(id);
+
+    return report;
+  };
+
+  const getReportData = async ({
     entity_type,
     fields,
     group_by,
@@ -12,7 +26,7 @@ export function useReports() {
     order_dir,
     filters,
   }) => {
-    let report = await reportsStore.getReport({
+    let report = await reportsStore.getReportData({
       entity_type,
       fields,
       group_by,
@@ -25,8 +39,51 @@ export function useReports() {
     return report;
   };
 
+  const mapReport = (report) => {
+    return {
+      ...report,
+      link_detail: {
+        text: report.id,
+        id: report.id,
+      },
+      title: report.name,
+    };
+  };
+
+  const exportReport = async (id, params) => {
+    const response = await reportsStore.exportReport(id, params);
+
+    return response;
+  };
+
+  const getReportTableColumns = (selectedFields, selectedEntity, groupBy) => {
+    console.log("groupBy", groupBy);
+
+    if (!selectedFields) return [];
+
+    let columns = selectedFields.map((field) => ({
+      field: field,
+      header: selectedEntity.name + "." + field,
+    }));
+
+    if (groupBy) {
+      columns.unshift({
+        field: "total",
+        header: "Count",
+      });
+    }
+
+    return columns;
+  };
+
   return {
     // ACTIONS
+    getReports,
     getReport,
+    getReportData,
+    exportReport,
+    getReportTableColumns,
   };
-}
+};
+
+export default useReports;

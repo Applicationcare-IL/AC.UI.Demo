@@ -929,7 +929,7 @@ const useListUtils = () => {
         name: "planned-contract",
         field: "planned_contract",
         type: "currency",
-        editable: true,
+        editable: false,
       },
       {
         name: "unexpected",
@@ -986,7 +986,7 @@ const useListUtils = () => {
       },
       {
         name: "budget_item",
-        type: "text",
+        type: "budget_item",
         header: "budget.budget-item",
       },
       {

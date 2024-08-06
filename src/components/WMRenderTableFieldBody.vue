@@ -17,7 +17,7 @@
   </template>
   <!-- Type state -->
   <template v-if="columnData.type == 'state'">
-    <WMStateField :state="stateValue" />
+    <WMStateField :state="modelValue" />
   </template>
   <!-- Type tags -->
   <template v-if="columnData.type == 'chips'">
@@ -25,10 +25,13 @@
       <Chip v-for="(chip, index) in modelValue" :key="index" :label="chip.name" />
     </div>
   </template>
+  <!-- Type option set -->
+  <template v-if="columnData.type == 'option-set'">
+    <WMOptionSetValue :option-set="modelValue" />
+  </template>
 </template>
 <script setup>
 // IMPORTS
-import { computed } from "vue";
 
 // DEPENDENCIES
 
@@ -44,9 +47,6 @@ const modelValue = defineModel();
 // REFS
 
 // COMPUTED
-const stateValue = computed(() => {
-  return modelValue.value === 1 ? { value: "active" } : { value: "not-active" };
-});
 
 // COMPONENT METHODS AND LOGIC
 

@@ -538,6 +538,33 @@ const useFilters = () => {
         to: "payment_date_to",
       },
     ],
+    employee: [
+      {
+        type: "state",
+        name: "state",
+        label: i18n.t("state") + ":",
+      },
+      {
+        type: "entity",
+        name: "teams",
+        label: i18n.t("teams") + ":",
+        searchFunction: searchBudgetItems,
+      },
+    ],
+    team: [
+      {
+        type: "state",
+        name: "state",
+        label: i18n.t("state") + ":",
+      },
+    ],
+    role: [
+      {
+        type: "state",
+        name: "state",
+        label: i18n.t("state") + ":",
+      }
+    ],
   };
 
   return {

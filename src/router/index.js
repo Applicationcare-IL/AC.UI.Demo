@@ -198,6 +198,11 @@ const router = createRouter({
           component: () => import("@/views/user/lists/Reports.vue"),
         },
         {
+          path: "report/:id",
+          name: "reportDetail",
+          component: () => import("@/views/user/forms/detail/ReportDetail.vue"),
+        },
+        {
           path: "/products",
           name: "products",
           component: () => import("@/views/user/lists/Products.vue"),
@@ -255,6 +260,11 @@ const router = createRouter({
           path: "roles/new-role",
           name: "newRole",
           component: () => import("@/views/admin/forms/new/NewRole.vue"),
+        },
+        {
+          path: "role/:id",
+          name: "adminRoleDetail",
+          component: () => import("@/views/admin/forms/detail/RoleDetail.vue"),
         },
         {
           path: "permissions",
@@ -345,6 +355,21 @@ const router = createRouter({
           path: "scripts/:id",
           name: "scriptDetail",
           component: () => import("@/views/admin/forms/detail/ScriptDetail.vue"),
+        },
+        {
+          path: "reports",
+          name: "adminReports",
+          component: () => import("@/views/admin/lists/ReportsListPage.vue"),
+        },
+        {
+          path: "reports/new-report",
+          name: "newAdminReport",
+          component: () => import("@/views/admin/forms/new/NewReport.vue"),
+        },
+        {
+          path: "report/:id",
+          name: "adminReportDetail",
+          component: () => import("@/views/admin/forms/detail/AdminReportDetail.vue"),
         },
         {
           path: "reports-poc",

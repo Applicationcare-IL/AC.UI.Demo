@@ -22,9 +22,24 @@ const useAdminFlowmaze = () => {
     return await adminUsersStore.createUser(user);
   };
 
+  const updateUser = async (userId, data) => {
+    return await adminUsersStore.updateUser(userId, data);
+  };
+
+  const activateUsers = async (userIds) => {
+    const promises = userIds.map((userId) => adminUsersStore.activateUser(userId));
+    return await Promise.all(promises);
+  };
+
+  const resetPassUsers = async (userIds) => {
+    const promises = userIds.map((userId) => adminUsersStore.resetPassUser(userId));
+    return await Promise.all(promises);
+  };
+
   // UTILITIES
   const mapUser = (user) => {
     const username = `${user.name} ${user.surname}`;
+    const manager_fullname = `${user.manager?.name} ${user.manager?.surname}`;
 
     return {
       ...user,
@@ -34,7 +49,8 @@ const useAdminFlowmaze = () => {
         id: user.id,
       },
       title: username,
-      manager_fullname: `${user.manager?.name} ${user.manager?.surname}`,
+      manager_fullname: user.manager?.name && user.manager?.surname ? manager_fullname : "",
+      team: user.teams[0],  /*pendiente de cambiar esperando al backend*/
     };
   };
 
@@ -42,6 +58,17 @@ const useAdminFlowmaze = () => {
     return {
       ...user,
       manager_id: user.manager?.id,
+      teams: user.teams?.map((team) => team.id),
+      roles: user.roles?.map((role) => role.id),
+    };
+  };
+
+  const parseUpdateUser = (user) => {
+    return {
+      ...user,
+      manager_id: user.manager?.id,
+      teams: user.teams?.map((team) => team.id),
+      roles: user.roles?.map((role) => role.id),
     };
   };
 
@@ -50,9 +77,13 @@ const useAdminFlowmaze = () => {
     getUsers,
     getUser,
     createUser,
+    updateUser,
+    activateUsers,
+    resetPassUsers,
     // UTILITIES
     mapUser,
     parseUser,
+    parseUpdateUser,
   };
 };
 

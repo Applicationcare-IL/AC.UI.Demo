@@ -8,6 +8,7 @@
         :selected-elements="selectedCustomers"
         :actions="flowmazeActions"
         entity="project_customer"
+        :project-id="projectId"
       />
     </div>
   </div>
@@ -107,7 +108,7 @@
           />
 
           <span v-else-if="slotProps.data[column.name]">
-            {{ formatDate(slotProps.data[column.name]) }}
+            {{ formatDateFromAPI(slotProps.data[column.name]) }}
           </span>
         </template>
 
@@ -169,7 +170,7 @@ const { optionLabelWithLang } = useLanguages();
 const optionSetsStore = useOptionSetsStore();
 const { getScripts } = useFlowmaze();
 
-const { parseDate } = useDates();
+const { parseDate, formatDateFromAPI } = useDates();
 // const { getAlertCellConditionalStyle } = useListUtils();
 
 // INJECT
@@ -223,23 +224,6 @@ const flowmazeActions = ref([]);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-function formatDate(dateString) {
-  var date = new Date(dateString);
-
-  var dia = date.getDate();
-  var mes = date.getMonth() + 1; // months are zero based
-  var año = date.getFullYear();
-
-  // add zeros to the left if necessary
-  dia = dia < 10 ? "0" + dia : dia;
-  mes = mes < 10 ? "0" + mes : mes;
-
-  // return formatted date as DD/MM/YYYY
-  var dateFormateada = dia + "/" + mes + "/" + año;
-
-  return dateFormateada;
-}
-
 const loadLazyData = () => {
   const filters = utilsStore.filters["customer"];
   const nextPage = lazyParams.value.page + 1;

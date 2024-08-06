@@ -51,9 +51,11 @@ const loadEmployees = async () => {
 };
 
 const loadSelectedOption = async () => {
-  selectedOption.value = employeeList.value.find((manager) => {
-    return manager.id == props.selectedManager.id;
-  });
+  if ( props.selectedManager ){
+    selectedOption.value = employeeList.value.find((manager) => {
+      return manager.id === props.selectedManager.id;
+    });
+  }
 };
 
 // PROVIDE, EXPOSE

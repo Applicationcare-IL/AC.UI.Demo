@@ -93,6 +93,40 @@ const useDialog = () => {
     });
   };
 
+  const confirmNewAdminRole = ({ id, emit }) => {
+    confirm.require({
+      message: i18n.t("team.notification-created-message"),
+      header: i18n.t("team.notification-created-header"),
+      acceptLabel: i18n.t("team.notification-created-detail"),
+      rejectLabel: i18n.t("team.notification-created-close"),
+      accept: () => {
+        formUtilsStore.goToAdminDetail(id, "role");
+      },
+      reject: () => {
+        if (emit) {
+          emit("closeSidebar");
+        }
+      },
+    });
+  };
+
+  const confirmNewAdminReport = ({ id, emit }) => {
+    confirm.require({
+      message: i18n.t("admin-report.notification-created-message"),
+      header: i18n.t("admin-report.notification-created-header"),
+      acceptLabel: i18n.t("admin-report.notification-created-detail"),
+      rejectLabel: i18n.t("admin-report.notification-created-close"),
+      accept: () => {
+        formUtilsStore.goToAdminDetail(id, "report");
+      },
+      reject: () => {
+        if (emit) {
+          emit("closeSidebar");
+        }
+      },
+    });
+  };
+
   const confirmNewService = ({ id, emit }) => {
     confirm.require({
       message: i18n.t("service.notification-created-message"),
@@ -260,8 +294,10 @@ const useDialog = () => {
     confirmNewTask,
     confirmNewAdminUser,
     confirmNewAdminTeam,
+    confirmNewAdminRole,
     confirmNewService,
     confirmNewProject,
+    confirmNewAdminReport,
     cancelService,
     confirmCompleteTasks,
     confirmCancelTask,

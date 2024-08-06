@@ -21,13 +21,16 @@
     </template>
   </WMSidebar>
 
-  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">TABLA</div>
+  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
+    <WMAdminMessagesTable />
+  </div>
 </template>
 
 <script setup>
 // IMPORTS
-import { useUtilsStore } from "@/stores/utils";
 import { onMounted, ref } from "vue";
+
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();

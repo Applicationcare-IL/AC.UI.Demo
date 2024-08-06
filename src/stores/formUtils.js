@@ -499,35 +499,114 @@ export const useFormUtilsStore = defineStore("formUtils", {
           }),
       });
     },
+    getUserUpdateFormValidationSchema: (state) => {
+      return yup.object({
+        name: yup.string().required(),
+        surname: yup.string().required(),
+        // email: yup
+        //   .string()
+        //   .required()
+        //   .test("unique", "validation.user-already-exists", async (email) => {
+        //     if (!email) return true;
+
+        //     console.log("test", this.getFormMeta("email"));
+
+        //     if (adminUsersStore.checkIfUserEmailExists(this.id, email)) {
+        //       return true;
+        //     }
+
+        //     const exists = await adminUsersStore.checkIfUserExists(email);
+        //     return !exists;
+        //   }),
+        phone: yup
+          .string()
+          .trim()
+          .matches(state.israeliLandlineRegex, "validation.phone")
+          .required(),
+        manager: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          }),
+        teams: yup
+            .array()
+            .required()
+            .min(1, {
+              key: "validation.required-select",
+              values: { label: "teams" },
+            }),
+      });
+    },
     getTeamNewFormValidationSchema: (state) => {
       return yup.object({
         name: yup.string().required(),
         manager: yup
-            .object()
-            .required({
-              key: "validation.required-select",
-              values: { label: "manager" },
-            })
-            .typeError({
-              key: "validation.required-select",
-              values: { label: "manager" },
-            }),
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          }),
       });
     },
-    getRoleNewFormValidationSchema: (state) => {
+    getTeamUpdateFormValidationSchema: () => {
       return yup.object({
-        "role-name": yup.string().required(),
+        name: yup.string().required(),
+        manager: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "manager" },
+          }),
       });
     },
-    getQuickCodeNewFormValidationSchema: (state) => {
+    getRoleNewFormValidationSchema: () => {
+      return yup.object({
+        "name": yup.string().required(),
+      });
+    },
+    getRoleUpdateFormValidationSchema: () => {
+      return yup.object({
+        "name": yup.string().required(),
+      });
+    },
+    getQuickCodeNewFormValidationSchema: () => {
       return yup.object({
         "quickCode-name": yup.string().required(),
         "team-name": yup.string().required(),
       });
     },
-    getMessageNewFormValidationSchema: (state) => {
+    getMessageNewFormValidationSchema: () => {
       return yup.object({
         "message-header": yup.string().required(),
+      });
+    },
+    getAdminReportNewFormValidationSchema: () => {
+      return yup.object({
+        name: yup.string().required(),
+        description: yup.string().required(),
+        entity: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "entity" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "entity" },
+          }),
       });
     },
   },

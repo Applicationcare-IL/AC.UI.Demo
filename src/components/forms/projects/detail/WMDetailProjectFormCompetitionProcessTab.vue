@@ -11,7 +11,11 @@
 
             <div class="flex gap-5 mx-2">
               <WMInput
-                :value="formatDateFromAPI(serviceArea.expected_decision_date)"
+                :value="
+                  serviceArea.expected_decision_date
+                    ? formatDateFromAPI(serviceArea.expected_decision_date)
+                    : ''
+                "
                 name="expected_decision_date"
                 :label="$t('project.expected-decision-date') + ':'"
                 type="date"
@@ -23,7 +27,7 @@
               <WMInput
                 :inline="true"
                 :label="$t('due-date') + ':'"
-                :value="formatDateFromAPI(serviceArea.due_date)"
+                :value="serviceArea.due_date ? formatDateFromAPI(serviceArea.due_date) : ''"
                 name="due_date"
                 type="date"
                 :disabled="true"
@@ -58,7 +62,6 @@
 </template>
 <script setup>
 import { onMounted, ref } from "vue";
-
 import { useI18n } from "vue-i18n";
 
 import DeleteIcon from "/icons/delete.svg?raw";

@@ -7,7 +7,7 @@
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
           <WMInput
-              name="role-name"
+              name="name"
               :required="true"
               type="input-text"
               :label="$t('role-name') + ':'"
@@ -15,34 +15,78 @@
         </div>
       </div>
 
+      <Divider />
+
+      <WMAdminUserSelectorTable />
+
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
   </div>
 </template>
 
 <script setup>
-
-import WMInput from "@/components/forms/WMInput.vue";
+// IMPORTS
 import {useForm} from "vee-validate";
 import {inject} from "vue";
+
+import WMInput from "@/components/forms/WMInput.vue";
+import useAdminRoles from "@/composables/useAdminRoles";
 import {useFormUtilsStore} from "@/stores/formUtils";
 
+// DEPENDENCIES
+const { createRole, parseRole, addUsers } = useAdminRoles();
 const formUtilsStore = useFormUtilsStore();
 
 const closeSidebar = inject("closeSidebar");
 const { can } = usePermissions();
+const dialog = useDialog();
+const toast = useToast();
 
 
-defineProps({
+// INJECT
+const isFormDirty = inject("isFormDirty");
+
+
+// PROPS, EMITS
+const props = defineProps({
   isSidebar: Boolean,
 });
 
-const { handleSubmit } = useForm({
+const emit = defineEmits(["newRoleCreated"]);
+
+// REFS
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
+const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getRoleNewFormValidationSchema,
 });
 
-const onSubmit = handleSubmit((values) => {
-  console.log("values", values);
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    let data = await createRole(parseRole(values));
+
+    if (values.userList.length > 0) {
+      let userIds = values.userList.map((user) => user.id);
+      await addUsers(data.data.id, {users: userIds});
+    }
+
+    emit("newRoleCreated");
+    dialog.confirmNewAdminRole({ id: data.data.id, emit });
+
+    resetForm();
+
+    if (props.isSidebar) {
+      isFormDirty.value = false;
+      closeSidebar();
+    }
+
+    toast.success({ title: "Role created", message: "Role created successfully" });
+
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const onCancel = () => {
@@ -55,4 +99,9 @@ defineExpose({
   onCancel,
 });
 
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
+
+<style scoped></style>

@@ -10,11 +10,9 @@
   "entry-details": "Entry Details",
   "communication-details": "Communication Details",
   "roles": "Roles",
-  "role": {
-    "role": "Role"
-  },
   "actions": "Actions",
   "user": "User",
+  "name": "Name",
   "first-name": "First Name",
   "last-name": "Last Name",
   "id": "System ID",
@@ -97,6 +95,9 @@
   "team-name": "Team name",
   "manager": "Manager",
   "can-use-api": "Can use API",
+  "private": "Private",
+  "group": "Group",
+  "add-user": "Add users",
   "week-days": {
     "monday": "Monday",
     "monday-short": "Mo",
@@ -605,10 +606,13 @@
     "type": "Type",
     "name": "Name",
     "id": "ID",
-    "new_document": "New Document",
+    "new-document": "New Document",
+    "existing-document": "Existing Document",
     "select_detail_type": "Select detail type",
     "select_type": "Select type",
-    "owner": "Owner"
+    "owner": "Owner",
+    "select-document": "Select document",
+    "select-an-existing-document": "Select an existing document"
   },
   "site": {
     "details": "Site Details",
@@ -790,12 +794,20 @@
     "send-email": "Send email",
     "open-popup": "Open popup",
     "managed-by": "Managed by",
-    "availabe-merge-tags": "Available merge tags"
+    "availabe-merge-tags": "Available merge tags",
+    "attach-documents": "Attach documents",
+    "do-you-want-to-attach-documents": "Do you want to attach documents?",
+    "send-without-attachments": "Send without attachments",
+    "send-with-attachments": "Send with attachments"
   },
   "employee": {
     "employee": "User",
     "username": "Username",
     "general-info": "User information",
+    "teams-and-roles": "Teams & Roles",
+    "teams": "Teams",
+    "select-team": "Select team",
+    "default-team": "Default team",
     "notification-created-message": "The new user was successfully created! \n From now on he will appear in your user list",
     "notification-created-header": "New User Created",
     "notification-created-detail": "View User",
@@ -808,9 +820,35 @@
   "team": {
     "team": "Team",
     "name": "Team name",
+    "general-info": "Team information",
+    "users-in-team": "Users in team",
     "notification-created-message": "The new team was successfully created! \n From now on he will appear in your team list",
     "notification-created-header": "New Team Created",
     "notification-created-detail": "View Team",
     "notification-created-close": "Close"
+  },
+  "role": {
+    "role": "Role",
+    "details": "Role details",
+    "name": "Role name",
+    "users-in-role": "Users in role",
+    "notification-created-message": "The new role was successfully created! \n From now on he will appear in your role list",
+    "notification-created-header": "New Role Created",
+    "notification-created-detail": "View Role",
+    "notification-created-close": "Close"
+  },
+  "report": {
+    "report": "Report"
+  },
+  "admin-report": {
+    "report": "Report",
+    "admin-report": "Report",
+    "notification-created-message": "The new report was successfully created! \n From now on he will appear in your report list",
+    "notification-created-header": "New report Created",
+    "notification-created-detail": "View report",
+    "notification-created-close": "Close",
+    "report-configuration": "Report Configuration",
+    "report-preview": "Report Preview",
+    "select-an-entity": "Select an entity"
   }
 }

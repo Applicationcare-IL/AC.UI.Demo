@@ -59,43 +59,131 @@
             </template>
           </Card>
         </div>
+        <div class="card-container top-info-card" style="flex: 2 ">
+          <Card >
+            <template #title> {{ $t("employee.teams-and-roles") }} </template>
+            <template #content>
+              <div class="flex flex-column gap-5">
+                <div class="wm-form-row gap-5">
+                  <WMInputSearch
+                      v-if="teams"
+                      name="teams"
+                      :label="$t('teams') + ':'"
+                      :placeholder="$t('select-team')"
+                      :required="true"
+                      :multiple="true"
+                      size="full"
+                      :options="teams.data"
+                      :model-value="selectedTeams"
+                      :highlighted="true"
+                  />
+                </div>
+                <div class="wm-form-row gap-5">
+                  <WMInputDropdownDefaultTeam
+                      v-if="values.teams"
+                      :teams="values.teams"
+                      :selected-team="user.team"
+                      size="full"
+                  />
+                </div>
+                <div class="wm-form-row gap-5">
+                  <WMInputSearch
+                      v-if="roles"
+                      name="roles"
+                      :label="$t('roles') + ':'"
+                      :placeholder="$t('select-role')"
+                      :required="true"
+                      :multiple="true"
+                      size="full"
+                      :model-value="selectedRoles"
+                      :highlighted="true"
+                  />
+                </div>
+              </div>
+            </template>
+          </Card>
+        </div>
       </div>
     </div>
   </div>
-  <!-- 
-  USER DETAIL:
-  <pre>{{ user }}</pre> -->
 </template>
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
-import { useRoute } from "vue-router";
+import {useForm} from "vee-validate";
+import {ref, watch} from "vue";
+import {useRoute} from "vue-router";
 
-import { useFormUtilsStore } from "@/stores/formUtils";
-import { useUtilsStore } from "@/stores/utils";
+import WMInputDropdownDefaultTeam from "@/components/forms/users/shared/WMInputDropdownDefaultTeam.vue";
+import useAdminTeams from "@/composables/useAdminTeams";
+import {useFormUtilsStore} from "@/stores/formUtils";
+import {useUtilsStore} from "@/stores/utils";
+import useAdminRoles from "@/composables/useAdminRoles";
 
 // DEPENDENCIES
 const route = useRoute();
-const { getUser } = useAdminUsers();
+const { getUser, updateUser, parseUpdateUser } = useAdminUsers();
+const { getTeams } = useAdminTeams();
+const { getRoles } = useAdminRoles();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
+const toast = useToast();
 
 // INJECT
 
 // PROPS, EMITS
+const props = defineProps({
+  formKey: {
+    type: String,
+    required: true,
+  },
+});
+
+const emit = defineEmits(["userUpdated"]);
 
 // REFS
 const user = ref(null);
+const teams = ref([]);
+const roles = ref([]);
+const selectedTeams = ref([]);
+const selectedRoles = ref([]);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const { handleSubmit, meta, resetForm, values } = useForm({
+  validationSchema: formUtilsStore.getUserUpdateFormValidationSchema,
+});
+
+const onSave = handleSubmit((values) => {
+  updateUser(route.params.id, parseUpdateUser(values))
+    .then(() => {
+      toast.success({ message: "User updated successfully" });
+      resetForm({ values: values });
+      emit("userUpdated");
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Error updating user");
+    });
+});
+
 const loadLazyData = async () => {
-  let response = await getUser(route.params.id);
-  user.value = response;
+  user.value = await getUser(route.params.id);
   utilsStore.selectedElements["employee"] = [user.value];
+
+  teams.value = await getTeams();
+  roles.value = await getRoles();
+
+  selectedTeams.value = teams.value.data.filter((item) =>
+      user.value.teams.find((x) => x.id == item.id)
+  );
+
+  selectedRoles.value = roles.value.data.filter((item) =>
+      user.value.roles.find((x) => x.id == item.id)
+  );
+
 };
 
 loadLazyData();
@@ -104,8 +192,21 @@ formUtilsStore.formEntity = "employee";
 utilsStore.entity = "employee";
 
 // PROVIDE, EXPOSE
+defineExpose({
+  onSave,
+  loadLazyData,
+});
 
 // WATCHERS
+watch(
+  () => meta.value,
+  (value) => {
+    if (value.touched) {
+      formUtilsStore.formMeta = value;
+      formUtilsStore.setFormMetas(value, props.formKey);
+    }
+  }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

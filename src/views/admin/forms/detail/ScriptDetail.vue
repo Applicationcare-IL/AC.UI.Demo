@@ -2,10 +2,10 @@
   <WMDetailFormSubHeader
     entity="script"
     :form-key="formKey"
+    :show-sub-bar="false"
+    :has-action-builder="false"
     @save-form="saveForm()"
     @refresh-table="refreshTable"
-    :showSubBar="false"
-    :hasActionBuilder="false"
   />
   <WMDetailScriptForm ref="detailScriptForm" :form-key="formKey" />
 </template>

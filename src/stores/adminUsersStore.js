@@ -34,6 +34,16 @@ export const useAdminUsersStore = defineStore("adminUsers", {
           console.error(error);
         });
     },
+    updateUser(userId, data) {
+      return axiosConfig
+        .patch(`/admin/employees/${userId}`, data)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     checkIfUserExists(userEmail) {
       return axiosConfig
         .post("/admin/employees/exists", { email: userEmail })
@@ -43,6 +53,30 @@ export const useAdminUsersStore = defineStore("adminUsers", {
         .catch((error) => {
           console.error(error);
         });
+    },
+    checkIfUserEmailExists(userId, userEmail) {
+      console.log("userId", userId);
+      console.log("userEmail", userEmail);
+    },
+    activateUser(userId) {
+      return axiosConfig
+        .post(`/admin/employees/${userId}/activate`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    resetPassUser(userId) {
+      return axiosConfig
+          .post(`/admin/employees/${userId}/send-reset-password-email`)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
     },
   },
 });

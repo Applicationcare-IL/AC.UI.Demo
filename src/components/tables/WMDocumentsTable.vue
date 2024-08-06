@@ -3,17 +3,13 @@
   <div class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
-        <WMNewButton :text="$t('documents.new_document')" @click="handleNewDocument" />
+        <WMNewButton :text="$t('documents.new-document')" @click="handleNewDocument" />
       </div>
     </div>
     <div class="flex flex-row justify-content-between align-items-center">
       <span class="p-input-icon-left">
         <i class="pi pi-search" />
-        <InputText
-          v-model="filters['global'].value"
-          class="w-30rem"
-          :placeholder="$t('search')"
-        />
+        <InputText v-model="filters['global'].value" class="w-30rem" :placeholder="$t('search')" />
       </span>
       <WMTablePaginator
         :total-records="totalRecords"
@@ -186,12 +182,7 @@ const utilsStore = useUtilsStore();
 
 const documentDetails = ref([]);
 
-const {
-  getDocumentsFromApi,
-  updateDocument,
-  parseUpdateDocument,
-  createDocument,
-} = useDocuments();
+const { getDocumentsFromApi, updateDocument, parseUpdateDocument, createDocument } = useDocuments();
 
 // PROPS, EMITS
 const props = defineProps({
