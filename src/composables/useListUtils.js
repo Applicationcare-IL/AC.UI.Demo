@@ -512,7 +512,7 @@ const useListUtils = () => {
       { name: "due_date", type: "text" },
       { name: "description", type: "text" },
       { name: "status", type: "optionset", prefix: "statuses" },
-      { name: "read", type: "text" },
+      { name: "read", type: "bool" },
     ];
   };
 
