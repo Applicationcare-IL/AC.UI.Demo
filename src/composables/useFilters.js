@@ -558,6 +558,13 @@ const useFilters = () => {
         label: i18n.t("state") + ":",
       },
     ],
+    role: [
+      {
+        type: "state",
+        name: "state",
+        label: i18n.t("state") + ":",
+      }
+    ],
   };
 
   return {

@@ -108,7 +108,6 @@
     @open-sidebar="openFilterSidebar"
   >
     <WMFilterForm :entity="props.entity" :filter-form-name="props.entity" />
-    hola
   </WMSidebar>
 </template>
 

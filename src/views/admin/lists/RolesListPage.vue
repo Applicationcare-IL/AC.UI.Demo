@@ -3,8 +3,6 @@
       entity="role"
       :total-records="0"
       @new="toggleSidebarVisibility"
-      :showSearchBar="false"
-      :showFilterButton="false"
       :hasActionBuilder="false"
       :showCommunications="false"
   >

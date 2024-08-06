@@ -41,7 +41,7 @@
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import {ref, watch, watchEffect} from "vue";
 
 import useAdminRoles from "@/composables/useAdminRoles";
 import { useUtilsStore } from "@/stores/utils";
@@ -100,12 +100,19 @@ const columns = [
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
+  const filters = utilsStore.filters["role"];
   const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
 
-  const params = {
-    page: nextPage,
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage ? nextPage : 1,
     per_page: 10,
-  };
+  });
+
+  if (searchValueParam) {
+    params.append("search", searchValueParam);
+  }
 
   let response = await getRoles(params);
   roles.value = response.data;
@@ -139,6 +146,20 @@ defineExpose({
 });
 
 // WATCHERS
+watchEffect(() => {
+  loadLazyData();
+});
+
+watch(
+    () => utilsStore.searchString["team"],
+    () => {
+      searchValue.value = utilsStore.searchString["team"];
+      utilsStore.debounceAction(() => {
+        loadLazyData();
+      });
+    },
+    { deep: true }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
