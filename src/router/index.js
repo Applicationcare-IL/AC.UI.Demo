@@ -312,6 +312,11 @@ const router = createRouter({
           component: () => import("@/views/admin/forms/new/NewMessage.vue"),
         },
         {
+          path: "message/:id",
+          name: "adminMessageDetail",
+          component: () => import("@/views/admin/forms/detail/MessageDetail.vue"),
+        },
+        {
           path: "option-sets",
           name: "adminOptionSets",
           component: () => import("@/views/admin/lists/OptionSetsListPage.vue"),

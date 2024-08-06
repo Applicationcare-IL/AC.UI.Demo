@@ -4,6 +4,7 @@
       :total-records="0"
       @new="toggleSidebarVisibility"
       :showSearchBar="false"
+      :showCommunications="false"
       :showFilterButton="false"
       :hasActionBuilder="false"
   >
@@ -22,7 +23,13 @@
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMAdminMessagesTable />
+    <WMAdminMessagesTable
+       ref="adminMessageTable"
+       :columns="columns"
+       preview
+       selectable
+       @update:selection="onSelectionChanged"
+    />
   </div>
 </template>
 
@@ -41,7 +48,62 @@ const { can } = usePermissions();
 // PROPS, EMITS
 
 // REFS
+const adminMessageTable = ref();
 const isVisible = ref(false);
+
+
+const columns = [
+  {
+    name: "id",
+    type: "link",
+    field: "link_detail",
+    header: "id",
+    routeName: "adminMessageDetail",
+  },
+  {
+    name: "target",
+    type: "text",
+    field: "",
+    header: "message.target",
+  },
+  {
+    name: "message-header",
+    type: "text",
+    field: "",
+    header: "message.header",
+  },
+  {
+    name: "message-content",
+    type: "text",
+    field: "",
+    header: "message.content",
+  },
+  {
+    name: "rating",
+    type: "chips",
+    field: "",
+    header: "message.rating",
+  },
+  {
+    name: "status",
+    type: "state",
+    field: "",
+    header: "status",
+  },
+  {
+    name: "start-date",
+    type: "text",
+    field: "start_date",
+    header: "start-date",
+  },
+  {
+    name: "end-date",
+    type: "text",
+    field: "end_date",
+    header: "end-date",
+  },
+
+];
 
 // COMPUTED
 
