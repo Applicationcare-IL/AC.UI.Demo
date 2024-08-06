@@ -25,6 +25,7 @@
           :rows="15"
           :multiselect="false"
           :filters="reminderFilters"
+          @link-clicked="toggleReminders"
         />
       </OverlayPanel>
     </div>
@@ -56,6 +57,7 @@
           :rows="15"
           :multiselect="false"
           :filters="followUpFilters"
+          @link-clicked="toggleFollowUps"
         />
       </OverlayPanel>
     </div>
@@ -77,9 +79,8 @@ import { watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { useLayout } from "@/layout/composables/layout";
-import { useOptionSetsStore } from "@/stores/optionSets";
-
 import { useAuthStore } from "@/stores/auth";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
 const { layoutConfig } = useLayout();
@@ -165,17 +166,17 @@ const toggleFollowUps = (event) => {
   isFollowUpOpen.value.toggle(event);
 };
 
-function toggleSidebarVisibility() {
+const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
-}
+};
 
-function closeSidebar() {
+const closeSidebar = () => {
   isVisible.value = false;
-}
+};
 
-function openSidebar() {
+const openSidebar = () => {
   isVisible.value = true;
-}
+};
 
 if (window.Echo) {
   window.Echo.channel(`employee.${authStore.user?.virtual_extension}`).listen(
