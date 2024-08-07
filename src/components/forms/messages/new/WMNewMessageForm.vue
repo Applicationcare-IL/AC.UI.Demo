@@ -8,10 +8,10 @@
         <div class="wm-form-row gap-5">
 
           <WMInput
-              name="message-header"
+              name="topic"
               :required="true"
               type="input-text"
-              :label="$t('first-name') + ':'"
+              :label="$t('message.header') + ':'"
           />
 
         </div>
@@ -20,18 +20,47 @@
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
           <WMInput
-              name="is_rating"
+              name="is_important"
               type="input-select-button"
               :highlighted="true"
-              :label="$t('') + ':'"
-              @update:selected-item="onProviderChanged"
+              :label="$t('message.rating') + ':'"
+              :options="normalImportantOptions"
+              :value="normalImportantOptions[1]"
           />
         </div>
       </div>
 
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
+          <WMInput
+              type="date"
+              :label="$t('start-date') + ':'"
+              name="start_date"
+              required
+          />
 
+          <WMInput
+              v-if="values.start_date"
+              type="date"
+              :label="$t('end-date') + ':'"
+              name="end_date"
+              :minDate="values.start_date"
+          />
+        </div>
+      </div>
+
+      <Divider/>
+
+      <div class="wm-form-row align-items-end gap-5">
+        <div class="wm-form-row gap-5">
+          <WMInput
+              :label="$t('message.content')"
+              label-size="large"
+              type="text-area"
+              name="message"
+              size="full"
+              required
+          />
         </div>
       </div>
 
@@ -43,12 +72,14 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import {inject, ref} from "vue";
+import {inject} from "vue";
+
 import { useFormUtilsStore } from "@/stores/formUtils";
-import WMInput from "@/components/forms/WMInput.vue";
+import {useI18n} from "vue-i18n";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
+const { t } = useI18n();
 
 // INJECT
 const closeSidebar = inject("closeSidebar");
@@ -59,11 +90,14 @@ defineProps({
 });
 
 // REFS
-
+const normalImportantOptions = [
+  { value: "true", name: t("message.important") },
+  { value: "false", name: t("message.normal") },
+];
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit } = useForm({
+const { handleSubmit, values } = useForm({
   validationSchema: formUtilsStore.getMessageNewFormValidationSchema,
 });
 

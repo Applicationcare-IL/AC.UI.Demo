@@ -35,7 +35,7 @@ const emit = defineEmits(["activateUser"]);
 // COMPUTED
 const inactiveUsers = computed(() => {
   if (props.selectedUsers) {
-    return props.selectedUsers.filter((user) => user.active === 0);
+    return props.selectedUsers.filter((user) => user.state.value === 'not_active');
   }
 
   return [];

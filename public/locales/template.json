@@ -844,7 +844,9 @@
     "target": "Target",
     "header": "Message header",
     "content": "Message content",
-    "rating": "Rating"
+    "rating": "Rating",
+    "important": "Important",
+    "normal": "Normal"
   },
   "report": {
     "report": "Report"
