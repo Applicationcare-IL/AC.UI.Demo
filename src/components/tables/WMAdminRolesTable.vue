@@ -78,13 +78,13 @@ const columns = [
     name: "name",
     type: "text",
     field: "name",
-    header: "Role name",
+    header: "role.name",
   },
   {
     name: "users",
     type: "text",
     field: "users",
-    header: "Users in role",
+    header: "role.users-in-role",
   },
   {
     name: "active",
