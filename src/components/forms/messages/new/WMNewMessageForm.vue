@@ -8,10 +8,10 @@
         <div class="wm-form-row gap-5">
 
           <WMInput
-              name="message-header"
+              name="topic"
               :required="true"
               type="input-text"
-              :label="$t('first-name') + ':'"
+              :label="$t('message.header') + ':'"
           />
 
         </div>
@@ -20,20 +20,47 @@
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
           <WMInput
-              name="is_rating"
+              name="is_important"
               type="input-select-button"
               :highlighted="true"
-              :label="$t('') + ':'"
-              @update:selected-item="onProviderChanged"
+              :label="$t('message.rating') + ':'"
+              :options="normalImportantOptions"
+              :value="normalImportantOptions[1]"
           />
         </div>
       </div>
 
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
+          <WMInput
+              type="date"
+              :label="$t('start-date') + ':'"
+              name="start_date"
+              :required="true"
+          />
 
+          <WMInput
+              type="date"
+              :label="$t('end-date') + ':'"
+              name="end_date"
+          />
         </div>
       </div>
+
+      <Divider/>
+
+      <h2 class="h2 my-0">{{ $t("message.content") }}</h2>
+
+      <div class="wm-form-row align-items-end gap-5">
+        <div class="wm-form-row gap-5">
+          <WMInput
+              type="text-area"
+              name="message"
+              size="full"
+          />
+        </div>
+      </div>
+
 
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
@@ -59,6 +86,8 @@ defineProps({
 });
 
 // REFS
+const normalImportantOptions = [ { "value": true, "name": "Important", "label": "Important", "value_en": "Important", "value_he": "Important" }, { "value": false, "name": "Normal", "label": "Normal", "value_en": "Normal", "value_he": "Normal" } ];
+
 
 // COMPUTED
 
