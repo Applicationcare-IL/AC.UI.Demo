@@ -53,7 +53,7 @@ const { getUsers } = useAdminUsers();
 // INJECT
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   columns: {
     type: Array,
     required: true,
@@ -65,6 +65,14 @@ defineProps({
   selectable: {
     type: Boolean,
     default: false,
+  },
+  relatedEntity: {
+    type: String,
+    required: true,
+  },
+  relatedEntityId: {
+    type: Number,
+    required: true,
   },
 });
 
@@ -97,6 +105,10 @@ const loadLazyData = async () => {
 
   if (searchValueParam) {
     params.append("search", searchValueParam);
+  }
+
+  if (props.relatedEntity && props.relatedEntityId) {
+    params.append(props.relatedEntity, props.relatedEntityId);
   }
 
   let response = await getUsers(params);

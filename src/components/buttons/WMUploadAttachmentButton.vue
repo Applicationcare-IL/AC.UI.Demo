@@ -16,6 +16,7 @@
     <div class="flex gap-3">
       <WMButton :text="$t('documents.new-document')" type="primary" @click="openUploadAttachment" />
       <WMButton
+        v-if="uploadExistingDocuments"
         :text="$t('documents.select-document')"
         type="primary"
         @click="openExistingDocumentsDialog"
@@ -38,6 +39,7 @@ import FileIcon from "/icons/menu/file.svg?raw";
 
 // DEPENDENCIES
 const { uploadAttachment } = useAttachments();
+const { updateDocument } = useDocuments();
 
 // INJECT
 
@@ -66,6 +68,10 @@ const props = defineProps({
   downloadUrl: {
     type: String,
     default: "",
+  },
+  uploadExistingDocuments: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -117,13 +123,20 @@ const openExistingDocumentsDialog = () => {
   showExistingDocumentsDialog.value = true;
 };
 
-const handleSelectExistingDocument = (documentId) => {
-  console.log("documentId", documentId);
+const handleSelectExistingDocument = (selectedDocument) => {
+  if (props.entity !== "document") {
+    console.log("This is only available for documents");
+    return;
+  }
 
-  // downloadUrl.value = document.download_url;
-  // hasFileUploaded.value = true;
-  // showExistingDocumentsDialog.value = false;
-  // emit("fileUploaded");
+  const params = {
+    copy_attachment_from: selectedDocument.id,
+  };
+
+  updateDocument(props.entityId, params);
+
+  hasFileUploaded.value = true;
+  emit("fileUploaded");
 };
 
 // PROVIDE, EXPOSE

@@ -114,8 +114,10 @@
               params: { id: slotProps.data.project_created.id },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.task_number }}</router-link
+            @click="emit('linkClicked')"
           >
+            {{ slotProps.data.task_number }}
+          </router-link>
           <router-link
             v-else
             :to="{
@@ -123,8 +125,10 @@
               params: { id: slotProps.data.task_number },
             }"
             class="vertical-align-middle"
-            >{{ slotProps.data.task_number }}</router-link
+            @click="emit('linkClicked')"
           >
+            {{ slotProps.data.task_number }}
+          </router-link>
         </template>
         <template v-if="column.type === 'detail'">
           <img src="/icons/eye.svg" alt="" class="vertical-align-middle" />
@@ -193,12 +197,10 @@
 <script setup>
 // IMPORTS
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
-import { useI18n } from "vue-i18n";
 
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { t } = useI18n();
 const { getValueOf } = useUtils();
 const { can } = usePermissions();
 const utilsStore = useUtilsStore();
@@ -266,7 +268,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["taskCompleted"]);
+const emit = defineEmits(["taskCompleted", "linkClicked"]);
 
 // REFS
 const selectedTasks = ref([]);
@@ -343,25 +345,25 @@ const clearSelectedTasks = () => {
   utilsStore.selectedElements["task"] = [];
 };
 
-function toggleSidebarVisibility() {
+const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
-}
+};
 
-function closeSidebar() {
+const closeSidebar = () => {
   isVisible.value = false;
-}
+};
 
-function openSidebar() {
+const openSidebar = () => {
   isVisible.value = true;
-}
+};
 
-function closeFilterSidebar() {
+const closeFilterSidebar = () => {
   isFilterVisible.value = false;
-}
+};
 
-function openFilterSidebar() {
+const openFilterSidebar = () => {
   isFilterVisible.value = true;
-}
+};
 
 // PROVIDE, EXPOSE
 

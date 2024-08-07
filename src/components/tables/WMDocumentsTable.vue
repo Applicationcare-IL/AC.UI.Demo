@@ -132,6 +132,7 @@
           file-name="document"
           :has-file="slotProps.data.attachment"
           :download-url="slotProps.data.attachment?.download_url"
+          :upload-existing-documents="true"
         />
       </template>
     </Column>
