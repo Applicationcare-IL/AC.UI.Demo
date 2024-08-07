@@ -70,15 +70,23 @@ const saveForm = () => {
 };
 
 const activateUserFunc = () => {
-  activateUsers([user.value.id]);
-  isActive.value = !isActive.value;
-  isNotActive.value = !isNotActive.value;
+  activateUsers([user.value.id]).then(() => {
+    isActive.value = !isActive.value;
+    isNotActive.value = !isNotActive.value;
+    loadLazyData();
+  }).catch((error) => {
+    console.error(error);
+  })
 }
 
 const deactivateUserFunc = () => {
-  deactivateUser(user.value.id);
-  isActive.value = !isActive.value;
-  isNotActive.value = !isNotActive.value;
+  deactivateUser(user.value.id).then(() => {
+    isActive.value = !isActive.value;
+    isNotActive.value = !isNotActive.value;
+    loadLazyData()
+  }).catch((error) => {
+    console.error(error);
+  });
 }
 
 // const activateUser
