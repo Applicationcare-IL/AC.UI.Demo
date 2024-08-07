@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="loaded"
-    class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
-  >
+  <div v-if="loaded" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="asset-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="flex-1 card-container top-info-card">
@@ -51,6 +48,14 @@
                     :highlighted="true"
                     :label="$t('asset.payer') + ':'"
                     :value="asset.payer.name + asset.payer.surname"
+                    :to="'/customer/' + asset.payer.id"
+                  />
+                  <WMInput
+                    name="consumer"
+                    type="info-link"
+                    :highlighted="true"
+                    :label="$t('asset.consumer') + ':'"
+                    :value="asset.consumer.name + asset.consumer.surname"
                     :to="'/customer/' + asset.consumer.id"
                   />
                 </div>
@@ -185,8 +190,7 @@ const toast = useToast();
 
 const { getCustomerColumnsForAssets, getServiceColumns } = useListUtils();
 
-const { getAssetFromApi, updateAsset, parseAsset, setSelectedAssets } =
-  useAssets();
+const { getAssetFromApi, updateAsset, parseAsset, setSelectedAssets } = useAssets();
 
 // PROPS, EMITS
 const props = defineProps({
@@ -272,9 +276,7 @@ onMounted(async () => {
 
   genders.value = await optionSetsStore.getOptionSetValues("gender");
 
-  genderSelected.value = genders.value.find(
-    (gender) => gender.id === asset.value.gender?.id
-  );
+  genderSelected.value = genders.value.find((gender) => gender.id === asset.value.gender?.id);
 });
 </script>
 
