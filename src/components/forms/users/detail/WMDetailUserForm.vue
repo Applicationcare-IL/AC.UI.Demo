@@ -199,7 +199,6 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
-  console.log("props.user", props.user);
   initializeFields(props.user);
 });
 </script>
