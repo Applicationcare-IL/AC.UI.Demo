@@ -13,7 +13,7 @@
       :class="[
         {
           highlighted: props.highlighted,
-          h2: props.labelSize === 'large',
+          'h2 mb-3': props.labelSize === 'large',
         },
       ]"
     >
@@ -138,6 +138,7 @@
       date-format="dd/mm/yy"
       :class="classes"
       @date-select="handleDateChange($event)"
+      :minDate="minDate"
     />
     <slot></slot>
   </div>
@@ -237,6 +238,10 @@ const props = defineProps({
         "full", // 100%
       ].includes(value),
   },
+  minDate: {
+    type: String,
+    default: ""
+  }
 });
 
 const emit = defineEmits(["update:value", "update:selectedItem", "update:modelValue"]);
