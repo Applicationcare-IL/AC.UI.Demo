@@ -91,5 +91,7 @@ module.exports = {
     useAdminSystem: true,
     useSchema: true,
     useReports: true,
+    useAdminRoles: true,
+    useAdminTeams: true,
   },
 };
