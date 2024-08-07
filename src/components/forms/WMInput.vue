@@ -13,6 +13,7 @@
       :class="[
         {
           highlighted: props.highlighted,
+          h2: props.labelSize === 'large',
         },
       ]"
     >
@@ -173,6 +174,10 @@ const props = defineProps({
     type: String,
     required: false,
     default: "",
+  },
+  labelSize: {
+    type: String,
+    default: "small",
   },
   name: {
     type: String,
