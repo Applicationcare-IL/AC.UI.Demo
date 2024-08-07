@@ -87,6 +87,8 @@ const useAdminFlowmaze = () => {
     createUser,
     updateUser,
     activateUsers,
+    deactivateUser,
+    unlockUser,
     resetPassUsers,
     // UTILITIES
     mapUser,

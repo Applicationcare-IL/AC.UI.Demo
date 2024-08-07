@@ -8,8 +8,8 @@
     @save-form="saveForm()"
   >
     <template #top-left>
-      <WMButton :text="$t('buttons.activate')" type="secondary" />
-      <WMButton :text="$t('buttons.deactivate')" type="secondary" />
+      <WMButton v-if="isActive" :text="$t('buttons.activate')" type="secondary" @click="activateUserFunc()" />
+      <WMButton v-if="isNotActive" :text="$t('buttons.deactivate')" type="secondary" @click="deactivateUserFunc()" />
     </template>
     <template #custom-buttons>
       <div class="flex gap-3">
@@ -26,10 +26,11 @@ import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
+import useAdminUsers from "@/composables/useAdminUsers";
 
 // DEPENDENCIES
 const route = useRoute();
-const { getUser } = useAdminUsers();
+const { getUser, activateUsers, deactivateUser } = useAdminUsers();
 const utilsStore = useUtilsStore();
 
 // INJECT
@@ -40,6 +41,8 @@ const utilsStore = useUtilsStore();
 const formKey = ref("adminUserDetailForm");
 const detailUserForm = ref();
 const user = ref(null);
+const isActive = ref();
+const isNotActive = ref();
 
 // COMPUTED
 const selectedUsers = computed(() => {
@@ -54,6 +57,8 @@ useHead({
 const loadLazyData = async () => {
   user.value = await getUser(route.params.id);
   utilsStore.selectedElements["employee"] = [user.value];
+  if (user.value.state.value === 'active') isNotActive.value = true;
+  if (user.value.state.value === 'not_active') isActive.value = true;
 };
 
 utilsStore.entity = "employee";
@@ -63,6 +68,18 @@ loadLazyData();
 const saveForm = () => {
   detailUserForm.value.onSave();
 };
+
+const activateUserFunc = () => {
+  activateUsers([user.value.id]);
+  isActive.value = !isActive.value;
+  isNotActive.value = !isNotActive.value;
+}
+
+const deactivateUserFunc = () => {
+  deactivateUser(user.value.id);
+  isActive.value = !isActive.value;
+  isNotActive.value = !isNotActive.value;
+}
 
 // const activateUser
 
