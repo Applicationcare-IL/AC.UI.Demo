@@ -13,6 +13,8 @@
                     type="info"
                     :highlighted="true"
                     :label="$t('id') + ':'"
+                    label-size="large"
+                    required
                     :value="team.id"
                   />
 
@@ -32,6 +34,15 @@
           </Card>
         </div>
       </div>
+    </div>
+    <div class="flex flex-row justify-content-end gap-5">
+      <WMLinkedAdminUserTable
+        :columns="columns"
+        related-entity="team"
+        :related-entity-id="team.id"
+        selectable
+        preview
+      />
     </div>
   </div>
 </template>
@@ -69,6 +80,28 @@ const emit = defineEmits(["teamUpdated"]);
 
 // REFS
 const team = ref(null);
+
+const columns = [
+  {
+    name: "id",
+    type: "link",
+    field: "link_detail",
+    header: "id",
+    routeName: "adminUserDetail",
+  },
+  {
+    name: "username",
+    type: "text",
+    field: "username",
+    header: "employee.username",
+  },
+  {
+    name: "email",
+    type: "text",
+    field: "email",
+    header: "email",
+  },
+];
 
 // COMPUTED
 

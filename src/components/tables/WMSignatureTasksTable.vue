@@ -33,12 +33,12 @@
           "
         />
 
-        <!-- <WMButton
+        <WMButton
           :text="$t('buttons.sign')"
           type="secondary"
           :disabled="tasks.length === 0"
           @click="onSign"
-        /> -->
+        />
       </div>
       <div v-if="showFilters" class="flex flex-row align-items-center gap-3">
         <WMOwnerToggle entity="task" />

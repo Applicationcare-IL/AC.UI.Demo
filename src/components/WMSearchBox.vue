@@ -1,12 +1,7 @@
 <template>
   <span class="p-input-icon-left">
     <i class="pi pi-search" />
-    <InputText
-      v-model="modelValue"
-      class="w-30rem searchbox"
-      placeholder="Search"
-      @input="input"
-    />
+    <InputText v-model="modelValue" class="w-30rem searchbox" placeholder="Search" @input="input" />
   </span>
 </template>
 
