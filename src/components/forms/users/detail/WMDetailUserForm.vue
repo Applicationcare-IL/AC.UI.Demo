@@ -59,44 +59,45 @@
             </template>
           </Card>
         </div>
-        <div class="card-container top-info-card" style="flex: 2 ">
-          <Card >
+        <div class="card-container top-info-card" style="flex: 2">
+          <Card>
             <template #title> {{ $t("employee.teams-and-roles") }} </template>
             <template #content>
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInputSearch
-                      v-if="teams"
-                      name="teams"
-                      :label="$t('teams') + ':'"
-                      :placeholder="$t('select-team')"
-                      :required="true"
-                      :multiple="true"
-                      size="full"
-                      :options="teams.data"
-                      :model-value="selectedTeams"
-                      :highlighted="true"
+                    v-if="teams && !loadingFields"
+                    name="teams"
+                    :label="$t('teams') + ':'"
+                    :placeholder="$t('select-team')"
+                    :required="true"
+                    :multiple="true"
+                    size="full"
+                    :options="teams.data"
+                    :model-value="selectedTeams"
+                    :highlighted="true"
                   />
+                  <Skeleton v-if="loadingFields" height="74px"></Skeleton>
                 </div>
                 <div class="wm-form-row gap-5">
                   <WMInputDropdownDefaultTeam
-                      v-if="values.teams"
-                      :teams="values.teams"
-                      :selected-team="user.team"
-                      size="full"
+                    v-if="values.teams"
+                    :teams="values.teams"
+                    :selected-team="user.team"
+                    size="full"
                   />
                 </div>
                 <div class="wm-form-row gap-5">
                   <WMInputSearch
-                      v-if="roles"
-                      name="roles"
-                      :label="$t('roles') + ':'"
-                      :placeholder="$t('select-role')"
-                      :required="true"
-                      :multiple="true"
-                      size="full"
-                      :model-value="selectedRoles"
-                      :highlighted="true"
+                    v-if="roles"
+                    name="roles"
+                    :label="$t('roles') + ':'"
+                    :placeholder="$t('select-role')"
+                    :required="true"
+                    :multiple="true"
+                    size="full"
+                    :model-value="selectedRoles"
+                    :highlighted="true"
                   />
                 </div>
               </div>
@@ -110,30 +111,29 @@
 
 <script setup>
 // IMPORTS
-import {useForm} from "vee-validate";
-import {ref, watch} from "vue";
-import {useRoute} from "vue-router";
+import { useForm } from "vee-validate";
+import { onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
-import WMInputDropdownDefaultTeam from "@/components/forms/users/shared/WMInputDropdownDefaultTeam.vue";
-import useAdminTeams from "@/composables/useAdminTeams";
-import {useFormUtilsStore} from "@/stores/formUtils";
-import {useUtilsStore} from "@/stores/utils";
-import useAdminRoles from "@/composables/useAdminRoles";
+import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const route = useRoute();
-const { getUser, updateUser, parseUpdateUser } = useAdminUsers();
+const { updateUser, parseUpdateUser } = useAdminUsers();
 const { getTeams } = useAdminTeams();
 const { getRoles } = useAdminRoles();
 
 const formUtilsStore = useFormUtilsStore();
-const utilsStore = useUtilsStore();
 const toast = useToast();
 
 // INJECT
 
 // PROPS, EMITS
 const props = defineProps({
+  user: {
+    type: Object,
+    required: true,
+  },
   formKey: {
     type: String,
     required: true,
@@ -143,11 +143,11 @@ const props = defineProps({
 const emit = defineEmits(["userUpdated"]);
 
 // REFS
-const user = ref(null);
 const teams = ref([]);
 const roles = ref([]);
 const selectedTeams = ref([]);
 const selectedRoles = ref([]);
+const loadingFields = ref(true);
 
 // COMPUTED
 
@@ -169,32 +169,21 @@ const onSave = handleSubmit((values) => {
     });
 });
 
-const loadLazyData = async () => {
-  user.value = await getUser(route.params.id);
-  utilsStore.selectedElements["employee"] = [user.value];
-
+const initializeFields = async (user) => {
   teams.value = await getTeams();
   roles.value = await getRoles();
 
-  selectedTeams.value = teams.value.data.filter((item) =>
-      user.value.teams.find((x) => x.id == item.id)
-  );
+  selectedTeams.value = teams.value.data.filter((item) => user.teams.find((x) => x.id == item.id));
+  selectedRoles.value = roles.value.data.filter((item) => user.roles.find((x) => x.id == item.id));
 
-  selectedRoles.value = roles.value.data.filter((item) =>
-      user.value.roles.find((x) => x.id == item.id)
-  );
-
+  loadingFields.value = false;
 };
 
-loadLazyData();
-
 formUtilsStore.formEntity = "employee";
-utilsStore.entity = "employee";
 
 // PROVIDE, EXPOSE
 defineExpose({
   onSave,
-  loadLazyData,
 });
 
 // WATCHERS
@@ -209,4 +198,8 @@ watch(
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  console.log("props.user", props.user);
+  initializeFields(props.user);
+});
 </script>

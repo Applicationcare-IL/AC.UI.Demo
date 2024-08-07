@@ -39,7 +39,6 @@
               :label="$t('state') + ':'"
               :value="props.team.state.value"
               :class="statusClass(props.team.state.value)"
-
             />
           </div>
         </div>
@@ -58,7 +57,7 @@
 
         <Divider />
 
-        <WMAdminUserTable :columns="columns" />
+        <WMAdminUserTable :columns="columns" related-entity="team" :related-entity-id="team.id" />
       </div>
     </div>
   </Sidebar>

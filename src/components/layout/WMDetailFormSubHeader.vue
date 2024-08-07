@@ -27,6 +27,7 @@
           </div>
         </div>
         <div>
+          <slot name="top-left" />
           <WMButton
             v-if="
               showUpdateEntityStateButton &&

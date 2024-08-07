@@ -837,6 +837,13 @@
     "notification-created-detail": "View Role",
     "notification-created-close": "Close"
   },
+  "message": {
+    "message": "Message",
+    "target": "Target",
+    "header": "Message header",
+    "content": "Message content",
+    "rating": "Rating"
+  },
   "report": {
     "report": "Report"
   },
