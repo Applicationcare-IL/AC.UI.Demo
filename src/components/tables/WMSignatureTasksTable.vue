@@ -123,7 +123,11 @@
           />
         </template>
         <template v-if="column.type === 'sign_button'">
-          <WMSignTaskButton :signature-id="slotProps.data.id" @task-signed="loadLazyData" />
+          <WMSignTaskButton
+            :signature-id="slotProps.data.id"
+            :is-disabled="slotProps.data.has_signature"
+            @task-signed="loadLazyData"
+          />
         </template>
       </template>
     </Column>
