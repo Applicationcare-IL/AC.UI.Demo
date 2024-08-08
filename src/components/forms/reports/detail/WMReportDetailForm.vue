@@ -51,8 +51,7 @@ const params = ref({});
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  let response = await getReport(route.params.id);
-  report.value = response.data;
+  report.value = await getReport(route.params.id);
   utilsStore.selectedElements["report"] = [report.value];
 
   params.value = {

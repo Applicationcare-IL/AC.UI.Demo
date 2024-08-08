@@ -91,6 +91,8 @@
               @task-completed="$emit('taskCompleted')"
             />
 
+            <slot name="custom-buttons" />
+
             <Divider v-if="scopes && scopes.length" layout="vertical" />
 
             <WMActionBuilderDropdowns
@@ -99,8 +101,6 @@
               :selected-elements="[selectedElement]"
               @post-action-executed="$emit('refreshTable')"
             />
-
-            <slot name="custom-buttons" />
           </div>
           <div class="flex gap-3 align-items-center">
             <WMCancelButton
