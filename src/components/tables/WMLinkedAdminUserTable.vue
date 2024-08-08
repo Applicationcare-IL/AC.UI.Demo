@@ -1,11 +1,16 @@
 <template>
   <div class="flex flex-column w-full">
-    <h2 class="h2">Linked users</h2>
+    <h2 class="h2">{{ title }}</h2>
 
     <div class="flex flex-column gap-3 mb-3">
       <div class="flex flex-row justify-content-between">
-        <div class="flex flex-row">
+        <div class="flex flex-row gap-2">
           <WMSelectAdminUsersButton @users-selected="addSelectedUsers" />
+          <WMRemoveButton
+            :text="removeTextButton"
+            :is-disabled="!selectedUsers.length > 0"
+            @click="removeSelectedUsers"
+          />
         </div>
       </div>
       <div class="flex flex-row justify-content-between">
@@ -58,12 +63,13 @@
 
 <script setup>
 // IMPORTS
-import { ref, watchEffect } from "vue";
+import { computed, ref, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { getUsers } = useAdminUsers();
+const { addUsers: addUsersToTeam, removeUsers: removeUsersFromTeam } = useAdminTeams();
 
 // INJECT
 
@@ -105,6 +111,19 @@ const searchValue = ref("");
 const isPreviewVisible = ref([]);
 
 // COMPUTED
+const title = computed(() => {
+  if (props.relatedEntity === "team") return "Users in team";
+  if (props.relatedEntity === "role") return "Users in role";
+
+  return "Linked users";
+});
+
+const removeTextButton = computed(() => {
+  if (props.relatedEntity === "team") return "Remove from team";
+  if (props.relatedEntity === "role") return "Remove from role";
+
+  return "Remove";
+});
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
@@ -151,10 +170,21 @@ const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
 };
 
-const addSelectedUsers = (users) => {
-  console.log("addSelectedUsers", users);
-  // selectedUsers.value = users;
-  // onSelectionChanged();
+const addSelectedUsers = async (users) => {
+  const userIds = users.map((user) => user.id);
+
+  await addUsersToTeam(props.relatedEntityId, { employees: userIds });
+
+  loadLazyData();
+};
+
+const removeSelectedUsers = async () => {
+  const userIds = selectedUsers.value.map((user) => user.id);
+
+  await removeUsersFromTeam(props.relatedEntityId, { employees: userIds });
+
+  cleanSelectedUsers();
+  loadLazyData();
 };
 
 // const onPage = (event) => {

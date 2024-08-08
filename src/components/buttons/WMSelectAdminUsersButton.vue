@@ -17,6 +17,7 @@
         :multiple="true"
         width="248"
         :search-function="searchUsers"
+        custom-option-label="username"
         :new="true"
         :model-value="selectedUsers"
         @update:model-value="onUsersSelected"
