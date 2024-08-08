@@ -96,6 +96,7 @@
                     :required="true"
                     :multiple="true"
                     size="full"
+                    :options="roles.data"
                     :model-value="selectedRoles"
                     :highlighted="true"
                   />
