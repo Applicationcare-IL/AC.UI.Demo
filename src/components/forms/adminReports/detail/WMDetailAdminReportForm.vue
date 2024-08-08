@@ -285,6 +285,7 @@ utilsStore.entity = "admin-report";
 
 const setSelectedEntity = async (easymaze_entity) => {
   selectedEntity.value = entities.value.find((entity) => entity.id === easymaze_entity.id);
+  selectedFields.value = [];
 
   await loadEntityRelatedFields(selectedEntity.value);
 };
@@ -353,8 +354,6 @@ const handleGenerateReport = () => {
     fields: selectedFields.value.map((item) => item.id).join(","),
     group_by: values.group_by ? "1" : "0",
   };
-
-  console.log("params", params);
 
   if (orderByField.value) {
     params.order_by = orderByField.value.name;
