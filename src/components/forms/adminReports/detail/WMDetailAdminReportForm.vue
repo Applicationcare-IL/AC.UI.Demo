@@ -151,6 +151,7 @@
                 :report-data="reportData"
                 :columns="columns"
                 :total-records="totalRecords"
+                @update:page="onPage"
               />
 
               <div v-if="showGraph" class="card mt-5 flex justify-content-center">
@@ -221,6 +222,8 @@ const columns = ref([]);
 
 const showGraph = ref(false);
 const filters = ref([]);
+
+const lazyParams = ref({});
 
 // used to pass the filters based on the schema to the filter form
 const extraFilters = ref([]);
@@ -341,11 +344,17 @@ const handleGenerateReport = () => {
 
   showReportPreview.value = true;
 
+  const nextPage = lazyParams.value.page + 1;
+
   let params = {
+    page: nextPage ? nextPage : 1,
+    per_page: 10,
     entity_type: selectedEntity.value.name,
     fields: selectedFields.value.map((item) => item.id).join(","),
     group_by: values.group_by ? "1" : "0",
   };
+
+  console.log("params", params);
 
   if (orderByField.value) {
     params.order_by = orderByField.value.name;
@@ -370,6 +379,11 @@ const handleGenerateReport = () => {
     showGraph.value = values.group_by;
     totalRecords.value = result.meta.total;
   });
+};
+
+const onPage = (event) => {
+  lazyParams.value = event;
+  handleGenerateReport();
 };
 
 // FILTERS

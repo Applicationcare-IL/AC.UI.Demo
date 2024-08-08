@@ -88,13 +88,9 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  relatedEntity: {
-    type: String,
-    required: true,
-  },
-  relatedEntityId: {
-    type: Number,
-    required: true,
+  urlParams: {
+    type: Array,
+    required: false,
   },
   addUsersFunction: {
     type: Function,
@@ -137,8 +133,10 @@ const loadLazyData = async () => {
     params.append("search", searchValueParam);
   }
 
-  if (props.relatedEntity && props.relatedEntityId) {
-    params.append(props.relatedEntity, props.relatedEntityId);
+  if (props.urlParams) {
+    props.urlParams.forEach((urlParam) => {
+      params.append(urlParam.key, urlParam.value);
+    });
   }
 
   let response = await getUsers(params);

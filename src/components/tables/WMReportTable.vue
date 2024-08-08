@@ -7,6 +7,7 @@
     :rows="rows"
     :first="0"
     :total-records="totalRecords"
+    @page="handleOnPage"
   >
     <Column
       v-for="column in columns"
@@ -32,12 +33,17 @@ defineProps({
   totalRecords: Number,
 });
 
+const emit = defineEmits(["update:page"]);
+
 // REFS
 const rows = ref(10);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const handleOnPage = (event) => {
+  emit("update:page", event);
+};
 
 // PROVIDE, EXPOSE
 

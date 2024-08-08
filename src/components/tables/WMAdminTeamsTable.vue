@@ -1,5 +1,5 @@
 <template>
-<!--   <pre>{{ teams }}</pre>-->
+  <!--   <pre>{{ teams }}</pre>-->
   <DataTable
     v-model:selection="selectedTeams"
     lazy
@@ -17,12 +17,12 @@
     <Column style="width: 40px">
       <template #body="{ data }">
         <img
-            src="/icons/eye.svg"
-            alt=""
-            class="vertical-align-middle"
-            @click="openSidebar(data.id)"
+          src="/icons/eye.svg"
+          alt=""
+          class="vertical-align-middle"
+          @click="openSidebar(data.id)"
         />
-        <WMTeamPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :team="data"/>
+        <WMTeamPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :team="data" />
       </template>
     </Column>
     <Column
@@ -42,7 +42,7 @@
 
 <script setup>
 // IMPORTS
-import {ref, watch, watchEffect} from "vue";
+import { ref, watch, watchEffect } from "vue";
 
 import useAdminTeams from "@/composables/useAdminTeams";
 import { useUtilsStore } from "@/stores/utils";
@@ -144,7 +144,7 @@ const cleanSelectedTeams = () => {
 
 const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
-}
+};
 
 // PROVIDE, EXPOSE
 defineExpose({

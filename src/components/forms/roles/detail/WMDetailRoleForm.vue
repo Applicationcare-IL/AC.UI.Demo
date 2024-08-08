@@ -31,8 +31,7 @@
         <div class="flex flex-row justify-content-end gap-5">
           <WMLinkedAdminUserTable
             :columns="linkedUsersTableColumns"
-            related-entity="role"
-            :related-entity-id="role.id"
+            :url-params="[{ key: 'roles', value: [role.id] }]"
             selectable
             preview
             :add-users-function="linkUsers"

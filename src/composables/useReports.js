@@ -26,6 +26,8 @@ const useReports = () => {
     order_by,
     order_dir,
     filters,
+    per_page,
+    page,
   }) => {
     let report = await reportsStore.getReportData({
       entity_type,
@@ -35,6 +37,8 @@ const useReports = () => {
       order_by,
       order_dir,
       filters,
+      per_page,
+      page,
     });
 
     return report;
