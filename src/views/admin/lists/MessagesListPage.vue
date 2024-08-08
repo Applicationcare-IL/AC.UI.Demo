@@ -63,31 +63,31 @@ const columns = [
   {
     name: "target",
     type: "text",
-    field: "",
+    field: "target",
     header: "message.target",
   },
   {
     name: "message-header",
     type: "text",
-    field: "",
+    field: "topic",
     header: "message.header",
   },
   {
     name: "message-content",
     type: "text",
-    field: "",
+    field: "message",
     header: "message.content",
   },
   {
     name: "rating",
     type: "chips",
-    field: "",
+    field: "important",
     header: "message.rating",
   },
   {
     name: "status",
     type: "state",
-    field: "",
+    field: "state",
     header: "status",
   },
   {
