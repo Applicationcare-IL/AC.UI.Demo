@@ -828,7 +828,8 @@
     "notification-created-header": "New Team Created",
     "notification-created-detail": "View Team",
     "notification-created-close": "Close",
-    "search-users": "Search users"
+    "search-users": "Search users",
+    "toast-linked-user-message": "Users linked to team"
   },
   "role": {
     "role": "Role",

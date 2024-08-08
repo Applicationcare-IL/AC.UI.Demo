@@ -36,6 +36,7 @@ import { useI18n } from "vue-i18n";
 
 import TreeIcon from "/icons/account_tree.svg?raw";
 import { useOptionSetsStore } from "@/stores/optionSets";
+
 // DEPENDENCIES
 const { t } = useI18n();
 const { optionLabelWithLang } = useLanguages();

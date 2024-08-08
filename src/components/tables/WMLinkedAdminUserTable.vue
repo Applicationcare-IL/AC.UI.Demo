@@ -71,7 +71,6 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { getUsers } = useAdminUsers();
-const { addUsers: addUsersToTeam, removeUsers: removeUsersFromTeam } = useAdminTeams();
 
 // INJECT
 
@@ -96,6 +95,14 @@ const props = defineProps({
   relatedEntityId: {
     type: Number,
     required: true,
+  },
+  addUsersFunction: {
+    type: Function,
+    required: false,
+  },
+  removeUsersFunction: {
+    type: Function,
+    required: false,
   },
 });
 
@@ -162,7 +169,7 @@ const openSidebar = (data) => {
 const addSelectedUsers = async (users) => {
   const userIds = users.map((user) => user.id);
 
-  await addUsersToTeam(props.relatedEntityId, { employees: userIds });
+  await props.addUsersFunction(userIds);
 
   loadLazyData();
 };
@@ -170,7 +177,7 @@ const addSelectedUsers = async (users) => {
 const removeSelectedUsers = async () => {
   const userIds = selectedUsers.value.map((user) => user.id);
 
-  await removeUsersFromTeam(props.relatedEntityId, { employees: userIds });
+  await props.removeUsersFunction(userIds);
 
   cleanSelectedUsers();
   loadLazyData();

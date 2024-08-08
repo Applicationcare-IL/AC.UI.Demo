@@ -1,6 +1,6 @@
 <template>
   <div v-if="team" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
-    <div class="asset-data flex flex-auto flex-column gap-5 mb-5">
+    <div class="asset-data flex flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="flex-1 card-container top-info-card">
           <Card>
@@ -42,6 +42,8 @@
         :related-entity-id="team.id"
         selectable
         preview
+        :add-users-function="linkUsers"
+        :remove-users-function="handleRemoveUsers"
       >
         <template #title> {{ $t("team.users-in-team") }} </template>
       </WMLinkedAdminUserTable>
@@ -53,20 +55,20 @@
 // IMPORTS
 import { useForm } from "vee-validate";
 import { ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
-import WMInput from "@/components/forms/WMInput.vue";
-import useAdminTeams from "@/composables/useAdminTeams";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const route = useRoute();
-const { getTeam, updateTeam, parseTeam } = useAdminTeams();
+const { getTeam, updateTeam, parseTeam, addUsers, removeUsers } = useAdminTeams();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 const toast = useToast();
+const { t } = useI18n();
 
 // INJECT
 
@@ -134,6 +136,26 @@ loadLazyData();
 
 formUtilsStore.formEntity = "team";
 utilsStore.entity = "team";
+
+const linkUsers = async (userIds) => {
+  await addUsers(route.params.id, { employees: userIds });
+
+  toast.info({
+    title: t("service.toast-lined-user-message"),
+    life: 5000,
+    group: "br",
+  });
+};
+
+const handleRemoveUsers = async (userIds) => {
+  await removeUsers(route.params.id, { employees: userIds });
+
+  toast.info({
+    title: t("service.toast-unlinked-user-message"),
+    life: 5000,
+    group: "br",
+  });
+};
 
 // PROVIDE, EXPOSE
 defineExpose({
