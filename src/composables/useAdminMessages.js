@@ -33,6 +33,14 @@ const useAdminFlowmaze = () => {
                 text: message.id,
                 id: message.id,
             },
+            //fake state to be able to show something in the list
+            state: {
+                id: 291,
+                value: "active",
+                value_en: "Active",
+                value_he: "פעיל",
+                attributes: []
+            },
         }
     };
 
