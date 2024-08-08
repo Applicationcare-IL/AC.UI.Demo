@@ -30,6 +30,7 @@ export const usePermissionsStore = defineStore("permissions", {
       },
       messages: {
         create: true,
+        update: true,
       },
       milestones: {
         update: true,

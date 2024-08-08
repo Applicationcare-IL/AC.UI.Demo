@@ -1,4 +1,5 @@
 <template>
+<!--  <pre>{{ values }}</pre>-->
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
       <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["message.message"]) }}</h1>
@@ -20,12 +21,12 @@
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
           <WMInput
-              name="is_important"
+              name="important"
               type="input-select-button"
               :highlighted="true"
               :label="$t('message.rating') + ':'"
               :options="normalImportantOptions"
-              :value="normalImportantOptions[1]"
+              :value="normalImportantOptions[0]"
           />
         </div>
       </div>
@@ -91,8 +92,8 @@ defineProps({
 
 // REFS
 const normalImportantOptions = [
-  { value: "true", name: t("message.important") },
   { value: "false", name: t("message.normal") },
+  { value: "true", name: t("message.important") },
 ];
 // COMPUTED
 

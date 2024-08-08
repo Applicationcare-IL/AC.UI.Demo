@@ -841,6 +841,7 @@
   },
   "message": {
     "message": "Message",
+    "detail": "Message details",
     "target": "Target",
     "header": "Message header",
     "content": "Message content",

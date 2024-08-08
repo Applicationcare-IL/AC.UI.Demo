@@ -33,6 +33,7 @@ const useAdminFlowmaze = () => {
                 text: message.id,
                 id: message.id,
             },
+            title: message.topic,
             //fake state to be able to show something in the list
             state: {
                 id: 291,
@@ -44,6 +45,12 @@ const useAdminFlowmaze = () => {
         }
     };
 
+    const parseMessage = (message) => {
+        return {
+            ...message,
+        }
+    }
+
     return {
         // ACTIONS
         getMessages,
@@ -52,6 +59,7 @@ const useAdminFlowmaze = () => {
         updateMessage,
         //UTILITIES
         mapMessage,
+        parseMessage,
     }
 }
 

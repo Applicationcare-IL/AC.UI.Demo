@@ -1,6 +1,6 @@
 <template>
   <!-- <pre>lazyParams: {{ lazyParams }}</pre> -->
-  <!-- <pre>{{ messages }}</pre> -->
+<!--   <pre>{{ messages }}</pre>-->
   <DataTable
       v-model:selection="selectedMessages"
       lazy
@@ -45,8 +45,8 @@
 // IMPORTS
 import { ref, watch, watchEffect } from "vue";
 
-import { useUtilsStore } from "@/stores/utils";
 import useAdminMessages from "@/composables/useAdminMessages";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { getMessages } = useAdminMessages();

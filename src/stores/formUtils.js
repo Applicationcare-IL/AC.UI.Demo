@@ -595,6 +595,13 @@ export const useFormUtilsStore = defineStore("formUtils", {
         "message": yup.string().required(),
       });
     },
+    getMessageUpdateFormValidationSchema: () => {
+      return yup.object({
+        "topic": yup.string().required(),
+        "start_date": yup.string().required(),
+        "message": yup.string().required(),
+      });
+    },
     getAdminReportNewFormValidationSchema: () => {
       return yup.object({
         name: yup.string().required(),
