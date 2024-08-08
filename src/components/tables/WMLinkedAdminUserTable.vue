@@ -1,13 +1,15 @@
 <template>
   <div class="flex flex-column w-full">
-    <h2 class="h2">{{ title }}</h2>
+    <h2 class="h2">
+      <slot name="title" />
+    </h2>
 
     <div class="flex flex-column gap-3 mb-3">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row gap-2">
           <WMSelectAdminUsersButton @users-selected="addSelectedUsers" />
           <WMRemoveButton
-            :text="removeTextButton"
+            :text="$t('buttons.remove-users')"
             :is-disabled="!selectedUsers.length > 0"
             @click="removeSelectedUsers"
           />
@@ -63,7 +65,7 @@
 
 <script setup>
 // IMPORTS
-import { computed, ref, watchEffect } from "vue";
+import { ref, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
@@ -111,19 +113,6 @@ const searchValue = ref("");
 const isPreviewVisible = ref([]);
 
 // COMPUTED
-const title = computed(() => {
-  if (props.relatedEntity === "team") return "Users in team";
-  if (props.relatedEntity === "role") return "Users in role";
-
-  return "Linked users";
-});
-
-const removeTextButton = computed(() => {
-  if (props.relatedEntity === "team") return "Remove from team";
-  if (props.relatedEntity === "role") return "Remove from role";
-
-  return "Remove";
-});
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {

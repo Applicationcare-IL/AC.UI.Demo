@@ -1,5 +1,5 @@
 <template>
-  <WMButton :text="$t('buttons.link_users')" type="type-4" @click="toggle">
+  <WMButton :text="$t('buttons.link-users')" type="type-4" @click="toggle">
     <template #customIcon>
       <div class="flex" v-html="AccountBoxIcon" />
     </template>

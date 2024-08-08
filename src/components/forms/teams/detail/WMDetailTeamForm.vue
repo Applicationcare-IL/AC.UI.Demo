@@ -42,7 +42,9 @@
         :related-entity-id="team.id"
         selectable
         preview
-      />
+      >
+        <template #title> {{ $t("team.users-in-team") }} </template>
+      </WMLinkedAdminUserTable>
     </div>
   </div>
 </template>
@@ -122,6 +124,7 @@ const onSave = handleSubmit((values) => {
       toast.error("Error updating team");
     });
 });
+
 const loadLazyData = async () => {
   team.value = await getTeam(route.params.id);
   utilsStore.selectedElements["team"] = [team.value];
