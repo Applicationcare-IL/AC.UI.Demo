@@ -829,7 +829,8 @@
     "notification-created-detail": "View Team",
     "notification-created-close": "Close",
     "search-users": "Search users",
-    "toast-linked-user-message": "Users linked to team"
+    "toast-linked-user-message": "Users linked to team",
+    "toast-unlinked-user-message": "Users unlinked from team"
   },
   "role": {
     "role": "Role",
@@ -839,7 +840,9 @@
     "notification-created-message": "The new role was successfully created! \n From now on he will appear in your role list",
     "notification-created-header": "New Role Created",
     "notification-created-detail": "View Role",
-    "notification-created-close": "Close"
+    "notification-created-close": "Close",
+    "toast-linked-user-message": "Users linked to role",
+    "toast-unlinked-user-message": "Users unlinked from role"
   },
   "message": {
     "message": "Message",

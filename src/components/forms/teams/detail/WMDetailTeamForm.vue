@@ -37,7 +37,7 @@
     </div>
     <div class="flex flex-row justify-content-end gap-5">
       <WMLinkedAdminUserTable
-        :columns="columns"
+        :columns="linkedUsersTableColumns"
         related-entity="team"
         :related-entity-id="team.id"
         selectable
@@ -85,7 +85,7 @@ const emit = defineEmits(["teamUpdated"]);
 // REFS
 const team = ref(null);
 
-const columns = [
+const linkedUsersTableColumns = [
   {
     name: "id",
     type: "link",
@@ -100,10 +100,42 @@ const columns = [
     header: "employee.username",
   },
   {
+    name: "manager",
+    type: "text",
+    field: "manager_fullname",
+    header: "manager",
+  },
+  {
+    name: "phone",
+    type: "text",
+    field: "phone",
+    header: "mobilephone",
+  },
+  {
     name: "email",
     type: "text",
     field: "email",
     header: "email",
+  },
+  {
+    name: "active",
+    type: "state",
+    field: "state",
+    header: "state.state",
+    width: "100px",
+    class: "p-0 filled-td",
+  },
+  {
+    name: "roles",
+    type: "chips",
+    field: "roles",
+    header: "roles",
+  },
+  {
+    name: "teams",
+    type: "chips",
+    field: "teams",
+    header: "teams",
   },
 ];
 
@@ -141,7 +173,7 @@ const linkUsers = async (userIds) => {
   await addUsers(route.params.id, { employees: userIds });
 
   toast.info({
-    title: t("service.toast-lined-user-message"),
+    title: t("team.toast-linked-user-message"),
     life: 5000,
     group: "br",
   });
@@ -151,7 +183,7 @@ const handleRemoveUsers = async (userIds) => {
   await removeUsers(route.params.id, { employees: userIds });
 
   toast.info({
-    title: t("service.toast-unlinked-user-message"),
+    title: t("team.toast-unlinked-user-message"),
     life: 5000,
     group: "br",
   });
