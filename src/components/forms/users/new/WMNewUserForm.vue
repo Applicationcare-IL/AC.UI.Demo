@@ -38,34 +38,31 @@
       <div class="flex flex-column gap-5">
         <div class="wm-form-row gap-5">
           <WMInputSearch
-              v-if="teams"
-              name="teams"
-              :label="$t('teams') + ':'"
-              :placeholder="$t('select-team')"
-              :required="true"
-              :multiple="true"
-              size="full"
-              :options="teams.data"
-              :highlighted="true"
+            v-if="teams"
+            name="teams"
+            :label="$t('teams') + ':'"
+            :placeholder="$t('select-team')"
+            :required="true"
+            :multiple="true"
+            size="full"
+            :options="teams.data"
+            :highlighted="true"
           />
         </div>
         <div class="wm-form-row gap-5">
-          <WMInputDropdownDefaultTeam
-              :teams="values.teams"
-              size="full"
-          />
+          <WMInputDropdownDefaultTeam :teams="values.teams" size="full" />
         </div>
         <div class="wm-form-row gap-5">
           <WMInputSearch
-              v-if="roles"
-              name="roles"
-              :label="$t('roles') + ':'"
-              :placeholder="$t('select-role')"
-              :required="true"
-              :multiple="true"
-              size="full"
-              :options="roles.data"
-              :highlighted="true"
+            v-if="roles"
+            name="roles"
+            :label="$t('roles') + ':'"
+            :placeholder="$t('select-role')"
+            :required="true"
+            :multiple="true"
+            size="full"
+            :options="roles.data"
+            :highlighted="true"
           />
         </div>
       </div>
@@ -80,11 +77,9 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { inject, ref, watch, onMounted } from "vue";
+import { inject, onMounted, ref, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
-import useAdminTeams from "@/composables/useAdminTeams";
-import useAdminRoles from "@/composables/useAdminRoles";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
