@@ -1,8 +1,6 @@
 <template>
   <div class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="flex flex-column gap-5 mb-5">
-      <pre>{{ permissions }}</pre>
-
       <div class="flex flex-row flex-wrap flex-column">
         <p class="h4">Permissions for:</p>
         <div class="flex gap-2 mb-2">
@@ -63,6 +61,14 @@
         />
       </div>
     </div>
+    <Divider />
+    <div class="flex flex-column gap-5 mb-5">
+      <div class="flex flex-row flex-wrap flex-column">
+        <p class="h2">Entity permissions</p>
+
+        <WMEntityPermissionsTable :permissions="entityPermissions" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -90,7 +96,7 @@ const users = ref([]);
 const teams = ref([]);
 const roles = ref([]);
 
-const permissions = ref([]);
+const entityPermissions = ref([]);
 
 // COMPUTED
 
@@ -107,7 +113,17 @@ const unSelectOptions = () => {
 
 const loadPermissions = async (entityType, entity) => {
   getPermissions(entityType, entity.id).then((response) => {
-    permissions.value = response.data;
+    const keysToFilter = ["permission_service_area", "global", "document"];
+
+    // filter the permissions to remove the keys in the keysToFilter array
+    const filteredPermissions = Object.keys(response.data).reduce((acc, key) => {
+      if (!keysToFilter.includes(key)) {
+        acc[key] = response.data[key];
+      }
+      return acc;
+    }, {});
+
+    entityPermissions.value = filteredPermissions;
   });
 };
 

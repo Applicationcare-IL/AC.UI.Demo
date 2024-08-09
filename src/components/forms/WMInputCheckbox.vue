@@ -20,7 +20,7 @@
     </label>
 
     <Checkbox
-      v-model="inputValue"
+      v-model="modelValue"
       :name="name"
       :binary="true"
       :class="classes"
@@ -41,11 +41,12 @@
 <script setup>
 // IMPORTS
 import { useField } from "vee-validate";
-import { computed, onMounted, toRef, watch } from "vue";
+import { computed, onMounted, reactive, toRef, watch } from "vue";
 
 // DEPENDENCIES
 
 // PROPS, EMITS
+const modelValue = defineModel();
 
 const props = defineProps({
   value: {
@@ -137,7 +138,7 @@ const refValue = toRef(props, "value");
 // COMPUTED
 const classes = computed(() => {
   let commonClasses = {
-    "wm-input-error": errorMessage.value ? true : false,
+    "wm-input-error": errorMessage ? true : false,
   };
 
   let widthClass = `wm-input-${props.size}`;
@@ -160,14 +161,20 @@ const classes = computed(() => {
 });
 
 // COMPONENT METHODS AND LOGIC
-const {
-  value: inputValue,
-  errorMessage,
-  handleBlur,
-  resetField,
-} = useField(name, undefined, {
-  initialValue: props.value,
-});
+const { errorMessage, handleBlur, resetField } = reactive(
+  useField(props.name, undefined, {
+    initialValue: modelValue.value,
+  })
+);
+
+// const {
+//   value: inputValue,
+//   errorMessage,
+//   handleBlur,
+//   resetField,
+// } = useField(name, undefined, {
+//   initialValue: props.value,
+// });
 
 // WATCHERS
 watch(
