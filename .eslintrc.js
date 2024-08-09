@@ -93,5 +93,6 @@ module.exports = {
     useReports: true,
     useAdminRoles: true,
     useAdminTeams: true,
+    useAdminPermissions: true,
   },
 };
