@@ -24,6 +24,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  noIcon: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -35,7 +39,7 @@ const toggleCompleted = () => {
 };
 
 const classes = computed(() => (props.modelValue ? "completed" : ""));
-const icon = computed(() => (props.modelValue ? "pi pi-check" : ""));
+const icon = computed(() => (props.modelValue && !props.noIcon ? "pi pi-check" : ""));
 </script>
 
 <style scoped>
@@ -48,6 +52,7 @@ const icon = computed(() => (props.modelValue ? "pi pi-check" : ""));
   line-height: normal;
   border: 1px solid var(--blue-700);
   background-color: white;
+  box-shadow: none;
 
   display: flex;
   height: 32px;
@@ -60,10 +65,16 @@ const icon = computed(() => (props.modelValue ? "pi pi-check" : ""));
   &:hover {
     background-color: var(--blue-100);
     color: var(--blue-700);
+    box-shadow: none;
+  }
+
+  &:focus {
+    box-shadow: none;
   }
 
   &.completed {
     background-color: var(--blue-100);
+    border: 1px solid var(--blue-100);
   }
 }
 
