@@ -615,7 +615,9 @@
     "select_type": "Select type",
     "owner": "Owner",
     "select-document": "Select document",
-    "select-an-existing-document": "Select an existing document"
+    "select-an-existing-document": "Select an existing document",
+    "project": "Project",
+    "customer": "Customer"
   },
   "site": {
     "details": "Site Details",

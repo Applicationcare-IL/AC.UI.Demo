@@ -1,6 +1,6 @@
 <template>
   <h2 class="h2">
-    {{ $t("documents.attach-documents") }}
+    {{ $t("scripts.attach-documents") }}
   </h2>
 
   <DataTable

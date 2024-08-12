@@ -8,6 +8,7 @@
       <WMSearchBox entity="existing-document" />
     </div>
   </div>
+  <!-- <pre>{{ documents }}</pre> -->
   <DataTable
     v-model:selection="selectedDocument"
     selection-mode="single"
@@ -75,6 +76,12 @@ const columns = [
     header: "documents.id",
   },
   {
+    name: "project",
+    type: "text",
+    field: "project",
+    header: "documents.project",
+  },
+  {
     name: "document_type",
     type: "option-set",
     field: "document_type",
@@ -91,6 +98,18 @@ const columns = [
     type: "text",
     field: "name",
     header: "documents.name",
+  },
+  {
+    name: "customer",
+    type: "text",
+    field: "customer",
+    header: "documents.customer",
+  },
+  {
+    name: "upload_date",
+    type: "date",
+    field: "upload_date",
+    header: "documents.upload_date",
   },
 ];
 

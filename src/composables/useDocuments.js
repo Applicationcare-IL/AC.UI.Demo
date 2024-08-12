@@ -111,6 +111,8 @@ const useDocuments = () => {
       has_file: document.file_name ? true : false,
       mode: "saved",
       attachment: document.attachment ? document.attachment : false,
+      project: document.project,
+      customer: document.customer,
     };
   };
 

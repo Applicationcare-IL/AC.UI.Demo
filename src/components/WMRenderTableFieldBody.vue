@@ -1,7 +1,7 @@
 <template>
   <!-- Type text -->
   <template v-if="columnData.type == 'text'">
-    {{ modelValue }}
+    {{ modelValue ? modelValue : "" }}
   </template>
   <!-- Type project-link -->
   <template v-if="columnData.type == 'link'">
@@ -29,17 +29,24 @@
   <template v-if="columnData.type == 'option-set'">
     <WMOptionSetValue :option-set="modelValue" />
   </template>
+  <!-- Type important (used only in messages table) -->
   <template v-if="columnData.type == 'important'">
     <WMImportantState :important="modelValue" />
   </template>
+  <!-- Type target (used only in messages table) -->
   <template v-if="columnData.type == 'target'">
     <WMTargetState :target="modelValue" />
+  </template>
+  <!-- Type date -->
+  <template v-if="columnData.type == 'date'">
+    {{ modelValue ? formatDateFromAPI(modelValue) : "" }}
   </template>
 </template>
 <script setup>
 // IMPORTS
 
 // DEPENDENCIES
+const { formatDateFromAPI } = useDates();
 
 // INJECT
 
