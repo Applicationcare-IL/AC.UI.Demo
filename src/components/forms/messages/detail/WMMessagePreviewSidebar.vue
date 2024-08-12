@@ -1,6 +1,6 @@
 <template>
   <Sidebar
-      v-if="props.user"
+      v-if="props.message"
       v-model:visible="visible"
       class="details-sidebar w-4"
       :show-close-icon="false"
@@ -9,13 +9,13 @@
   >
     <div class="flex flex-auto flex-column overflow-auto w-full px-2">
       <div class="flex justify-content-between">
-        <h2 class="h2">{{ props.user.username }}</h2>
+        <h2 class="h2">{{ props.message.topic }}</h2>
         <router-link
-          :to="{
-            name: 'adminUserDetail',
-            params: { id: props.user.id },
+            :to="{
+            name: 'adminMessageDetail',
+            params: { id: props.message.id },
           }"
-          class="p-2"
+            class="p-2"
         >
           <Button>Edit</Button>
         </router-link>
@@ -30,79 +30,44 @@
                 type="info"
                 :highlighted="true"
                 :label="$t('id') + ':'"
-                :value="props.user.id"
+                :value="props.message.id"
             />
             <WMInput
                 name="state"
                 type="info"
                 :highlighted="true"
                 :label="$t('state') + ':'"
-                :value="props.user.state.value"
-                :class="statusClass(props.user.state.value)"
+                :value="props.message.state.value"
+                :class="statusClass(props.message.state.value)"
             />
           </div>
         </div>
         <div class="wm-form-row align-items-end gap-5">
           <div class="wm-form-row gap-5">
-            <WMInput
-                name="phone"
-                type="info"
-                :highlighted="true"
-                :label="$t('mobile') + ':'"
-                :value="props.user.phone"
-            />
-            <WMInput
-                name="email"
-                type="info"
-                :highlighted="true"
-                :label="$t('email') + ':'"
-                :value="props.user.email"
-            />
+              <WMInput
+                  name="topic"
+                  type="info"
+                  :highlighted="true"
+                  :label="$t('message.header') + ':'"
+                  :value="props.message.topic"
+              />
           </div>
         </div>
-
-        <Divider />
-
         <div class="wm-form-row align-items-end gap-5">
-          <div class="wm-form-column flex flex-column gap-5">
-
+          <div class="wm-form-row gap-5">
             <WMInput
-                name="manager"
+                name="topic"
                 type="info"
                 :highlighted="true"
-                :label="$t('email') + ':'"
-                :value="props.user.manager_fullname"
+                :label="$t('message.header') + ':'"
+                :value="props.message.topic"
             />
-
-            <div class="flex flex-wrap gap-2 flex-column">
-              <label class="wm-form-label highlighted">Teams:</label>
-              <div class="flex gap-2">
-                <Chip
-                    v-for="(item, index) in props.user.teams"
-                    :key="index"
-                    class="p-chip--purple">
-                  <span>{{ item.name }}</span>
-                </Chip>
-              </div>
-            </div>
-
-            <div class="flex flex-wrap gap-2 flex-column">
-              <label class="wm-form-label highlighted">Roles:</label>
-              <div class="flex gap-2">
-                <Chip
-                    v-for="(item, index) in props.user.roles"
-                    :key="index"
-                    class="p-chip--purple">
-                  <span>{{ item.name }}</span>
-                </Chip>
-              </div>
-            </div>
-
           </div>
         </div>
 
+        </div>
       </div>
-    </div>
+
 
   </Sidebar>
 </template>
@@ -122,7 +87,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  user: {
+  message: {
     type: Object,
     default: () => {},
   },

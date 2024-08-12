@@ -23,7 +23,7 @@
             class="vertical-align-middle"
             @click="openSidebar(data.id)"
         />
-<!--        <WMUserPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :user="data" />-->
+        <WMMessagePreviewSidebar v-model:visible="isPreviewVisible[data.id]" :message="data" />
       </template>
     </Column>
     <Column
