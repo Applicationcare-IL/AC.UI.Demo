@@ -11,6 +11,7 @@
         :placeholder="$t('select', ['address.city'])"
         :option-set="true"
         :required="isCityRequired"
+        :data-test-id="entity + '.form.city'"
         @change="updateStreets"
       />
 
@@ -22,6 +23,7 @@
         :placeholder="$t('select', ['address.street'])"
         :option-set="true"
         :required="isStreetRequired"
+        :data-test-id="entity + '.form.street'"
       />
 
       <WMInputSearch
@@ -31,6 +33,7 @@
         :options="neighborhoods"
         :placeholder="$t('select', ['address.neighborhood'])"
         :option-set="true"
+        :data-test-id="entity + '.form.neighborhood'"
       />
     </div>
     <div class="wm-form-row gap-5">
@@ -41,6 +44,7 @@
         :label="$t('address.house-number') + ':'"
         size="xs"
         value="1"
+        :data-test-id="entity + '.form.house-number'"
       />
       <WMInput
         name="apartment"
@@ -48,6 +52,7 @@
         :highlighted="true"
         :label="$t('address.apartment') + ':'"
         size="xs"
+        :data-test-id="entity + '.form.apartment'"
       />
       <WMInput
         name="entrance"
@@ -56,6 +61,7 @@
         :label="$t('address.entrance') + ':'"
         :options="formUtilsStore.getAlphabet"
         size="xs"
+        :data-test-id="entity + '.form.entrance'"
       />
     </div>
     <div class="wm-form-row gap-5">
@@ -66,6 +72,7 @@
         :placeholder="$t('select', ['address.zip'])"
         :option-set="true"
         size="sm"
+        :data-test-id="entity + '.form.zip'"
       />
 
     </div>
@@ -86,6 +93,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  entity: {
+    type: String,
+    default: '',
+  }
 });
 
 const isCityRequired = computed(() => {

@@ -12,7 +12,8 @@
           :highlighted="true"
           :label="$t('owner') + ':'"
           :value="authStore.userFullName"
-        ></WMInput>
+          data-test-id="contact.form.owner"
+        />
       </div>
       <div class="wm-form-row gap-32px">
         <WMInput
@@ -20,6 +21,7 @@
           :required="true"
           type="input-text"
           :label="$t('first-name') + ':'"
+          data-test-id="contact.form.first-name"
         />
         <WMInput
           name="last-name"
@@ -27,11 +29,17 @@
           validation-message="Validation Message"
           type="input-text"
           :label="$t('last-name') + ':'"
+          data-test-id="contact.form.last-name"
         />
       </div>
 
       <div class="wm-form-row gap-32px">
-        <WMInput name="contact-number" type="input-text" :label="$t('contact.number') + ':'" />
+        <WMInput
+            name="contact-number"
+            type="input-text"
+            :label="$t('contact.number') + ':'"
+            data-test-id="contact.form.contact-number"
+        />
 
         <WMInput
           v-if="genders"
@@ -43,6 +51,7 @@
           :placeholder="$t('select', ['gender'])"
           width="130"
           option-set
+          data-test-id="contact.form.gender"
         />
       </div>
 
@@ -59,6 +68,7 @@
           related-sidebar="newCustomer"
           :model-value="selectedCustomers"
           required
+          data-test-id="contact.form.customer"
         />
 
         <WMSidebar
@@ -88,9 +98,22 @@
           type="input-text"
           :label="$t('mobilephone') + ':'"
           width="88"
+          data-test-id="contact.form.mobile-phone"
         />
-        <WMInput name="landline" type="input-text" :label="$t('landline') + ':'" width="88" />
-        <WMInput name="fax" type="input-text" :label="$t('fax') + ':'" width="88" />
+        <WMInput
+            name="landline"
+            type="input-text"
+            :label="$t('landline') + ':'"
+            width="88"
+            data-test-id="contact.form.landline"
+        />
+        <WMInput
+            name="fax"
+            type="input-text"
+            :label="$t('fax') + ':'"
+            width="88"
+            data-test-id="contact.form.fax"
+        />
       </div>
 
       <div class="wm-form-row gap-32px">
@@ -100,13 +123,14 @@
           type="input-text"
           :label="$t('email') + ':'"
           size="md"
+          data-test-id="contact.form.email"
         />
       </div>
     </div>
 
     <Divider class="my-5" layout="horizontal" style="height: 4px" />
 
-    <WMNewFormAddress />
+    <WMNewFormAddress entity="contact" />
 
     <Divider class="my-5" layout="horizontal" style="height: 4px" />
 
@@ -114,7 +138,13 @@
       <h2 class="h2 mb-0">{{ $t("contact.notes") }}</h2>
 
       <div class="wm-form-row gap-5">
-        <WMInput id="notes" type="text-area" name="notes" size="full" />
+        <WMInput
+            id="notes"
+            type="text-area"
+            name="notes"
+            size="full"
+            data-test-id="contact.form.notes"
+        />
       </div>
     </div>
 
