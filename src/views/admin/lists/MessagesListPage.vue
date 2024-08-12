@@ -80,7 +80,7 @@ const columns = [
   },
   {
     name: "rating",
-    type: "chips",
+    type: "important",
     field: "important",
     header: "message.rating",
   },
@@ -89,6 +89,8 @@ const columns = [
     type: "state",
     field: "state",
     header: "status",
+    width: "100px",
+    class: "p-0 filled-td",
   },
   {
     name: "start-date",

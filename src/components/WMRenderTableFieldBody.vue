@@ -29,6 +29,12 @@
   <template v-if="columnData.type == 'option-set'">
     <WMOptionSetValue :option-set="modelValue" />
   </template>
+  <template v-if="columnData.type == 'important'">
+    <WMImportantState :important="modelValue" />
+  </template>
+  <template v-if="columnData.type == 'target'">
+    <WMTargetState :target="modelValue" />
+  </template>
 </template>
 <script setup>
 // IMPORTS
@@ -38,6 +44,8 @@
 // INJECT
 
 // PROPS, EMITS
+import WMImportantState from "@/components/tables/WMImportantState.vue";
+
 defineProps({
   columnData: Object,
 });

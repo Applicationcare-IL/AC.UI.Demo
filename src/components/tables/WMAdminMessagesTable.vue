@@ -39,6 +39,7 @@
       </template>
     </Column>
   </DataTable>
+  <pre>{{ messages }}</pre>
 </template>
 
 <script setup>
