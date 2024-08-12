@@ -2,11 +2,7 @@
   <div class="flex flex-row justify-content-around">
     <div v-for="(step, index) in steps" :key="index" class="flex-1">
       <div class="step-container flex flex-column align-items-center flex-auto">
-        <div
-          v-if="showConnector(index)"
-          class="connector"
-          :class="getStatus(index)"
-        ></div>
+        <div v-if="showConnector(index)" class="connector" :class="getStatus(index)"></div>
         <div class="step" :class="getStatus(index)">
           <svg
             v-if="getStatus(index) == 'completed'"
@@ -16,9 +12,7 @@
             height="32"
             viewBox="-8 -2 40 26"
           >
-            <path
-              d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z"
-            />
+            <path d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z" />
           </svg>
         </div>
         <div class="label" :class="getStatus(index)">{{ step.label }}</div>
