@@ -513,7 +513,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
             values: { label: "manager" },
           }),
         teams: yup
-            .object()
+            .array()
             .required({
               key: "validation.required-select",
               values: { label: "teams" },
@@ -523,7 +523,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
               values: { label: "teams" },
             }),
         roles: yup
-            .object()
+            .array()
             .required({
               key: "validation.required-select",
               values: { label: "roles" },
