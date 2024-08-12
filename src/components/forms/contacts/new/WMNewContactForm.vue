@@ -12,7 +12,7 @@
           :highlighted="true"
           :label="$t('owner') + ':'"
           :value="authStore.userFullName"
-          data-test-id="contact.form.owner"
+          data-testid="contact.form.owner"
         />
       </div>
       <div class="wm-form-row gap-32px">
@@ -21,7 +21,7 @@
           :required="true"
           type="input-text"
           :label="$t('first-name') + ':'"
-          data-test-id="contact.form.first-name"
+          data-testid="contact.form.first-name"
         />
         <WMInput
           name="last-name"
@@ -29,7 +29,7 @@
           validation-message="Validation Message"
           type="input-text"
           :label="$t('last-name') + ':'"
-          data-test-id="contact.form.last-name"
+          data-testid="contact.form.last-name"
         />
       </div>
 
