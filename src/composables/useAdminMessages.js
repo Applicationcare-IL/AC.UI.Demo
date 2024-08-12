@@ -34,6 +34,7 @@ const useAdminFlowmaze = () => {
                 id: message.id,
             },
             title: message.topic,
+            target: 'services',
             //fake state to be able to show something in the list
             state: {
                 id: 291,
