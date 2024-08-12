@@ -90,7 +90,7 @@ const model = computed(() => {
         },
         {
           label: t("navigation.projects-report"),
-          to: "/projects-reports",
+          to: "/projects-report",
           image: new URL("/icons/nav/reports.svg", import.meta.url).href,
           visibility: can("reports.read"),
         },
