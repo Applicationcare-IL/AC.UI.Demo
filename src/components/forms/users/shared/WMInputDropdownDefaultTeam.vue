@@ -5,11 +5,10 @@
       name="default-team"
       type="input-select"
       :highlighted="true"
-      :label="$t('default-team') + ':'"
+      :label="$t('employee.default-team') + ':'"
       :options="teams"
       custom-option-label="name"
       :size="size"
-      required
   />
 </template>
 

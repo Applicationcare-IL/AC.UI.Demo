@@ -512,6 +512,26 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "manager" },
           }),
+        teams: yup
+            .object()
+            .required({
+              key: "validation.required-select",
+              values: { label: "teams" },
+            })
+            .typeError({
+              key: "validation.required-select",
+              values: { label: "teams" },
+            }),
+        roles: yup
+            .object()
+            .required({
+              key: "validation.required-select",
+              values: { label: "roles" },
+            })
+            .typeError({
+              key: "validation.required-select",
+              values: { label: "roles" },
+            }),
       });
     },
     getUserUpdateFormValidationSchema: (state) => {
