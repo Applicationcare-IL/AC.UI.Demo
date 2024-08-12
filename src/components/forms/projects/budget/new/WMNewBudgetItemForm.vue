@@ -56,7 +56,6 @@
                 name="planned_contract"
                 background-color="blue-100"
                 :label="$t('budget.planned-contract') + ':'"
-                editable
                 size="small"
                 @change="recalculateBudgetItem"
               />
