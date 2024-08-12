@@ -137,6 +137,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  customOptionLabel: {
+    type: String,
+    default: null,
+  },
   size: {
     type: String,
     default: "sm",
@@ -184,11 +188,12 @@ const optionLabel = computed(() => {
   if (props.optionSet) {
     return optionLabelWithLang.value;
   }
-  return "name";
-});
 
-const width = computed(() => {
-  return props.width + "px";
+  if (props.customOptionLabel) {
+    return props.customOptionLabel;
+  }
+
+  return "name";
 });
 
 // COMPONENT METHODS AND LOGIC
@@ -294,9 +299,9 @@ const onItemSelected = (item) => {
   emit("change", item);
 };
 
-function clear() {
+const clear = () => {
   resetField();
-}
+};
 
 // PROVIDE, EXPOSE
 defineExpose({ clear });

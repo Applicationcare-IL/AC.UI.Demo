@@ -1,11 +1,18 @@
 <template>
   <div class="flex flex-column w-full">
-    <h2 class="h2">Linked users</h2>
+    <h2 class="h2">
+      <slot name="title" />
+    </h2>
 
     <div class="flex flex-column gap-3 mb-3">
       <div class="flex flex-row justify-content-between">
-        <div class="flex flex-row">
+        <div class="flex flex-row gap-2">
           <WMSelectAdminUsersButton @users-selected="addSelectedUsers" />
+          <WMRemoveButton
+            :text="$t('buttons.remove-users')"
+            :is-disabled="!selectedUsers.length > 0"
+            @click="removeSelectedUsers"
+          />
         </div>
       </div>
       <div class="flex flex-row justify-content-between">
@@ -81,13 +88,17 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  relatedEntity: {
-    type: String,
-    required: true,
+  urlParams: {
+    type: Array,
+    required: false,
   },
-  relatedEntityId: {
-    type: Number,
-    required: true,
+  addUsersFunction: {
+    type: Function,
+    required: false,
+  },
+  removeUsersFunction: {
+    type: Function,
+    required: false,
   },
 });
 
@@ -122,8 +133,10 @@ const loadLazyData = async () => {
     params.append("search", searchValueParam);
   }
 
-  if (props.relatedEntity && props.relatedEntityId) {
-    params.append(props.relatedEntity, props.relatedEntityId);
+  if (props.urlParams) {
+    props.urlParams.forEach((urlParam) => {
+      params.append(urlParam.key, urlParam.value);
+    });
   }
 
   let response = await getUsers(params);
@@ -151,10 +164,21 @@ const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
 };
 
-const addSelectedUsers = (users) => {
-  console.log("addSelectedUsers", users);
-  // selectedUsers.value = users;
-  // onSelectionChanged();
+const addSelectedUsers = async (users) => {
+  const userIds = users.map((user) => user.id);
+
+  await props.addUsersFunction(userIds);
+
+  loadLazyData();
+};
+
+const removeSelectedUsers = async () => {
+  const userIds = selectedUsers.value.map((user) => user.id);
+
+  await props.removeUsersFunction(userIds);
+
+  cleanSelectedUsers();
+  loadLazyData();
 };
 
 // const onPage = (event) => {

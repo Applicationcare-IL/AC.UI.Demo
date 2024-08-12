@@ -170,6 +170,7 @@ const useTasks = () => {
       state: task.state?.value,
       is_open: task.status?.value == "open",
       approved_amount: task.approved_amount,
+      has_signature: task.signature_path ? true : false,
     };
   };
 

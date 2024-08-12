@@ -12,9 +12,10 @@ const useReports = () => {
   };
 
   const getReport = async (id) => {
-    const report = await reportsStore.getReport(id);
+    const response = await reportsStore.getReport(id);
+    const report = response.data;
 
-    return report;
+    return mapReport(report);
   };
 
   const getReportData = async ({
@@ -25,6 +26,8 @@ const useReports = () => {
     order_by,
     order_dir,
     filters,
+    per_page,
+    page,
   }) => {
     let report = await reportsStore.getReportData({
       entity_type,
@@ -34,12 +37,16 @@ const useReports = () => {
       order_by,
       order_dir,
       filters,
+      per_page,
+      page,
     });
 
     return report;
   };
 
   const mapReport = (report) => {
+    console.log("mapReport", report);
+
     return {
       ...report,
       link_detail: {
@@ -57,8 +64,6 @@ const useReports = () => {
   };
 
   const getReportTableColumns = (selectedFields, selectedEntity, groupBy) => {
-    console.log("groupBy", groupBy);
-
     if (!selectedFields) return [];
 
     let columns = selectedFields.map((field) => ({

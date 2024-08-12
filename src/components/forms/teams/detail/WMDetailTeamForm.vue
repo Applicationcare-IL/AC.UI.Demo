@@ -1,6 +1,6 @@
 <template>
   <div v-if="team" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
-    <div class="asset-data flex flex-auto flex-column gap-5 mb-5">
+    <div class="asset-data flex flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="flex-1 card-container top-info-card">
           <Card>
@@ -37,12 +37,15 @@
     </div>
     <div class="flex flex-row justify-content-end gap-5">
       <WMLinkedAdminUserTable
-        :columns="columns"
-        related-entity="team"
-        :related-entity-id="team.id"
+        :columns="linkedUsersTableColumns"
+        :url-params="[{ key: 'teams', value: [team.id] }]"
         selectable
         preview
-      />
+        :add-users-function="linkUsers"
+        :remove-users-function="handleRemoveUsers"
+      >
+        <template #title> {{ $t("team.users-in-team") }} </template>
+      </WMLinkedAdminUserTable>
     </div>
   </div>
 </template>
@@ -51,20 +54,20 @@
 // IMPORTS
 import { useForm } from "vee-validate";
 import { ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
-import WMInput from "@/components/forms/WMInput.vue";
-import useAdminTeams from "@/composables/useAdminTeams";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const route = useRoute();
-const { getTeam, updateTeam, parseTeam } = useAdminTeams();
+const { getTeam, updateTeam, parseTeam, addUsers, removeUsers } = useAdminTeams();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
 const toast = useToast();
+const { t } = useI18n();
 
 // INJECT
 
@@ -81,7 +84,7 @@ const emit = defineEmits(["teamUpdated"]);
 // REFS
 const team = ref(null);
 
-const columns = [
+const linkedUsersTableColumns = [
   {
     name: "id",
     type: "link",
@@ -96,10 +99,42 @@ const columns = [
     header: "employee.username",
   },
   {
+    name: "manager",
+    type: "text",
+    field: "manager_fullname",
+    header: "manager",
+  },
+  {
+    name: "phone",
+    type: "text",
+    field: "phone",
+    header: "mobilephone",
+  },
+  {
     name: "email",
     type: "text",
     field: "email",
     header: "email",
+  },
+  {
+    name: "active",
+    type: "state",
+    field: "state",
+    header: "state.state",
+    width: "100px",
+    class: "p-0 filled-td",
+  },
+  {
+    name: "roles",
+    type: "chips",
+    field: "roles",
+    header: "roles",
+  },
+  {
+    name: "teams",
+    type: "chips",
+    field: "teams",
+    header: "teams",
   },
 ];
 
@@ -122,6 +157,7 @@ const onSave = handleSubmit((values) => {
       toast.error("Error updating team");
     });
 });
+
 const loadLazyData = async () => {
   team.value = await getTeam(route.params.id);
   utilsStore.selectedElements["team"] = [team.value];
@@ -131,6 +167,26 @@ loadLazyData();
 
 formUtilsStore.formEntity = "team";
 utilsStore.entity = "team";
+
+const linkUsers = async (userIds) => {
+  await addUsers(route.params.id, { employees: userIds });
+
+  toast.info({
+    title: t("team.toast-linked-user-message"),
+    life: 5000,
+    group: "br",
+  });
+};
+
+const handleRemoveUsers = async (userIds) => {
+  await removeUsers(route.params.id, { employees: userIds });
+
+  toast.info({
+    title: t("team.toast-unlinked-user-message"),
+    life: 5000,
+    group: "br",
+  });
+};
 
 // PROVIDE, EXPOSE
 defineExpose({

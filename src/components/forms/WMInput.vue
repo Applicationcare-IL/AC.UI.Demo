@@ -137,8 +137,8 @@
       :disabled="props.disabled"
       date-format="dd/mm/yy"
       :class="classes"
+      :min-date="minDate"
       @date-select="handleDateChange($event)"
-      :minDate="minDate"
     />
     <slot></slot>
   </div>
@@ -240,8 +240,8 @@ const props = defineProps({
   },
   minDate: {
     type: String,
-    default: ""
-  }
+    default: "",
+  },
 });
 
 const emit = defineEmits(["update:value", "update:selectedItem", "update:modelValue"]);

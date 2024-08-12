@@ -34,6 +34,10 @@ const useAdminFlowmaze = () => {
     return adminTeamsStore.addUsers(teamId, params);
   };
 
+  const removeUsers = async (teamId, params) => {
+    return adminTeamsStore.removeUsers(teamId, params);
+  };
+
   const mapTeam = (team) => {
     return {
       ...team,
@@ -50,7 +54,7 @@ const useAdminFlowmaze = () => {
     return {
       ...team,
       manager_id: team.manager?.id,
-    }
+    };
   };
 
   return {
@@ -61,6 +65,7 @@ const useAdminFlowmaze = () => {
     updateTeam,
     activateTeams,
     addUsers,
+    removeUsers,
     // UTILITIES
     mapTeam,
     parseTeam,

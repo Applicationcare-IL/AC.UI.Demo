@@ -1,5 +1,11 @@
 <template>
-  <WMButton type="sign" :text="$t('buttons.sign-document')" size="small" @click="openDialog">
+  <WMButton
+    type="sign"
+    :text="$t('buttons.sign-document')"
+    size="small"
+    :is-disabled="isDisabled"
+    @click="openDialog"
+  >
     <template #customIcon>
       <div class="flex" v-html="InkPenIcon" />
     </template>
@@ -23,7 +29,7 @@ import { ref } from "vue";
 import InkPenIcon from "/icons/ink_pen.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
 
-defineProps({
+const props = defineProps({
   entity: {
     type: String,
     default: "",
@@ -31,6 +37,10 @@ defineProps({
   signatureId: {
     type: Number,
     default: null,
+  },
+  isDisabled: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -41,6 +51,8 @@ const { layoutConfig } = useLayout();
 const isOpen = ref(false);
 
 const openDialog = () => {
+  if (props.isDisabled) return;
+
   isOpen.value = true;
 };
 

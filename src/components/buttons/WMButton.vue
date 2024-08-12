@@ -46,6 +46,7 @@ const props = defineProps({
         "new",
         "sign",
         "more",
+        "remove",
       ].includes(value);
     },
   },
@@ -350,6 +351,45 @@ const handleClick = () => {
     background-color: var(--green-200);
     color: var(--green-700);
     border: 1px solid var(--green-500);
+  }
+
+  &.is-disabled {
+    background-color: var(--gray-200);
+    color: var(--gray-500);
+    cursor: not-allowed;
+    outline: 0;
+    box-shadow: none;
+
+    :deep(svg path) {
+      fill: var(--gray-500);
+    }
+  }
+}
+
+.remove {
+  background-color: var(--gray-50);
+  color: var(--gray-800);
+
+  :deep(svg path) {
+    fill: var(--gray-800);
+  }
+
+  :deep(svg path) {
+    fill: var(--gray-800);
+  }
+
+  &:hover {
+    background-color: var(--gray-100);
+    color: var(--gray-800);
+  }
+
+  &:focus {
+    background-color: var(--gray-100);
+    color: var(--gray-800);
+  }
+
+  &.is-active {
+    border: 1px solid var(--gray-800);
   }
 
   &.is-disabled {

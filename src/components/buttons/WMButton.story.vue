@@ -146,11 +146,20 @@
         </template>
       </WMButton>
     </Variant>
+
+    <Variant title="Remove button">
+      <WMButton :is-active="state.active" type="remove" text="Remove button">
+        <template #customIcon>
+          <div class="flex" v-html="DeleteIcon" />
+        </template>
+      </WMButton>
+    </Variant>
   </Story>
 </template>
 <script setup>
 import { reactive } from "vue";
 
+import DeleteIcon from "/icons/delete.svg?raw";
 import EditIcon from "/icons/edit_default.svg?raw";
 import FilterIcon from "/icons/filter.svg?raw";
 import MoreIcon from "/icons/more_vert.svg?raw";

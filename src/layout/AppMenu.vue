@@ -108,13 +108,12 @@ const model = computed(() => {
           image: new URL("/icons/nav/badge.svg", import.meta.url).href,
           visibility: true,
         },
-        // {
-        //   label: t("navigation.permissions"),
-        //   to: "/admin/permissions",
-        //   image: new URL("/icons/nav/clinical_notes.svg", import.meta.url).href,
-        //   visibility: true,
-        // },
-
+        {
+          label: t("navigation.permissions"),
+          to: "/admin/permissions",
+          image: new URL("/icons/nav/clinical_notes.svg", import.meta.url).href,
+          visibility: true,
+        },
         // {
         //   divider: true,
         // },

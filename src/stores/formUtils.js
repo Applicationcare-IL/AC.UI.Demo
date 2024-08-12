@@ -468,6 +468,21 @@ export const useFormUtilsStore = defineStore("formUtils", {
         }),
       });
     },
+    getProjectDetailFormValidationSchema: () => {
+      return yup.object({
+        "project-name": yup.string().required(),
+        project_type: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "project_type" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "project_type" },
+          }),
+      });
+    },
     getUserNewFormValidationSchema: (state) => {
       const adminUsersStore = useAdminUsersStore();
 
@@ -534,12 +549,12 @@ export const useFormUtilsStore = defineStore("formUtils", {
             values: { label: "manager" },
           }),
         teams: yup
-            .array()
-            .required()
-            .min(1, {
-              key: "validation.required-select",
-              values: { label: "teams" },
-            }),
+          .array()
+          .required()
+          .min(1, {
+            key: "validation.required-select",
+            values: { label: "teams" },
+          }),
       });
     },
     getTeamNewFormValidationSchema: (state) => {
@@ -574,12 +589,12 @@ export const useFormUtilsStore = defineStore("formUtils", {
     },
     getRoleNewFormValidationSchema: () => {
       return yup.object({
-        "name": yup.string().required(),
+        name: yup.string().required(),
       });
     },
     getRoleUpdateFormValidationSchema: () => {
       return yup.object({
-        "name": yup.string().required(),
+        name: yup.string().required(),
       });
     },
     getQuickCodeNewFormValidationSchema: () => {
@@ -590,9 +605,9 @@ export const useFormUtilsStore = defineStore("formUtils", {
     },
     getMessageNewFormValidationSchema: () => {
       return yup.object({
-        "topic": yup.string().required(),
-        "start_date": yup.string().required(),
-        "message": yup.string().required(),
+        topic: yup.string().required(),
+        start_date: yup.string().required(),
+        message: yup.string().required(),
       });
     },
     getMessageUpdateFormValidationSchema: () => {

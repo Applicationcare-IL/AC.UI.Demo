@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="project"
-    class="wm-detail-form-container flex flex-auto flex-column overflow-auto"
-  >
+  <div v-if="project" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex gap-5">
         <div class="flex-1 card-container">
@@ -32,10 +29,7 @@
         <WMDetailProjectFormContractorSection :project="project" />
       </div>
 
-      <div
-        v-if="project.project_type.value === TENDER_PROJECT_ID"
-        class="flex-1 card-container"
-      >
+      <div v-if="project.project_type.value === TENDER_PROJECT_ID" class="flex-1 card-container">
         <WMDetailProjectFormTenderInformation :project="project" />
       </div>
 
@@ -144,10 +138,7 @@
     </div>
   </div>
   <div v-else>
-    <div
-      v-if="loading"
-      class="flex flex-column justify-content-center h-screen align-items-center"
-    >
+    <div v-if="loading" class="flex flex-column justify-content-center h-screen align-items-center">
       <ProgressSpinner />
     </div>
   </div>
@@ -220,9 +211,7 @@ const fetchData = async () => {
   utilsStore.selectedElements["project"] = [project.value];
 
   stages.value = data.process.stages.map((stage) => {
-    const completed_at = stage.completed_at
-      ? useDateFormat(stage.completed_at, "DD/MM/YY")
-      : null;
+    const completed_at = stage.completed_at ? useDateFormat(stage.completed_at, "DD/MM/YY") : null;
 
     return {
       label: stage.name,
@@ -235,7 +224,7 @@ const fetchData = async () => {
 };
 
 const { handleSubmit, resetForm, meta, values } = useForm({
-  validationSchema: formUtilsStore.getServiceDetailFormValidationSchema,
+  validationSchema: formUtilsStore.getProjectDetailFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {

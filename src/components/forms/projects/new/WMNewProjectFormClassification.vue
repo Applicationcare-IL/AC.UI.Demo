@@ -4,6 +4,7 @@
   <div class="wm-form-row align-items-end gap-5">
     <div class="wm-form-row gap-5">
       <WMInputSearch
+        v-model="selectedProjectType"
         name="project_type"
         :highlighted="true"
         :required="true"
@@ -12,31 +13,30 @@
         :options="projectTypes"
         width="152"
         :placeholder="$t('project.project_types_placeholder')"
-        v-model="selectedProjectType"
-        :optionSet="true"
+        :option-set="true"
       />
 
       <WMInputSearch
+        v-model="selectedProjectArea"
         name="project_area"
         :highlighted="true"
         :label="$t('project.project_area') + ':'"
         :options="projectAreas"
         width="152"
         :placeholder="$t('project.project_areas_placeholder')"
-        v-model="selectedProjectArea"
-        :optionSet="true"
+        :option-set="true"
         :disabled="isProjectTypeEmptyOrFalsy"
       />
 
       <WMInputSearch
+        v-model="selectedProjectDetail"
         name="project_detail"
         :highlighted="true"
         :label="$t('project.project_detail') + ':'"
         :options="projectDetails"
         width="152"
         :placeholder="$t('project.project_details_placeholder')"
-        v-model="selectedProjectDetail"
-        :optionSet="true"
+        :option-set="true"
         :disabled="isProjectAreaEmtpyOrFalsy"
       />
     </div>
@@ -46,7 +46,7 @@
 
 <script setup>
 // TODO: combine the new and detail form classification sections to avoid duplicated code
-import { ref, onMounted, watch, computed } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -81,11 +81,9 @@ onMounted(() => {
 });
 
 const filterProjectAreasDropdown = (value) => {
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("project_area", value)
-    .then((data) => {
-      projectAreas.value = data;
-    });
+  optionSetsStore.getOptionSetValuesFromApiRaw("project_area", value).then((data) => {
+    projectAreas.value = data;
+  });
 };
 
 const clearProjectDetailsDropdown = () => {
@@ -97,11 +95,9 @@ const clearProjectAreasDropdown = () => {
 };
 
 const filterProjectDetailsDropdown = (value) => {
-  optionSetsStore
-    .getOptionSetValuesFromApiRaw("project_detail", value)
-    .then((data) => {
-      projectDetails.value = data;
-    });
+  optionSetsStore.getOptionSetValuesFromApiRaw("project_detail", value).then((data) => {
+    projectDetails.value = data;
+  });
 };
 
 watch(

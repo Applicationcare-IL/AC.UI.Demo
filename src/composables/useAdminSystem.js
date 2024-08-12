@@ -5,7 +5,10 @@ const useAdminFlowmaze = () => {
 
   // ACTIONS
   const getEasymazeEntitiesList = async (params) => {
-    const response = await adminSystemStore.getEasymazeEntitiesList(params);
+    const response = await adminSystemStore.getEasymazeEntitiesList({
+      per_page: 99999, // get all entities by default
+      ...params,
+    });
     const easymazeEntities = response.data;
     const totalRecords = response.meta.total;
 
