@@ -203,6 +203,11 @@ const router = createRouter({
           component: () => import("@/views/user/forms/detail/ReportDetail.vue"),
         },
         {
+          path: "/projects-report",
+          name: "projectReports",
+          component: () => import("@/views/user/lists/OldReports.vue"),
+        },
+        {
           path: "/products",
           name: "products",
           component: () => import("@/views/user/lists/Products.vue"),

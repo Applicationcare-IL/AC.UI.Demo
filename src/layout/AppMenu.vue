@@ -18,6 +18,8 @@ const utilsStore = useUtilsStore();
 
 const { adminZone } = storeToRefs(utilsStore);
 
+const CLIENT_ENV = import.meta.env.VITE_CLIENT_ENV;
+
 const { t } = useI18n();
 const { checkIfEntityIsActive } = useLicensing();
 const { can } = usePermissions();
@@ -80,6 +82,15 @@ const model = computed(() => {
         {
           label: t("navigation.reports"),
           to: "/reports",
+          image: new URL("/icons/nav/reports.svg", import.meta.url).href,
+          visibility: can("reports.read"),
+        },
+        {
+          divider: true,
+        },
+        {
+          label: t("navigation.projects-report"),
+          to: "/projects-reports",
           image: new URL("/icons/nav/reports.svg", import.meta.url).href,
           visibility: can("reports.read"),
         },
