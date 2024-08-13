@@ -40,17 +40,12 @@
                 :value="props.message.state.value"
                 :class="statusClass(props.message.state.value)"
             />
-          </div>
-        </div>
-        <div class="wm-form-row align-items-end gap-5">
-          <div class="wm-form-row gap-5">
-              <WMInput
-                  name="topic"
-                  type="info"
-                  :highlighted="true"
-                  :label="$t('message.header') + ':'"
-                  :value="props.message.topic"
-              />
+            <WMInput
+                :highlighted="true"
+                :label="$t('message.rating') + ':'"
+            >
+              <WMImportantState :important="props.message.important" />
+            </WMInput>
           </div>
         </div>
         <div class="wm-form-row align-items-end gap-5">
@@ -59,12 +54,35 @@
                 name="topic"
                 type="info"
                 :highlighted="true"
-                :label="$t('message.header') + ':'"
-                :value="props.message.topic"
+                :label="$t('start-date') + ':'"
+                :value="props.message.start_date"
+            />
+
+            <WMInput
+                v-if="props.message.end_date"
+                name="topic"
+                type="info"
+                :highlighted="true"
+                :label="$t('end-date') + ':'"
+                :value="props.message.end_date"
             />
           </div>
         </div>
 
+        <Divider />
+
+        <div class="wm-form-row align-items-end gap-5">
+          <div class="wm-form-row gap-5">
+            <WMInput
+                name="message"
+                type="info"
+                :highlighted="true"
+                :label="$t('message.header') + ':'"
+                :value="props.message.message"
+            />
+            </div>
+          </div>
+        <Divider />
         </div>
       </div>
 
@@ -75,6 +93,7 @@
 <script setup>
 // IMPORTS
 import  { ref } from 'vue';
+import WMImportantState from "@/components/tables/WMImportantState.vue";
 
 // DEPENDENCIES
 const { getStatusConditionalStyle } = useListUtils();
