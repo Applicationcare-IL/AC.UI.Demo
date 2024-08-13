@@ -3,13 +3,18 @@
     <div class="entity-permissions__header">
       <div class="cell w-full flex justify-content-between">
         <div>{{ title }}</div>
-        <div>
-          <!-- <WMButton size="sm" variant="primary">Save</WMButton> -->
+        <div class="flex gap-3 align-items-center">
           <WMButton
             v-if="clearAll"
             :text="$t('buttons.clear-all')"
             type="clear mx-0 px-0"
             @click="clearAllPermissions"
+          />
+          <WMButton
+            :text="$t('buttons.select-all')"
+            type="primary"
+            size="small"
+            @click="selectAllPermissions"
           />
         </div>
       </div>
@@ -73,6 +78,12 @@ const permissionsRef = toRef(props, "permissions");
 const clearAllPermissions = () => {
   for (const key in permissionsRef.value) {
     permissionsRef.value[key] = false;
+  }
+};
+
+const selectAllPermissions = () => {
+  for (const key in permissionsRef.value) {
+    permissionsRef.value[key] = true;
   }
 };
 
