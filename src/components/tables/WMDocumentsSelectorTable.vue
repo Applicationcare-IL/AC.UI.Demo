@@ -101,6 +101,7 @@ const loadLazyData = async () => {
     per_page: selectedRowsPerPageParam,
     search: searchValueParam,
     project_id: props.relatedEntity === "project" ? props.relatedEntityId : null,
+    with_attachment: true,
   });
 
   getDocumentsFromApi(params).then((result) => {
