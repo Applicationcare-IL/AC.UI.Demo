@@ -11,6 +11,7 @@
             @click="clearAllPermissions"
           />
           <WMButton
+            v-if="selectAll"
             :text="$t('buttons.select-all')"
             type="primary"
             size="small"
@@ -62,6 +63,10 @@ const props = defineProps({
     required: true,
   },
   clearAll: {
+    type: Boolean,
+    default: false,
+  },
+  selectAll: {
     type: Boolean,
     default: false,
   },

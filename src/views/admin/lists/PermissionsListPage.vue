@@ -79,7 +79,6 @@
     <div v-if="!loading" class="flex flex-column gap-5 mb-5">
       <div class="flex flex-row flex-wrap flex-column">
         <p class="h2">Entity permissions</p>
-
         <WMEntityPermissionsTable :permissions="permissions.entities" />
       </div>
       <div class="flex flex-row flex-wrap flex-column">
@@ -91,15 +90,34 @@
               <template #custom-content> TO-DO </template>
             </WMPermissionSection>
             <WMPermissionSection title="Admin permissions" :permissions="permissions.admin" />
-            <WMPermissionSection title="Actions" :permissions="permissions.actions" clear-all />
+            <WMPermissionSection
+              title="Actions"
+              :permissions="permissions.actions"
+              clear-all
+              select-all
+            />
           </div>
           <div class="flex flex-column gap-5 flex-1">
-            <!-- <WMPermissionSection title="Admin permissions" :permissions="permissions.admin" />
-            <WMPermissionSection title="Admin permissions" :permissions="permissions.admin" /> -->
+            <WMPermissionSection
+              title="Sale discounts"
+              :permissions="permissions.sale_discounts"
+              clear-all
+              select-all
+            />
+            <WMPermissionSection
+              title="Documents types"
+              :permissions="permissions.document_types"
+              clear-all
+              select-all
+            />
           </div>
           <div class="flex flex-column gap-5 flex-1">
-            <!-- <WMPermissionSection title="Admin permissions" :permissions="permissions.admin" />
-            <WMPermissionSection title="Admin permissions" :permissions="permissions.admin" /> -->
+            <WMPermissionSection
+              title="Service areas"
+              :permissions="permissions.service_area"
+              clear-all
+              select-all
+            />
           </div>
         </div>
       </div>
