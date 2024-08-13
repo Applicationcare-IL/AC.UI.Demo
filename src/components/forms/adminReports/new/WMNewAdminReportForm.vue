@@ -105,7 +105,7 @@ const onCancel = () => {
 };
 
 const fetchEntities = () => {
-  getEasymazeEntitiesList({ has_report: true }).then((result) => {
+  getEasymazeEntitiesList({ has_report: 1 }).then((result) => {
     entities.value = result.data;
   });
 };
