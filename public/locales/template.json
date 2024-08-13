@@ -875,6 +875,7 @@
     "you-dont-have-permission": "You don't have permission to do this action",
     "permissions": "Permissions",
     "access-level": "Access level",
-    "entity": "Entity"
+    "entity": "Entity",
+    "permissions-center": "Permissions Center"
   }
 }
