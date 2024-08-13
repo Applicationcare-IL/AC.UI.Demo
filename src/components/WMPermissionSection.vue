@@ -3,6 +3,15 @@
     <div class="entity-permissions__header">
       <div class="cell w-full flex justify-content-between">
         <div>{{ title }}</div>
+        <div>
+          <!-- <WMButton size="sm" variant="primary">Save</WMButton> -->
+          <WMButton
+            v-if="clearAll"
+            :text="$t('buttons.clear-all')"
+            type="clear mx-0 px-0"
+            @click="clearAllPermissions"
+          />
+        </div>
       </div>
     </div>
     <!-- <div class="entity-permissions__subheader">
@@ -25,6 +34,7 @@
         </div>
       </div>
     </template>
+    <!-- <pre>{{ permissionsRef }}</pre> -->
   </div>
 </template>
 
@@ -46,6 +56,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  clearAll: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // REFS
@@ -56,6 +70,11 @@ const permissionsRef = toRef(props, "permissions");
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const clearAllPermissions = () => {
+  for (const key in permissionsRef.value) {
+    permissionsRef.value[key] = false;
+  }
+};
 
 // PROVIDE, EXPOSE
 

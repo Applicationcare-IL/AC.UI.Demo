@@ -91,6 +91,7 @@
               <template #custom-content> TO-DO </template>
             </WMPermissionSection>
             <WMPermissionSection title="Admin permissions" :permissions="permissions.admin" />
+            <WMPermissionSection title="Actions" :permissions="permissions.actions" clear-all />
           </div>
           <div class="flex flex-column gap-5 flex-1">
             <!-- <WMPermissionSection title="Admin permissions" :permissions="permissions.admin" />
