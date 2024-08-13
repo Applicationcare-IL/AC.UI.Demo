@@ -48,7 +48,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { ref, watch } from "vue";
+import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
@@ -57,7 +57,7 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const route = useRoute();
-const { getRole, updateRole, parseRole, addUsers, removeUsers } = useAdminRoles();
+const { updateRole, parseRole, addUsers, removeUsers } = useAdminRoles();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
@@ -69,6 +69,10 @@ const { t } = useI18n();
 
 // PROPS, EMITS
 const props = defineProps({
+  role: {
+    type: Object,
+    required: true,
+  },
   formKey: {
     type: String,
     required: true,
@@ -78,8 +82,6 @@ const props = defineProps({
 const emit = defineEmits(["roleUpdated"]);
 
 // REFS
-const role = ref();
-
 const linkedUsersTableColumns = [
   {
     name: "id",
@@ -154,13 +156,6 @@ const onSave = handleSubmit((values) => {
     });
 });
 
-const loadLazyData = async () => {
-  role.value = await getRole(route.params.id);
-  utilsStore.selectedElements["role"] = [role.value];
-};
-
-loadLazyData();
-
 formUtilsStore.formEntity = "role";
 utilsStore.entity = "role";
 
@@ -187,7 +182,6 @@ const handleRemoveUsers = async (userIds) => {
 // PROVIDE, EXPOSE
 defineExpose({
   onSave,
-  loadLazyData,
 });
 
 // WATCHERS

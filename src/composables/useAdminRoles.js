@@ -30,12 +30,16 @@ const useAdminFlowmaze = () => {
     return await Promise.all(promises);
   };
 
+  const deactivateRole = async (roleId) => {
+    return await adminRolesStore.deactivateRole(roleId);
+  };
+
   const addUsers = async (roleId, params) => {
-    return adminRolesStore.addUsers(roleId, params);
+    return await adminRolesStore.addUsers(roleId, params);
   };
 
   const removeUsers = async (roleId, params) => {
-    return adminRolesStore.removeUsers(roleId, params);
+    return await adminRolesStore.removeUsers(roleId, params);
   };
 
   const mapRole = (role) => {
@@ -62,6 +66,7 @@ const useAdminFlowmaze = () => {
     createRole,
     updateRole,
     activateRoles,
+    deactivateRole,
     addUsers,
     removeUsers,
     // UTILITIES

@@ -54,6 +54,16 @@ export const useAdminRolesStore = defineStore("adminRoles", {
           console.error(error);
         });
     },
+    deactivateRole(roleId) {
+      return axiosConfig
+          .post(`/admin/roles/${roleId}/deactivate`)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+    },
     addUsers(roleId, userIds) {
       return axiosConfig
         .post(`/admin/roles/${roleId}/users/add`, userIds)
