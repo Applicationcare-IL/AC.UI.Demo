@@ -54,6 +54,16 @@ export const useAdminTeamsStore = defineStore("adminTeams", {
           console.error(error);
         });
     },
+    deactivateTeam(teamId) {
+      return axiosConfig
+          .post(`/admin/teams/${teamId}/deactivate`)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+    },
     addUsers(teamId, userIds) {
       return axiosConfig
         .post(`/admin/teams/${teamId}/employees/add`, userIds)

@@ -30,12 +30,16 @@ const useAdminFlowmaze = () => {
     return await Promise.all(promises);
   };
 
+  const deactivateTeam = async (teamId) => {
+    return await adminTeamsStore.deactivateTeam(teamId);
+  };
+
   const addUsers = async (teamId, params) => {
-    return adminTeamsStore.addUsers(teamId, params);
+    return await adminTeamsStore.addUsers(teamId, params);
   };
 
   const removeUsers = async (teamId, params) => {
-    return adminTeamsStore.removeUsers(teamId, params);
+    return await adminTeamsStore.removeUsers(teamId, params);
   };
 
   const mapTeam = (team) => {
@@ -64,6 +68,7 @@ const useAdminFlowmaze = () => {
     createTeam,
     updateTeam,
     activateTeams,
+    deactivateTeam,
     addUsers,
     removeUsers,
     // UTILITIES

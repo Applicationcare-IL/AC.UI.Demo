@@ -62,7 +62,7 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const route = useRoute();
-const { getTeam, updateTeam, parseTeam, addUsers, removeUsers } = useAdminTeams();
+const { updateTeam, parseTeam, addUsers, removeUsers } = useAdminTeams();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
@@ -73,6 +73,10 @@ const { t } = useI18n();
 
 // PROPS, EMITS
 const props = defineProps({
+  team: {
+    type: Object,
+    required: true,
+  },
   formKey: {
     type: String,
     required: true,
@@ -82,8 +86,6 @@ const props = defineProps({
 const emit = defineEmits(["teamUpdated"]);
 
 // REFS
-const team = ref(null);
-
 const linkedUsersTableColumns = [
   {
     name: "id",
@@ -157,13 +159,6 @@ const onSave = handleSubmit((values) => {
       toast.error("Error updating team");
     });
 });
-
-const loadLazyData = async () => {
-  team.value = await getTeam(route.params.id);
-  utilsStore.selectedElements["team"] = [team.value];
-};
-
-loadLazyData();
 
 formUtilsStore.formEntity = "team";
 utilsStore.entity = "team";
