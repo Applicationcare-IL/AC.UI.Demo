@@ -8,8 +8,8 @@
     @save-form="saveForm()"
   >
     <template #top-left>
-      <WMButton v-if="isActive" :text="$t('buttons.activate')" type="secondary" @click="activateUserFunc()" />
-      <WMButton v-if="isNotActive" :text="$t('buttons.deactivate')" type="secondary" @click="deactivateUserFunc()" />
+      <WMButton v-if="isActive" :text="$t('buttons.activate')" type="secondary" @click="activateTeamFunc()" />
+      <WMButton v-if="isNotActive" :text="$t('buttons.deactivate')" type="secondary" @click="deactivateTeamFunc()" />
     </template>
   </WMDetailFormSubHeader>
   <WMDetailTeamForm v-if="team" :team="team" ref="detailTeamForm" :form-key="formKey" />
@@ -57,7 +57,7 @@ utilsStore.entity = "team";
 
 loadLazyData();
 
-const activateUserFunc = () => {
+const activateTeamFunc = () => {
   activateTeams([team.value.id]).then(() => {
     isActive.value = !isActive.value;
     isNotActive.value = !isNotActive.value;
@@ -67,7 +67,7 @@ const activateUserFunc = () => {
   })
 }
 
-const deactivateUserFunc = () => {
+const deactivateTeamFunc = () => {
   deactivateTeam(team.value.id).then(() => {
     isActive.value = !isActive.value;
     isNotActive.value = !isNotActive.value;
