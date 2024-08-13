@@ -35,6 +35,8 @@
 
       <Divider class="my-5" layout="horizontal" style="height: 4px" />
 
+      <h2 class="h2 my-0">{{ $t("employee.teams-and-roles") }}</h2>
+
       <div class="flex flex-column gap-5">
         <div class="wm-form-row gap-5">
           <WMInputSearch
