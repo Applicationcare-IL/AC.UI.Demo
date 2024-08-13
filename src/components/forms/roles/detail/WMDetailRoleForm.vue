@@ -40,6 +40,13 @@
             <template #title> {{ $t("role.users-in-role") }} </template>
           </WMLinkedAdminUserTable>
         </div>
+        <div class="flex flex-column gap-5">
+          <WMPermissionsConfig
+            v-if="Object.keys(permissions).length > 0"
+            :permissions="permissions"
+            @permissions-changed="handlePermissionsChanged"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -48,7 +55,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { watch } from "vue";
+import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
@@ -58,6 +65,7 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const route = useRoute();
 const { updateRole, parseRole, addUsers, removeUsers } = useAdminRoles();
+const { getPermissions } = useAdminPermissions();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
@@ -82,6 +90,8 @@ const props = defineProps({
 const emit = defineEmits(["roleUpdated"]);
 
 // REFS
+const permissions = ref([]);
+
 const linkedUsersTableColumns = [
   {
     name: "id",
@@ -178,6 +188,14 @@ const handleRemoveUsers = async (userIds) => {
     group: "br",
   });
 };
+
+const loadPermissions = async () => {
+  getPermissions("role", route.params.id).then((response) => {
+    permissions.value = response.data;
+  });
+};
+
+loadPermissions();
 
 // PROVIDE, EXPOSE
 defineExpose({
