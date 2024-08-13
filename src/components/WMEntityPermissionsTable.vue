@@ -18,7 +18,7 @@
     </div>
     <template v-for="(permission, index) in permissionsRef" :key="index">
       <div class="entity-permissions__entity-column">
-        <div class="cell w-entity-column">{{ index }}</div>
+        <div class="cell w-entity-column bg-gray-100">{{ index }}</div>
         <div class="cell w-access-column"></div>
         <div class="flex gap-1 w-permissions-column">
           <WMEntityPermissionsTablePermissionsRow :permissions="permission" />
@@ -50,8 +50,6 @@ const props = defineProps({
 // COMPONENT METHODS AND LOGIC
 const permissionsRef = toRef(props, "permissions");
 
-console.log(permissionsRef);
-
 // PROVIDE, EXPOSE
 
 // WATCHERS
@@ -59,78 +57,4 @@ console.log(permissionsRef);
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
-<style scoped lang="scss">
-$table-gap: 0.25rem; // gap-1
-
-// columns width
-.w-entity-column {
-  width: 200px;
-}
-
-.w-access-column {
-  width: 200px;
-}
-
-.w-permissions-column {
-  width: calc(100% - 405px - #{$table-gap}); // TEMPORAL
-}
-
-.entity-permissions {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: $table-gap;
-  text-transform: capitalize;
-
-  &__header {
-    width: 100%;
-    display: flex;
-    gap: $table-gap;
-
-    > .cell {
-      font-size: 24px;
-      font-weight: 700;
-      background: var(--gray-300);
-      padding: 12px;
-
-      &:first-child {
-        border-top-right-radius: 8px;
-      }
-
-      &:last-child {
-        border-top-left-radius: 8px;
-      }
-    }
-  }
-
-  &__subheader {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: $table-gap;
-
-    .cell {
-      font-weight: 700;
-      background: var(--gray-100);
-      padding: 12px;
-      overflow: hidden;
-    }
-  }
-
-  &__entity-column {
-    width: 100%;
-    display: flex;
-    gap: $table-gap;
-
-    .cell {
-      font-weight: 700;
-      padding: 12px;
-      background-color: var(--gray-50);
-    }
-
-    > .cell:first-child {
-      background: var(--gray-100);
-    }
-  }
-}
-</style>
+<style scoped lang="scss"></style>

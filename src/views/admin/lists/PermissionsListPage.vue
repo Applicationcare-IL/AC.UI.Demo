@@ -65,13 +65,28 @@
     <div v-if="!loading" class="flex flex-column gap-5 mb-5">
       <div class="flex flex-row flex-wrap flex-column">
         <p class="h2">Entity permissions</p>
-        <!-- {{ entityPermissions }} -->
-        <WMEntityPermissionsTable :permissions="entityPermissions" />
+
+        <WMEntityPermissionsTable :permissions="permissions.entities" />
       </div>
       <div class="flex flex-row flex-wrap flex-column">
         <p class="h2">General permissions</p>
-        <!-- {{ entityPermissions }} -->
-        <!-- <WMEntityPermissionsTable :permissions="entityPermissions" /> -->
+        <!-- <pre>{{ permissions }}</pre> -->
+        <div class="flex gap-5">
+          <div class="flex flex-column gap-5 flex-1">
+            <WMPermissionSection title="Dashboard">
+              <template #custom-content> TO-DO </template>
+            </WMPermissionSection>
+            <WMPermissionSection title="Admin permissions" :permissions="permissions.admin" />
+          </div>
+          <div class="flex flex-column gap-5 flex-1">
+            <!-- <WMPermissionSection title="Admin permissions" :permissions="permissions.admin" />
+            <WMPermissionSection title="Admin permissions" :permissions="permissions.admin" /> -->
+          </div>
+          <div class="flex flex-column gap-5 flex-1">
+            <!-- <WMPermissionSection title="Admin permissions" :permissions="permissions.admin" />
+            <WMPermissionSection title="Admin permissions" :permissions="permissions.admin" /> -->
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -101,7 +116,7 @@ const users = ref([]);
 const teams = ref([]);
 const roles = ref([]);
 
-const entityPermissions = ref([]);
+const permissions = ref([]);
 
 const loading = ref(true);
 
@@ -120,7 +135,7 @@ const unSelectOptions = () => {
 
 const loadPermissions = async (entityType, entity) => {
   getPermissions(entityType, entity.id).then((response) => {
-    entityPermissions.value = response.data.entities;
+    permissions.value = response.data;
     loading.value = false;
   });
 };
