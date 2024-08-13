@@ -295,7 +295,7 @@ const setSelectedFields = (fields) => {
 };
 
 const fetchEntities = () => {
-  getEasymazeEntitiesList().then((result) => {
+  getEasymazeEntitiesList({ has_report: true }).then((result) => {
     entities.value = result.data;
   });
 };
