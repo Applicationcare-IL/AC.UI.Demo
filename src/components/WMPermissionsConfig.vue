@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row flex-wrap flex-column">
+  <div class="flex flex-row flex-wrap flex-column mb-5">
     <p class="h2">Entity permissions</p>
     <WMEntityPermissionsTable :permissions="permissions.entities" />
   </div>

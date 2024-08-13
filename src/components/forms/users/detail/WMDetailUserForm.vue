@@ -198,7 +198,6 @@ const loadPermissions = async () => {
 };
 
 const handlePermissionsChanged = () => {
-  console.log("handlePermissionsChanged");
   formUtilsStore.setFormMetas(meta.value, props.formKey); // forces save button to be enabled
 };
 
