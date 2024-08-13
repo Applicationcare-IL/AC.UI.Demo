@@ -62,11 +62,16 @@
       </div>
     </div>
     <Divider />
-    <div class="flex flex-column gap-5 mb-5">
+    <div v-if="!loading" class="flex flex-column gap-5 mb-5">
       <div class="flex flex-row flex-wrap flex-column">
         <p class="h2">Entity permissions</p>
-
+        <!-- {{ entityPermissions }} -->
         <WMEntityPermissionsTable :permissions="entityPermissions" />
+      </div>
+      <div class="flex flex-row flex-wrap flex-column">
+        <p class="h2">General permissions</p>
+        <!-- {{ entityPermissions }} -->
+        <!-- <WMEntityPermissionsTable :permissions="entityPermissions" /> -->
       </div>
     </div>
   </div>
@@ -98,6 +103,8 @@ const roles = ref([]);
 
 const entityPermissions = ref([]);
 
+const loading = ref(true);
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
@@ -113,17 +120,8 @@ const unSelectOptions = () => {
 
 const loadPermissions = async (entityType, entity) => {
   getPermissions(entityType, entity.id).then((response) => {
-    const keysToFilter = ["permission_service_area", "global", "document"];
-
-    // filter the permissions to remove the keys in the keysToFilter array
-    const filteredPermissions = Object.keys(response.data).reduce((acc, key) => {
-      if (!keysToFilter.includes(key)) {
-        acc[key] = response.data[key];
-      }
-      return acc;
-    }, {});
-
-    entityPermissions.value = filteredPermissions;
+    entityPermissions.value = response.data.entities;
+    loading.value = false;
   });
 };
 

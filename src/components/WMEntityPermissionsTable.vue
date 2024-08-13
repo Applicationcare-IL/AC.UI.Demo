@@ -3,9 +3,9 @@
 
   <div v-if="Object.keys(permissionsRef).length > 0" class="entity-permissions">
     <div class="entity-permissions__header">
-      <div class="cell w-entity-column">Entity</div>
-      <div class="cell w-access-column">Access level</div>
-      <div class="cell flex-1">Permissions</div>
+      <div class="cell w-entity-column">{{ $t("permissions.entity") }}</div>
+      <div class="cell w-access-column">{{ $t("permissions.access-level") }}</div>
+      <div class="cell flex-1">{{ $t("permissions.permissions") }}</div>
     </div>
     <div class="entity-permissions__subheader">
       <div class="cell w-entity-column"></div>
@@ -80,6 +80,7 @@ $table-gap: 0.25rem; // gap-1
   display: flex;
   flex-direction: column;
   gap: $table-gap;
+  text-transform: capitalize;
 
   &__header {
     width: 100%;

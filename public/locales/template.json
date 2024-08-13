@@ -767,9 +767,6 @@
   "mobile": {
     "menu": "Menu"
   },
-  "permissions": {
-    "you-dont-have-permission": "You don't have permission to do this action"
-  },
   "attachments": {
     "attachments": "Attachments",
     "upload-attachment": "Upload attachment",
@@ -873,5 +870,11 @@
     "report-configuration": "Report Configuration",
     "report-preview": "Report Preview",
     "select-an-entity": "Select an entity"
+  },
+  "permissions": {
+    "you-dont-have-permission": "You don't have permission to do this action",
+    "permissions": "Permissions",
+    "access-level": "Access level",
+    "entity": "Entity"
   }
 }
