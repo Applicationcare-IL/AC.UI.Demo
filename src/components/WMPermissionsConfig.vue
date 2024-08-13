@@ -46,19 +46,21 @@
 
 <script setup>
 // IMPORTS
+import { watch } from "vue";
 
 // DEPENDENCIES
 
 // INJECT
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   permissions: {
     type: Object,
     required: true,
   },
 });
 
+const emit = defineEmits(["permissions-changed"]);
 // REFS
 
 // COMPUTED
@@ -68,6 +70,15 @@ defineProps({
 // PROVIDE, EXPOSE
 
 // WATCHERS
+watch(
+  props.permissions,
+  (value) => {
+    emit("permissions-changed", value);
+  },
+  {
+    deep: true,
+  }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

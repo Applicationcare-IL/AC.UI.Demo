@@ -106,6 +106,13 @@
           </Card>
         </div>
       </div>
+      <div>
+        <WMPermissionsConfig
+          v-if="Object.keys(permissions).length > 0"
+          :permissions="permissions"
+          @permissions-changed="handlePermissionsChanged"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -123,6 +130,7 @@ const route = useRoute();
 const { updateUser, parseUpdateUser } = useAdminUsers();
 const { getTeams } = useAdminTeams();
 const { getRoles } = useAdminRoles();
+const { getPermissions } = useAdminPermissions();
 
 const formUtilsStore = useFormUtilsStore();
 const toast = useToast();
@@ -146,6 +154,8 @@ const emit = defineEmits(["userUpdated"]);
 // REFS
 const teams = ref([]);
 const roles = ref([]);
+const permissions = ref([]);
+
 const selectedTeams = ref([]);
 const selectedRoles = ref([]);
 const loadingFields = ref(true);
@@ -180,6 +190,18 @@ const initializeFields = async (user) => {
   loadingFields.value = false;
 };
 
+const loadPermissions = async () => {
+  getPermissions("employee", route.params.id).then((response) => {
+    permissions.value = response.data;
+    loadingFields.value = false;
+  });
+};
+
+const handlePermissionsChanged = () => {
+  console.log("handlePermissionsChanged");
+  formUtilsStore.setFormMetas(meta.value, props.formKey); // forces save button to be enabled
+};
+
 formUtilsStore.formEntity = "employee";
 
 // PROVIDE, EXPOSE
@@ -201,5 +223,6 @@ watch(
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   initializeFields(props.user);
+  loadPermissions();
 });
 </script>
