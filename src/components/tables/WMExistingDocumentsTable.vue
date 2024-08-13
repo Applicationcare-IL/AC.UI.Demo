@@ -128,6 +128,7 @@ const loadLazyData = async () => {
     page: nextPage,
     per_page: selectedRowsPerPageParam,
     search: searchValueParam,
+    with_attachment: true,
   });
 
   getDocumentsFromApi(params).then((result) => {
