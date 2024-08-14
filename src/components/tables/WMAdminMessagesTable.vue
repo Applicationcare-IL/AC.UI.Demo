@@ -1,45 +1,45 @@
 <template>
   <!-- <pre>lazyParams: {{ lazyParams }}</pre> -->
-<!--   <pre>{{ messages }}</pre>-->
+  <!--   <pre>{{ messages }}</pre>-->
   <DataTable
-      v-model:selection="selectedMessages"
-      lazy
-      :value="messages"
-      data-key="id"
-      scrollable
-      paginator
-      :rows="10"
-      :total-records="totalRecords"
-      class="w-full"
-      @page="onPage($event)"
-      @update:selection="onSelectionChanged"
+    v-model:selection="selectedMessages"
+    lazy
+    :value="messages"
+    data-key="id"
+    scrollable
+    paginator
+    :rows="10"
+    :total-records="totalRecords"
+    class="w-full"
+    @page="onPage($event)"
+    @update:selection="onSelectionChanged"
   >
     <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
     <Column v-if="preview" style="width: 40px">
       <template #body="{ data }">
         <img
-            src="/icons/eye.svg"
-            alt=""
-            class="vertical-align-middle"
-            @click="openSidebar(data.id)"
+          src="/icons/eye.svg"
+          alt=""
+          class="vertical-align-middle"
+          @click="openSidebar(data.id)"
         />
         <WMMessagePreviewSidebar v-model:visible="isPreviewVisible[data.id]" :message="data" />
       </template>
     </Column>
     <Column
-        v-for="column in columns"
-        :key="column.name"
-        :field="column.name"
-        :header="$t(column.header)"
-        :class="column.class"
-        :style="column.width ? { width: column.width } : {}"
+      v-for="column in columns"
+      :key="column.name"
+      :field="column.name"
+      :header="$t(column.header)"
+      :class="column.class"
+      :style="column.width ? { width: column.width } : {}"
     >
       <template #body="{ data }">
         <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
       </template>
     </Column>
   </DataTable>
-  <pre>{{ messages }}</pre>
+  <!-- <pre>{{ messages }}</pre> -->
 </template>
 
 <script setup>
@@ -138,14 +138,14 @@ watchEffect(() => {
 });
 
 watch(
-    () => utilsStore.searchString["message"],
-    () => {
-      searchValue.value = utilsStore.searchString["message"];
-      utilsStore.debounceAction(() => {
-        loadLazyData();
-      });
-    },
-    { deep: true }
+  () => utilsStore.searchString["message"],
+  () => {
+    searchValue.value = utilsStore.searchString["message"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  },
+  { deep: true }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)

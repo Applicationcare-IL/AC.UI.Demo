@@ -1,12 +1,12 @@
 <template>
   <WMListSubHeader
-      entity="message"
-      :total-records="0"
-      @new="toggleSidebarVisibility"
-      :showSearchBar="false"
-      :showCommunications="false"
-      :showFilterButton="false"
-      :hasActionBuilder="false"
+    entity="message"
+    :total-records="0"
+    :show-search-bar="false"
+    :show-communications="false"
+    :show-filter-button="false"
+    :has-action-builder="false"
+    @new="toggleSidebarVisibility"
   >
   </WMListSubHeader>
 
@@ -24,11 +24,11 @@
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMAdminMessagesTable
-       ref="adminMessageTable"
-       :columns="columns"
-       preview
-       selectable
-       @update:selection="onSelectionChanged"
+      ref="adminMessageTable"
+      :columns="columns"
+      preview
+      selectable
+      @update:selection="onSelectionChanged"
     />
   </div>
 </template>
@@ -50,7 +50,6 @@ const { can } = usePermissions();
 // REFS
 const adminMessageTable = ref();
 const isVisible = ref(false);
-
 
 const columns = [
   {
@@ -104,7 +103,6 @@ const columns = [
     field: "end_date",
     header: "end-date",
   },
-
 ];
 
 // COMPUTED
@@ -113,7 +111,6 @@ const columns = [
 useHead({
   title: "Messages",
 });
-
 
 function toggleSidebarVisibility() {
   isVisible.value = !isVisible.value;
