@@ -1,7 +1,11 @@
 <template>
   <template v-for="(_, index) in permissionsRef" :key="index">
     <div v-if="!filterBy.includes(index)" class="cell flex-1">
-      <Checkbox v-model="permissionsRef[index]" :binary="true" />
+      <Checkbox
+        v-model="permissionsRef[index]"
+        :binary="true"
+        :disabled="isCheckboxDisabled(index)"
+      />
     </div>
   </template>
 </template>
@@ -31,6 +35,14 @@ const props = defineProps({
 
 // COMPONENT METHODS AND LOGIC
 const permissionsRef = toRef(props, "permissions");
+
+const isCheckboxDisabled = (index) => {
+  if (index !== "read" && !permissionsRef.value.read) {
+    return true;
+  }
+
+  return false;
+};
 
 // PROVIDE, EXPOSE
 
