@@ -25,7 +25,7 @@
         </div>
 
         <WMInputSearch
-          v-if="isUserSelected && users"
+          v-if="selectedOption?.value === 'user' && users"
           name="users"
           :placeholder="$t('employee.select-employee')"
           size="lg"
@@ -34,7 +34,7 @@
         />
 
         <WMInputSearch
-          v-if="isTeamSelected && teams"
+          v-if="selectedOption?.value === 'team' && teams"
           name="teams"
           :placeholder="$t('team.select-team')"
           size="lg"
@@ -43,7 +43,7 @@
         />
 
         <WMInputSearch
-          v-if="isRoleSelected && roles"
+          v-if="selectedOption?.value === 'role' && roles"
           name="roles"
           :placeholder="$t('role.select-role')"
           size="lg"
@@ -80,9 +80,7 @@ const { getPermissions } = useAdminPermissions();
 // PROPS, EMITS
 
 // REFS
-const isUserSelected = ref(true);
-const isTeamSelected = ref(false);
-const isRoleSelected = ref(false);
+const selectedOption = ref(null);
 
 const users = ref([]);
 const teams = ref([]);
@@ -117,29 +115,11 @@ useHead({
   title: "Permissions",
 });
 
-const unSelectOptions = () => {
-  isUserSelected.value = false;
-  isTeamSelected.value = false;
-  isRoleSelected.value = false;
-
-  permissions.value = [];
-  loading.value = true;
-};
-
 const handleSelectedOption = (option) => {
-  unSelectOptions();
+  loading.value = true;
+  permissions.value = [];
 
-  switch (option.value) {
-    case "user":
-      isUserSelected.value = true;
-      break;
-    case "team":
-      isTeamSelected.value = true;
-      break;
-    case "role":
-      isRoleSelected.value = true;
-      break;
-  }
+  selectedOption.value = option;
 };
 
 const loadPermissions = async (entityType, entity) => {

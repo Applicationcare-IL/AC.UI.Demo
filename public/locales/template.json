@@ -877,5 +877,9 @@
     "access-level": "Access level",
     "entity": "Entity",
     "permissions-center": "Permissions Center"
+  },
+  "sale": {
+    "sale": "Sale",
+    "sales": "Sales"
   }
 }

@@ -1,5 +1,5 @@
 <template>
-<!--  <pre>{{ values }}</pre>-->
+  <!--  <pre>{{ values }}</pre>-->
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
       <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["message.message"]) }}</h1>
@@ -7,26 +7,11 @@
 
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
-
           <WMInput
-              name="topic"
-              :required="true"
-              type="input-text"
-              :label="$t('message.header') + ':'"
-          />
-
-        </div>
-      </div>
-
-      <div class="wm-form-row align-items-end gap-5">
-        <div class="wm-form-row gap-5">
-          <WMInput
-              name="important"
-              type="input-select-button"
-              :highlighted="true"
-              :label="$t('message.rating') + ':'"
-              :options="normalImportantOptions"
-              :value="normalImportantOptions[0]"
+            name="topic"
+            :required="true"
+            type="input-text"
+            :label="$t('message.header') + ':'"
           />
         </div>
       </div>
@@ -34,36 +19,53 @@
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
           <WMInput
-              type="date"
-              :label="$t('start-date') + ':'"
-              name="start_date"
-              required
-          />
-
-          <WMInput
-              v-if="values.start_date"
-              type="date"
-              :label="$t('end-date') + ':'"
-              name="end_date"
-              :minDate="values.start_date"
+            name="important"
+            type="input-select-button"
+            :highlighted="true"
+            :label="$t('message.rating') + ':'"
+            :options="normalImportantOptions"
+            :value="normalImportantOptions[0]"
           />
         </div>
       </div>
 
-      <Divider/>
+      <div class="wm-form-row align-items-end gap-5">
+        <div class="wm-form-row gap-5">
+          <WMInput type="date" :label="$t('start-date') + ':'" name="start_date" required />
+
+          <WMInput
+            v-if="values.start_date"
+            type="date"
+            :label="$t('end-date') + ':'"
+            name="end_date"
+            :min-date="values.start_date"
+          />
+        </div>
+      </div>
+
+      <Divider />
 
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
           <WMInput
-              :label="$t('message.content')"
-              label-size="large"
-              type="text-area"
-              name="message"
-              size="full"
-              required
+            :label="$t('message.content')"
+            label-size="large"
+            type="text-area"
+            name="message"
+            size="full"
+            required
           />
         </div>
       </div>
+
+      <div class="flex gap-2">
+        <WMSelectableButtonGroup
+          :options="options"
+          @update:selected-option="handleSelectedOption"
+        />
+      </div>
+
+      {{ selectedOption?.value }}
 
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
@@ -73,10 +75,10 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import {inject} from "vue";
+import { inject, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
-import {useI18n} from "vue-i18n";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
@@ -95,6 +97,32 @@ const normalImportantOptions = [
   { value: "false", name: t("message.normal") },
   { value: "true", name: t("message.important") },
 ];
+
+const selectedOption = ref(null);
+
+const options = ref([
+  {
+    label: t("employee.employees"),
+    value: "users",
+  },
+  {
+    label: t("project.projects"),
+    value: "projects",
+  },
+  {
+    label: t("sale.sales"),
+    value: "sales",
+  },
+  {
+    label: t("customer.customers"),
+    value: "customers",
+  },
+  {
+    label: t("service.services"),
+    value: "services",
+  },
+]);
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
@@ -108,6 +136,10 @@ const onSubmit = handleSubmit((values) => {
 
 const onCancel = () => {
   closeSidebar();
+};
+
+const handleSelectedOption = (option) => {
+  selectedOption.value = option;
 };
 
 // PROVIDE, EXPOSE
