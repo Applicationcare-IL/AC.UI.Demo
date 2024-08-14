@@ -18,32 +18,9 @@
       <div class="flex flex-row flex-wrap flex-column">
         <p class="h4">Permissions for:</p>
         <div class="flex gap-2 mb-2">
-          <WMSelectableButton
-            v-model="isUserSelected"
-            :label="$t('user')"
-            no-icon
-            @click="
-              unSelectOptions();
-              isUserSelected = true;
-            "
-          />
-          <WMSelectableButton
-            v-model="isTeamSelected"
-            :label="$t('team.team')"
-            no-icon
-            @click="
-              unSelectOptions();
-              isTeamSelected = true;
-            "
-          />
-          <WMSelectableButton
-            v-model="isRoleSelected"
-            :label="$t('role.role')"
-            no-icon
-            @click="
-              unSelectOptions();
-              isRoleSelected = true;
-            "
+          <WMSelectableButtonGroup
+            :options="options"
+            @update:selected-option="handleSelectedOption"
           />
         </div>
 
@@ -85,9 +62,12 @@
 <script setup>
 // IMPORTS
 import { onMounted, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
 const toast = useToast();
+
+const { t } = useI18n();
 
 const { getUsers } = useAdminUsers();
 const { getTeams } = useAdminTeams();
@@ -115,6 +95,21 @@ const loading = ref(true);
 const isSaved = ref(false);
 const isSaveDisabled = ref(true);
 
+const options = ref([
+  {
+    label: t("user"),
+    value: "user",
+  },
+  {
+    label: t("team.team"),
+    value: "team",
+  },
+  {
+    label: t("role.role"),
+    value: "role",
+  },
+]);
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
@@ -129,6 +124,22 @@ const unSelectOptions = () => {
 
   permissions.value = [];
   loading.value = true;
+};
+
+const handleSelectedOption = (option) => {
+  unSelectOptions();
+
+  switch (option.value) {
+    case "user":
+      isUserSelected.value = true;
+      break;
+    case "team":
+      isTeamSelected.value = true;
+      break;
+    case "role":
+      isRoleSelected.value = true;
+      break;
+  }
 };
 
 const loadPermissions = async (entityType, entity) => {

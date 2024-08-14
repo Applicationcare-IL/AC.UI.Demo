@@ -20,9 +20,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="entity-permissions__subheader">
-      <div class="cell w-full">test</div>
-    </div> -->
     <template v-for="(_, index) in permissionsRef" :key="index">
       <div class="entity-permissions__entity-column">
         <div class="cell w-full flex justify-content-between align-items-center">
@@ -40,7 +37,6 @@
         </div>
       </div>
     </template>
-    <!-- <pre>{{ permissionsRef }}</pre> -->
   </div>
 </template>
 
