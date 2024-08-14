@@ -1,6 +1,9 @@
 <template>
   <template v-for="(_, index) in permissionsRef" :key="index">
-    <div v-if="!filterBy.includes(index)" class="cell flex-1">
+    <div
+      v-if="!filterBy.includes(index)"
+      class="cell flex-1 flex align-items-center justify-content-center"
+    >
       <Checkbox
         v-model="permissionsRef[index]"
         :binary="true"

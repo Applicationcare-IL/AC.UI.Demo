@@ -1019,18 +1019,20 @@ cursor: text !important;
 
 // PERMISSIONS TABLE AND COMPONENTS
 $table-gap: 0.25rem; // gap-1
+$entity-column-width: 200px;
+$access-column-width: 320px;
 
 // columns width
 .w-entity-column {
-  width: 200px;
+  width: $entity-column-width;
 }
 
 .w-access-column {
-  width: 200px;
+  width: $access-column-width;
 }
 
 .w-permissions-column {
-  width: calc(100% - 405px - #{$table-gap}); // TEMPORAL
+  width: calc(100% - (#{$entity-column-width} + #{$access-column-width} + 4px) - #{$table-gap}); // TEMPORAL
 }
 
 .entity-permissions {
