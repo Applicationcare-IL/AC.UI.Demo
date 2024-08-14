@@ -877,7 +877,8 @@
     "permissions": "Permissions",
     "access-level": "Access level",
     "entity": "Entity",
-    "permissions-center": "Permissions Center"
+    "permissions-center": "Permissions Center",
+    "unselected-entity-message": "Search for a user, team or role to view and edit their permissions"
   },
   "sale": {
     "sale": "Sale",

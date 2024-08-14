@@ -14,7 +14,7 @@
   </div>
 
   <div class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
-    <div class="flex flex-column gap-5 mb-5">
+    <div class="flex flex-column gap-5">
       <div class="flex flex-row flex-wrap flex-column">
         <p class="h4">Permissions for:</p>
         <div class="flex gap-2 mb-2">
@@ -52,9 +52,18 @@
         />
       </div>
     </div>
-    <Divider />
+    <Divider class="mb-5" />
     <div v-if="!loading" class="flex flex-column gap-5 mb-5">
       <WMPermissionsConfig :permissions="permissions" />
+    </div>
+    <div class="flex flex-row gap-5 flex-wrap flex-column">
+      <div class="flex-1 card-container">
+        <Card class="border-round-md h-20rem flex align-items-center justify-content-center">
+          <template #content>
+            <h4 class="h4">{{ $t("permissions.unselected-entity-message") }}</h4>
+          </template>
+        </Card>
+      </div>
     </div>
   </div>
 </template>
