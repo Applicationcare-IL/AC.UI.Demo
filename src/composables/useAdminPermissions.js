@@ -7,8 +7,18 @@ const usePermissions = () => {
     return await adminPermissionsStore.getPermissions({ entity_type, entity_id });
   };
 
+  const updatePermissions = async (entity_type, entity_id, permissions) => {
+    try {
+      return await adminPermissionsStore.updatePermissions({ entity_type, entity_id, permissions });
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
   return {
     getPermissions,
+    updatePermissions,
   };
 };
 

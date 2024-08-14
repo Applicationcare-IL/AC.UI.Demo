@@ -12,13 +12,6 @@
           :label="$t('owner') + ':'"
           :value="authStore.userFullName"
         />
-        <WMInput
-          name="id"
-          type="info"
-          :highlighted="true"
-          :label="$t('id') + ':'"
-          :value="nextID"
-        />
       </div>
       <div class="wm-form-row gap-5">
         <WMInput
@@ -118,13 +111,7 @@
         </div>
 
         <div class="wm-form-row gap-5">
-          <WMInput
-              name="email"
-              required
-              type="input-text"
-              :label="$t('email') + ':'"
-              size="md"
-          />
+          <WMInput name="email" required type="input-text" :label="$t('email') + ':'" size="md" />
         </div>
       </div>
       <Divider class="mt-5 mb-0" layout="horizontal" style="height: 4px" />
@@ -193,18 +180,15 @@ import { inject, onMounted, ref, watch } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
-import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const authStore = useAuthStore();
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
-const utilsStore = useUtilsStore();
 const { can } = usePermissions();
 
 const { getSelectedContactsForNewCustomerColumns } = useListUtils();
 const { createCustomer, parseCustomer } = useCustomers();
-const { getNextEntityID } = useUtils();
 
 const { getContactsFromApi, getContactFromApi } = useContacts();
 
@@ -398,10 +382,6 @@ onMounted(async () => {
   optionSetsStore
     .getOptionSetValuesFromApi("service_area")
     .then((data) => (serviceAreas.value = data));
-
-  getNextEntityID("customer").then((id) => {
-    nextID.value = id;
-  });
 });
 </script>
 

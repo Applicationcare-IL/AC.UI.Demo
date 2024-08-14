@@ -6,26 +6,26 @@
           <h1 class="h1 mb-0">{{ $t("permissions.permissions-center") }}</h1>
         </div>
       </div>
-      <Divider/>
+      <Divider />
       <div class="flex flex-row justify-content-between flex-wrap row-gap-4">
-        <WMSaveButton :is-saved="isSaved" :is-disabled="isSaveDisabled" @click="savePermissions"/>
+        <WMSaveButton :is-saved="isSaved" :is-disabled="isSaveDisabled" @click="savePermissions" />
       </div>
     </div>
   </div>
 
   <div class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
-    <div class="flex flex-column gap-5 mb-5">
+    <div class="flex flex-column gap-5">
       <div class="flex flex-row flex-wrap flex-column">
         <p class="h4">Permissions for:</p>
         <div class="flex gap-2 mb-2">
           <WMSelectableButtonGroup
-              :options="options"
-              @update:selected-option="handleSelectedOption"
+            :options="options"
+            @update:selected-option="handleSelectedOption"
           />
         </div>
 
         <WMInputSearch
-            v-if="selectedOption?.value === 'user' && users"
+          v-if="selectedOption?.value === 'user' && users"
           name="users"
           :placeholder="$t('employee.select-employee')"
           size="lg"
@@ -34,7 +34,7 @@
         />
 
         <WMInputSearch
-            v-if="selectedOption?.value === 'team' && teams"
+          v-if="selectedOption?.value === 'team' && teams"
           name="teams"
           :placeholder="$t('team.select-team')"
           size="lg"
@@ -43,7 +43,7 @@
         />
 
         <WMInputSearch
-            v-if="selectedOption?.value === 'role' && roles"
+          v-if="selectedOption?.value === 'role' && roles"
           name="roles"
           :placeholder="$t('role.select-role')"
           size="lg"
@@ -52,28 +52,37 @@
         />
       </div>
     </div>
-    <Divider />
+    <Divider class="mb-5" />
     <div v-if="!loading" class="flex flex-column gap-5 mb-5">
-      <WMPermissionsConfig :permissions="permissions"/>
+      <WMPermissionsConfig :permissions="permissions" />
+    </div>
+    <div class="flex flex-row gap-5 flex-wrap flex-column">
+      <div class="flex-1 card-container">
+        <Card class="border-round-md h-20rem flex align-items-center justify-content-center">
+          <template #content>
+            <h4 class="h4">{{ $t("permissions.unselected-entity-message") }}</h4>
+          </template>
+        </Card>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 // IMPORTS
-import {onMounted, ref, watch} from "vue";
-import {useI18n} from "vue-i18n";
+import { onMounted, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
 const toast = useToast();
 
-const {t} = useI18n();
+const { t } = useI18n();
 
 const { getUsers } = useAdminUsers();
 const { getTeams } = useAdminTeams();
 const { getRoles } = useAdminRoles();
 
-const { getPermissions } = useAdminPermissions();
+const { getPermissions, updatePermissions } = useAdminPermissions();
 
 // INJECT
 
@@ -81,6 +90,8 @@ const { getPermissions } = useAdminPermissions();
 
 // REFS
 const selectedOption = ref(null);
+const selectedEntity = ref(null);
+const selectedEntityId = ref(null);
 
 const users = ref([]);
 const teams = ref([]);
@@ -117,12 +128,16 @@ useHead({
 
 const handleSelectedOption = (option) => {
   loading.value = true;
-  permissions.value = [];
-
+  isSaveDisabled.value = true;
   selectedOption.value = option;
 };
 
 const loadPermissions = async (entityType, entity) => {
+  loading.value = true;
+  permissions.value = [];
+  selectedEntity.value = entityType;
+  selectedEntityId.value = entity.id;
+
   getPermissions(entityType, entity.id).then((response) => {
     permissions.value = response.data;
     loading.value = false;
@@ -130,25 +145,32 @@ const loadPermissions = async (entityType, entity) => {
 };
 
 const savePermissions = async () => {
-  isSaveDisabled.value = true;
-  console.log("saving permissions", permissions.value);
+  try {
+    isSaved.value = await updatePermissions(
+      selectedEntity.value,
+      selectedEntityId.value,
+      permissions.value
+    );
 
-  toast.success({message: "Permissions updatedsuccessfully"});
+    isSaveDisabled.value = true;
 
-  // isSaved.value = await savePermissions(permissions.value);
+    toast.success({ message: t("permissions.permissions-updated-successfully") });
+  } catch (error) {
+    toast.error(t("permissions.permissions-updated-error"));
+  }
 };
 
 // PROVIDE, EXPOSE
 
 // WATCHERS
 watch(
-    permissions,
-    () => {
-      isSaveDisabled.value = false;
-    },
-    {
-      deep: true,
-    }
+  permissions,
+  () => {
+    isSaveDisabled.value = false;
+  },
+  {
+    deep: true,
+  }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)

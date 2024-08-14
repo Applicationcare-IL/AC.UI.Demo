@@ -12,7 +12,7 @@
 
         <div class="flex w-permissions-column gap-1">
           <template v-for="(headerText, index) in tableHeaders" :key="index">
-            <div class="cell flex-1">{{ headerText }}</div>
+            <div class="cell flex-1 flex justify-content-center">{{ headerText }}</div>
           </template>
         </div>
       </div>
@@ -20,9 +20,10 @@
         <div class="entity-permissions__entity-column">
           <div class="cell w-entity-column bg-gray-100 sticky right-0">{{ index }}</div>
           <div class="cell w-access-column">
-            <!-- <pre>{{ permission.related }}</pre> -->
-            <div class="flex justify-content-between">
-              <!-- <div>switch all - teams - users</div> -->
+            <div class="flex justify-content-between gap-5">
+              <div>
+                <WMEntityPermissionsAccessLevelSelector :permissions="permission" />
+              </div>
               <div class="flex gap-2 align-items-center">
                 <span>Related</span>
                 <InputSwitch v-model="permissionsRef[index].related"/>
