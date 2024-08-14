@@ -1,6 +1,6 @@
 <template>
   <template v-for="(_, index) in permissionsRef" :key="index">
-    <div class="cell flex-1">
+    <div v-if="!filterBy.includes(index)" class="cell flex-1">
       <Checkbox v-model="permissionsRef[index]" :binary="true" />
     </div>
   </template>
@@ -16,6 +16,10 @@ import { toRef } from "vue";
 // PROPS, EMITS
 const props = defineProps({
   permissions: {
+    type: Array,
+    required: true,
+  },
+  filterBy: {
     type: Array,
     required: true,
   },

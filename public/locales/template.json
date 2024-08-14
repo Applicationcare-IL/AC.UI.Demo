@@ -768,9 +768,6 @@
   "mobile": {
     "menu": "Menu"
   },
-  "permissions": {
-    "you-dont-have-permission": "You don't have permission to do this action"
-  },
   "attachments": {
     "attachments": "Attachments",
     "upload-attachment": "Upload attachment",
@@ -808,6 +805,7 @@
   },
   "employee": {
     "employee": "User",
+    "employees": "Users",
     "username": "Username",
     "general-info": "User information",
     "teams-and-roles": "Teams & Roles",
@@ -896,5 +894,16 @@
     "report-configuration": "Report Configuration",
     "report-preview": "Report Preview",
     "select-an-entity": "Select an entity"
+  },
+  "permissions": {
+    "you-dont-have-permission": "You don't have permission to do this action",
+    "permissions": "Permissions",
+    "access-level": "Access level",
+    "entity": "Entity",
+    "permissions-center": "Permissions Center"
+  },
+  "sale": {
+    "sale": "Sale",
+    "sales": "Sales"
   }
 }

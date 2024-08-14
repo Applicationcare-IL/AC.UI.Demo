@@ -47,6 +47,14 @@
         <template #title> {{ $t("team.users-in-team") }} </template>
       </WMLinkedAdminUserTable>
     </div>
+
+    <div class="flex flex-column gap-5">
+      <WMPermissionsConfig
+          v-if="Object.keys(permissions).length > 0"
+          :permissions="permissions"
+          @permissions-changed="handlePermissionsChanged"
+      />
+    </div>
   </div>
 </template>
 
@@ -63,6 +71,7 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const route = useRoute();
 const { updateTeam, parseTeam, addUsers, removeUsers } = useAdminTeams();
+const {getPermissions} = useAdminPermissions();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
@@ -86,6 +95,8 @@ const props = defineProps({
 const emit = defineEmits(["teamUpdated"]);
 
 // REFS
+const permissions = ref([]);
+
 const linkedUsersTableColumns = [
   {
     name: "id",
@@ -181,6 +192,19 @@ const handleRemoveUsers = async (userIds) => {
     life: 5000,
     group: "br",
   });
+};
+
+const loadPermissions = async () => {
+  getPermissions("team", route.params.id).then((response) => {
+    permissions.value = response.data;
+  });
+};
+
+loadPermissions();
+
+const handlePermissionsChanged = () => {
+  meta.value.dirty = true;
+  formUtilsStore.setFormMetas(meta.value, props.formKey); // forces save button to be enabled
 };
 
 // PROVIDE, EXPOSE

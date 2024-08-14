@@ -1016,3 +1016,76 @@ cursor: text !important;
 .gap-32px{
     gap: 32px;
 }
+
+// PERMISSIONS TABLE AND COMPONENTS
+$table-gap: 0.25rem; // gap-1
+
+// columns width
+.w-entity-column {
+  width: 200px;
+}
+
+.w-access-column {
+  width: 200px;
+}
+
+.w-permissions-column {
+  width: calc(100% - 405px - #{$table-gap}); // TEMPORAL
+}
+
+.entity-permissions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $table-gap;
+  text-transform: capitalize;
+
+  &__header {
+    width: 100%;
+    display: flex;
+    gap: $table-gap;
+
+    > .cell {
+      font-size: 20px;
+      font-weight: 700;
+      background: var(--gray-300);
+      padding: 12px;
+
+      &:first-child {
+        border-top-right-radius: 8px;
+      }
+
+      &:last-child {
+        border-top-left-radius: 8px;
+      }
+    }
+  }
+
+  &__subheader {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $table-gap;
+
+    .cell {
+      font-weight: 700;
+      background: var(--gray-100);
+      padding: 12px;
+      overflow: hidden;
+    }
+  }
+
+  &__entity-column {
+    width: 100%;
+    display: flex;
+    gap: $table-gap;
+
+    .cell {
+      font-weight: 700;
+      padding: 12px;
+      background-color: var(--gray-50);
+    }
+
+
+  }
+}

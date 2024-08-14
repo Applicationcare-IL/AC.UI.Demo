@@ -1,36 +1,49 @@
 <template>
-  <!-- <pre v-if="permissionsRef">{{ permissionsRef.contacts }}</pre> -->
-
-  <div v-if="Object.keys(permissionsRef).length > 0" class="entity-permissions">
-    <div class="entity-permissions__header">
-      <div class="cell w-entity-column">Entity</div>
-      <div class="cell w-access-column">Access level</div>
-      <div class="cell flex-1">Permissions</div>
-    </div>
-    <div class="entity-permissions__subheader">
-      <div class="cell w-entity-column"></div>
-      <div class="cell w-access-column"></div>
-      <div class="flex w-permissions-column gap-1">
-        <template v-for="(_, index) in permissionsRef.contacts" :key="index">
-          <div class="cell flex-1">{{ index }}</div>
-        </template>
+  <div class="overflow-scroll">
+    <div v-if="Object.keys(permissionsRef).length > 0" class="entity-permissions">
+      <div class="entity-permissions__header">
+        <div class="cell w-entity-column sticky right-0">{{ $t("permissions.entity") }}</div>
+        <div class="cell w-access-column">{{ $t("permissions.access-level") }}</div>
+        <div class="cell flex-1">{{ $t("permissions.permissions") }}</div>
       </div>
-    </div>
-    <template v-for="(permission, index) in permissionsRef" :key="index">
-      <div class="entity-permissions__entity-column">
-        <div class="cell w-entity-column">{{ index }}</div>
+      <div class="entity-permissions__subheader">
+        <div class="cell w-entity-column sticky right-0"></div>
         <div class="cell w-access-column"></div>
-        <div class="flex gap-1 w-permissions-column">
-          <WMEntityPermissionsTablePermissionsRow :permissions="permission" />
+
+        <div class="flex w-permissions-column gap-1">
+          <template v-for="(headerText, index) in tableHeaders" :key="index">
+            <div class="cell flex-1">{{ headerText }}</div>
+          </template>
         </div>
       </div>
-    </template>
+      <template v-for="(permission, index) in permissionsRef" :key="index">
+        <div class="entity-permissions__entity-column">
+          <div class="cell w-entity-column bg-gray-100 sticky right-0">{{ index }}</div>
+          <div class="cell w-access-column">
+            <!-- <pre>{{ permission.related }}</pre> -->
+            <div class="flex justify-content-between">
+              <!-- <div>switch all - teams - users</div> -->
+              <div class="flex gap-2 align-items-center">
+                <span>Related</span>
+                <InputSwitch v-model="permissionsRef[index].related"/>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-1 w-permissions-column">
+            <WMEntityPermissionsTablePermissionsRow
+                :permissions="permission"
+                :filter-by="filterHeaderKeys"
+            />
+          </div>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
 <script setup>
 // IMPORTS
-import { toRef } from "vue";
+import {computed, toRef} from "vue";
 // DEPENDENCIES
 
 // INJECT
@@ -44,13 +57,25 @@ const props = defineProps({
 });
 
 // REFS
+const filterHeaderKeys = ["all", "my_team", "my", "related"];
 
 // COMPUTED
 
+/**
+ * We need to get and filter keys from the list because they will be used in the "Access Level" column
+ * and not in the "Permissions" column
+ */
+const tableHeaders = computed(() => {
+  const permissionsKeys = Object.keys(props.permissions);
+  const permissionFirstKey = permissionsKeys[0];
+
+  const keys = Object.keys(props.permissions[permissionFirstKey]);
+
+  return keys.filter((key) => !filterHeaderKeys.includes(key));
+});
+
 // COMPONENT METHODS AND LOGIC
 const permissionsRef = toRef(props, "permissions");
-
-console.log(permissionsRef);
 
 // PROVIDE, EXPOSE
 
@@ -59,77 +84,4 @@ console.log(permissionsRef);
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
-<style scoped lang="scss">
-$table-gap: 0.25rem; // gap-1
-
-// columns width
-.w-entity-column {
-  width: 200px;
-}
-
-.w-access-column {
-  width: 200px;
-}
-
-.w-permissions-column {
-  width: calc(100% - 405px - #{$table-gap}); // TEMPORAL
-}
-
-.entity-permissions {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: $table-gap;
-
-  &__header {
-    width: 100%;
-    display: flex;
-    gap: $table-gap;
-
-    > .cell {
-      font-size: 24px;
-      font-weight: 700;
-      background: var(--gray-300);
-      padding: 12px;
-
-      &:first-child {
-        border-top-right-radius: 8px;
-      }
-
-      &:last-child {
-        border-top-left-radius: 8px;
-      }
-    }
-  }
-
-  &__subheader {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: $table-gap;
-
-    .cell {
-      font-weight: 700;
-      background: var(--gray-100);
-      padding: 12px;
-      overflow: hidden;
-    }
-  }
-
-  &__entity-column {
-    width: 100%;
-    display: flex;
-    gap: $table-gap;
-
-    .cell {
-      font-weight: 700;
-      padding: 12px;
-      background-color: var(--gray-50);
-    }
-
-    > .cell:first-child {
-      background: var(--gray-100);
-    }
-  }
-}
-</style>
+<style scoped lang="scss"></style>
