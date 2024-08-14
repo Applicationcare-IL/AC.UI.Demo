@@ -109,10 +109,10 @@ const options = ref([
     label: t("project.projects"),
     value: "projects",
   },
-  {
-    label: t("sale.sales"),
-    value: "sales",
-  },
+  // {
+  //   label: t("sale.sales"),
+  //   value: "sales",
+  // },
   {
     label: t("customer.customers"),
     value: "customers",
