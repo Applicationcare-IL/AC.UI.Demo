@@ -1,32 +1,43 @@
 <template>
-  <div v-if="Object.keys(permissionsRef).length > 0" class="entity-permissions">
-    <div class="entity-permissions__header">
-      <div class="cell w-entity-column">{{ $t("permissions.entity") }}</div>
-      <div class="cell w-access-column">{{ $t("permissions.access-level") }}</div>
-      <div class="cell flex-1">{{ $t("permissions.permissions") }}</div>
-    </div>
-    <div class="entity-permissions__subheader">
-      <div class="cell w-entity-column"></div>
-      <div class="cell w-access-column"></div>
-
-      <div class="flex w-permissions-column gap-1">
-        <template v-for="(headerText, index) in tableHeaders" :key="index">
-          <div class="cell flex-1">{{ headerText }}</div>
-        </template>
+  <div class="overflow-scroll">
+    <div v-if="Object.keys(permissionsRef).length > 0" class="entity-permissions">
+      <div class="entity-permissions__header">
+        <div class="cell w-entity-column sticky right-0">{{ $t("permissions.entity") }}</div>
+        <div class="cell w-access-column">{{ $t("permissions.access-level") }}</div>
+        <div class="cell flex-1">{{ $t("permissions.permissions") }}</div>
       </div>
-    </div>
-    <template v-for="(permission, index) in permissionsRef" :key="index">
-      <div class="entity-permissions__entity-column">
-        <div class="cell w-entity-column bg-gray-100">{{ index }}</div>
+      <div class="entity-permissions__subheader">
+        <div class="cell w-entity-column sticky right-0"></div>
         <div class="cell w-access-column"></div>
-        <div class="flex gap-1 w-permissions-column">
-          <WMEntityPermissionsTablePermissionsRow
-            :permissions="permission"
-            :filter-by="filterHeaderKeys"
-          />
+
+        <div class="flex w-permissions-column gap-1">
+          <template v-for="(headerText, index) in tableHeaders" :key="index">
+            <div class="cell flex-1">{{ headerText }}</div>
+          </template>
         </div>
       </div>
-    </template>
+      <template v-for="(permission, index) in permissionsRef" :key="index">
+        <div class="entity-permissions__entity-column">
+          <div class="cell w-entity-column bg-gray-100 sticky right-0">{{ index }}</div>
+          <div class="cell w-access-column">
+            <!-- <pre>{{ permission.related }}</pre> -->
+            <div class="flex justify-content-between">
+              <!-- <div>switch all - teams - users</div> -->
+              <div class="flex gap-2 align-items-center">
+                <span>Related</span>
+                <InputSwitch v-model="permissionsRef[index].related" />
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-1 w-permissions-column">
+            <WMEntityPermissionsTablePermissionsRow
+              :permissions="permission"
+              :filter-by="filterHeaderKeys"
+            />
+          </div>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
