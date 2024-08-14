@@ -143,10 +143,10 @@
           <WMInputSearch
               name="customer_service_areas"
               :label="$t('message.service-area') + ':'"
-              :placeholder="$t('select-service-area')"
+              :placeholder="$t('message.select-service-area')"
               :multiple="true"
               size="md"
-              :options="[]"
+              :options="[{name: Hola, id: 1}]"
               :highlighted="true"
           />
 
@@ -164,9 +164,108 @@
 
         </div>
 
-        <div SALES>
+        <div SALES class="flex flex-column gap-3">
 
+          <WMInput
+              name="sale_type"
+              type="input-select"
+              :highlighted="true"
+              :placeholder="$t('message.select-sale-type')"
+              :label="$t('message.sale-type') + ':'"
+              :options="[]"
+              custom-option-label=""
+              size="md"
+          />
 
+          <WMInput
+              name="sale_origin"
+              type="input-select"
+              :highlighted="true"
+              :placeholder="$t('message.select-sale-origin')"
+              :label="$t('message.sale-origin') + ':'"
+              :options="[]"
+              custom-option-label=""
+              size="md"
+          />
+
+          <WMInput
+              name="tender"
+              type="input-select-button"
+              :highlighted="true"
+              :label="$t('message.tender') + ':'"
+              :options="[{value:'true', name: 'Yes'}, {value: 'false', name:'No'},]"
+          />
+
+        </div>
+
+        <div PROJECTS class="flex flex-column gap-3">
+
+          <WMInput
+              name="project_type_id"
+              type="input-select"
+              :highlighted="true"
+              :placeholder="$t('message.select-project-type')"
+              :label="$t('message.project-type') + ':'"
+              :options="[]"
+              custom-option-label=""
+              size="md"
+          />
+
+          <WMInput
+              name="project_area_id"
+              type="input-select"
+              :highlighted="true"
+              :placeholder="$t('message.select-project-area')"
+              :label="$t('message.project-area') + ':'"
+              :options="[]"
+              custom-option-label=""
+              size="md"
+          />
+
+          <WMInput
+              name="project_detail_id"
+              type="input-select"
+              :highlighted="true"
+              :placeholder="$t('message.select-project-detail')"
+              :label="$t('message.project-detail') + ':'"
+              :options="[]"
+              custom-option-label=""
+              size="md"
+          />
+
+        </div>
+
+        <div USERS class="flex flex-column gap-3">
+
+          <WMInputSearch
+              name="teams_id"
+              :label="$t('teams') + ':'"
+              :placeholder="$t('')"
+              :multiple="true"
+              size="md"
+              :options="[{name: 'Hola', id: 1}]"
+              :highlighted="true"
+          />
+
+          <WMInputSearch
+              name="roles_id"
+              :label="$t('roles') + ':'"
+              :placeholder="$t('')"
+              :multiple="true"
+              size="md"
+              :options="[{name: 'Hola', id: 1}]"
+              :highlighted="true"
+          />
+
+          <WMInputSearch
+              name="users_id"
+              :label="$t('users') + ':'"
+              :placeholder="$t('')"
+              :multiple="true"
+              size="md"
+              :options="[{name: 'Hola', id: 1}]"
+              :highlighted="true"
+          />
         </div>
 
       </div>
