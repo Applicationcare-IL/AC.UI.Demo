@@ -45,7 +45,7 @@
               type="date"
               :label="$t('end-date') + ':'"
               name="end_date"
-              :minDate="values.start_date"
+              :min-date="values.start_date"
           />
         </div>
       </div>
@@ -65,6 +65,112 @@
         </div>
       </div>
 
+      <div WIP class="flex flex-column gap-5">
+
+        <div SERVICES class="flex flex-column gap-3">
+
+          <WMInput
+              name="service_area"
+              type="input-select"
+              :highlighted="true"
+              :placeholder="$t('select-service-area')"
+              :label="$t('message.service-area') + ':'"
+              :options="[]"
+              custom-option-label=""
+              size="md"
+          />
+
+          <WMInput
+              name="service_type_id"
+              type="input-select"
+              :highlighted="true"
+              :placeholder="$t('select-service-detail')"
+              :label="$t('message.service-detail') + ':'"
+              :options="[]"
+              custom-option-label=""
+              size="md"
+          />
+
+          <WMInput
+              name="service_request_1_id"
+              type="input-select"
+              :highlighted="true"
+              :placeholder="$t('select-request') + ' 1'"
+              :label="$t('message.request') + ' 1:'"
+              :options="[]"
+              custom-option-label=""
+              size="md"
+          />
+
+          <WMInput
+              name="service_request_2_id"
+              type="input-select"
+              :highlighted="true"
+              :placeholder="$t('select-request') + ' 2'"
+              :label="$t('message.request') + ' 2:'"
+              :options="[]"
+              custom-option-label=""
+              size="md"
+          />
+
+          <WMInput
+              name="service_request_3_id"
+              type="input-select"
+              :highlighted="true"
+              :placeholder="$t('select-request') + ' 3'"
+              :label="$t('message.request') + ' 3:'"
+              :options="[]"
+              custom-option-label=""
+              size="md"
+          />
+
+        </div>
+
+        <div ORGANIZATIONS class="flex flex-column gap-3">
+
+          <div class="flex gap-3">
+            <WMSelectableButton
+                v-model="isPrivate"
+                :label="$t('private')"
+            />
+
+            <WMSelectableButton
+                v-model="isBusiness"
+                :label="$t('message.business')"
+            />
+          </div>
+
+          <WMInputSearch
+              name="customer_service_areas"
+              :label="$t('message.service-area') + ':'"
+              :placeholder="$t('select-service-area')"
+              :multiple="true"
+              size="md"
+              :options="[]"
+              :highlighted="true"
+          />
+
+          <div class="flex gap-3">
+            <WMSelectableButton
+                v-model="isNormal"
+                :label="$t('message.normal')"
+            />
+
+            <WMSelectableButton
+                v-model="isVip"
+                :label="$t('message.vip')"
+            />
+          </div>
+
+        </div>
+
+        <div SALES>
+
+
+        </div>
+
+      </div>
+
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
   </div>
@@ -74,9 +180,10 @@
 // IMPORTS
 import { useForm } from "vee-validate";
 import {inject} from "vue";
+import {ref} from "vue";
+import {useI18n} from "vue-i18n";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
-import {useI18n} from "vue-i18n";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
@@ -95,6 +202,12 @@ const normalImportantOptions = [
   { value: "false", name: t("message.normal") },
   { value: "true", name: t("message.important") },
 ];
+
+const isPrivate = ref();
+const isBusiness = ref();
+const isNormal = ref();
+const isVip = ref();
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
