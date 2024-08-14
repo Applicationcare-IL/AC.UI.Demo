@@ -804,6 +804,7 @@
   },
   "employee": {
     "employee": "User",
+    "employess": "Users",
     "username": "Username",
     "general-info": "User information",
     "teams-and-roles": "Teams & Roles",
