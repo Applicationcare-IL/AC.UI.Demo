@@ -38,7 +38,7 @@
             name="contact-number"
             type="input-text"
             :label="$t('contact.number') + ':'"
-            data-test-id="contact.form.contact-number"
+            data-testid="contact.form.contact-number"
         />
 
         <WMInput
@@ -51,7 +51,7 @@
           :placeholder="$t('select', ['gender'])"
           width="130"
           option-set
-          data-test-id="contact.form.gender"
+          data-testid="contact.form.gender"
         />
       </div>
 
@@ -68,7 +68,7 @@
           related-sidebar="newCustomer"
           :model-value="selectedCustomers"
           required
-          data-test-id="contact.form.customer"
+          data-testid="contact.form.customer"
         />
 
         <WMSidebar
@@ -98,21 +98,21 @@
           type="input-text"
           :label="$t('mobilephone') + ':'"
           width="88"
-          data-test-id="contact.form.mobile-phone"
+          data-testid="contact.form.mobile-phone"
         />
         <WMInput
             name="landline"
             type="input-text"
             :label="$t('landline') + ':'"
             width="88"
-            data-test-id="contact.form.landline"
+            data-testid="contact.form.landline"
         />
         <WMInput
             name="fax"
             type="input-text"
             :label="$t('fax') + ':'"
             width="88"
-            data-test-id="contact.form.fax"
+            data-testid="contact.form.fax"
         />
       </div>
 
@@ -123,7 +123,7 @@
           type="input-text"
           :label="$t('email') + ':'"
           size="md"
-          data-test-id="contact.form.email"
+          data-testid="contact.form.email"
         />
       </div>
     </div>
@@ -143,7 +143,7 @@
             type="text-area"
             name="notes"
             size="full"
-            data-test-id="contact.form.notes"
+            data-testid="contact.form.notes"
         />
       </div>
     </div>
