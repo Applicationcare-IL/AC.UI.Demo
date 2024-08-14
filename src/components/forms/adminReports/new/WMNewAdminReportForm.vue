@@ -69,7 +69,7 @@ const entities = ref([]);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, meta, resetForm } = useForm({
+const {handleSubmit, meta, resetForm} = useForm({
   validationSchema: formUtilsStore.getAdminReportNewFormValidationSchema,
 });
 
@@ -105,7 +105,7 @@ const onCancel = () => {
 };
 
 const fetchEntities = () => {
-  getEasymazeEntitiesList({ has_report: 1 }).then((result) => {
+  getEasymazeEntitiesList({has_report: 1}).then((result) => {
     entities.value = result.data;
   });
 };

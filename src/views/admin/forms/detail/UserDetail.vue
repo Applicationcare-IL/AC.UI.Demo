@@ -9,16 +9,16 @@
   >
     <template #top-left>
       <WMButton
-        v-if="isActive"
-        :text="$t('buttons.activate')"
-        type="secondary"
-        @click="activateUserFunc()"
+          v-if="isActive"
+          :text="$t('buttons.activate')"
+          type="secondary"
+          @click="activateUserFunc()"
       />
       <WMButton
-        v-if="isNotActive"
-        :text="$t('buttons.deactivate')"
-        type="secondary"
-        @click="deactivateUserFunc()"
+          v-if="isNotActive"
+          :text="$t('buttons.deactivate')"
+          type="secondary"
+          @click="deactivateUserFunc()"
       />
     </template>
     <template #custom-buttons>
@@ -80,26 +80,26 @@ const saveForm = () => {
 
 const activateUserFunc = () => {
   activateUsers([user.value.id])
-    .then(() => {
-      isActive.value = !isActive.value;
-      isNotActive.value = !isNotActive.value;
-      loadLazyData();
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then(() => {
+        isActive.value = !isActive.value;
+        isNotActive.value = !isNotActive.value;
+        loadLazyData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 };
 
 const deactivateUserFunc = () => {
   deactivateUser(user.value.id)
-    .then(() => {
-      isActive.value = !isActive.value;
-      isNotActive.value = !isNotActive.value;
-      loadLazyData();
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then(() => {
+        isActive.value = !isActive.value;
+        isNotActive.value = !isNotActive.value;
+        loadLazyData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 };
 
 // const activateUser

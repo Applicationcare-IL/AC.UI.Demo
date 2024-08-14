@@ -108,9 +108,9 @@
       </div>
       <div>
         <WMPermissionsConfig
-          v-if="Object.keys(permissions).length > 0"
-          :permissions="permissions"
-          @permissions-changed="handlePermissionsChanged"
+            v-if="Object.keys(permissions).length > 0"
+            :permissions="permissions"
+            @permissions-changed="handlePermissionsChanged"
         />
       </div>
     </div>
@@ -130,7 +130,7 @@ const route = useRoute();
 const { updateUser, parseUpdateUser } = useAdminUsers();
 const { getTeams } = useAdminTeams();
 const { getRoles } = useAdminRoles();
-const { getPermissions } = useAdminPermissions();
+const {getPermissions} = useAdminPermissions();
 
 const formUtilsStore = useFormUtilsStore();
 const toast = useToast();

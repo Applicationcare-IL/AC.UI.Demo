@@ -50,9 +50,9 @@
 
     <div class="flex flex-column gap-5">
       <WMPermissionsConfig
-        v-if="Object.keys(permissions).length > 0"
-        :permissions="permissions"
-        @permissions-changed="handlePermissionsChanged"
+          v-if="Object.keys(permissions).length > 0"
+          :permissions="permissions"
+          @permissions-changed="handlePermissionsChanged"
       />
     </div>
   </div>
@@ -71,7 +71,7 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const route = useRoute();
 const { updateTeam, parseTeam, addUsers, removeUsers } = useAdminTeams();
-const { getPermissions } = useAdminPermissions();
+const {getPermissions} = useAdminPermissions();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();

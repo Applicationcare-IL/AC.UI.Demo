@@ -98,6 +98,7 @@
   "private": "Private",
   "group": "Group",
   "add-user": "Add users",
+  "users": "Users",
   "week-days": {
     "monday": "Monday",
     "monday-short": "Mo",
@@ -856,7 +857,29 @@
     "content": "Message content",
     "rating": "Rating",
     "important": "Important",
-    "normal": "Normal"
+    "normal": "Normal",
+    "service-area": "Service area",
+    "service-detail": "Service detail",
+    "request": "Request",
+    "business": "Business",
+    "vip": "VIP",
+    "select-service-area": "Select service area",
+    "select-service-detail": "Select service detail",
+    "select-request": "Select request",
+    "sale-type": "Sale type",
+    "sale-origin": "Sale origin",
+    "select-sale-type": "Select sale type",
+    "select-sale-origin": "Select sale origin",
+    "tender": "Tender,",
+    "project-type": "Project type",
+    "select-project-type": "Select project type",
+    "project-area": "Project area",
+    "select-project-area": "Select project area",
+    "project-detail": "Project detail",
+    "select-project-detail": "Select project detail",
+    "select-teams": "Select teams",
+    "select-roles": "Select roles",
+    "select-users": "Select users"
   },
   "report": {
     "report": "Report"

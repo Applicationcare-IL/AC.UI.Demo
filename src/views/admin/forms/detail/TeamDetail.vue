@@ -9,25 +9,25 @@
   >
     <template #top-left>
       <WMButton
-        v-if="isActive"
-        :text="$t('buttons.activate')"
-        type="secondary"
-        @click="activateTeamFunc()"
+          v-if="isActive"
+          :text="$t('buttons.activate')"
+          type="secondary"
+          @click="activateTeamFunc()"
       />
       <WMButton
-        v-if="isNotActive"
-        :text="$t('buttons.deactivate')"
-        type="secondary"
-        @click="deactivateTeamFunc()"
+          v-if="isNotActive"
+          :text="$t('buttons.deactivate')"
+          type="secondary"
+          @click="deactivateTeamFunc()"
       />
     </template>
   </WMDetailFormSubHeader>
-  <WMDetailTeamForm v-if="team" ref="detailTeamForm" :team="team" :form-key="formKey" />
+  <WMDetailTeamForm v-if="team" ref="detailTeamForm" :team="team" :form-key="formKey"/>
 </template>
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import {ref} from "vue";
 import { useRoute } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -68,26 +68,26 @@ loadLazyData();
 
 const activateTeamFunc = () => {
   activateTeams([team.value.id])
-    .then(() => {
-      isActive.value = !isActive.value;
-      isNotActive.value = !isNotActive.value;
-      loadLazyData();
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then(() => {
+        isActive.value = !isActive.value;
+        isNotActive.value = !isNotActive.value;
+        loadLazyData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 };
 
 const deactivateTeamFunc = () => {
   deactivateTeam(team.value.id)
-    .then(() => {
-      isActive.value = !isActive.value;
-      isNotActive.value = !isNotActive.value;
-      loadLazyData();
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then(() => {
+        isActive.value = !isActive.value;
+        isNotActive.value = !isNotActive.value;
+        loadLazyData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 };
 
 // const refreshTable = () => {

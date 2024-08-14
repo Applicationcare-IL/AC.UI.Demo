@@ -1,16 +1,16 @@
 <template>
   <WMSelectableButton
-    v-for="(option, index) in options"
-    :key="option"
-    v-model="selectedOption[index]"
-    :label="option.label"
-    no-icon
-    @click="handleSelectedOption(option, index)"
+      v-for="(option, index) in options"
+      :key="option"
+      v-model="selectedOption[index]"
+      :label="option.label"
+      no-icon
+      @click="handleSelectedOption(option, index)"
   />
 </template>
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import {ref} from "vue";
 
 // DEPENDENCIES
 
