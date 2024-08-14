@@ -4,7 +4,7 @@
       <div class="flex flex-row gap-5 flex-wrap flex-column">
         <div class="flex-1 card-container top-info-card">
           <Card>
-            <template #title> {{ $t("role.general-info") }} </template>
+            <template #title> {{ $t("role.details") }}</template>
             <template #content>
               <div class="flex flex-row gap-5">
                 <div class="wm-form-row gap-5">
@@ -19,7 +19,7 @@
                     name="name"
                     type="input-text"
                     :highlighted="true"
-                    :label="$t('role.role-name') + ':'"
+                    :label="$t('role.name') + ':'"
                     :value="role.name"
                     required
                   />

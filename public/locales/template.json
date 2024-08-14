@@ -855,6 +855,7 @@
     "target": "Target",
     "header": "Message header",
     "content": "Message content",
+    "organization-type": "Organization type",
     "rating": "Rating",
     "important": "Important",
     "normal": "Normal",
