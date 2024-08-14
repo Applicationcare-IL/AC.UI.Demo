@@ -82,7 +82,7 @@ const { getUsers } = useAdminUsers();
 const { getTeams } = useAdminTeams();
 const { getRoles } = useAdminRoles();
 
-const { getPermissions } = useAdminPermissions();
+const { getPermissions, updatePermissions } = useAdminPermissions();
 
 // INJECT
 
@@ -90,6 +90,8 @@ const { getPermissions } = useAdminPermissions();
 
 // REFS
 const selectedOption = ref(null);
+const selectedEntity = ref(null);
+const selectedEntityId = ref(null);
 
 const users = ref([]);
 const teams = ref([]);
@@ -126,12 +128,16 @@ useHead({
 
 const handleSelectedOption = (option) => {
   loading.value = true;
-  permissions.value = [];
-
+  isSaveDisabled.value = true;
   selectedOption.value = option;
 };
 
 const loadPermissions = async (entityType, entity) => {
+  loading.value = true;
+  permissions.value = [];
+  selectedEntity.value = entityType;
+  selectedEntityId.value = entity.id;
+
   getPermissions(entityType, entity.id).then((response) => {
     permissions.value = response.data;
     loading.value = false;
@@ -139,12 +145,19 @@ const loadPermissions = async (entityType, entity) => {
 };
 
 const savePermissions = async () => {
-  isSaveDisabled.value = true;
-  console.log("saving permissions", permissions.value);
+  try {
+    isSaved.value = await updatePermissions(
+      selectedEntity.value,
+      selectedEntityId.value,
+      permissions.value
+    );
 
-  toast.success({ message: "Permissions updatedsuccessfully" });
+    isSaveDisabled.value = true;
 
-  // isSaved.value = await savePermissions(permissions.value);
+    toast.success({ message: t("permissions.permissions-updated-successfully") });
+  } catch (error) {
+    toast.error(t("permissions.permissions-updated-error"));
+  }
 };
 
 // PROVIDE, EXPOSE
