@@ -1091,15 +1091,29 @@ $table-gap: 0.25rem; // gap-1
 }
 
 // CUSTOM CHECKBOX STYLES
-.p-checkbox .p-checkbox-box {
-    border: 1px solid var(--gray-500);
+.p-checkbox  {
+
+    .p-checkbox-box {
+        border: 1px solid var(--gray-500);
+    }
+
+    .p-checkbox-box.p-highlight{
+        background: var(--blue-500);
+    }
+
+    &.p-checkbox-disabled .p-checkbox-box {
+        background: var(--gray-100);
+    }
+
+    &.p-checkbox-disabled.p-checkbox-checked .p-checkbox-box {
+        background: var(--gray-500);
+        border: 1px solid var(--gray-500);
+    }
 }
 
-.p-checkbox.p-checkbox-disabled .p-checkbox-box {
-    background: var(--gray-100);
-}
 
-.p-checkbox.p-checkbox-disabled.p-checkbox-checked .p-checkbox-box {
-    background: var(--gray-500);
-    border: 1px solid var(--gray-500);
+
+// CUSTOM SWITCH SLIDER STYLES
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider{
+    background-color: var(--blue-500);
 }
