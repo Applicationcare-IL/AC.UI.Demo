@@ -112,13 +112,13 @@ useHead({
   title: "Messages",
 });
 
-function toggleSidebarVisibility() {
+const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
-}
+};
 
-function closeSidebar() {
+const closeSidebar = () => {
   isVisible.value = false;
-}
+};
 
 // PROVIDE, EXPOSE
 

@@ -26,14 +26,14 @@
               </div>
               <div class="flex gap-2 align-items-center">
                 <span>Related</span>
-                <InputSwitch v-model="permissionsRef[index].related"/>
+                <InputSwitch v-model="permissionsRef[index].related" />
               </div>
             </div>
           </div>
           <div class="flex gap-1 w-permissions-column">
             <WMEntityPermissionsTablePermissionsRow
-                :permissions="permission"
-                :filter-by="filterHeaderKeys"
+              :permissions="permission"
+              :filter-by="filterHeaderKeys"
             />
           </div>
         </div>
@@ -44,7 +44,7 @@
 
 <script setup>
 // IMPORTS
-import {computed, toRef} from "vue";
+import { computed, toRef } from "vue";
 // DEPENDENCIES
 
 // INJECT

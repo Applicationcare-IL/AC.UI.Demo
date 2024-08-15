@@ -166,6 +166,7 @@ const savePermissions = async () => {
 watch(
   permissions,
   () => {
+    isSaved.value = false;
     isSaveDisabled.value = false;
   },
   {
