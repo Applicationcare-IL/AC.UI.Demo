@@ -483,6 +483,25 @@ export const useFormUtilsStore = defineStore("formUtils", {
           }),
       });
     },
+    getProjectDetailPendingConfigFormValidationSchema: () => {
+      return yup.object({
+        project_type: yup.object().when("validateProjectType", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "project_type" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "project_type" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+      });
+    },
     getUserNewFormValidationSchema: (state) => {
       const adminUsersStore = useAdminUsersStore();
 
@@ -513,25 +532,25 @@ export const useFormUtilsStore = defineStore("formUtils", {
             values: { label: "manager" },
           }),
         teams: yup
-            .array()
-            .required({
-              key: "validation.required-select",
-              values: { label: "teams" },
-            })
-            .typeError({
-              key: "validation.required-select",
-              values: { label: "teams" },
-            }),
+          .array()
+          .required({
+            key: "validation.required-select",
+            values: { label: "teams" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "teams" },
+          }),
         roles: yup
-            .array()
-            .required({
-              key: "validation.required-select",
-              values: { label: "roles" },
-            })
-            .typeError({
-              key: "validation.required-select",
-              values: { label: "roles" },
-            }),
+          .array()
+          .required({
+            key: "validation.required-select",
+            values: { label: "roles" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "roles" },
+          }),
       });
     },
     getUserUpdateFormValidationSchema: (state) => {
@@ -632,9 +651,9 @@ export const useFormUtilsStore = defineStore("formUtils", {
     },
     getMessageUpdateFormValidationSchema: () => {
       return yup.object({
-        "topic": yup.string().required(),
-        "start_date": yup.string().required(),
-        "message": yup.string().required(),
+        topic: yup.string().required(),
+        start_date: yup.string().required(),
+        message: yup.string().required(),
       });
     },
     getAdminReportNewFormValidationSchema: () => {

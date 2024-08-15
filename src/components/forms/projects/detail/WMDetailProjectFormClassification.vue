@@ -1,49 +1,44 @@
 <template>
-  <Card>
-    <template #title> {{ $t("project.classification") }} </template>
-    <template #content>
-      <div class="wm-form-row gap-5">
-        <WMInputSearch
-          v-model="selectedProjectType"
-          name="project_type"
-          :highlighted="true"
-          :required="true"
-          :label="$t('project.project_type') + ':'"
-          type="input-search"
-          width="152"
-          :options="projectTypes"
-          :placeholder="$t('project.project_types_placeholder')"
-          :option-set="true"
-          :disabled="isDisabled"
-        />
+  <div class="wm-form-row gap-5">
+    <WMInputSearch
+      v-model="selectedProjectType"
+      name="project_type"
+      :highlighted="true"
+      :required="true"
+      :label="$t('project.project_type') + ':'"
+      type="input-search"
+      width="152"
+      :options="projectTypes"
+      :placeholder="$t('project.project_types_placeholder')"
+      :option-set="true"
+      :disabled="isDisabled"
+    />
 
-        <WMInputSearch
-          v-model="selectedProjectArea"
-          name="project_area"
-          :highlighted="true"
-          :label="$t('project.project_area') + ':'"
-          width="152"
-          :options="projectAreas"
-          :placeholder="$t('project.project_areas_placeholder')"
-          :option-set="true"
-          :disabled="isDisabled"
-          @change="filterProjectDetailsDropdown($event.value.id)"
-        />
+    <WMInputSearch
+      v-model="selectedProjectArea"
+      name="project_area"
+      :highlighted="true"
+      :label="$t('project.project_area') + ':'"
+      width="152"
+      :options="projectAreas"
+      :placeholder="$t('project.project_areas_placeholder')"
+      :option-set="true"
+      :disabled="isDisabled"
+      @change="filterProjectDetailsDropdown($event.value.id)"
+    />
 
-        <WMInputSearch
-          v-model="selectedProjectDetail"
-          name="project_detail"
-          :highlighted="true"
-          :label="$t('project.project_detail') + ':'"
-          width="152"
-          :options="projectDetails"
-          :placeholder="$t('project.project_details_placeholder')"
-          :option-set="true"
-          :disabled="isDisabled"
-        />
-      </div>
-    </template>
-  </Card>
+    <WMInputSearch
+      v-model="selectedProjectDetail"
+      name="project_detail"
+      :highlighted="true"
+      :label="$t('project.project_detail') + ':'"
+      width="152"
+      :options="projectDetails"
+      :placeholder="$t('project.project_details_placeholder')"
+      :option-set="true"
+      :disabled="isDisabled"
+    />
+  </div>
 </template>
 <script setup>
 // IMPORTS

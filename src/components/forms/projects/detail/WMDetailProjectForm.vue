@@ -6,10 +6,15 @@
           <WMDetailProjectFormGeneralInformation :project="project" />
         </div>
         <div class="flex flex-1 gap-5 flex-column card-container">
-          <WMDetailProjectFormClassification
-            :project="project"
-            @project-type-update="handleProjectTypeUpdate"
-          />
+          <Card>
+            <template #title> {{ $t("project.classification") }} </template>
+            <template #content>
+              <WMDetailProjectFormClassification
+                :project="project"
+                @project-type-update="handleProjectTypeUpdate"
+              />
+            </template>
+          </Card>
           <WMDetailProjectFormExecutionInformation :project="project" />
         </div>
       </div>
@@ -26,7 +31,14 @@
         v-if="project.project_type.value === CONTRACTOR_PROJECT_ID"
         class="flex-1 card-container"
       >
-        <WMDetailProjectFormContractorSection :project="project" />
+        <Card>
+          <template #title>
+            {{ $t("project.contractor-selection-method") }}
+          </template>
+          <template #content>
+            <WMDetailProjectFormContractorSection :project="project" />
+          </template>
+        </Card>
       </div>
 
       <div v-if="project.project_type.value === TENDER_PROJECT_ID" class="flex-1 card-container">
@@ -142,17 +154,31 @@
       <ProgressSpinner />
     </div>
   </div>
+  <WMProjectPendingConfigDialog
+    v-if="project"
+    v-model="pendingConfigDialogVisibility"
+    :project="project"
+    @config-updated="onConfigUpdated"
+  />
 </template>
 
 <script setup>
+// IMPORTS
 import { useDateFormat } from "@vueuse/core";
 import { useForm } from "vee-validate";
 import { onMounted, ref, watch } from "vue";
 import { provide } from "vue";
 import { useRoute } from "vue-router";
 
+import { CONTRACTOR_PROJECT_ID } from "@/constants";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
+
+// DEPENDENCIES
+const utilsStore = useUtilsStore();
+const formUtilsStore = useFormUtilsStore();
+
+const route = useRoute();
 
 const { can } = usePermissions();
 const { setSelectedContacts } = useContacts();
@@ -167,18 +193,10 @@ const {
 } = useProjects();
 
 const toast = useToast();
-const stages = ref([]);
-const currentStage = ref();
-const selectedProjectType = ref(false);
 
-const project = ref();
+// INJECT
 
-// PROJECT TYPES
-const COMPETITION_PROJECT_ID = "competition_project";
-const ROUND_OF_SIGNATURES_PROJECT_ID = "round_of_signatures";
-const TENDER_PROJECT_ID = "tender";
-const CONTRACTOR_PROJECT_ID = "contractor";
-
+// PROPS, EMITS
 const props = defineProps({
   formKey: {
     type: String,
@@ -186,23 +204,26 @@ const props = defineProps({
   },
 });
 
-const utilsStore = useUtilsStore();
-const formUtilsStore = useFormUtilsStore();
+// REFS
+const stages = ref([]);
+const currentStage = ref();
+const selectedProjectType = ref(false);
 
-const route = useRoute();
-
-onMounted(async () => {
-  await fetchData();
-  const mappedContacts = mapContactsFromProjects(project.value);
-  setSelectedContacts(mappedContacts);
-});
+const project = ref();
 
 const refreshDocumentsTable = ref(false);
-provide("refreshDocumentsTable", refreshDocumentsTable);
 
-const onDocumentSigned = () => {
-  refreshDocumentsTable.value = true;
-};
+const pendingConfigDialogVisibility = ref(false);
+
+// PROJECT TYPES
+// TODO: change this to a CONST file
+const COMPETITION_PROJECT_ID = "competition_project";
+const ROUND_OF_SIGNATURES_PROJECT_ID = "round_of_signatures";
+const TENDER_PROJECT_ID = "tender";
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
 
 const fetchData = async () => {
   const data = await getProjectFromApi(route.params.id);
@@ -264,10 +285,24 @@ formUtilsStore.save = onSave;
 formUtilsStore.formEntity = "project";
 utilsStore.entity = "project";
 
+const onDocumentSigned = () => {
+  refreshDocumentsTable.value = true;
+};
+
+const onConfigUpdated = () => {
+  fetchData();
+  pendingConfigDialogVisibility.value = false;
+};
+
+// PROVIDE, EXPOSE
+provide("refreshDocumentsTable", refreshDocumentsTable);
+
 defineExpose({
   onSave,
   fetchData,
 });
+
+// WATCHERS
 
 watch(
   () => values,
@@ -278,6 +313,17 @@ watch(
   },
   { deep: true }
 );
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+
+onMounted(async () => {
+  await fetchData();
+  const mappedContacts = mapContactsFromProjects(project.value);
+  setSelectedContacts(mappedContacts);
+
+  if (project.value.status.value === "pending_configuration") {
+    pendingConfigDialogVisibility.value = true;
+  }
+});
 </script>
 
 <style scoped lang="scss"></style>

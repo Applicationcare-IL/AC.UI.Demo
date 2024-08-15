@@ -354,17 +354,24 @@ const useProjects = () => {
 
     const siteTourNeeded = project["site-tour-needed"].value;
 
-    const tenderResponse = {
+    let params = {
       tender: true,
       site_tour: siteTourNeeded,
       quality_commitee: project["quality-committee-required"]?.value,
     };
 
     if (siteTourNeeded) {
-      tenderResponse.site_tour_date = getISODate(project["site-tour-date"]);
+      params.site_tour_date = getISODate(project["site-tour-date"]);
     }
 
-    return tenderResponse;
+    params = {
+      ...params,
+      project_type: project.project_type?.id,
+      project_area: project.project_area?.id,
+      project_detail: project.project_detail?.id,
+    };
+
+    return params;
   };
 
   const parseDate = (date) => {
