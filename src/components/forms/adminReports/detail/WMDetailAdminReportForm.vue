@@ -107,7 +107,12 @@
                   </div>
 
                   <div class="flex mt-4 gap-2">
-                    <WMInputCheckbox :value="groupBy" name="group_by" :label="$t('group')" />
+                    <WMInputCheckbox
+                      v-model="groupBy"
+                      :value="groupBy"
+                      name="group_by"
+                      :label="$t('group')"
+                    />
                   </div>
 
                   <WMButton
@@ -295,7 +300,7 @@ const setSelectedFields = (fields) => {
 };
 
 const fetchEntities = () => {
-  getEasymazeEntitiesList({has_report: 1}).then((result) => {
+  getEasymazeEntitiesList({ has_report: 1 }).then((result) => {
     entities.value = result.data;
   });
 };
