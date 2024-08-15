@@ -47,6 +47,7 @@ const props = defineProps({
         "sign",
         "more",
         "remove",
+        "link",
       ].includes(value);
     },
   },
@@ -306,6 +307,34 @@ const handleClick = () => {
     cursor: not-allowed;
     outline: 0;
     box-shadow: none;
+  }
+}
+
+.link {
+  background-color: transparent;
+  color: var(--blue-600);
+
+  > span {
+    border-bottom: 2px solid var(--blue-600);
+  }
+
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    outline: 0;
+    box-shadow: none;
+  }
+
+  &.is-disabled {
+    color: var(--gray-500);
+    cursor: not-allowed;
+    outline: 0;
+    box-shadow: none;
+    background: transparent !important;
+
+    > span {
+      border-bottom: 2px solid var(--gray-500);
+    }
   }
 }
 

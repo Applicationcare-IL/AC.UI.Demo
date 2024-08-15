@@ -154,6 +154,10 @@
         </template>
       </WMButton>
     </Variant>
+
+    <Variant title="Link">
+      <WMButton text="Link button" :is-active="state.active" type="link" />
+    </Variant>
   </Story>
 </template>
 <script setup>

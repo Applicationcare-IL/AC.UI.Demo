@@ -110,6 +110,7 @@
         <WMPermissionsConfig
           v-if="Object.keys(permissions).length > 0"
           :permissions="permissions"
+          entity-type="user"
           @permissions-changed="handlePermissionsChanged"
         />
       </div>

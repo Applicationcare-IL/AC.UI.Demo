@@ -1,10 +1,26 @@
 <template>
   <div class="flex flex-row flex-wrap flex-column mb-5">
-    <p class="h2">Entity permissions</p>
+    <div class="flex gap-3 align-items-center mb-3">
+      <p class="h2 mb-0">{{ $t("permissions.entity-permissions") }}</p>
+      <WMButton
+        v-if="entityType === 'user'"
+        :text="$t('permissions.reset-permissions')"
+        type="link"
+        @click="handleResetPermissions"
+      />
+    </div>
     <WMEntityPermissionsTable :permissions="permissions.entities" />
   </div>
   <div class="flex flex-row flex-wrap flex-column">
-    <p class="h2">General permissions</p>
+    <div class="flex gap-3 align-items-center mb-3">
+      <p class="h2 mb-0">{{ $t("permissions.general-permissions") }}</p>
+      <WMButton
+        v-if="entityType === 'user'"
+        :text="$t('permissions.reset-permissions')"
+        type="link"
+        @click="handleResetPermissions"
+      />
+    </div>
     <div class="flex gap-5">
       <div class="flex flex-column gap-5 flex-1">
         <WMPermissionSection title="Dashboard">
@@ -60,6 +76,9 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  entityType: {
+    type: String,
+  },
 });
 
 const emit = defineEmits(["permissions-changed"]);
@@ -68,6 +87,9 @@ const emit = defineEmits(["permissions-changed"]);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const handleResetPermissions = () => {
+  console.log("reset permissions");
+};
 
 // PROVIDE, EXPOSE
 

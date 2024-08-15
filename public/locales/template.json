@@ -901,10 +901,13 @@
     "permissions": "Permissions",
     "access-level": "Access level",
     "entity": "Entity",
+    "entity-permissions": "Entity permissions",
+    "general-permissions": "General permissions",
     "permissions-center": "Permissions Center",
     "unselected-entity-message": "Search for a user, team or role to view and edit their permissions",
     "permissions-updated-successfully": "Permissions updated successfully",
-    "permissions-updated-error": "An error occurred while updating permissions"
+    "permissions-updated-error": "An error occurred while updating permissions",
+    "reset-permissions": "Reset permissions"
   },
   "sale": {
     "sale": "Sale",
