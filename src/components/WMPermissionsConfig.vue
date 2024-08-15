@@ -1,25 +1,45 @@
 <template>
   <div class="flex flex-row flex-wrap flex-column mb-5">
-    <div class="flex gap-3 align-items-center mb-3">
+    <div class="flex gap-5 align-items-center mb-3">
       <p class="h2 mb-0">{{ $t("permissions.entity-permissions") }}</p>
-      <WMButton
-        v-if="entityType === 'user'"
-        :text="$t('permissions.reset-permissions')"
-        type="link"
-        @click="handleResetPermissions"
-      />
+      <div class="flex gap-2 align-items-center">
+        <WMButton
+          v-if="entityType === 'user'"
+          :text="$t('permissions.reset-permissions')"
+          type="link"
+          class="px-0"
+          :disabled="true"
+          :is-disabled="true"
+          @click="handleResetPermissions"
+        />
+        <div
+          v-tooltip.bottom="$t('permissions.reset-entity-permissions-text')"
+          class="flex"
+          v-html="HelpIcon"
+        />
+      </div>
     </div>
     <WMEntityPermissionsTable :permissions="permissions.entities" />
   </div>
   <div class="flex flex-row flex-wrap flex-column">
     <div class="flex gap-3 align-items-center mb-3">
       <p class="h2 mb-0">{{ $t("permissions.general-permissions") }}</p>
-      <WMButton
-        v-if="entityType === 'user'"
-        :text="$t('permissions.reset-permissions')"
-        type="link"
-        @click="handleResetPermissions"
-      />
+      <div class="flex gap-2 align-items-center">
+        <WMButton
+          v-if="entityType === 'user'"
+          :text="$t('permissions.reset-permissions')"
+          type="link"
+          class="px-0"
+          :disabled="true"
+          :is-disabled="true"
+          @click="handleResetPermissions"
+        />
+        <div
+          v-tooltip.bottom="$t('permissions.reset-general-permissions-text')"
+          class="flex"
+          v-html="HelpIcon"
+        />
+      </div>
     </div>
     <div class="flex gap-5">
       <div class="flex flex-column gap-5 flex-1">
@@ -65,6 +85,8 @@
 <script setup>
 // IMPORTS
 import { watch } from "vue";
+
+import HelpIcon from "/icons/help.svg?raw";
 
 // DEPENDENCIES
 

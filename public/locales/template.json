@@ -907,7 +907,9 @@
     "unselected-entity-message": "Search for a user, team or role to view and edit their permissions",
     "permissions-updated-successfully": "Permissions updated successfully",
     "permissions-updated-error": "An error occurred while updating permissions",
-    "reset-permissions": "Reset permissions"
+    "reset-permissions": "Reset permissions",
+    "reset-entity-permissions-text": "Clicking on this button will reset the user’s Entity Permissions to the ones inherited from the teams and roles it’s linked to.",
+    "reset-general-permissions-text": "Clicking on this button will reset the user’s General Permissions to the ones inherited from the teams and roles it’s linked to."
   },
   "sale": {
     "sale": "Sale",
