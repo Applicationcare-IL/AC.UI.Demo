@@ -25,5 +25,27 @@ export const useAdminPermissionsStore = defineStore("adminPermissions", {
           throw new Error(error);
         });
     },
+    resetEntityPermissions(params) {
+      return axiosConfig
+        .post("/admin/permissions/reset", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
+    resetGlobalPermissions(params) {
+      return axiosConfig
+        .post("/admin/permissions/reset/global", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
   },
 });

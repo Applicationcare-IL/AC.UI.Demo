@@ -16,9 +16,29 @@ const usePermissions = () => {
     }
   };
 
+  const resetEntityPermissions = async (entity_type, entity_id) => {
+    try {
+      return await adminPermissionsStore.resetEntityPermissions({ entity_type, entity_id });
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
+  const resetGeneralPermissions = async (entity_type, entity_id) => {
+    try {
+      return await adminPermissionsStore.resetGeneralPermissions({ entity_type, entity_id });
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
   return {
     getPermissions,
     updatePermissions,
+    resetEntityPermissions,
+    resetGeneralPermissions,
   };
 };
 

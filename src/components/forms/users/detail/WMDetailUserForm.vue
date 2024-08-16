@@ -110,9 +110,46 @@
         <WMPermissionsConfig
           v-if="Object.keys(permissions).length > 0"
           :permissions="permissions"
-          entity-type="user"
           @permissions-changed="handlePermissionsChanged"
-        />
+        >
+          <template #reset-entity-permissions>
+            <div class="flex gap-2 align-items-center">
+              <WMButton
+                :text="$t('permissions.reset-permissions')"
+                type="link"
+                class="px-0"
+                :disabled="!arePermissionsModified"
+                :is-disabled="!arePermissionsModified"
+                @click="handleResetEntityPermissions"
+              />
+              <div
+                v-tooltip.bottom="$t('permissions.reset-entity-permissions-text')"
+                class="flex"
+                v-html="HelpIcon"
+              />
+            </div>
+          </template>
+
+          <template #reset-general-permissions>
+            <div class="flex gap-2 align-items-center">
+              <div class="flex gap-2 align-items-center">
+                <WMButton
+                  :text="$t('permissions.reset-permissions')"
+                  type="link"
+                  class="px-0"
+                  :disabled="!arePermissionsModified"
+                  :is-disabled="!arePermissionsModified"
+                  @click="handleResetGeneralPermissions"
+                />
+                <div
+                  v-tooltip.bottom="$t('permissions.reset-general-permissions-text')"
+                  class="flex"
+                  v-html="HelpIcon"
+                />
+              </div>
+            </div>
+          </template>
+        </WMPermissionsConfig>
       </div>
     </div>
   </div>
@@ -121,9 +158,10 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
+import HelpIcon from "/icons/help.svg?raw";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -132,7 +170,8 @@ const route = useRoute();
 const { updateUser, parseUpdateUser } = useAdminUsers();
 const { getTeams } = useAdminTeams();
 const { getRoles } = useAdminRoles();
-const { getPermissions, updatePermissions } = useAdminPermissions();
+const { getPermissions, updatePermissions, resetEntityPermissions, resetGeneralPermissions } =
+  useAdminPermissions();
 
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
@@ -164,6 +203,9 @@ const selectedRoles = ref([]);
 const loadingFields = ref(true);
 
 // COMPUTED
+const arePermissionsModified = computed(() => {
+  return checkIfPermissionIsModified(permissions.value);
+});
 
 // COMPONENT METHODS AND LOGIC
 const { handleSubmit, meta, resetForm, values } = useForm({
@@ -215,6 +257,44 @@ const handlePermissionsChanged = () => {
 };
 
 formUtilsStore.formEntity = "employee";
+
+const checkIfPermissionIsModified = (permissions) => {
+  for (const key in permissions) {
+    if (permissions[key].disabled === false && permissions[key].value) {
+      return true;
+    }
+    if (typeof permissions[key] === "object") {
+      if (checkIfPermissionIsModified(permissions[key])) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+const handleResetEntityPermissions = () => {
+  resetEntityPermissions("employee", route.params.id)
+    .then(() => {
+      loadPermissions();
+      toast.success({ message: "Entity permissions reset successfully" });
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Error resetting entity permissions");
+    });
+};
+
+const handleResetGeneralPermissions = () => {
+  resetGeneralPermissions("employee", route.params.id)
+    .then(() => {
+      loadPermissions();
+      toast.success({ message: "General permissions reset successfully" });
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Error resetting general permissions");
+    });
+};
 
 // PROVIDE, EXPOSE
 defineExpose({

@@ -2,43 +2,14 @@
   <div class="flex flex-row flex-wrap flex-column mb-5">
     <div class="flex gap-5 align-items-center mb-3">
       <p class="h2 mb-0">{{ $t("permissions.entity-permissions") }}</p>
-      <div v-if="entityType === 'user'" class="flex gap-2 align-items-center">
-        <WMButton
-          :text="$t('permissions.reset-permissions')"
-          type="link"
-          class="px-0"
-          :disabled="true"
-          :is-disabled="true"
-          @click="handleResetPermissions"
-        />
-        <div
-          v-tooltip.bottom="$t('permissions.reset-entity-permissions-text')"
-          class="flex"
-          v-html="HelpIcon"
-        />
-      </div>
+      <slot name="reset-entity-permissions" />
     </div>
     <WMEntityPermissionsTable :permissions="permissions.entities" />
   </div>
   <div class="flex flex-row flex-wrap flex-column">
     <div class="flex gap-3 align-items-center mb-3">
       <p class="h2 mb-0">{{ $t("permissions.general-permissions") }}</p>
-
-      <div v-if="entityType === 'user'" class="flex gap-2 align-items-center">
-        <WMButton
-          :text="$t('permissions.reset-permissions')"
-          type="link"
-          class="px-0"
-          :disabled="true"
-          :is-disabled="true"
-          @click="handleResetPermissions"
-        />
-        <div
-          v-tooltip.bottom="$t('permissions.reset-general-permissions-text')"
-          class="flex"
-          v-html="HelpIcon"
-        />
-      </div>
+      <slot name="reset-general-permissions" />
     </div>
     <div class="flex gap-5">
       <div class="flex flex-column gap-5 flex-1">
@@ -85,8 +56,6 @@
 // IMPORTS
 import { watch } from "vue";
 
-import HelpIcon from "/icons/help.svg?raw";
-
 // DEPENDENCIES
 
 // INJECT
@@ -97,20 +66,15 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  entityType: {
-    type: String,
-  },
 });
 
 const emit = defineEmits(["permissions-changed"]);
+
 // REFS
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const handleResetPermissions = () => {
-  console.log("reset permissions");
-};
 
 // PROVIDE, EXPOSE
 
