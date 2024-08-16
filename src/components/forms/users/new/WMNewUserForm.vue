@@ -82,9 +82,12 @@ import { useForm } from "vee-validate";
 import { inject, onMounted, ref, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
+const optionSetsStore = useOptionSetsStore();
+
 const { createUser, parseUser } = useAdminUsers();
 const { getTeams } = useAdminTeams();
 const { getRoles } = useAdminRoles();
@@ -162,8 +165,14 @@ watch(
 );
 
 onMounted(async () => {
-  teams.value = await getTeams();
-  roles.value = await getRoles();
+  let activeStateId = await optionSetsStore.getId("state", "active");
+
+  let filters = {
+    state: activeStateId,
+  };
+
+  teams.value = await getTeams(filters);
+  roles.value = await getRoles(filters);
 });
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

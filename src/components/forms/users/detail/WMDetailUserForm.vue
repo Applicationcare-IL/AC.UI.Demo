@@ -125,6 +125,7 @@ import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
 const route = useRoute();
@@ -133,6 +134,7 @@ const { getTeams } = useAdminTeams();
 const { getRoles } = useAdminRoles();
 const { getPermissions, updatePermissions } = useAdminPermissions();
 
+const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
 const toast = useToast();
 
@@ -185,8 +187,14 @@ const onSave = handleSubmit((values) => {
 });
 
 const initializeFields = async (user) => {
+  let activeStateId = await optionSetsStore.getId("state", "active");
+
+  let filters = {
+    state: activeStateId,
+  };
+
   teams.value = await getTeams();
-  roles.value = await getRoles();
+  roles.value = await getRoles(filters);
 
   selectedTeams.value = teams.value.data.filter((item) => user.teams.find((x) => x.id == item.id));
   selectedRoles.value = roles.value.data.filter((item) => user.roles.find((x) => x.id == item.id));

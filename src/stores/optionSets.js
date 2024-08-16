@@ -146,7 +146,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
     },
 
     async preloadOptionSets() {
-      //Iterate the option set to preload list to load them from the API
+      // Iterate the option set to preload list to load them from the API
       for (const optionSet of this.optionSetsToPreload) {
         await this.getOptionSetValuesFromApi(optionSet).then((data) => {
           this.optionSets[optionSet] = data;
@@ -161,7 +161,11 @@ export const useOptionSetsStore = defineStore("optionSets", {
       return Promise.resolve();
     },
 
-    getId(optionSet, value) {
+    async getId(optionSet, value) {
+      if (this.optionSetsToPreload.includes(optionSet) && !this.optionSets[optionSet]) {
+        await this.preloadOptionSets();
+      }
+
       return this.optionSets[optionSet].find((option) => option.value === value).id;
     },
   },
