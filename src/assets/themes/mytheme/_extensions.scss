@@ -1113,9 +1113,12 @@ $access-column-width: 320px;
     }
 }
 
-
-
 // CUSTOM SWITCH SLIDER STYLES
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider{
     background-color: var(--blue-500);
+}
+
+// DISLABED FIELD
+.p-disabled{
+    cursor: not-allowed;
 }

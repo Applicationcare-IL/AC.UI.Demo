@@ -26,7 +26,10 @@
               </div>
               <div class="flex gap-2 align-items-center">
                 <span>Related</span>
-                <InputSwitch v-model="permissionsRef[index].related" />
+                <InputSwitch
+                  v-model="permissionsRef[index].related.value"
+                  :disabled="permissionsRef[index].related.disabled"
+                />
               </div>
             </div>
           </div>

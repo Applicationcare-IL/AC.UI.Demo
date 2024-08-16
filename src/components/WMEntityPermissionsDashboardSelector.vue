@@ -6,6 +6,7 @@
     option-label="label"
     class="flex flex-nowrap"
     :allow-empty="false"
+    :disabled="isDisabled"
     @change="handleChangeSelection"
   />
 </template>
@@ -44,24 +45,24 @@ const handleChangeSelection = ({ value }) => {
   let option = value.value;
 
   if (option === "basic") {
-    permissionsRef.value.is_team_manager = false;
-    permissionsRef.value.is_support_rep = false;
+    permissionsRef.value.is_team_manager.value = false;
+    permissionsRef.value.is_support_rep.value = false;
   } else if (option === "support") {
-    permissionsRef.value.is_team_manager = false;
-    permissionsRef.value.is_support_rep = true;
+    permissionsRef.value.is_team_manager.value = false;
+    permissionsRef.value.is_support_rep.value = true;
   } else if (option === "team_leader") {
-    permissionsRef.value.is_team_manager = true;
-    permissionsRef.value.is_support_rep = false;
+    permissionsRef.value.is_team_manager.value = true;
+    permissionsRef.value.is_support_rep.value = false;
   }
 };
 
 const setSelectedOptionBasedOnPermissions = () => {
-  if (permissionsRef.value.is_team_manager) {
+  if (permissionsRef.value.is_team_manager.value) {
     selectedOption.value = options.value[2];
     return;
   }
 
-  if (permissionsRef.value.is_support_rep) {
+  if (permissionsRef.value.is_support_rep.value) {
     selectedOption.value = options.value[1];
     return;
   }

@@ -2,9 +2,8 @@
   <div class="flex flex-row flex-wrap flex-column mb-5">
     <div class="flex gap-5 align-items-center mb-3">
       <p class="h2 mb-0">{{ $t("permissions.entity-permissions") }}</p>
-      <div class="flex gap-2 align-items-center">
+      <div v-if="entityType === 'user'" class="flex gap-2 align-items-center">
         <WMButton
-          v-if="entityType === 'user'"
           :text="$t('permissions.reset-permissions')"
           type="link"
           class="px-0"
@@ -24,9 +23,9 @@
   <div class="flex flex-row flex-wrap flex-column">
     <div class="flex gap-3 align-items-center mb-3">
       <p class="h2 mb-0">{{ $t("permissions.general-permissions") }}</p>
-      <div class="flex gap-2 align-items-center">
+
+      <div v-if="entityType === 'user'" class="flex gap-2 align-items-center">
         <WMButton
-          v-if="entityType === 'user'"
           :text="$t('permissions.reset-permissions')"
           type="link"
           class="px-0"

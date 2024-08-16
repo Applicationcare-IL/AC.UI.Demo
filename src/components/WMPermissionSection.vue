@@ -5,17 +5,17 @@
         <div>{{ title }}</div>
         <div class="flex gap-3 align-items-center">
           <WMButton
-              v-if="clearAll"
-              :text="$t('buttons.clear-all')"
-              type="clear mx-0 px-0"
-              @click="clearAllPermissions"
+            v-if="clearAll"
+            :text="$t('buttons.clear-all')"
+            type="clear mx-0 px-0"
+            @click="clearAllPermissions"
           />
           <WMButton
-              v-if="selectAll"
-              :text="$t('buttons.select-all')"
-              type="primary"
-              size="small"
-              @click="selectAllPermissions"
+            v-if="selectAll"
+            :text="$t('buttons.select-all')"
+            type="primary"
+            size="small"
+            @click="selectAllPermissions"
           />
         </div>
       </div>
@@ -23,7 +23,10 @@
     <template v-for="(_, index) in permissionsRef" :key="index">
       <div class="entity-permissions__entity-column">
         <div class="cell w-full flex justify-content-between align-items-center">
-          <InputSwitch v-model="permissionsRef[index]"/>
+          <InputSwitch
+            v-model="permissionsRef[index].value"
+            :disabled="permissionsRef[index].disabled"
+          />
           <span>
             {{ index }}
           </span>
@@ -33,7 +36,7 @@
     <template v-if="slots['custom-content']">
       <div class="entity-permissions__entity-column">
         <div class="cell w-full">
-          <slot name="custom-content"/>
+          <slot name="custom-content" />
         </div>
       </div>
     </template>
@@ -42,7 +45,7 @@
 
 <script setup>
 // IMPORTS
-import {toRef, useSlots} from "vue";
+import { toRef, useSlots } from "vue";
 
 // DEPENDENCIES
 
@@ -78,13 +81,21 @@ const permissionsRef = toRef(props, "permissions");
 // COMPONENT METHODS AND LOGIC
 const clearAllPermissions = () => {
   for (const key in permissionsRef.value) {
-    permissionsRef.value[key] = false;
+    if (permissionsRef.value[key].disabled) {
+      continue;
+    }
+
+    permissionsRef.value[key].value = false;
   }
 };
 
 const selectAllPermissions = () => {
   for (const key in permissionsRef.value) {
-    permissionsRef.value[key] = true;
+    if (permissionsRef.value[key].disabled) {
+      continue;
+    }
+
+    permissionsRef.value[key].value = true;
   }
 };
 

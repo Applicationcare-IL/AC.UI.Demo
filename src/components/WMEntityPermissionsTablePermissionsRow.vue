@@ -5,7 +5,7 @@
       class="cell flex-1 flex align-items-center justify-content-center"
     >
       <Checkbox
-        v-model="permissionsRef[index]"
+        v-model="permissionsRef[index].value"
         :binary="true"
         :disabled="isCheckboxDisabled(index)"
       />
@@ -40,7 +40,11 @@ const props = defineProps({
 const permissionsRef = toRef(props, "permissions");
 
 const isCheckboxDisabled = (index) => {
-  if (index !== "read" && !permissionsRef.value.read) {
+  if (permissionsRef.value.read.disabled) {
+    return true;
+  }
+
+  if (index !== "read" && !permissionsRef.value.read.value) {
     return true;
   }
 

@@ -6,13 +6,14 @@
     option-label="label"
     class="flex flex-nowrap"
     :allow-empty="false"
+    :disabled="isDisabled"
     @change="handleChangeSelection"
   />
 </template>
 
 <script setup>
 // IMPORTS
-import { onMounted, ref, toRef } from "vue";
+import { computed, onMounted, ref, toRef } from "vue";
 
 // DEPENDENCIES
 
@@ -38,32 +39,39 @@ const options = ref([
 const selectedOption = ref(options.value[0]);
 
 // COMPUTED
+const isDisabled = computed(() => {
+  return (
+    permissionsRef.value.all.disabled &&
+    permissionsRef.value.my_team.disabled &&
+    permissionsRef.value.my.disabled
+  );
+});
 
 // COMPONENT METHODS AND LOGIC
 const handleChangeSelection = ({ value }) => {
   let option = value.value;
 
   if (option === "all") {
-    permissionsRef.value.all = true;
-    permissionsRef.value.my_team = true;
-    permissionsRef.value.my = true;
+    permissionsRef.value.all.value = true;
+    permissionsRef.value.my_team.value = true;
+    permissionsRef.value.my.value = true;
   } else if (option === "team") {
-    permissionsRef.value.all = false;
-    permissionsRef.value.my_team = true;
-    permissionsRef.value.my = false;
+    permissionsRef.value.all.value = false;
+    permissionsRef.value.my_team.value = true;
+    permissionsRef.value.my.value = false;
   } else if (option === "user") {
-    permissionsRef.value.all = false;
-    permissionsRef.value.my_team = false;
-    permissionsRef.value.my = true;
+    permissionsRef.value.all.value = false;
+    permissionsRef.value.my_team.value = false;
+    permissionsRef.value.my.value = true;
   }
 };
 
 const setSelectedOptionBasedOnPermissions = () => {
-  if (permissionsRef.value.all) {
+  if (permissionsRef.value.all.value) {
     selectedOption.value = options.value[0];
-  } else if (permissionsRef.value.my_team) {
+  } else if (permissionsRef.value.my_team.value) {
     selectedOption.value = options.value[2];
-  } else if (permissionsRef.value.my) {
+  } else if (permissionsRef.value.my.value) {
     selectedOption.value = options.value[1];
   } else {
     selectedOption.value = options.value[1]; // by default select "User"
