@@ -9,6 +9,9 @@
     "
     @export="handleExportServices"
   >
+    <template #top-left>
+      <WMStateToggle entity="service" />
+    </template>
   </WMListSubHeader>
 
   <WMServicePreviewSidebar v-model:visible="isDetailsVisible" :service="serviceDetail" />
@@ -54,11 +57,7 @@
         </template>
       </Column>
       <Column style="width: 40px" selection-mode="multiple"></Column>
-      <Column
-        field="service_number"
-        :header="$t('service.service-number')"
-        class="link-col"
-      >
+      <Column field="service_number" :header="$t('service.service-number')" class="link-col">
         <template #body="slotProps">
           <router-link
             :to="{

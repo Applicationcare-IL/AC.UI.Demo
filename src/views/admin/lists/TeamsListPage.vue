@@ -6,6 +6,9 @@
     :show-communications="false"
     @new="toggleSidebarVisibility"
   >
+    <template #top-left>
+      <WMStateToggle entity="team" />
+    </template>
     <template #custom-buttons>
       <WMActivateAdminTeamsButton
         :selected-teams="selectedTeams"

@@ -10,6 +10,9 @@
     "
     @export="handleExportContacts"
   >
+    <template #top-left>
+      <WMOwnerToggle entity="contact" />
+    </template>
   </WMListSubHeader>
 
   <WMContactPreviewSidebar v-model:visible="isDetailsVisible" :contact="contactDetail" />
@@ -203,17 +206,17 @@ const clearSelectedContacts = () => {
 //Display sidebars
 const isVisible = ref(false);
 
-function toggleSidebarVisibility() {
+const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
-}
+};
 
-function closeSidebar() {
+const closeSidebar = () => {
   isVisible.value = false;
-}
+};
 
-function openSidebar() {
+const openSidebar = () => {
   isVisible.value = true;
-}
+};
 
 const contactDetail = ref(null);
 const displayDetails = (data) => {

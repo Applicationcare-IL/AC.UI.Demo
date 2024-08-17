@@ -8,7 +8,11 @@
       clearSelectedProjects();
     "
     @export="handleExportProjects"
-  />
+  >
+    <template #top-left>
+      <WMOwnerToggle entity="project" />
+    </template>
+  </WMListSubHeader>
 
   <WMSidebar
     :visible="isVisible"

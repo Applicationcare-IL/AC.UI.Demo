@@ -6,6 +6,9 @@
     :has-action-builder="false"
     @new="toggleSidebarVisibility"
   >
+    <template #top-left>
+      <WMStateToggle entity="employee" />
+    </template>
     <template #custom-buttons>
       <div class="flex gap-3">
         <WMActivateAdminUsersButton
@@ -51,7 +54,6 @@
 // IMPORTS
 import { onMounted, ref } from "vue";
 
-import WMListSubHeader from "@/components/layout/WMListSubHeader.vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES

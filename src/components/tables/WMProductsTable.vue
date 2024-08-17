@@ -1,56 +1,160 @@
 <template>
   <DataTable
-    v-model:selection="selectedContacts"
+    v-model:selection="selectedUsers"
     lazy
-    :value="contacts"
-    data-key="contact_id"
-    table-style="min-width: 50rem"
+    :value="users"
+    data-key="id"
     scrollable
-    :paginator="showControls"
+    paginator
     :rows="10"
     :total-records="totalRecords"
     class="w-full"
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
+    <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
+    <Column v-if="preview" style="width: 40px">
+      <template #body="{ data }">
+        <img
+          src="/icons/eye.svg"
+          alt=""
+          class="vertical-align-middle"
+          @click="openSidebar(data.id)"
+        />
+        <WMUserPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :user="data" />
+      </template>
+    </Column>
     <Column
       v-for="column in columns"
       :key="column.name"
       :field="column.name"
-      :header="getColumHeader(column)"
+      :header="$t(column.header)"
       :class="column.class"
+      :style="column.width ? { width: column.width } : {}"
     >
       <template #body="{ data }">
-        <WMRenderTableFieldBody v-model="data[column.field]" :type="column.type" />
-      </template>
-      <template v-if="column.editable" #editor="{ data }">
-        <WMRenderTableFieldEditor v-model="data[column.field]" :type="column.type" />
+        <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
       </template>
     </Column>
   </DataTable>
 </template>
 
 <script setup>
-import { ref } from "vue";
+// IMPORTS
+import { ref, watch, watchEffect } from "vue";
 
-const selectedContacts = ref([]);
-const contacts = ref([]);
+import { useUtilsStore } from "@/stores/utils";
+
+// DEPENDENCIES
+const { getProducts } = useProducts();
+
+// INJECT
+
+// PROPS, EMITS
+const props = defineProps({
+  columns: {
+    type: Array,
+    required: true,
+  },
+  preview: {
+    type: Boolean,
+    default: false,
+  },
+  selectable: {
+    type: Boolean,
+    default: false,
+  },
+  relatedEntity: {
+    type: String,
+    required: true,
+  },
+  relatedEntityId: {
+    type: Number,
+    required: true,
+  },
+});
+
+const emit = defineEmits(["update:selection"]);
+
+// REFS
+const selectedProducts = ref([]);
 const totalRecords = ref(0);
-const showControls = ref(true);
+const products = ref([]);
+const lazyParams = ref({});
 
-const onSelectionChanged = (event) => {
-  selectedContacts.value = event;
+const utilsStore = useUtilsStore();
+const searchValue = ref("");
+
+const isPreviewVisible = ref([]);
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
+const loadLazyData = async () => {
+  const filters = utilsStore.filters["product"];
+  const nextPage = lazyParams.value.page + 1;
+  const searchValueParam = searchValue.value;
+
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage ? nextPage : 1,
+    per_page: 10,
+  });
+
+  if (searchValueParam) {
+    params.append("search", searchValueParam);
+  }
+
+  if (props.relatedEntity && props.relatedEntityId) {
+    params.append(props.relatedEntity, props.relatedEntityId);
+  }
+
+  let response = await getProducts(params);
+  products.value = response.data;
+  totalRecords.value = response.totalRecords;
 };
+
+loadLazyData();
 
 const onPage = (event) => {
-  console.log(event);
+  lazyParams.value = event;
+  loadLazyData();
 };
 
-const columns = [
-  {
-    name: "test",
-    type: "text",
-    header: "test",
+const onSelectionChanged = () => {
+  emit("update:selection", selectedProducts.value);
+};
+
+const cleanSelectedProducts = () => {
+  selectedProducts.value = [];
+  onSelectionChanged();
+};
+
+const openSidebar = (data) => {
+  isPreviewVisible.value[data] = true;
+};
+
+// PROVIDE, EXPOSE
+defineExpose({
+  loadLazyData,
+  cleanSelectedProducts,
+});
+
+// WATCHERS
+watchEffect(() => {
+  loadLazyData();
+});
+
+watch(
+  () => utilsStore.searchString["product"],
+  () => {
+    searchValue.value = utilsStore.searchString["product"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
   },
-];
+  { deep: true }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

@@ -7,6 +7,9 @@
     @refresh-table="handleRefreshTable"
     @export="handleExportTasks"
   >
+    <template #top-left>
+      <WMStateToggle entity="task" />
+    </template>
     <!-- <template #paginator>
       <WMTablePaginator
         :total-records="totalRecords"

@@ -1,16 +1,19 @@
 <template>
   <WMListSubHeader
-      entity="role"
-      :total-records="0"
-      @new="toggleSidebarVisibility"
-      :hasActionBuilder="false"
-      :showCommunications="false"
+    entity="role"
+    :total-records="0"
+    :has-action-builder="false"
+    :show-communications="false"
+    @new="toggleSidebarVisibility"
   >
+    <template #top-left>
+      <WMStateToggle entity="role" />
+    </template>
     <template #custom-buttons>
       <div class="flex gap-3">
         <WMActivateAdminRolesButton
-            :selected-roles="selectedRoles"
-            @activate-role="handleActivateRole"
+          :selected-roles="selectedRoles"
+          @activate-role="handleActivateRole"
         />
       </div>
     </template>
@@ -35,9 +38,9 @@
 
 <script setup>
 // IMPORTS
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
-import {useUtilsStore} from "@/stores/utils";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
@@ -70,11 +73,11 @@ const handleActivateRole = () => {
 
 const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
-}
+};
 
 const closeSidebar = () => {
   isVisible.value = false;
-}
+};
 
 // PROVIDE, EXPOSE
 
@@ -84,7 +87,6 @@ const closeSidebar = () => {
 onMounted(() => {
   utilsStore.entity = "role";
 });
-
 </script>
 
 <style scoped lang="scss"></style>
