@@ -20,10 +20,12 @@
 <script setup>
 // IMPORTS
 import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
+const router = useRouter();
 const utilsStore = useUtilsStore();
 
 // INJECT
@@ -97,13 +99,20 @@ useHead({
   title: "Products",
 });
 
+const redirectToNewProductPage = () => {
+  router.push({
+    name: "newProduct",
+    force: true,
+  });
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  utilsStore.entity = "employee";
+  utilsStore.entity = "product";
 });
 </script>
 
