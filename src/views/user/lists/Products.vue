@@ -38,7 +38,7 @@ const columns = [
     type: "link",
     field: "link_detail",
     header: "product.name",
-    routeName: "adminUserDetail",
+    routeName: "productDetail",
   },
   {
     name: "id",

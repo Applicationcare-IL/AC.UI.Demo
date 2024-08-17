@@ -42,6 +42,7 @@ module.exports = {
           "Scripts",
           "Asset",
           "Products",
+          "Product",
         ],
       },
     ],
