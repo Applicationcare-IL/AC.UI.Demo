@@ -62,16 +62,22 @@ const model = computed(() => {
           visibility: checkIfEntityIsActive("tasks") && can("tasks.read"),
         },
         {
+          label: t("navigation.projects"),
+          to: "/projects",
+          image: new URL("/icons/nav/projects.svg", import.meta.url).href,
+          visibility: checkIfEntityIsActive("projects") && can("projects.read"),
+        },
+        {
           label: t("navigation.sales"),
           to: "/projects",
           image: new URL("/icons/nav/sales.svg", import.meta.url).href,
           visibility: false,
         },
         {
-          label: t("navigation.projects"),
-          to: "/projects",
-          image: new URL("/icons/nav/projects.svg", import.meta.url).href,
-          visibility: checkIfEntityIsActive("projects") && can("projects.read"),
+          label: t("navigation.products"),
+          to: "/products",
+          image: new URL("/icons/nav/products.svg", import.meta.url).href,
+          visibility: true,
         },
         {
           label: t("navigation.assets"),

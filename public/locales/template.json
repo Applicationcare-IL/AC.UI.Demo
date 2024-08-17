@@ -189,7 +189,8 @@
     "translations": "Translations",
     "system-settings": "System Settings",
     "reports-poc": "Reports POC",
-    "schema": "Schema"
+    "schema": "Schema",
+    "products": "Products"
   },
   "dashboard": {
     "my-tasks": "My Tasks",
@@ -918,6 +919,12 @@
   "product": {
     "product": "Product",
     "products": "Products",
-    "product-name": "Product Name"
+    "name": "Product Name",
+    "type": "Type",
+    "family": "Family",
+    "group": "Group",
+    "department": "Department",
+    "renewal_type": "Renewal Type",
+    "cancellation_type": "Cancellation Type"
   }
 }
