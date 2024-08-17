@@ -914,5 +914,10 @@
   "sale": {
     "sale": "Sale",
     "sales": "Sales"
+  },
+  "product": {
+    "product": "Product",
+    "products": "Products",
+    "product-name": "Product Name"
   }
 }

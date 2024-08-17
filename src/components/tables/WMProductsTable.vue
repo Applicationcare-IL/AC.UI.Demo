@@ -1,8 +1,9 @@
 <template>
+  <!-- <pre>{{ products[0] }}</pre> -->
   <DataTable
-    v-model:selection="selectedUsers"
+    v-model:selection="selectedProducts"
     lazy
-    :value="users"
+    :value="products"
     data-key="id"
     scrollable
     paginator
@@ -21,7 +22,7 @@
           class="vertical-align-middle"
           @click="openSidebar(data.id)"
         />
-        <WMUserPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :user="data" />
+        <!-- <WMUserPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :user="data" /> -->
       </template>
     </Column>
     <Column

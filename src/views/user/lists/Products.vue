@@ -4,11 +4,7 @@
     :show-communications="false"
     :has-action-builder="false"
     @new="redirectToNewProductPage"
-  >
-    <template #top-left>
-      <WMOwnerToggle entity="product" />
-    </template>
-  </WMListSubHeader>
+  />
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMProductsTable
@@ -38,55 +34,11 @@ const utilsStore = useUtilsStore();
 
 const columns = [
   {
-    name: "id",
+    name: "product-name",
     type: "link",
     field: "link_detail",
-    header: "id",
+    header: "product.product-name",
     routeName: "adminUserDetail",
-  },
-  {
-    name: "username",
-    type: "text",
-    field: "username",
-    header: "employee.username",
-  },
-  {
-    name: "manager",
-    type: "text",
-    field: "manager_fullname",
-    header: "manager",
-  },
-  {
-    name: "phone",
-    type: "text",
-    field: "phone",
-    header: "mobilephone",
-  },
-  {
-    name: "email",
-    type: "text",
-    field: "email",
-    header: "email",
-  },
-  {
-    name: "active",
-    type: "state",
-    field: "state",
-    header: "state.state",
-    width: "100px",
-    class: "p-0 filled-td",
-  },
-  {
-    name: "roles",
-    type: "chips",
-    field: "roles",
-    header: "roles",
-  },
-  {
-    name: "teams",
-    type: "chips",
-    field: "teams",
-    header: "teams",
   },
 ];
 
