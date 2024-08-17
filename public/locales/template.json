@@ -8,6 +8,7 @@
   "no": "No",
   "general-details": "General Details",
   "entry-details": "Entry Details",
+  "definitions": "Definitions",
   "communication-details": "Communication Details",
   "roles": "Roles",
   "actions": "Actions",
@@ -925,6 +926,12 @@
     "group": "Group",
     "department": "Department",
     "renewal_type": "Renewal Type",
-    "cancellation_type": "Cancellation Type"
+    "cancellation_type": "Cancellation Type",
+    "license": "License",
+    "commitment": "Commitment",
+    "guarantee": "Guarantee",
+    "installation": "Installation",
+    "provisioning": "Provisioning",
+    "maintenance": "Maintenance"
   }
 }

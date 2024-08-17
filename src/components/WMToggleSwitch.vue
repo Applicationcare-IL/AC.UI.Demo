@@ -2,7 +2,7 @@
   <div class="toggle-switch" :class="classes">
     <div class="toggle-switch__header">
       <InputSwitch v-model="value" @input="$emit('update:modelValue', $event)" />
-      <span class="font-bold">{{ label }}</span>
+      <span class="font-bold" :class="`text-${labelSize}`">{{ label }}</span>
     </div>
     <div class="toggle-switch__body">
       <template v-if="value">
@@ -19,6 +19,10 @@ defineEmits(["update:modelValue"]);
 
 const props = defineProps({
   label: String,
+  labelSize: {
+    type: String,
+    default: "md",
+  },
   modelValue: {
     type: Boolean,
     default: false,

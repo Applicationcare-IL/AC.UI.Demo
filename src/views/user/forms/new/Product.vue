@@ -1,7 +1,6 @@
 <template>
-  <WIP />
-  <!-- <WMNewFormSubHeader @save-form="saveForm()" @cancel-form="cancelForm()" />
-  <WMNewTaskForm ref="newTaskForm" /> -->
+  <WMNewFormSubHeader @save-form="saveForm()" @cancel-form="cancelForm()" />
+  <WMNewProductForm ref="newProductForm" />
 </template>
 
 <script setup>
@@ -14,10 +13,10 @@ useHead({
 
 // const router = useRouter();
 
-// const newTaskForm = ref(null);
+// const newProductForm = ref(null);
 
 // const saveForm = () => {
-//   newTaskForm.value.onSave();
+//   newProductForm.value.onSave();
 // };
 
 // const cancelForm = () => {
