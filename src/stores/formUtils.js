@@ -510,6 +510,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
         surname: yup.string().required(),
         email: yup
           .string()
+            .email()
           .required()
           .test("unique", "validation.user-already-exists", async (value) => {
             if (!value) return true;
