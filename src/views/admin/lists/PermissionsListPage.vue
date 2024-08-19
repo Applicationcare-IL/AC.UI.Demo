@@ -54,7 +54,25 @@
     </div>
     <Divider class="mb-5" />
     <div v-if="!loading" class="flex flex-column gap-5 mb-5">
-      <WMPermissionsConfig :permissions="permissions" />
+      <WMPermissionsConfig :permissions="permissions">
+        <template v-if="selectedOption?.value === 'user'" #reset-entity-permissions>
+          <WMResetPermissionsButton
+            :permissions="permissions"
+            type="entity"
+            :entity-id="selectedEntityId"
+            @permissions-changed="loadPermissions"
+          />
+        </template>
+
+        <template v-if="selectedOption?.value === 'user'" #reset-general-permissions>
+          <WMResetPermissionsButton
+            :permissions="permissions"
+            type="general"
+            :entity-id="selectedEntityId"
+            @permissions-changed="loadPermissions"
+          />
+        </template>
+      </WMPermissionsConfig>
     </div>
     <div class="flex flex-row gap-5 flex-wrap flex-column">
       <div class="flex-1 card-container">

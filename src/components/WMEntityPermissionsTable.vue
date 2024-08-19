@@ -2,12 +2,14 @@
   <div class="overflow-scroll">
     <div v-if="Object.keys(permissionsRef).length > 0" class="entity-permissions">
       <div class="entity-permissions__header">
-        <div class="cell w-entity-column sticky right-0">{{ $t("permissions.entity") }}</div>
+        <div class="cell w-entity-column sticky justify-content-center right-0">
+          {{ $t("permissions.entity") }}
+        </div>
         <div class="cell w-access-column">{{ $t("permissions.access-level") }}</div>
         <div class="cell flex-1">{{ $t("permissions.permissions") }}</div>
       </div>
       <div class="entity-permissions__subheader">
-        <div class="cell w-entity-column sticky right-0"></div>
+        <div class="cell w-entity-column sticky a right-0"></div>
         <div class="cell w-access-column"></div>
 
         <div class="flex w-permissions-column gap-1">
@@ -18,7 +20,9 @@
       </div>
       <template v-for="(permission, index) in permissionsRef" :key="index">
         <div class="entity-permissions__entity-column">
-          <div class="cell w-entity-column bg-gray-100 sticky right-0">{{ index }}</div>
+          <div class="cell w-entity-column bg-gray-100 sticky flex align-items-center right-0">
+            {{ index }}
+          </div>
           <div class="cell w-access-column">
             <div class="flex justify-content-between gap-5">
               <div>

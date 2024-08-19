@@ -50,9 +50,9 @@
 
     <div class="flex flex-column gap-5">
       <WMPermissionsConfig
-          v-if="Object.keys(permissions).length > 0"
-          :permissions="permissions"
-          @permissions-changed="handlePermissionsChanged"
+        v-if="Object.keys(permissions).length > 0"
+        :permissions="permissions"
+        @permissions-changed="handlePermissionsChanged"
       />
     </div>
   </div>
@@ -71,7 +71,7 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const route = useRoute();
 const { updateTeam, parseTeam, addUsers, removeUsers } = useAdminTeams();
-const {getPermissions} = useAdminPermissions();
+const { getPermissions, updatePermissions } = useAdminPermissions();
 
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
@@ -160,6 +160,9 @@ const { handleSubmit, meta, resetForm } = useForm({
 
 const onSave = handleSubmit((values) => {
   updateTeam(route.params.id, parseTeam(values))
+    .then(async () => {
+      return await updatePermissions("team", route.params.id, permissions.value);
+    })
     .then(() => {
       toast.success({ message: "User updated successfully" });
       resetForm({ values: values });
