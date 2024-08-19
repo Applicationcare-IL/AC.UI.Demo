@@ -92,6 +92,7 @@ const searchUsers = async (query) => {
   let params = {
     per_page: 99999,
     search: query,
+    state: 291,
   };
 
   let response = await getUsers(params);
