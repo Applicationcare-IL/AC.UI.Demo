@@ -168,6 +168,7 @@ onMounted(async () => {
   let activeStateId = await optionSetsStore.getId("state", "active");
 
   let filters = {
+    per_page: 99999,
     state: activeStateId,
   };
 
