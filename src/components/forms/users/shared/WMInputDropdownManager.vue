@@ -41,7 +41,11 @@ const selectedOption = ref(null);
 
 // COMPONENT METHODS AND LOGIC
 const loadEmployees = async () => {
-  let response = await getUsers({ per_page: 999999999 });
+  let response = await getUsers({
+    per_page: 999999999,
+    state: 291
+  });
+
   employeeList.value = response.data.map((employee) => {
     return {
       id: employee.id,
