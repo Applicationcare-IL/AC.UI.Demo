@@ -44,7 +44,7 @@
         </div>
         <Divider />
 
-        <WMAdminUserTable :columns="columns" related-entity="role" :related-entity-id="role.id" />
+        <WMAdminUserTable :columns="columns" related-entity="roles" :related-entity-id="role.id"/>
       </div>
     </div>
   </Sidebar>

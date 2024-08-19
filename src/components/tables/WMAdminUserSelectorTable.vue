@@ -52,9 +52,11 @@
 import {ref} from "vue";
 
 import useAdminUsers from "@/composables/useAdminUsers";
+import {useOptionSetsStore} from "@/stores/optionSets";
 
 // DEPENDENCIES
 const { getUsers }= useAdminUsers();
+const optionSetsStore = useOptionSetsStore();
 
 // INJECT
 
@@ -89,9 +91,12 @@ const columns = [
 
 // COMPONENT METHODS AND LOGIC
 const searchUsers = async (query) => {
+  let activeStateId = await optionSetsStore.getId("state", "active");
+
   let params = {
     per_page: 99999,
     search: query,
+    state: activeStateId,
   };
 
   let response = await getUsers(params);
