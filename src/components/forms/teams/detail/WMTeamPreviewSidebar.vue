@@ -57,7 +57,7 @@
 
         <Divider />
 
-        <WMAdminUserTable :columns="columns" related-entity="team" :related-entity-id="team.id" />
+        <WMAdminUserTable :columns="columns" related-entity="teams" :related-entity-id="team.id"/>
       </div>
     </div>
   </Sidebar>
