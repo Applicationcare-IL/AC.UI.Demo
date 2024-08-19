@@ -233,9 +233,10 @@ const initializeFields = async (user) => {
 
   let filters = {
     state: activeStateId,
+    per_page: 9999,
   };
 
-  teams.value = await getTeams();
+  teams.value = await getTeams(filters);
   roles.value = await getRoles(filters);
 
   selectedTeams.value = teams.value.data.filter((item) => user.teams.find((x) => x.id == item.id));
