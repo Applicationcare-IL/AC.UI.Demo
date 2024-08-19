@@ -78,6 +78,28 @@
         </div>
       </div>
 
+      <div class="flex flex-row gap-5 flex-wrap">
+        <div class="flex-1 card-container top-info-card">
+          <Card>
+            <template #title> {{ $t('message.target') }}</template>
+            <template #content>
+
+            </template>
+          </Card>
+        </div>
+      </div>
+
+      <div class="flex flex-row gap-5 flex-wrap">
+        <div class="flex-1 card-container top-info-card">
+          <Card>
+            <template #title> {{ $t('logs') }}</template>
+            <template #content>
+
+            </template>
+          </Card>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
