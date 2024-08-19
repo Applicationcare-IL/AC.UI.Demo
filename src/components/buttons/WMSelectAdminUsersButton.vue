@@ -41,10 +41,12 @@ import { ref } from "vue";
 
 import AccountBoxIcon from "/icons/account_box.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
+import {useOptionSetsStore} from "@/stores/optionSets";
 
 // DEPENDENCIES
 const { layoutConfig } = useLayout();
 const { getUsers } = useAdminUsers();
+const optionSetsStore = useOptionSetsStore();
 
 // PROPS, EMITS
 
@@ -61,8 +63,14 @@ const toggle = (event) => {
   isOpen.value.toggle(event);
 };
 
-const searchUsers = (query) => {
-  return getUsers({ search: query });
+const searchUsers = async (query) => {
+  let activeStateId = await optionSetsStore.getId("state", "active");
+
+  return getUsers({
+    search: query,
+    per_page: 9999,
+    state: activeStateId,
+  });
 };
 
 const onUsersSelected = (users) => {
