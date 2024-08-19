@@ -15,9 +15,11 @@
 <script setup>
 // IMPORTS
 import { onMounted, ref } from "vue";
+import {useOptionSetsStore} from "@/stores/optionSets";
 
 // DEPENDENCIES
 const { getUsers } = useAdminUsers();
+const optionSetsStore = useOptionSetsStore();
 
 // INJECT
 
@@ -41,9 +43,11 @@ const selectedOption = ref(null);
 
 // COMPONENT METHODS AND LOGIC
 const loadEmployees = async () => {
+  let activeStateId = await optionSetsStore.getId("state", "active");
+
   let response = await getUsers({
     per_page: 999999999,
-    state: 291
+    state: activeStateId
   });
 
   employeeList.value = response.data.map((employee) => {
