@@ -1,6 +1,7 @@
 <template>
   <!-- search -->
   <WMInputSearch
+    v-model="selectedUsers"
     name="userList"
     :placeholder="$t('select', ['user'])"
     type="table"
@@ -13,49 +14,46 @@
     :multiple="true"
     @change="onUserSelected"
   />
-<!--   table -->
+
+  <!--   table -->
   <DataTable
-      lazy
-      :value="selectedUsers"
-      data-key="id"
-      scrollable
-      paginator
-      :rows="10"
-      :total-records="selectedUsers.length"
-      class="w-full"
+    lazy
+    :value="selectedUsers"
+    data-key="id"
+    scrollable
+    paginator
+    :rows="10"
+    :total-records="selectedUsers.length"
+    class="w-full"
   >
     <Column
-        v-for="column in columns"
-        :key="column.name"
-        :field="column.name"
-        :header="$t(column.header)"
-        :class="column.class"
-        :style="column.width ? { width: column.width } : {}"
+      v-for="column in columns"
+      :key="column.name"
+      :field="column.name"
+      :header="$t(column.header)"
+      :class="column.class"
+      :style="column.width ? { width: column.width } : {}"
     >
       <template #body="{ data }">
         <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
       </template>
     </Column>
-    <Column
-        :header="$t('actions')"
-        style="width: 40px">
+    <Column :header="$t('actions')" style="width: 40px">
       <template #body="{ data }">
         <WMUnlinkButtonIconOnly @click="unlinkUser(data.id)" />
       </template>
     </Column>
   </DataTable>
-
 </template>
 
 <script setup>
 // IMPORTS
-import {ref} from "vue";
+import { ref } from "vue";
 
-import useAdminUsers from "@/composables/useAdminUsers";
-import {useOptionSetsStore} from "@/stores/optionSets";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
-const { getUsers }= useAdminUsers();
+const { getUsers } = useAdminUsers();
 const optionSetsStore = useOptionSetsStore();
 
 // INJECT
@@ -101,10 +99,10 @@ const searchUsers = async (query) => {
 
   let response = await getUsers(params);
 
-  if(selectedUsers.value.length > 0 ){
+  if (selectedUsers.value.length > 0) {
     let usersFiltered = response.data.filter((userFromApi) => !isUserSelected(userFromApi));
 
-    return {data: usersFiltered};
+    return { data: usersFiltered };
   }
 
   return response;
@@ -119,13 +117,13 @@ const onUserSelected = (newUser) => {
 
 const isUserSelected = (user) => {
   return selectedUsers.value.some((selectedUser) => selectedUser.id === user.id);
-}
+};
 
 const unlinkUser = (userId) => {
   selectedUsers.value = selectedUsers.value.filter((user) => {
     return user.id !== userId;
   });
-}
+};
 
 // PROVIDE, EXPOSE
 
