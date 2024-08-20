@@ -2,6 +2,7 @@ import { useI18n } from "vue-i18n";
 
 import useAdminRoles from "@/composables/useAdminRoles";
 import useAdminTeams from "@/composables/useAdminTeams";
+import useAdminUsers from "@/composables/useAdminUsers";
 
 const useFilters = () => {
   const { getTasksTypesFromApi } = useTasks();
@@ -10,6 +11,7 @@ const useFilters = () => {
   const { getContactsFromApi } = useContacts();
   const { getTeams } = useAdminTeams();
   const { getRoles } = useAdminRoles();
+  const {getUsers} = useAdminUsers()
 
   const i18n = useI18n();
 
@@ -69,6 +71,12 @@ const useFilters = () => {
 
   const searchRoles = async (query) => {
     return getRoles({
+      search: query,
+    });
+  };
+
+  const searchUsers = async (query) => {
+    return getUsers({
       search: query,
     });
   };
@@ -573,12 +581,24 @@ const useFilters = () => {
         label: i18n.t("roles") + ":",
         searchFunction: searchRoles,
       },
+      {
+        type: "entity",
+        name: "manager_id",
+        label: i18n.t("manager") + ":",
+        searchFunction: searchUsers,
+      },
     ],
     team: [
       {
         type: "state",
         name: "state",
         label: i18n.t("state") + ":",
+      },
+      {
+        type: "entity",
+        name: "manager_id",
+        label: i18n.t("manager") + ":",
+        searchFunction: searchUsers,
       },
     ],
     role: [
