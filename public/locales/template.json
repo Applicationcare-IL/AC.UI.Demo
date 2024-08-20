@@ -932,6 +932,8 @@
     "guarantee": "Guarantee",
     "installation": "Installation",
     "provisioning": "Provisioning",
-    "maintenance": "Maintenance"
+    "maintenance": "Maintenance",
+    "information-page": "Information Page",
+    "manufacturer-type": "Manufacturer Type"
   }
 }

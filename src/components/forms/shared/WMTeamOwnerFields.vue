@@ -5,6 +5,7 @@
     :highlighted="true"
     :label="$t('owner') + ':'"
     :value="authStore.userFullName"
+    size="sm"
   />
   <WMInput
     v-if="authStore.team"
@@ -13,6 +14,7 @@
     :highlighted="true"
     :label="$t('team') + ':'"
     :value="authStore.team"
+    size="sm"
   />
 </template>
 
