@@ -69,6 +69,7 @@
 
       <WMMessageTarget/>
 
+      <pre>{{ values }}</pre>
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
   </div>
@@ -77,15 +78,16 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import {ref, inject} from "vue";
-
-
-import { useFormUtilsStore } from "@/stores/formUtils";
+import {inject} from "vue";
 import {useI18n} from "vue-i18n";
+
+import {useFormUtilsStore} from "@/stores/formUtils";
+import useAdminMessages from "@/composables/useAdminMessages";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
 const { t } = useI18n();
+const {createMessage, parseMessage} = useAdminMessages();
 
 // INJECT
 const closeSidebar = inject("closeSidebar");
@@ -101,36 +103,6 @@ const normalImportantOptions = [
   { value: "true", name: t("message.important") },
 ];
 
-const isPrivate = ref();
-const isBusiness = ref();
-const isNormal = ref();
-const isVip = ref();
-
-const selectedOption = ref(null);
-
-const options = ref([
-  {
-    label: t("employee.employees"),
-    value: "users",
-  },
-  {
-    label: t("project.projects"),
-    value: "projects",
-  },
-  // {
-  //   label: t("sale.sales"),
-  //   value: "sales",
-  // },
-  {
-    label: t("customer.customers"),
-    value: "customers",
-  },
-  {
-    label: t("service.services"),
-    value: "services",
-  },
-]);
-
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
@@ -139,15 +111,12 @@ const { handleSubmit, values } = useForm({
 });
 
 const onSubmit = handleSubmit((values) => {
-  console.log("values", values);
+  // console.log("values", values);
+  createMessage(parseMessage(values));
 });
 
 const onCancel = () => {
   closeSidebar();
-};
-
-const handleSelectedOption = (option) => {
-  selectedOption.value = option;
 };
 
 // PROVIDE, EXPOSE

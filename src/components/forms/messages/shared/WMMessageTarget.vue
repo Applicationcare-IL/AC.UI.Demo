@@ -3,6 +3,7 @@
 
   <div class="flex gap-2">
     <WMSelectableButtonGroup
+        name="target"
         :options="options"
         @update:selected-option="handleSelectedOption"
     />

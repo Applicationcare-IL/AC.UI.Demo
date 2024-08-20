@@ -49,6 +49,10 @@ const useAdminFlowmaze = () => {
     const parseMessage = (message) => {
         return {
             ...message,
+            important: message.important.value,
+            teams_id: message.teams_id.map((team) => team.id),
+            roles_id: message.roles_id.map((role) => role.id),
+            users_id: message.users_id.map((user) => user.id),
         }
     }
 
