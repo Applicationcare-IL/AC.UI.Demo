@@ -1,40 +1,40 @@
 <template>
-  <h2 class="h2 my-0">{{ $t('message.target') }}</h2>
+  <h2 class="h2 my-0">{{ $t("message.target") }}</h2>
 
   <div class="flex gap-2">
     <WMSelectableButtonGroup
-        name="target"
-        :options="options"
-        @update:selected-option="handleSelectedOption"
+      name="target"
+      :options="options"
+      @update:selected-option="handleSelectedOption"
     />
   </div>
 
   <div class="flex flex-column gap-5">
-    <WMMessageTargetServices v-if="selectedOption?.value === 'services'"/>
-    <WMMessageTargetCustomers v-if="selectedOption?.value === 'customers'"/>
-    <WMMessageTargetProjects v-if="selectedOption?.value === 'projects'"/>
-    <WMMessageTargetUsers v-if="selectedOption?.value === 'users'"/>
+    <WMMessageTargetServices v-if="selectedOption?.value === 'services'" />
+    <WMMessageTargetCustomers v-if="selectedOption?.value === 'customers'" />
+    <WMMessageTargetProjects v-if="selectedOption?.value === 'projects'" />
+    <WMMessageTargetUsers v-if="selectedOption?.value === 'users'" />
   </div>
-
 </template>
 
 <script setup>
 // IMPORTS
-import {ref} from "vue";
-import {useI18n} from "vue-i18n";
+import { useField } from "vee-validate";
+import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
-const {t} = useI18n();
+const { t } = useI18n();
 
 // INJECT
 
 // PROPS, EMITS
-const props = defineProps({
+defineProps({
   message: {
     type: Object,
-    default: null
-  }
-})
+    default: null,
+  },
+});
 
 // REFS
 const selectedOption = ref(null);
@@ -67,7 +67,10 @@ const options = ref([
 // COMPONENT METHODS AND LOGIC
 const handleSelectedOption = (option) => {
   selectedOption.value = option;
+  handleChangeTarget(option.value);
 };
+
+const { handleChange: handleChangeTarget } = useField("target", undefined, { initialValue: null });
 
 // PROVIDE, EXPOSE
 
