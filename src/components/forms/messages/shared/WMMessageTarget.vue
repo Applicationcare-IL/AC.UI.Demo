@@ -10,10 +10,10 @@
   </div>
 
   <div class="flex flex-column gap-5">
-    <WMMessageTargetServices v-if="selectedOption?.value === 'services'" />
-    <WMMessageTargetCustomers v-if="selectedOption?.value === 'customers'" />
-    <WMMessageTargetProjects v-if="selectedOption?.value === 'projects'" />
-    <WMMessageTargetUsers v-if="selectedOption?.value === 'users'" />
+    <WMMessageTargetServices v-if="selectedOption?.value === 'service'"/>
+    <WMMessageTargetCustomers v-if="selectedOption?.value === 'customer'"/>
+    <WMMessageTargetProjects v-if="selectedOption?.value === 'project'"/>
+    <WMMessageTargetUsers v-if="selectedOption?.value === 'employee'"/>
   </div>
 </template>
 
@@ -42,23 +42,23 @@ const selectedOption = ref(null);
 const options = ref([
   {
     label: t("employee.employees"),
-    value: "users",
+    value: "employee",
   },
   {
     label: t("project.projects"),
-    value: "projects",
+    value: "project",
   },
   // {
   //   label: t("sale.sales"),
-  //   value: "sales",
+  //   value: "sale",
   // },
   {
     label: t("customer.customers"),
-    value: "customers",
+    value: "customer",
   },
   {
     label: t("service.services"),
-    value: "services",
+    value: "service",
   },
 ]);
 

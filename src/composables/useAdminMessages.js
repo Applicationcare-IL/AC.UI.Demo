@@ -51,10 +51,15 @@ const useAdminFlowmaze = () => {
     return {
       ...message,
       important: message.important.value,
-      teams_id: message.teams_id.map((team) => team.id),
-      roles_id: message.roles_id.map((role) => role.id),
-      users_id: message.users_id.map((user) => user.id),
       start_date: formatDateToAPI(message.start_date),
+      end_date: formatDateToAPI(message.end_date),
+
+      // teams_id: message.teams_id.map((team) => team.id),
+      // roles_id: message.roles_id.map((role) => role.id),
+      // users_id: message.users_id.map((user) => user.id),
+      project_type_id: message.project_type_id.id,
+      project_area_id: message.project_area_id.id,
+      project_detail_id: message.project_detail_id.id,
     };
   };
 
