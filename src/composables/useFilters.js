@@ -594,6 +594,12 @@ const useFilters = () => {
         name: "state",
         label: i18n.t("state") + ":",
       },
+      {
+        type: "entity",
+        name: "manager_id",
+        label: i18n.t("manager") + ":",
+        searchFunction: searchUsers,
+      },
     ],
     role: [
       {
