@@ -10,8 +10,11 @@
         />
       </div>
       <div class="flex flex-row gap-5 flex-wrap">
-        <div v-if="showGraph" class="card mt-5 flex justify-content-center">
-          <WMReportGraphPieChart :data="reportData" />
+        <div v-if="showGraph" class="card mt-5 flex justify-content-center w-full">
+          <WMReportGraphController
+            :report-data="reportData"
+            :visualization-type="report.visualization[0]"
+          />
         </div>
       </div>
     </div>

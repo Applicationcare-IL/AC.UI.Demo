@@ -1,5 +1,5 @@
 <template>
-  <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-30rem" />
+  <Chart type="line" :data="chartData" :options="chartOptions" class="w-full" />
 </template>
 
 <script setup>
@@ -66,16 +66,10 @@ const setChartData = (data) => {
 };
 
 const setChartOptions = () => {
-  const documentStyle = getComputedStyle(document.documentElement);
-  const textColor = documentStyle.getPropertyValue("--text-color");
-
   return {
     plugins: {
       legend: {
-        labels: {
-          usePointStyle: true,
-          color: textColor,
-        },
+        display: false,
       },
     },
   };

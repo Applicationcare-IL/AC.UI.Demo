@@ -45,7 +45,7 @@ const useReports = () => {
   };
 
   const mapReport = (report) => {
-    console.log("mapReport", report);
+    let visualization = report.visualization ? JSON.parse(report.visualization) : [];
 
     return {
       ...report,
@@ -54,6 +54,7 @@ const useReports = () => {
         id: report.id,
       },
       title: report.name,
+      visualization: JSON.parse(visualization),
     };
   };
 

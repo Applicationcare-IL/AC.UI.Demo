@@ -6,7 +6,7 @@
           <Card>
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
-              <!-- <pre>{{ values.fields }}</pre> -->
+              <!-- <pre>{{ values }}</pre> -->
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
@@ -111,7 +111,20 @@
                       v-model="groupBy"
                       :value="groupBy"
                       name="group_by"
+                      style="width: 50px"
                       :label="$t('group')"
+                    />
+
+                    <WMInputSearch
+                      v-if="groupBy"
+                      label="Visualization type"
+                      name="visualization"
+                      placeholder="Select type"
+                      :multiple="false"
+                      size="sm"
+                      :options="visualizationTypes"
+                      :model-value="visualizationType"
+                      @update:model-value="visualizationType = $event"
                     />
                   </div>
 
@@ -159,8 +172,12 @@
                 @update:page="onPage"
               />
 
-              <div v-if="showGraph" class="card mt-5 flex justify-content-center">
-                <WMReportGraphPieChart :data="reportData" />
+              <div v-if="showGraph" class="card mt-5 flex flex-column gap-5 justify-content-center">
+                <WMReportGraphController
+                  v-if="visualizationType.value"
+                  :report-data="reportData"
+                  :visualization-type="visualizationType.value"
+                />
               </div>
             </AccordionTab>
           </Accordion>
@@ -214,6 +231,19 @@ const selectedFields = ref([]);
 const schemaFields = ref();
 const groupBy = ref(false);
 const orderByField = ref();
+
+const visualizationTypes = ref([
+  { name: "Pie", value: "pie" },
+  { name: "Doughnut", value: "doughnut" },
+  { name: "Vertical Bar", value: "vertical_bar" },
+  { name: "Horizontal Bar", value: "horizontal_bar" },
+  { name: "Line", value: "line" },
+  { name: "Polar", value: "polar" },
+  { name: "Radar", value: "radar" },
+]);
+
+const visualizationType = ref(visualizationTypes.value[0]);
+
 const orderDirOptions = ref([
   { name: "ASC", id: "ASC" },
   { name: "DESC", id: "DESC" },
@@ -278,6 +308,12 @@ const loadLazyData = async () => {
 
   if (report.value.fields) {
     setSelectedFields(report.value.fields);
+  }
+
+  if (report.value.visualization && report.value.visualization.length) {
+    visualizationType.value = visualizationTypes.value.find(
+      (item) => item.value === report.value.visualization[0]
+    );
   }
 
   orderByField.value = schemaFields.value.find((item) => item.id === report.value.fields_order_by);
