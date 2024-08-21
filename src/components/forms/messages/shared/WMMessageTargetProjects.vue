@@ -73,10 +73,28 @@ const isProjectAreaEmtpyOrFalsy = computed(() => {
 });
 
 // COMPONENT METHODS AND LOGIC
+const loadLazyData = () => {
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("project_type")
+      .then((data) => (projectTypes.value = data));
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("project_area")
+      .then((data) => (projectAreas.value = data));
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("project_detail")
+      .then((data) => (projectDetails.value = data));
+}
+
 const filterProjectAreasDropdown = (value) => {
-  optionSetsStore.getOptionSetValuesFromApiRaw("project_area", value).then((data) => {
-    projectAreas.value = data;
-  });
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("project_area", value)
+      .then((data) => (projectAreas.value = data));
+};
+
+const filterProjectDetailsDropdown = (value) => {
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("project_detail", value)
+      .then((data) => (projectDetails.value = data));
 };
 
 const clearProjectDetailsDropdown = () => {
@@ -87,19 +105,12 @@ const clearProjectAreasDropdown = () => {
   selectedProjectArea.value = [];
 };
 
-const filterProjectDetailsDropdown = (value) => {
-  optionSetsStore.getOptionSetValuesFromApiRaw("project_detail", value).then((data) => {
-    projectDetails.value = data;
-  });
-};
-
 const handleSelectedProjectTypeChange = (option) => {
   if (!option) {
     clearProjectAreasDropdown();
     clearProjectDetailsDropdown();
     return;
   }
-
   filterProjectAreasDropdown(option.id);
 };
 
@@ -108,7 +119,6 @@ const handleSelectedProjectAreaChange = (option) => {
     clearProjectDetailsDropdown();
     return;
   }
-
   filterProjectDetailsDropdown(option.id);
 };
 
@@ -118,17 +128,7 @@ const handleSelectedProjectAreaChange = (option) => {
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  optionSetsStore.getOptionSetValuesFromApiRaw("project_type").then((data) => {
-    projectTypes.value = data;
-  });
-
-  optionSetsStore
-      .getOptionSetValuesFromApiRaw("project_area")
-      .then((data) => (projectAreas.value = data));
-
-  optionSetsStore
-      .getOptionSetValuesFromApiRaw("project_detail")
-      .then((data) => (projectDetails.value = data));
+  loadLazyData();
 });
 </script>
 
