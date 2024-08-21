@@ -3,8 +3,11 @@
     <label v-if="label != ''" class="wm-form-label" :class="[{ highlighted: props.highlighted }]">
       {{ label }} <span v-if="required && label" class="text-red-500"> *</span>
     </label>
+
     <AutoComplete
+      ref="inputsearch"
       v-model="value"
+      :name="name"
       :suggestions="filteredOptions"
       :option-label="optionLabel"
       :placeholder="placeholder"
@@ -50,6 +53,10 @@
         <span v-else>{{ item.name }}</span>
         <i class="pi pi-times cursor-pointer" @click="onRemove(item)"></i>
       </Chip>
+    </div>
+
+    <div v-if="value && !multiple" style="position: absolute; bottom: 3px; left: 7px">
+      <i class="pi pi-times cursor-pointer" @click="removeValue"></i>
     </div>
   </div>
 </template>
@@ -159,6 +166,7 @@ const props = defineProps({
 const emit = defineEmits(["change", "blur", "update:value", "customChange", "update:modelValue"]);
 
 // REFS
+const inputsearch = ref(null);
 const filteredOptions = ref();
 const name = toRef(props, "name");
 
@@ -297,6 +305,17 @@ const onRemove = (event) => {
 
 const onItemSelected = (item) => {
   emit("change", item);
+};
+
+const removeValue = () => {
+  resetField();
+  value.value = "";
+
+  setTimeout(() => {
+    const field = document.querySelector(`[name="${props.name}"]`);
+    const inputField = field.querySelector("input");
+    inputField.focus();
+  }, 100);
 };
 
 const clear = () => {
