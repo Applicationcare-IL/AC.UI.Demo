@@ -61,9 +61,11 @@ const columns = [
   },
   {
     name: "target",
-    type: "text",
+    type: "target",
     field: "target",
     header: "message.target",
+    width: "100px",
+    class: "p-0 filled-td",
   },
   {
     name: "message-header",

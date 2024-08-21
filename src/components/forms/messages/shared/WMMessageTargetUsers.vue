@@ -3,7 +3,7 @@
 
     <WMInputSearch
         v-if="teams"
-        name="teams_id"
+        name="teams"
         :label="$t('teams') + ':'"
         :placeholder="$t('message.select-teams')"
         :multiple="true"
@@ -14,7 +14,7 @@
 
     <WMInputSearch
         v-if="roles"
-        name="roles_id"
+        name="roles"
         :label="$t('roles') + ':'"
         :placeholder="$t('message.select-roles')"
         :multiple="true"
@@ -25,7 +25,7 @@
 
     <WMInputSearch
         v-if="users"
-        name="users_id"
+        name="users"
         :label="$t('users') + ':'"
         :placeholder="$t('message.select-users')"
         :multiple="true"

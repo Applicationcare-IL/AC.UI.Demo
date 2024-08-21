@@ -3,7 +3,7 @@
 
     <WMInputSearch
         v-model="selectedProjectType"
-        name="project_type_id"
+        name="project_type"
         :highlighted="true"
         :required="true"
         :label="$t('message.project-type') + ':'"
@@ -16,7 +16,7 @@
 
     <WMInputSearch
         v-model="selectedProjectArea"
-        name="project_area_id"
+        name="project_area"
         :highlighted="true"
         :label="$t('message.project-area') + ':'"
         :options="projectAreas"
@@ -28,7 +28,7 @@
 
     <WMInputSearch
         v-model="selectedProjectDetail"
-        name="project_detail_id"
+        name="project_detail"
         :highlighted="true"
         :label="$t('message.project-detail') + ':'"
         :options="projectDetails"

@@ -882,7 +882,12 @@
     "select-project-detail": "Select project detail",
     "select-teams": "Select teams",
     "select-roles": "Select roles",
-    "select-users": "Select users"
+    "select-users": "Select users",
+    "service": "Services",
+    "customer": "Organizations",
+    "sale": "Sales",
+    "project": "Projects",
+    "employee": "Users"
   },
   "report": {
     "report": "Report"

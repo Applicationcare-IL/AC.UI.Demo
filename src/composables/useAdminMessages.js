@@ -35,7 +35,6 @@ const useAdminFlowmaze = () => {
         id: message.id,
       },
       title: message.topic,
-      target: "services",
       //fake state to be able to show something in the list
       state: {
         id: 291,
@@ -47,19 +46,33 @@ const useAdminFlowmaze = () => {
     };
   };
 
+  const parseTargetFields = (message) => {
+    if (message.target === 'employee') {
+      return {
+        teams_id: message.teams?.map((team) => team.id),
+        roles_id: message.roles?.map((role) => role.id),
+        users_id: message.users?.map((user) => user.id),
+      }
+    }
+    if (message.target === 'project') {
+      return {
+        project_type_id: message.project_type?.id,
+        project_area_id: message.project_area?.id,
+        project_detail_id: message.project_detail?.id,
+      }
+    }
+  }
+
   const parseMessage = (message) => {
+
+    let targetFields = parseTargetFields(message);
+
     return {
       ...message,
-      important: message.important.value,
+      important: message.important.value === 'true' ? 1 : 0,
       start_date: formatDateToAPI(message.start_date),
       end_date: formatDateToAPI(message.end_date),
-
-      // teams_id: message.teams_id.map((team) => team.id),
-      // roles_id: message.roles_id.map((role) => role.id),
-      // users_id: message.users_id.map((user) => user.id),
-      project_type_id: message.project_type_id.id,
-      project_area_id: message.project_area_id.id,
-      project_detail_id: message.project_detail_id.id,
+      ...targetFields,
     };
   };
 
