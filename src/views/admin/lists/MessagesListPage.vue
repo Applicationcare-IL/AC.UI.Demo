@@ -93,13 +93,13 @@ const columns = [
   },
   {
     name: "start-date",
-    type: "text",
+    type: "date",
     field: "start_date",
     header: "start-date",
   },
   {
     name: "end-date",
-    type: "text",
+    type: "date",
     field: "end_date",
     header: "end-date",
   },
