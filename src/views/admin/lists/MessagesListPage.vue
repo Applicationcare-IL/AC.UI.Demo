@@ -65,7 +65,7 @@ const columns = [
     field: "target",
     header: "message.target",
     width: "100px",
-    class: "p-0 filled-td",
+    class: "filled-td",
   },
   {
     name: "message-header",
