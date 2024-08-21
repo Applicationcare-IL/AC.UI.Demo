@@ -1,9 +1,8 @@
 <template>
   <div class="flex flex-column gap-3">
-
     <WMInputSearch
         v-model="selectedProjectType"
-        name="project_type"
+        name="project_type_id"
         :highlighted="true"
         :required="true"
         :label="$t('message.project-type') + ':'"
@@ -12,11 +11,12 @@
         size="md"
         :placeholder="$t('message.select-project-type')"
         :option-set="true"
+        @change="handleSelectedProjectTypeChange"
     />
 
     <WMInputSearch
         v-model="selectedProjectArea"
-        name="project_area"
+        name="project_area_id"
         :highlighted="true"
         :label="$t('message.project-area') + ':'"
         :options="projectAreas"
@@ -24,11 +24,12 @@
         :placeholder="$t('message.select-project-area')"
         :option-set="true"
         :disabled="isProjectTypeEmptyOrFalsy"
+        @change="handleSelectedProjectAreaChange"
     />
 
     <WMInputSearch
         v-model="selectedProjectDetail"
-        name="project_detail"
+        name="project_detail_id"
         :highlighted="true"
         :label="$t('message.project-detail') + ':'"
         :options="projectDetails"
@@ -37,13 +38,12 @@
         :option-set="true"
         :disabled="isProjectAreaEmtpyOrFalsy"
     />
-
   </div>
 </template>
 
 <script setup>
 // IMPORTS
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref} from "vue";
 
 import {useOptionSetsStore} from "@/stores/optionSets";
 
@@ -73,18 +73,6 @@ const isProjectAreaEmtpyOrFalsy = computed(() => {
 });
 
 // COMPONENT METHODS AND LOGIC
-onMounted(() => {
-  optionSetsStore.getOptionSetValuesFromApiRaw("project_type").then((data) => {
-    projectTypes.value = data;
-  });
-  optionSetsStore
-      .getOptionSetValuesFromApiRaw("project_area")
-      .then((data) => (projectAreas.value = data));
-  optionSetsStore
-      .getOptionSetValuesFromApiRaw("project_detail")
-      .then((data) => (projectDetails.value = data));
-});
-
 const filterProjectAreasDropdown = (value) => {
   optionSetsStore.getOptionSetValuesFromApiRaw("project_area", value).then((data) => {
     projectAreas.value = data;
@@ -105,35 +93,43 @@ const filterProjectDetailsDropdown = (value) => {
   });
 };
 
+const handleSelectedProjectTypeChange = (option) => {
+  if (!option) {
+    clearProjectAreasDropdown();
+    clearProjectDetailsDropdown();
+    return;
+  }
+
+  filterProjectAreasDropdown(option.id);
+};
+
+const handleSelectedProjectAreaChange = (option) => {
+  if (!option) {
+    clearProjectDetailsDropdown();
+    return;
+  }
+
+  filterProjectDetailsDropdown(option.id);
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
-watch(
-    () => selectedProjectType.value,
-    (newValue) => {
-      if (!newValue) {
-        clearProjectAreasDropdown();
-        clearProjectDetailsDropdown();
-        return;
-      }
-
-      filterProjectAreasDropdown(newValue.id);
-    }
-);
-
-watch(
-    () => selectedProjectArea.value,
-    (newValue) => {
-      if (!newValue) {
-        clearProjectDetailsDropdown();
-        return;
-      }
-
-      filterProjectDetailsDropdown(newValue.id);
-    }
-);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  optionSetsStore.getOptionSetValuesFromApiRaw("project_type").then((data) => {
+    projectTypes.value = data;
+  });
+
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("project_area")
+      .then((data) => (projectAreas.value = data));
+
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("project_detail")
+      .then((data) => (projectDetails.value = data));
+});
 </script>
 
 <style scoped></style>

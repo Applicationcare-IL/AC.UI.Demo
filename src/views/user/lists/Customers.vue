@@ -136,7 +136,7 @@
           </div>
         </template>
       </Column>
-      <Column field="state" class="p-0 filled-td" :header="$t('state.state')">
+      <Column field="state" class="filled-td" :header="$t('state.state')">
         <template #body="slotProps">
           <WMStateField :state="slotProps.data.state" />
         </template>

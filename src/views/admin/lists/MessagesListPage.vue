@@ -91,7 +91,7 @@ const columns = [
     field: "state",
     header: "status",
     width: "100px",
-    class: "p-0 filled-td",
+    class: "filled-td",
   },
   {
     name: "start-date",

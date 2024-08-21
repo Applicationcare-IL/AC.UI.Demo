@@ -105,7 +105,7 @@
       <Column
         field="open_tasks"
         :header="$t('project.open_tasks')"
-        class="p-0 filled-td"
+        class="filled-td"
         style="width: 30px"
       >
         <div
@@ -118,7 +118,7 @@
       <Column
         field="breached_tasks"
         :header="$t('project.breached_tasks')"
-        class="p-0 filled-td"
+        class="filled-td"
         style="width: 30px"
       >
         <template #body="slotProps">
@@ -132,12 +132,7 @@
       </Column>
 
       <Column field="stage" :header="$t('project.stage')" style="width: 30px" />
-      <Column
-        field="status"
-        :header="$t('project.status')"
-        class="p-0 filled-td"
-        style="width: 20px"
-      >
+      <Column field="status" :header="$t('project.status')" class="filled-td" style="width: 20px">
         <template #body="slotProps">
           <div :class="statusClass(slotProps.data.state.value)" class="status-label h-full w-full">
             <WMOptionSetValue :option-set="slotProps.data.state" />
@@ -145,7 +140,7 @@
         </template>
       </Column>
 
-      <Column style="width: 20px" field="state" class="p-0 filled-td" :header="$t('state.state')">
+      <Column style="width: 20px" field="state" class="filled-td" :header="$t('state.state')">
         <template #body="slotProps">
           <WMStateField :state="slotProps.data.state" />
         </template>

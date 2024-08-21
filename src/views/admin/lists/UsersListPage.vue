@@ -107,7 +107,7 @@ const columns = [
     field: "state",
     header: "state.state",
     width: "100px",
-    class: "p-0 filled-td",
+    class: "filled-td",
   },
   {
     name: "roles",

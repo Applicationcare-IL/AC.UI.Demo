@@ -1012,9 +1012,13 @@ cursor: text !important;
 }
 
 
-// utility
+// UTILITY / AUX
 .gap-32px{
     gap: 32px;
+}
+
+td.filled-td {
+  padding: 0 !important;
 }
 
 // PERMISSIONS TABLE AND COMPONENTS
