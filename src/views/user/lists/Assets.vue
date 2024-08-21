@@ -3,12 +3,12 @@
     v-if="permissions.services.read"
     entity="asset"
     :total-records="totalRecords"
+    :show-sub-bar="false"
     @new="toggleSidebarVisibility"
     @refresh-table="
       loadLazyData();
       clearSelectedAssets();
     "
-    :showSubBar="false"
   >
   </WMListSubHeader>
 
@@ -111,12 +111,7 @@
         </template>
       </Column>
       <Column field="usage_start_date" :header="$t('asset.usage_start_date')"></Column>
-      <Column
-        field="status"
-        :header="$t('project.status')"
-        class="p-0 filled-td"
-        style="width: 30px"
-      >
+      <Column field="status" :header="$t('project.status')" class="filled-td" style="width: 30px">
         <template #body="slotProps">
           <div :class="statusClass(slotProps.data.state.value)" class="status-label h-full w-full">
             <WMOptionSetValue :option-set="slotProps.data.state" />
