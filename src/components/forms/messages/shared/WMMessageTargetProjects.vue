@@ -2,11 +2,10 @@
   <div class="flex flex-column gap-3">
     <WMInputSearch
         v-model="selectedProjectType"
-        name="project_type_id"
+        name="project_type"
         :highlighted="true"
         :required="true"
         :label="$t('message.project-type') + ':'"
-        type="input-search"
         :options="projectTypes"
         size="md"
         :placeholder="$t('message.select-project-type')"
@@ -16,34 +15,34 @@
 
     <WMInputSearch
         v-model="selectedProjectArea"
-        name="project_area_id"
+        name="project_area"
         :highlighted="true"
         :label="$t('message.project-area') + ':'"
         :options="projectAreas"
         size="md"
         :placeholder="$t('message.select-project-area')"
         :option-set="true"
-        :disabled="isProjectTypeEmptyOrFalsy"
+        :disabled="isProjectAreaEmpty"
         @change="handleSelectedProjectAreaChange"
     />
 
     <WMInputSearch
         v-model="selectedProjectDetail"
-        name="project_detail_id"
+        name="project_detail"
         :highlighted="true"
         :label="$t('message.project-detail') + ':'"
         :options="projectDetails"
         size="md"
         :placeholder="$t('message.select-project-detail')"
         :option-set="true"
-        :disabled="isProjectAreaEmtpyOrFalsy"
+        :disabled="isProjectDetailEmpty"
     />
   </div>
 </template>
 
 <script setup>
 // IMPORTS
-import {computed, onMounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 
 import {useOptionSetsStore} from "@/stores/optionSets";
 
@@ -55,54 +54,50 @@ const optionSetsStore = useOptionSetsStore();
 // PROPS, EMITS
 
 // REFS
-const selectedProjectType = ref(false);
-const selectedProjectArea = ref(false);
-const selectedProjectDetail = ref(false);
-
 const projectTypes = ref([]);
 const projectAreas = ref([]);
 const projectDetails = ref([]);
 
-// COMPUTED
-const isProjectTypeEmptyOrFalsy = computed(() => {
-  return !selectedProjectType.value;
-});
+const selectedProjectType = ref(false);
+const selectedProjectArea = ref(false);
+const selectedProjectDetail = ref(false);
 
-const isProjectAreaEmtpyOrFalsy = computed(() => {
-  return !selectedProjectArea.value;
-});
+const isProjectAreaEmpty = ref(true);
+const isProjectDetailEmpty = ref(true);
+
+// COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = () => {
   optionSetsStore
       .getOptionSetValuesFromApiRaw("project_type")
       .then((data) => (projectTypes.value = data));
-  optionSetsStore
-      .getOptionSetValuesFromApiRaw("project_area")
-      .then((data) => (projectAreas.value = data));
-  optionSetsStore
-      .getOptionSetValuesFromApiRaw("project_detail")
-      .then((data) => (projectDetails.value = data));
 }
 
 const filterProjectAreasDropdown = (value) => {
   optionSetsStore
       .getOptionSetValuesFromApiRaw("project_area", value)
       .then((data) => (projectAreas.value = data));
+  isProjectAreaEmpty.value = false;
 };
 
 const filterProjectDetailsDropdown = (value) => {
   optionSetsStore
       .getOptionSetValuesFromApiRaw("project_detail", value)
       .then((data) => (projectDetails.value = data));
-};
-
-const clearProjectDetailsDropdown = () => {
-  selectedProjectDetail.value = [];
+  isProjectDetailEmpty.value = false;
 };
 
 const clearProjectAreasDropdown = () => {
-  selectedProjectArea.value = [];
+  projectAreas.value = []
+  selectedProjectArea.value = null;
+  isProjectAreaEmpty.value = true;
+};
+
+const clearProjectDetailsDropdown = () => {
+  projectDetails.value = [];
+  selectedProjectDetail.value = null;
+  isProjectDetailEmpty.value = true;
 };
 
 const handleSelectedProjectTypeChange = (option) => {
@@ -111,7 +106,7 @@ const handleSelectedProjectTypeChange = (option) => {
     clearProjectDetailsDropdown();
     return;
   }
-  filterProjectAreasDropdown(option.id);
+  filterProjectAreasDropdown(option.value.id);
 };
 
 const handleSelectedProjectAreaChange = (option) => {
@@ -119,7 +114,7 @@ const handleSelectedProjectAreaChange = (option) => {
     clearProjectDetailsDropdown();
     return;
   }
-  filterProjectDetailsDropdown(option.id);
+  filterProjectDetailsDropdown(option.value.id);
 };
 
 // PROVIDE, EXPOSE

@@ -47,18 +47,35 @@ const useAdminFlowmaze = () => {
   };
 
   const parseTargetFields = (message) => {
-    if (message.target === 'employee') {
+    if (message.target === 'service') {
       return {
-        teams_id: message.teams?.map((team) => team.id),
-        roles_id: message.roles?.map((role) => role.id),
-        users_id: message.users?.map((user) => user.id),
+        service_area: message.service_area?.id,
+        service_type: message.service_type?.id,
+        service_request_1: message.service_request_1?.id,
+        service_request_2: message.service_request_2?.id,
+        service_request_3: message.service_request_3?.id,
       }
+    }
+    if (message.target === 'customer') {
+      return {
+        customer_service_areas: message.customer_service_areas?.map((service_area) => service_area.id),
+      }
+    }
+    if (message.target === 'sale') {
+      return {}
     }
     if (message.target === 'project') {
       return {
         project_type_id: message.project_type?.id,
         project_area_id: message.project_area?.id,
         project_detail_id: message.project_detail?.id,
+      }
+    }
+    if (message.target === 'employee') {
+      return {
+        teams_id: message.teams?.map((team) => team.id),
+        roles_id: message.roles?.map((role) => role.id),
+        users_id: message.users?.map((user) => user.id),
       }
     }
   }
