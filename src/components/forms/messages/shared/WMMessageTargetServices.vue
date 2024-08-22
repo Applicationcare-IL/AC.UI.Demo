@@ -1,133 +1,76 @@
 <template>
   <div class="flex flex-column gap-3">
 
-    <WMInput
+    <WMInputSearch
+        v-model="selectedArea"
         name="service_area"
         type="input-select"
         :highlighted="true"
         :placeholder="$t('message.select-service-area')"
         :label="$t('message.service-area') + ':'"
-        :options="[]"
-        custom-option-label=""
+        :options="areas"
         size="md"
+        @change="handleAreasChange"
     />
 
-    <WMInput
+    <WMInputSearch
+        v-model="selectedType"
         name="service_type"
         type="input-select"
         :highlighted="true"
         :placeholder="$t('message.select-service-detail')"
         :label="$t('message.service-detail') + ':'"
-        :options="[]"
-        custom-option-label=""
+        :options="types"
         size="md"
+        :disabled="isTypeEmpty"
+        @change="handleTypesChange"
     />
 
-    <WMInput
+    <WMInputSearch
+        v-model="selectedRequest1"
         name="service_request_1"
         type="input-select"
         :highlighted="true"
         :placeholder="$t('message.select-request') + ' 1'"
         :label="$t('message.request') + ' 1:'"
-        :options="[]"
-        custom-option-label=""
+        :options="requests1"
         size="md"
+        :disabled="isRequest1Empty"
+        @change="handleRequest1Change"
     />
 
-    <WMInput
+    <WMInputSearch
+        v-model="selectedRequest2"
         name="service_request_2"
         type="input-select"
         :highlighted="true"
         :placeholder="$t('message.select-request') + ' 2'"
         :label="$t('message.request') + ' 2:'"
-        :options="[]"
-        custom-option-label=""
+        :options="requests2"
         size="md"
+        :disabled="isRequest2Empty"
+        @change="handleRequest2Change"
     />
 
-    <WMInput
+    <WMInputSearch
+        v-model="selectedRequest3"
         name="service_request_3"
         type="input-select"
         :highlighted="true"
         :placeholder="$t('message.select-request') + ' 3'"
         :label="$t('message.request') + ' 3:'"
-        :options="[]"
-        custom-option-label=""
+        :options="requests3"
+        :disabled="isRequest3Empty"
         size="md"
     />
 
-  </div>
-
-  <Divider/>
-
-  <div class="flex flex-column gap-3">
-
-    <WMInputSearch
-        v-model="selectedArea"
-        name="area"
-        :highlighted="true"
-        :label="$t('classification-1') + ':'"
-        type="input-search"
-        :options="areas"
-        width="152"
-        :placeholder="$t('select', ['classification-1'])"
-        required
-        option-set
-        @change="updateDropdown('service_type', $event.value.id, 'types')"
-    />
-
-    <WMInputSearch
-        v-model="selectedType"
-        name="type"
-        :highlighted="true"
-        :label="$t('classification-2') + ':'"
-        :options="types"
-        width="152"
-        :placeholder="$t('select', ['classification-2'])"
-        required
-        option-set
-        @change="updateDropdown('service_request_1', $event.value.id, 'requests1')"
-    />
-    <WMInputSearch
-        v-model="selectedRequest1"
-        name="request1"
-        :highlighted="true"
-        :label="$t('classification-3') + ':'"
-        :options="requests1"
-        width="152"
-        option-set
-        :placeholder="$t('select', ['classification-3'])"
-        required
-        @change="updateDropdown('service_request_2', $event.value.id, 'requests2')"
-    />
-
-    <WMInputSearch
-        v-model="selectedRequest2"
-        name="request2"
-        :highlighted="true"
-        :label="$t('classification-4') + ':'"
-        :options="requests2"
-        width="152"
-        option-set
-        :placeholder="$t('select', ['classification-4'])"
-        @change="updateDropdown('service_request_3', $event.value.id, 'requests3')"
-    />
-    <WMInputSearch
-        v-model="selectedRequest3"
-        name="request_3"
-        :highlighted="true"
-        :label="$t('classification-5') + ':'"
-        :options="requests3"
-        width="152"
-        option-set
-        :placeholder="$t('select', ['classification-5'])"
-    />
   </div>
 </template>
 
 <script setup>
 // IMPORTS
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+
 import {useOptionSetsStore} from "@/stores/optionSets";
 
 // DEPENDENCIES
@@ -138,157 +81,132 @@ const optionSetsStore = useOptionSetsStore();
 // PROPS, EMITS
 
 // REFS
-const quickCodes = ref([]);
 const areas = ref([]);
 const types = ref([]);
 const requests1 = ref([]);
 const requests2 = ref([]);
 const requests3 = ref([]);
 
-const selectedArea = ref();
-const selectedType = ref();
-const selectedRequest1 = ref();
-const selectedRequest2 = ref();
-const selectedRequest3 = ref();
+const selectedArea = ref(null);
+const selectedType = ref(null);
+const selectedRequest1 = ref(null);
+const selectedRequest2 = ref(null);
+const selectedRequest3 = ref(null);
 
-const optionRefs = {
-  areas: areas,
-  types: types,
-  requests1: requests1,
-  requests2: requests2,
-  requests3: requests3,
-};
+const isTypeEmpty = ref(true);
+const isRequest1Empty = ref(true);
+const isRequest2Empty = ref(true);
+const isRequest3Empty = ref(true);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const updateDropdown = (dropdown, selectedId, dropdownOptions) => {
-  return new Promise((resolve, reject) => {
-    optionSetsStore
-        .getOptionSetValuesFromApiRaw(dropdown, selectedId)
-        .then((data) => {
-          optionRefs[dropdownOptions].value = data;
-          resolve(data);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-  });
-};
-
-function handleQuickCodeChange(quickCode) {
-  if (!quickCode) {
-    return;
-  }
-
-  setArea(quickCode)
-      .then(() => {
-        return updateDropdown("service_type", quickCode.value.area.id, "types");
-      })
-      .then(() => {
-        return setType(quickCode);
-      })
-      .then(() => {
-        return updateDropdown("service_request_1", quickCode.value.type.id, "requests1");
-      })
-      .then(() => {
-        return setRequest1(quickCode);
-      })
-      .then(() => {
-        return updateDropdown("service_request_2", quickCode.value.request_1.id, "requests2");
-      })
-      .then(() => {
-        return setRequest2(quickCode);
-      })
-      .then(() => {
-        return updateDropdown("service_request_3", quickCode.value.request_2.id, "requests3");
-      })
-      .then(() => {
-        return setRequest3(quickCode);
-      });
+const loadLazyData = () => {
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("service_area")
+      .then((data) => (areas.value = data));
 }
 
-const setArea = (quickCode) => {
-  return new Promise((resolve, reject) => {
-    if (!quickCode) {
-      reject();
-    }
-
-    if (quickCode.value.area) {
-      selectedArea.value = areas.value.find((area) => {
-        return area.id == quickCode.value.area.id;
-      });
-      resolve();
-    }
-  });
+const filterTypes = (value) => {
+  // console.log(value);
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("service_type", value)
+      .then((data) => (types.value = data));
+  isTypeEmpty.value = false;
 };
 
-const setType = (quickCode) => {
-  return new Promise((resolve, reject) => {
-    if (!quickCode) {
-      reject();
-    }
-
-    if (quickCode.value.type) {
-      selectedType.value = types.value.find((type) => {
-        return type.id == quickCode.value.type.id;
-      });
-      resolve();
-    }
-  });
+const filterRequests1 = (value) => {
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("service_request_1", value)
+      .then((data) => (requests1.value = data));
+  isRequest1Empty.value = false;
 };
 
-const setRequest1 = (quickCode) => {
-  return new Promise((resolve, reject) => {
-    if (!quickCode) {
-      reject();
-    }
-
-    if (quickCode.value.request_1) {
-      selectedRequest1.value = requests1.value.find((request1) => {
-        return request1.id == quickCode.value.request_1.id;
-      });
-      resolve();
-    }
-  });
+const filterRequests2 = (value) => {
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("service_request_2", value)
+      .then((data) => (requests2.value = data));
+  isRequest2Empty.value = false;
 };
 
-const setRequest2 = (quickCode) => {
-  return new Promise((resolve, reject) => {
-    if (!quickCode) {
-      reject();
-    }
-
-    if (quickCode.value.request_2) {
-      selectedRequest2.value = requests2.value.find((request2) => {
-        return request2.id == quickCode.value.request_2.id;
-      });
-      resolve();
-    }
-  });
+const filterRequests3 = (value) => {
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("service_request_3", value)
+      .then((data) => (requests3.value = data));
+  isRequest3Empty.value = false;
 };
 
-const setRequest3 = (quickCode) => {
-  return new Promise((resolve, reject) => {
-    if (!quickCode) {
-      reject();
-    }
+const clearTypes = () => {
+  types.value = [];
+  selectedType.value = null;
+  isTypeEmpty.value = true;
+}
 
-    if (quickCode.value.request_3) {
-      selectedRequest3.value = requests3.value.find((request3) => {
-        return request3.id == quickCode.value.request_3.id;
-      });
-      resolve();
-    }
-  });
+const clearRequest1 = () => {
+  requests1.value = [];
+  selectedRequest1.value = null;
+  isRequest1Empty.value = true;
+}
+
+const clearRequest2 = () => {
+  requests2.value = [];
+  selectedRequest2.value = null;
+  isRequest2Empty.value = true;
+}
+
+const clearRequest3 = () => {
+  requests3.value = [];
+  selectedRequest3.value = null;
+  isRequest3Empty.value = true;
+}
+
+const handleAreasChange = (option) => {
+  if (!option) {
+    clearTypes();
+    clearRequest1();
+    clearRequest2();
+    clearRequest3();
+    return;
+  }
+  filterTypes(option.value.id);
 };
 
+const handleTypesChange = (option) => {
+  if (!option) {
+    clearRequest1();
+    clearRequest2();
+    clearRequest3();
+    return;
+  }
+  filterRequests1(option.value.id);
+};
+
+const handleRequest1Change = (option) => {
+  if (!option) {
+    clearRequest2();
+    clearRequest3();
+    return;
+  }
+  filterRequests2(option.value.id);
+};
+
+const handleRequest2Change = (option) => {
+  if (!option) {
+    clearRequest3();
+    return;
+  }
+  filterRequests3(option.value.id);
+};
 
 // PROVIDE, EXPOSE
 
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  loadLazyData();
+});
+
 </script>
 
 <style scoped></style>
