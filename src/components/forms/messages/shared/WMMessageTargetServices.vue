@@ -108,7 +108,6 @@ const loadLazyData = () => {
 }
 
 const filterTypes = (value) => {
-  // console.log(value);
   optionSetsStore
       .getOptionSetValuesFromApiRaw("service_type", value)
       .then((data) => (types.value = data));

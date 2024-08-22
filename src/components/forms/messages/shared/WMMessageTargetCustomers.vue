@@ -85,9 +85,9 @@ onMounted(async () => {
     }));
   });
 
-  // const serviceAreaOptions = optionSetsStore
-  //   .getOptionSetValuesFromApiRaw("service_area")
-  //   .then((data) => (areas.value = data));
+  optionSetsStore
+      .getOptionSetValuesFromApiRaw("service_area")
+      .then((data) => (areas.value = data));
 });
 </script>
 

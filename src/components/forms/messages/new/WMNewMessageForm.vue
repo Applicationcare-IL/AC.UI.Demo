@@ -69,7 +69,6 @@
 
       <WMMessageTarget/>
 
-      <pre>{{ values }}</pre>
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
   </div>
