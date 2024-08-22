@@ -4,7 +4,7 @@
   </div>
   <div v-else class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex gap-5 mb-5">
-      <pre style="height: 200px !important">{{ values }}</pre>
+      <!-- <pre style="height: 200px !important">{{ values }}</pre> -->
 
       <div class="flex flex-1 flex-column gap-5 mb-5">
         <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
