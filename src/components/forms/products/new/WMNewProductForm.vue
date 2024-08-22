@@ -52,7 +52,9 @@
               size="sm"
               option-set
               data-testid="product.form.units"
+              required
             />
+
             <WMInput
               v-if="manufacturerTypes"
               name="manufacter_type"
@@ -64,6 +66,7 @@
               size="sm"
               option-set
               data-testid="product.form.manufacturer-type"
+              required
             />
 
             <WMInput
@@ -76,6 +79,30 @@
               :placeholder="$t('select', ['product.manufacturer'])"
               size="sm"
               data-testid="product.form.manufacturer"
+              required
+            />
+
+            <WMInput
+              name="existing_product"
+              type="input-select-button"
+              :highlighted="true"
+              :label="$t('product.existing-product') + ':'"
+              :options="yesNoOptions"
+              :value="yesNoOptions[1]"
+              width="80"
+            />
+          </div>
+        </div>
+        <Divider />
+        <h2 class="h2 my-0">{{ $t("product.pricing") }}</h2>
+
+        <div class="flex flex-column gap-5">
+          <div class="flex gap-5">
+            <WMInputCurrency
+              required
+              :label="$t('product.base-price') + ':'"
+              name="base_price"
+              :small="true"
             />
 
             <WMInput
@@ -89,32 +116,122 @@
             />
           </div>
         </div>
-        <Divider />
-        <h2 class="h2 my-0">{{ $t("product.pricing") }}</h2>
-
-        <div class="flex flex-column gap-5">
-          <div class="flex gap-5">
-            <WMInputCurrency
-              :label="$t('product.base-price') + ':'"
-              name="base_price"
-              :small="true"
-            />
-            <WMInput
-              name="sale_discount"
-              type="input-select-button"
-              :highlighted="true"
-              :label="$t('product.sale-discount') + ':'"
-              :options="yesNoOptions"
-              :value="yesNoOptions[1]"
-              width="80"
-            />
-          </div>
-        </div>
 
         <Divider />
         <h2 class="h2 my-0">{{ $t("product.characteristics") }}</h2>
 
-        <div class="flex flex-column gap-5">content</div>
+        <div class="flex flex-column gap-5">
+          <div class="flex gap-5">
+            <WMInput
+              v-if="productTypes"
+              name="product_type"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('product.product-type') + ':'"
+              :options="productTypes"
+              :placeholder="$t('select', ['product.product-type'])"
+              size="sm"
+              option-set
+              data-testid="product.form.product-type"
+              required
+            />
+
+            <WMInput
+              v-if="productFamilies"
+              name="product_family"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('product.product-family') + ':'"
+              :options="productFamilies"
+              :placeholder="$t('select', ['product.product-family'])"
+              size="sm"
+              option-set
+              data-testid="product.form.product-family"
+              required
+            />
+
+            <WMInput
+              v-if="productGroups"
+              name="product_group"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('product.product-group') + ':'"
+              :options="productGroups"
+              :placeholder="$t('select', ['product.product-group'])"
+              size="sm"
+              option-set
+              data-testid="product.form.product-group"
+              required
+            />
+
+            <WMInput
+              v-if="productDepartments"
+              name="product_department"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('product.product-department') + ':'"
+              :options="productDepartments"
+              :placeholder="$t('select', ['product.product-department'])"
+              size="sm"
+              option-set
+              data-testid="product.form.product-department"
+              required
+            />
+          </div>
+          <div class="flex gap-5">
+            <WMInput
+              type="date"
+              :label="$t('products.valid-till') + ':'"
+              name="valid_till"
+              required
+            />
+            <WMInput type="date" :label="$t('products.eol') + ':'" name="eol" />
+            <WMInput type="date" :label="$t('products.eos') + ':'" name="eos" />
+          </div>
+          <div class="flex gap-5">
+            <WMInput
+              v-if="billingTypes"
+              name="billing_type"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('product.billing-type') + ':'"
+              :options="productTypes"
+              :placeholder="$t('select', ['product.billing-type'])"
+              size="sm"
+              option-set
+              data-testid="product.form.billing-type"
+              required
+            />
+
+            <WMInput
+              v-if="renewalTypes"
+              name="renewal_type"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('product.renewal-type') + ':'"
+              :options="renewalTypes"
+              :placeholder="$t('select', ['product.renewal-type'])"
+              size="sm"
+              option-set
+              data-testid="product.form.renewal-type"
+              required
+            />
+
+            <WMInput
+              v-if="cancellationTypes"
+              name="cancellation_type"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('product.cancellation-type') + ':'"
+              :options="cancellationTypes"
+              :placeholder="$t('select', ['product.cancellation-type'])"
+              size="sm"
+              option-set
+              data-testid="product.form.cancellation-type"
+              required
+            />
+          </div>
+        </div>
 
         <Divider />
         <h2 class="h2 my-0">{{ $t("product.management-and-marketing") }}</h2>
@@ -188,8 +305,17 @@ const yesNoOptions = ref([]);
 const saleDiscountOptions = ref([
   { name: "None", value: "none" },
   { name: "Percent %", value: "percent" },
-  { name: "Percent %", value: "percent" },
+  { name: "Amount ₪", value: "amount" },
 ]);
+
+const productTypes = ref(null);
+const productFamilies = ref(null);
+const productGroups = ref(null);
+const productDepartments = ref(null);
+
+const billingTypes = ref([]);
+const renewalTypes = ref([]);
+const cancellationTypes = ref([]);
 
 const hasLicense = ref(false);
 const hasCommitment = ref(false);
@@ -220,6 +346,15 @@ onMounted(async () => {
     label: customer.name,
     value: customer.id,
   }));
+
+  productTypes.value = await optionSetsStore.getOptionSetValues("product_type");
+  productFamilies.value = await optionSetsStore.getOptionSetValues("product_family");
+  productGroups.value = await optionSetsStore.getOptionSetValues("product_group");
+  productDepartments.value = await optionSetsStore.getOptionSetValues("product_department");
+
+  billingTypes.value = await optionSetsStore.getOptionSetValues("billing_type");
+  renewalTypes.value = await optionSetsStore.getOptionSetValues("renewal_type");
+  cancellationTypes.value = await optionSetsStore.getOptionSetValues("cancellation_type");
 
   loading.value = false;
 });
