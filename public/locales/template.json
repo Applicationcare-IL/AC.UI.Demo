@@ -939,6 +939,8 @@
     "provisioning": "Provisioning",
     "maintenance": "Maintenance",
     "information-page": "Information Page",
-    "manufacturer-type": "Manufacturer Type"
+    "manufacturer-type": "Manufacturer Type",
+    "units": "Units",
+    "manufacturer": "Manufacturer"
   }
 }

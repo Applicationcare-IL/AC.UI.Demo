@@ -2,7 +2,7 @@
   <WMSelectableButton
     v-for="(option, index) in options"
     :key="option"
-    v-model="selectedOption[index]"
+    v-model="selectedOptions[index]"
     :label="option.label"
     :no-icon="noIcon"
     @click="handleSelectedOption(option, index)"
@@ -28,22 +28,24 @@ defineProps({
   },
 });
 
-const emit = defineEmits(["update:selectedOption"]);
+const emit = defineEmits(["update:selectedOptions"]);
 
 // REFS
-const selectedOption = ref([]);
+const selectedOptions = ref([]);
+const selectedValues = ref([]);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+
 const handleSelectedOption = (option, selectedIndex) => {
-  selectedOption.value.forEach((_, index) => {
-    selectedOption.value[index] = false;
-  });
+  if (selectedOptions.value[selectedIndex] !== true) {
+    selectedValues.value = selectedValues.value.filter((value) => value !== option.value);
+  } else {
+    selectedValues.value.push(option.value);
+  }
 
-  selectedOption.value[selectedIndex] = true;
-
-  emit("update:selectedOption", option);
+  emit("update:selectedOptions", selectedValues.value);
 };
 
 // PROVIDE, EXPOSE

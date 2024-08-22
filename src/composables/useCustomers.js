@@ -1,6 +1,6 @@
 import { useCustomersStore } from "@/stores/customersStore";
 
-export function useCustomers() {
+const useCustomers = () => {
   const customersStore = useCustomersStore();
 
   // ACTIONS
@@ -46,10 +46,7 @@ export function useCustomers() {
   };
 
   const unassignContactFromCustomer = async (customerId, contactId) => {
-    return await customersStore.unassignContactFromCustomer(
-      customerId,
-      contactId
-    );
+    return await customersStore.unassignContactFromCustomer(customerId, contactId);
   };
 
   const assignAssetToCustomer = async (customerId, asset) => {
@@ -120,9 +117,7 @@ export function useCustomers() {
       calculate_term: customer["calculate_term"],
       is_provider: customer.is_provider ? true : false, // Optional pero si no lo pones peta
       // business: customer.business ? customer.business.id : '',
-      service_area: customer.service_area
-        ? customer.service_area.map((x) => x.id)
-        : "",
+      service_area: customer.service_area ? customer.service_area.map((x) => x.id) : "",
       notes: customer.notes,
       contacts: contacts,
       fax: customer.fax,
@@ -159,4 +154,6 @@ export function useCustomers() {
     mapCustomer,
     parseCustomer,
   };
-}
+};
+
+export default useCustomers;
