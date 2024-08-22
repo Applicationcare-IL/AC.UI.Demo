@@ -310,6 +310,7 @@ const onItemSelected = (item) => {
 const removeValue = () => {
   resetField();
   value.value = "";
+  emit("change");
 
   setTimeout(() => {
     const field = document.querySelector(`[name="${props.name}"]`);
