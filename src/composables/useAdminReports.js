@@ -28,6 +28,8 @@ const useAdminReports = () => {
 
   // UTILITIES
   const mapReport = (report) => {
+    let visualization = report.visualization ? JSON.parse(report.visualization) : [];
+
     return {
       ...report,
       entity_name: report.easymaze_entity?.name,
@@ -36,6 +38,7 @@ const useAdminReports = () => {
         id: report.id,
       },
       title: report.name,
+      visualization: JSON.parse(visualization),
     };
   };
 
@@ -48,6 +51,7 @@ const useAdminReports = () => {
       group_by: report.group_by ? 1 : 0,
       fields_order_by: report.orderByField?.value,
       fields: report.fields?.map((field) => field.value),
+      visualization: report.visualization ? [report.visualization.value] : [],
     };
   };
 

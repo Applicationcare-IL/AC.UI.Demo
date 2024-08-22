@@ -1,5 +1,5 @@
 <template>
-  <Chart type="pie" :data="chartData" :options="chartOptions" class="w-full md:w-30rem" />
+  <Chart type="radar" :data="chartData" :options="chartOptions" class="w-full md:w-30rem" />
 </template>
 
 <script setup>
