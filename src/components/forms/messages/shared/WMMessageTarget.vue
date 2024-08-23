@@ -5,7 +5,7 @@
     <WMSelectableButtonGroup
       name="target"
       :options="options"
-      :value="props.message.target"
+      :value="props.message.target ? props.message.target : options[0]"
       @update:selected-option="handleSelectedOption"
     />
   </div>
@@ -35,12 +35,12 @@ const { t } = useI18n();
 const props = defineProps({
   message: {
     type: Object,
-    default: null,
+    default: () => ({}),
   },
 });
 
 // REFS
-const selectedOption = ref('papope');
+const selectedOption = ref("papope");
 
 const options = ref([
   {
@@ -81,8 +81,10 @@ const { handleChange: handleChangeTarget } = useField("target", undefined, { ini
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  handleSelectedOption(props.message.target);
-  console.log(props.message.target);
+  if (props.message && props.message.target) {
+    console.log(props.message.target);
+    handleSelectedOption(props.message.target);
+  }
 });
 </script>
 
