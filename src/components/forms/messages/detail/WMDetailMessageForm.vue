@@ -30,6 +30,7 @@
                 </div>
                 <div class="wm-form-row gap-5">
                   <WMInput
+                      v-model="start_date"
                       type="date"
                       :label="$t('start-date') + ':'"
                       name="start_date"
@@ -42,7 +43,7 @@
                       :label="$t('end-date') + ':'"
                       name="end_date"
                       :value="message.end_date"
-                      :minDate="values.start_date"
+                      :min-date="start_date"
                   />
 
                   <WMInput
@@ -83,7 +84,7 @@
           <Card>
             <template #title> {{ $t('message.target') }}</template>
             <template #content>
-
+              <WMMessageTarget :message="message"/>
             </template>
           </Card>
         </div>
@@ -139,6 +140,8 @@ const props = defineProps({
 const emit = defineEmits(["messageUpdated"]);
 
 // REFS
+const start_date = ref();
+
 const normalImportantOptions = [
   { value: "false", name: t("message.normal") },
   { value: "true", name: t("message.important") },

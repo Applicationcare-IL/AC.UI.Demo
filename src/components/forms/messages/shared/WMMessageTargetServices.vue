@@ -9,10 +9,11 @@
         :placeholder="$t('message.select-service-area')"
         :label="$t('message.service-area') + ':'"
         :options="areas"
+        :value="props.message.service_area"
         size="md"
         @change="handleAreasChange"
     />
-
+    <pre>{{ props.message.service_area }}</pre>
     <WMInputSearch
         v-model="selectedType"
         name="service_type"
@@ -79,6 +80,12 @@ const optionSetsStore = useOptionSetsStore();
 // INJECT
 
 // PROPS, EMITS
+const props = defineProps({
+  message: {
+    type: Object,
+    default: null,
+  }
+});
 
 // REFS
 const areas = ref([]);

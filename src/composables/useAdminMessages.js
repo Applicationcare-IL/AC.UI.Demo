@@ -34,6 +34,10 @@ const useAdminFlowmaze = () => {
         text: message.id,
         id: message.id,
       },
+      target: {
+        "label": "Services",
+        "value": "service"
+      },
       title: message.topic,
       // start_date: formatDateFromAPI(message.start_date),
       // end_date: formatDateFromAPI(message.end_date),

@@ -5,22 +5,25 @@
     <WMSelectableButtonGroup
       name="target"
       :options="options"
+      :value="props.message.target"
       @update:selected-option="handleSelectedOption"
     />
   </div>
-
+  <pre>{{ selectedOption }}</pre>
   <div class="flex flex-column gap-5">
-    <WMMessageTargetServices v-if="selectedOption?.value === 'service'"/>
-    <WMMessageTargetCustomers v-if="selectedOption?.value === 'customer'"/>
-    <WMMessageTargetProjects v-if="selectedOption?.value === 'project'"/>
-    <WMMessageTargetUsers v-if="selectedOption?.value === 'employee'"/>
+    <WMMessageTargetServices v-if="selectedOption?.value === 'service'" :message="message"/>
+    <WMMessageTargetCustomers v-if="selectedOption?.value === 'customer'" :message="message"/>
+    <WMMessageTargetProjects v-if="selectedOption?.value === 'project'" :message="message"/>
+    <WMMessageTargetUsers v-if="selectedOption?.value === 'employee'" :message="message"/>
+
+    <pre>{{ props.message }}</pre>
   </div>
 </template>
 
 <script setup>
 // IMPORTS
 import { useField } from "vee-validate";
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
@@ -29,7 +32,7 @@ const { t } = useI18n();
 // INJECT
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   message: {
     type: Object,
     default: null,
@@ -37,7 +40,7 @@ defineProps({
 });
 
 // REFS
-const selectedOption = ref(null);
+const selectedOption = ref('papope');
 
 const options = ref([
   {
@@ -77,6 +80,10 @@ const { handleChange: handleChangeTarget } = useField("target", undefined, { ini
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  handleSelectedOption(props.message.target);
+  console.log(props.message.target);
+});
 </script>
 
 <style scoped></style>
