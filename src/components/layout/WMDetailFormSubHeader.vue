@@ -1,5 +1,4 @@
 <template>
-  <!-- <pre>{{ entityObject }}</pre> -->
   <div v-if="entityObject" class="wm-subheader shadow-1 flex-none">
     <div class="flex flex-column">
       <div class="flex flex-row justify-content-between align-items-center">

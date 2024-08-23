@@ -11,9 +11,20 @@ const useProducts = () => {
     return { data: products, totalRecords: response.data.meta.total };
   };
 
+  const getProduct = async () => {
+    const response = await productsStore.getProducts();
+
+    const products = response.data.data.map((user) => mapProduct(user));
+
+    return {
+      data: products[0],
+    };
+  };
+
   const mapProduct = (product) => {
     return {
       ...product,
+      title: product.name,
       link_detail: {
         text: product.name,
         id: product.id,
@@ -23,6 +34,7 @@ const useProducts = () => {
 
   return {
     getProducts,
+    getProduct,
   };
 };
 
