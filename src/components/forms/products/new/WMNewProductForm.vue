@@ -70,12 +70,12 @@
             />
 
             <WMInput
-              v-if="manufacturers"
+              v-if="customers"
               name="manufacturer"
               :highlighted="true"
               type="input-select"
               :label="$t('product.manufacturer') + ':'"
-              :options="manufacturers"
+              :options="customers"
               :placeholder="$t('select', ['product.manufacturer'])"
               size="sm"
               data-testid="product.form.manufacturer"
@@ -106,10 +106,10 @@
             />
 
             <WMInput
-              name="existing_product"
+              name="sale_discount"
               type="input-select-button"
               :highlighted="true"
-              :label="$t('product.existing-product') + ':'"
+              :label="$t('product.sale-discount') + ':'"
               :options="saleDiscountOptions"
               :value="saleDiscountOptions[1]"
               width="80"
@@ -236,7 +236,51 @@
         <Divider />
         <h2 class="h2 my-0">{{ $t("product.management-and-marketing") }}</h2>
 
-        <div class="flex flex-column gap-5">content</div>
+        <div class="flex flex-column gap-5">
+          <div class="flex gap-5">
+            <WMInput
+              v-if="customers"
+              name="marketing_manager"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('product.marketing-manager') + ':'"
+              :options="customers"
+              :placeholder="$t('select', ['product.marketing-manager'])"
+              size="sm"
+              data-testid="product.form.marketing-manager"
+              required
+            />
+            <WMInput
+              name="marketing_info"
+              required
+              type="input-text"
+              :label="$t('product.marketing-info') + ':'"
+              size="md"
+            />
+          </div>
+
+          <div class="flex gap-5">
+            <WMInput
+              v-if="customers"
+              name="technical_manager"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('product.technical-manager') + ':'"
+              :options="customers"
+              :placeholder="$t('select', ['product.technical-manager'])"
+              size="sm"
+              data-testid="product.form.technical-manager"
+              required
+            />
+            <WMInput
+              name="technical_info"
+              required
+              type="input-text"
+              :label="$t('product.technical-info') + ':'"
+              size="md"
+            />
+          </div>
+        </div>
       </div>
       <Divider layout="vertical" />
       <div class="flex flex-1 flex-column gap-5 mb-5">
@@ -273,6 +317,40 @@
           >
             Content
           </WMToggleSwitch>
+          <Divider />
+          <h2 class="h2 my-0">{{ $t("product.extra-details") }}</h2>
+
+          <div class="flex flex-column gap-5">
+            <div class="flex gap-5">
+              <WMInput
+                name="crm_id"
+                required
+                type="input-text"
+                :label="$t('product.crm-id') + ':'"
+                size="sm"
+              />
+              <WMInput
+                name="erp_id"
+                required
+                type="input-text"
+                :label="$t('product.erp-id') + ':'"
+                size="sm"
+              />
+              <WMInput
+                name="expenses_card"
+                type="input-text"
+                :label="$t('product.expenses-card') + ':'"
+                size="sm"
+              />
+              <WMInput
+                name="incomes_card"
+                required
+                type="input-text"
+                :label="$t('product.incomes-card') + ':'"
+                size="sm"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -299,7 +377,7 @@ const { getCustomersFromApi } = useCustomers();
 const loading = ref(true);
 const units = ref([]);
 const manufacturerTypes = ref([]);
-const manufacturers = ref(null);
+const customers = ref(null);
 const yesNoOptions = ref([]);
 
 const saleDiscountOptions = ref([
@@ -341,8 +419,8 @@ onMounted(async () => {
   manufacturerTypes.value = await optionSetsStore.getOptionSetValues("manufacturer_type");
   yesNoOptions.value = await optionSetsStore.getOptionSetValues("yesNo");
 
-  let customers = await getCustomersFromApi({ per_page: 9999 });
-  manufacturers.value = customers.data.map((customer) => ({
+  let customersData = await getCustomersFromApi({ per_page: 9999999 });
+  customers.value = customersData.data.map((customer) => ({
     label: customer.name,
     value: customer.id,
   }));

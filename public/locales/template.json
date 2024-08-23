@@ -941,6 +941,13 @@
     "information-page": "Information Page",
     "manufacturer-type": "Manufacturer Type",
     "units": "Units",
-    "manufacturer": "Manufacturer"
+    "manufacturer": "Manufacturer",
+    "existing-product": "Existing Product",
+    "pricing": "Pricing",
+    "base-price": "Base Price",
+    "sale-discount": "Sale Discount",
+    "characteristics": "Characteristics",
+    "management-and-marketing": "Management and Marketing",
+    "extra-details": "Extra Details"
   }
 }
