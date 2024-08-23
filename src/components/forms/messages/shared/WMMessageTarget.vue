@@ -5,16 +5,16 @@
     <WMSelectableButtonGroup
       name="target"
       :options="options"
-      :value="props.message.target"
+      :value="props.message.target ? props.message.target : options[0]"
       @update:selected-option="handleSelectedOption"
     />
   </div>
   <pre>{{ selectedOption }}</pre>
   <div class="flex flex-column gap-5">
-    <WMMessageTargetServices v-if="selectedOption?.value === 'service'" :message="message"/>
-    <WMMessageTargetCustomers v-if="selectedOption?.value === 'customer'" :message="message"/>
-    <WMMessageTargetProjects v-if="selectedOption?.value === 'project'" :message="message"/>
-    <WMMessageTargetUsers v-if="selectedOption?.value === 'employee'" :message="message"/>
+    <WMMessageTargetServices v-if="selectedOption?.value === 'service'" :message="message" />
+    <WMMessageTargetCustomers v-if="selectedOption?.value === 'customer'" :message="message" />
+    <WMMessageTargetProjects v-if="selectedOption?.value === 'project'" :message="message" />
+    <WMMessageTargetUsers v-if="selectedOption?.value === 'employee'" :message="message" />
 
     <pre>{{ props.message }}</pre>
   </div>
@@ -23,7 +23,7 @@
 <script setup>
 // IMPORTS
 import { useField } from "vee-validate";
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
@@ -35,12 +35,12 @@ const { t } = useI18n();
 const props = defineProps({
   message: {
     type: Object,
-    default: null,
+    default: () => ({}),
   },
 });
 
 // REFS
-const selectedOption = ref('papope');
+const selectedOption = ref("papope");
 
 const options = ref([
   {
@@ -81,8 +81,10 @@ const { handleChange: handleChangeTarget } = useField("target", undefined, { ini
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  handleSelectedOption(props.message.target);
-  console.log(props.message.target);
+  if (props.message && props.message.target) {
+    console.log(props.message.target);
+    handleSelectedOption(props.message.target);
+  }
 });
 </script>
 

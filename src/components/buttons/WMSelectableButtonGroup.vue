@@ -10,14 +10,14 @@
 </template>
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 // DEPENDENCIES
 
 // INJECT
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   options: {
     type: String,
     required: true,
@@ -25,6 +25,10 @@ defineProps({
   noIcon: {
     type: Boolean,
     default: false,
+  },
+  value: {
+    type: String,
+    default: null,
   },
 });
 
@@ -51,6 +55,11 @@ const handleSelectedOption = (option, selectedIndex) => {
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  if (props.value) {
+    selectedOption.value = props.options.map((option) => option.value === props.value);
+  }
+});
 </script>
 
 <style scoped></style>
