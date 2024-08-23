@@ -109,19 +109,6 @@ export const useFormUtilsStore = defineStore("formUtils", {
             values: { label: "address.street" },
           }),
         "house-number": yup.number().required(),
-        // 'classification-1': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-1' } })
-        //     .typeError({ key: 'validation.required-select', values: { label: 'classification-1' } }),
-        // 'classification-2': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-2' } })
-        //     .typeError({ key: 'validation.required-select', values: { label: 'classification-2' } }),
-        // 'classification-3': yup.object().required({ key: 'validation.required-select', values: { label: 'classification-3' } })
-        //     .typeError({ key: 'validation.required-select', values: { label: 'classification-3' } }),
-        // 'city': yup.object().required({ key: 'validation.required-select', values: { label: 'address.city' } })
-        //     .typeError({ key: 'validation.required-select', values: { label: 'address.city' } }),
-        // 'street': yup.object().required({ key: 'validation.required-select', values: { label: 'address.street' } })
-        //     .typeError({ key: 'validation.required-select', values: { label: 'address.street' } }),
-        // 'site-name': yup.string().required({ key: 'validation.missing-field', values: { label: 'site.name' } }),
-        // 'site-contact': yup.object().required({ key: 'validation.required-select', values: { label: 'site.contact' } })
-        //     .typeError({ key: 'validation.required-select', values: { label: 'site.contact' } }),
       });
     },
     getMobileServiceFormValidationSchema: () => {
@@ -597,7 +584,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
           }),
       });
     },
-    getTeamNewFormValidationSchema: (state) => {
+    getTeamNewFormValidationSchema: () => {
       return yup.object({
         name: yup.string().required(),
         manager: yup
