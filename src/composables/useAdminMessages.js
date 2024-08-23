@@ -35,6 +35,8 @@ const useAdminFlowmaze = () => {
         id: message.id,
       },
       title: message.topic,
+      // start_date: formatDateFromAPI(message.start_date),
+      // end_date: formatDateFromAPI(message.end_date),
       //fake state to be able to show something in the list
       state: {
         id: 291,
