@@ -34,7 +34,7 @@ const useAdminFlowmaze = () => {
         text: message.id,
         id: message.id,
       },
-      target: {
+        target_detail: {
         "label": "Services",
         "value": "service"
       },
