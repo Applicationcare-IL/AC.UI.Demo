@@ -83,9 +83,138 @@
             </div>
           </div>
         <Divider />
-        </div>
-      </div>
 
+        <div v-if="message.target === 'employee'" class="wm-form-row align-items-end gap-5">
+          <div class="wm-form-column flex flex-column gap-5">
+            <div class="flex flex-wrap gap-2 flex-column">
+              <label class="wm-form-label highlighted">{{ $t('users') + ':' }}</label>
+              <div class="flex gap-2">
+                <Chip
+                    v-for="(item, index) in props.message.teams_id"
+                    :key="index"
+                    class="p-chip--purple">
+                  <span>{{ item }}</span>
+                </Chip>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2 flex-column">
+              <label class="wm-form-label highlighted">{{ $t('teams') + ':' }}</label>
+              <div class="flex gap-2">
+                <Chip
+                    v-for="(item, index) in props.message.roles_id"
+                    :key="index"
+                    class="p-chip--purple">
+                  <span>{{ item }}</span>
+                </Chip>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2 flex-column">
+              <label class="wm-form-label highlighted">{{ $t('roles') + ':' }}</label>
+              <div class="flex gap-2">
+                <Chip
+                    v-for="(item, index) in props.message.users_id"
+                    :key="index"
+                    class="p-chip--purple">
+                  <span>{{ item }}</span>
+                </Chip>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div v-if="message.target === 'service'" class="wm-form-row align-items-end gap-5">
+          <div class="task-data flex flex-auto flex-column gap-5 mb-5">
+
+            <div class="wm-form-row align-items-end gap-5">
+              <div class="wm-form-row gap-5">
+                <WMInput
+                    name="service_area"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('message.service-area') + ':'"
+                    :value="props.message.service_area.value"
+                />
+                <WMInput
+                    name="service_type_id"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('message.service-detail') + ':'"
+                    :value="props.message.service_type_id.value"
+                />
+                <WMInput
+                    name="service_request_1"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('message.request') + ' 1:'"
+                    :value="props.message.service_request_1_id.value"
+                />
+              </div>
+            </div>
+            <div class="wm-form-row align-items-end gap-5">
+              <div class="wm-form-row gap-5">
+                <WMInput
+                    name="service_request_2"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('message.request') + ' 2:'"
+                    :value="props.message.service_request_2_id.value"
+                />
+                <WMInput
+                    name="service_request_3"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('message.request') + ' 3:'"
+                    :value="props.message.service_request_3_id.value"
+                />
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div v-if="message.target === 'customer'" class="wm-form-row align-items-end gap-5">
+          <div class="task-data flex flex-auto flex-column gap-5 mb-5">
+
+            <div class="flex flex-wrap gap-2 flex-column">
+              <label class="wm-form-label highlighted">{{ $t('message.organization-type') + ':' }}</label>
+              <div class="flex gap-2">
+                <Chip
+                    v-for="(item, index) in props.message.customer_types"
+                    :key="index"
+                    class="p-chip--purple">
+                  <span>{{ item }}</span>
+                </Chip>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2 flex-column">
+              <label class="wm-form-label highlighted">{{ $t('message.rating') + ':' }}</label>
+              <div class="flex gap-2">
+                <Chip
+                    v-for="(item, index) in props.message.customer_ratings"
+                    :key="index"
+                    class="p-chip--purple">
+                  <span>{{ item }}</span>
+                </Chip>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2 flex-column">
+              <label class="wm-form-label highlighted">{{ $t('message.service-area') + ':' }}</label>
+              <div class="flex gap-2">
+                <Chip
+                    v-for="(item, index) in props.message.customer_service_areas"
+                    :key="index"
+                    class="p-chip--purple">
+                  <span>{{ item }}</span>
+                </Chip>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      </div>
 
   </Sidebar>
 </template>

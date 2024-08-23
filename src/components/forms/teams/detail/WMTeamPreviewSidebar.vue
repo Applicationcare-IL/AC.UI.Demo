@@ -12,7 +12,7 @@
         <h2 class="h2">{{ props.team.name }}</h2>
         <router-link
           :to="{
-            name: 'adminUserDetail',
+            name: 'adminTeamDetail',
             params: { id: props.team.id },
           }"
           class="p-2"

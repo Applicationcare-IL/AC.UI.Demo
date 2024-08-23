@@ -80,8 +80,8 @@ import { useForm } from "vee-validate";
 import {inject} from "vue";
 import {useI18n} from "vue-i18n";
 
-import {useFormUtilsStore} from "@/stores/formUtils";
 import useAdminMessages from "@/composables/useAdminMessages";
+import {useFormUtilsStore} from "@/stores/formUtils";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
