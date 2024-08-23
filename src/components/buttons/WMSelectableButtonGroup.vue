@@ -10,7 +10,7 @@
 </template>
 <script setup>
 // IMPORTS
-import { onMounted, ref } from "vue";
+import {onMounted, ref} from "vue";
 
 // DEPENDENCIES
 

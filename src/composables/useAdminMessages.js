@@ -65,7 +65,7 @@ const useAdminFlowmaze = () => {
     if (message.target === "customer") {
       return {
         customer_service_areas: message.customer_service_areas?.map(
-          (service_area) => service_area.id
+            (service_area) => service_area.id
         ),
       };
     }

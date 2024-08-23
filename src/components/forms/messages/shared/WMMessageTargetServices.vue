@@ -83,7 +83,7 @@ const optionSetsStore = useOptionSetsStore();
 const props = defineProps({
   message: {
     type: Object,
-    default: null,
+    default: {},
   }
 });
 
