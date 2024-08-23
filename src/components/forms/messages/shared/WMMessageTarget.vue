@@ -4,16 +4,15 @@
       name="target"
       :options="options"
       :value="props.message.target ? props.message.target : options[0]"
-      @update:selected-option="handleSelectedOption"
+      @update:selected-option="handleSelectedOption($event.value)"
     />
   </div>
-  <pre>{{ selectedOption }}</pre>
+  <!-- <pre>{{ selectedOption }}</pre> -->
   <div class="flex flex-column gap-5">
     <WMMessageTargetServices v-if="unref(selectedOption) === 'service'" :message="message" />
     <WMMessageTargetCustomers v-if="unref(selectedOption) === 'customer'" :message="message" />
     <WMMessageTargetProjects v-if="unref(selectedOption) === 'project'" :message="message" />
-    <WMMessageTargetUsers v-if="unref(electedOption) === 'employee'" :message="message" />
-
+    <WMMessageTargetUsers v-if="unref(selectedOption) === 'employee'" :message="message" />
     <!-- <pre>{{ props.message }}</pre> -->
   </div>
 </template>
@@ -67,8 +66,8 @@ const options = ref([
 
 // COMPONENT METHODS AND LOGIC
 const handleSelectedOption = (option) => {
-  selectedOption.value = option.value;
-  handleChangeTarget(option.value);
+  selectedOption.value = option;
+  handleChangeTarget(option);
 };
 
 const { handleChange: handleChangeTarget } = useField("target", undefined, { initialValue: null });
@@ -80,7 +79,7 @@ const { handleChange: handleChangeTarget } = useField("target", undefined, { ini
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
   if (props.message && props.message.target) {
-    console.log(props.message.target);
+    console.log("onmounted", props.message.target);
     handleSelectedOption(props.message.target);
   }
 });
