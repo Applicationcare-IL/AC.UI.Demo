@@ -1,6 +1,4 @@
 <template>
-  <h2 class="h2 my-0">{{ $t("message.target") }}</h2>
-
   <div class="flex gap-2">
     <WMSelectableButtonGroup
       name="target"
@@ -11,19 +9,19 @@
   </div>
   <pre>{{ selectedOption }}</pre>
   <div class="flex flex-column gap-5">
-    <WMMessageTargetServices v-if="selectedOption?.value === 'service'" :message="message" />
-    <WMMessageTargetCustomers v-if="selectedOption?.value === 'customer'" :message="message" />
-    <WMMessageTargetProjects v-if="selectedOption?.value === 'project'" :message="message" />
-    <WMMessageTargetUsers v-if="selectedOption?.value === 'employee'" :message="message" />
+    <WMMessageTargetServices v-if="unref(selectedOption) === 'service'" :message="message" />
+    <WMMessageTargetCustomers v-if="unref(selectedOption) === 'customer'" :message="message" />
+    <WMMessageTargetProjects v-if="unref(selectedOption) === 'project'" :message="message" />
+    <WMMessageTargetUsers v-if="unref(electedOption) === 'employee'" :message="message" />
 
-    <pre>{{ props.message }}</pre>
+    <!-- <pre>{{ props.message }}</pre> -->
   </div>
 </template>
 
 <script setup>
 // IMPORTS
 import { useField } from "vee-validate";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, unref } from "vue";
 import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
@@ -69,7 +67,7 @@ const options = ref([
 
 // COMPONENT METHODS AND LOGIC
 const handleSelectedOption = (option) => {
-  selectedOption.value = option;
+  selectedOption.value = option.value;
   handleChangeTarget(option.value);
 };
 
