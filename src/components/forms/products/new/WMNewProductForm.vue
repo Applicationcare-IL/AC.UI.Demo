@@ -510,10 +510,12 @@ import { useForm } from "vee-validate";
 import { onMounted, ref } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
+import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
 const optionSetsStore = useOptionSetsStore();
+const formUtilsStore = useFormUtilsStore();
 
 const { getCustomersFromApi } = useCustomers();
 const { layoutConfig } = useLayout();
@@ -562,11 +564,18 @@ const hasMaintenance = ref(false);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { values } = useForm({
-  // validationSchema: formUtilsStore.getTeamNewFormValidationSchema,
+const { handleSubmit } = useForm({
+  validationSchema: formUtilsStore.getNewProductFormValidationSchema,
+});
+
+const onSubmit = handleSubmit((values) => {
+  console.log(values);
 });
 
 // PROVIDE, EXPOSE
+defineExpose({
+  onSubmit,
+});
 
 // WATCHERS
 

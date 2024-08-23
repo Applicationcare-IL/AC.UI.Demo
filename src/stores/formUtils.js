@@ -510,7 +510,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
         surname: yup.string().required(),
         email: yup
           .string()
-            .email()
+          .email()
           .required()
           .test("unique", "validation.user-already-exists", async (value) => {
             if (!value) return true;
@@ -671,6 +671,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "entity" },
           }),
+      });
+    },
+    getNewProductFormValidationSchema: () => {
+      return yup.object({
+        name: yup.string().required(),
       });
     },
   },
