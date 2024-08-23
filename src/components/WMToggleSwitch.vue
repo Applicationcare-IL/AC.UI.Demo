@@ -4,7 +4,8 @@
       <InputSwitch v-model="value" @input="$emit('update:modelValue', $event)" />
       <span class="font-bold" :class="`text-${labelSize}`">{{ label }}</span>
     </div>
-    <div class="toggle-switch__body">
+
+    <div v-if="slots['default']" class="toggle-switch__body">
       <template v-if="value">
         <slot></slot>
       </template>
@@ -13,9 +14,11 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, useSlots } from "vue";
 
 defineEmits(["update:modelValue"]);
+
+const slots = useSlots();
 
 const props = defineProps({
   label: String,

@@ -288,35 +288,182 @@
 
         <div class="wm-form-row flex-column align-items-end gap-5">
           <WMToggleSwitch v-model="hasLicense" :label="$t('product.license')" label-size="xl">
-            Content
           </WMToggleSwitch>
           <WMToggleSwitch v-model="hasCommitment" :label="$t('product.commitment')" label-size="xl">
-            Content
+            <div class="flex gap-5 my-3">
+              <WMInput
+                v-if="commitment"
+                name="commitment_unit"
+                :highlighted="true"
+                type="input-select"
+                :label="$t('product.commitment-unit') + ':'"
+                :options="commitment"
+                :placeholder="$t('select', ['product.commitment-unit'])"
+                size="sm"
+                option-set
+                data-testid="product.form.commitment-unit"
+                required
+              />
+
+              <WMInput
+                name="commitment_period"
+                required
+                type="input-text"
+                :label="$t('product.commitment-period') + ':'"
+                size="sm"
+              />
+            </div>
           </WMToggleSwitch>
           <WMToggleSwitch v-model="hasGuarantee" :label="$t('product.guarantee')" label-size="xl">
-            Content
+            <div class="flex gap-5 my-3">
+              <WMInput
+                v-if="commitment"
+                name="guarantee_unit"
+                :highlighted="true"
+                type="input-select"
+                :label="$t('product.guarantee-unit') + ':'"
+                :options="commitment"
+                :placeholder="$t('select', ['product.guarantee-unit'])"
+                size="sm"
+                option-set
+                data-testid="product.form.guarantee-unit"
+                required
+              />
+
+              <WMInput
+                name="guarantee_period"
+                required
+                type="input-text"
+                :label="$t('product.guarantee-period') + ':'"
+                size="sm"
+              />
+            </div>
           </WMToggleSwitch>
           <WMToggleSwitch
             v-model="hasInstallation"
             :label="$t('product.installation')"
             label-size="xl"
           >
-            Content
+            <div class="flex gap-5 my-3">
+              <WMInput
+                v-if="installationTypes"
+                name="installation_type"
+                :highlighted="true"
+                type="input-select"
+                :label="$t('product.installation-types') + ':'"
+                :options="installationTypes"
+                :placeholder="$t('select', ['product.installation-types'])"
+                size="sm"
+                option-set
+                data-testid="product.form.installation-types"
+                required
+              />
+            </div>
           </WMToggleSwitch>
           <WMToggleSwitch
             v-model="hasProvisioning"
             :label="$t('product.provisioning')"
             label-size="xl"
           >
-            Content
+            <div class="flex gap-5 my-3">
+              <WMInput
+                v-if="provisioningTypes"
+                name="provisioning_type"
+                :highlighted="true"
+                type="input-select"
+                :label="$t('product.provisioning-types') + ':'"
+                :options="provisioningTypes"
+                :placeholder="$t('select', ['product.provisioning-types'])"
+                size="sm"
+                option-set
+                data-testid="product.form.provisioning-types"
+                required
+              />
+            </div>
           </WMToggleSwitch>
           <WMToggleSwitch
             v-model="hasMaintenance"
             :label="$t('product.maintenance')"
             label-size="xl"
           >
-            Content
+            <div class="flex gap-5 my-3">
+              <WMInput
+                v-if="provisioningTypes"
+                name="maintenance_unit"
+                :highlighted="true"
+                type="input-select"
+                :label="$t('product.maintenance-unit') + ':'"
+                :options="provisioningTypes"
+                :placeholder="$t('select', ['product.maintenance-unit'])"
+                size="sm"
+                option-set
+                data-testid="product.form.maintenance-unit"
+                required
+              />
+
+              <WMInput
+                name="maintenance_period"
+                required
+                type="input-text"
+                :label="$t('product.maintenance-period') + ':'"
+                size="sm"
+              />
+
+              <WMInput
+                v-if="provisioningTypes"
+                name="maintenance_type"
+                :highlighted="true"
+                type="input-select"
+                :label="$t('product.maintenance-type') + ':'"
+                :options="provisioningTypes"
+                :placeholder="$t('select', ['product.maintenance-type'])"
+                size="sm"
+                option-set
+                data-testid="product.form.maintenance-type"
+                required
+              />
+            </div>
+            <div class="flex gap-5 my-3">
+              <WMInput
+                v-if="provisioningTypes"
+                name="billing_cycle_unit"
+                :highlighted="true"
+                type="input-select"
+                :label="$t('product.billing-cycle-unit') + ':'"
+                :options="provisioningTypes"
+                :placeholder="$t('select', ['product.billing-cycle-unit'])"
+                size="sm"
+                option-set
+                data-testid="product.form.billing-cycle-unit"
+                required
+              />
+              <WMInput
+                name="billing_cycle_period"
+                required
+                type="input-text"
+                :label="$t('product.billing-cycle-period') + ':'"
+                size="sm"
+              />
+            </div>
           </WMToggleSwitch>
+
+          <div
+            v-if="hasMaintenance || hasInstallation"
+            class="bg-blue-100 border-solid border-blue-300 border-round-xl p-5 w-full"
+            :class="layoutConfig.isRTL.value ? 'text-right' : 'text-left'"
+          >
+            <span class="block font-bold text-xl pb-2">
+              Installation and/or provisioning process
+            </span>
+            <p class="flex flex-column">
+              <span class="font-bold">
+                Choose the quick code of the Installation and/or provisioning process of this
+                product.
+              </span>
+              The process will start after the product is ordered.
+            </p>
+          </div>
+
           <Divider />
           <h2 class="h2 my-0">{{ $t("product.extra-details") }}</h2>
 
@@ -362,12 +509,14 @@
 import { useForm } from "vee-validate";
 import { onMounted, ref } from "vue";
 
+import { useLayout } from "@/layout/composables/layout";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
 const optionSetsStore = useOptionSetsStore();
 
 const { getCustomersFromApi } = useCustomers();
+const { layoutConfig } = useLayout();
 
 // INJECT
 
@@ -397,9 +546,17 @@ const cancellationTypes = ref([]);
 
 const hasLicense = ref(false);
 const hasCommitment = ref(false);
+const commitment = ref([]);
+
 const hasGuarantee = ref(false);
+const guarantee = ref([]);
+
 const hasInstallation = ref(false);
+const installationTypes = ref([]);
+
 const hasProvisioning = ref(false);
+const provisioningTypes = ref([]);
+
 const hasMaintenance = ref(false);
 
 // COMPUTED
@@ -433,6 +590,11 @@ onMounted(async () => {
   billingTypes.value = await optionSetsStore.getOptionSetValues("billing_type");
   renewalTypes.value = await optionSetsStore.getOptionSetValues("renewal_type");
   cancellationTypes.value = await optionSetsStore.getOptionSetValues("cancellation_type");
+
+  commitment.value = await optionSetsStore.getOptionSetValues("commitment");
+  guarantee.value = await optionSetsStore.getOptionSetValues("guarantee");
+  installationTypes.value = await optionSetsStore.getOptionSetValues("installation_type");
+  provisioningTypes.value = await optionSetsStore.getOptionSetValues("provisioning_type");
 
   loading.value = false;
 });
