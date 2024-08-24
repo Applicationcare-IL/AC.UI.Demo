@@ -60,7 +60,7 @@
           </Card>
         </div>
         <div class="card-container" style="flex: 2">
-          <Card class="p-card--first-top-card">
+          <Card>
             <template #title> {{ $t("employee.teams-and-roles") }} </template>
             <template #content>
               <div class="flex flex-column gap-5">

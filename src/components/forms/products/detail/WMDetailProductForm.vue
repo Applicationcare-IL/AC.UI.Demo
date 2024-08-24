@@ -3,7 +3,7 @@
   <div v-if="product" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="asset-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
-        <div class="flex-1 card-container">
+        <div class="flex flex-1 flex-column card-container gap-5">
           <Card class="p-card--first-top-card">
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
@@ -31,43 +31,33 @@
             </template>
           </Card>
           <Card>
-            <template #title> {{ $t("general-details") }} </template>
+            <template #title> {{ $t("product.pricing") }} </template>
             <template #content>
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <WMInput
+                  <!-- <WMInput
                     name="id"
                     type="info"
                     :highlighted="true"
                     :label="$t('id') + ':'"
                     :value="product.id"
-                  />
+                  /> -->
                 </div>
-                <!-- <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="name"
-                    type="input-text"
-                    :highlighted="true"
-                    :label="$t('first-name') + ':'"
-                    :value="product.name"
-                    required
-                  />
-                </div> -->
               </div>
             </template>
           </Card>
           <Card>
-            <template #title> {{ $t("general-details") }} </template>
+            <template #title> {{ $t("product.characteristics") }} </template>
             <template #content>
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
-                  <WMInput
+                  <!-- <WMInput
                     name="id"
                     type="info"
                     :highlighted="true"
                     :label="$t('id') + ':'"
                     :value="product.id"
-                  />
+                  /> -->
                 </div>
                 <!-- <div class="wm-form-row gap-5">
                   <WMInput
@@ -83,7 +73,34 @@
             </template>
           </Card>
         </div>
-        <div class="flex gap-5">hola</div>
+        <div class="flex flex-column gap-5" style="width: calc(470px - 2rem)">
+          <Card class="w-full">
+            <template #title>
+              <div class="w-full flex align-items-center justify-content-between">
+                <span>
+                  {{ $t("product.sales-data") }}
+                </span>
+                <i
+                  class="pi pi-ellipsis-v cursor-pointer"
+                  @click="console.log('open sales data')"
+                />
+              </div>
+            </template>
+            <template #content> Content </template>
+          </Card>
+
+          <Card class="w-full bg-gray-25">
+            <template #title>
+              <div class="w-full flex align-items-center justify-content-between">
+                <span>
+                  {{ $t("product.settings") }}
+                </span>
+                <i class="pi pi-ellipsis-v cursor-pointer" @click="console.log('open settings')" />
+              </div>
+            </template>
+            <template #content> Content </template>
+          </Card>
+        </div>
       </div>
     </div>
   </div>
