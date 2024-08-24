@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-1 card-container top-info-card">
-    <Card>
+  <div class="flex-1 card-container">
+    <Card class="p-card--first-top-card">
       <template #title>
         <div class="flex flex-row justify-content-between">
           {{ $t("address.address") }}
@@ -15,9 +15,7 @@
               :type="formType"
               :highlighted="true"
               :label="$t('address.country') + ':'"
-              :value="
-                location.country ? location.country[optionLabelWithLang] : ''
-              "
+              :value="location.country ? location.country[optionLabelWithLang] : ''"
             />
             <WMInput
               name="city"
@@ -32,9 +30,7 @@
               :type="formType"
               :highlighted="true"
               :label="$t('address.street') + ':'"
-              :value="
-                location.street ? location.street[optionLabelWithLang] : ''
-              "
+              :value="location.street ? location.street[optionLabelWithLang] : ''"
             />
 
             <WMInput
@@ -74,11 +70,7 @@
               :type="formType"
               :highlighted="true"
               :label="$t('address.neighborhood') + ':'"
-              :value="
-                location.neighborhood
-                  ? location.neighborhood[optionLabelWithLang]
-                  : ''
-              "
+              :value="location.neighborhood ? location.neighborhood[optionLabelWithLang] : ''"
             />
             <WMInput
               name="zip"
@@ -93,7 +85,7 @@
       </template>
     </Card>
   </div>
-  <div class="flex-1 card-container top-info-card">
+  <div class="flex-1 card-container">
     <Card>
       <template #title>
         <div class="flex flex-row justify-content-between">
@@ -123,9 +115,7 @@
               :type="formType"
               :highlighted="true"
               :label="$t('address.street') + ':'"
-              :value="
-                location.street ? location.street[optionLabelWithLang] : ''
-              "
+              :value="location.street ? location.street[optionLabelWithLang] : ''"
             />
           </div>
           <div class="wm-form-row gap-5 align-items-start">

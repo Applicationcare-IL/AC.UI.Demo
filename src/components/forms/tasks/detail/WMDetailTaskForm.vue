@@ -2,8 +2,8 @@
   <div v-if="task" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
-        <div class="card-container top-info-card flex-1">
-          <Card>
+        <div class="card-container flex-1">
+          <Card class="p-card--first-top-card">
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
@@ -132,7 +132,7 @@
           :project="project"
         />
 
-        <div v-if="task.related_entity == null" class="card-container top-info-card flex-1">
+        <div v-if="task.related_entity == null" class="card-container flex-1">
           <Card class="flex align-items-center justify-content-center">
             <template #content>
               <h3>Task isn’t related to an entity</h3>

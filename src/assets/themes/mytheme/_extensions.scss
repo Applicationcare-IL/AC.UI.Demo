@@ -999,7 +999,6 @@ cursor: text !important;
     direction : ltr;
 }
 
-// chards
 .p-card-chart .p-card-body{
     height: 100%;
     display: flex;
@@ -1009,6 +1008,11 @@ cursor: text !important;
         margin-top: auto;
         margin-bottom: auto;
     }
+}
+
+// CARDS
+.p-card--first-top-card{
+    border-top-right-radius: 40px !important;
 }
 
 

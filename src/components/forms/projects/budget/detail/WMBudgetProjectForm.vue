@@ -1,11 +1,8 @@
 <template>
-  <div
-    v-if="budget"
-    class="wm-detail-form-container flex flex-column overflow-auto gap-5"
-  >
+  <div v-if="budget" class="wm-detail-form-container flex flex-column overflow-auto gap-5">
     <div class="flex flex-row gap-5 flex-wrap">
-      <div class="flex-1 card-container top-info-card">
-        <Card>
+      <div class="flex-1 card-container">
+        <Card class="p-card--first-top-card">
           <template #title> {{ $t("general-details") }} </template>
           <template #content>
             <div class="flex flex-auto flex-column gap-5">
@@ -152,9 +149,7 @@
           </template>
           <template #content>
             <div class="flex flex-column gap-2">
-              <div
-                class="flex flex-row justify-content-start justify-content-between gap-5"
-              >
+              <div class="flex flex-row justify-content-start justify-content-between gap-5">
                 <WMHighlightedBlock
                   v-model="budget.tbr_accepted"
                   name="tbr_accepted"
@@ -185,9 +180,7 @@
                 />
               </div>
               <Divider />
-              <div
-                class="flex flex-row justify-content-between gap-5 justify-content-start"
-              >
+              <div class="flex flex-row justify-content-between gap-5 justify-content-start">
                 <WMHighlightedBlock
                   v-model="budget.funds_accepted_non_tbr"
                   name="funds_accepted_non_tbr"
