@@ -1,7 +1,7 @@
 <template>
   <!-- <pre>{{ product }}</pre> -->
   <div v-if="product" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
-    <div class="asset-data flex flex-auto flex-column gap-5 mb-5">
+    <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="flex flex-1 flex-column card-container gap-5">
           <Card class="p-card--first-top-card">
@@ -103,9 +103,35 @@
         </div>
       </div>
     </div>
+
+    <div class="flex flex-column gap-5 mb-6">
+      <Accordion>
+        <AccordionTab :header="$t('product.bundle-discount')"> Bundle discount table </AccordionTab>
+      </Accordion>
+
+      <Accordion>
+        <AccordionTab :header="$t('milestone.related-products')">
+          Related product table
+        </AccordionTab>
+      </Accordion>
+    </div>
+
+    <div class="flex-1 tabs-container mt-5">
+      <TabView>
+        <TabPanel :header="$t('more-details')">
+          <div class="flex flex-column gap-5 m-2">
+            <h4 class="h4 mb-0">
+              {{ $t("product.management-and-marketing") }}
+            </h4>
+            <div class="flex flex-auto gap-5 flex-row"></div>
+            <div class="flex flex-auto gap-5 flex-row"></div>
+          </div>
+        </TabPanel>
+      </TabView>
+    </div>
   </div>
 
-  <pre>{{ values }}</pre>
+  <!-- <pre>{{ values }}</pre> -->
 </template>
 
 <script setup>
