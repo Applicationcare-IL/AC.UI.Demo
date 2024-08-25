@@ -110,7 +110,7 @@
       </Accordion>
 
       <Accordion>
-        <AccordionTab :header="$t('milestone.related-products')">
+        <AccordionTab :header="$t('product.related-products')">
           Related product table
         </AccordionTab>
       </Accordion>
