@@ -98,7 +98,26 @@
                 <i class="pi pi-ellipsis-v cursor-pointer" @click="console.log('open settings')" />
               </div>
             </template>
-            <template #content> Content </template>
+            <template #content>
+              <!-- <pre>{{ product }}</pre> -->
+              <div class="flex flex-column gap-4">
+                <WMProductSettingPreview :title="$t('product.license')" :state="product.license" />
+                <WMProductSettingPreview
+                  :title="$t('product.commitment')"
+                  :state="product.commitment"
+                />
+
+                <WMProductSettingPreview
+                  :title="$t('product.installation')"
+                  :state="product.installation"
+                />
+                <WMProductSettingPreview :title="$t('product.supply')" :state="product.supply" />
+                <WMProductSettingPreview
+                  :title="$t('product.maintenance')"
+                  :state="product.maintenance"
+                />
+              </div>
+            </template>
           </Card>
         </div>
       </div>
@@ -166,7 +185,7 @@ const props = defineProps({
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { meta, values } = useForm({
+const { meta } = useForm({
   //   validationSchema: formUtilsStore.getUserUpdateFormValidationSchema,
 });
 
