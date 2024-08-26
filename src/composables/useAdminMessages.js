@@ -27,6 +27,15 @@ const useAdminFlowmaze = () => {
     return await adminMessagesStore.updateMessage(messageId, data);
   };
 
+  const activateMessage = async (data) => {
+    return await adminMessagesStore.activateMessage(data);
+  };
+
+  const deactivateMessage = async (data) => {
+    return await adminMessagesStore.deactivateMessage(data);
+  };
+
+
   const mapMessage = (message) => {
     return {
       ...message,
@@ -34,21 +43,7 @@ const useAdminFlowmaze = () => {
         text: message.id,
         id: message.id,
       },
-      // target: {
-      //   label: "Services",
-      //   value: "service",
-      // },
       title: message.topic,
-      // start_date: formatDateFromAPI(message.start_date),
-      // end_date: formatDateFromAPI(message.end_date),
-      //fake state to be able to show something in the list
-      state: {
-        id: 291,
-        value: "active",
-        value_en: "Active",
-        value_he: "פעיל",
-        attributes: [],
-      },
     };
   };
 
@@ -106,6 +101,8 @@ const useAdminFlowmaze = () => {
     getMessage,
     createMessage,
     updateMessage,
+    activateMessage,
+    deactivateMessage,
     //UTILITIES
     mapMessage,
     parseMessage,
