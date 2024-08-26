@@ -74,7 +74,7 @@
         </template>
       </WMPermissionsConfig>
     </div>
-    <div class="flex flex-row gap-5 flex-wrap flex-column">
+    <div v-else class="flex flex-row gap-5 flex-wrap flex-column">
       <div class="flex-1 card-container">
         <Card class="border-round-md h-20rem flex align-items-center justify-content-center">
           <template #content>
