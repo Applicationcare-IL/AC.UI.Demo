@@ -292,12 +292,12 @@
           <WMToggleSwitch v-model="hasCommitment" :label="$t('product.commitment')" label-size="xl">
             <div class="flex gap-5 my-3">
               <WMInput
-                v-if="commitment"
+                v-if="commitmentUnits"
                 name="commitment_unit"
                 :highlighted="true"
                 type="input-select"
                 :label="$t('product.commitment-unit') + ':'"
-                :options="commitment"
+                :options="commitmentUnits"
                 :placeholder="$t('select', ['product.commitment-unit'])"
                 size="sm"
                 option-set
@@ -306,23 +306,29 @@
               />
 
               <WMInput
+                v-if="commitmentPeriods"
                 name="commitment_period"
-                required
-                type="input-text"
+                :highlighted="true"
+                type="input-select"
                 :label="$t('product.commitment-period') + ':'"
+                :options="commitmentPeriods"
+                :placeholder="$t('select', ['product.commitment-period'])"
                 size="sm"
+                option-set
+                data-testid="product.form.commitment-period"
+                required
               />
             </div>
           </WMToggleSwitch>
           <WMToggleSwitch v-model="hasGuarantee" :label="$t('product.guarantee')" label-size="xl">
             <div class="flex gap-5 my-3">
               <WMInput
-                v-if="commitment"
+                v-if="guaranteeUnits"
                 name="guarantee_unit"
                 :highlighted="true"
                 type="input-select"
                 :label="$t('product.guarantee-unit') + ':'"
-                :options="commitment"
+                :options="guaranteeUnits"
                 :placeholder="$t('select', ['product.guarantee-unit'])"
                 size="sm"
                 option-set
@@ -331,11 +337,17 @@
               />
 
               <WMInput
+                v-if="guaranteePeriods"
                 name="guarantee_period"
-                required
-                type="input-text"
+                :highlighted="true"
+                type="input-select"
                 :label="$t('product.guarantee-period') + ':'"
+                :options="guaranteePeriods"
+                :placeholder="$t('select', ['product.guarantee-period'])"
                 size="sm"
+                option-set
+                data-testid="product.form.guarantee-period"
+                required
               />
             </div>
           </WMToggleSwitch>
@@ -548,10 +560,12 @@ const cancellationTypes = ref([]);
 
 const hasLicense = ref(false);
 const hasCommitment = ref(false);
-const commitment = ref([]);
+const commitmentUnits = ref([]);
+const commitmentPeriods = ref([]);
 
 const hasGuarantee = ref(false);
-const guarantee = ref([]);
+const guaranteeUnits = ref([]);
+const guaranteePeriods = ref([]);
 
 const hasInstallation = ref(false);
 const installationTypes = ref([]);
@@ -600,8 +614,12 @@ onMounted(async () => {
   renewalTypes.value = await optionSetsStore.getOptionSetValues("renewal_type");
   cancellationTypes.value = await optionSetsStore.getOptionSetValues("cancellation_type");
 
-  commitment.value = await optionSetsStore.getOptionSetValues("commitment");
-  guarantee.value = await optionSetsStore.getOptionSetValues("guarantee");
+  commitmentUnits.value = await optionSetsStore.getOptionSetValues("product_commitment_units");
+  commitmentPeriods.value = await optionSetsStore.getOptionSetValues("product_commitment_period");
+
+  guaranteeUnits.value = await optionSetsStore.getOptionSetValues("product_warranty_period");
+  guaranteePeriods.value = await optionSetsStore.getOptionSetValues("product_warranty_period");
+
   installationTypes.value = await optionSetsStore.getOptionSetValues("installation_type");
   provisioningTypes.value = await optionSetsStore.getOptionSetValues("provisioning_type");
 
