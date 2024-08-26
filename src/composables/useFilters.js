@@ -608,6 +608,13 @@ const useFilters = () => {
         label: i18n.t("state") + ":",
       },
     ],
+    message: [
+      {
+        type: "state",
+        name: "state",
+        label: i18n.t("state") + ":",
+      },
+    ],
   };
 
   return {

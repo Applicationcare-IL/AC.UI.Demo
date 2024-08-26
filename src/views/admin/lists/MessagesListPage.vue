@@ -2,12 +2,13 @@
   <WMListSubHeader
     entity="message"
     :total-records="0"
-    :show-search-bar="false"
     :show-communications="false"
-    :show-filter-button="false"
     :has-action-builder="false"
     @new="toggleSidebarVisibility"
   >
+    <template #top-left>
+      <WMStateToggle entity="message"/>
+    </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newMessage" @close-sidebar="closeSidebar">

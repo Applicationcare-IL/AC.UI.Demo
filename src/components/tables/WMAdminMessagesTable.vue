@@ -87,19 +87,19 @@ const isPreviewVisible = ref([]);
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  // const filters = utilsStore.filters["message"];
+  const filters = utilsStore.filters["message"];
   const nextPage = lazyParams.value.page + 1;
-  // const searchValueParam = searchValue.value;
+  const searchValueParam = searchValue.value;
 
   const params = new URLSearchParams({
-    // ...filters,
+    ...filters,
     page: nextPage ? nextPage : 1,
     per_page: 10,
   });
 
-  // if (searchValueParam) {
-  //   params.append("search", searchValueParam);
-  // }
+  if (searchValueParam) {
+    params.append("search", searchValueParam);
+  }
 
   let response = await getMessages(params);
   messages.value = response.data;
