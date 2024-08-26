@@ -94,5 +94,15 @@ export const useAdminUsersStore = defineStore("adminUsers", {
             console.error(error);
           });
     },
+      checkIfMailRelatedToUser(userEmail, userId) {
+          return axiosConfig
+              .post("/admin/employees/exists", {email: userEmail, employee: userId})
+              .then((response) => {
+                  return response.data.exists;
+              })
+              .catch((error) => {
+                  console.error(error);
+              });
+      },
   },
 });

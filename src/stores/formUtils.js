@@ -542,24 +542,25 @@ export const useFormUtilsStore = defineStore("formUtils", {
       });
     },
     getUserUpdateFormValidationSchema: (state) => {
+      const adminUsersStore = useAdminUsersStore();
+
       return yup.object({
         name: yup.string().required(),
         surname: yup.string().required(),
-        // email: yup
-        //   .string()
-        //   .required()
-        //   .test("unique", "validation.user-already-exists", async (email) => {
-        //     if (!email) return true;
+        email: yup
+            .string()
+            .required()
+            .email()
+            .test("unique", "validation.user-already-exists", async (email, context) => {
+              if (!email) return true;
 
-        //     console.log("test", this.getFormMeta("email"));
+              if (adminUsersStore.checkIfMailRelatedToUser(email, context.parent.id)) {
+                return true;
+              }
 
-        //     if (adminUsersStore.checkIfUserEmailExists(this.id, email)) {
-        //       return true;
-        //     }
-
-        //     const exists = await adminUsersStore.checkIfUserExists(email);
-        //     return !exists;
-        //   }),
+              const exists = await adminUsersStore.checkIfUserExists(email);
+              return !exists;
+            }),
         phone: yup
           .string()
           .trim()
@@ -574,13 +575,6 @@ export const useFormUtilsStore = defineStore("formUtils", {
           .typeError({
             key: "validation.required-select",
             values: { label: "manager" },
-          }),
-        teams: yup
-          .array()
-          .required()
-          .min(1, {
-            key: "validation.required-select",
-            values: { label: "teams" },
           }),
       });
     },
