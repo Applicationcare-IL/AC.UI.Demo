@@ -884,7 +884,7 @@
     "select-roles": "Select roles",
     "select-users": "Select users",
     "service": "Services",
-    "customer": "Organizations",
+    "customers": "Organizations",
     "sale": "Sales",
     "project": "Projects",
     "employee": "Users"
