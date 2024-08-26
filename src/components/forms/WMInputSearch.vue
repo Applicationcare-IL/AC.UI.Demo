@@ -205,7 +205,7 @@ const optionLabel = computed(() => {
 });
 
 // COMPONENT METHODS AND LOGIC
-const { value, errorMessage, resetField } = useField(name, undefined, {
+const { value, errorMessage, resetField, setTouched } = useField(name, undefined, {
   validateOnValueUpdate: true,
   validateOnMount: false,
   validateOnBlur: true,
@@ -301,6 +301,9 @@ const onRemove = (event) => {
   }
 
   value.value.splice(value.value.indexOf(event), 1);
+
+  console.log("onremove");
+  setTouched(true);
 };
 
 const onItemSelected = (item) => {

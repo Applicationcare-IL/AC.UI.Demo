@@ -17,7 +17,14 @@
     <div class="flex flex-column gap-5">
       <div class="flex flex-row flex-wrap flex-column">
         <p class="h4">Permissions for:</p>
-        <div class="flex gap-2 mb-2">
+        <Skeleton
+          v-if="!users.data && !teams.data && !roles.data"
+          height="2rem"
+          width="20rem"
+          class="mb-2"
+        />
+
+        <div v-else class="flex gap-2 mb-2">
           <WMSelectableButtonGroup
             :options="options"
             @update:selected-option="handleSelectedOption"
@@ -25,35 +32,35 @@
         </div>
 
         <WMInputSearch
-          v-if="selectedOption?.value === 'user' && users"
+          v-if="selectedOption?.value === 'user' && users.data"
           name="users"
           :placeholder="$t('employee.select-employee')"
           size="lg"
           :options="users.data"
-          @update:model-value="loadPermissions('employee', $event)"
+          @change="$event ? loadPermissions('employee', $event.value) : clearPermissions()"
         />
 
         <WMInputSearch
-          v-if="selectedOption?.value === 'team' && teams"
+          v-if="selectedOption?.value === 'team' && teams.data"
           name="teams"
           :placeholder="$t('team.select-team')"
           size="lg"
           :options="teams.data"
-          @update:model-value="loadPermissions('team', $event)"
+          @change="$event ? loadPermissions('team', $event.value) : clearPermissions()"
         />
 
         <WMInputSearch
-          v-if="selectedOption?.value === 'role' && roles"
+          v-if="selectedOption?.value === 'role' && roles.data"
           name="roles"
           :placeholder="$t('role.select-role')"
           size="lg"
           :options="roles.data"
-          @update:model-value="loadPermissions('role', $event)"
+          @change="$event ? loadPermissions('role', $event.value) : clearPermissions()"
         />
       </div>
     </div>
     <Divider class="mb-5" />
-    <div v-if="!loading" class="flex flex-column gap-5 mb-5">
+    <div v-if="!loading && permissions" class="flex flex-column gap-5 mb-5">
       <WMPermissionsConfig :permissions="permissions">
         <template v-if="selectedOption?.value === 'user'" #reset-entity-permissions>
           <WMResetPermissionsButton
@@ -74,7 +81,7 @@
         </template>
       </WMPermissionsConfig>
     </div>
-    <div class="flex flex-row gap-5 flex-wrap flex-column">
+    <div v-else-if="!loadingPermissions" class="flex flex-row gap-5 flex-wrap flex-column">
       <div class="flex-1 card-container">
         <Card class="border-round-md h-20rem flex align-items-center justify-content-center">
           <template #content>
@@ -83,6 +90,12 @@
         </Card>
       </div>
     </div>
+    <div
+      v-if="loadingPermissions"
+      class="flex flex-column justify-content-center h-screen align-items-center"
+    >
+      <ProgressSpinner />
+    </div>
   </div>
 </template>
 
@@ -90,6 +103,8 @@
 // IMPORTS
 import { onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
+
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
 const toast = useToast();
@@ -101,6 +116,8 @@ const { getTeams } = useAdminTeams();
 const { getRoles } = useAdminRoles();
 
 const { getPermissions, updatePermissions } = useAdminPermissions();
+
+const optionSetsStore = useOptionSetsStore();
 
 // INJECT
 
@@ -118,6 +135,7 @@ const roles = ref([]);
 const permissions = ref([]);
 
 const loading = ref(true);
+const loadingPermissions = ref(false);
 
 const isSaved = ref(false);
 const isSaveDisabled = ref(true);
@@ -141,7 +159,7 @@ const options = ref([
 
 // COMPONENT METHODS AND LOGIC
 useHead({
-  title: "Permissions",
+  title: "Permissions Center",
 });
 
 const handleSelectedOption = (option) => {
@@ -152,6 +170,7 @@ const handleSelectedOption = (option) => {
 
 const loadPermissions = async (entityType, entity) => {
   loading.value = true;
+  loadingPermissions.value = true;
   permissions.value = [];
   selectedEntity.value = entityType;
   selectedEntityId.value = entity.id;
@@ -159,6 +178,7 @@ const loadPermissions = async (entityType, entity) => {
   getPermissions(entityType, entity.id).then((response) => {
     permissions.value = response.data;
     loading.value = false;
+    loadingPermissions.value = false;
   });
 };
 
@@ -178,6 +198,11 @@ const savePermissions = async () => {
   }
 };
 
+const clearPermissions = () => {
+  permissions.value = null;
+  loading.value = false;
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
@@ -194,9 +219,16 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
-  users.value = await getUsers();
-  teams.value = await getTeams();
-  roles.value = await getRoles();
+  let activeStateId = await optionSetsStore.getId("state", "active");
+
+  let filters = {
+    state: activeStateId,
+    per_page: 9999999,
+  };
+
+  users.value = await getUsers(filters);
+  teams.value = await getTeams(filters);
+  roles.value = await getRoles(filters);
 });
 </script>
 
