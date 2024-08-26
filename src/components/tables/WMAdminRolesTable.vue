@@ -151,9 +151,9 @@ watchEffect(() => {
 });
 
 watch(
-    () => utilsStore.searchString["team"],
+    () => utilsStore.searchString["role"],
     () => {
-      searchValue.value = utilsStore.searchString["team"];
+      searchValue.value = utilsStore.searchString["role"];
       utilsStore.debounceAction(() => {
         loadLazyData();
       });
