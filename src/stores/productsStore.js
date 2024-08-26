@@ -1,5 +1,6 @@
-import axiosConfig from "@/service/axiosConfig";
 import { defineStore } from "pinia";
+
+import axiosConfig from "@/service/axiosConfig";
 
 export const useProductsStore = defineStore("products", {
   actions: {
@@ -23,7 +24,7 @@ export const useProductsStore = defineStore("products", {
           console.error(error);
         });
     },
-    createProdocut(product) {
+    createProduct(product) {
       return axiosConfig
         .post("/products", product)
         .then((response) => {
@@ -31,6 +32,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
+          throw new Error(error);
         });
     },
   },

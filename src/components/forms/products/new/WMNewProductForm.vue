@@ -22,7 +22,7 @@
               size="md"
             />
             <WMInput
-              name="information-page"
+              name="information_page"
               required
               type="input-text"
               :label="$t('product.information-page') + ':'"
@@ -57,7 +57,7 @@
 
             <WMInput
               v-if="manufacturerTypes"
-              name="manufacter_type"
+              name="manufacturer_type"
               :highlighted="true"
               type="input-select"
               :label="$t('product.manufacturer-type') + ':'"
@@ -101,7 +101,7 @@
             <WMInputCurrency
               required
               :label="$t('product.base-price') + ':'"
-              name="base_price"
+              name="price"
               :small="true"
             />
 
@@ -495,14 +495,14 @@
           <div class="flex flex-column gap-5">
             <div class="flex gap-5">
               <WMInput
-                name="crm_id"
+                name="crm"
                 required
                 type="input-text"
                 :label="$t('product.crm-id') + ':'"
                 size="sm"
               />
               <WMInput
-                name="erp_id"
+                name="erp"
                 required
                 type="input-text"
                 :label="$t('product.erp-id') + ':'"
@@ -545,6 +545,9 @@ const formUtilsStore = useFormUtilsStore();
 const { getQuickCodes } = useServices();
 const { getCustomersFromApi } = useCustomers();
 const { layoutConfig } = useLayout();
+const { createProduct, parseProduct } = useProducts();
+
+const toast = useToast();
 
 // INJECT
 
@@ -602,7 +605,14 @@ const { handleSubmit } = useForm({
 });
 
 const onSubmit = handleSubmit((values) => {
-  console.log(values);
+  createProduct(parseProduct(values))
+    .then(() => {
+      toast.success({ title: "Product created", message: "Product created successfully" });
+    })
+    .catch((error) => {
+      toast.error("An error occurred while creating the product");
+      console.log(error);
+    });
 });
 
 // PROVIDE, EXPOSE
