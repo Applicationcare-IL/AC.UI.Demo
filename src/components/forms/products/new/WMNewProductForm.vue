@@ -181,12 +181,12 @@
           <div class="flex gap-5">
             <WMInput
               type="date"
-              :label="$t('products.valid-till') + ':'"
+              :label="$t('product.valid-till') + ':'"
               name="valid_till"
               required
             />
-            <WMInput type="date" :label="$t('products.eol') + ':'" name="eol" />
-            <WMInput type="date" :label="$t('products.eos') + ':'" name="eos" />
+            <WMInput type="date" :label="$t('product.eol') + ':'" name="eol" />
+            <WMInput type="date" :label="$t('product.eos') + ':'" name="eos" />
           </div>
           <div class="flex gap-5">
             <WMInput
@@ -400,12 +400,12 @@
           >
             <div class="flex gap-5 my-3">
               <WMInput
-                v-if="provisioningTypes"
+                v-if="maintenanceUnits"
                 name="maintenance_unit"
                 :highlighted="true"
                 type="input-select"
                 :label="$t('product.maintenance-unit') + ':'"
-                :options="provisioningTypes"
+                :options="maintenanceUnits"
                 :placeholder="$t('select', ['product.maintenance-unit'])"
                 size="sm"
                 option-set
@@ -422,12 +422,12 @@
               />
 
               <WMInput
-                v-if="provisioningTypes"
+                v-if="maintenanceTypes"
                 name="maintenance_type"
                 :highlighted="true"
                 type="input-select"
                 :label="$t('product.maintenance-type') + ':'"
-                :options="provisioningTypes"
+                :options="maintenanceTypes"
                 :placeholder="$t('select', ['product.maintenance-type'])"
                 size="sm"
                 option-set
@@ -437,12 +437,12 @@
             </div>
             <div class="flex gap-5 my-3">
               <WMInput
-                v-if="provisioningTypes"
+                v-if="billingCycleUnits"
                 name="billing_cycle_unit"
                 :highlighted="true"
                 type="input-select"
                 :label="$t('product.billing-cycle-unit') + ':'"
-                :options="provisioningTypes"
+                :options="billingCycleUnits"
                 :placeholder="$t('select', ['product.billing-cycle-unit'])"
                 size="sm"
                 option-set
@@ -569,6 +569,7 @@ const productGroups = ref(null);
 const productDepartments = ref(null);
 
 const billingTypes = ref([]);
+const billingCycleUnits = ref([]);
 const renewalTypes = ref([]);
 const cancellationTypes = ref([]);
 
@@ -590,6 +591,8 @@ const hasProvisioning = ref(false);
 const provisioningTypes = ref([]);
 
 const hasMaintenance = ref(false);
+const maintenanceUnits = ref([]);
+const maintenanceTypes = ref([]);
 
 // COMPUTED
 
@@ -627,8 +630,12 @@ onMounted(async () => {
   productDepartments.value = await optionSetsStore.getOptionSetValues("product_department");
 
   billingTypes.value = await optionSetsStore.getOptionSetValues("billing_type");
+  billingCycleUnits.value = await optionSetsStore.getOptionSetValues("product_billing_cycle_unit");
   renewalTypes.value = await optionSetsStore.getOptionSetValues("renewal_type");
   cancellationTypes.value = await optionSetsStore.getOptionSetValues("cancellation_type");
+
+  maintenanceUnits.value = await optionSetsStore.getOptionSetValues("product_maintenance_units");
+  maintenanceTypes.value = await optionSetsStore.getOptionSetValues("product_maintenance_type");
 
   await getQuickCodes().then((response) => {
     quickCodes.value = response.data.map((quickCode) => ({
