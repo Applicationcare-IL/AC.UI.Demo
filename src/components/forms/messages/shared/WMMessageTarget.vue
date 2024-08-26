@@ -53,7 +53,7 @@ const options = ref([
   //   value: "sale",
   // },
   {
-    label: t("customer.customers"),
+    label: t("message.customers"),
     value: "customer",
   },
   {
