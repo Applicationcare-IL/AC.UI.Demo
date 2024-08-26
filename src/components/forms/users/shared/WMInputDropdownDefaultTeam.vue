@@ -2,7 +2,7 @@
   <WMInput
       v-if="true"
       :value="selectedOption"
-      name="default-team"
+      name="default_team"
       type="input-select"
       :highlighted="true"
       :label="$t('employee.default-team') + ':'"
