@@ -70,7 +70,7 @@
                 name="manager"
                 type="info"
                 :highlighted="true"
-                :label="$t('email') + ':'"
+                :label="$t('manager') + ':'"
                 :value="props.user.manager_fullname"
             />
 
