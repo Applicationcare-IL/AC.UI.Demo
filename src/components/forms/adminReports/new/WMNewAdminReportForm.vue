@@ -28,10 +28,6 @@
         />
       </div>
 
-      <div class="flex mt-4 gap-2">
-        <WMInputCheckbox :value="false" name="private" :label="$t('private')" />
-      </div>
-
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
   </div>
@@ -69,7 +65,7 @@ const entities = ref([]);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const {handleSubmit, meta, resetForm} = useForm({
+const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getAdminReportNewFormValidationSchema,
 });
 
@@ -105,7 +101,7 @@ const onCancel = () => {
 };
 
 const fetchEntities = () => {
-  getEasymazeEntitiesList({has_report: 1}).then((result) => {
+  getEasymazeEntitiesList({ has_report: 1 }).then((result) => {
     entities.value = result.data;
   });
 };

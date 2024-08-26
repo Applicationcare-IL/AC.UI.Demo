@@ -35,12 +35,6 @@
                     :value="report.description"
                     required
                   />
-                  <WMInputCheckbox
-                    :v-model="isPrivate"
-                    :value="isPrivate"
-                    name="private"
-                    :label="$t('private')"
-                  />
                 </div>
               </div>
             </template>
@@ -248,7 +242,6 @@ const orderDirOptions = ref([
   { name: "ASC", id: "ASC" },
   { name: "DESC", id: "DESC" },
 ]);
-const isPrivate = ref(false);
 const orderDir = ref(orderDirOptions.value[0]);
 
 const reportData = ref();
@@ -300,7 +293,6 @@ const loadLazyData = async () => {
   await setSelectedEntity(report.value.easymaze_entity);
 
   // load dropdowns
-  isPrivate.value = report.value.private === 1 ? true : false;
   groupBy.value = report.value.group_by === 1 ? true : false;
   orderDir.value = orderDirOptions.value.find(
     (item) => item.id === report.value.order_dir.toUpperCase()
