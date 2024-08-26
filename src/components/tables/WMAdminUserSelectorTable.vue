@@ -9,8 +9,7 @@
     size="lg"
     :highlighted="true"
     :search-function="searchUsers"
-    :new="true"
-    related-sidebar="newUser"
+    :new="false"
     :multiple="true"
     @change="onUserSelected"
   />
