@@ -37,7 +37,7 @@
           :placeholder="$t('employee.select-employee')"
           size="lg"
           :options="users.data"
-          @update:model-value="loadPermissions('employee', $event)"
+          @change="$event ? loadPermissions('employee', $event.value) : clearPermissions()"
         />
 
         <WMInputSearch
@@ -46,7 +46,7 @@
           :placeholder="$t('team.select-team')"
           size="lg"
           :options="teams.data"
-          @update:model-value="loadPermissions('team', $event)"
+          @change="$event ? loadPermissions('team', $event.value) : clearPermissions()"
         />
 
         <WMInputSearch
@@ -55,12 +55,12 @@
           :placeholder="$t('role.select-role')"
           size="lg"
           :options="roles.data"
-          @update:model-value="loadPermissions('role', $event)"
+          @change="$event ? loadPermissions('role', $event.value) : clearPermissions()"
         />
       </div>
     </div>
     <Divider class="mb-5" />
-    <div v-if="!loading" class="flex flex-column gap-5 mb-5">
+    <div v-if="!loading && permissions" class="flex flex-column gap-5 mb-5">
       <WMPermissionsConfig :permissions="permissions">
         <template v-if="selectedOption?.value === 'user'" #reset-entity-permissions>
           <WMResetPermissionsButton
@@ -81,7 +81,7 @@
         </template>
       </WMPermissionsConfig>
     </div>
-    <div v-else class="flex flex-row gap-5 flex-wrap flex-column">
+    <div v-else-if="!loadingPermissions" class="flex flex-row gap-5 flex-wrap flex-column">
       <div class="flex-1 card-container">
         <Card class="border-round-md h-20rem flex align-items-center justify-content-center">
           <template #content>
@@ -89,6 +89,12 @@
           </template>
         </Card>
       </div>
+    </div>
+    <div
+      v-if="loadingPermissions"
+      class="flex flex-column justify-content-center h-screen align-items-center"
+    >
+      <ProgressSpinner />
     </div>
   </div>
 </template>
@@ -129,6 +135,7 @@ const roles = ref([]);
 const permissions = ref([]);
 
 const loading = ref(true);
+const loadingPermissions = ref(false);
 
 const isSaved = ref(false);
 const isSaveDisabled = ref(true);
@@ -163,6 +170,7 @@ const handleSelectedOption = (option) => {
 
 const loadPermissions = async (entityType, entity) => {
   loading.value = true;
+  loadingPermissions.value = true;
   permissions.value = [];
   selectedEntity.value = entityType;
   selectedEntityId.value = entity.id;
@@ -170,6 +178,7 @@ const loadPermissions = async (entityType, entity) => {
   getPermissions(entityType, entity.id).then((response) => {
     permissions.value = response.data;
     loading.value = false;
+    loadingPermissions.value = false;
   });
 };
 
@@ -187,6 +196,11 @@ const savePermissions = async () => {
   } catch (error) {
     toast.error(t("permissions.permissions-updated-error"));
   }
+};
+
+const clearPermissions = () => {
+  permissions.value = null;
+  loading.value = false;
 };
 
 // PROVIDE, EXPOSE
