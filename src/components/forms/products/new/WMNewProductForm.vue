@@ -474,6 +474,19 @@
               </span>
               The process will start after the product is ordered.
             </p>
+
+            <WMInput
+              v-if="quickCodes"
+              name="quickcode"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('product.quickcodes') + ':'"
+              :options="quickCodes"
+              :placeholder="$t('select', ['product.quickcodes'])"
+              size="sm"
+              data-testid="product.form.quickcodes"
+              required
+            />
           </div>
 
           <Divider />
@@ -564,6 +577,8 @@ const hasCommitment = ref(false);
 const commitmentUnits = ref([]);
 const commitmentPeriods = ref([]);
 
+const quickCodes = ref([]);
+
 const hasGuarantee = ref(false);
 const guaranteeUnits = ref([]);
 const guaranteePeriods = ref([]);
@@ -614,6 +629,13 @@ onMounted(async () => {
   billingTypes.value = await optionSetsStore.getOptionSetValues("billing_type");
   renewalTypes.value = await optionSetsStore.getOptionSetValues("renewal_type");
   cancellationTypes.value = await optionSetsStore.getOptionSetValues("cancellation_type");
+
+  await getQuickCodes().then((response) => {
+    quickCodes.value = response.data.map((quickCode) => ({
+      label: quickCode.name,
+      value: quickCode.name,
+    }));
+  });
 
   commitmentUnits.value = await optionSetsStore.getOptionSetValues("product_commitment_units");
   commitmentPeriods.value = await optionSetsStore.getOptionSetValues("product_commitment_period");

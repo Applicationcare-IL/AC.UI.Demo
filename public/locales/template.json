@@ -982,6 +982,7 @@
     "crm-id": "CRM ID",
     "erp-id": "ERP ID",
     "expenses-card": "Expenses Card",
-    "incomes-card": "Incomes Card"
+    "incomes-card": "Incomes Card",
+    "quickcodes": "Quick Codes"
   }
 }
