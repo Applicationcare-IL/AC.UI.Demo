@@ -93,7 +93,7 @@
                     v-for="(item, index) in props.message.teams_id"
                     :key="index"
                     class="p-chip--purple">
-                  <span>{{ item }}</span>
+                  <span>{{ item.name }}</span>
                 </Chip>
               </div>
             </div>
@@ -104,7 +104,7 @@
                     v-for="(item, index) in props.message.roles_id"
                     :key="index"
                     class="p-chip--purple">
-                  <span>{{ item }}</span>
+                  <span>{{ item.name }}</span>
                 </Chip>
               </div>
             </div>
@@ -115,7 +115,7 @@
                     v-for="(item, index) in props.message.users_id"
                     :key="index"
                     class="p-chip--purple">
-                  <span>{{ item }}</span>
+                  <span>{{ item.name }}</span>
                 </Chip>
               </div>
             </div>
