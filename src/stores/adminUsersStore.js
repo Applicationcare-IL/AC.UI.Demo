@@ -56,53 +56,58 @@ export const useAdminUsersStore = defineStore("adminUsers", {
     },
     deactivateUser(userId) {
       return axiosConfig
-          .post(`/admin/employees/${userId}/deactivate`)
-          .then((response) => {
-            return response.data;
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        .post(`/admin/employees/${userId}/deactivate`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     unlockUser(userId) {
       return axiosConfig
-          .post(`/admin/employees/${userId}/unlock`)
-          .then((response) => {
-            return response.data;
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        .post(`/admin/employees/${userId}/unlock`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     resetPassUser(userId) {
       return axiosConfig
-          .post(`/admin/employees/${userId}/send-reset-password-email`)
-          .then((response) => {
-            return response.data;
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        .post(`/admin/employees/${userId}/send-reset-password-email`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     checkIfUserExists(userEmail) {
       return axiosConfig
-          .post("/admin/employees/exists", { email: userEmail })
-          .then((response) => {
-            return response.data.exists;
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        .post("/admin/employees/exists", { email: userEmail })
+        .then((response) => {
+          return response.data.exists;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
-      checkIfMailRelatedToUser(userEmail, userId) {
-          return axiosConfig
-              .post("/admin/employees/exists", {email: userEmail, employee: userId})
-              .then((response) => {
-                  return response.data.exists;
-              })
-              .catch((error) => {
-                  console.error(error);
-              });
-      },
+    checkIfEmailIsOwnedByCurrentUser(userEmail, userId) {
+      return axiosConfig
+        .post("/admin/employees/exists", { email: userEmail, employee: userId })
+        .then((response) => {
+          // If the response is false, it means the email is owned by the user
+          if (response.data.exists === false) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

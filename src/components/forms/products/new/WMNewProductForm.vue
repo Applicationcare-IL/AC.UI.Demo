@@ -529,6 +529,7 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
 
+const { getQuickCodes } = useServices();
 const { getCustomersFromApi } = useCustomers();
 const { layoutConfig } = useLayout();
 

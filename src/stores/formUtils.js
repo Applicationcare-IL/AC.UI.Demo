@@ -548,19 +548,24 @@ export const useFormUtilsStore = defineStore("formUtils", {
         name: yup.string().required(),
         surname: yup.string().required(),
         email: yup
-            .string()
-            .required()
-            .email()
-            .test("unique", "validation.user-already-exists", async (email, context) => {
-              if (!email) return true;
+          .string()
+          .required()
+          .email()
+          .test("unique", "validation.user-already-exists", async (email, context) => {
+            if (!email) return true;
 
-              if (adminUsersStore.checkIfMailRelatedToUser(email, context.parent.id)) {
-                return true;
-              }
+            let emailIsOwnedByCurrentUser = await adminUsersStore.checkIfEmailIsOwnedByCurrentUser(
+              email,
+              context.parent.id
+            );
 
-              const exists = await adminUsersStore.checkIfUserExists(email);
-              return !exists;
-            }),
+            if (emailIsOwnedByCurrentUser) {
+              return true;
+            }
+
+            const exists = await adminUsersStore.checkIfUserExists(email);
+            return !exists;
+          }),
         phone: yup
           .string()
           .trim()
