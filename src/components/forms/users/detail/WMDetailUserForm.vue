@@ -1,6 +1,8 @@
 <template>
-  <!-- <pre>{{ user }}</pre> -->
-  <div v-if="user" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
+  <div v-if="loading" class="flex flex-column justify-content-center h-screen align-items-center">
+    <ProgressSpinner />
+  </div>
+  <div v-else class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="asset-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
         <div class="flex-1 card-container">
@@ -176,7 +178,7 @@ const permissions = ref([]);
 
 const selectedTeams = ref([]);
 const selectedRoles = ref([]);
-const loadingFields = ref(true);
+const loading = ref(true);
 
 // COMPUTED
 
@@ -214,14 +216,11 @@ const initializeFields = async (user) => {
 
   selectedTeams.value = teams.value.data.filter((item) => user.teams.find((x) => x.id == item.id));
   selectedRoles.value = roles.value.data.filter((item) => user.roles.find((x) => x.id == item.id));
-
-  loadingFields.value = false;
 };
 
 const loadPermissions = async () => {
   getPermissions("employee", route.params.id).then((response) => {
     permissions.value = response.data;
-    loadingFields.value = false;
   });
 };
 
@@ -245,12 +244,14 @@ watch(
       formUtilsStore.formMeta = value;
       formUtilsStore.setFormMetas(value, props.formKey);
     }
-  }
+  },
+  { deep: true }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
-  initializeFields(props.user);
-  loadPermissions();
+  await initializeFields(props.user);
+  await loadPermissions();
+  loading.value = false;
 });
 </script>
