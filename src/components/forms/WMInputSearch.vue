@@ -308,6 +308,7 @@ const onRemove = (event) => {
 
 const onItemSelected = (item) => {
   emit("change", item);
+  setTouched(true);
 };
 
 const removeValue = () => {
