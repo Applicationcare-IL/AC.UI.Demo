@@ -17,7 +17,14 @@
     <div class="flex flex-column gap-5">
       <div class="flex flex-row flex-wrap flex-column">
         <p class="h4">Permissions for:</p>
-        <div class="flex gap-2 mb-2">
+        <Skeleton
+          v-if="!users.data && !teams.data && !roles.data"
+          height="2rem"
+          width="20rem"
+          class="mb-2"
+        />
+
+        <div v-else class="flex gap-2 mb-2">
           <WMSelectableButtonGroup
             :options="options"
             @update:selected-option="handleSelectedOption"
@@ -25,7 +32,7 @@
         </div>
 
         <WMInputSearch
-          v-if="selectedOption?.value === 'user' && users"
+          v-if="selectedOption?.value === 'user' && users.data"
           name="users"
           :placeholder="$t('employee.select-employee')"
           size="lg"
@@ -34,7 +41,7 @@
         />
 
         <WMInputSearch
-          v-if="selectedOption?.value === 'team' && teams"
+          v-if="selectedOption?.value === 'team' && teams.data"
           name="teams"
           :placeholder="$t('team.select-team')"
           size="lg"
@@ -43,7 +50,7 @@
         />
 
         <WMInputSearch
-          v-if="selectedOption?.value === 'role' && roles"
+          v-if="selectedOption?.value === 'role' && roles.data"
           name="roles"
           :placeholder="$t('role.select-role')"
           size="lg"
@@ -91,6 +98,8 @@
 import { onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
+import { useOptionSetsStore } from "@/stores/optionSets";
+
 // DEPENDENCIES
 const toast = useToast();
 
@@ -101,6 +110,8 @@ const { getTeams } = useAdminTeams();
 const { getRoles } = useAdminRoles();
 
 const { getPermissions, updatePermissions } = useAdminPermissions();
+
+const optionSetsStore = useOptionSetsStore();
 
 // INJECT
 
@@ -141,7 +152,7 @@ const options = ref([
 
 // COMPONENT METHODS AND LOGIC
 useHead({
-  title: "Permissions",
+  title: "Permissions Center",
 });
 
 const handleSelectedOption = (option) => {
@@ -194,9 +205,16 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
-  users.value = await getUsers();
-  teams.value = await getTeams();
-  roles.value = await getRoles();
+  let activeStateId = await optionSetsStore.getId("state", "active");
+
+  let filters = {
+    state: activeStateId,
+    per_page: 9999999,
+  };
+
+  users.value = await getUsers(filters);
+  teams.value = await getTeams(filters);
+  roles.value = await getRoles(filters);
 });
 </script>
 
