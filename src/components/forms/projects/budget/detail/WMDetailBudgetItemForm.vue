@@ -1,8 +1,8 @@
 <template>
   <div v-if="budgetItem" class="wm-detail-form-container flex flex-column overflow-auto gap-5">
     <div class="flex flex-row gap-5 flex-wrap">
-      <div class="flex-1 card-container top-info-card">
-        <Card>
+      <div class="flex-1 card-container">
+        <Card class="p-card--first-top-card">
           <template #title> {{ $t("general-details") }} </template>
           <template #content>
             <div class="flex flex-auto flex-column gap-5">

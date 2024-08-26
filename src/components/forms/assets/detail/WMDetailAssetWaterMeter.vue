@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-1 card-container top-info-card">
-    <Card>
+  <div class="flex-1 card-container">
+    <Card class="p-card--first-top-card">
       <template #title>
         <div class="flex flex-row justify-content-between">
           {{ $t("asset.water-meter") }}

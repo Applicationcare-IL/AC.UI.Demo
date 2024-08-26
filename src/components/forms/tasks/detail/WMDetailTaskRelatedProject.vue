@@ -1,6 +1,6 @@
 <template>
-  <div class="card-container top-info-card flex-1">
-    <Card v-if="project">
+  <div class="card-container flex-1">
+    <Card v-if="project" class="p-card--first-top-card">
       <template #title>
         <div class="flex flex-row justify-content-between">
           {{ $t("project.project") + ":" }} {{ project.project_name }}

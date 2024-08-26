@@ -2,8 +2,8 @@
   <div v-if="team" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="asset-data flex flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
-        <div class="flex-1 card-container top-info-card">
-          <Card>
+        <div class="flex-1 card-container">
+          <Card class="p-card--first-top-card">
             <template #title> {{ $t("team.general-info") }} </template>
             <template #content>
               <div class="flex flex-column gap-5">

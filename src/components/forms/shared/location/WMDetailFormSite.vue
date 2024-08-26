@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-1 card-container top-info-card">
-    <Card>
+  <div class="flex-1 card-container">
+    <Card class="p-card--first-top-card">
       {{ "site" }}
       {{ site }}
       <template #title>
@@ -33,12 +33,7 @@
             />
           </div>
           <div class="wm-form-column gap-5">
-            <WMInput
-              name="site-type"
-              type="info"
-              :label="$t('site.type') + ':'"
-              :value="site.type"
-            >
+            <WMInput name="site-type" type="info" :label="$t('site.type') + ':'" :value="site.type">
             </WMInput>
             <WMInput
               name="site-contact-role"

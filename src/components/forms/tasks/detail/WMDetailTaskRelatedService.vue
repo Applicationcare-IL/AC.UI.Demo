@@ -1,7 +1,7 @@
 <template>
-  <div class="card-container top-info-card flex-1">
+  <div class="card-container flex-1">
     <WMServicePreviewSidebar v-model:visible="isServicePreviewVisible" :service="service" />
-    <Card v-if="service">
+    <Card v-if="service" class="p-card--first-top-card">
       <template #title>
         <div class="flex flex-row justify-content-between">
           שירות: {{ service.service_number }}

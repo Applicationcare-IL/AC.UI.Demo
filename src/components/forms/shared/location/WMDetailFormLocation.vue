@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-1 card-container top-info-card">
-    <Card>
+  <div class="flex-1 card-container">
+    <Card class="p-card--first-top-card">
       <template #title>
         <div class="flex flex-row justify-content-between">
           {{ $t("address.address") }}
@@ -54,32 +54,31 @@
             />
 
             <WMInput
-                name="house-number"
-                :type="formType"
-                :label="$t('address.house-number') + ':'"
-                width="48"
-                :value="location.house_number"
+              name="house-number"
+              :type="formType"
+              :label="$t('address.house-number') + ':'"
+              width="48"
+              :value="location.house_number"
             ></WMInput>
-
           </div>
           <div class="wm-form-row align-items-start">
             <WMInputSearch
-                v-if="editable"
-                name="zip"
-                :label="$t('address.zip') + ':'"
-                :options="zips"
-                width="80"
-                :placeholder="$t('select', ['address.zip'])"
-                :option-set="true"
-                :model-value="selectedZip"
+              v-if="editable"
+              name="zip"
+              :label="$t('address.zip') + ':'"
+              :options="zips"
+              width="80"
+              :placeholder="$t('select', ['address.zip'])"
+              :option-set="true"
+              :model-value="selectedZip"
             />
             <WMInput
-                v-else
-                name="zip"
-                :type="formType"
-                :highlighted="true"
-                :label="$t('address.zip') + ':'"
-                :value="location.zip"
+              v-else
+              name="zip"
+              :type="formType"
+              :highlighted="true"
+              :label="$t('address.zip') + ':'"
+              :value="location.zip"
             />
 
             <WMInput
@@ -108,25 +107,23 @@
             />
 
             <WMInputSearch
-                v-if="editable"
-                v-model="location.neighborhood"
-                name="neighborhood"
-                :highlighted="true"
-                :label="$t('address.neighborhood') + ':'"
-                :options="neighborhoods"
-                width="152"
-                :placeholder="$t('select', ['address.neighborhood'])"
-                :option-set="true"
+              v-if="editable"
+              v-model="location.neighborhood"
+              name="neighborhood"
+              :highlighted="true"
+              :label="$t('address.neighborhood') + ':'"
+              :options="neighborhoods"
+              width="152"
+              :placeholder="$t('select', ['address.neighborhood'])"
+              :option-set="true"
             />
             <WMInput
-                v-else
-                name="neighborhood"
-                :type="formType"
-                :highlighted="true"
-                :label="$t('address.neighborhood') + ':'"
-                :value="
-                location.neighborhood ? location.neighborhood[optionLabelWithLang] : ''
-              "
+              v-else
+              name="neighborhood"
+              :type="formType"
+              :highlighted="true"
+              :label="$t('address.neighborhood') + ':'"
+              :value="location.neighborhood ? location.neighborhood[optionLabelWithLang] : ''"
             />
           </div>
         </div>
@@ -198,11 +195,9 @@ onMounted(async () => {
 
 const updateStreets = (city) => {
   if (city) {
-    optionSetsStore
-      .getOptionSetValuesFromApiRaw("service_street", city.value.id)
-      .then((data) => {
-        streets.value = data;
-      });
+    optionSetsStore.getOptionSetValuesFromApiRaw("service_street", city.value.id).then((data) => {
+      streets.value = data;
+    });
 
     optionSetsStore
       .getOptionSetValuesFromApiRaw("service_neighborhood", city.value.id)

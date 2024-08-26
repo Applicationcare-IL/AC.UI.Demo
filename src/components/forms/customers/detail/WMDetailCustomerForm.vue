@@ -1,9 +1,10 @@
+<!-- eslint-disable max-len -->
 <template>
   <div v-if="loaded" class="wm-detail-form-container pt-5 flex flex-auto flex-column overflow-auto">
     <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
-        <div class="flex-1 card-container top-info-card">
-          <Card>
+        <div class="flex-1 card-container">
+          <Card class="p-card--first-top-card">
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
               <div class="flex flex-auto flex-column gap-5">
@@ -102,7 +103,7 @@
         <WMDetailFormLocation :location="customer.location" editable />
       </div>
       <div class="flex flex-row gap-5 flex-wrap">
-        <div class="flex-1 card-container top-info-card">
+        <div class="flex-1 card-container">
           <Card>
             <template #title> {{ $t("communication-details") }} </template>
             <template #content>
@@ -137,7 +138,7 @@
             </template>
           </Card>
         </div>
-        <div class="flex-1 card-container top-info-card">
+        <div class="flex-1 card-container">
           <Card>
             <template #title> {{ $t("customer.areas") }} </template>
             <template #content>
