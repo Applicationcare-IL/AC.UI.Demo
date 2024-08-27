@@ -67,6 +67,7 @@ const useAdminFlowmaze = () => {
       ...user,
       manager_id: user.manager?.id,
       teams: user.teams?.map((team) => team.id),
+      default_team: user.default_team.id,
       roles: user.roles?.map((role) => role.id),
     };
   };
@@ -76,6 +77,7 @@ const useAdminFlowmaze = () => {
       ...user,
       manager_id: user.manager?.id,
       teams: user.teams?.map((team) => team.id),
+      default_team: user.default_team.id,
       roles: user.roles?.map((role) => role.id),
     };
   };
