@@ -1,6 +1,6 @@
 <template>
   <WMButton
-      :text="'Reset password'"
+      :text="$t('employee.reset-pass')"
       type="type-5"
       :is-disabled="isDisabled"
       :disabled="isDisabled"
