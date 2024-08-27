@@ -43,7 +43,7 @@ const isDisabled = computed(() => {
 const handleResetPass = () => {
   resetPassUsers(props.selectedUsers.map((user) => user.id)).then(() => {
     emit("resetPassUser");
-    toast.success({title: "Password reset", message: "A reset email was send to the user", group: "br"});
+    toast.success({title: "Password reset", message: "A reset email was send to the user", group: "bl"});
 
   }).catch((error) => {
     console.error(error);
