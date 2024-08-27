@@ -59,7 +59,7 @@ const handleActivateUsers = () => {
   const selectedUsersIds = inactiveUsers.value.map((user) => user.id);
   activateUsers(selectedUsersIds).then(() => {
     emit("activateUser");
-    toast.success({title: "User activated", message: "User activated successfully"});
+    toast.success({title: "User activated", message: "User activated successfully", group: "br"});
 
   }).catch((error) => {
     console.error(error);
