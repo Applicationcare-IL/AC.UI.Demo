@@ -63,7 +63,8 @@ const saveForm = () => {
 };
 
 const activateMessageFunc = () => {
-  activateMessage([message.value.id]).then(() => {
+  console.log(message.value.id);
+  activateMessage({ids: [message.value.id]}).then(() => {
     isActive.value = !isActive.value;
     isNotActive.value = !isNotActive.value;
     loadLazyData();
@@ -73,7 +74,7 @@ const activateMessageFunc = () => {
 }
 
 const deactivateMessageFunc = () => {
-  deactivateMessage(message.value.id).then(() => {
+  deactivateMessage({ids: [message.value.id]}).then(() => {
     isActive.value = !isActive.value;
     isNotActive.value = !isNotActive.value;
     loadLazyData()

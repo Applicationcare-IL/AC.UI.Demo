@@ -46,7 +46,7 @@ export const useAdminMessagesStore = defineStore("adminMessages", {
         },
         activateMessage(data) {
             return axiosConfig
-                .patch(`/admin/messages/activate`, data)
+                .post(`/admin/messages/activate`, data)
                 .then((response) => {
                     return response.data;
                 })
@@ -56,7 +56,7 @@ export const useAdminMessagesStore = defineStore("adminMessages", {
         },
         deactivateMessage(data) {
             return axiosConfig
-                .patch(`/admin/messages/deactivate`, data)
+                .post(`/admin/messages/deactivate`, data)
                 .then((response) => {
                     return response.data;
                 })
