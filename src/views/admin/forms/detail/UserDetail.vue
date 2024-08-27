@@ -24,6 +24,7 @@
     <template #custom-buttons>
       <div class="flex gap-3">
         <WMResetPassAdminUsersButton :selected-users="selectedUsers" />
+        <WMUnlockAdminUserButton :selected-users="selectedUsers"/>
       </div>
     </template>
   </WMDetailFormSubHeader>
@@ -32,7 +33,7 @@
 
 <script setup>
 // IMPORTS
-import { computed, ref } from "vue";
+import {ref} from "vue";
 import { useRoute } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -52,11 +53,9 @@ const detailUserForm = ref();
 const user = ref(null);
 const isActive = ref();
 const isNotActive = ref();
+const selectedUsers = ref();
 
 // COMPUTED
-const selectedUsers = computed(() => {
-  return [{ id: route.params.id }];
-});
 
 // COMPONENT METHODS AND LOGIC
 useHead({
@@ -68,6 +67,7 @@ const loadLazyData = async () => {
   utilsStore.selectedElements["employee"] = [user.value];
   if (user.value.state.value === "active") isNotActive.value = true;
   if (user.value.state.value === "not_active") isActive.value = true;
+  selectedUsers.value = [{id: route.params.id}];
 };
 
 utilsStore.entity = "employee";
