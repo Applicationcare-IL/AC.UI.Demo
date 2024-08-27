@@ -66,10 +66,9 @@ const useProducts = () => {
   };
 
   const parseProduct = (product) => {
-    console.log("parseProduct", product);
     const today = new Date();
 
-    return {
+    const data = {
       ...product,
       billing_type: product.billing_type.id,
       units: product.units.id,
@@ -83,11 +82,32 @@ const useProducts = () => {
       product_department: product.product_department.id,
       cancellation_type: product.cancellation_type.id,
       renewal_type: product.renewal_type.id,
+      licensing_required: product.licensing_required,
       // NOT FOUND
       purchase: 1,
       income: 1,
       from: formatDateToAPI(today),
     };
+
+    if (product.commitment) {
+      data.commitment_units = product.commitment_unit.id;
+      data.commitment_period = product.commitment_period.id;
+    }
+
+    if (product.warranty) {
+      data.warranty_units = product.warranty_unit.id;
+      data.warranty_period = product.warranty_period.id;
+    }
+
+    if (product.installation_required) {
+      data.installation_type = product.installation_type.id;
+    }
+
+    if (product.provisioning_required) {
+      data.provisioning_type = product.provisioning_type.id;
+    }
+
+    return data;
   };
 
   return {

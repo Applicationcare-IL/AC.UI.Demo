@@ -4,10 +4,10 @@
   </div>
   <div v-else class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex gap-5 mb-5">
-      <!-- <pre style="height: 200px !important">{{ values }}</pre> -->
-
       <div class="flex flex-1 flex-column gap-5 mb-5">
         <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
+
+        <pre style="height: 200px !important">values {{ values }}</pre>
 
         <div class="flex flex-column gap-5">
           <div class="gap-5 flex">
@@ -239,12 +239,12 @@
         <div class="flex flex-column gap-5">
           <div class="flex gap-5">
             <WMInput
-              v-if="customers"
+              v-if="employees"
               name="marketing_manager"
               :highlighted="true"
               type="input-select"
               :label="$t('product.marketing-manager') + ':'"
-              :options="customers"
+              :options="employees"
               :placeholder="$t('select', ['product.marketing-manager'])"
               size="sm"
               data-testid="product.form.marketing-manager"
@@ -261,12 +261,12 @@
 
           <div class="flex gap-5">
             <WMInput
-              v-if="customers"
+              v-if="employees"
               name="technical_manager"
               :highlighted="true"
               type="input-select"
               :label="$t('product.technical-manager') + ':'"
-              :options="customers"
+              :options="employees"
               :placeholder="$t('select', ['product.technical-manager'])"
               size="sm"
               data-testid="product.form.technical-manager"
@@ -287,242 +287,7 @@
         <h2 class="h2 my-0">{{ $t("definitions") }}</h2>
 
         <div class="wm-form-row flex-column align-items-end gap-5">
-          <WMToggleSwitch v-model="hasLicense" :label="$t('product.license')" label-size="xl">
-          </WMToggleSwitch>
-          <WMToggleSwitch v-model="hasCommitment" :label="$t('product.commitment')" label-size="xl">
-            <div class="flex gap-5 my-3">
-              <WMInput
-                v-if="commitmentUnits"
-                name="commitment_unit"
-                :highlighted="true"
-                type="input-select"
-                :label="$t('product.commitment-unit') + ':'"
-                :options="commitmentUnits"
-                :placeholder="$t('select', ['product.commitment-unit'])"
-                size="sm"
-                option-set
-                data-testid="product.form.commitment-unit"
-                required
-              />
-
-              <WMInput
-                v-if="commitmentPeriods"
-                name="commitment_period"
-                :highlighted="true"
-                type="input-select"
-                :label="$t('product.commitment-period') + ':'"
-                :options="commitmentPeriods"
-                :placeholder="$t('select', ['product.commitment-period'])"
-                size="sm"
-                option-set
-                data-testid="product.form.commitment-period"
-                required
-              />
-            </div>
-          </WMToggleSwitch>
-          <WMToggleSwitch v-model="hasGuarantee" :label="$t('product.guarantee')" label-size="xl">
-            <div class="flex gap-5 my-3">
-              <WMInput
-                v-if="guaranteeUnits"
-                name="guarantee_unit"
-                :highlighted="true"
-                type="input-select"
-                :label="$t('product.guarantee-unit') + ':'"
-                :options="guaranteeUnits"
-                :placeholder="$t('select', ['product.guarantee-unit'])"
-                size="sm"
-                option-set
-                data-testid="product.form.guarantee-unit"
-                required
-              />
-
-              <WMInput
-                v-if="guaranteePeriods"
-                name="guarantee_period"
-                :highlighted="true"
-                type="input-select"
-                :label="$t('product.guarantee-period') + ':'"
-                :options="guaranteePeriods"
-                :placeholder="$t('select', ['product.guarantee-period'])"
-                size="sm"
-                option-set
-                data-testid="product.form.guarantee-period"
-                required
-              />
-            </div>
-          </WMToggleSwitch>
-          <WMToggleSwitch
-            v-model="hasInstallation"
-            :label="$t('product.installation')"
-            label-size="xl"
-          >
-            <div class="flex gap-5 my-3">
-              <WMInput
-                v-if="installationTypes"
-                name="installation_type"
-                :highlighted="true"
-                type="input-select"
-                :label="$t('product.installation-types') + ':'"
-                :options="installationTypes"
-                :placeholder="$t('select', ['product.installation-types'])"
-                size="sm"
-                option-set
-                data-testid="product.form.installation-types"
-                required
-              />
-            </div>
-          </WMToggleSwitch>
-          <WMToggleSwitch
-            v-model="hasProvisioning"
-            :label="$t('product.provisioning')"
-            label-size="xl"
-          >
-            <div class="flex gap-5 my-3">
-              <WMInput
-                v-if="provisioningTypes"
-                name="provisioning_type"
-                :highlighted="true"
-                type="input-select"
-                :label="$t('product.provisioning-types') + ':'"
-                :options="provisioningTypes"
-                :placeholder="$t('select', ['product.provisioning-types'])"
-                size="sm"
-                option-set
-                data-testid="product.form.provisioning-types"
-                required
-              />
-            </div>
-          </WMToggleSwitch>
-          <WMToggleSwitch
-            v-model="hasMaintenance"
-            :label="$t('product.maintenance')"
-            label-size="xl"
-          >
-            <div class="flex gap-5 my-3">
-              <WMInput
-                v-if="maintenanceUnits"
-                name="maintenance_unit"
-                :highlighted="true"
-                type="input-select"
-                :label="$t('product.maintenance-unit') + ':'"
-                :options="maintenanceUnits"
-                :placeholder="$t('select', ['product.maintenance-unit'])"
-                size="sm"
-                option-set
-                data-testid="product.form.maintenance-unit"
-                required
-              />
-
-              <WMInput
-                name="maintenance_period"
-                required
-                type="input-text"
-                :label="$t('product.maintenance-period') + ':'"
-                size="sm"
-              />
-
-              <WMInput
-                v-if="maintenanceTypes"
-                name="maintenance_type"
-                :highlighted="true"
-                type="input-select"
-                :label="$t('product.maintenance-type') + ':'"
-                :options="maintenanceTypes"
-                :placeholder="$t('select', ['product.maintenance-type'])"
-                size="sm"
-                option-set
-                data-testid="product.form.maintenance-type"
-                required
-              />
-            </div>
-            <div class="flex gap-5 my-3">
-              <WMInput
-                v-if="billingCycleUnits"
-                name="billing_cycle_unit"
-                :highlighted="true"
-                type="input-select"
-                :label="$t('product.billing-cycle-unit') + ':'"
-                :options="billingCycleUnits"
-                :placeholder="$t('select', ['product.billing-cycle-unit'])"
-                size="sm"
-                option-set
-                data-testid="product.form.billing-cycle-unit"
-                required
-              />
-              <WMInput
-                name="billing_cycle_period"
-                required
-                type="input-text"
-                :label="$t('product.billing-cycle-period') + ':'"
-                size="sm"
-              />
-            </div>
-          </WMToggleSwitch>
-
-          <div
-            v-if="hasMaintenance || hasInstallation"
-            class="bg-blue-100 border-solid border-blue-300 border-round-xl p-5 w-full"
-            :class="layoutConfig.isRTL.value ? 'text-right' : 'text-left'"
-          >
-            <span class="block font-bold text-xl pb-2">
-              Installation and/or provisioning process
-            </span>
-            <p class="flex flex-column">
-              <span class="font-bold">
-                Choose the quick code of the Installation and/or provisioning process of this
-                product.
-              </span>
-              The process will start after the product is ordered.
-            </p>
-
-            <WMInput
-              v-if="quickCodes"
-              name="quickcode"
-              :highlighted="true"
-              type="input-select"
-              :label="$t('product.quickcodes') + ':'"
-              :options="quickCodes"
-              :placeholder="$t('select', ['product.quickcodes'])"
-              size="sm"
-              data-testid="product.form.quickcodes"
-              required
-            />
-          </div>
-
-          <Divider />
-          <h2 class="h2 my-0">{{ $t("product.extra-details") }}</h2>
-
-          <div class="flex flex-column gap-5">
-            <div class="flex gap-5">
-              <WMInput
-                name="crm"
-                required
-                type="input-text"
-                :label="$t('product.crm-id') + ':'"
-                size="sm"
-              />
-              <WMInput
-                name="erp"
-                required
-                type="input-text"
-                :label="$t('product.erp-id') + ':'"
-                size="sm"
-              />
-              <WMInput
-                name="expenses_card"
-                type="input-text"
-                :label="$t('product.expenses-card') + ':'"
-                size="sm"
-              />
-              <WMInput
-                name="incomes_card"
-                required
-                type="input-text"
-                :label="$t('product.incomes-card') + ':'"
-                size="sm"
-              />
-            </div>
-          </div>
+          <WMProductSettings />
         </div>
       </div>
     </div>
@@ -534,7 +299,7 @@
 import { useForm } from "vee-validate";
 import { onMounted, ref } from "vue";
 
-import { useLayout } from "@/layout/composables/layout";
+import { OwnersService } from "@/service/OwnersService";
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -544,7 +309,6 @@ const formUtilsStore = useFormUtilsStore();
 
 const { getQuickCodes } = useServices();
 const { getCustomersFromApi } = useCustomers();
-const { layoutConfig } = useLayout();
 const { createProduct, parseProduct } = useProducts();
 
 const toast = useToast();
@@ -558,6 +322,7 @@ const loading = ref(true);
 const units = ref([]);
 const manufacturerTypes = ref([]);
 const customers = ref(null);
+const employees = ref(null);
 const yesNoOptions = ref([]);
 
 const saleDiscountOptions = ref([
@@ -576,31 +341,12 @@ const billingCycleUnits = ref([]);
 const renewalTypes = ref([]);
 const cancellationTypes = ref([]);
 
-const hasLicense = ref(false);
-const hasCommitment = ref(false);
-const commitmentUnits = ref([]);
-const commitmentPeriods = ref([]);
-
 const quickCodes = ref([]);
-
-const hasGuarantee = ref(false);
-const guaranteeUnits = ref([]);
-const guaranteePeriods = ref([]);
-
-const hasInstallation = ref(false);
-const installationTypes = ref([]);
-
-const hasProvisioning = ref(false);
-const provisioningTypes = ref([]);
-
-const hasMaintenance = ref(false);
-const maintenanceUnits = ref([]);
-const maintenanceTypes = ref([]);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit } = useForm({
+const { handleSubmit, values } = useForm({
   validationSchema: formUtilsStore.getNewProductFormValidationSchema,
 });
 
@@ -634,6 +380,12 @@ onMounted(async () => {
     value: customer.id,
   }));
 
+  let employeeResponse = await OwnersService.getOwnersFromApi({ per_page: 9999999 }, "employee");
+  employees.value = employeeResponse.data.map((contact) => ({
+    label: contact.name,
+    value: contact.id,
+  }));
+
   productTypes.value = await optionSetsStore.getOptionSetValues("product_type");
   productFamilies.value = await optionSetsStore.getOptionSetValues("product_family");
   productGroups.value = await optionSetsStore.getOptionSetValues("product_group");
@@ -644,24 +396,12 @@ onMounted(async () => {
   renewalTypes.value = await optionSetsStore.getOptionSetValues("renewal_type");
   cancellationTypes.value = await optionSetsStore.getOptionSetValues("cancellation_type");
 
-  maintenanceUnits.value = await optionSetsStore.getOptionSetValues("product_maintenance_units");
-  maintenanceTypes.value = await optionSetsStore.getOptionSetValues("product_maintenance_type");
-
   await getQuickCodes().then((response) => {
     quickCodes.value = response.data.map((quickCode) => ({
       label: quickCode.name,
       value: quickCode.name,
     }));
   });
-
-  commitmentUnits.value = await optionSetsStore.getOptionSetValues("product_commitment_units");
-  commitmentPeriods.value = await optionSetsStore.getOptionSetValues("product_commitment_period");
-
-  guaranteeUnits.value = await optionSetsStore.getOptionSetValues("product_warranty_period");
-  guaranteePeriods.value = await optionSetsStore.getOptionSetValues("product_warranty_period");
-
-  installationTypes.value = await optionSetsStore.getOptionSetValues("installation_type");
-  provisioningTypes.value = await optionSetsStore.getOptionSetValues("provisioning_type");
 
   loading.value = false;
 });
