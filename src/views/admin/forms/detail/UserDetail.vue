@@ -24,7 +24,7 @@
     <template #custom-buttons>
       <div class="flex gap-3">
         <WMResetPassAdminUsersButton :selected-users="selectedUsers" />
-        <WMUnlockAdminUserButton :selected-users="selectedUsers"/>
+        <WMUnlockAdminUserButton :selected-users="selectedUsers" :isDisabled="user.locked"/>
       </div>
     </template>
   </WMDetailFormSubHeader>

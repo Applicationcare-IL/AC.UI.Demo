@@ -58,6 +58,7 @@ const useAdminFlowmaze = () => {
       },
       title: username,
       manager_fullname: user.manager?.name && user.manager?.surname ? manager_fullname : "",
+      locked: !user.locked,
     };
   };
 
