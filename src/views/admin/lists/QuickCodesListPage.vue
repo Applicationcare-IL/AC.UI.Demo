@@ -3,9 +3,8 @@
       entity="quickCode"
       :total-records="0"
       @new="toggleSidebarVisibility"
-      :showSearchBar="false"
-      :showFilterButton="false"
       :hasActionBuilder="false"
+      :showCommunications="false"
   />
 
   <WMSidebar :visible="isVisible" name="newQuickCode" @close-sidebar="closeSidebar">
@@ -20,13 +19,22 @@
     </template>
   </WMSidebar>
 
-  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">TABLA</div>
+  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
+    <WMAdminQuickCodesTable
+        ref="adminQuickCodesTable"
+        :columns="columns"
+        preview
+        selectable
+        @update:selection="onSelectionChanged"
+    />
+  </div>
 </template>
 
 <script setup>
 // IMPORTS
 import { useUtilsStore } from "@/stores/utils";
 import { onMounted, ref } from "vue";
+import WMAdminQuickCodesTable from "@/components/tables/WMAdminQuickCodesTable.vue";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
@@ -37,7 +45,69 @@ const { can } = usePermissions();
 // PROPS, EMITS
 
 // REFS
+const adminUserTable = ref();
 const isVisible = ref(false);
+const selectedUsers = ref([]);
+
+const columns = [
+  {
+    name: "id",
+    type: "link",
+    field: "link_detail",
+    header: "id",
+    routeName: "",
+  },
+  {
+    name: "quick-code-name",
+    type: "text",
+    field: "name",
+    header: "employee.username",
+  },
+  {
+    name: "team",
+    type: "text",
+    field: "",
+    header: "team",
+  },
+  {
+    name: "active",
+    type: "state",
+    field: "state",
+    header: "state.state",
+    width: "100px",
+    class: "filled-td",
+  },
+  {
+    name: "service-area",
+    type: "text",
+    field: "",
+    header: "service area",
+  },
+  {
+    name: "service-detail",
+    type: "text",
+    field: "",
+    header: "service detail",
+  },
+  {
+    name: "request-1",
+    type: "text",
+    field: "",
+    header: "Request 1",
+  },
+  {
+    name: "request-2",
+    type: "text",
+    field: "",
+    header: "Request 2",
+  },
+  {
+    name: "request-3",
+    type: "text",
+    field: "",
+    header: "Request 3",
+  },
+];
 
 // COMPUTED
 
@@ -46,11 +116,11 @@ useHead({
   title: "Quick Codes",
 });
 
-function toggleSidebarVisibility() {
+const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
 }
 
-function closeSidebar() {
+const closeSidebar = () => {
   isVisible.value = false;
 }
 

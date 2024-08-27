@@ -158,12 +158,12 @@ const model = computed(() => {
         //   image: new URL("/icons/nav/view_list.svg", import.meta.url).href,
         //   visibility: true,
         // },
-        // {
-        //   label: t("navigation.quick-codes"),
-        //   to: "/admin/quick-codes",
-        //   image: new URL("/icons/nav/bolt.svg", import.meta.url).href,
-        //   visibility: true,
-        // },
+        {
+          label: t("navigation.quick-codes"),
+          to: "/admin/quick-codes",
+          image: new URL("/icons/nav/bolt.svg", import.meta.url).href,
+          visibility: true,
+        },
 
         {
           divider: true,
