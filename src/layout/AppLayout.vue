@@ -25,6 +25,8 @@
     <app-config></app-config>
     <div class="layout-mask"></div>
     <Toast />
+    <Toast position="top-left" group="tl" />
+    <Toast position="bottom-left" group="bl" />
     <Toast position="bottom-right" group="br" />
   </div>
 </template>
@@ -64,8 +66,7 @@ const containerClass = computed(() => {
     "layout-overlay": layoutConfig.menuMode.value === "overlay",
     "layout-static": layoutConfig.menuMode.value === "static",
     "layout-static-inactive":
-      layoutState.staticMenuDesktopInactive.value &&
-      layoutConfig.menuMode.value === "static",
+      layoutState.staticMenuDesktopInactive.value && layoutConfig.menuMode.value === "static",
     "layout-overlay-active": layoutState.overlayMenuActive.value,
     "layout-mobile-active": layoutState.staticMenuMobileActive.value,
     "p-input-filled": layoutConfig.inputStyle.value === "filled",
