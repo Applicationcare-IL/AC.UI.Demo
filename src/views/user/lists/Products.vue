@@ -90,6 +90,14 @@ const columns = [
     field: "cancellation_type",
     header: "product.cancellation_type",
   },
+  {
+    name: "active",
+    type: "state",
+    field: "state",
+    header: "State",
+    width: "100px",
+    class: "p-0 filled-td",
+  },
 ];
 
 // COMPUTED

@@ -14,11 +14,11 @@ export const useProductsStore = defineStore("products", {
           console.error(error);
         });
     },
-    getProduct(params) {
+    getProduct(id) {
       return axiosConfig
-        .get("/products/" + params)
+        .get("/products/" + id)
         .then((response) => {
-          return response;
+          return response.data;
         })
         .catch((error) => {
           console.error(error);

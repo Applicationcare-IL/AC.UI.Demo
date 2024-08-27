@@ -1,5 +1,5 @@
 <template>
-  <!-- <pre>{{ product }}</pre> -->
+  <pre>{{ product }}</pre>
   <div v-if="product" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">

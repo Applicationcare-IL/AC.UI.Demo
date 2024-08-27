@@ -45,8 +45,8 @@ useHead({
 });
 
 const loadLazyData = async () => {
-  const response = await getProduct(route.params.id);
-  product.value = response.data;
+  product.value = await getProduct(route.params.id);
+
   utilsStore.selectedElements["product"] = [product.value];
 };
 

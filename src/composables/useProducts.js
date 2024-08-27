@@ -12,14 +12,12 @@ const useProducts = () => {
     return { data: products, totalRecords: response.data.meta.total };
   };
 
-  const getProduct = async () => {
-    const response = await productsStore.getProducts();
+  const getProduct = async (id) => {
+    const response = await productsStore.getProduct(id);
 
-    const products = response.data.data.map((user) => mapProduct(user));
+    console.log(response.data);
 
-    return {
-      data: products[0],
-    };
+    return mapProduct(response.data);
   };
 
   const cleanEmptyKeys = (obj) => {
@@ -87,6 +85,7 @@ const useProducts = () => {
       purchase: 1,
       income: 1,
       from: formatDateToAPI(today),
+      promoted: false,
     };
 
     if (product.commitment) {
