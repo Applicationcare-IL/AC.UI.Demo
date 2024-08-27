@@ -7,6 +7,10 @@
     :show-email-button="false"
     @save-form="saveForm()"
   >
+    <template #top-left>
+      <WMButton v-if="isActive" :text="$t('buttons.activate')" type="secondary" @click="activateMessageFunc()"/>
+      <WMButton v-if="isNotActive" :text="$t('buttons.deactivate')" type="secondary" @click="deactivateMessageFunc()"/>
+    </template>
   </WMDetailFormSubHeader>
   <WMDetailMessageForm v-if="message" ref="detailMessageForm" :form-key="formKey" :message="message" />
 </template>
@@ -23,7 +27,7 @@ import useAdminMessages from "@/composables/useAdminMessages";
 const route = useRoute();
 const utilsStore = useUtilsStore();
 
-const { getMessage } = useAdminMessages();
+const {getMessage, activateMessage, deactivateMessage} = useAdminMessages();
 
 // INJECT
 
@@ -33,6 +37,8 @@ const { getMessage } = useAdminMessages();
 const formKey = ref("adminMessageDetailForm");
 const detailMessageForm = ref();
 const message = ref(null);
+const isActive = ref();
+const isNotActive = ref();
 
 // COMPUTED
 
@@ -44,6 +50,8 @@ useHead({
 const loadLazyData = async () => {
   message.value = await getMessage(route.params.id);
   utilsStore.selectedElements["message"] = [message.value];
+  if (message.value.state.value === 'active') isNotActive.value = true;
+  if (message.value.state.value === 'not_active') isActive.value = true;
 };
 
 loadLazyData();
@@ -53,6 +61,28 @@ utilsStore.entity = "message";
 const saveForm = () => {
   detailMessageForm.value.onSave();
 };
+
+const activateMessageFunc = () => {
+  activateMessage([message.value.id]).then(() => {
+    isActive.value = !isActive.value;
+    isNotActive.value = !isNotActive.value;
+    loadLazyData();
+  }).catch((error) => {
+    console.error(error);
+  })
+}
+
+const deactivateMessageFunc = () => {
+  deactivateMessage(message.value.id).then(() => {
+    isActive.value = !isActive.value;
+    isNotActive.value = !isNotActive.value;
+    loadLazyData()
+  }).catch((error) => {
+    console.error(error);
+  });
+}
+
+
 
 // PROVIDE, EXPOSE
 

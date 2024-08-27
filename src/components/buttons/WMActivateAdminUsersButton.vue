@@ -20,6 +20,7 @@ import ActivateUserIcon from "/icons/activate_user.svg?raw";
 
 // DEPENDENCIES
 const { activateUsers } = useAdminUsers();
+const toast = useToast();
 
 // INJECT
 
@@ -55,10 +56,14 @@ const isDisabled = computed(() => {
 
 // COMPONENT METHODS AND LOGIC
 const handleActivateUsers = () => {
-  const inactiveUsers = props.selectedUsers.filter((user) => user.active === 0);
-  const selectedUsersIds = inactiveUsers.map((user) => user.id);
+  const selectedUsersIds = inactiveUsers.value.map((user) => user.id);
   activateUsers(selectedUsersIds).then(() => {
     emit("activateUser");
+    toast.success({title: "User activated", message: "User activated successfully"});
+
+  }).catch((error) => {
+    console.error(error);
+    toast.error("Error");
   });
 };
 

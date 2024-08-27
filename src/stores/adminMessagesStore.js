@@ -6,7 +6,7 @@ export const useAdminMessagesStore = defineStore("adminMessages", {
     actions: {
         getMessages(params) {
             return axiosConfig
-                .get("/admin/message", { params })
+                .get("/admin/messages", {params})
                 .then((response) => {
                     return response.data;
                 })
@@ -16,7 +16,7 @@ export const useAdminMessagesStore = defineStore("adminMessages", {
         },
         getMessage(id) {
             return axiosConfig
-                .get(`/admin/message/${id}`)
+                .get(`/admin/messages/${id}`)
                 .then((response) => {
                     return response.data;
                 })
@@ -26,7 +26,7 @@ export const useAdminMessagesStore = defineStore("adminMessages", {
         },
         createMessage(user) {
             return axiosConfig
-                .post("/admin/message", user)
+                .post("/admin/messages", user)
                 .then((response) => {
                     return response.data;
                 })
@@ -36,7 +36,27 @@ export const useAdminMessagesStore = defineStore("adminMessages", {
         },
         updateMessage(userId, data) {
             return axiosConfig
-                .patch(`/admin/message/${userId}`, data)
+                .patch(`/admin/messages/${userId}`, data)
+                .then((response) => {
+                    return response.data;
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+        activateMessage(data) {
+            return axiosConfig
+                .patch(`/admin/messages/activate`, data)
+                .then((response) => {
+                    return response.data;
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+        deactivateMessage(data) {
+            return axiosConfig
+                .patch(`/admin/messages/deactivate`, data)
                 .then((response) => {
                     return response.data;
                 })

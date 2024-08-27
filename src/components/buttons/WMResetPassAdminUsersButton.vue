@@ -1,6 +1,6 @@
 <template>
   <WMButton
-      :text="'Reset password'"
+      :text="$t('employee.reset-pass')"
       type="type-5"
       :is-disabled="isDisabled"
       :disabled="isDisabled"
@@ -20,6 +20,8 @@ import LockResetIcon from "/icons/lock_reset.svg?raw";
 
 // DEPENDENCIES
 const { resetPassUsers } = useAdminUsers();
+
+const toast = useToast();
 
 // INJECT
 
@@ -41,6 +43,11 @@ const isDisabled = computed(() => {
 const handleResetPass = () => {
   resetPassUsers(props.selectedUsers.map((user) => user.id)).then(() => {
     emit("resetPassUser");
+    toast.success({title: "Password reset", message: "A reset email was send to the user"});
+
+  }).catch((error) => {
+    console.error(error);
+    toast.error("Error");
   });
 };
 
