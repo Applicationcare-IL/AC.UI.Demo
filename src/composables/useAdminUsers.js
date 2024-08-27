@@ -58,7 +58,6 @@ const useAdminFlowmaze = () => {
       },
       title: username,
       manager_fullname: user.manager?.name && user.manager?.surname ? manager_fullname : "",
-      team: user.teams[0],  /*pendiente de cambiar esperando al backend*/
     };
   };
 

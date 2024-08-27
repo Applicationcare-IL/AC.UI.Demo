@@ -84,7 +84,7 @@
                   <WMInputDropdownDefaultTeam
                     v-if="values.teams"
                     :teams="values.teams"
-                    :selected-team="user.team"
+                    :selected-team="user.default_team"
                     size="full"
                   />
                 </div>
