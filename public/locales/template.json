@@ -963,6 +963,7 @@
     "maintenance-unit": "Maintenance Unit",
     "maintenance-period": "Maintenance Period",
     "maintenance-types": "Maintenance Types",
+    "maintenance-type": "Maintenance Type",
     "billing-cycle-unit": "Billing Cycle Unit",
     "billing-cycle-period": "Billing Cycle Period",
     "product-type": "Product Type",
@@ -982,6 +983,8 @@
     "crm-id": "CRM ID",
     "erp-id": "ERP ID",
     "expenses-card": "Expenses Card",
-    "incomes-card": "Incomes Card"
+    "incomes-card": "Incomes Card",
+    "quickcodes": "Quick Codes",
+    "supply": "Supply"
   }
 }

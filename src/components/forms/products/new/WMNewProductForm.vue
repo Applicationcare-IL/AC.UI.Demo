@@ -22,7 +22,7 @@
               size="md"
             />
             <WMInput
-              name="information-page"
+              name="information_page"
               required
               type="input-text"
               :label="$t('product.information-page') + ':'"
@@ -57,7 +57,7 @@
 
             <WMInput
               v-if="manufacturerTypes"
-              name="manufacter_type"
+              name="manufacturer_type"
               :highlighted="true"
               type="input-select"
               :label="$t('product.manufacturer-type') + ':'"
@@ -101,7 +101,7 @@
             <WMInputCurrency
               required
               :label="$t('product.base-price') + ':'"
-              name="base_price"
+              name="price"
               :small="true"
             />
 
@@ -181,12 +181,12 @@
           <div class="flex gap-5">
             <WMInput
               type="date"
-              :label="$t('products.valid-till') + ':'"
+              :label="$t('product.valid-till') + ':'"
               name="valid_till"
               required
             />
-            <WMInput type="date" :label="$t('products.eol') + ':'" name="eol" />
-            <WMInput type="date" :label="$t('products.eos') + ':'" name="eos" />
+            <WMInput type="date" :label="$t('product.eol') + ':'" name="eol" />
+            <WMInput type="date" :label="$t('product.eos') + ':'" name="eos" />
           </div>
           <div class="flex gap-5">
             <WMInput
@@ -400,12 +400,12 @@
           >
             <div class="flex gap-5 my-3">
               <WMInput
-                v-if="provisioningTypes"
+                v-if="maintenanceUnits"
                 name="maintenance_unit"
                 :highlighted="true"
                 type="input-select"
                 :label="$t('product.maintenance-unit') + ':'"
-                :options="provisioningTypes"
+                :options="maintenanceUnits"
                 :placeholder="$t('select', ['product.maintenance-unit'])"
                 size="sm"
                 option-set
@@ -422,12 +422,12 @@
               />
 
               <WMInput
-                v-if="provisioningTypes"
+                v-if="maintenanceTypes"
                 name="maintenance_type"
                 :highlighted="true"
                 type="input-select"
                 :label="$t('product.maintenance-type') + ':'"
-                :options="provisioningTypes"
+                :options="maintenanceTypes"
                 :placeholder="$t('select', ['product.maintenance-type'])"
                 size="sm"
                 option-set
@@ -437,12 +437,12 @@
             </div>
             <div class="flex gap-5 my-3">
               <WMInput
-                v-if="provisioningTypes"
+                v-if="billingCycleUnits"
                 name="billing_cycle_unit"
                 :highlighted="true"
                 type="input-select"
                 :label="$t('product.billing-cycle-unit') + ':'"
-                :options="provisioningTypes"
+                :options="billingCycleUnits"
                 :placeholder="$t('select', ['product.billing-cycle-unit'])"
                 size="sm"
                 option-set
@@ -474,6 +474,19 @@
               </span>
               The process will start after the product is ordered.
             </p>
+
+            <WMInput
+              v-if="quickCodes"
+              name="quickcode"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('product.quickcodes') + ':'"
+              :options="quickCodes"
+              :placeholder="$t('select', ['product.quickcodes'])"
+              size="sm"
+              data-testid="product.form.quickcodes"
+              required
+            />
           </div>
 
           <Divider />
@@ -482,14 +495,14 @@
           <div class="flex flex-column gap-5">
             <div class="flex gap-5">
               <WMInput
-                name="crm_id"
+                name="crm"
                 required
                 type="input-text"
                 :label="$t('product.crm-id') + ':'"
                 size="sm"
               />
               <WMInput
-                name="erp_id"
+                name="erp"
                 required
                 type="input-text"
                 :label="$t('product.erp-id') + ':'"
@@ -529,8 +542,12 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
 
+const { getQuickCodes } = useServices();
 const { getCustomersFromApi } = useCustomers();
 const { layoutConfig } = useLayout();
+const { createProduct, parseProduct } = useProducts();
+
+const toast = useToast();
 
 // INJECT
 
@@ -555,6 +572,7 @@ const productGroups = ref(null);
 const productDepartments = ref(null);
 
 const billingTypes = ref([]);
+const billingCycleUnits = ref([]);
 const renewalTypes = ref([]);
 const cancellationTypes = ref([]);
 
@@ -562,6 +580,8 @@ const hasLicense = ref(false);
 const hasCommitment = ref(false);
 const commitmentUnits = ref([]);
 const commitmentPeriods = ref([]);
+
+const quickCodes = ref([]);
 
 const hasGuarantee = ref(false);
 const guaranteeUnits = ref([]);
@@ -574,6 +594,8 @@ const hasProvisioning = ref(false);
 const provisioningTypes = ref([]);
 
 const hasMaintenance = ref(false);
+const maintenanceUnits = ref([]);
+const maintenanceTypes = ref([]);
 
 // COMPUTED
 
@@ -583,7 +605,14 @@ const { handleSubmit } = useForm({
 });
 
 const onSubmit = handleSubmit((values) => {
-  console.log(values);
+  createProduct(parseProduct(values))
+    .then(() => {
+      toast.success({ title: "Product created", message: "Product created successfully" });
+    })
+    .catch((error) => {
+      toast.error("An error occurred while creating the product");
+      console.log(error);
+    });
 });
 
 // PROVIDE, EXPOSE
@@ -611,8 +640,19 @@ onMounted(async () => {
   productDepartments.value = await optionSetsStore.getOptionSetValues("product_department");
 
   billingTypes.value = await optionSetsStore.getOptionSetValues("billing_type");
+  billingCycleUnits.value = await optionSetsStore.getOptionSetValues("product_billing_cycle_unit");
   renewalTypes.value = await optionSetsStore.getOptionSetValues("renewal_type");
   cancellationTypes.value = await optionSetsStore.getOptionSetValues("cancellation_type");
+
+  maintenanceUnits.value = await optionSetsStore.getOptionSetValues("product_maintenance_units");
+  maintenanceTypes.value = await optionSetsStore.getOptionSetValues("product_maintenance_type");
+
+  await getQuickCodes().then((response) => {
+    quickCodes.value = response.data.map((quickCode) => ({
+      label: quickCode.name,
+      value: quickCode.name,
+    }));
+  });
 
   commitmentUnits.value = await optionSetsStore.getOptionSetValues("product_commitment_units");
   commitmentPeriods.value = await optionSetsStore.getOptionSetValues("product_commitment_period");

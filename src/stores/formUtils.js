@@ -548,19 +548,24 @@ export const useFormUtilsStore = defineStore("formUtils", {
         name: yup.string().required(),
         surname: yup.string().required(),
         email: yup
-            .string()
-            .required()
-            .email()
-            .test("unique", "validation.user-already-exists", async (email, context) => {
-              if (!email) return true;
+          .string()
+          .required()
+          .email()
+          .test("unique", "validation.user-already-exists", async (email, context) => {
+            if (!email) return true;
 
-              if (adminUsersStore.checkIfMailRelatedToUser(email, context.parent.id)) {
-                return true;
-              }
+            let emailIsOwnedByCurrentUser = await adminUsersStore.checkIfEmailIsOwnedByCurrentUser(
+              email,
+              context.parent.id
+            );
 
-              const exists = await adminUsersStore.checkIfUserExists(email);
-              return !exists;
-            }),
+            if (emailIsOwnedByCurrentUser) {
+              return true;
+            }
+
+            const exists = await adminUsersStore.checkIfUserExists(email);
+            return !exists;
+          }),
         phone: yup
           .string()
           .trim()
@@ -657,6 +662,132 @@ export const useFormUtilsStore = defineStore("formUtils", {
     getNewProductFormValidationSchema: () => {
       return yup.object({
         name: yup.string().required(),
+        information_page: yup.string().required(),
+        description: yup.string().required(),
+        units: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "product.units" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "product.units" },
+          }),
+        manufacturer_type: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "product.manufacter-type" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "product.manufacter-type" },
+          }),
+        manufacturer: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "product.manufacter" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "product.manufacter" },
+          }),
+        product_type: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "product.product-type" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "product.product-type" },
+          }),
+        product_family: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "product.product-family" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "product.product-family" },
+          }),
+        product_group: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "product.product-group" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "product.product-group" },
+          }),
+        product_department: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "product.product-department" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "product.product-department" },
+          }),
+
+        renewal_type: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "product.renewal-type" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "product.renewal-type" },
+          }),
+        billing_type: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "product.billing-type" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "product.billing-type" },
+          }),
+        technical_manager: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "product.technical-manager" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "product.technical-manager" },
+          }),
+        marketing_manager: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "product.marketing-manager" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "product.marketing-manager" },
+          }),
+        cancellation_type: yup
+          .object()
+          .required({
+            key: "validation.required-select",
+            values: { label: "product.cancellation-type" },
+          })
+          .typeError({
+            key: "validation.required-select",
+            values: { label: "product.cancellation-type" },
+          }),
+        price: yup.number().required(),
+        crm: yup.string().required(),
+        erp: yup.string().required(),
       });
     },
   },
