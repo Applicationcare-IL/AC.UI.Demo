@@ -2,8 +2,8 @@
   <WMButton
       :text="$t('employee.unlock-user')"
       type="type-5"
-      :is-disabled="false"
-      :disabled="false"
+      :is-disabled="isDisabled"
+      :disabled="isDisabled"
       @click="handleUnlockUser"
   >
     <template #customIcon>
@@ -18,12 +18,17 @@ import ActivateUserIcon from "/icons/activate_user.svg?raw";
 
 // DEPENDENCIES
 const {unlockUser} = useAdminUsers()
+const toast = useToast();
 
 // INJECT
 
 // PROPS, EMITS
 const props = defineProps({
   selectedUsers: Array,
+  isDisabled: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 const emit = defineEmits(["unlockUser"]);
@@ -34,10 +39,15 @@ const emit = defineEmits(["unlockUser"]);
 
 // COMPONENT METHODS AND LOGIC
 const handleUnlockUser = async () => {
-  await unlockUser(props.selectedUsers).then(() => {
+  await unlockUser(props.selectedUsers[0].id).then(() => {
     emit("unlockUser");
+    toast.success({title: "User unlocked", group: "br"});
+
+  }).catch((error) => {
+    console.error(error);
+    toast.error("Error");
   });
-}
+};
 
 // PROVIDE, EXPOSE
 
