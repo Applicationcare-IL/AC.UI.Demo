@@ -37,6 +37,15 @@ const useAdminFlowmaze = () => {
     const mapQuickCode = (quickCode) => {
         return {
             ...quickCode,
+            link_detail: {
+                text: quickCode.id,
+                id: quickCode.id,
+            },
+            title: quickCode.name,
+            request_1_name: quickCode.request_1_id?.value,
+            request_2_name: quickCode.request_2_id?.value,
+            request_3_name: quickCode.request_3_id?.value,
+
         };
     };
 

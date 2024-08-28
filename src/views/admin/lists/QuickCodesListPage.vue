@@ -5,7 +5,11 @@
       @new="toggleSidebarVisibility"
       :hasActionBuilder="false"
       :showCommunications="false"
-  />
+  >
+    <template #top-left>
+      <WMStateToggle entity="quickCode"/>
+    </template>
+  </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newQuickCode" @close-sidebar="closeSidebar">
     <template v-if="can('quickCodes.create')">
@@ -32,9 +36,10 @@
 
 <script setup>
 // IMPORTS
-import { useUtilsStore } from "@/stores/utils";
 import { onMounted, ref } from "vue";
+
 import WMAdminQuickCodesTable from "@/components/tables/WMAdminQuickCodesTable.vue";
+import {useUtilsStore} from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
@@ -45,9 +50,8 @@ const { can } = usePermissions();
 // PROPS, EMITS
 
 // REFS
-const adminUserTable = ref();
+const adminQuickCodesTable = ref();
 const isVisible = ref(false);
-const selectedUsers = ref([]);
 
 const columns = [
   {
@@ -55,7 +59,7 @@ const columns = [
     type: "link",
     field: "link_detail",
     header: "id",
-    routeName: "",
+    routeName: "adminQuickCodeDetail",
   },
   {
     name: "quick-code-name",
@@ -67,12 +71,12 @@ const columns = [
     name: "team",
     type: "text",
     field: "",
-    header: "team",
+    header: "team.team",
   },
   {
     name: "active",
     type: "state",
-    field: "state",
+    field: "state_id",
     header: "state.state",
     width: "100px",
     class: "filled-td",
@@ -81,30 +85,30 @@ const columns = [
     name: "service-area",
     type: "text",
     field: "",
-    header: "service area",
+    header: "service.service-area",
   },
   {
     name: "service-detail",
     type: "text",
     field: "",
-    header: "service detail",
+    header: "message.service-detail",
   },
   {
     name: "request-1",
     type: "text",
-    field: "",
+    field: "request_1_name",
     header: "Request 1",
   },
   {
     name: "request-2",
     type: "text",
-    field: "",
+    field: "request_2_name",
     header: "Request 2",
   },
   {
     name: "request-3",
     type: "text",
-    field: "",
+    field: "request_3_name",
     header: "Request 3",
   },
 ];

@@ -317,6 +317,11 @@ const router = createRouter({
           component: () => import("@/views/admin/forms/new/NewQuickCode.vue"),
         },
         {
+          path: "quick-codes/:id",
+          name: "adminQuickCodeDetail",
+          component: () => import("@/views/admin/forms/detail/QuickCodeDetail.vue"),
+        },
+        {
           path: "messages",
           name: "adminMessages",
           component: () => import("@/views/admin/lists/MessagesListPage.vue"),
