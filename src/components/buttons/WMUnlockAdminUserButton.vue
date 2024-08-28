@@ -7,14 +7,16 @@
       @click="handleUnlockUser"
   >
     <template #customIcon>
-      <div class="flex" v-html="ActivateUserIcon"/>
+      <div class="flex" v-html="UnlockUserIcon"/>
     </template>
   </WMButton>
 </template>
 
 <script setup>
 // IMPORTS
-import ActivateUserIcon from "/icons/activate_user.svg?raw";
+import {computed} from "vue";
+
+import UnlockUserIcon from "/icons/lock_open.svg?raw";
 
 // DEPENDENCIES
 const {unlockUser} = useAdminUsers()
@@ -36,12 +38,32 @@ const emit = defineEmits(["unlockUser"]);
 // REFS
 
 // COMPUTED
+const inactiveUsers = computed(() => {
+  if (props.selectedUsers) {
+    return props.selectedUsers.filter((user) => user.locked != null);
+  }
+
+  return [];
+});
+
+const isDisabled = computed(() => {
+  if (props.selectedUsers.length === 0) {
+    return true;
+  }
+
+  if (inactiveUsers.value.length > 0) {
+    return false;
+  }
+
+  return true;
+});
 
 // COMPONENT METHODS AND LOGIC
-const handleUnlockUser = async () => {
-  await unlockUser(props.selectedUsers[0].id).then(() => {
-    emit("unlockUser");
-    toast.success({title: "User unlocked", group: "br"});
+const handleUnlockUser = () => {
+  const selectedUsersIds = inactiveUsers.value.map((user) => user.id);
+  unlockUser(selectedUsersIds).then(() => {
+    emit("activateUser");
+    toast.success({title: "User activated", message: "User activated successfully", group: "bl"});
 
   }).catch((error) => {
     console.error(error);
