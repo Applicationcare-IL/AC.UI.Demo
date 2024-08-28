@@ -1,7 +1,7 @@
 import { useAdminMessagesStore } from "@/stores/adminMessagesStore";
 
 const useAdminFlowmaze = () => {
-  const { formatDateToAPI } = useDates();
+  const { formatDateToAPI, formatDateFromAPI } = useDates();
   const adminMessagesStore = useAdminMessagesStore();
 
   // ACTIONS
@@ -35,7 +35,6 @@ const useAdminFlowmaze = () => {
     return await adminMessagesStore.deactivateMessage(data);
   };
 
-
   const mapMessage = (message) => {
     return {
       ...message,
@@ -44,6 +43,8 @@ const useAdminFlowmaze = () => {
         id: message.id,
       },
       title: message.topic,
+      start_date: message.start_date ? formatDateFromAPI(message.start_date) : null,
+      end_date: message.end_date ? formatDateFromAPI(message.end_date) : null,
     };
   };
 
@@ -60,7 +61,7 @@ const useAdminFlowmaze = () => {
     if (message.target === "customer") {
       return {
         customer_service_areas: message.customer_service_areas?.map(
-            (service_area) => service_area.id
+          (service_area) => service_area.id
         ),
       };
     }
@@ -76,9 +77,9 @@ const useAdminFlowmaze = () => {
     }
     if (message.target === "employee") {
       return {
-        teams_id: message.teams?.map((team) => team.id),
-        roles_id: message.roles?.map((role) => role.id),
-        users_id: message.users?.map((user) => user.id),
+        teams_id: message.teams ? message.teams.map((team) => team.id) : [],
+        roles_id: message.roles ? message.roles.map((role) => role.id) : [],
+        users_id: message.users ? message.users.map((user) => user.id) : [],
       };
     }
   };

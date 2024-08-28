@@ -5,6 +5,7 @@
   <div v-else class="flex flex-column gap-3">
     <WMInputSearch
       v-if="teams"
+      :model-value="selectedTeams"
       name="teams"
       :label="$t('teams') + ':'"
       :placeholder="$t('message.select-teams')"
@@ -16,6 +17,7 @@
 
     <WMInputSearch
       v-if="roles"
+      :model-value="selectedRoles"
       name="roles"
       :label="$t('roles') + ':'"
       :placeholder="$t('message.select-roles')"
@@ -27,6 +29,7 @@
 
     <WMInputSearch
       v-if="users"
+      :model-value="selectedUsers"
       name="users"
       :label="$t('users') + ':'"
       :placeholder="$t('message.select-users')"
@@ -40,7 +43,7 @@
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
@@ -53,6 +56,12 @@ const { getUsers } = useAdminUsers();
 // INJECT
 
 // PROPS, EMITS
+const props = defineProps({
+  message: {
+    type: Object,
+    default: () => ({}),
+  },
+});
 
 // REFS
 const loading = ref(true);
@@ -60,6 +69,10 @@ const loading = ref(true);
 const teams = ref(null);
 const roles = ref(null);
 const users = ref(null);
+
+const selectedTeams = ref([]);
+const selectedRoles = ref([]);
+const selectedUsers = ref([]);
 
 // COMPUTED
 
@@ -79,13 +92,20 @@ const loadLazyData = async () => {
   loading.value = false;
 };
 
-loadLazyData();
-
 // PROVIDE, EXPOSE
 
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  await loadLazyData();
+
+  if (props.message) {
+    selectedTeams.value = props.message.teams_id;
+    selectedRoles.value = props.message.roles_id;
+    selectedUsers.value = props.message.users_id;
+  }
+});
 </script>
 
 <style scoped></style>

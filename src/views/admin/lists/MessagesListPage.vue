@@ -7,14 +7,18 @@
     @new="toggleSidebarVisibility"
   >
     <template #top-left>
-      <WMStateToggle entity="message"/>
+      <WMStateToggle entity="message" />
     </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newMessage" @close-sidebar="closeSidebar">
     <template v-if="can('messages.create')">
       <WMNewEntityFormHeader entity="message" name="newMessage" />
-      <WMNewMessageForm :is-sidebar="true" @close-sidebar="closeSidebar" />
+      <WMNewMessageForm
+        :is-sidebar="true"
+        @close-sidebar="closeSidebar"
+        @new-message-created="handleNewMessageCreated"
+      />
     </template>
     <template v-else>
       <div class="m-5">
@@ -121,6 +125,10 @@ const toggleSidebarVisibility = () => {
 
 const closeSidebar = () => {
   isVisible.value = false;
+};
+
+const handleNewMessageCreated = () => {
+  adminMessageTable.value.loadLazyData();
 };
 
 // PROVIDE, EXPOSE

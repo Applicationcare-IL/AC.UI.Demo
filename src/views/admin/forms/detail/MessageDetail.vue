@@ -8,26 +8,40 @@
     @save-form="saveForm()"
   >
     <template #top-left>
-      <WMButton v-if="isActive" :text="$t('buttons.activate')" type="secondary" @click="activateMessageFunc()"/>
-      <WMButton v-if="isNotActive" :text="$t('buttons.deactivate')" type="secondary" @click="deactivateMessageFunc()"/>
+      <WMButton
+        v-if="isActive"
+        :text="$t('buttons.activate')"
+        type="secondary"
+        @click="activateMessageFunc()"
+      />
+      <WMButton
+        v-if="isNotActive"
+        :text="$t('buttons.deactivate')"
+        type="secondary"
+        @click="deactivateMessageFunc()"
+      />
     </template>
   </WMDetailFormSubHeader>
-  <WMDetailMessageForm v-if="message" ref="detailMessageForm" :form-key="formKey" :message="message" />
+  <WMDetailMessageForm
+    v-if="message"
+    ref="detailMessageForm"
+    :form-key="formKey"
+    :message="message"
+  />
 </template>
 
 <script setup>
 // IMPORTS
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
-import { useUtilsStore } from "@/stores/utils";
 
-import useAdminMessages from "@/composables/useAdminMessages";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const route = useRoute();
 const utilsStore = useUtilsStore();
 
-const {getMessage, activateMessage, deactivateMessage} = useAdminMessages();
+const { getMessage, activateMessage, deactivateMessage } = useAdminMessages();
 
 // INJECT
 
@@ -50,8 +64,8 @@ useHead({
 const loadLazyData = async () => {
   message.value = await getMessage(route.params.id);
   utilsStore.selectedElements["message"] = [message.value];
-  if (message.value.state.value === 'active') isNotActive.value = true;
-  if (message.value.state.value === 'not_active') isActive.value = true;
+  if (message.value.state.value === "active") isNotActive.value = true;
+  if (message.value.state.value === "not_active") isActive.value = true;
 };
 
 loadLazyData();
@@ -64,26 +78,28 @@ const saveForm = () => {
 
 const activateMessageFunc = () => {
   console.log(message.value.id);
-  activateMessage({ids: [message.value.id]}).then(() => {
-    isActive.value = !isActive.value;
-    isNotActive.value = !isNotActive.value;
-    loadLazyData();
-  }).catch((error) => {
-    console.error(error);
-  })
-}
+  activateMessage({ ids: [message.value.id] })
+    .then(() => {
+      isActive.value = !isActive.value;
+      isNotActive.value = !isNotActive.value;
+      loadLazyData();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
 const deactivateMessageFunc = () => {
-  deactivateMessage({ids: [message.value.id]}).then(() => {
-    isActive.value = !isActive.value;
-    isNotActive.value = !isNotActive.value;
-    loadLazyData()
-  }).catch((error) => {
-    console.error(error);
-  });
-}
-
-
+  deactivateMessage({ ids: [message.value.id] })
+    .then(() => {
+      isActive.value = !isActive.value;
+      isNotActive.value = !isNotActive.value;
+      loadLazyData();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
 // PROVIDE, EXPOSE
 

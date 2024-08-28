@@ -110,6 +110,23 @@ const useDialog = () => {
     });
   };
 
+  const confirmNewAdminMessage = ({ id, emit }) => {
+    confirm.require({
+      message: i18n.t("message.notification-created-message"),
+      header: i18n.t("message.notification-created-header"),
+      acceptLabel: i18n.t("message.notification-created-detail"),
+      rejectLabel: i18n.t("message.notification-created-close"),
+      accept: () => {
+        formUtilsStore.goToAdminDetail(id, "message");
+      },
+      reject: () => {
+        if (emit) {
+          emit("closeSidebar");
+        }
+      },
+    });
+  };
+
   const confirmNewAdminReport = ({ id, emit }) => {
     confirm.require({
       message: i18n.t("admin-report.notification-created-message"),
@@ -295,6 +312,7 @@ const useDialog = () => {
     confirmNewAdminUser,
     confirmNewAdminTeam,
     confirmNewAdminRole,
+    confirmNewAdminMessage,
     confirmNewService,
     confirmNewProject,
     confirmNewAdminReport,
