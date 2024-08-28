@@ -894,7 +894,11 @@
     "date_created": "Date created",
     "last_changed": "Last changed",
     "created_by": "Created by",
-    "last_changed_by": "Last changed by"
+    "last_changed_by": "Last changed by",
+    "notification-created-message": "The new message was successfully created! \n From now on he will appear in your message list",
+    "notification-created-header": "New Message Created",
+    "notification-created-detail": "View Message",
+    "notification-created-close": "Close"
   },
   "report": {
     "report": "Report"

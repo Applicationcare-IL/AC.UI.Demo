@@ -1,6 +1,6 @@
 <template>
-  <!--  <pre>{{ message }}</pre>-->
-  <!--  <pre>{{ values }}</pre>-->
+  <!-- <pre>{{ message }}</pre> -->
+  <!-- <pre>{{ values }}</pre> -->
   <div v-if="message" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="asset-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
@@ -139,7 +139,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { onMounted, ref, watch } from "vue";
+import {ref, watch} from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 

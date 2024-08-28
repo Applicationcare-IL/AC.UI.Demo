@@ -7,13 +7,12 @@
       @update:selected-option="handleSelectedOption($event.value)"
     />
   </div>
-  <!-- <pre>{{ selectedOption }}</pre> -->
-  <div class="flex flex-column gap-5">
+  <!-- <pre>{{ message }}</pre> -->
+  <div class="flex flex-column gap-5 py-4">
     <WMMessageTargetServices v-if="unref(selectedOption) === 'service'" :message="message" />
     <WMMessageTargetCustomers v-if="unref(selectedOption) === 'customer'" :message="message" />
     <WMMessageTargetProjects v-if="unref(selectedOption) === 'project'" :message="message" />
     <WMMessageTargetUsers v-if="unref(selectedOption) === 'employee'" :message="message" />
-    <!-- <pre>{{ props.message }}</pre> -->
   </div>
 </template>
 
@@ -79,7 +78,6 @@ const { handleChange: handleChangeTarget } = useField("target", undefined, { ini
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
   if (props.message && props.message.target) {
-    console.log("onmounted", props.message.target);
     handleSelectedOption(props.message.target);
   }
 });

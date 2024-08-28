@@ -95,5 +95,6 @@ module.exports = {
     useAdminRoles: true,
     useAdminTeams: true,
     useAdminPermissions: true,
+      useAdminMessages: true,
   },
 };

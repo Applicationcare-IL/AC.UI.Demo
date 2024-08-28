@@ -72,10 +72,9 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { inject } from "vue";
+import {inject, watch} from "vue";
 import { useI18n } from "vue-i18n";
 
-import useAdminMessages from "@/composables/useAdminMessages";
 import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
@@ -83,13 +82,19 @@ const formUtilsStore = useFormUtilsStore();
 const { t } = useI18n();
 const { createMessage, parseMessage } = useAdminMessages();
 
+const toast = useToast();
+const dialog = useDialog();
+
 // INJECT
 const closeSidebar = inject("closeSidebar");
+const isFormDirty = inject("isFormDirty");
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   isSidebar: Boolean,
 });
+
+const emit = defineEmits(["newMessageCreated"]);
 
 // REFS
 const normalImportantOptions = [
@@ -100,13 +105,28 @@ const normalImportantOptions = [
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, values } = useForm({
+const {handleSubmit, values, resetForm, meta} = useForm({
   validationSchema: formUtilsStore.getMessageNewFormValidationSchema,
 });
 
-const onSubmit = handleSubmit((values) => {
-  // console.log("values", values);
-  createMessage(parseMessage(values));
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    let data = await createMessage(parseMessage(values));
+
+    emit("newMessageCreated");
+    dialog.confirmNewAdminMessage({id: data.data.id, emit});
+
+    resetForm();
+
+    if (props.isSidebar) {
+      isFormDirty.value = false;
+      closeSidebar();
+    }
+
+    toast.success({title: "Message created", message: "message created successfully"});
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const onCancel = () => {
@@ -120,6 +140,14 @@ defineExpose({
 });
 
 // WATCHERS
+watch(
+    () => meta.value,
+    (value) => {
+      if (!isFormDirty) return;
+
+      isFormDirty.value = value.dirty;
+    }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
