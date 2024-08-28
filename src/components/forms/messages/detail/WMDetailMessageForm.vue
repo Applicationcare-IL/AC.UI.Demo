@@ -1,6 +1,4 @@
 <template>
-  <!-- <pre>{{ message }}</pre> -->
-  <pre>{{ values }}</pre>
   <div v-if="message" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="asset-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
@@ -98,34 +96,34 @@
               <div class="flex flex-column gap-5">
                 <div class="wm-form-row gap-5">
                   <WMInput
-                      name="date_created"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('message.date_created') + ':'"
-                      :value="message.last_activity.creator.at"
+                    name="date_created"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('message.date_created') + ':'"
+                    :value="message.last_activity.creator.at"
                   />
                   <WMInput
-                      name="last_changed"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('message.last_changed') + ':'"
-                      :value="message.last_activity.updater.at"
+                    name="last_changed"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('message.last_changed') + ':'"
+                    :value="message.last_activity.updater.at"
                   />
                 </div>
                 <div class="wm-form-row gap-5">
                   <WMInput
-                      name="created_by"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('message.created_by') + ':'"
-                      :value="message.last_activity.creator.name"
+                    name="created_by"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('message.created_by') + ':'"
+                    :value="message.last_activity.creator.name"
                   />
                   <WMInput
-                      name="last_changed_by"
-                      type="info"
-                      :highlighted="true"
-                      :label="$t('message.last_changed_by') + ':'"
-                      :value="message.last_activity.updater.name"
+                    name="last_changed_by"
+                    type="info"
+                    :highlighted="true"
+                    :label="$t('message.last_changed_by') + ':'"
+                    :value="message.last_activity.updater.name"
                   />
                 </div>
               </div>
@@ -140,7 +138,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import {ref, watch} from "vue";
+import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 
