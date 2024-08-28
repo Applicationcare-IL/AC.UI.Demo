@@ -67,7 +67,7 @@ const loadLazyData = async () => {
   utilsStore.selectedElements["employee"] = [user.value];
   if (user.value.state.value === "active") isNotActive.value = true;
   if (user.value.state.value === "not_active") isActive.value = true;
-  selectedUsers.value = [{id: route.params.id}];
+  selectedUsers.value = [{id: route.params.id, locked: user.value.locked}];
 };
 
 utilsStore.entity = "employee";

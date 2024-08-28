@@ -35,8 +35,9 @@ const useAdminFlowmaze = () => {
     return await adminUsersStore.deactivateUser(userId);
   }
 
-  const unlockUser = async (userId) => {
-    return await adminUsersStore.unlockUser(userId);
+  const unlockUser = async (userIds) => {
+    const promises = userIds.map((userId) => adminUsersStore.unlockUser(userId));
+    return await Promise.all(promises);
   }
 
   const resetPassUsers = async (userIds) => {
@@ -58,7 +59,6 @@ const useAdminFlowmaze = () => {
       },
       title: username,
       manager_fullname: user.manager?.name && user.manager?.surname ? manager_fullname : "",
-      locked: !user.locked,
     };
   };
 

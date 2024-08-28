@@ -19,6 +19,10 @@
           :selected-users="selectedUsers"
           @reset-pass-user="handleResetPass"
         />
+        <WMUnlockAdminUserButton
+            :selected-users="selectedUsers"
+            @reset-pass-user="handleUnlockUser"
+        />
       </div>
     </template>
   </WMListSubHeader>
