@@ -65,7 +65,7 @@ const columns = [
     name: "quick-code-name",
     type: "text",
     field: "name",
-    header: "employee.username",
+    header: "quick-code.name",
   },
   {
     name: "team",
