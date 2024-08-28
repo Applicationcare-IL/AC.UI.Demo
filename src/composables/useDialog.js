@@ -110,6 +110,23 @@ const useDialog = () => {
     });
   };
 
+    const confirmNewAdminQuickCode = ({id, emit}) => {
+        confirm.require({
+            message: i18n.t("team.notification-created-message"),
+            header: i18n.t("team.notification-created-header"),
+            acceptLabel: i18n.t("team.notification-created-detail"),
+            rejectLabel: i18n.t("team.notification-created-close"),
+            accept: () => {
+                formUtilsStore.goToAdminDetail(id, "quickCode");
+            },
+            reject: () => {
+                if (emit) {
+                    emit("closeSidebar");
+                }
+            },
+        });
+    };
+
   const confirmNewAdminReport = ({ id, emit }) => {
     confirm.require({
       message: i18n.t("admin-report.notification-created-message"),
@@ -295,6 +312,7 @@ const useDialog = () => {
     confirmNewAdminUser,
     confirmNewAdminTeam,
     confirmNewAdminRole,
+      confirmNewAdminQuickCode,
     confirmNewService,
     confirmNewProject,
     confirmNewAdminReport,
