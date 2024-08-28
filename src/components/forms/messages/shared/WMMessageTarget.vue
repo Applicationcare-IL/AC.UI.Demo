@@ -3,7 +3,7 @@
     <WMSelectableButtonGroup
       name="target"
       :options="options"
-      :value="props.message.target ? props.message.target : options[0]"
+      :value="props.message.target ? props.message.target : options[0].value"
       @update:selected-option="handleSelectedOption($event.value)"
     />
   </div>
@@ -79,6 +79,8 @@ const { handleChange: handleChangeTarget } = useField("target", undefined, { ini
 onMounted(() => {
   if (props.message && props.message.target) {
     handleSelectedOption(props.message.target);
+  } else {
+    handleSelectedOption(options.value[0].value);
   }
 });
 </script>

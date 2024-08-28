@@ -61,9 +61,9 @@ const useAdminFlowmaze = () => {
 
     if (message.target === "customer") {
       return {
-        customer_service_areas: message.customer_service_areas?.map(
-          (service_area) => service_area.id
-        ),
+        customer_service_areas: message.customer_service_areas
+          ? message.customer_service_areas.map((service_area) => service_area.id)
+          : [],
         customer_types: message.customer_types ? message.customer_types : [],
         customer_ratings: message.customer_ratings ? message.customer_ratings : [],
       };
@@ -88,6 +88,8 @@ const useAdminFlowmaze = () => {
 
   const parseMessage = (message) => {
     let targetFields = parseTargetFields(message);
+
+    console.log("parseMessage", message);
 
     return {
       ...message,

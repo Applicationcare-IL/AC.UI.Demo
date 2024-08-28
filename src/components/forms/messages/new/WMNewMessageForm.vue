@@ -39,6 +39,7 @@
             :label="$t('end-date') + ':'"
             name="end_date"
             :min-date="values.start_date"
+            required
           />
         </div>
       </div>
@@ -60,7 +61,7 @@
 
       <Divider />
 
-      <h2 class="h2 my-0">{{ $t("message.target") }}</h2>
+      <h2 class="h2 my-0">{{ $t("message.target") }} <span class="text-red-500"> *</span></h2>
 
       <WMMessageTarget />
 

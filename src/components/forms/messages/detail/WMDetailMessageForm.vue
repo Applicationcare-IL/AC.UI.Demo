@@ -1,6 +1,6 @@
 <template>
   <!-- <pre>{{ message }}</pre> -->
-  <!-- <pre>{{ values }}</pre> -->
+  <pre>{{ values }}</pre>
   <div v-if="message" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="asset-data flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
@@ -43,6 +43,7 @@
                     name="end_date"
                     :value="message.end_date"
                     :min-date="start_date"
+                    required
                   />
 
                   <WMInput

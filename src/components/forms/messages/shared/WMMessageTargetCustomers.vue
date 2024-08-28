@@ -6,7 +6,7 @@
       <WMSelectableMultipleButtonGroup
         v-if="organizationTypes.length"
         :options="organizationTypes"
-        :value="message.customer_types.map((item) => item.id)"
+        :value="Object.keys(message).length ? message.customer_types.map((item) => item.id) : null"
         @update:selected-options="handleOrganizationTypesChanges"
       />
     </div>
@@ -28,7 +28,9 @@
       <WMSelectableMultipleButtonGroup
         v-if="customerRatingOptions.length"
         :options="customerRatingOptions"
-        :value="message.customer_ratings.map((item) => item.id)"
+        :value="
+          Object.keys(message).length ? message.customer_ratings.map((item) => item.id) : null
+        "
         @update:selected-options="handleCustomerRatingsChanges"
       />
     </div>
