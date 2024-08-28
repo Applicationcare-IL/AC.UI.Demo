@@ -890,7 +890,11 @@
     "customers": "Organizations",
     "sale": "Sales",
     "project": "Projects",
-    "employee": "Users"
+    "employee": "Users",
+    "date_created": "Date created",
+    "last_changed": "Last changed",
+    "created_by": "Created by",
+    "last_changed_by": "Last changed by"
   },
   "report": {
     "report": "Report"
