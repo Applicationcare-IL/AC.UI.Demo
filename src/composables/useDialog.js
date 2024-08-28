@@ -110,7 +110,7 @@ const useDialog = () => {
     });
   };
 
-  const confirmNewAdminMessage = ({ id, emit }) => {
+  const confirmNewAdminMessage = ({id, emit}) => {
     confirm.require({
       message: i18n.t("message.notification-created-message"),
       header: i18n.t("message.notification-created-header"),

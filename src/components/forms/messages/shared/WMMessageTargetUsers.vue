@@ -43,7 +43,7 @@
 
 <script setup>
 // IMPORTS
-import { onMounted, ref } from "vue";
+import {onMounted, ref} from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 

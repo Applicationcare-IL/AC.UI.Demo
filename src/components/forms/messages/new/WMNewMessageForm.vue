@@ -73,7 +73,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { inject, watch } from "vue";
+import {inject, watch} from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -106,7 +106,7 @@ const normalImportantOptions = [
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, values, resetForm, meta } = useForm({
+const {handleSubmit, values, resetForm, meta} = useForm({
   validationSchema: formUtilsStore.getMessageNewFormValidationSchema,
 });
 
@@ -115,7 +115,7 @@ const onSubmit = handleSubmit(async (values) => {
     let data = await createMessage(parseMessage(values));
 
     emit("newMessageCreated");
-    dialog.confirmNewAdminMessage({ id: data.data.id, emit });
+    dialog.confirmNewAdminMessage({id: data.data.id, emit});
 
     resetForm();
 
@@ -124,7 +124,7 @@ const onSubmit = handleSubmit(async (values) => {
       closeSidebar();
     }
 
-    toast.success({ title: "Message created", message: "message created successfully" });
+    toast.success({title: "Message created", message: "message created successfully"});
   } catch (error) {
     console.log(error);
   }
@@ -142,12 +142,12 @@ defineExpose({
 
 // WATCHERS
 watch(
-  () => meta.value,
-  (value) => {
-    if (!isFormDirty) return;
+    () => meta.value,
+    (value) => {
+      if (!isFormDirty) return;
 
-    isFormDirty.value = value.dirty;
-  }
+      isFormDirty.value = value.dirty;
+    }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)

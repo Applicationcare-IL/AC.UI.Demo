@@ -9,30 +9,30 @@
   >
     <template #top-left>
       <WMButton
-        v-if="isActive"
-        :text="$t('buttons.activate')"
-        type="secondary"
-        @click="activateMessageFunc()"
+          v-if="isActive"
+          :text="$t('buttons.activate')"
+          type="secondary"
+          @click="activateMessageFunc()"
       />
       <WMButton
-        v-if="isNotActive"
-        :text="$t('buttons.deactivate')"
-        type="secondary"
-        @click="deactivateMessageFunc()"
+          v-if="isNotActive"
+          :text="$t('buttons.deactivate')"
+          type="secondary"
+          @click="deactivateMessageFunc()"
       />
     </template>
   </WMDetailFormSubHeader>
   <WMDetailMessageForm
-    v-if="message"
-    ref="detailMessageForm"
-    :form-key="formKey"
-    :message="message"
+      v-if="message"
+      ref="detailMessageForm"
+      :form-key="formKey"
+      :message="message"
   />
 </template>
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import {ref} from "vue";
 import { useRoute } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -41,7 +41,7 @@ import { useUtilsStore } from "@/stores/utils";
 const route = useRoute();
 const utilsStore = useUtilsStore();
 
-const { getMessage, activateMessage, deactivateMessage } = useAdminMessages();
+const {getMessage, activateMessage, deactivateMessage} = useAdminMessages();
 
 // INJECT
 
@@ -78,27 +78,27 @@ const saveForm = () => {
 
 const activateMessageFunc = () => {
   console.log(message.value.id);
-  activateMessage({ ids: [message.value.id] })
-    .then(() => {
-      isActive.value = !isActive.value;
-      isNotActive.value = !isNotActive.value;
-      loadLazyData();
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  activateMessage({ids: [message.value.id]})
+      .then(() => {
+        isActive.value = !isActive.value;
+        isNotActive.value = !isNotActive.value;
+        loadLazyData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 };
 
 const deactivateMessageFunc = () => {
-  deactivateMessage({ ids: [message.value.id] })
-    .then(() => {
-      isActive.value = !isActive.value;
-      isNotActive.value = !isNotActive.value;
-      loadLazyData();
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  deactivateMessage({ids: [message.value.id]})
+      .then(() => {
+        isActive.value = !isActive.value;
+        isNotActive.value = !isNotActive.value;
+        loadLazyData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 };
 
 // PROVIDE, EXPOSE
