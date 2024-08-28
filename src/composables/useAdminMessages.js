@@ -58,16 +58,17 @@ const useAdminFlowmaze = () => {
         service_request_3: message.service_request_3?.id,
       };
     }
+
     if (message.target === "customer") {
       return {
         customer_service_areas: message.customer_service_areas?.map(
           (service_area) => service_area.id
         ),
+        customer_types: message.customer_types ? message.customer_types : [],
+        customer_ratings: message.customer_ratings ? message.customer_ratings : [],
       };
     }
-    if (message.target === "sale") {
-      return {};
-    }
+
     if (message.target === "project") {
       return {
         project_type_id: message.project_type?.id,
@@ -75,6 +76,7 @@ const useAdminFlowmaze = () => {
         project_detail_id: message.project_detail?.id,
       };
     }
+
     if (message.target === "employee") {
       return {
         teams_id: message.teams ? message.teams.map((team) => team.id) : [],

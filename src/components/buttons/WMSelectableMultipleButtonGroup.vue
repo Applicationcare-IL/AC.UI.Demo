@@ -10,14 +10,14 @@
 </template>
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 // DEPENDENCIES
 
 // INJECT
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   options: {
     type: String,
     required: true,
@@ -25,6 +25,10 @@ defineProps({
   noIcon: {
     type: Boolean,
     default: false,
+  },
+  value: {
+    type: String,
+    default: null,
   },
 });
 
@@ -37,7 +41,6 @@ const selectedValues = ref([]);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-
 const handleSelectedOption = (option, selectedIndex) => {
   if (selectedOptions.value[selectedIndex] !== true) {
     selectedValues.value = selectedValues.value.filter((value) => value !== option.value);
@@ -48,11 +51,27 @@ const handleSelectedOption = (option, selectedIndex) => {
   emit("update:selectedOptions", selectedValues.value);
 };
 
+const setSelectedOptions = (options, selectedOptionsFromValueProp) => {
+  for (let i = 0; i < options.length; i++) {
+    if (selectedOptionsFromValueProp.includes(options[i].value)) {
+      selectedOptions.value.push(true);
+      continue;
+    }
+
+    selectedOptions.value.push(false);
+  }
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  if (props.value) {
+    setSelectedOptions(props.options, props.value);
+  }
+});
 </script>
 
 <style scoped></style>
