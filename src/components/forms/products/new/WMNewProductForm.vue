@@ -7,7 +7,7 @@
       <div class="flex flex-1 flex-column gap-5 mb-5">
         <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
 
-        <pre style="height: 200px !important">values {{ values }}</pre>
+        <!-- <pre style="height: 200px !important">values {{ values }}</pre> -->
 
         <div class="flex flex-column gap-5">
           <div class="gap-5 flex">
@@ -288,6 +288,42 @@
 
         <div class="wm-form-row flex-column align-items-end gap-5">
           <WMProductSettings />
+        </div>
+
+        <Divider />
+
+        <h2 class="h2 my-0">{{ $t("product.extra-details") }}</h2>
+
+        <div class="flex flex-column gap-5">
+          <div class="flex gap-5">
+            <WMInput
+              name="crm"
+              required
+              type="input-text"
+              :label="$t('product.crm-id') + ':'"
+              size="sm"
+            />
+            <WMInput
+              name="erp"
+              required
+              type="input-text"
+              :label="$t('product.erp-id') + ':'"
+              size="sm"
+            />
+            <WMInput
+              name="expenses_card"
+              type="input-text"
+              :label="$t('product.expenses-card') + ':'"
+              size="sm"
+            />
+            <WMInput
+              name="incomes_card"
+              required
+              type="input-text"
+              :label="$t('product.incomes-card') + ':'"
+              size="sm"
+            />
+          </div>
         </div>
       </div>
     </div>
