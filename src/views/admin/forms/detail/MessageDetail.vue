@@ -73,7 +73,6 @@ const saveForm = () => {
 };
 
 const activateMessageFunc = () => {
-  console.log(message.value.id);
   activateMessage({ids: [message.value.id]})
       .then(() => {
         isActive.value = !isActive.value;
