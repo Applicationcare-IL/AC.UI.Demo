@@ -1,6 +1,6 @@
 <template>
   <div class="flex gap-5 p-4 border-round-xl justify-content-between" :class="classes">
-    <span class="h5"> {{ title }} </span>
+    <span class="h5"> {{ title }}</span>
     <span> <i class="pi font-bold" :class="iconClass" /> </span>
   </div>
 </template>

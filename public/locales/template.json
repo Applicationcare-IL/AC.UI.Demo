@@ -995,6 +995,10 @@
     "expenses-card": "Expenses Card",
     "incomes-card": "Incomes Card",
     "quickcodes": "Quick Codes",
-    "supply": "Supply"
+    "supply": "Supply",
+    "notification-created-message": "The new product was successfully created! \n From now on he will appear in your product list",
+    "notification-created-header": "New Product Created",
+    "notification-created-detail": "View Product",
+    "notification-created-close": "Close"
   }
 }

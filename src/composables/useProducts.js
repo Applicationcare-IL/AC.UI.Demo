@@ -20,6 +20,15 @@ const useProducts = () => {
     return mapProduct(response.data);
   };
 
+  const updateProduct = async (id, params) => {
+    try {
+      return await productsStore.updateProduct(id, cleanEmptyKeys(params));
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
   const cleanEmptyKeys = (obj) => {
     // Recorremos cada clave en el objeto
     for (let key in obj) {
@@ -113,6 +122,7 @@ const useProducts = () => {
     getProducts,
     getProduct,
     createProduct,
+    updateProduct,
     // UTILITIES
     parseProduct,
   };

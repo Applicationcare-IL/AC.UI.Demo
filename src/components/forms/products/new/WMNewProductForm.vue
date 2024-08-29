@@ -346,12 +346,14 @@ const formUtilsStore = useFormUtilsStore();
 const { getQuickCodes } = useServices();
 const { getCustomersFromApi } = useCustomers();
 const { createProduct, parseProduct } = useProducts();
+const dialog = useDialog();
 
 const toast = useToast();
 
 // INJECT
 
 // PROPS, EMITS
+const emit = defineEmits(["newProductCreated"]);
 
 // REFS
 const loading = ref(true);
@@ -382,13 +384,16 @@ const quickCodes = ref([]);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, values } = useForm({
+const { handleSubmit } = useForm({
   validationSchema: formUtilsStore.getNewProductFormValidationSchema,
 });
 
 const onSubmit = handleSubmit((values) => {
   createProduct(parseProduct(values))
-    .then(() => {
+    .then((data) => {
+      emit("newProductCreated");
+      console.log("data", data);
+      dialog.confirmNewProduct({ id: data.data.id, emit });
       toast.success({ title: "Product created", message: "Product created successfully" });
     })
     .catch((error) => {

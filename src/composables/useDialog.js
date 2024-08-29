@@ -59,6 +59,23 @@ const useDialog = () => {
     });
   };
 
+  const confirmNewProduct = ({ id, emit }) => {
+    confirm.require({
+      message: i18n.t("product.notification-created-message"),
+      header: i18n.t("product.notification-created-header"),
+      acceptLabel: i18n.t("product.notification-created-detail"),
+      rejectLabel: i18n.t("product.notification-created-close"),
+      accept: () => {
+        formUtilsStore.goToDetail(id, "product");
+      },
+      reject: () => {
+        if (emit) {
+          emit("closeSidebar");
+        }
+      },
+    });
+  };
+
   const confirmNewAdminUser = ({ id, emit }) => {
     confirm.require({
       message: i18n.t("employee.notification-created-message"),
@@ -110,7 +127,7 @@ const useDialog = () => {
     });
   };
 
-  const confirmNewAdminMessage = ({id, emit}) => {
+  const confirmNewAdminMessage = ({ id, emit }) => {
     confirm.require({
       message: i18n.t("message.notification-created-message"),
       header: i18n.t("message.notification-created-header"),
@@ -306,22 +323,23 @@ const useDialog = () => {
   };
 
   return {
-    confirmNewCustomer,
-    confirmNewContact,
-    confirmNewTask,
-    confirmNewAdminUser,
-    confirmNewAdminTeam,
-    confirmNewAdminRole,
-    confirmNewAdminMessage,
-    confirmNewService,
-    confirmNewProject,
-    confirmNewAdminReport,
     cancelService,
-    confirmCompleteTasks,
-    confirmCancelTask,
-    confirmCancelProject,
     confirmCancelDialog,
+    confirmCancelProject,
+    confirmCancelTask,
     confirmCompleteMilestone,
+    confirmCompleteTasks,
+    confirmNewAdminMessage,
+    confirmNewAdminReport,
+    confirmNewAdminRole,
+    confirmNewAdminTeam,
+    confirmNewAdminUser,
+    confirmNewContact,
+    confirmNewCustomer,
+    confirmNewProduct,
+    confirmNewProject,
+    confirmNewService,
+    confirmNewTask,
     confirmUnlinkRelatedService,
   };
 };
