@@ -32,7 +32,7 @@
 
 <script setup>
 // IMPORTS
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import { useRoute } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -68,10 +68,6 @@ const loadLazyData = async () => {
   if (message.value.state.value === "not_active") isActive.value = true;
 };
 
-loadLazyData();
-
-utilsStore.entity = "message";
-
 const saveForm = () => {
   detailMessageForm.value.onSave();
 };
@@ -106,6 +102,11 @@ const deactivateMessageFunc = () => {
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  loadLazyData();
+
+  utilsStore.entity = "message";
+});
 </script>
 
 <style scoped></style>
