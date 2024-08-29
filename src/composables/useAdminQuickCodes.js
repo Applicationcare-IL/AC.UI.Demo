@@ -42,6 +42,7 @@ const useAdminFlowmaze = () => {
                 id: quickCode.id,
             },
             title: quickCode.name,
+            state: quickCode.state_id,
             service_area_name: quickCode.area_id?.value,
             service_detail_name: quickCode.type_id?.value,
             request_1_name: quickCode.request_1_id?.value,
