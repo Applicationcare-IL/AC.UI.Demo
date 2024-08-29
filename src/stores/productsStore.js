@@ -35,5 +35,16 @@ export const useProductsStore = defineStore("products", {
           throw new Error(error);
         });
     },
+    updateProduct(id, product) {
+      return axiosConfig
+        .patch("/products/" + id, product)
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
   },
 });

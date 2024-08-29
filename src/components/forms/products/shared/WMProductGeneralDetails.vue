@@ -1,5 +1,6 @@
 <template>
-  <div class="flex flex-column gap-5">
+  <Skeleton v-if="loading" width="100%" height="385px" />
+  <div v-else class="flex flex-column gap-5">
     <div class="wm-form-row gap-5">
       <WMInput
         name="id"
@@ -8,6 +9,7 @@
         :label="$t('id') + ':'"
         :value="product.id"
       />
+      <WMTeamOwnerFields />
     </div>
     <div class="wm-form-row gap-5">
       <WMInput
@@ -95,14 +97,31 @@
 
 <script setup>
 // IMPORTS
+import { onMounted, ref } from "vue";
+
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
+const optionSetsStore = useOptionSetsStore();
+const { getCustomersFromApi } = useCustomers();
 
 // INJECT
 
 // PROPS, EMITS
+defineProps({
+  product: {
+    type: Object,
+    default: () => ({}),
+  },
+});
 
 // REFS
+const loading = ref(true);
+
+const units = ref([]);
+const manufacturerTypes = ref([]);
+const customers = ref(null);
+const yesNoOptions = ref([]);
 
 // COMPUTED
 
@@ -113,6 +132,19 @@
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  units.value = await optionSetsStore.getOptionSetValues("units");
+  manufacturerTypes.value = await optionSetsStore.getOptionSetValues("manufacturer_type");
+  yesNoOptions.value = await optionSetsStore.getOptionSetValues("yesNo");
+
+  let customersData = await getCustomersFromApi({ per_page: 9999999 });
+  customers.value = customersData.data.map((customer) => ({
+    label: customer.name,
+    value: customer.id,
+  }));
+
+  loading.value = false;
+});
 </script>
 
 <style scoped></style>
