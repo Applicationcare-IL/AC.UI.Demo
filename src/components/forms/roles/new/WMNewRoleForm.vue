@@ -27,7 +27,7 @@
 <script setup>
 // IMPORTS
 import {useForm} from "vee-validate";
-import {inject} from "vue";
+import {inject, watch} from "vue";
 
 import WMInput from "@/components/forms/WMInput.vue";
 import useAdminRoles from "@/composables/useAdminRoles";
@@ -100,6 +100,14 @@ defineExpose({
 });
 
 // WATCHERS
+watch(
+    () => meta.value,
+    (value) => {
+      if (!isFormDirty) return;
+
+      isFormDirty.value = value.dirty;
+    }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

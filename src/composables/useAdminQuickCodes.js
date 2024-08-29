@@ -18,11 +18,11 @@ const useAdminFlowmaze = () => {
     }
 
     const createQuickCode = async (params) => {
-        return await adminQuickCodes.createQuickCode(params);
+        return await adminQuickCodes.createQuickCode(parseQuickCode(params));
     }
 
     const updateQuickCode = async (quickCodeId, params) => {
-        return await adminQuickCodes.updateQuickCode(quickCodeId, params);
+        return await adminQuickCodes.updateQuickCode(quickCodeId, parseQuickCode(params));
     }
 
     const activateQuickCodes = async (quickCodesId) => {
@@ -42,11 +42,24 @@ const useAdminFlowmaze = () => {
                 id: quickCode.id,
             },
             title: quickCode.name,
+            service_area_name: quickCode.area_id?.value,
+            service_detail_name: quickCode.type_id?.value,
             request_1_name: quickCode.request_1_id?.value,
             request_2_name: quickCode.request_2_id?.value,
             request_3_name: quickCode.request_3_id?.value,
-
         };
+    };
+
+    const parseQuickCode = (quickCode) => {
+        return {
+            name: quickCode.name,
+            area_id: quickCode.service_area.id,
+            type_id: quickCode.service_type.id,
+            request_1_id: quickCode.service_request_1.id,
+            request_2_id: quickCode.service_request_2?.id,
+            request_3_id: quickCode.service_request_3?.id,
+            // team_id: quickCode.team.id,
+        }
     };
 
     return {
@@ -59,6 +72,7 @@ const useAdminFlowmaze = () => {
         deactivateQuickCode,
         // UTILITIES
         mapQuickCode,
+        parseQuickCode
     }
 }
 

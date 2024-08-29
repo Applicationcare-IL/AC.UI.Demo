@@ -14,7 +14,11 @@
   <WMSidebar :visible="isVisible" name="newQuickCode" @close-sidebar="closeSidebar">
     <template v-if="can('quickCodes.create')">
       <WMNewEntityFormHeader entity="quickCode" name="newQuickCode" />
-      <WMNewQuickCodeForm :is-sidebar="true" @close-sidebar="closeSidebar" />
+      <WMNewQuickCodeForm
+          :is-sidebar="true"
+          @close-sidebar="closeSidebar"
+          @new-quick-code-created="handleNewQuickCodeCreated"
+      />
     </template>
     <template v-else>
       <div class="m-5">
@@ -84,13 +88,13 @@ const columns = [
   {
     name: "service-area",
     type: "text",
-    field: "",
+    field: "service_area_name",
     header: "service.service-area",
   },
   {
     name: "service-detail",
     type: "text",
-    field: "",
+    field: "service_detail_name",
     header: "message.service-detail",
   },
   {
@@ -119,6 +123,10 @@ const columns = [
 useHead({
   title: "Quick Codes",
 });
+
+const handleNewQuickCodeCreated = () => {
+  adminQuickCodesTable.value.loadLazyData();
+}
 
 const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
