@@ -32,7 +32,16 @@
     <div class="wm-form-row gap-5">
       <div class="wm-input flex flex-column">
         <label class="wm-form-label">Photo: </label>
-        <WMUploadProductImage />
+        <div class="flex" style="height: 146px; width: 146px">
+          <div
+            v-if="product.product_image_url"
+            class="bg-cover bg-no-repeat bg-center border-round h-full w-full"
+            :style="{
+              backgroundImage: `url(${product.product_image_url})`,
+            }"
+          />
+          <WMUploadProductImage v-else @upload-image="handleUploadImage" />
+        </div>
       </div>
       <WMInput
         id="description"
@@ -104,6 +113,7 @@
 
 <script setup>
 // IMPORTS
+import { useField } from "vee-validate";
 import { onMounted, ref } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -133,6 +143,19 @@ const yesNoOptions = ref([]);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const { handleChange: handleProductImageChange, setTouched } = useField(
+  "new_product_image",
+  undefined,
+  {
+    initialValue: false,
+  }
+);
+
+const handleUploadImage = (files) => {
+  console.log("handleUploadImage", files);
+  handleProductImageChange(files);
+  setTouched(true);
+};
 
 // PROVIDE, EXPOSE
 

@@ -1,4 +1,5 @@
 <template>
+  <pre>{{ values.new_product_image }}</pre>
   <div v-if="loading" class="flex flex-column justify-content-center h-screen align-items-center">
     <ProgressSpinner />
   </div>
@@ -77,7 +78,7 @@ const quickCodes = ref([]);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit } = useForm({
+const { handleSubmit, values } = useForm({
   validationSchema: formUtilsStore.getNewProductFormValidationSchema,
 });
 

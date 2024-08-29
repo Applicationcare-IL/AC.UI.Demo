@@ -69,6 +69,7 @@ const useProducts = () => {
         text: product.name,
         id: product.id,
       },
+      product_image_url: product.icon ? product.icon.thumbnail + "product" : null,
     };
   };
 

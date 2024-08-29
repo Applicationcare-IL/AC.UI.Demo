@@ -1,5 +1,6 @@
 <template>
-  <!-- <pre>{{ product }}</pre> -->
+  <pre>{{ values.new_product_image }}</pre>
+
   <div v-if="product" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
@@ -127,6 +128,7 @@ const toast = useToast();
 const route = useRoute();
 const formUtilsStore = useFormUtilsStore();
 
+const { uploadAttachment } = useAttachments();
 const { updateProduct, parseProduct } = useProducts();
 
 // INJECT
@@ -150,13 +152,21 @@ const emit = defineEmits(["productUpdated"]);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, meta, resetForm } = useForm({
+const { handleSubmit, meta, resetForm, values } = useForm({
   validationSchema: formUtilsStore.getNewProductFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {
-  console.log("onsave", values);
-  updateProduct(route.params.id, parseProduct(values))
+  const { new_product_image, ...rest } = values;
+
+  updateProduct(route.params.id, parseProduct(rest))
+    .then(async () => {
+      if (new_product_image) {
+        return await uploadProductImage(new_product_image);
+      }
+
+      return Promise.resolve();
+    })
     .then(() => {
       toast.success({ message: "Product updated successfully" });
       resetForm({ values: values });
@@ -167,6 +177,23 @@ const onSave = handleSubmit((values) => {
       toast.error("Error updating product");
     });
 });
+
+const uploadProductImage = async (file) => {
+  const formData = new FormData();
+
+  formData.append("file", file);
+  formData.append("entity_type", "product");
+  formData.append("entity_id", route.params.id);
+  formData.append("field", "icon");
+
+  uploadAttachment(formData).then(({ data }) => {
+    console.log("uploadProductImage data", data);
+    // hasFileUploaded.value = true;
+    // downloadUrl.value = data.download_url;
+    // uploadDocumentOverlay.value.toggle();
+    // emit("fileUploaded");
+  });
+};
 
 formUtilsStore.formEntity = "product";
 
