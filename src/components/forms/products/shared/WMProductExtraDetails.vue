@@ -8,6 +8,7 @@
         type="input-text"
         :label="$t('product.crm-id') + ':'"
         size="sm"
+        :value="product.crm"
       />
       <WMInput
         name="erp"
@@ -15,6 +16,7 @@
         type="input-text"
         :label="$t('product.erp-id') + ':'"
         size="sm"
+        :value="product.erp"
       />
       <WMInput
         name="expenses_card"

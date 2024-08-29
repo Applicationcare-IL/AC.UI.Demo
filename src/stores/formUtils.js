@@ -626,7 +626,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
     getQuickCodeNewFormValidationSchema: () => {
       return yup.object({
         "quickCode-name": yup.string().required(),
-        "team": yup.object().required(),
+        team: yup.object().required(),
       });
     },
     getMessageNewFormValidationSchema: () => {
@@ -663,7 +663,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
     getNewProductFormValidationSchema: () => {
       return yup.object({
         name: yup.string().required(),
-        information_page: yup.string().required(),
+        info_page: yup.string().required(),
         description: yup.string().required(),
         units: yup
           .object()

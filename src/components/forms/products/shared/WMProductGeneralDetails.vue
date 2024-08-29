@@ -21,15 +21,19 @@
         :value="product.name"
       />
       <WMInput
-        name="information_page"
+        name="info_page"
         required
         type="input-text"
         :label="$t('product.information-page') + ':'"
         size="md"
-        :value="product.information_page"
+        :value="product.info_page"
       />
     </div>
     <div class="wm-form-row gap-5">
+      <div class="wm-input flex flex-column">
+        <label class="wm-form-label">Photo: </label>
+        <WMUploadProductImage />
+      </div>
       <WMInput
         id="description"
         type="text-area"
@@ -38,6 +42,7 @@
         size="lg"
         required
         :value="product.description"
+        :rows="8"
       />
     </div>
     <div class="wm-form-row flex flex-wrap gap-5">
@@ -67,6 +72,7 @@
         option-set
         data-testid="product.form.manufacturer-type"
         required
+        :value="product?.manufacturer_type"
       />
 
       <WMInput
@@ -80,6 +86,7 @@
         size="sm"
         data-testid="product.form.manufacturer"
         required
+        :value="product?.manufacturer"
       />
 
       <WMInput

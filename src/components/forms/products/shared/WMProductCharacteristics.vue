@@ -14,6 +14,7 @@
         option-set
         data-testid="product.form.product-type"
         required
+        :value="product?.type"
       />
 
       <WMInput
@@ -28,6 +29,7 @@
         option-set
         data-testid="product.form.product-family"
         required
+        :value="product?.family"
       />
 
       <WMInput
@@ -42,6 +44,7 @@
         option-set
         data-testid="product.form.product-group"
         required
+        :value="product?.group"
       />
 
       <WMInput
@@ -56,6 +59,7 @@
         option-set
         data-testid="product.form.product-department"
         required
+        :value="product?.department"
       />
     </div>
     <div class="flex gap-5">
@@ -76,6 +80,7 @@
         option-set
         data-testid="product.form.billing-type"
         required
+        :value="product?.billing_type"
       />
 
       <WMInput
@@ -90,6 +95,7 @@
         option-set
         data-testid="product.form.renewal-type"
         required
+        :value="product?.renewal_type"
       />
 
       <WMInput
@@ -104,6 +110,7 @@
         option-set
         data-testid="product.form.cancellation-type"
         required
+        :value="product?.cancellation_type"
       />
     </div>
   </div>

@@ -999,6 +999,9 @@
     "notification-created-message": "The new product was successfully created! \n From now on he will appear in your product list",
     "notification-created-header": "New Product Created",
     "notification-created-detail": "View Product",
-    "notification-created-close": "Close"
+    "notification-created-close": "Close",
+    "upload-image-drag-the-photo-here": "Drag the photo here",
+    "upload-image-or": "Or",
+    "upload-image-click-here": "Click here"
   }
 }
