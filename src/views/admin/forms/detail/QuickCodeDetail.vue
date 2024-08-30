@@ -1,6 +1,6 @@
 <template>
   <WMDetailFormSubHeader
-      entity="quickCode"
+      entity="quick-code"
       :form-key="formKey"
       :has-action-builder="false"
       :show-message-button="false"
@@ -65,7 +65,7 @@ useHead({
 
 const loadLazyData = async () => {
   quickCode.value = await getQuickCode(route.params.id);
-  utilsStore.selectedElements["quickCode"] = [quickCode.value];
+  utilsStore.selectedElements["quick-code"] = [quickCode.value];
   if (quickCode.value.state_id.value === "active") isNotActive.value = true;
   if (quickCode.value.state_id.value === "not_active") isActive.value = true;
 }
@@ -106,7 +106,7 @@ const deactivateQuickCodeFunc = () => {
 onMounted(() => {
   loadLazyData();
 
-  utilsStore.entity = "quickCode";
+  utilsStore.entity = "quick-code";
 });
 </script>
 

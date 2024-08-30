@@ -28,6 +28,15 @@
                       size="md"
                       required
                   />
+
+                  <WMInputSearch
+                      name="team"
+                      :required="true"
+                      type="input-select"
+                      :label="$t('team-name') + ':'"
+                      :options="teams.data"
+                      size="md"
+                  />
                 </div>
               </div>
 
@@ -170,12 +179,27 @@
 
 <script setup>
 // IMPORTS
-import {onMounted, ref} from "vue";
+import {useForm} from "vee-validate";
+import {onMounted, ref, watch} from "vue";
+import {useRoute} from "vue-router";
 
+import useAdminQuickCodes from "@/composables/useAdminQuickCodes";
+import useAdminTeams from "@/composables/useAdminTeams";
+import {useFormUtilsStore} from "@/stores/formUtils";
 import {useOptionSetsStore} from "@/stores/optionSets";
+import {useUtilsStore} from "@/stores/utils";
 
 // DEPENDENCIES
 const optionSetsStore = useOptionSetsStore();
+const route = useRoute();
+
+const {updateQuickCode} = useAdminQuickCodes();
+const {getTeams} = useAdminTeams();
+
+const formUtilsStore = useFormUtilsStore();
+const utilsStore = useUtilsStore();
+const toast = useToast();
+
 // INJECT
 
 // PROPS, EMITS
@@ -190,7 +214,11 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(["quickCodeUpdated"]);
+
 // REFS
+const teams = ref([]);
+
 const areas = ref([]);
 const types = ref([]);
 const requests1 = ref([]);
@@ -212,6 +240,15 @@ const isRequest3Empty = ref(true);
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
+  let activeStateId = await optionSetsStore.getId("state", "active");
+
+  let filters = {
+    per_page: 99999,
+    state: activeStateId,
+  };
+
+  teams.value = await getTeams(filters);
+
   await optionSetsStore
       .getOptionSetValuesFromApiRaw("service_area")
       .then((data) => (areas.value = data));
@@ -308,14 +345,46 @@ const handleRequest2Change = async (option) => {
   await filterRequests3(option.value.id);
 };
 
+const {handleSubmit, meta, resetForm} = useForm({
+  validationSchema: formUtilsStore.getQuickCodeUpdateFormValidationSchema,
+});
+
+const onSave = handleSubmit((values) => {
+  updateQuickCode(route.params.id, values)
+      .then(() => {
+        toast.success({message: "Quick code updated successfully"});
+        resetForm({values: values});
+        emit("quickCodeUpdated");
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Error updating quick code");
+      });
+});
+
 // PROVIDE, EXPOSE
+defineExpose({
+  onSave,
+});
 
 // WATCHERS
+watch(
+    () => meta.value,
+    (value) => {
+      if (value.touched) {
+        formUtilsStore.formMeta = value;
+        formUtilsStore.setFormMetas(value, props.formKey);
+      }
+    }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   await loadLazyData();
 
+  formUtilsStore.formEntity = "quick-code";
+  utilsStore.entity = "quick-code";
+  
   if (props.quickCode) {
     selectedArea.value = areas.value.find(
         (area) => area.id === props.quickCode.area_id.id
@@ -330,11 +399,11 @@ onMounted(async () => {
     );
     await handleRequest1Change(selectedRequest1.value);
     selectedRequest2.value = requests2.value.find(
-        (request) => request.id === props.quickCode.request_2_id.id
+        (request) => request.id === props.quickCode.request_2_id?.id
     );
     await handleRequest2Change(selectedRequest2.value);
     selectedRequest3.value = requests3.value.find(
-        (request) => request.id === props.quickCode.request_3_id.id
+        (request) => request.id === props.quickCode.request_3_id?.id
     );
   }
 })

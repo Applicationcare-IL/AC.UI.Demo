@@ -1,19 +1,19 @@
 <template>
   <WMListSubHeader
-      entity="quickCode"
+      entity="quick-code"
       :total-records="0"
       @new="toggleSidebarVisibility"
       :hasActionBuilder="false"
       :showCommunications="false"
   >
     <template #top-left>
-      <WMStateToggle entity="quickCode"/>
+      <WMStateToggle entity="quick-code"/>
     </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newQuickCode" @close-sidebar="closeSidebar">
-    <template v-if="can('quickCodes.create')">
-      <WMNewEntityFormHeader entity="quickCode" name="newQuickCode" />
+    <template v-if="can('quick-codes.create')">
+      <WMNewEntityFormHeader entity="quick-code" name="newQuickCode"/>
       <WMNewQuickCodeForm
           :is-sidebar="true"
           @close-sidebar="closeSidebar"
@@ -142,7 +142,7 @@ const closeSidebar = () => {
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  utilsStore.entity = "quickCode";
+  utilsStore.entity = "quick-code";
 });
 </script>
 
