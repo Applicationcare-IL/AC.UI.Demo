@@ -1,21 +1,33 @@
 <template>
-  <WMInput
-    v-if="true"
-    :value="selectedOption"
-    name="default_team"
-    type="input-select"
-    :highlighted="true"
-    :label="$t('employee.default-team') + ':'"
-    :placeholder="$t('employee.select-default-team')"
-    :options="teams"
-    custom-option-label="name"
-    :size="size"
-  />
+  <div class="flex flex-column gap-2">
+    <div class="flex align-items-center gap-2">
+      <label class="wm-form-label highlighted">{{ $t("employee.default-team") + ":" }}</label>
+      <div
+        v-tooltip.bottom="$t('employee.default-message-help-text')"
+        class="flex"
+        v-html="HelpIcon"
+      />
+    </div>
+
+    <WMInput
+      v-if="true"
+      :value="selectedOption"
+      name="default_team"
+      type="input-select"
+      :highlighted="true"
+      :placeholder="$t('employee.select-default-team')"
+      :options="teams"
+      custom-option-label="name"
+      :size="size"
+    />
+  </div>
 </template>
 
 <script setup>
 // IMPORTS
 import { onMounted, ref } from "vue";
+
+import HelpIcon from "/icons/help.svg?raw";
 
 // DEPENDENCIES
 

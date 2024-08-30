@@ -823,7 +823,8 @@
     "notification-created-detail": "View User",
     "notification-created-close": "Close",
     "reset-pass": "Reset password",
-    "unlock-user": "Unlock user"
+    "unlock-user": "Unlock user",
+    "default-message-help-text": "Tasks and services assigned to this user are automatically assigned to this team by default."
   },
   "quick-code": {
     "quick-code": "quick code",
