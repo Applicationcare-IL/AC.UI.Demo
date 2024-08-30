@@ -66,8 +66,8 @@ useHead({
 const loadLazyData = async () => {
   quickCode.value = await getQuickCode(route.params.id);
   utilsStore.selectedElements["quick-code"] = [quickCode.value];
-  if (quickCode.value.state_id.value === "active") isNotActive.value = true;
-  if (quickCode.value.state_id.value === "not_active") isActive.value = true;
+  if (quickCode.value.state.value === "active") isNotActive.value = true;
+  if (quickCode.value.state.value === "not_active") isActive.value = true;
 }
 
 const saveForm = () => {
