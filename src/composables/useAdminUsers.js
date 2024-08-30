@@ -33,12 +33,12 @@ const useAdminFlowmaze = () => {
 
   const deactivateUser = async (userId) => {
     return await adminUsersStore.deactivateUser(userId);
-  }
+  };
 
   const unlockUser = async (userIds) => {
     const promises = userIds.map((userId) => adminUsersStore.unlockUser(userId));
     return await Promise.all(promises);
-  }
+  };
 
   const resetPassUsers = async (userIds) => {
     const promises = userIds.map((userId) => adminUsersStore.resetPassUser(userId));
@@ -67,7 +67,7 @@ const useAdminFlowmaze = () => {
       ...user,
       manager_id: user.manager?.id,
       teams: user.teams?.map((team) => team.id),
-      default_team: user.default_team.id,
+      default_team: user.default_team?.id,
       roles: user.roles?.map((role) => role.id),
     };
   };
@@ -77,7 +77,7 @@ const useAdminFlowmaze = () => {
       ...user,
       manager_id: user.manager?.id,
       teams: user.teams?.map((team) => team.id),
-      default_team: user.default_team.id,
+      default_team: user.default_team?.id,
       roles: user.roles?.map((role) => role.id),
     };
   };
