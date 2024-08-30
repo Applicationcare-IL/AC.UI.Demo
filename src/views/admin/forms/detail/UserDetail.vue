@@ -28,12 +28,21 @@
       </div>
     </template>
   </WMDetailFormSubHeader>
-  <WMDetailUserForm v-if="user" ref="detailUserForm" :form-key="formKey" :user="user" />
+  <div v-if="loading" class="flex flex-column justify-content-center h-screen align-items-center">
+    <ProgressSpinner />
+  </div>
+  <WMDetailUserForm
+    v-else
+    ref="detailUserForm"
+    :form-key="formKey"
+    :user="user"
+    @user-updated="handleUserUpdated"
+  />
 </template>
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -48,6 +57,7 @@ const utilsStore = useUtilsStore();
 // PROPS, EMITS
 
 // REFS
+const loading = ref(true);
 const formKey = ref("adminUserDetailForm");
 const detailUserForm = ref();
 const user = ref(null);
@@ -68,11 +78,10 @@ const loadLazyData = async () => {
   if (user.value.state.value === "active") isNotActive.value = true;
   if (user.value.state.value === "not_active") isActive.value = true;
   selectedUsers.value = [{ id: route.params.id, locked: user.value.locked }];
+  loading.value = false;
 };
 
 utilsStore.entity = "employee";
-
-loadLazyData();
 
 const saveForm = () => {
   detailUserForm.value.onSave();
@@ -102,6 +111,11 @@ const deactivateUserFunc = () => {
     });
 };
 
+const handleUserUpdated = async () => {
+  loading.value = true;
+  await loadLazyData();
+};
+
 // const activateUser
 
 // PROVIDE, EXPOSE
@@ -109,4 +123,7 @@ const deactivateUserFunc = () => {
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  loadLazyData();
+});
 </script>

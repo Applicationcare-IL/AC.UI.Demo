@@ -1,20 +1,21 @@
 <template>
   <WMInput
-      v-if="true"
-      :value="selectedOption"
-      name="default_team"
-      type="input-select"
-      :highlighted="true"
-      :label="$t('employee.default-team') + ':'"
-      :options="teams"
-      custom-option-label="name"
-      :size="size"
+    v-if="true"
+    :value="selectedOption"
+    name="default_team"
+    type="input-select"
+    :highlighted="true"
+    :label="$t('employee.default-team') + ':'"
+    :placeholder="$t('employee.select-default-team')"
+    :options="teams"
+    custom-option-label="name"
+    :size="size"
   />
 </template>
 
 <script setup>
 // IMPORTS
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
 // DEPENDENCIES
 
@@ -33,7 +34,7 @@ const props = defineProps({
   teams: {
     type: Array,
     default: null,
-  }
+  },
 });
 
 // REFS
@@ -43,7 +44,7 @@ const selectedOption = ref(null);
 
 // COMPONENT METHODS AND LOGIC
 const loadSelectedOption = async () => {
-  if (props.teams){
+  if (props.teams) {
     selectedOption.value = props.teams.find((team) => {
       return team.id === props.selectedTeam.id;
     });
