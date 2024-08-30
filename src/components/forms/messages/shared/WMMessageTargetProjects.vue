@@ -130,9 +130,9 @@ onMounted(async () => {
   await loadLazyData();
 
   if (props.message) {
-    selectedProjectType.value = props.message.project_type_id;
-    selectedProjectArea.value = props.message.project_area_id;
-    selectedProjectDetail.value = props.message.project_detail_id;
+    selectedProjectType.value = props.message.project_type;
+    selectedProjectArea.value = props.message.project_area;
+    selectedProjectDetail.value = props.message.project_detail;
   }
 });
 </script>

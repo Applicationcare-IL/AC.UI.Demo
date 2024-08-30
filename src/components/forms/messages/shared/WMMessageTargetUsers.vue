@@ -101,9 +101,9 @@ onMounted(async () => {
   await loadLazyData();
 
   if (props.message) {
-    selectedTeams.value = props.message.teams_id;
-    selectedRoles.value = props.message.roles_id;
-    selectedUsers.value = props.message.users_id;
+    selectedTeams.value = props.message.teams;
+    selectedRoles.value = props.message.roles;
+    selectedUsers.value = props.message.users;
   }
 });
 </script>
