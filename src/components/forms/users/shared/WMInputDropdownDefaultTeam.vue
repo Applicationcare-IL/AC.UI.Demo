@@ -3,7 +3,10 @@
     <div class="flex align-items-center gap-2">
       <label class="wm-form-label highlighted">{{ $t("employee.default-team") + ":" }}</label>
       <div
-        v-tooltip.bottom="$t('employee.default-message-help-text')"
+        v-tooltip.bottom="{
+          value: 'Confirm to prfirm to prfirm to prfirm to prfirm to prfirm to proceed',
+          hideDelay: 99899,
+        }"
         class="flex"
         v-html="HelpIcon"
       />
