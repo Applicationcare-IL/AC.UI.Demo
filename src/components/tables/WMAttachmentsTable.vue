@@ -83,7 +83,6 @@ const openUploadAttachment = () => {
 const onDrop = (filesToUpload) => {
   files.value = filesToUpload;
 
-  console.log("filesToUpload", filesToUpload);
   setTimeout(() => {
     uploadAttachmentToAPI();
   }, 500);

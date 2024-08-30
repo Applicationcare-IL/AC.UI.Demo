@@ -302,7 +302,6 @@ const onRemove = (event) => {
 
   value.value.splice(value.value.indexOf(event), 1);
 
-  console.log("onremove");
   setTouched(true);
 };
 

@@ -15,9 +15,9 @@
         </div>
       </div>
 
-      <Divider/>
+      <Divider />
 
-      <WMAdminUserSelectorTable/>
+      <WMAdminUserSelectorTable />
 
       <WMFormButtons v-if="isSidebar" @save-form="onSubmit()" @cancel-form="onCancel()" />
     </div>
@@ -63,7 +63,7 @@ const onSubmit = handleSubmit(async (values) => {
 
     if (values.userList.length > 0) {
       let userIds = values.userList.map((user) => user.id);
-      await addUsers(data.data.id, {employees: userIds});
+      await addUsers(data.data.id, { employees: userIds });
     }
 
     emit("newTeamCreated");
@@ -78,7 +78,7 @@ const onSubmit = handleSubmit(async (values) => {
 
     toast.success({ title: "Team created", message: "Team created successfully" });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 

@@ -79,7 +79,6 @@ const columns = [
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  console.log("loadLazyData");
   const filters = utilsStore.filters["admin-reports"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;

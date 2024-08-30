@@ -12,8 +12,6 @@ const useExports = () => {
 
     const response = await exportFunction(params);
 
-    console.log("response", response);
-
     const { hash, exists_url, download_url } = response.data;
 
     if (exists_url) {

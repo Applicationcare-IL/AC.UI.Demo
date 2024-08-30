@@ -55,7 +55,7 @@ const formUtilsStore = useFormUtilsStore();
 
 const { getQuickCodes } = useServices();
 const { getCustomersFromApi } = useCustomers();
-const { createProduct, parseProduct } = useProducts();
+const { createProduct, parseProduct, uploadProductImage } = useProducts();
 const dialog = useDialog();
 
 const toast = useToast();
@@ -83,16 +83,25 @@ const { handleSubmit, values } = useForm({
 });
 
 const onSubmit = handleSubmit((values) => {
-  createProduct(parseProduct(values))
+  const { new_product_image, ...rest } = values;
+
+  createProduct(parseProduct(rest))
+    .then(async (newProductData) => {
+      if (new_product_image) {
+        await uploadProductImage(newProductData.data.data.id, new_product_image);
+      }
+
+      return Promise.resolve(newProductData);
+    })
     .then((data) => {
       emit("newProductCreated");
-      console.log("data", data);
-      dialog.confirmNewProduct({ id: data.data.id, emit });
+
+      dialog.confirmNewProduct({ id: data.data.data.id, emit });
       toast.success({ title: "Product created", message: "Product created successfully" });
     })
     .catch((error) => {
       toast.error("An error occurred while creating the product");
-      console.log(error);
+      console.error(error);
     });
 });
 

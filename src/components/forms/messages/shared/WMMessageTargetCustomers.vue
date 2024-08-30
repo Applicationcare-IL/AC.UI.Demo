@@ -81,7 +81,6 @@ const { handleChange: handleChangeCustomerRatings, setTouched: setCustomerRating
   });
 
 const handleOrganizationTypesChanges = (selectedOptions) => {
-  console.log("handleOrganizationTypesChanges", selectedOptions);
   handleChangeCustomerTypes(selectedOptions);
   setCustomerTypesTouched(true);
 };

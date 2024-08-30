@@ -32,14 +32,19 @@
     <div class="wm-form-row gap-5">
       <div class="wm-input flex flex-column">
         <label class="wm-form-label">Photo: </label>
-        <div class="flex" style="height: 146px; width: 146px">
+        <div class="flex photo-container" :class="{ 'has-image': productImage }">
+          <i
+            class="pi pi-times cursor-pointer photo-container__remove"
+            @click="handleRemoveImage()"
+          />
           <div
-            v-if="product.product_image_url"
+            v-if="productImage"
             class="bg-cover bg-no-repeat bg-center border-round h-full w-full"
             :style="{
-              backgroundImage: `url(${product.product_image_url})`,
+              backgroundImage: `url(${productImage})`,
             }"
           />
+
           <WMUploadProductImage v-else @upload-image="handleUploadImage" />
         </div>
       </div>
@@ -125,7 +130,7 @@ const { getCustomersFromApi } = useCustomers();
 // INJECT
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   product: {
     type: Object,
     default: () => ({}),
@@ -139,6 +144,7 @@ const units = ref([]);
 const manufacturerTypes = ref([]);
 const customers = ref(null);
 const yesNoOptions = ref([]);
+const productImage = ref(props.product?.product_image_url);
 
 // COMPUTED
 
@@ -152,8 +158,14 @@ const { handleChange: handleProductImageChange, setTouched } = useField(
 );
 
 const handleUploadImage = (files) => {
-  console.log("handleUploadImage", files);
+  productImage.value = URL.createObjectURL(files);
   handleProductImageChange(files);
+  setTouched(true);
+};
+
+const handleRemoveImage = () => {
+  productImage.value = null;
+  handleProductImageChange(null);
   setTouched(true);
 };
 
@@ -177,4 +189,36 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.photo-container {
+  position: relative;
+  height: 146px;
+  width: 146px;
+
+  &.has-image:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(255 255 255 / 69%);
+    width: 100%;
+    height: 100%;
+  }
+
+  &.has-image:hover .photo-container__remove {
+    opacity: 1;
+  }
+
+  &__remove {
+    position: absolute;
+    top: 8px;
+    right: 6px;
+    z-index: 1;
+    font-size: 1.4rem;
+    font-weight: bold;
+    opacity: 0;
+  }
+}
+</style>

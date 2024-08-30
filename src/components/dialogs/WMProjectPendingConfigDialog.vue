@@ -64,8 +64,6 @@ const { handleSubmit } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  console.log("values", values);
-
   updateProjectConfig(props.project.id, parseUpdateProjectConfig(values))
     .then(() => {
       emit("configUpdated");

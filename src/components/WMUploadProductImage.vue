@@ -41,7 +41,7 @@ const openUploadAttachment = () => {
 const handleFileChange = () => {
   files.value = Array.from(fileInput.value.files);
 
-  emit("uploadImage", files.value);
+  emit("uploadImage", files.value[0]);
 };
 
 const onDrop = (filesToUpload) => {
@@ -49,7 +49,6 @@ const onDrop = (filesToUpload) => {
 
   setTimeout(() => {
     emit("uploadImage", files.value);
-    console.log("files.value", files.value);
   }, 500);
 };
 

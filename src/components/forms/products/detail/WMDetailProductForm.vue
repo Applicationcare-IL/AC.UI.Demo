@@ -128,8 +128,7 @@ const toast = useToast();
 const route = useRoute();
 const formUtilsStore = useFormUtilsStore();
 
-const { uploadAttachment } = useAttachments();
-const { updateProduct, parseProduct } = useProducts();
+const { updateProduct, parseProduct, uploadProductImage } = useProducts();
 
 // INJECT
 
@@ -162,7 +161,7 @@ const onSave = handleSubmit((values) => {
   updateProduct(route.params.id, parseProduct(rest))
     .then(async () => {
       if (new_product_image) {
-        return await uploadProductImage(new_product_image);
+        return await uploadProductImage(route.params.id, new_product_image);
       }
 
       return Promise.resolve();
@@ -177,23 +176,6 @@ const onSave = handleSubmit((values) => {
       toast.error("Error updating product");
     });
 });
-
-const uploadProductImage = async (file) => {
-  const formData = new FormData();
-
-  formData.append("file", file);
-  formData.append("entity_type", "product");
-  formData.append("entity_id", route.params.id);
-  formData.append("field", "icon");
-
-  uploadAttachment(formData).then(({ data }) => {
-    console.log("uploadProductImage data", data);
-    // hasFileUploaded.value = true;
-    // downloadUrl.value = data.download_url;
-    // uploadDocumentOverlay.value.toggle();
-    // emit("fileUploaded");
-  });
-};
 
 formUtilsStore.formEntity = "product";
 

@@ -15,8 +15,6 @@ const useProducts = () => {
   const getProduct = async (id) => {
     const response = await productsStore.getProduct(id);
 
-    console.log(response.data);
-
     return mapProduct(response.data);
   };
 
@@ -59,6 +57,25 @@ const useProducts = () => {
       console.error(error);
       throw new Error(error);
     }
+  };
+
+  const uploadProductImage = async (productId, file) => {
+    const { uploadAttachment } = useAttachments();
+
+    const formData = new FormData();
+
+    formData.append("file", file);
+    formData.append("entity_type", "product");
+    formData.append("entity_id", productId);
+    formData.append("field", "icon");
+
+    await uploadAttachment(formData)
+      .then(({ data }) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const mapProduct = (product) => {
@@ -124,6 +141,7 @@ const useProducts = () => {
     getProduct,
     createProduct,
     updateProduct,
+    uploadProductImage,
     // UTILITIES
     parseProduct,
   };
