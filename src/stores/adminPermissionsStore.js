@@ -27,7 +27,7 @@ export const useAdminPermissionsStore = defineStore("adminPermissions", {
     },
     resetEntityPermissions(params) {
       return axiosConfig
-        .post("/admin/permissions/reset", { params })
+        .post("/admin/permissions/reset", { ...params })
         .then((response) => {
           return response.data;
         })
@@ -36,9 +36,9 @@ export const useAdminPermissionsStore = defineStore("adminPermissions", {
           throw new Error(error);
         });
     },
-    resetGlobalPermissions(params) {
+    resetGeneralPermissions(params) {
       return axiosConfig
-        .post("/admin/permissions/reset/global", { params })
+        .post("/admin/permissions/reset/global", { ...params })
         .then((response) => {
           return response.data;
         })
