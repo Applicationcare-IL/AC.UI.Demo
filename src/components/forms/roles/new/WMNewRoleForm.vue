@@ -27,7 +27,7 @@
 <script setup>
 // IMPORTS
 import {useForm} from "vee-validate";
-import {inject, watch} from "vue";
+import {inject} from "vue";
 
 import WMInput from "@/components/forms/WMInput.vue";
 import useAdminRoles from "@/composables/useAdminRoles";
@@ -42,10 +42,8 @@ const { can } = usePermissions();
 const dialog = useDialog();
 const toast = useToast();
 
-
 // INJECT
 const isFormDirty = inject("isFormDirty");
-
 
 // PROPS, EMITS
 const props = defineProps({
@@ -83,9 +81,8 @@ const onSubmit = handleSubmit(async (values) => {
     }
 
     toast.success({ title: "Role created", message: "Role created successfully" });
-
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 

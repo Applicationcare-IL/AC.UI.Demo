@@ -8,7 +8,11 @@
       clearSelectedCustomers();
     "
     @export="handleExportCustomers"
-  />
+  >
+    <template #top-left>
+      <WMOwnerToggle entity="customer"/>
+    </template>
+  </WMListSubHeader>
 
   <WMCustomerPreviewSidebar v-model:visible="isDetailsVisible" :customer="customerDetail" />
 
@@ -146,38 +150,44 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { onMounted, ref, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
-useHead({
-  title: "Customers",
-});
-
+// DEPENDENCIES
 const { setSelectedContacts, resetSelectedContacts, getContactsFromApi } = useContacts();
 const { optionLabelWithLang } = useLanguages();
 const { formatAddress } = useUtils();
-
-onMounted(() => {
-  utilsStore.entity = "customer";
-
-  loadLazyData();
-  resetSelectedContacts();
-});
+const {selectedRowsPerPage, highlightStatusClass} = useListUtils();
+const {getCustomersFromApi, exportCustomers} = useCustomers();
 
 const utilsStore = useUtilsStore();
 
-const { selectedRowsPerPage, highlightStatusClass } = useListUtils();
+const {handleExport} = useExports();
 
-// Pagination and table content
+// INJECT
+
+// PROPS, EMITS
+
+// REFS
 const totalRecords = ref(0);
 const lazyParams = ref({});
 const customers = ref();
 const loading = ref(false);
 const dt = ref();
 const searchValue = ref("");
+const isVisible = ref(false);
+const selectedCustomers = ref([]);
+const isDetailsVisible = ref(false);
+const customerDetail = ref(null);
 
-const { getCustomersFromApi, exportCustomers } = useCustomers();
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
+useHead({
+  title: "Customers",
+});
 
 const loadLazyData = () => {
   loading.value = true;
@@ -202,8 +212,6 @@ const loadLazyData = () => {
   });
 };
 
-const { handleExport } = useExports();
-
 const handleExportCustomers = async () => {
   handleExport({
     filters: utilsStore.filters["customer"],
@@ -217,19 +225,17 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const isVisible = ref(false);
-
-function toggleSidebarVisibility() {
+const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
-}
+};
 
-function closeSidebar() {
+const closeSidebar = () => {
   isVisible.value = false;
-}
+};
 
-function openSidebar() {
+const openSidebar = () => {
   isVisible.value = true;
-}
+};
 
 const clearSelectedCustomers = () => {
   selectedCustomers.value = [];
@@ -237,22 +243,16 @@ const clearSelectedCustomers = () => {
 };
 
 // Display sidebars
-const customerDetail = ref(null);
 const displayDetails = (data) => {
   customerDetail.value = data;
   isDetailsVisible.value = true;
 };
-
-const isDetailsVisible = ref(false);
 
 const highlightCellClass = (data) => {
   return [{ "bg-red-100 text-red-600": data > 0 }];
 };
 
 // Manage selected rows
-const selectedCustomers = ref([]);
-utilsStore.resetElements();
-
 const onSelectionChanged = () => {
   setSelectedContacsFromCustomers(selectedCustomers.value);
   utilsStore.selectedElements["customer"] = selectedCustomers.value;
@@ -289,6 +289,9 @@ const setSelectedContacsFromCustomers = async (selectedCustomers) => {
   }
 };
 
+// PROVIDE, EXPOSE
+
+// WATCHERS
 watch(
   () => utilsStore.searchString["customer"],
   () => {
@@ -302,6 +305,16 @@ watch(
 // used to load data when filters are changed
 watchEffect(() => {
   loadLazyData();
+});
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  utilsStore.entity = "customer";
+
+  loadLazyData();
+  resetSelectedContacts();
+
+  utilsStore.resetElements();
 });
 </script>
 

@@ -15,10 +15,17 @@ const useProducts = () => {
   const getProduct = async (id) => {
     const response = await productsStore.getProduct(id);
 
-    console.log(response.data);
-
     return mapProduct(response.data);
   };
+
+    const updateProduct = async (id, params) => {
+        try {
+            return await productsStore.updateProduct(id, cleanEmptyKeys(params));
+        } catch (error) {
+            console.error(error);
+            throw new Error(error);
+        }
+    };
 
   const cleanEmptyKeys = (obj) => {
     // Recorremos cada clave en el objeto
@@ -52,6 +59,25 @@ const useProducts = () => {
     }
   };
 
+    const uploadProductImage = async (productId, file) => {
+        const {uploadAttachment} = useAttachments();
+
+        const formData = new FormData();
+
+        formData.append("file", file);
+        formData.append("entity_type", "product");
+        formData.append("entity_id", productId);
+        formData.append("field", "icon");
+
+        await uploadAttachment(formData)
+            .then(({data}) => {
+                return data;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
   const mapProduct = (product) => {
     return {
       ...product,
@@ -60,6 +86,7 @@ const useProducts = () => {
         text: product.name,
         id: product.id,
       },
+        product_image_url: product.icon ? product.icon.thumbnail + "product" : null,
     };
   };
 
@@ -113,6 +140,8 @@ const useProducts = () => {
     getProducts,
     getProduct,
     createProduct,
+      updateProduct,
+      uploadProductImage,
     // UTILITIES
     parseProduct,
   };

@@ -126,7 +126,7 @@ const onSubmit = handleSubmit(async (values) => {
 
     toast.success({title: "Message created", message: "message created successfully"});
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 

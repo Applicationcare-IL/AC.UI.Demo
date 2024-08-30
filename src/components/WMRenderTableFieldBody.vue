@@ -41,6 +41,16 @@
   <template v-if="columnData.type == 'date'">
     {{ modelValue ? formatDateFromAPI(modelValue) : "" }}
   </template>
+  <!-- Attachment type image -->
+
+  <template v-if="columnData.type == 'attachment-image'">
+    <div
+        class="bg-contain bg-no-repeat bg-center border-round h-3rem w-3rem"
+        :style="{
+        backgroundImage: `url(${modelValue})`,
+      }"
+    />
+  </template>
 </template>
 <script setup>
 // IMPORTS

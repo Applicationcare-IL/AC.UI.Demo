@@ -77,7 +77,6 @@ const onSubmit = handleSubmit((values) => {
 
   createReport(parseReport(newReport))
     .then((data) => {
-      console.log("createReport", data);
       emit("newReportCreated");
       dialog.confirmNewAdminReport({ id: data.data.id, emit });
 

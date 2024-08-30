@@ -1,15 +1,8 @@
 <template>
   <div>
-
     <WMNewButton :text="$t('attachments.upload-attachment')" @click="openUploadAttachment" />
 
-    <input
-      ref="fileInput"
-      style="display: none"
-      type="file"
-      multiple
-      @change="handleFileChange"
-    />
+    <input ref="fileInput" style="display: none" type="file" multiple @change="handleFileChange"/>
   </div>
   <div ref="dropZoneRef" :class="{ 'dropzone-active': isOverDropZone }">
     <DataTable :value="fileList" paginator :rows="5">
@@ -36,10 +29,7 @@
               class="no-underline"
               target="_blank"
             >
-              <Button
-                icon="pi pi-download"
-                class="p-button-rounded p-button-success"
-              />
+              <Button icon="pi pi-download" class="p-button-rounded p-button-success"/>
             </a>
 
             <Button
@@ -74,8 +64,7 @@ const props = defineProps({
   },
 });
 
-const { getAttachmentsFromApi, uploadAttachment, deleteAttachment } =
-  useAttachments();
+const {getAttachmentsFromApi, uploadAttachment, deleteAttachment} = useAttachments();
 
 const loadAttachments = () => {
   getAttachmentsFromApi(props.entityType, props.entityId).then((response) => {
@@ -87,16 +76,17 @@ onMounted(() => {
   loadAttachments();
 });
 
-function openUploadAttachment() {
+const openUploadAttachment = () => {
   fileInput.value.click();
-}
+};
 
-function onDrop(filesToUpload) {
+const onDrop = (filesToUpload) => {
   files.value = filesToUpload;
+
   setTimeout(() => {
     uploadAttachmentToAPI();
   }, 500);
-}
+};
 
 const handleFileChange = () => {
   files.value = Array.from(fileInput.value.files);

@@ -78,7 +78,7 @@ const onSubmit = handleSubmit(async (values) => {
 
     toast.success({ title: "Team created", message: "Team created successfully" });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 

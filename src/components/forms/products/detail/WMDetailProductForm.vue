@@ -1,5 +1,6 @@
 <template>
-  <pre>{{ product }}</pre>
+  <!-- <pre>{{ values.new_product_image }}</pre> -->
+
   <div v-if="product" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
@@ -7,69 +8,19 @@
           <Card class="p-card--first-top-card">
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
-              <div class="flex flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="id"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('id') + ':'"
-                    :value="product.id"
-                  />
-                </div>
-                <!-- <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="name"
-                    type="input-text"
-                    :highlighted="true"
-                    :label="$t('first-name') + ':'"
-                    :value="product.name"
-                    required
-                  />
-                </div> -->
-              </div>
+              <WMProductGeneralDetails :product="product"/>
             </template>
           </Card>
           <Card>
             <template #title> {{ $t("product.pricing") }} </template>
             <template #content>
-              <div class="flex flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <!-- <WMInput
-                    name="id"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('id') + ':'"
-                    :value="product.id"
-                  /> -->
-                </div>
-              </div>
+              <WMProductPricing :product="product"/>
             </template>
           </Card>
           <Card>
             <template #title> {{ $t("product.characteristics") }} </template>
             <template #content>
-              <div class="flex flex-column gap-5">
-                <div class="wm-form-row gap-5">
-                  <!-- <WMInput
-                    name="id"
-                    type="info"
-                    :highlighted="true"
-                    :label="$t('id') + ':'"
-                    :value="product.id"
-                  /> -->
-                </div>
-                <!-- <div class="wm-form-row gap-5">
-                  <WMInput
-                    name="name"
-                    type="input-text"
-                    :highlighted="true"
-                    :label="$t('first-name') + ':'"
-                    :value="product.name"
-                    required
-                  />
-                </div> -->
-              </div>
+              <WMProductCharacteristics :product="product"/>
             </template>
           </Card>
         </div>
@@ -101,7 +52,10 @@
             <template #content>
               <!-- <pre>{{ product }}</pre> -->
               <div class="flex flex-column gap-4">
-                <WMProductSettingPreview :title="$t('product.license')" :state="product.license" />
+                <WMProductSettingPreview
+                    :title="$t('product.license')"
+                    :state="product.licensing_required"
+                />
                 <WMProductSettingPreview
                   :title="$t('product.commitment')"
                   :state="product.commitment"
@@ -109,12 +63,12 @@
 
                 <WMProductSettingPreview
                   :title="$t('product.installation')"
-                  :state="product.installation"
+                  :state="product.installation_required"
                 />
                 <WMProductSettingPreview :title="$t('product.supply')" :state="product.supply" />
                 <WMProductSettingPreview
                   :title="$t('product.maintenance')"
-                  :state="product.maintenance"
+                  :state="product.maintenance_required"
                 />
               </div>
             </template>
@@ -138,12 +92,20 @@
     <div class="flex-1 tabs-container mt-5">
       <TabView>
         <TabPanel :header="$t('more-details')">
-          <div class="flex flex-column gap-5 m-2">
-            <h4 class="h4 mb-0">
-              {{ $t("product.management-and-marketing") }}
-            </h4>
-            <div class="flex flex-auto gap-5 flex-row"></div>
-            <div class="flex flex-auto gap-5 flex-row"></div>
+          <div class="flex gap-2">
+            <div class="flex flex-column gap-5 m-2">
+              <h4 class="h4 mb-0">
+                {{ $t("product.management-and-marketing") }}
+              </h4>
+              <WMProductManagementAndMarketing :product="product"/>
+            </div>
+            <Divider layout="vertical"/>
+            <div class="flex flex-column gap-5 m-2">
+              <h4 class="h4 mb-0">
+                {{ $t("product.extra-details") }}
+              </h4>
+              <WMProductExtraDetails :product="product"/>
+            </div>
           </div>
         </TabPanel>
       </TabView>
@@ -157,12 +119,16 @@
 // IMPORTS
 import { useForm } from "vee-validate";
 import { onMounted, watch } from "vue";
+import {useRoute} from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
-
+const toast = useToast();
+const route = useRoute();
 const formUtilsStore = useFormUtilsStore();
+
+const {updateProduct, parseProduct, uploadProductImage} = useProducts();
 
 // INJECT
 
@@ -178,23 +144,45 @@ const props = defineProps({
   },
 });
 
-// const emit = defineEmits(["userUpdated"]);
+const emit = defineEmits(["productUpdated"]);
 
 // REFS
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { meta } = useForm({
-  //   validationSchema: formUtilsStore.getUserUpdateFormValidationSchema,
+const {handleSubmit, meta, resetForm, values} = useForm({
+  validationSchema: formUtilsStore.getNewProductFormValidationSchema,
+});
+
+const onSave = handleSubmit((values) => {
+  const {new_product_image, ...rest} = values;
+
+  updateProduct(route.params.id, parseProduct(rest))
+      .then(async () => {
+        if (new_product_image) {
+          return await uploadProductImage(route.params.id, new_product_image);
+        }
+
+        return Promise.resolve();
+      })
+      .then(() => {
+        toast.success({message: "Product updated successfully"});
+        resetForm({values: values});
+        emit("productUpdated");
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Error updating product");
+      });
 });
 
 formUtilsStore.formEntity = "product";
 
 // PROVIDE, EXPOSE
-// defineExpose({
-//   onSave,
-// });
+defineExpose({
+  onSave,
+});
 
 // WATCHERS
 watch(

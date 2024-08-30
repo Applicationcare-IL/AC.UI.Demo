@@ -89,8 +89,6 @@ const useAdminFlowmaze = () => {
   const parseMessage = (message) => {
     let targetFields = parseTargetFields(message);
 
-    console.log("parseMessage", message);
-
     return {
       ...message,
       important: message.important.value === "true" ? 1 : 0,

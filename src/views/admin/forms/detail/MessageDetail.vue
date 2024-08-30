@@ -32,7 +32,7 @@
 
 <script setup>
 // IMPORTS
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 import { useRoute } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";

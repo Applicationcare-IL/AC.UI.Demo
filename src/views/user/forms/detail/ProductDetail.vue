@@ -6,8 +6,7 @@
     :show-message-button="false"
     :show-email-button="false"
     @save-form="saveForm()"
-  >
-  </WMDetailFormSubHeader>
+  />
   <WMDetailProductForm
     v-if="product"
     ref="detailProductForm"

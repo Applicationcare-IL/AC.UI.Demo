@@ -87,7 +87,7 @@
       :class="classes"
       :style="{ width: styleWidth }"
       auto-resize
-      rows="6"
+      :rows="rows"
       cols="100"
       @input="
         $emit('update:value', $event.target.value);
@@ -224,6 +224,10 @@ const props = defineProps({
   },
   customOptionLabel: {
     type: String,
+  },
+  rows: {
+    type: Number,
+    default: 6,
   },
   size: {
     type: String,

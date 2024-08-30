@@ -36,6 +36,12 @@ const utilsStore = useUtilsStore();
 
 const columns = [
   {
+    name: "product-image",
+    type: "attachment-image",
+    field: "product_image_url",
+    header: "photo",
+  },
+  {
     name: "product-name",
     type: "link",
     field: "link_detail",

@@ -71,6 +71,7 @@
   "orientation": "Orientation",
   "owner-assigned-successfully": "Owner assigned successfully",
   "owner": "Owner",
+  "photo": "Photo",
   "priority": "Priority",
   "private": "Private",
   "rating": "Rating",
@@ -999,6 +1000,13 @@
     "expenses-card": "Expenses Card",
     "incomes-card": "Incomes Card",
     "quickcodes": "Quick Codes",
-    "supply": "Supply"
+    "supply": "Supply",
+    "notification-created-message": "The new product was successfully created! \n From now on he will appear in your product list",
+    "notification-created-header": "New Product Created",
+    "notification-created-detail": "View Product",
+    "notification-created-close": "Close",
+    "upload-image-drag-the-photo-here": "Drag the photo here",
+    "upload-image-or": "Or",
+    "upload-image-click-here": "Click here"
   }
 }
