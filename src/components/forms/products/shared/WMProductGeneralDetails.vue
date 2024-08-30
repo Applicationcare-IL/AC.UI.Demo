@@ -1,32 +1,32 @@
 <template>
-  <Skeleton v-if="loading" width="100%" height="385px"/>
+  <Skeleton v-if="loading" width="100%" height="385px" />
   <div v-else class="flex flex-column gap-5">
     <div class="wm-form-row gap-5">
       <WMInput
-          name="id"
-          type="info"
-          :highlighted="true"
-          :label="$t('id') + ':'"
-          :value="product.id"
+        name="id"
+        type="info"
+        :highlighted="true"
+        :label="$t('id') + ':'"
+        :value="product.id"
       />
-      <WMTeamOwnerFields/>
+      <WMTeamOwnerFields />
     </div>
     <div class="wm-form-row gap-5">
       <WMInput
-          name="name"
-          required
-          type="input-text"
-          :label="$t('product.name') + ':'"
-          size="md"
-          :value="product.name"
+        name="name"
+        required
+        type="input-text"
+        :label="$t('product.name') + ':'"
+        size="md"
+        :value="product.name"
       />
       <WMInput
-          name="info_page"
-          required
-          type="input-text"
-          :label="$t('product.information-page') + ':'"
-          size="md"
-          :value="product.info_page"
+        name="info_page"
+        required
+        type="input-text"
+        :label="$t('product.information-page') + ':'"
+        size="md"
+        :value="product.info_page"
       />
     </div>
     <div class="wm-form-row gap-5">
@@ -34,83 +34,84 @@
         <label class="wm-form-label">Photo: </label>
         <div class="flex photo-container" :class="{ 'has-image': productImage }">
           <i
-              class="pi pi-times cursor-pointer photo-container__remove"
-              @click="handleRemoveImage()"
+            class="pi pi-times cursor-pointer photo-container__remove"
+            @click="handleRemoveImage()"
           />
           <div
-              v-if="productImage"
-              class="bg-cover bg-no-repeat bg-center border-round h-full w-full"
-              :style="{
+            v-if="productImage"
+            class="bg-cover bg-no-repeat bg-center border-round h-full w-full"
+            :style="{
               backgroundImage: `url(${productImage})`,
             }"
           />
 
-          <WMUploadProductImage v-else @upload-image="handleUploadImage"/>
+          <WMUploadProductImage v-else @upload-image="handleUploadImage" />
         </div>
       </div>
       <WMInput
-          id="description"
-          type="text-area"
-          :label="$t('description') + ':'"
-          name="description"
-          size="lg"
-          required
-          :value="product.description"
-          :rows="8"
+        id="description"
+        type="text-area"
+        :label="$t('description') + ':'"
+        name="description"
+        size="lg"
+        required
+        :value="product.description"
+        :rows="8"
       />
     </div>
     <div class="wm-form-row flex flex-wrap gap-5">
       <WMInput
-          v-if="units"
-          name="units"
-          :highlighted="true"
-          type="input-select"
-          :label="$t('product.units') + ':'"
-          :options="units"
-          :placeholder="$t('select', ['unit'])"
-          size="sm"
-          option-set
-          data-testid="product.form.units"
-          required
+        v-if="units"
+        name="units"
+        :highlighted="true"
+        type="input-select"
+        :label="$t('product.units') + ':'"
+        :options="units"
+        :placeholder="$t('select', ['unit'])"
+        size="sm"
+        option-set
+        data-testid="product.form.units"
+        required
+        :value="product?.units"
       />
 
       <WMInput
-          v-if="manufacturerTypes"
-          name="manufacturer_type"
-          :highlighted="true"
-          type="input-select"
-          :label="$t('product.manufacturer-type') + ':'"
-          :options="manufacturerTypes"
-          :placeholder="$t('select', ['product.manufacturer-type'])"
-          size="sm"
-          option-set
-          data-testid="product.form.manufacturer-type"
-          required
-          :value="product?.manufacturer_type"
+        v-if="manufacturerTypes"
+        name="manufacturer_type"
+        :highlighted="true"
+        type="input-select"
+        :label="$t('product.manufacturer-type') + ':'"
+        :options="manufacturerTypes"
+        :placeholder="$t('select', ['product.manufacturer-type'])"
+        size="sm"
+        option-set
+        data-testid="product.form.manufacturer-type"
+        required
+        :value="product?.manufacturer_type"
       />
 
       <WMInput
-          v-if="customers"
-          name="manufacturer"
-          :highlighted="true"
-          type="input-select"
-          :label="$t('product.manufacturer') + ':'"
-          :options="customers"
-          :placeholder="$t('select', ['product.manufacturer'])"
-          size="sm"
-          data-testid="product.form.manufacturer"
-          required
-          :value="product?.manufacturer"
+        v-if="customers"
+        name="manufacturer"
+        :highlighted="true"
+        type="input-select"
+        :label="$t('product.manufacturer') + ':'"
+        :options="customers"
+        :placeholder="$t('select', ['product.manufacturer'])"
+        size="sm"
+        data-testid="product.form.manufacturer"
+        required
+        :value="selectedManufacturer"
       />
 
       <WMInput
-          name="existing_product"
-          type="input-select-button"
-          :highlighted="true"
-          :label="$t('product.existing-product') + ':'"
-          :options="yesNoOptions"
-          :value="yesNoOptions[1]"
-          width="80"
+        name="existing_product"
+        type="input-select-button"
+        :highlighted="true"
+        :label="$t('product.existing-product') + ':'"
+        :options="yesNoOptions"
+        :value="yesNoOptions[1]"
+        width="80"
       />
     </div>
   </div>
@@ -118,14 +119,14 @@
 
 <script setup>
 // IMPORTS
-import {useField} from "vee-validate";
-import {onMounted, ref} from "vue";
+import { useField } from "vee-validate";
+import { onMounted, ref } from "vue";
 
-import {useOptionSetsStore} from "@/stores/optionSets";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
 const optionSetsStore = useOptionSetsStore();
-const {getCustomersFromApi} = useCustomers();
+const { getCustomersFromApi } = useCustomers();
 
 // INJECT
 
@@ -143,18 +144,19 @@ const loading = ref(true);
 const units = ref([]);
 const manufacturerTypes = ref([]);
 const customers = ref(null);
+const selectedManufacturer = ref();
 const yesNoOptions = ref([]);
 const productImage = ref(props.product?.product_image_url);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const {handleChange: handleProductImageChange, setTouched} = useField(
-    "new_product_image",
-    undefined,
-    {
-      initialValue: false,
-    }
+const { handleChange: handleProductImageChange, setTouched } = useField(
+  "new_product_image",
+  undefined,
+  {
+    initialValue: false,
+  }
 );
 
 const handleUploadImage = (files) => {
@@ -179,11 +181,17 @@ onMounted(async () => {
   manufacturerTypes.value = await optionSetsStore.getOptionSetValues("manufacturer_type");
   yesNoOptions.value = await optionSetsStore.getOptionSetValues("yesNo");
 
-  let customersData = await getCustomersFromApi({per_page: 9999999});
+  let customersData = await getCustomersFromApi({ per_page: 9999999 });
   customers.value = customersData.data.map((customer) => ({
     label: customer.name,
     value: customer.id,
   }));
+
+  if (props.product) {
+    selectedManufacturer.value = customers.value.find(
+      (customer) => customer.value === props.product.manufacturer?.id
+    );
+  }
 
   loading.value = false;
 });
