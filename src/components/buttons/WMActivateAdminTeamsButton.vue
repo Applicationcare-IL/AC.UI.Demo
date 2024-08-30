@@ -69,13 +69,6 @@ const handleActivateTeams = () => {
     console.error(error);
     toast.error("error");
   });
-
-
-  // const inactiveTeams = props.selectedTeams.filter((team) => team.state.value === 'not_active');
-  // const selectedTeamsIds = inactiveTeams.map((team) => team.id);
-  // activateTeams(selectedTeamsIds).then(() => {
-  //   emit("activateTeam");
-  // });
 };
 
 // PROVIDE, EXPOSE

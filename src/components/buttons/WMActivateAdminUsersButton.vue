@@ -60,7 +60,6 @@ const handleActivateUsers = () => {
   activateUsers(selectedUsersIds).then(() => {
     emit("activateUser");
     toast.success({title: "User activated", message: "User activated successfully", group: "bl"});
-
   }).catch((error) => {
     console.error(error);
     toast.error("Error");
