@@ -42,12 +42,12 @@ const useAdminFlowmaze = () => {
                 id: quickCode.id,
             },
             title: quickCode.name,
-            state: quickCode.state_id,
-            service_area_name: quickCode.area_id?.value,
-            service_detail_name: quickCode.type_id?.value,
-            request_1_name: quickCode.request_1_id?.value,
-            request_2_name: quickCode.request_2_id?.value,
-            request_3_name: quickCode.request_3_id?.value,
+            service_area_name: quickCode.area?.value,
+            service_detail_name: quickCode.type?.value,
+            request_1_name: quickCode.request_1?.value,
+            request_2_name: quickCode.request_2?.value,
+            request_3_name: quickCode.request_3?.value,
+            team_name: quickCode.team?.name,
         };
     };
 
