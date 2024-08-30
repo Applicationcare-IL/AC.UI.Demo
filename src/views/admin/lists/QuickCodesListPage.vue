@@ -9,6 +9,12 @@
     <template #top-left>
       <WMStateToggle entity="quick-code"/>
     </template>
+    <template #custom-buttons>
+      <WMActivateAdminQuickCodesButton
+          :selected-quick-codes="selectedQuickCodes"
+          @activate-quick-code="handleActivateQuickCode"
+      />
+    </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newQuickCode" @close-sidebar="closeSidebar">
@@ -56,6 +62,7 @@ const { can } = usePermissions();
 // REFS
 const adminQuickCodesTable = ref();
 const isVisible = ref(false);
+const selectedQuickCodes = ref([]);
 
 const columns = [
   {
@@ -127,6 +134,15 @@ useHead({
 const handleNewQuickCodeCreated = () => {
   adminQuickCodesTable.value.loadLazyData();
 }
+
+const handleActivateQuickCode = () => {
+  adminQuickCodesTable.value.loadLazyData();
+  adminQuickCodesTable.value.cleanSelectedQuickCodes();
+};
+
+const onSelectionChanged = (newSelectedQuickCodes) => {
+  selectedQuickCodes.value = newSelectedQuickCodes;
+};
 
 const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;

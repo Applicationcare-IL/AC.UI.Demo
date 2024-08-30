@@ -1,6 +1,4 @@
 <template>
-  <!--  <span>Table</span>-->
-  <!--  <pre>{{ quickCodes }}</pre>-->
   <DataTable
       v-model:selection="selectedQuickCodes"
       lazy
@@ -116,7 +114,7 @@ const onSelectionChanged = () => {
   emit("update:selection", selectedQuickCodes.value);
 };
 
-const cleanSelectedMessages = () => {
+const cleanSelectedQuickCodes = () => {
   selectedQuickCodes.value = [];
   onSelectionChanged();
 };
@@ -128,7 +126,7 @@ const openSidebar = (data) => {
 // PROVIDE, EXPOSE
 defineExpose({
   loadLazyData,
-  cleanSelectedMessages,
+  cleanSelectedQuickCodes,
 });
 
 // WATCHERS
