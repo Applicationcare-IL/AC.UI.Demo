@@ -10,7 +10,7 @@
     @export="handleExportCustomers"
   >
     <template #top-left>
-      <WMOwnerToggle entity="customer" />
+      <WMOwnerToggle entity="customer"/>
     </template>
   </WMListSubHeader>
 
@@ -159,12 +159,12 @@ import { useUtilsStore } from "@/stores/utils";
 const { setSelectedContacts, resetSelectedContacts, getContactsFromApi } = useContacts();
 const { optionLabelWithLang } = useLanguages();
 const { formatAddress } = useUtils();
-const { selectedRowsPerPage, highlightStatusClass } = useListUtils();
-const { getCustomersFromApi, exportCustomers } = useCustomers();
+const {selectedRowsPerPage, highlightStatusClass} = useListUtils();
+const {getCustomersFromApi, exportCustomers} = useCustomers();
 
 const utilsStore = useUtilsStore();
 
-const { handleExport } = useExports();
+const {handleExport} = useExports();
 
 // INJECT
 

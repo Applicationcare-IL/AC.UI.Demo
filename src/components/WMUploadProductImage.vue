@@ -1,6 +1,6 @@
 <template>
   <div ref="dropZoneRef" class="add-image" :class="{ 'dropzone-active': isOverDropZone }">
-    <img class="vertical-align-middle" src="/icons/add_image.svg" alt="Add image" />
+    <img class="vertical-align-middle" src="/icons/add_image.svg" alt="Add image"/>
     <span>{{ $t("product.upload-image-drag-the-photo-here") }}</span>
     <span>
       {{ $t("product.upload-image-or") }}
@@ -10,13 +10,13 @@
     </span>
   </div>
 
-  <input ref="fileInput" style="display: none" type="file" @change="handleFileChange" />
+  <input ref="fileInput" style="display: none" type="file" @change="handleFileChange"/>
 </template>
 
 <script setup>
 // IMPORTS
-import { useDropZone } from "@vueuse/core";
-import { ref } from "vue";
+import {useDropZone} from "@vueuse/core";
+import {ref} from "vue";
 
 // DEPENDENCIES
 
@@ -52,7 +52,7 @@ const onDrop = (filesToUpload) => {
   }, 500);
 };
 
-const { isOverDropZone } = useDropZone(dropZoneRef, onDrop);
+const {isOverDropZone} = useDropZone(dropZoneRef, onDrop);
 
 // PROVIDE, EXPOSE
 

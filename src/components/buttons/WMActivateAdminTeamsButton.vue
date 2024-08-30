@@ -21,12 +21,17 @@ import useAdminTeams from "@/composables/useAdminTeams";
 
 // DEPENDENCIES
 const { activateTeams } = useAdminTeams();
+const toast = useToast();
 
 // INJECT
 
 // PROPS, EMITS
 const props = defineProps({
-  selectedTeams: Array,
+  selectedTeams: {
+    type: Array,
+    default: () => [],
+  },
+
 });
 
 const emit = defineEmits(["activateTeam"]);
@@ -36,7 +41,7 @@ const emit = defineEmits(["activateTeam"]);
 // COMPUTED
 const inactiveTeams = computed(() => {
   if (props.selectedTeams) {
-    return props.selectedTeams.filter((team) => team.active === 0);
+    return props.selectedTeams.filter((team) => team.state.value === 'not_active');
   }
 
   return [];
@@ -56,11 +61,21 @@ const isDisabled = computed(() => {
 
 // COMPONENT METHODS AND LOGIC
 const handleActivateTeams = () => {
-  const inactiveTeams = props.selectedTeams.filter((team) => team.active === 0);
-  const selectedTeamsIds = inactiveTeams.map((team) => team.id);
-  activateTeams(selectedTeamsIds).then(() => {
+  const selectedTeamIds = inactiveTeams.value.map((team) => team.id);
+  activateTeams(selectedTeamIds).then(() => {
     emit("activateTeam");
+    toast.success({title: "Team activated", message: "Team activated successfully", group: "bl"});
+  }).catch((error) => {
+    console.error(error);
+    toast.error("error");
   });
+
+
+  // const inactiveTeams = props.selectedTeams.filter((team) => team.state.value === 'not_active');
+  // const selectedTeamsIds = inactiveTeams.map((team) => team.id);
+  // activateTeams(selectedTeamsIds).then(() => {
+  //   emit("activateTeam");
+  // });
 };
 
 // PROVIDE, EXPOSE

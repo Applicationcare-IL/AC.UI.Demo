@@ -8,19 +8,19 @@
           <Card class="p-card--first-top-card">
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
-              <WMProductGeneralDetails :product="product" />
+              <WMProductGeneralDetails :product="product"/>
             </template>
           </Card>
           <Card>
             <template #title> {{ $t("product.pricing") }} </template>
             <template #content>
-              <WMProductPricing :product="product" />
+              <WMProductPricing :product="product"/>
             </template>
           </Card>
           <Card>
             <template #title> {{ $t("product.characteristics") }} </template>
             <template #content>
-              <WMProductCharacteristics :product="product" />
+              <WMProductCharacteristics :product="product"/>
             </template>
           </Card>
         </div>
@@ -53,8 +53,8 @@
               <!-- <pre>{{ product }}</pre> -->
               <div class="flex flex-column gap-4">
                 <WMProductSettingPreview
-                  :title="$t('product.license')"
-                  :state="product.licensing_required"
+                    :title="$t('product.license')"
+                    :state="product.licensing_required"
                 />
                 <WMProductSettingPreview
                   :title="$t('product.commitment')"
@@ -97,14 +97,14 @@
               <h4 class="h4 mb-0">
                 {{ $t("product.management-and-marketing") }}
               </h4>
-              <WMProductManagementAndMarketing :product="product" />
+              <WMProductManagementAndMarketing :product="product"/>
             </div>
-            <Divider layout="vertical" />
+            <Divider layout="vertical"/>
             <div class="flex flex-column gap-5 m-2">
               <h4 class="h4 mb-0">
                 {{ $t("product.extra-details") }}
               </h4>
-              <WMProductExtraDetails :product="product" />
+              <WMProductExtraDetails :product="product"/>
             </div>
           </div>
         </TabPanel>
@@ -119,7 +119,7 @@
 // IMPORTS
 import { useForm } from "vee-validate";
 import { onMounted, watch } from "vue";
-import { useRoute } from "vue-router";
+import {useRoute} from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -128,7 +128,7 @@ const toast = useToast();
 const route = useRoute();
 const formUtilsStore = useFormUtilsStore();
 
-const { updateProduct, parseProduct, uploadProductImage } = useProducts();
+const {updateProduct, parseProduct, uploadProductImage} = useProducts();
 
 // INJECT
 
@@ -151,30 +151,30 @@ const emit = defineEmits(["productUpdated"]);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, meta, resetForm, values } = useForm({
+const {handleSubmit, meta, resetForm, values} = useForm({
   validationSchema: formUtilsStore.getNewProductFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {
-  const { new_product_image, ...rest } = values;
+  const {new_product_image, ...rest} = values;
 
   updateProduct(route.params.id, parseProduct(rest))
-    .then(async () => {
-      if (new_product_image) {
-        return await uploadProductImage(route.params.id, new_product_image);
-      }
+      .then(async () => {
+        if (new_product_image) {
+          return await uploadProductImage(route.params.id, new_product_image);
+        }
 
-      return Promise.resolve();
-    })
-    .then(() => {
-      toast.success({ message: "Product updated successfully" });
-      resetForm({ values: values });
-      emit("productUpdated");
-    })
-    .catch((error) => {
-      console.error(error);
-      toast.error("Error updating product");
-    });
+        return Promise.resolve();
+      })
+      .then(() => {
+        toast.success({message: "Product updated successfully"});
+        resetForm({values: values});
+        emit("productUpdated");
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Error updating product");
+      });
 });
 
 formUtilsStore.formEntity = "product";

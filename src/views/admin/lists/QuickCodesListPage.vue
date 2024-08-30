@@ -1,20 +1,24 @@
 <template>
   <WMListSubHeader
-      entity="quickCode"
+      entity="quick-code"
       :total-records="0"
       @new="toggleSidebarVisibility"
       :hasActionBuilder="false"
       :showCommunications="false"
   >
     <template #top-left>
-      <WMStateToggle entity="quickCode"/>
+      <WMStateToggle entity="quick-code"/>
     </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newQuickCode" @close-sidebar="closeSidebar">
-    <template v-if="can('quickCodes.create')">
-      <WMNewEntityFormHeader entity="quickCode" name="newQuickCode" />
-      <WMNewQuickCodeForm :is-sidebar="true" @close-sidebar="closeSidebar" />
+    <template v-if="can('quick-codes.create')">
+      <WMNewEntityFormHeader entity="quick-code" name="newQuickCode"/>
+      <WMNewQuickCodeForm
+          :is-sidebar="true"
+          @close-sidebar="closeSidebar"
+          @new-quick-code-created="handleNewQuickCodeCreated"
+      />
     </template>
     <template v-else>
       <div class="m-5">
@@ -71,12 +75,12 @@ const columns = [
     name: "team",
     type: "text",
     field: "",
-    header: "team.team",
+    header: "team_name",
   },
   {
     name: "active",
     type: "state",
-    field: "state_id",
+    field: "state",
     header: "state.state",
     width: "100px",
     class: "filled-td",
@@ -84,13 +88,13 @@ const columns = [
   {
     name: "service-area",
     type: "text",
-    field: "",
+    field: "service_area_name",
     header: "service.service-area",
   },
   {
     name: "service-detail",
     type: "text",
-    field: "",
+    field: "service_detail_name",
     header: "message.service-detail",
   },
   {
@@ -120,6 +124,10 @@ useHead({
   title: "Quick Codes",
 });
 
+const handleNewQuickCodeCreated = () => {
+  adminQuickCodesTable.value.loadLazyData();
+}
+
 const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
 }
@@ -134,7 +142,7 @@ const closeSidebar = () => {
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  utilsStore.entity = "quickCode";
+  utilsStore.entity = "quick-code";
 });
 </script>
 

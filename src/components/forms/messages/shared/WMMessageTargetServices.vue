@@ -211,20 +211,24 @@ onMounted(async () => {
   await loadLazyData();
 
   if (props.message) {
-    selectedArea.value = areas.value.find((area) => area.id === props.message.service_area.id);
+    selectedArea.value = areas.value.find(
+        (area) => area.id === props.message.service_area.id
+    );
     await handleAreasChange(selectedArea.value);
-    selectedType.value = types.value.find((type) => type.id === props.message.service_type_id.id);
+    selectedType.value = types.value.find(
+        (type) => type.id === props.message.service_type_id.id
+    );
     await handleTypesChange(selectedType.value);
     selectedRequest1.value = requests1.value.find(
-      (request) => request.id === props.message.service_request_1_id.id
+        (request) => request.id === props.message.service_request_1.id
     );
     await handleRequest1Change(selectedRequest1.value);
     selectedRequest2.value = requests2.value.find(
-      (request) => request.id === props.message.service_request_2_id.id
+        (request) => request.id === props.message.service_request_2.id
     );
     await handleRequest2Change(selectedRequest2.value);
     selectedRequest3.value = requests3.value.find(
-      (request) => request.id === props.message.service_request_3_id.id
+        (request) => request.id === props.message.service_request_3.id
     );
   }
 });

@@ -827,7 +827,11 @@
   },
   "quick-code": {
     "quick-code": "quick code",
-    "name": "Quick code name"
+    "name": "Quick code name",
+    "notification-created-message": "The new quick code was successfully created! \n From now on he will appear in your user list",
+    "notification-created-header": "New Quick Code Created",
+    "notification-created-detail": "View Quick Code",
+    "notification-created-close": "Close"
   },
   "team": {
     "team": "Team",

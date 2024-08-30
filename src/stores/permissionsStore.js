@@ -25,8 +25,9 @@ export const usePermissionsStore = defineStore("permissions", {
         create: true,
         update: true,
       },
-      quickCodes: {
+      "quick-codes": {
         create: true,
+        update: true,
       },
       messages: {
         create: true,

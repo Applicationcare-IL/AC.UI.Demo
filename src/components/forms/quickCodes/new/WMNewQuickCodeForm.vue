@@ -111,13 +111,13 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import {inject, onMounted, ref} from "vue";
+import {inject, onMounted, ref, watch} from "vue";
 
 import WMInput from "@/components/forms/WMInput.vue";
+import useAdminQuickCodes from "@/composables/useAdminQuickCodes";
 import useAdminTeams from "@/composables/useAdminTeams";
 import {useFormUtilsStore} from "@/stores/formUtils";
 import {useOptionSetsStore} from "@/stores/optionSets";
-import useAdminQuickCodes from "@/composables/useAdminQuickCodes";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
@@ -268,11 +268,13 @@ const handleRequest2Change = (option) => {
   filterRequests3(option.value.id);
 };
 
-const {handleSubmit, meta, resetForm, values} = useForm({
+const {handleSubmit, meta, resetForm} = useForm({
   validationSchema: formUtilsStore.getQuickCodeNewFormValidationSchema,
 });
 
 const onSubmit = handleSubmit((values) => {
+  // console.log(values);
+  // return
   createQuickCode(values)
       .then((data) => {
         emit("newQuickCodeCreated");
@@ -304,6 +306,14 @@ defineExpose({
 });
 
 // WATCHERS
+watch(
+    () => meta.value,
+    (value) => {
+      if (!isFormDirty) return;
+
+      isFormDirty.value = value.dirty;
+    }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {

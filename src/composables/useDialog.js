@@ -59,7 +59,7 @@ const useDialog = () => {
     });
   };
 
-  const confirmNewProduct = ({ id, emit }) => {
+  const confirmNewProduct = ({id, emit}) => {
     confirm.require({
       message: i18n.t("product.notification-created-message"),
       header: i18n.t("product.notification-created-header"),
@@ -127,7 +127,7 @@ const useDialog = () => {
     });
   };
 
-  const confirmNewAdminMessage = ({ id, emit }) => {
+  const confirmNewAdminMessage = ({id, emit}) => {
     confirm.require({
       message: i18n.t("message.notification-created-message"),
       header: i18n.t("message.notification-created-header"),
@@ -135,6 +135,23 @@ const useDialog = () => {
       rejectLabel: i18n.t("message.notification-created-close"),
       accept: () => {
         formUtilsStore.goToAdminDetail(id, "message");
+      },
+      reject: () => {
+        if (emit) {
+          emit("closeSidebar");
+        }
+      },
+    });
+  };
+
+  const confirmNewAdminQuickCode = ({id, emit}) => {
+    confirm.require({
+      message: i18n.t("message.notification-created-message"),
+      header: i18n.t("message.notification-created-header"),
+      acceptLabel: i18n.t("message.notification-created-detail"),
+      rejectLabel: i18n.t("message.notification-created-close"),
+      accept: () => {
+        formUtilsStore.goToAdminDetail(id, "quick-codes");
       },
       reject: () => {
         if (emit) {
@@ -330,6 +347,7 @@ const useDialog = () => {
     confirmCompleteMilestone,
     confirmCompleteTasks,
     confirmNewAdminMessage,
+    confirmNewAdminQuickCode,
     confirmNewAdminReport,
     confirmNewAdminRole,
     confirmNewAdminTeam,

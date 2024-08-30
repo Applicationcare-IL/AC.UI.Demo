@@ -86,7 +86,7 @@ const isPreviewVisible = ref([]);
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  const filters = utilsStore.filters["quickCode"];
+  const filters = utilsStore.filters["quick-code"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
 
@@ -137,9 +137,9 @@ watchEffect(() => {
 });
 
 watch(
-    () => utilsStore.searchString["quickCode"],
+    () => utilsStore.searchString["quick-code"],
     () => {
-      searchValue.value = utilsStore.searchString["quickCode"];
+      searchValue.value = utilsStore.searchString["quick-code"];
       utilsStore.debounceAction(() => {
         loadLazyData();
       });
