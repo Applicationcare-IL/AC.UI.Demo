@@ -615,6 +615,19 @@ const useFilters = () => {
         label: i18n.t("state") + ":",
       },
     ],
+    "quick-code": [
+      {
+        type: "state",
+        name: "state",
+        label: i18n.t("state") + ":",
+      },
+      {
+        type: "entity",
+        name: "teams",
+        label: i18n.t("teams") + ":",
+        searchFunction: searchTeams,
+      },
+    ],
   };
 
   return {
