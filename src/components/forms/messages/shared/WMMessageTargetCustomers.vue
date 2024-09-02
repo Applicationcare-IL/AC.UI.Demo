@@ -2,7 +2,6 @@
   <div class="flex flex-column gap-3">
     <div class="wm-form-label highlighted">{{ $t("message.organization-type") }}:</div>
     <div class="flex gap-3">
-      <!-- {{ message.customer_types }} -->
       <WMSelectableMultipleButtonGroup
         v-if="organizationTypes.length"
         :options="organizationTypes"
@@ -131,8 +130,15 @@ onMounted(async () => {
   await loadServiceAreas();
 
   if (props.message) {
-    // filter areas by customer_service_areas ids
     selectedServiceAreas.value = props.message.customer_service_areas;
+
+    if (props.message.customer_types) {
+      handleChangeCustomerTypes(props.message.customer_types.map((item) => item.id));
+    }
+
+    if (props.message.customer_ratings) {
+      handleChangeCustomerRatings(props.message.customer_ratings.map((item) => item.id));
+    }
   }
 });
 </script>

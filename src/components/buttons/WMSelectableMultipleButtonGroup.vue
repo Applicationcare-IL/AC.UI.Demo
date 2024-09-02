@@ -35,8 +35,8 @@ const props = defineProps({
 const emit = defineEmits(["update:selectedOptions"]);
 
 // REFS
-const selectedOptions = ref([]);
-const selectedValues = ref([]);
+const selectedOptions = ref([]); // used to keep track of selected options internally
+const selectedValues = ref([]); // used to return the correct selected values
 
 // COMPUTED
 
@@ -62,6 +62,14 @@ const setSelectedOptions = (options, selectedOptionsFromValueProp) => {
   }
 };
 
+const setSelectedValues = (options, selectedOptionsFromValueProp) => {
+  for (let i = 0; i < options.length; i++) {
+    if (selectedOptionsFromValueProp.includes(options[i].value)) {
+      selectedValues.value.push(options[i].value);
+    }
+  }
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
@@ -70,6 +78,7 @@ const setSelectedOptions = (options, selectedOptionsFromValueProp) => {
 onMounted(() => {
   if (props.value) {
     setSelectedOptions(props.options, props.value);
+    setSelectedValues(props.options, props.value);
   }
 });
 </script>
