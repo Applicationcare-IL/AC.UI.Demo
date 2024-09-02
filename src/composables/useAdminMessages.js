@@ -45,6 +45,7 @@ const useAdminFlowmaze = () => {
       title: message.topic,
       start_date: message.start_date ? formatDateFromAPI(message.start_date) : null,
       end_date: message.end_date ? formatDateFromAPI(message.end_date) : null,
+      service_type: message.service_type_id,  //temporal fix until backend fix the _id
     };
   };
 
