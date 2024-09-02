@@ -54,12 +54,12 @@ const useAdminFlowmaze = () => {
     const parseQuickCode = (quickCode) => {
         return {
             name: quickCode.name,
-            area_id: quickCode.service_area.id,
-            type_id: quickCode.service_type.id,
-            request_1_id: quickCode.service_request_1.id,
-            request_2_id: quickCode.service_request_2?.id,
-            request_3_id: quickCode.service_request_3?.id,
-            team_id: quickCode.team.id,
+            area: quickCode.service_area.id,
+            type: quickCode.service_type.id,
+            request_1: quickCode.service_request_1.id,
+            request_2: quickCode.service_request_2?.id,
+            request_3: quickCode.service_request_3?.id,
+            team: quickCode.team.id,
         }
     };
 

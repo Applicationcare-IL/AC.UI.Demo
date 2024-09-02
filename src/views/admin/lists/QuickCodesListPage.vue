@@ -81,7 +81,7 @@ const columns = [
   {
     name: "team",
     type: "text",
-    field: "team.name",
+    field: "team_name",
     header: "team.team",
   },
   {
