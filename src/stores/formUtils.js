@@ -625,20 +625,20 @@ export const useFormUtilsStore = defineStore("formUtils", {
     },
     getQuickCodeNewFormValidationSchema: () => {
       return yup.object({
-        "name": yup.string().required(),
-        "team": yup.object().required(),
-        "service_area": yup.object().required(),
-        "service_type": yup.object().required(),
-        "service_request_1": yup.object().required()
+        name: yup.string().required(),
+        team: yup.object().required(),
+        service_area: yup.object().required(),
+        service_type: yup.object().required(),
+        service_request_1: yup.object().required(),
       });
     },
     getQuickCodeUpdateFormValidationSchema: () => {
       return yup.object({
-        "name": yup.string().required(),
-        "team": yup.object().required(),
-        "service_area": yup.object().required(),
-        "service_type": yup.object().required(),
-        "service_request_1": yup.object().required()
+        name: yup.string().required(),
+        team: yup.object().required(),
+        service_area: yup.object().required(),
+        service_type: yup.object().required(),
+        service_request_1: yup.object().required(),
       });
     },
     getMessageNewFormValidationSchema: () => {
@@ -675,7 +675,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
     getNewProductFormValidationSchema: () => {
       return yup.object({
         name: yup.string().required(),
-        information_page: yup.string().required(),
+        info_page: yup.string().required(),
         description: yup.string().required(),
         units: yup
           .object()

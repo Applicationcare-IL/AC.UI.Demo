@@ -77,7 +77,7 @@ const model = computed(() => {
           label: t("navigation.products"),
           to: "/products",
           image: new URL("/icons/nav/products.svg", import.meta.url).href,
-          visibility: true,
+          visibility: checkIfEntityIsActive("sales") && can("products.read"),
         },
         {
           label: t("navigation.assets"),

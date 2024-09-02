@@ -71,7 +71,7 @@
                     v-if="teams && !loadingFields"
                     name="teams"
                     :label="$t('teams') + ':'"
-                    :placeholder="$t('select-team')"
+                    :placeholder="$t('employee.select-team')"
                     :multiple="true"
                     size="full"
                     :options="teams.data"
@@ -93,7 +93,7 @@
                     v-if="roles"
                     name="roles"
                     :label="$t('roles') + ':'"
-                    :placeholder="$t('select-role')"
+                    :placeholder="$t('role.select-role')"
                     :multiple="true"
                     size="full"
                     :options="roles.data"
@@ -107,8 +107,9 @@
         </div>
       </div>
       <div>
+        <Skeleton v-if="!Object.keys(permissions).length > 0" height="500px"></Skeleton>
         <WMPermissionsConfig
-          v-if="Object.keys(permissions).length > 0"
+          v-else
           :permissions="permissions"
           @permissions-changed="handlePermissionsChanged"
         >

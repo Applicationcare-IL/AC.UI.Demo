@@ -1,20 +1,36 @@
 <template>
-  <WMInput
+  <div class="flex flex-column gap-2">
+    <div class="flex align-items-center gap-2">
+      <label class="wm-form-label highlighted">{{ $t("employee.default-team") + ":" }}</label>
+      <div
+        v-tooltip.bottom="{
+          value: 'Confirm to prfirm to prfirm to prfirm to prfirm to prfirm to proceed',
+          hideDelay: 99899,
+        }"
+        class="flex"
+        v-html="HelpIcon"
+      />
+    </div>
+
+    <WMInput
       v-if="true"
       :value="selectedOption"
       name="default_team"
       type="input-select"
       :highlighted="true"
-      :label="$t('employee.default-team') + ':'"
+      :placeholder="$t('employee.select-default-team')"
       :options="teams"
       custom-option-label="name"
       :size="size"
-  />
+    />
+  </div>
 </template>
 
 <script setup>
 // IMPORTS
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
+
+import HelpIcon from "/icons/help.svg?raw";
 
 // DEPENDENCIES
 
@@ -33,7 +49,7 @@ const props = defineProps({
   teams: {
     type: Array,
     default: null,
-  }
+  },
 });
 
 // REFS
@@ -43,7 +59,7 @@ const selectedOption = ref(null);
 
 // COMPONENT METHODS AND LOGIC
 const loadSelectedOption = async () => {
-  if (props.teams){
+  if (props.teams) {
     selectedOption.value = props.teams.find((team) => {
       return team.id === props.selectedTeam.id;
     });
