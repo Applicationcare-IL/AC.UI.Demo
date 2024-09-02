@@ -4,8 +4,7 @@
       <label class="wm-form-label highlighted">{{ $t("employee.default-team") + ":" }}</label>
       <div
         v-tooltip.bottom="{
-          value: 'Confirm to prfirm to prfirm to prfirm to prfirm to prfirm to proceed',
-          hideDelay: 99899,
+          value: $t('employee.default-team-message-help-text'),
         }"
         class="flex"
         v-html="HelpIcon"
