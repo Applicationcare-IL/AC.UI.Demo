@@ -116,7 +116,7 @@ const toggle = (event) => {
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  optionSetsStore.getOptionSetValuesFromApi("service_area").then((data) => {
+  optionSetsStore.getOptionSetValues("service_area").then((data) => {
     serviceAreas.value = data;
   });
 });

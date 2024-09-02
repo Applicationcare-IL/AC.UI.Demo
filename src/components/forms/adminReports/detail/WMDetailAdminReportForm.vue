@@ -449,7 +449,7 @@ const createFiltersBasedOnSchema = async (entity) => {
   for (const optionSet of optionSets) {
     const name = entity + "_" + optionSet;
 
-    const optionSetValues = await optionSetsStore.getOptionSetValuesFromApi(name);
+    const optionSetValues = await optionSetsStore.getOptionSetValues(name);
 
     if (optionSetValues && optionSetValues.length > 0) {
       result.push({

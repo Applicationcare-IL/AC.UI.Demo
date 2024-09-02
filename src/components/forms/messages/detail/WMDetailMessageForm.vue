@@ -180,7 +180,7 @@ const normalImportantOptions = [
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, meta, resetForm } = useForm({
+const { handleSubmit, meta, resetForm, values } = useForm({
   validationSchema: formUtilsStore.getMessageUpdateFormValidationSchema,
 });
 
@@ -212,7 +212,8 @@ watch(
       formUtilsStore.formMeta = value;
       formUtilsStore.setFormMetas(value, props.formKey);
     }
-  }
+  },
+  { deep: true }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)

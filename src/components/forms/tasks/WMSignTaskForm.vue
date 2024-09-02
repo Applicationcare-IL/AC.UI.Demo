@@ -125,7 +125,7 @@ const clear = () => {
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  optionSetsStore.getOptionSetValuesFromApi("status_round_of_signatures").then((data) => {
+  optionSetsStore.getOptionSetValues("status_round_of_signatures").then((data) => {
     signatureStatusOptions.value = data;
   });
 });

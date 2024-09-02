@@ -142,7 +142,7 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  optionSetsStore.getOptionSetValuesFromApi("milestone_type").then((data) => {
+  optionSetsStore.getOptionSetValues("milestone_type").then((data) => {
     milestoneTypes.value = data;
   });
 });

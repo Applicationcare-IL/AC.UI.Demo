@@ -379,9 +379,7 @@ onMounted(async () => {
   basicTerms.value = await optionSetsStore.getOptionSetValues("basic_term");
   defaultRole.value = await optionSetsStore.getOptionSetValues("contact_customer_role");
 
-  optionSetsStore
-    .getOptionSetValuesFromApi("service_area")
-    .then((data) => (serviceAreas.value = data));
+  optionSetsStore.getOptionSetValues("service_area").then((data) => (serviceAreas.value = data));
 });
 </script>
 

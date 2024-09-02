@@ -476,14 +476,12 @@ const { getCustomerFromApi, updateCustomer, parseCustomer } = useCustomers();
 
 const fetchData = async () => {
   await optionSetsStore
-    .getOptionSetValuesFromApi("service_area")
+    .getOptionSetValues("service_area")
     .then((data) => (service_areas.value = data));
 
+  await optionSetsStore.getOptionSetValues("customer_type").then((data) => (types.value = data));
   await optionSetsStore
-    .getOptionSetValuesFromApi("customer_type")
-    .then((data) => (types.value = data));
-  await optionSetsStore
-    .getOptionSetValuesFromApi("customer_rating")
+    .getOptionSetValues("customer_rating")
     .then((data) => (ratings.value = data));
 
   basicTerms.value = await optionSetsStore.getOptionSetValues("basic_term");

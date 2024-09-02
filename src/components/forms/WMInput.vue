@@ -109,6 +109,7 @@
       @change="
         $emit('update:selectedItem', $event.value);
         handleChange($event.value);
+        setTouched(true);
       "
     />
 
@@ -303,6 +304,7 @@ const {
   errorMessage,
   handleBlur,
   handleChange,
+  setTouched,
 } = useField(name, undefined, {
   initialValue: props.value,
 });
@@ -311,6 +313,7 @@ const handleDateChange = (newDate) => {
   if (newDate) {
     inputValue.value = new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000);
     handleChange(inputValue.value);
+    setTouched(true);
     emit("update:modelValue", inputValue.value);
   }
 };

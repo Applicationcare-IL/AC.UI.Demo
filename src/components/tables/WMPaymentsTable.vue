@@ -359,11 +359,11 @@ const isFilterApplied = computed(() => {
 });
 
 // COMPONENT METHODS AND LOGIC
-optionSetsStore.getOptionSetValuesFromApi("payment_status").then((data) => {
+optionSetsStore.getOptionSetValues("payment_status").then((data) => {
   paymentStatuses.value = data;
 });
 
-optionSetsStore.getOptionSetValuesFromApi("basic_term").then((data) => {
+optionSetsStore.getOptionSetValues("basic_term").then((data) => {
   basicTerms.value = data;
 });
 

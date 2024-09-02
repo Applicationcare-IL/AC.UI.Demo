@@ -218,7 +218,7 @@ watch(
 onMounted(async () => {
   await fetchData();
 
-  milestoneTypes.value = await optionSetsStore.getOptionSetValuesFromApi("milestone_type");
+  milestoneTypes.value = await optionSetsStore.getOptionSetValues("milestone_type");
 
   if (milestone.value.milestone_type) {
     selectedMilestoneType.value = milestoneTypes.value.find(

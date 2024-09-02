@@ -125,16 +125,14 @@ const selectedDirection = ref(null);
 const channels = ref([]);
 const selectedChannel = ref(null);
 
-optionSetsStore.getOptionSetValuesFromApi("service_direction").then((data) => {
+optionSetsStore.getOptionSetValues("service_direction").then((data) => {
   directions.value = data;
   selectedDirection.value = data.find((d) => d.value === "inbound");
 });
 
-optionSetsStore.getOptionSetValuesFromApi("service_channel").then((data) => {
+optionSetsStore.getOptionSetValues("service_channel").then((data) => {
   channels.value = data;
-  selectedChannel.value = data.find(
-    (d) => d.value === "mobile" || d.value === "Mobile"
-  );
+  selectedChannel.value = data.find((d) => d.value === "mobile" || d.value === "Mobile");
 });
 
 const sites = ref();
@@ -157,7 +155,7 @@ const handleQuickCodeChange = (data) => {
 };
 
 onMounted(async () => {
-  optionSetsStore.getOptionSetValuesFromApi("service_urgent").then((data) => {
+  optionSetsStore.getOptionSetValues("service_urgent").then((data) => {
     urgencies.value = data;
     selectedUrgency.value = data[0];
   });
@@ -167,9 +165,7 @@ onMounted(async () => {
   });
 
   sites.value = await optionSetsStore.getOptionSetValues("service_site");
-  siteTypes.value = await optionSetsStore.getOptionSetValues(
-    "service_site_type"
-  );
+  siteTypes.value = await optionSetsStore.getOptionSetValues("service_site_type");
   siteRoles.value = await optionSetsStore.getOptionSetValues(
     "service_site_contact_relationship_role"
   );

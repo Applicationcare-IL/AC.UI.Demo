@@ -66,7 +66,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
       });
     },
 
-    getOptionSetValues(optionSet) {
+    async getOptionSetValues(optionSet) {
       // If the option set is defined in the store, return it otherwise get it from API
       if (this[optionSet]) {
         return this[optionSet].map((option) => ({
@@ -78,7 +78,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
         }));
       }
 
-      return this.getOptionSetValuesFromApi(optionSet);
+      return await this.getOptionSetValuesFromApi(optionSet);
     },
 
     getOptionSetValuesFromApi(optionSet) {
@@ -161,9 +161,15 @@ export const useOptionSetsStore = defineStore("optionSets", {
       return Promise.resolve();
     },
 
+    async loadOptionSet(optionSet) {
+      await this.getOptionSetValuesFromApi(optionSet).then((data) => {
+        this.optionSets[optionSet] = data;
+      });
+    },
+
     async getId(optionSet, value) {
       if (this.optionSetsToPreload.includes(optionSet) && !this.optionSets[optionSet]) {
-        await this.preloadOptionSets();
+        await this.loadOptionSet(optionSet);
       }
 
       return this.optionSets[optionSet].find((option) => option.value === value).id;

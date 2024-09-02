@@ -580,12 +580,12 @@ onMounted(() => {
     selectedRelationType.value = preselectedRelationType.value;
   }
 
-  optionSetsStore.getOptionSetValuesFromApi("state").then((data) => {
+  optionSetsStore.getOptionSetValues("state").then((data) => {
     ACTIVE_STATE_ID.value = data.find((state) => state.value === "active").id;
   });
 
   const serviceDirectionOptionSets = optionSetsStore
-    .getOptionSetValuesFromApi("service_direction")
+    .getOptionSetValues("service_direction")
     .then((data) => {
       directions.value = data;
       selectedDirection.value = data[0];
@@ -593,7 +593,7 @@ onMounted(() => {
     });
 
   const serviceChannelOptionSets = optionSetsStore
-    .getOptionSetValuesFromApi("service_channel")
+    .getOptionSetValues("service_channel")
     .then((data) => {
       channels.value = data;
       selectedChannel.value = data[0];
@@ -601,7 +601,7 @@ onMounted(() => {
     });
 
   const serviceUrgencyOptionSets = optionSetsStore
-    .getOptionSetValuesFromApi("service_urgent")
+    .getOptionSetValues("service_urgent")
     .then((data) => {
       urgencies.value = data;
       selectedUrgency.value = data[0];
@@ -631,7 +631,7 @@ onMounted(() => {
   });
 
   if (props.isRelatedService) {
-    optionSetsStore.getOptionSetValuesFromApi("service_related_relationship").then((data) => {
+    optionSetsStore.getOptionSetValues("service_related_relationship").then((data) => {
       relationTypes.value = data;
 
       if (!preselectedRelationType) {
