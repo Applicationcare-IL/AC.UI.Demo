@@ -665,7 +665,8 @@
     "password-mismatch": "Passwords do not match",
     "contact-already-exists": "Contact already exists",
     "customer-already-exists": "Customer already exists",
-    "user-already-exists": "User already exists"
+    "user-already-exists": "User already exists",
+    "url": "Invalid URL"
   },
   "status": "Status",
   "statuses": {

@@ -21,6 +21,7 @@
         type="input-text"
         :label="$t('product.marketing-info') + ':'"
         size="md"
+        :value="props.product?.marketing_info"
       />
     </div>
 
@@ -44,6 +45,7 @@
         type="input-text"
         :label="$t('product.technical-info') + ':'"
         size="md"
+        :value="props.product?.technical_info"
       />
     </div>
   </div>

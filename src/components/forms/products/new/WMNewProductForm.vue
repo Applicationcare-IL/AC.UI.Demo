@@ -7,22 +7,22 @@
     <div class="task-data flex gap-5 mb-5">
       <div class="flex flex-1 flex-column gap-5 mb-5">
         <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
-        <WMProductGeneralDetails/>
+        <WMProductGeneralDetails />
 
         <Divider />
 
         <h2 class="h2 my-0">{{ $t("product.pricing") }}</h2>
-        <WMProductPricing/>
+        <WMProductPricing />
 
         <Divider />
 
         <h2 class="h2 my-0">{{ $t("product.characteristics") }}</h2>
-        <WMProductCharacteristics/>
+        <WMProductCharacteristics />
 
         <Divider />
 
         <h2 class="h2 my-0">{{ $t("product.management-and-marketing") }}</h2>
-        <WMProductManagementAndMarketing/>
+        <WMProductManagementAndMarketing />
       </div>
       <Divider layout="vertical" />
       <div class="flex flex-1 flex-column gap-5 mb-5">
@@ -32,10 +32,10 @@
           <WMProductSettings />
         </div>
 
-        <Divider/>
+        <Divider />
 
         <h2 class="h2 my-0">{{ $t("product.extra-details") }}</h2>
-        <WMProductExtraDetails/>
+        <WMProductExtraDetails />
       </div>
     </div>
   </div>
@@ -55,7 +55,7 @@ const formUtilsStore = useFormUtilsStore();
 
 const { getQuickCodes } = useServices();
 const { getCustomersFromApi } = useCustomers();
-const {createProduct, parseProduct, uploadProductImage} = useProducts();
+const { createProduct, parseProduct, uploadProductImage } = useProducts();
 const dialog = useDialog();
 
 const toast = useToast();
@@ -83,20 +83,20 @@ const { handleSubmit, values } = useForm({
 });
 
 const onSubmit = handleSubmit((values) => {
-  const {new_product_image, ...rest} = values;
+  const { new_product_image, ...rest } = values;
 
   createProduct(parseProduct(rest))
-      .then(async (newProductData) => {
-        if (new_product_image) {
-          await uploadProductImage(newProductData.data.data.id, new_product_image);
-        }
+    .then(async (newProductData) => {
+      if (new_product_image) {
+        await uploadProductImage(newProductData.data.data.id, new_product_image);
+      }
 
-        return Promise.resolve(newProductData);
-      })
-      .then((data) => {
-        emit("newProductCreated");
+      return Promise.resolve(newProductData);
+    })
+    .then((data) => {
+      emit("newProductCreated");
 
-        dialog.confirmNewProduct({id: data.data.data.id, emit});
+      dialog.confirmNewProduct({ id: data.data.data.id, emit });
       toast.success({ title: "Product created", message: "Product created successfully" });
     })
     .catch((error) => {

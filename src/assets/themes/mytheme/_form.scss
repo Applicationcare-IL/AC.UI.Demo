@@ -92,15 +92,22 @@
     background-color: var(--gray-200);
 }
 
+.wm-input > textarea.p-inputtext.wm-input-error,
 .wm-input > input.wm-input-error, 
 .wm-input > input:enabled:focus.wm-input-error, 
 .wm-input > input:enabled:hover.wm-input-error,
 .wm-input > .p-dropdown.wm-input-error, 
 .wm-input > .p-dropdown:enabled:focus.wm-input-error, 
 .wm-input > .p-dropdown:enabled:hover.wm-input-error{
-    border-color: var(--red-500);
+    border: 1px solid var(--red-500);
     color: var(--red-500);
 }
+
+.p-calendar.p-calendar-w-btn.wm-input-error{
+    border: 1px solid red;
+}
+
+
 
 .p-autocomplete.wm-input-error > .p-autocomplete-multiple-container,
 .p-autocomplete.wm-input-error > .p-autocomplete-multiple-container:hover,

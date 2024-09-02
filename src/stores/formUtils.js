@@ -21,6 +21,8 @@ whenever(ctrl_s, () => {
 
 const israeliPhoneRegex = /^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$/;
 const israeliLandlineRegex = /^0(?:[234689]|5[0-689]|7[246789])(?![01])(\d{7})$/;
+const URLRegex =
+  /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
 
 export const useFormUtilsStore = defineStore("formUtils", {
   state: () => ({
@@ -675,8 +677,9 @@ export const useFormUtilsStore = defineStore("formUtils", {
     getNewProductFormValidationSchema: () => {
       return yup.object({
         name: yup.string().required(),
-        info_page: yup.string().required(),
+        info_page: yup.string().matches(URLRegex, "validation.url").required(),
         description: yup.string().required(),
+        valid_till: yup.string().required(),
         units: yup
           .object()
           .required({
@@ -778,6 +781,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "product.technical-manager" },
           }),
+        technical_info: yup.string().matches(URLRegex, "validation.url").required(),
         marketing_manager: yup
           .object()
           .required({
@@ -788,6 +792,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "product.marketing-manager" },
           }),
+        marketing_info: yup.string().matches(URLRegex, "validation.url").required(),
         cancellation_type: yup
           .object()
           .required({
