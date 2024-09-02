@@ -79,6 +79,7 @@
                 :highlighted="true"
                 :label="$t('message.header') + ':'"
                 :value="props.message.message"
+                size="full"
             />
             </div>
           </div>
