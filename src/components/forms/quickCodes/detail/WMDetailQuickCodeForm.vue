@@ -42,7 +42,6 @@
                 </div>
               </div>
 
-              <pre>{{ selectedTeam }}</pre>
             </template>
           </Card>
 
