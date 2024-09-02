@@ -6,12 +6,7 @@
 
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
-          <WMInput
-              name="name"
-              :required="true"
-              type="input-text"
-              :label="$t('role-name') + ':'"
-          />
+          <WMInput name="name" :required="true" type="input-text" :label="$t('role-name') + ':'" />
         </div>
       </div>
 
@@ -26,12 +21,10 @@
 
 <script setup>
 // IMPORTS
-import {useForm} from "vee-validate";
-import {inject} from "vue";
+import { useForm } from "vee-validate";
+import { inject, watch } from "vue";
 
-import WMInput from "@/components/forms/WMInput.vue";
-import useAdminRoles from "@/composables/useAdminRoles";
-import {useFormUtilsStore} from "@/stores/formUtils";
+import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const { createRole, parseRole, addUsers } = useAdminRoles();
@@ -67,7 +60,7 @@ const onSubmit = handleSubmit(async (values) => {
 
     if (values.userList.length > 0) {
       let userIds = values.userList.map((user) => user.id);
-      await addUsers(data.data.id, {users: userIds});
+      await addUsers(data.data.id, { users: userIds });
     }
 
     emit("newRoleCreated");
@@ -98,12 +91,12 @@ defineExpose({
 
 // WATCHERS
 watch(
-    () => meta.value,
-    (value) => {
-      if (!isFormDirty) return;
+  () => meta.value,
+  (value) => {
+    if (!isFormDirty) return;
 
-      isFormDirty.value = value.dirty;
-    }
+    isFormDirty.value = value.dirty;
+  }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
