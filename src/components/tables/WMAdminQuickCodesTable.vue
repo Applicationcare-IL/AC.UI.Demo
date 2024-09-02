@@ -13,17 +13,6 @@
       @update:selection="onSelectionChanged"
   >
     <Column v-if="selectable" style="width: 40px" selection-mode="multiple"/>
-    <Column v-if="preview" style="width: 40px">
-      <template #body="{ data }">
-        <img
-            src="/icons/eye.svg"
-            alt=""
-            class="vertical-align-middle"
-            @click="openSidebar(data.id)"
-        />
-        <WMMessagePreviewSidebar v-model:visible="isPreviewVisible[data.id]" :message="data"/>
-      </template>
-    </Column>
     <Column
         v-for="column in columns"
         :key="column.name"

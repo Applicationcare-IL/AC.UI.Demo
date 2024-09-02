@@ -30,7 +30,7 @@
       </div>
 
       <Divider class="my-5" layout="horizontal" style="height: 4px" />
-
+      <h2 class="h2 my-0">{{ $t("classification") }}</h2>
       <div class="flex flex-column gap-3">
 
         <WMInputSearch

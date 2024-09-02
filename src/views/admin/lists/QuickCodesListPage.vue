@@ -81,8 +81,8 @@ const columns = [
   {
     name: "team",
     type: "text",
-    field: "",
-    header: "team_name",
+    field: "team.name",
+    header: "team.team",
   },
   {
     name: "active",

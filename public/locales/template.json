@@ -102,6 +102,9 @@
   "weekly": "Weekly",
   "with-file": "With files",
   "yes": "Yes",
+  "service-area": "Service area",
+  "service-detail": "Service detail",
+  "request": "Request",
   "week-days": {
     "monday": "Monday",
     "monday-short": "Mo",
