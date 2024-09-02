@@ -4,6 +4,7 @@
     :total-records="0"
     :has-action-builder="false"
     :show-communications="false"
+    :show-filter-button="false"
     @new="toggleSidebarVisibility"
   >
     <template #top-left>
