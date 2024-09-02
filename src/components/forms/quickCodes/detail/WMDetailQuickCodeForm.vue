@@ -30,6 +30,7 @@
                   />
 
                   <WMInputSearch
+                      v-model="selectedTeam"
                       name="team"
                       :required="true"
                       type="input-select"
@@ -37,9 +38,11 @@
                       :options="teams.data"
                       size="md"
                   />
+
                 </div>
               </div>
 
+              <pre>{{ selectedTeam }}</pre>
             </template>
           </Card>
 
@@ -219,6 +222,8 @@ const emit = defineEmits(["quickCodeUpdated"]);
 // REFS
 const teams = ref([]);
 
+const selectedTeam = ref(null);
+
 const areas = ref([]);
 const types = ref([]);
 const requests1 = ref([]);
@@ -248,6 +253,8 @@ const loadLazyData = async () => {
   };
 
   teams.value = await getTeams(filters);
+
+  selectedTeam.value = props.quickCode.team;
 
   await optionSetsStore
       .getOptionSetValuesFromApiRaw("service_area")
