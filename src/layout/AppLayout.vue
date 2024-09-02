@@ -1,12 +1,11 @@
 <template>
   <div class="layout-wrapper" :class="containerClass" @click="onDocumentClick($event)">
-    <!-- <!-- <AppResponsiveTopbar v-if="width <= 768" /> -->
+    <AppResponsiveTopbar v-if="width <= 768" />
     <AppTopbar
       class="hidden md:flex"
       :active-topbar-item="activeTopbarItem"
       @topbar-item-click="onTopbarItemClick"
     />
-    -->
 
     <div
       class="layout-sidebar hidden md:flex"
