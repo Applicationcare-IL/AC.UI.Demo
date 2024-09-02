@@ -679,7 +679,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
         name: yup.string().required(),
         info_page: yup.string().matches(URLRegex, "validation.url").required(),
         description: yup.string().required(),
-        valid_till: yup.string().required(),
+        valid_until: yup.string().required(),
         units: yup
           .object()
           .required({
@@ -750,7 +750,6 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "product.product-department" },
           }),
-
         renewal_type: yup
           .object()
           .required({
@@ -806,6 +805,158 @@ export const useFormUtilsStore = defineStore("formUtils", {
         price: yup.number().required(),
         crm: yup.string().required(),
         erp: yup.string().required(),
+        // CONFIG PART
+        // COMMITMENT
+        commitment_period: yup.object().when("commitment", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.commitment-period" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.commitment-period" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        commitment_unit: yup.object().when("commitment", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.commitment-unit" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.commitment-unit" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        // GUARANTEE / WARRANTY
+        warranty_period: yup.object().when("warranty", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.warranty-period" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.warranty-period" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        warranty_unit: yup.object().when("warranty", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.warranty-unit" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.warranty-unit" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        // INSTALLATION
+        installation_type: yup.object().when("installation_required", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.installation-type" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.installation-type" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        // PROVISIONING
+        provisioning_type: yup.object().when("provisioning_required", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.provisioning-type" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.provisioning-type" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        // MAINTENANCE
+        maintenance_unit: yup.object().when("maintenance_required", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.maintenance-unit" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.maintenance-unit" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        maintenance_period: yup.string().when("maintenance_required", {
+          is: true,
+          then: () => yup.string().required(),
+          otherwise: () => yup.string().optional(),
+        }),
+        maintenance_type: yup.object().when("maintenance_required", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.maintenance-type" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.maintenance-type" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        billing_cycle_period: yup.string().when("maintenance_required", {
+          is: true,
+          then: () => yup.string().required(),
+          otherwise: () => yup.string().optional(),
+        }),
+        service_quick_code: yup.object().when(["installation_required", "provisioning_required"], {
+          is: (installation_required, provisioning_required) =>
+            installation_required || provisioning_required,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "quick-code.quick-code" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "quick-code.quick-code" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
       });
     },
   },

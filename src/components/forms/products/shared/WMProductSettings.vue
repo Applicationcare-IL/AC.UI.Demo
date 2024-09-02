@@ -203,7 +203,7 @@
 
     <WMInput
       v-if="quickCodes"
-      name="quickcode"
+      name="service_quick_code"
       :highlighted="true"
       type="input-select"
       :label="$t('product.quickcodes') + ':'"
@@ -227,6 +227,7 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 // DEPENDENCIES
 const optionSetsStore = useOptionSetsStore();
 const { layoutConfig } = useLayout();
+const { getQuickCodes } = useServices();
 
 // INJECT
 
@@ -252,6 +253,8 @@ const provisioningTypes = ref([]);
 const hasMaintenance = ref(false);
 const maintenanceUnits = ref([]);
 const maintenanceTypes = ref([]);
+
+const quickCodes = ref([]);
 
 // COMPUTED
 
@@ -297,6 +300,13 @@ onMounted(async () => {
 
   installationTypes.value = await optionSetsStore.getOptionSetValues("installation_type");
   provisioningTypes.value = await optionSetsStore.getOptionSetValues("provisioning_type");
+
+  await getQuickCodes().then((response) => {
+    quickCodes.value = response.data.map((quickCode) => ({
+      label: quickCode.name,
+      value: quickCode.name,
+    }));
+  });
 });
 </script>
 

@@ -18,14 +18,14 @@ const useProducts = () => {
     return mapProduct(response.data);
   };
 
-    const updateProduct = async (id, params) => {
-        try {
-            return await productsStore.updateProduct(id, cleanEmptyKeys(params));
-        } catch (error) {
-            console.error(error);
-            throw new Error(error);
-        }
-    };
+  const updateProduct = async (id, params) => {
+    try {
+      return await productsStore.updateProduct(id, cleanEmptyKeys(params));
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
 
   const cleanEmptyKeys = (obj) => {
     // Recorremos cada clave en el objeto
@@ -59,24 +59,24 @@ const useProducts = () => {
     }
   };
 
-    const uploadProductImage = async (productId, file) => {
-        const {uploadAttachment} = useAttachments();
+  const uploadProductImage = async (productId, file) => {
+    const { uploadAttachment } = useAttachments();
 
-        const formData = new FormData();
+    const formData = new FormData();
 
-        formData.append("file", file);
-        formData.append("entity_type", "product");
-        formData.append("entity_id", productId);
-        formData.append("field", "icon");
+    formData.append("file", file);
+    formData.append("entity_type", "product");
+    formData.append("entity_id", productId);
+    formData.append("field", "icon");
 
-        await uploadAttachment(formData)
-            .then(({data}) => {
-                return data;
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
+    await uploadAttachment(formData)
+      .then(({ data }) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const mapProduct = (product) => {
     return {
@@ -86,7 +86,7 @@ const useProducts = () => {
         text: product.name,
         id: product.id,
       },
-        product_image_url: product.icon ? product.icon.thumbnail + "product" : null,
+      product_image_url: product.icon ? product.icon.thumbnail + "product" : null,
     };
   };
 
@@ -108,6 +108,7 @@ const useProducts = () => {
       cancellation_type: product.cancellation_type.id,
       renewal_type: product.renewal_type.id,
       licensing_required: product.licensing_required,
+      service_quick_code: product.service_quick_code?.value,
       // NOT FOUND
       purchase: 1,
       income: 1,
@@ -140,8 +141,8 @@ const useProducts = () => {
     getProducts,
     getProduct,
     createProduct,
-      updateProduct,
-      uploadProductImage,
+    updateProduct,
+    uploadProductImage,
     // UTILITIES
     parseProduct,
   };

@@ -66,9 +66,9 @@
       <WMInput
         type="date"
         :label="$t('product.valid-till') + ':'"
-        name="valid_till"
+        name="valid_until"
         required
-        :value="product?.valid_till"
+        :value="product?.valid_until"
       />
       <WMInput type="date" :label="$t('product.eol') + ':'" name="eol" :value="product?.eol" />
       <WMInput type="date" :label="$t('product.eos') + ':'" name="eos" :value="product?.eos" />

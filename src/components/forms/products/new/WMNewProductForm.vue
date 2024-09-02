@@ -1,5 +1,5 @@
 <template>
-  <!-- <pre>{{ values.new_product_image }}</pre> -->
+  <pre>{{ values }}</pre>
   <div v-if="loading" class="flex flex-column justify-content-center h-screen align-items-center">
     <ProgressSpinner />
   </div>
@@ -53,7 +53,6 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 const optionSetsStore = useOptionSetsStore();
 const formUtilsStore = useFormUtilsStore();
 
-const { getQuickCodes } = useServices();
 const { getCustomersFromApi } = useCustomers();
 const { createProduct, parseProduct, uploadProductImage } = useProducts();
 const dialog = useDialog();
@@ -73,12 +72,11 @@ const customers = ref(null);
 const yesNoOptions = ref([]);
 
 const billingCycleUnits = ref([]);
-const quickCodes = ref([]);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, values } = useForm({
+const { handleSubmit } = useForm({
   validationSchema: formUtilsStore.getNewProductFormValidationSchema,
 });
 
@@ -125,13 +123,6 @@ onMounted(async () => {
   }));
 
   billingCycleUnits.value = await optionSetsStore.getOptionSetValues("product_billing_cycle_unit");
-
-  await getQuickCodes().then((response) => {
-    quickCodes.value = response.data.map((quickCode) => ({
-      label: quickCode.name,
-      value: quickCode.name,
-    }));
-  });
 
   loading.value = false;
 });
