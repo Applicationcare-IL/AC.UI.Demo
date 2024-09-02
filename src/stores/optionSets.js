@@ -60,10 +60,13 @@ export const useOptionSetsStore = defineStore("optionSets", {
     },
   },
   actions: {
-    getValueId(optionSet, optionSetValue) {
-      return this.getOptionSetValuesFromApi(optionSet).then((data) => {
-        return data.find((option) => option.value === optionSetValue).id;
-      });
+    async getValueId(optionSet, optionSetValue) {
+      if (this.optionSets[optionSet]) {
+        return this.optionSets[optionSet].find((option) => option.value === optionSetValue).id;
+      } else {
+        await this.loadOptionSet(optionSet);
+        return this.optionSets[optionSet].find((option) => option.value === optionSetValue).id;
+      }
     },
 
     async getOptionSetValues(optionSet) {
@@ -98,6 +101,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
 
             return returnOption;
           });
+
           return optionSetValues;
         })
         .catch((error) => {
@@ -168,7 +172,7 @@ export const useOptionSetsStore = defineStore("optionSets", {
     },
 
     async getId(optionSet, value) {
-      if (this.optionSetsToPreload.includes(optionSet) && !this.optionSets[optionSet]) {
+      if (!this.optionSets[optionSet]) {
         await this.loadOptionSet(optionSet);
       }
 
