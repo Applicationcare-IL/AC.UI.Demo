@@ -86,46 +86,52 @@
           </div>
         <Divider />
 
-        <div v-if="message.target === 'employee'" class="wm-form-row align-items-end gap-5">
-          <div class="wm-form-column flex flex-column gap-5">
-            <div class="flex flex-wrap gap-2 flex-column">
-              <label class="wm-form-label highlighted">{{ $t('users') + ':' }}</label>
-              <div class="flex gap-2">
-                <Chip
-                    v-for="(item, index) in props.message.teams"
-                    :key="index"
-                    class="p-chip--purple">
-                  <span>{{ item.name }}</span>
-                </Chip>
+        <div v-if="message.target === 'employee'">
+          <h3 class="h3">{{ $t('message.target') + ' - ' + $t('message.employee') }}</h3>
+          <div class="wm-form-row align-items-end gap-5">
+            <div class="wm-form-column flex flex-column gap-5">
+              <div class="flex flex-wrap gap-2 flex-column">
+                <label class="wm-form-label highlighted">{{ $t('users') + ':' }}</label>
+                <div class="flex gap-2">
+                  <Chip
+                      v-for="(item, index) in props.message.teams"
+                      :key="index"
+                      class="p-chip--purple">
+                    <span>{{ item.name }}</span>
+                  </Chip>
+                </div>
               </div>
-            </div>
-            <div class="flex flex-wrap gap-2 flex-column">
-              <label class="wm-form-label highlighted">{{ $t('teams') + ':' }}</label>
-              <div class="flex gap-2">
-                <Chip
-                    v-for="(item, index) in props.message.roles"
-                    :key="index"
-                    class="p-chip--purple">
-                  <span>{{ item.name }}</span>
-                </Chip>
+              <div class="flex flex-wrap gap-2 flex-column">
+                <label class="wm-form-label highlighted">{{ $t('teams') + ':' }}</label>
+                <div class="flex gap-2">
+                  <Chip
+                      v-for="(item, index) in props.message.roles"
+                      :key="index"
+                      class="p-chip--purple">
+                    <span>{{ item.name }}</span>
+                  </Chip>
+                </div>
               </div>
-            </div>
-            <div class="flex flex-wrap gap-2 flex-column">
-              <label class="wm-form-label highlighted">{{ $t('roles') + ':' }}</label>
-              <div class="flex gap-2">
-                <Chip
-                    v-for="(item, index) in props.message.users"
-                    :key="index"
-                    class="p-chip--purple">
-                  <span>{{ item.name }}</span>
-                </Chip>
+              <div class="flex flex-wrap gap-2 flex-column">
+                <label class="wm-form-label highlighted">{{ $t('roles') + ':' }}</label>
+                <div class="flex gap-2">
+                  <Chip
+                      v-for="(item, index) in props.message.users"
+                      :key="index"
+                      class="p-chip--purple">
+                    <span>{{ item.name }}</span>
+                  </Chip>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
 
-        <div v-if="message.target === 'service'" class="wm-form-row align-items-end gap-5">
+        <div v-if="message.target === 'service'">
+          <h3 class="h3">{{ $t('message.target') + ' - ' + $t('message.service') }}</h3>
+
+          <div class="wm-form-row align-items-end gap-5">
           <div class="task-data flex flex-auto flex-column gap-5 mb-5">
 
             <div class="wm-form-row align-items-end gap-5">
@@ -173,9 +179,13 @@
             </div>
 
           </div>
+          </div>
         </div>
 
-        <div v-if="message.target === 'customer'" class="wm-form-row align-items-end gap-5">
+        <div v-if="message.target === 'customer'">
+          <h3 class="h3">{{ $t('message.target') + ' - ' + $t('message.customer') }}</h3>
+
+          <div class="wm-form-row align-items-end gap-5">
           <div class="task-data flex flex-auto flex-column gap-5 mb-5">
 
             <div class="flex flex-wrap gap-2 flex-column">
@@ -212,6 +222,43 @@
               </div>
             </div>
 
+          </div>
+          </div>
+        </div>
+
+        <div v-if="message.target === 'project'">
+          <h3 class="h3">{{ $t('message.target') + ' - ' + $t('message.project') }}</h3>
+
+          <div class="wm-form-row align-items-end gap-5">
+            <div class="task-data flex flex-auto flex-column gap-5 mb-5">
+
+              <div class="wm-form-row align-items-end gap-5">
+                <div class="wm-form-row gap-5">
+                  <WMInput
+                      name="service_area"
+                      type="info"
+                      :highlighted="true"
+                      :label="$t('message.service-area') + ':'"
+                      :value="props.message.project_area.value"
+                  />
+                  <WMInput
+                      name="service_type_id"
+                      type="info"
+                      :highlighted="true"
+                      :label="$t('message.service-detail') + ':'"
+                      :value="props.message.project_type.value"
+                  />
+                  <WMInput
+                      name="service_request_1"
+                      type="info"
+                      :highlighted="true"
+                      :label="$t('message.request') + ' 1:'"
+                      :value="props.message.project_type.value"
+                  />
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
 
