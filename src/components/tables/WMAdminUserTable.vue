@@ -24,6 +24,16 @@
         <WMUserPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :user="data" />
       </template>
     </Column>
+    <Column style="width: 40px">
+      <template #body="{ data }">
+        <img
+            v-if="data.locked"
+            src="/icons/lock.svg"
+            alt=""
+            class="vertical-align-middle"
+        />
+      </template>
+    </Column>
     <Column
       v-for="column in columns"
       :key="column.name"
