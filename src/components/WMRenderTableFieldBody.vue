@@ -42,14 +42,34 @@
     {{ modelValue ? formatDateFromAPI(modelValue) : "" }}
   </template>
   <!-- Attachment type image -->
-
   <template v-if="columnData.type == 'attachment-image'">
     <div
-        class="bg-contain bg-no-repeat bg-center border-round h-3rem w-3rem"
-        :style="{
+      class="bg-contain bg-no-repeat bg-center border-round h-3rem w-3rem"
+      :style="{
         backgroundImage: `url(${modelValue})`,
       }"
     />
+  </template>
+  <!-- Type currency -->
+  <template v-if="columnData.type == 'currency'">
+    <WMInputCurrency v-model="modelValue" :read-only="true" />
+  </template>
+  <!-- Checkbox -->
+  <template v-if="columnData.type == 'checkbox'">
+    <div class="flex align-items-center justify-content-center">
+      <img
+        v-if="modelValue == 0 || !modelValue"
+        src="/icons/checkbox_false.svg"
+        alt=""
+        class="vertical-align-middle"
+      />
+      <img
+        v-else
+        src="/icons/checkbox_true.svg"
+        alt="Green checkmark"
+        class="vertical-align-middle"
+      />
+    </div>
   </template>
 </template>
 <script setup>

@@ -54,12 +54,18 @@ const columns = [
     field: "id",
     header: "id",
   },
-  //  {
-  //   name: "base-price",
-  //   type: "text",
-  //   field: "id",
-  //   header: "id",
-  // },
+  {
+    name: "base-price",
+    type: "currency",
+    field: "base_price",
+    header: "base_price",
+  },
+  {
+    name: "manufacturer",
+    type: "text",
+    field: "manufacturer_name",
+    header: "manufacturer",
+  },
   {
     name: "type",
     type: "option-set",
@@ -95,6 +101,42 @@ const columns = [
     type: "option-set",
     field: "cancellation_type",
     header: "product.cancellation_type",
+  },
+  {
+    name: "license",
+    type: "checkbox",
+    field: "license",
+    header: "product.license",
+  },
+  {
+    name: "commitment",
+    type: "checkbox",
+    field: "commitment",
+    header: "product.commitment",
+  },
+  {
+    name: "guarantee",
+    type: "checkbox",
+    field: "guarantee",
+    header: "product.guarantee",
+  },
+  {
+    name: "installation",
+    type: "checkbox",
+    field: "installation",
+    header: "product.installation",
+  },
+  {
+    name: "supply",
+    type: "checkbox",
+    field: "supply",
+    header: "product.supply",
+  },
+  {
+    name: "maintenance",
+    type: "checkbox",
+    field: "maintenance",
+    header: "product.maintenance",
   },
   {
     name: "active",

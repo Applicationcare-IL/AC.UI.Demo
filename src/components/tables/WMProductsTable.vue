@@ -1,5 +1,5 @@
 <template>
-  <!-- <pre>{{ products[0] }}</pre> -->
+  <!-- <pre>{{ products }}</pre> -->
   <DataTable
     v-model:selection="selectedProducts"
     lazy
