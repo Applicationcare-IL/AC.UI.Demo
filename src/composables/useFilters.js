@@ -11,7 +11,7 @@ const useFilters = () => {
   const { getContactsFromApi } = useContacts();
   const { getTeams } = useAdminTeams();
   const { getRoles } = useAdminRoles();
-  const {getUsers} = useAdminUsers()
+  const { getUsers } = useAdminUsers();
 
   const i18n = useI18n();
 
@@ -610,9 +610,46 @@ const useFilters = () => {
     ],
     message: [
       {
+        type: "selectableButtons",
+        name: "message_target",
+        label: i18n.t("message.target") + ":",
+        options: [
+          // name, value de user, projects, etc.
+        ],
+      },
+      {
         type: "state",
         name: "state",
         label: i18n.t("state") + ":",
+      },
+      {
+        type: "toggle",
+        name: "message_rating",
+        label: i18n.t("message.rating") + ":",
+        options: [
+          {
+            name: "important",
+            value: true,
+          },
+          {
+            name: "normal",
+            value: false,
+          },
+        ],
+      },
+      {
+        type: "date",
+        name: "start",
+        label: i18n.t("start-date") + ":",
+        from: "start_date_from",
+        to: "start_date_to",
+      },
+      {
+        type: "date",
+        name: "end",
+        label: i18n.t("end-date") + ":",
+        from: "end_date_from",
+        to: "end_date_to",
       },
     ],
     "quick-code": [

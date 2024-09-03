@@ -87,6 +87,7 @@ const useProducts = () => {
         id: product.id,
       },
       product_image_url: product.icon ? product.icon.thumbnail + "product" : null,
+      manufacturer_name: product.manufacturer.name,
     };
   };
 
