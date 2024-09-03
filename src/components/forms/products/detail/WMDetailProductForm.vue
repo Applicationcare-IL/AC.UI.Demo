@@ -31,10 +31,10 @@
                 <span>
                   {{ $t("product.sales-data") }}
                 </span>
-                <i
+                <!-- <i
                   class="pi pi-ellipsis-v cursor-pointer"
                   @click="console.log('open sales data')"
-                />
+                /> -->
               </div>
             </template>
             <template #content> Content </template>
@@ -78,23 +78,13 @@
           </Card>
 
           <WMSidebar
+            v-if="product"
             :visible="isUpdateProductSettingsSidebarVisible"
             name="updateProductSettings"
             @close-sidebar="closeUpdateProductSettingsSidebar"
             @open-sidebar="openUpdateProductSettingsSidebar"
           >
-            <div class="m-3 ml-0">
-              <div class="flex gap-2 align-items-center justify-content-between">
-                <h3 class="h3 m-0">{{ $t("product.settings") }}</h3>
-                <div class="flex gap-2">
-                  <WMSaveButton @click="saveForm()" /> <WMCancelButton @click="cancelForm()" />
-                </div>
-              </div>
-              <Divider />
-            </div>
-            <div class="m-3 ml-0 flex flex-column gap-3">
-              <WMProductSettings :product="product" />
-            </div>
+            <WMProductSettingsSidebarForm :product="product" />
           </WMSidebar>
         </div>
       </div>
@@ -206,6 +196,7 @@ const openUpdateProductSettingsSidebar = () => {
 };
 
 const closeUpdateProductSettingsSidebar = () => {
+  console.log("entro aquí");
   isUpdateProductSettingsSidebarVisible.value = false;
 };
 

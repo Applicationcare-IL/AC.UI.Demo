@@ -3,6 +3,7 @@
     <ProgressSpinner />
   </div>
   <template v-else>
+    hasLicense {{ hasLicense }}
     <WMToggleSwitch
       v-model="hasLicense"
       :label="$t('product.license')"
@@ -28,6 +29,7 @@
           option-set
           data-testid="product.form.commitment-unit"
           required
+          :value="product.commitment_units"
         />
 
         <WMInput
@@ -42,6 +44,7 @@
           option-set
           data-testid="product.form.commitment-period"
           required
+          :value="product.commitment_period"
         />
       </div>
     </WMToggleSwitch>
@@ -273,11 +276,11 @@ const quickCodes = ref([]);
 
 // COMPONENT METHODS AND LOGIC
 const { handleChange: handleHasLicense } = useField("licensing_required", undefined, {
-  initialValue: false,
+  initialValue: props.product ? props.product.licensing_required === 1 : false,
 });
 
 const { handleChange: handleHasCommitment } = useField("commitment", undefined, {
-  initialValue: false,
+  initialValue: props.product ? props.product.commitment === 1 : false,
 });
 
 const { handleChange: handleHasWarranty } = useField("warranty", undefined, {
@@ -319,6 +322,7 @@ const loadFields = async () => {
 
 const initializeFields = async (product) => {
   hasLicense.value = product.licensing_required === 1 ? true : false;
+  hasCommitment.value = product.commitment === 1 ? true : false;
 };
 
 // PROVIDE, EXPOSE
@@ -328,6 +332,7 @@ const initializeFields = async (product) => {
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   await loadFields();
+  console.log("props.product", props.product);
 
   if (props.product) {
     await initializeFields(props.product);
