@@ -6,9 +6,12 @@
     header="הודעות והנחיות"
     :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
   >
-    <div v-for="announcement in announcements" :key="announcement.id" class="p-2">
-      {{ announcement.message }}
-      <Divider />
+    <div v-for="announcement in announcements" :key="announcement.id" class="p-0">
+      <div :class="announcement.important ? 'p-2 bg-orange-100' : 'p-2'">
+        <WMImportantState v-if="announcement.important" class="mb-3" :important="announcement.important"/>
+        {{ announcement.message }}
+      </div>
+      <Divider class="m-0"/>
     </div>
   </Dialog>
 
@@ -31,6 +34,7 @@ import { onMounted, ref } from "vue";
 
 import PinIcon from "/icons/push_pin.svg?raw";
 import { useLayout } from "@/layout/composables/layout";
+import WMImportantState from "@/components/tables/WMImportantState.vue";
 
 const { layoutConfig } = useLayout();
 const { getAnnouncements } = useAnnouncements();
