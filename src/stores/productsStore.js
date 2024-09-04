@@ -30,17 +30,39 @@ export const useProductsStore = defineStore("products", {
         .then((response) => {
           return response;
         })
-          .catch((error) => {
-              console.error(error);
-              throw new Error(error);
-          });
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
     },
-      updateProduct(id, product) {
-          return axiosConfig
-              .patch("/products/" + id, product)
-              .then((response) => {
-                  return response;
-              })
+    updateProduct(id, product) {
+      return axiosConfig
+        .patch("/products/" + id, product)
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
+    duplicateProduct(id, name) {
+      return axiosConfig
+        .post("/products/" + id + "/duplicate", { name })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
+    newProductVersion(id) {
+      return axiosConfig
+        .post("/products/" + id + "/new-version")
+        .then((response) => {
+          return response.data;
+        })
         .catch((error) => {
           console.error(error);
           throw new Error(error);

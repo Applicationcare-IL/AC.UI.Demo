@@ -14,12 +14,15 @@
 </template>
 
 <script setup>
-import { computed, ref, useSlots } from "vue";
+// IMPORTS
+import { computed, ref, useSlots, watch } from "vue";
 
-defineEmits(["update:modelValue"]);
-
+// DEPENDENCIES
 const slots = useSlots();
 
+// INJECT
+
+// PROPS, EMITS
 const props = defineProps({
   label: String,
   labelSize: {
@@ -36,12 +39,30 @@ const props = defineProps({
   },
 });
 
+defineEmits(["update:modelValue"]);
+
+// REFS
 const value = ref(props.modelValue);
 
+// COMPUTED
 const isActive = computed(() => (value.value === true ? "is-active" : ""));
 const theme = computed(() => `toggle-switch--${props.theme}`);
 
 const classes = computed(() => [isActive.value, theme.value]);
+
+// COMPONENT METHODS AND LOGIC
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    value.value = newValue;
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>
 
 <style scoped lang="scss">

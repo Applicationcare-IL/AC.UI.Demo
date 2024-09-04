@@ -959,7 +959,43 @@ export const useFormUtilsStore = defineStore("formUtils", {
         }),
       });
     },
+    getProductSettingsFormValidationSchema: () => {
+      return yup.object({
+        // COMMITMENT
+        commitment_period: yup.object().when("commitment", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.commitment-period" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.commitment-period" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        commitment_unit: yup.object().when("commitment", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.commitment-unit" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.commitment-unit" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+      });
+    },
   },
+
   actions: {
     closeForm() {
       if (this.isSidebar) this.expandSidebar = "";

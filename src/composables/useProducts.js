@@ -78,6 +78,24 @@ const useProducts = () => {
       });
   };
 
+  const duplicateProduct = async (id, name) => {
+    try {
+      return await productsStore.duplicateProduct(id, name);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
+  const newProductVersion = async (id) => {
+    try {
+      return await productsStore.newProductVersion(id);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
   const mapProduct = (product) => {
     return {
       ...product,
@@ -144,6 +162,8 @@ const useProducts = () => {
     createProduct,
     updateProduct,
     uploadProductImage,
+    duplicateProduct,
+    newProductVersion,
     // UTILITIES
     parseProduct,
   };

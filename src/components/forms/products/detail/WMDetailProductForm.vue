@@ -31,10 +31,10 @@
                 <span>
                   {{ $t("product.sales-data") }}
                 </span>
-                <i
+                <!-- <i
                   class="pi pi-ellipsis-v cursor-pointer"
                   @click="console.log('open sales data')"
-                />
+                /> -->
               </div>
             </template>
             <template #content> Content </template>
@@ -46,7 +46,10 @@
                 <span>
                   {{ $t("product.settings") }}
                 </span>
-                <i class="pi pi-ellipsis-v cursor-pointer" @click="console.log('open settings')" />
+                <i
+                  class="pi pi-ellipsis-v cursor-pointer"
+                  @click="openUpdateProductSettingsSidebar"
+                />
               </div>
             </template>
             <template #content>
@@ -73,6 +76,16 @@
               </div>
             </template>
           </Card>
+
+          <WMSidebar
+            v-if="product"
+            :visible="isUpdateProductSettingsSidebarVisible"
+            name="updateProductSettings"
+            @close-sidebar="closeUpdateProductSettingsSidebar"
+            @open-sidebar="openUpdateProductSettingsSidebar"
+          >
+            <WMProductSettingsSidebarForm :product="product" />
+          </WMSidebar>
         </div>
       </div>
     </div>
@@ -116,7 +129,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { onMounted, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -145,6 +158,7 @@ const props = defineProps({
 const emit = defineEmits(["productUpdated"]);
 
 // REFS
+const isUpdateProductSettingsSidebarVisible = ref(false);
 
 // COMPUTED
 
@@ -176,6 +190,15 @@ const onSave = handleSubmit((values) => {
 });
 
 formUtilsStore.formEntity = "product";
+
+const openUpdateProductSettingsSidebar = () => {
+  isUpdateProductSettingsSidebarVisible.value = true;
+};
+
+const closeUpdateProductSettingsSidebar = () => {
+  console.log("entro aquí");
+  isUpdateProductSettingsSidebarVisible.value = false;
+};
 
 // PROVIDE, EXPOSE
 defineExpose({
