@@ -918,6 +918,7 @@
   },
   "quick-codes": {
     "name": "Quick codes",
+    "name-detail": "Quick code name",
     "notification-created-message": "It will now appear in the quick code grid",
     "notification-created-header": "New Quick Code Created",
     "notification-created-detail": "View quick code",
