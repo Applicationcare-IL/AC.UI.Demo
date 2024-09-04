@@ -146,10 +146,10 @@ const useDialog = () => {
 
   const confirmNewAdminQuickCode = ({ id, emit }) => {
     confirm.require({
-      message: i18n.t("quick-codes.notification-created-message"),
-      header: i18n.t("quick-codes.notification-created-header"),
-      acceptLabel: i18n.t("quick-codes.notification-created-detail"),
-      rejectLabel: i18n.t("quick-codes.notification-created-close"),
+        message: i18n.t("quick-code.notification-created-message"),
+        header: i18n.t("quick-code.notification-created-header"),
+        acceptLabel: i18n.t("quick-code.notification-created-detail"),
+        rejectLabel: i18n.t("quick-code.notification-created-close"),
       accept: () => {
         formUtilsStore.goToAdminDetail(id, "quick-codes");
       },

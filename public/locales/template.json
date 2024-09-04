@@ -838,10 +838,10 @@
   "quick-code": {
     "quick-code": "quick code",
     "name": "Quick code name",
-    "notification-created-message": "The new quick code was successfully created! \n From now on he will appear in your user list",
+    "notification-created-message": "It will now appear in the quick code grid",
     "notification-created-header": "New Quick Code Created",
-    "notification-created-detail": "View Quick Code",
-    "notification-created-close": "Close"
+    "notification-created-detail": "View quick code",
+    "notification-created-close": "Back to list"
   },
   "team": {
     "team": "Team",
@@ -915,14 +915,6 @@
     "notification-created-header": "New Message Created",
     "notification-created-detail": "View Message",
     "notification-created-close": "Close"
-  },
-  "quick-codes": {
-    "name": "Quick codes",
-    "name-detail": "Quick code name",
-    "notification-created-message": "It will now appear in the quick code grid",
-    "notification-created-header": "New Quick Code Created",
-    "notification-created-detail": "View quick code",
-    "notification-created-close": "Back to list"
   },
   "report": {
     "report": "Report"
