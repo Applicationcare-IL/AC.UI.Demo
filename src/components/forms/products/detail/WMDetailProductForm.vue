@@ -83,7 +83,10 @@
             @close-sidebar="closeUpdateProductSettingsSidebar"
             @open-sidebar="openUpdateProductSettingsSidebar"
           >
-            <WMProductSettingsSidebarForm :product="product" />
+            <WMProductSettingsSidebarForm
+              :product="product"
+              @update-product-settings="handleUpdateProductSettings"
+            />
           </WMSidebar>
         </div>
       </div>
@@ -188,14 +191,29 @@ const onSave = handleSubmit((values) => {
     });
 });
 
-formUtilsStore.formEntity = "product";
+const handleUpdateProductSettings = (newSettingConfigValues) => {
+  const data = {
+    ...values,
+    ...newSettingConfigValues,
+  };
+
+  updateProduct(route.params.id, parseProduct(data))
+    .then(() => {
+      toast.success({ message: "Product  settings updated successfully" });
+      resetForm({ values: values });
+      emit("productUpdated");
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Error updating product settings");
+    });
+};
 
 const openUpdateProductSettingsSidebar = () => {
   isUpdateProductSettingsSidebarVisible.value = true;
 };
 
 const closeUpdateProductSettingsSidebar = () => {
-  console.log("entro aquí");
   isUpdateProductSettingsSidebarVisible.value = false;
 };
 
@@ -216,5 +234,7 @@ watch(
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(async () => {});
+onMounted(async () => {
+  formUtilsStore.formEntity = "product";
+});
 </script>

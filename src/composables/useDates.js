@@ -52,6 +52,8 @@ const useDates = () => {
   };
 
   const formatDateToAPI = (date) => {
+    console.log("formatDateToAPI", date);
+
     if (typeof date === "object") {
       return format(date, BACKEND_SEND_DATE_FORMAT);
     }
