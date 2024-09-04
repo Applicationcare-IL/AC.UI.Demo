@@ -1,6 +1,6 @@
 <template>
   <Sidebar
-    v-if="props.product"
+    v-if="product"
     v-model:visible="visible"
     class="details-sidebar w-4"
     :show-close-icon="false"
@@ -8,11 +8,11 @@
   >
     <div class="flex flex-auto flex-column overflow-auto w-full px-2">
       <div class="flex justify-content-between">
-        <h2 class="h2">{{ props.product.name }}</h2>
+        <h2 class="h2">{{ product.name }}</h2>
         <router-link
           :to="{
             name: 'productDetail',
-            params: { id: props.product.id },
+            params: { id: product.id },
           }"
           class="p-2"
         >
@@ -21,16 +21,17 @@
       </div>
       <Divider />
 
-      <pre>{{ props.product }}</pre>
+      <pre>{{ product }}</pre>
     </div>
   </Sidebar>
 </template>
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 // DEPENDENCIES
+const { getProduct } = useProducts();
 
 // INJECT
 
@@ -40,14 +41,15 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  product: {
-    type: Object,
-    default: () => {},
+  productId: {
+    type: Number,
+    required: true,
   },
 });
 
 // REFS
 const visible = ref(false);
+const product = ref({});
 
 // COMPUTED
 
@@ -58,6 +60,9 @@ const visible = ref(false);
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  product.value = await getProduct(props.productId);
+});
 </script>
 
 <style scoped></style>

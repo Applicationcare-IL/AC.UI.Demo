@@ -1,5 +1,5 @@
 <template>
-  <!-- <pre>{{ values.manufacturer }}</pre> -->
+  <!-- <pre>{{ values }}</pre> -->
 
   <div v-if="product" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="flex flex-auto flex-column gap-5 mb-5">
@@ -53,7 +53,6 @@
               </div>
             </template>
             <template #content>
-              <!-- <pre>{{ product }}</pre> -->
               <div class="flex flex-column gap-4">
                 <WMProductSettingPreview
                   :title="$t('product.license')"
@@ -68,7 +67,7 @@
                   :title="$t('product.installation')"
                   :state="product.installation_required"
                 />
-                <WMProductSettingPreview :title="$t('product.supply')" :state="product.supply" />
+
                 <WMProductSettingPreview
                   :title="$t('product.maintenance')"
                   :state="product.maintenance_required"

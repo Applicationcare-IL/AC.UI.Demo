@@ -63,6 +63,7 @@
       />
     </div>
     <div class="flex gap-5">
+      product?.valid_until {{ product?.valid_until }}
       <WMInput
         type="date"
         :label="$t('product.valid-till') + ':'"

@@ -17,6 +17,22 @@
         :label="$t('version') + ':'"
         :value="product.version"
       />
+
+      <WMInput
+        v-if="product.previous_version"
+        name="previous_version"
+        type="info-link"
+        :highlighted="true"
+        :label="$t('product.previous_version') + ':'"
+        :value="product.previous_version.name"
+        @click.prevent="isPreviousVersionPreviewVisible = true"
+      />
+
+      <WMProductPreviewSidebar
+        v-if="product.previous_version"
+        v-model:visible="isPreviousVersionPreviewVisible"
+        :product-id="product.previous_version.id"
+      />
     </div>
     <div class="wm-form-row gap-5">
       <WMInput
@@ -154,6 +170,8 @@ const customers = ref(null);
 const selectedManufacturer = ref();
 const yesNoOptions = ref([]);
 const productImage = ref(props.product?.product_image_url);
+
+const isPreviousVersionPreviewVisible = ref(false);
 
 // COMPUTED
 

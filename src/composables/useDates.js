@@ -39,10 +39,14 @@ const useDates = () => {
   };
 
   const formatDateFromAPI = (date) => {
-      // check if date is already in the correct format DD/MM/YYYY
-      if (date.includes("/")) {
-          return date;
-      }
+    if (!date) {
+      return "";
+    }
+
+    // check if date is already in the correct format DD/MM/YYYY
+    if (date.includes("/")) {
+      return date;
+    }
 
     return format(date, FRONTEND_DATE_FORMAT);
   };
