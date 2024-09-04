@@ -156,7 +156,9 @@
     "sign": "Sign",
     "sign-document": "Sign document",
     "sync": "Sync",
-    "link-users": "Link users"
+    "link-users": "Link users",
+    "duplicate": "Duplicate",
+    "new-version": "New version"
   },
   "navigation": {
     "dashboard": "Dashboard",

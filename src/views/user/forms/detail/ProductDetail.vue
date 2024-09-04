@@ -6,7 +6,12 @@
     :show-message-button="false"
     :show-email-button="false"
     @save-form="saveForm()"
-  />
+  >
+    <template #custom-buttons>
+      <WMDuplicateProductButton />
+      <WMNewProductVersionButton />
+    </template>
+  </WMDetailFormSubHeader>
   <WMDetailProductForm
     v-if="product"
     ref="detailProductForm"

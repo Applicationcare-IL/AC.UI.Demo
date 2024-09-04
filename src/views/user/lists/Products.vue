@@ -4,7 +4,8 @@
     :show-communications="false"
     :has-action-builder="false"
     @new="redirectToNewProductPage"
-  />
+  >
+  </WMListSubHeader>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMProductsTable
