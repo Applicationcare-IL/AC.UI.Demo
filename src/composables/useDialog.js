@@ -59,7 +59,7 @@ const useDialog = () => {
     });
   };
 
-  const confirmNewProduct = ({id, emit}) => {
+  const confirmNewProduct = ({ id, emit }) => {
     confirm.require({
       message: i18n.t("product.notification-created-message"),
       header: i18n.t("product.notification-created-header"),
@@ -127,7 +127,7 @@ const useDialog = () => {
     });
   };
 
-  const confirmNewAdminMessage = ({id, emit}) => {
+  const confirmNewAdminMessage = ({ id, emit }) => {
     confirm.require({
       message: i18n.t("message.notification-created-message"),
       header: i18n.t("message.notification-created-header"),
@@ -144,7 +144,7 @@ const useDialog = () => {
     });
   };
 
-  const confirmNewAdminQuickCode = ({id, emit}) => {
+  const confirmNewAdminQuickCode = ({ id, emit }) => {
     confirm.require({
       message: i18n.t("quick-codes.notification-created-message"),
       header: i18n.t("quick-codes.notification-created-header"),
@@ -287,7 +287,7 @@ const useDialog = () => {
   const confirmCancelDialog = ({ emit } = {}) => {
     return new Promise((resolve) => {
       confirm.require({
-        message: `You haven't finished creating the new ${currentEntity.value}. Do you want to leave without saving it?`,
+        message: `Do you want to leave without saving it?`,
         header: `${currentEntity.value} not saved`,
         acceptLabel: "Stay on page",
         rejectLabel: "Leave without saving",

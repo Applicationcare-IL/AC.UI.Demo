@@ -1,9 +1,6 @@
 <template>
-  <div v-if="loading" class="flex flex-column justify-content-center h-screen align-items-center">
-    <ProgressSpinner />
-  </div>
+  <Skeleton v-if="loading" width="100%" height="600px" />
   <template v-else>
-    hasLicense {{ hasLicense }}
     <WMToggleSwitch
       v-model="hasLicense"
       :label="$t('product.license')"

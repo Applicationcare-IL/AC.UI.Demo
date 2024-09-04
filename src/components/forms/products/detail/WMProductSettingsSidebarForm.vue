@@ -19,7 +19,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { inject } from "vue";
+import { inject, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -35,19 +35,21 @@ defineProps({
   product: Object,
 });
 
-defineEmits(["productSettingsUpdated"]);
+const emit = defineEmits(["updateProductSettings"]);
 
 // REFS
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { values, handleSubmit } = useForm({
+const { meta, handleSubmit } = useForm({
   validationSchema: formUtilsStore.getProductSettingsFormValidationSchema,
 });
 
 const onSubmit = handleSubmit((values) => {
-  console.log("update product settings", values);
+  isFormDirty.value = false;
+  emit("updateProductSettings", values);
+  closeSidebar();
 });
 
 const cancelForm = () => {
@@ -57,6 +59,14 @@ const cancelForm = () => {
 // PROVIDE, EXPOSE
 
 // WATCHERS
+watch(
+  () => meta.value,
+  (value) => {
+    if (!isFormDirty) return;
+
+    isFormDirty.value = value.dirty;
+  }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

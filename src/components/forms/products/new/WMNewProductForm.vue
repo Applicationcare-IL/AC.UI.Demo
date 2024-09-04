@@ -1,5 +1,5 @@
 <template>
-  <pre>{{ values }}</pre>
+  <!-- <pre>{{ values }}</pre> -->
   <div v-if="loading" class="flex flex-column justify-content-center h-screen align-items-center">
     <ProgressSpinner />
   </div>
