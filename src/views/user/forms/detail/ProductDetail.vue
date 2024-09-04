@@ -8,8 +8,8 @@
     @save-form="saveForm()"
   >
     <template #custom-buttons>
-      <WMDuplicateProductButton />
-      <WMNewProductVersionButton />
+      <WMDuplicateProductButton :product="product" />
+      <WMNewProductVersionButton :product="product" />
     </template>
   </WMDetailFormSubHeader>
   <WMDetailProductForm

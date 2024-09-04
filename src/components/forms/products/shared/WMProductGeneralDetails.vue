@@ -1,7 +1,7 @@
 <template>
   <Skeleton v-if="loading" width="100%" height="385px" />
   <div v-else class="flex flex-column gap-5">
-    <div class="wm-form-row gap-5">
+    <div class="wm-form-row flex align-items-baseline gap-5">
       <WMInput
         name="id"
         type="info"
@@ -10,6 +10,13 @@
         :value="product.id"
       />
       <WMTeamOwnerFields />
+      <WMInput
+        name="version"
+        type="info"
+        :highlighted="true"
+        :label="$t('version') + ':'"
+        :value="product.version"
+      />
     </div>
     <div class="wm-form-row gap-5">
       <WMInput
