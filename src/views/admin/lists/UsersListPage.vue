@@ -159,6 +159,11 @@ const handleResetPass = () => {
   adminUserTable.value.cleanSelectedUsers();
 };
 
+const handleUnlockUser = () => {
+  adminUserTable.value.loadLazyData();
+  adminUserTable.value.cleanSelectedUsers();
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
