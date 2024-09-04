@@ -62,8 +62,8 @@ const isDisabled = computed(() => {
 const handleUnlockUser = () => {
   const selectedUsersIds = inactiveUsers.value.map((user) => user.id);
   unlockUser(selectedUsersIds).then(() => {
-    emit("activateUser");
-    toast.success({title: "User activated", message: "User activated successfully", group: "bl"});
+    emit("unlockUser");
+    toast.success({title: "User unlocked", group: "bl"});
 
   }).catch((error) => {
     console.error(error);

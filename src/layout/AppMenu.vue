@@ -140,12 +140,12 @@ const model = computed(() => {
           image: new URL("/icons/nav/mediation.svg", import.meta.url).href,
           visibility: true,
         },
-        // {
-        //   label: t("navigation.classifications"),
-        //   to: "/admin/classifications",
-        //   image: new URL("/icons/nav/category.svg", import.meta.url).href,
-        //   visibility: true,
-        // },
+        {
+          label: t("navigation.classifications"),
+          to: "/admin/classifications",
+          image: new URL("/icons/nav/category.svg", import.meta.url).href,
+          visibility: true,
+        },
         // {
         //   label: t("navigation.sla-settings"),
         //   to: "/admin/sla-settings",

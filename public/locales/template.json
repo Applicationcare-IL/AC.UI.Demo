@@ -916,6 +916,13 @@
     "notification-created-detail": "View Message",
     "notification-created-close": "Close"
   },
+  "quick-codes": {
+    "name": "Quick codes",
+    "notification-created-message": "It will now appear in the quick code grid",
+    "notification-created-header": "New Quick Code Created",
+    "notification-created-detail": "View quick code",
+    "notification-created-close": "Back to list"
+  },
   "report": {
     "report": "Report"
   },

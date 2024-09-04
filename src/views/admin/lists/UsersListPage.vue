@@ -21,7 +21,7 @@
         />
         <WMUnlockAdminUserButton
             :selected-users="selectedUsers"
-            @reset-pass-user="handleUnlockUser"
+            @unlock-user="handleUnlockUser"
         />
       </div>
     </template>
@@ -156,6 +156,11 @@ const handleActivateUser = () => {
 };
 
 const handleResetPass = () => {
+  adminUserTable.value.cleanSelectedUsers();
+};
+
+const handleUnlockUser = () => {
+  adminUserTable.value.loadLazyData();
   adminUserTable.value.cleanSelectedUsers();
 };
 
