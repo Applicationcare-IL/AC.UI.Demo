@@ -1,12 +1,14 @@
 <template>
-  <h1 class="h1 capitalize">{{ props.entity }}</h1>
-  <Divider/>
-  <div class="flex gap-2">
-    <WMSelectableButtonGroup
-        :name="props.entity"
-        :options="options"
-        @update:selected-option="changeSelectorValue"
-    />
+  <div class="pb-0 " style="padding: 18px 48px;">
+    <h1 class="h1 capitalize">{{ props.entity }}</h1>
+    <Divider/>
+    <div class="flex gap-2">
+      <WMSelectableButtonGroup
+          :name="props.entity"
+          :options="options"
+          @update:selected-option="changeSelectorValue"
+      />
+    </div>
   </div>
 </template>
 

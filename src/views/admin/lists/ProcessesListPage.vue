@@ -1,14 +1,14 @@
 <template>
   <div class="m-5">
     <WIP />
-    <!--  <WMListSelector-->
-    <!--      entity="processes"-->
-    <!--      :options="options"-->
-    <!--      @update:selected-option="changeSelectedOption"-->
-    <!--  />-->
-    <!--  <span v-if="selectedOption === 'service'">Opcion service</span>-->
-    <!--  <span v-if="selectedOption === 'sales'">Opcion sales</span>-->
-    <!--  <span v-if="selectedOption === 'project'">Opcion project</span>-->
+    <!--      <WMListSelector-->
+    <!--          entity="processes"-->
+    <!--          :options="options"-->
+    <!--          @update:selected-option="changeSelectedOption"-->
+    <!--      />-->
+    <!--      <span v-if="selectedOption === 'service'">Opcion service</span>-->
+    <!--      <span v-if="selectedOption === 'sales'">Opcion sales</span>-->
+    <!--      <span v-if="selectedOption === 'project'">Opcion project</span>-->
   </div>
 </template>
 
