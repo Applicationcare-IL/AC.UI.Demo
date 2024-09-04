@@ -5,7 +5,11 @@
     </template>
   </WMButton>
 
-  <OverlayPanel ref="isOpen" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
+  <OverlayPanel
+    ref="isOpen"
+    style="max-width: 400px"
+    :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+  >
     <div class="flex flex-column gap-2">
       <span class="h4"> {{ $t("product.duplicate-product") }} </span>
 
@@ -85,10 +89,8 @@ const toggle = (event) => {
 };
 
 const handleDuplicateProduct = () => {
-  console.log("Duplicate product");
   duplicateProduct(props.product.id, productName.value).then(({ data }) => {
     toast.success({ message: t("product.duplication-success") });
-
     router.push({ name: "productDetail", params: { id: data.id } });
   });
 };

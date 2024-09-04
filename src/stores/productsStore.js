@@ -57,5 +57,16 @@ export const useProductsStore = defineStore("products", {
           throw new Error(error);
         });
     },
+    newProductVersion(id) {
+      return axiosConfig
+        .post("/products/" + id + "/new-version")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
   },
 });

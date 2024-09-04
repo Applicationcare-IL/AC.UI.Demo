@@ -87,6 +87,15 @@ const useProducts = () => {
     }
   };
 
+  const newProductVersion = async (id) => {
+    try {
+      return await productsStore.newProductVersion(id);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
   const mapProduct = (product) => {
     return {
       ...product,
@@ -154,6 +163,7 @@ const useProducts = () => {
     updateProduct,
     uploadProductImage,
     duplicateProduct,
+    newProductVersion,
     // UTILITIES
     parseProduct,
   };

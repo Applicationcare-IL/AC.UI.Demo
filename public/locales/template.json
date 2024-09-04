@@ -1027,6 +1027,7 @@
     "duplication-success": "Product duplicated successfully",
     "new-version": "New version",
     "new-version-text-part-one": "When creating a new version of the product ",
-    "new-version-text-part-two": ", the old version will become inactive."
+    "new-version-text-part-two": ", the old version will become inactive.",
+    "new-version-success": "New product version created successfully"
   }
 }
