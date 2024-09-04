@@ -23,7 +23,7 @@
                       name="name"
                       type="input-text"
                       :highlighted="true"
-                      :label="$t('quick-codes.name-detail') + ':'"
+                      :label="$t('quick-code.name') + ':'"
                       :value="quickCode.name"
                       size="md"
                       required
