@@ -128,12 +128,6 @@ const columns = [
     header: "product.installation",
   },
   {
-    name: "supply",
-    type: "checkbox",
-    field: "supply",
-    header: "product.supply",
-  },
-  {
     name: "maintenance",
     type: "checkbox",
     field: "maintenance",

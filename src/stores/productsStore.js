@@ -68,5 +68,27 @@ export const useProductsStore = defineStore("products", {
           throw new Error(error);
         });
     },
+    activateProduct(id) {
+      return axiosConfig
+        .post("/products/" + id + "/activate")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
+    deactivateProduct(id) {
+      return axiosConfig
+        .post("/products/" + id + "/deactivate")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
   },
 });

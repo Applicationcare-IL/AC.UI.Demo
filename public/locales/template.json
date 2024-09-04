@@ -1036,6 +1036,7 @@
     "new-version": "New version",
     "new-version-text-part-one": "When creating a new version of the product ",
     "new-version-text-part-two": ", the old version will become inactive.",
-    "new-version-success": "New product version created successfully"
+    "new-version-success": "New product version created successfully",
+    "previous_version": "Previous version"
   }
 }

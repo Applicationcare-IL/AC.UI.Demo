@@ -2,7 +2,7 @@ import { useProductsStore } from "@/stores/productsStore";
 
 const useProducts = () => {
   const productsStore = useProductsStore();
-  const { formatDateToAPI } = useDates();
+  const { formatDateToAPI, formatDateFromAPI } = useDates();
 
   const getProducts = async (params) => {
     const response = await productsStore.getProducts(params);
@@ -96,6 +96,24 @@ const useProducts = () => {
     }
   };
 
+  const activateProduct = async (id) => {
+    try {
+      return await productsStore.activateProduct(id);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
+  const deactivateProduct = async (id) => {
+    try {
+      return await productsStore.deactivateProduct(id);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
   const mapProduct = (product) => {
     return {
       ...product,
@@ -106,6 +124,7 @@ const useProducts = () => {
       },
       product_image_url: product.icon ? product.icon.thumbnail + "product" : null,
       manufacturer_name: product.manufacturer.name,
+      valid_until: formatDateFromAPI(product.valid_until),
     };
   };
 
@@ -128,6 +147,7 @@ const useProducts = () => {
       renewal_type: product.renewal_type.id,
       licensing_required: product.licensing_required,
       service_quick_code: product.service_quick_code?.value,
+      valid_until: formatDateToAPI(product.valid_until),
       // NOT FOUND
       purchase: 1,
       income: 1,
@@ -164,6 +184,8 @@ const useProducts = () => {
     uploadProductImage,
     duplicateProduct,
     newProductVersion,
+    activateProduct,
+    deactivateProduct,
     // UTILITIES
     parseProduct,
   };
