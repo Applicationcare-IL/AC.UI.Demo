@@ -664,6 +664,12 @@ const useFilters = () => {
         label: i18n.t("teams") + ":",
         searchFunction: searchTeams,
       },
+      {
+        type: "dropdown",
+        name: "service_area",
+        optionSet: "service_area",
+        placeholder: i18n.t("customer.service-areas-placeholder") + ":",
+      },
     ],
   };
 
