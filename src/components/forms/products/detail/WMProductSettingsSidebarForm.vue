@@ -1,7 +1,7 @@
 <template>
-  <div class="m-3 ml-0" :style="{ minWidth: '550px' }">
-    <!-- <pre>{{ product }}</pre>
-    <pre>{{ values }}</pre> -->
+  <div class="m-3 ml-0" :style="{ minWidth: '600px' }">
+    <!-- <pre>{{ product }}</pre> -->
+    <!-- <pre>{{ values }}</pre> -->
     <div class="flex gap-2 align-items-center justify-content-between">
       <h3 class="h3 m-0">{{ $t("product.settings") }}</h3>
       <div class="flex gap-2">
@@ -42,7 +42,7 @@ const emit = defineEmits(["updateProductSettings"]);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { meta, handleSubmit } = useForm({
+const { meta, handleSubmit, values } = useForm({
   validationSchema: formUtilsStore.getProductSettingsFormValidationSchema,
 });
 

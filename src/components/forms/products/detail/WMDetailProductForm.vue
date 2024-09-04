@@ -62,12 +62,19 @@
                   :title="$t('product.commitment')"
                   :state="product.commitment"
                 />
-
+                <WMProductSettingPreview
+                  :title="$t('product.guarantee')"
+                  :state="product.warranty"
+                />
                 <WMProductSettingPreview
                   :title="$t('product.installation')"
                   :state="product.installation_required"
                 />
 
+                <WMProductSettingPreview
+                  :title="$t('product.provisioning')"
+                  :state="product.provisioning_required"
+                />
                 <WMProductSettingPreview
                   :title="$t('product.maintenance')"
                   :state="product.maintenance_required"
