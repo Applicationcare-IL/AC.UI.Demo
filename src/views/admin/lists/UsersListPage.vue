@@ -21,7 +21,7 @@
         />
         <WMUnlockAdminUserButton
             :selected-users="selectedUsers"
-            @reset-pass-user="handleUnlockUser"
+            @unlock-user="handleUnlockUser"
         />
       </div>
     </template>
