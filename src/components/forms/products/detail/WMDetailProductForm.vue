@@ -23,22 +23,22 @@
           </Card>
         </div>
         <div class="flex flex-column gap-5" style="width: calc(470px - 2rem)">
-          <Card class="w-full">
+          <!-- <Card class="w-full">
             <template #title>
               <div class="w-full flex align-items-center justify-content-between">
                 <span>
                   {{ $t("product.sales-data") }}
                 </span>
-                <!-- <i
+                <i
                   class="pi pi-ellipsis-v cursor-pointer"
                   @click="console.log('open sales data')"
-                /> -->
+                />
               </div>
             </template>
-            <template #content> Content </template>
-          </Card>
+            <template #content> </template>
+          </Card> -->
 
-          <Card class="w-full bg-gray-25">
+          <Card class="w-full h-auto bg-gray-25">
             <template #title>
               <div class="w-full flex align-items-center justify-content-between">
                 <span>
