@@ -64,6 +64,7 @@
           option-set
           data-testid="product.form.warranty-unit"
           required
+          :value="product.warranty_units"
         />
 
         <WMInput
@@ -78,6 +79,7 @@
           option-set
           data-testid="product.form.warranty-period"
           required
+          :value="product.warranty_period"
         />
       </div>
     </WMToggleSwitch>
@@ -100,6 +102,7 @@
           option-set
           data-testid="product.form.installation-types"
           required
+          :value="product.installation_type"
         />
       </div>
     </WMToggleSwitch>
@@ -216,7 +219,10 @@
         size="sm"
         data-testid="product.form.quickcodes"
         required
+        :value="selectedQuickCode"
       />
+
+      selectedQuickCode {{ selectedQuickCode }}
     </div>
   </template>
 </template>
@@ -268,6 +274,7 @@ const maintenanceUnits = ref([]);
 const maintenanceTypes = ref([]);
 
 const quickCodes = ref([]);
+const selectedQuickCode = ref(null);
 
 // COMPUTED
 
@@ -281,19 +288,19 @@ const { handleChange: handleHasCommitment } = useField("commitment", undefined, 
 });
 
 const { handleChange: handleHasWarranty } = useField("warranty", undefined, {
-  initialValue: false,
+  initialValue: props.product ? props.product.warranty === 1 : false,
 });
 
 const { handleChange: handleHasInstallation } = useField("installation_required", undefined, {
-  initialValue: false,
+  initialValue: props.product ? props.product.installation_required === 1 : false,
 });
 
 const { handleChange: handleHasMaintenance } = useField("maintenance_required", undefined, {
-  initialValue: false,
+  initialValue: props.product ? props.product.maintenance_required === 1 : false,
 });
 
 const { handleChange: handleHasProvisioning } = useField("provisioning_required", undefined, {
-  initialValue: false,
+  initialValue: props.product ? props.product.provisioning_required === 1 : false,
 });
 
 const loadFields = async () => {
@@ -312,7 +319,8 @@ const loadFields = async () => {
   await getQuickCodes().then((response) => {
     quickCodes.value = response.data.map((quickCode) => ({
       label: quickCode.name,
-      value: quickCode.name,
+      value: quickCode.id,
+      id: quickCode.id,
     }));
   });
 };
@@ -320,6 +328,14 @@ const loadFields = async () => {
 const initializeFields = async (product) => {
   hasLicense.value = product.licensing_required === 1 ? true : false;
   hasCommitment.value = product.commitment === 1 ? true : false;
+  hasWarranty.value = product.warranty === 1 ? true : false;
+  hasInstallation.value = product.installation_required === 1 ? true : false;
+  hasProvisioning.value = product.provisioning_required === 1 ? true : false;
+  hasMaintenance.value = product.maintenance_required === 1 ? true : false;
+
+  selectedQuickCode.value = quickCodes.value.find(
+    (quickCode) => quickCode.id === product.service_quick_code
+  );
 };
 
 // PROVIDE, EXPOSE

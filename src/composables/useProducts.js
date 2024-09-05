@@ -125,10 +125,13 @@ const useProducts = () => {
       product_image_url: product.icon ? product.icon.thumbnail + "product" : null,
       manufacturer_name: product.manufacturer.name,
       valid_until: formatDateFromAPI(product.valid_until),
+      provisioning_required: product.provisioning_required ? 1 : 0, // the only one who is a boolean
     };
   };
 
   const parseProduct = (product) => {
+    console.log("parseProduct", product);
+
     const today = new Date();
 
     const data = {
@@ -146,7 +149,7 @@ const useProducts = () => {
       cancellation_type: product.cancellation_type.id,
       renewal_type: product.renewal_type.id,
       licensing_required: product.licensing_required,
-      service_quick_code: product.service_quick_code?.value,
+      service_quick_code: product.service_quick_code.id,
       valid_until: formatDateToAPI(product.valid_until),
       // NOT FOUND
       purchase: 1,
