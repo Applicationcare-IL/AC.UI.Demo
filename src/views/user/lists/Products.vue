@@ -41,6 +41,7 @@ const columns = [
     type: "attachment-image",
     field: "product_image_url",
     header: "photo",
+    class: "p-0 filled-td",
   },
   {
     name: "product-name",

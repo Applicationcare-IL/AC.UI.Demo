@@ -915,30 +915,51 @@ export const useFormUtilsStore = defineStore("formUtils", {
               }),
           otherwise: () => yup.object().optional(),
         }),
-        maintenance_period: yup.string().when("maintenance_required", {
-          is: true,
-          then: () => yup.string().required(),
-          otherwise: () => yup.string().optional(),
-        }),
-        maintenance_type: yup.object().when("maintenance_required", {
+        maintenance_period: yup.object().when("maintenance_required", {
           is: true,
           then: () =>
             yup
               .object()
               .required({
                 key: "validation.required-select",
-                values: { label: "product.maintenance-type" },
+                values: { label: "product.maintenance-period" },
               })
               .typeError({
                 key: "validation.required-select",
-                values: { label: "product.maintenance-type" },
+                values: { label: "product.maintenance-period" },
               }),
           otherwise: () => yup.object().optional(),
         }),
-        billing_cycle_period: yup.string().when("maintenance_required", {
+
+        billing_cycle_unit: yup.object().when("maintenance_required", {
           is: true,
-          then: () => yup.string().required(),
-          otherwise: () => yup.string().optional(),
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.billing-cycle-unit" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.billing-cycle-unit" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        billing_cycle_period: yup.object().when("maintenance_required", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.billing-cycle-period" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.billing-cycle-period" },
+              }),
+          otherwise: () => yup.object().optional(),
         }),
         service_quick_code: yup.object().when(["installation_required", "maintenance_required"], {
           is: (installation_required, maintenance_required) =>
@@ -1035,6 +1056,68 @@ export const useFormUtilsStore = defineStore("formUtils", {
               .typeError({
                 key: "validation.required-select",
                 values: { label: "product.installation-type" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        // MAINTENANCE
+        maintenance_unit: yup.object().when("maintenance_required", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.maintenance-unit" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.maintenance-unit" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        maintenance_period: yup.object().when("maintenance_required", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.maintenance-period" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.maintenance-period" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+
+        billing_cycle_unit: yup.object().when("maintenance_required", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.billing-cycle-unit" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.billing-cycle-unit" },
+              }),
+          otherwise: () => yup.object().optional(),
+        }),
+        billing_cycle_period: yup.object().when("maintenance_required", {
+          is: true,
+          then: () =>
+            yup
+              .object()
+              .required({
+                key: "validation.required-select",
+                values: { label: "product.billing-cycle-period" },
+              })
+              .typeError({
+                key: "validation.required-select",
+                values: { label: "product.billing-cycle-period" },
               }),
           otherwise: () => yup.object().optional(),
         }),

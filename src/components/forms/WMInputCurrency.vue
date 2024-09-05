@@ -15,11 +15,7 @@
     </template>
     <template v-else>
       <div :class="inputCurrencyClasses">
-        <img
-          class="input-currency__icon vertical-align-middle"
-          src="/icons/shekel.svg"
-          alt=""
-        />
+        <img class="input-currency__icon vertical-align-middle" src="/icons/shekel.svg" alt="" />
 
         <InputNumber
           v-model="modelValue"
@@ -35,6 +31,7 @@
           @input="
             $emit('update:modelValue', $event.value);
             field.handleChange($event.value);
+            field.setTouched(true);
           "
         />
       </div>

@@ -149,7 +149,6 @@ const useProducts = () => {
       cancellation_type: product.cancellation_type.id,
       renewal_type: product.renewal_type.id,
       licensing_required: product.licensing_required,
-      service_quick_code: product.service_quick_code.id,
       valid_until: formatDateToAPI(product.valid_until),
       // NOT FOUND
       purchase: 1,
@@ -174,6 +173,23 @@ const useProducts = () => {
 
     if (product.provisioning_required) {
       data.provisioning_type = product.provisioning_type.id;
+    }
+
+    if (product.service_quick_code) {
+      data.service_quick_code = product.service_quick_code.id;
+    }
+
+    if (product.maintenance_required) {
+      data.maintenance_period = product.maintenance_period.id;
+      data.maintenance_unit = product.maintenance_unit.id;
+    }
+
+    if (product.discount_type) {
+      data.discount_number = product.amount;
+      data.discount_type = product.discount_type.value;
+    } else {
+      delete data.discount_number;
+      delete data.discount_type;
     }
 
     return data;
