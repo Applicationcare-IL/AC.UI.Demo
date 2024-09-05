@@ -15,14 +15,12 @@
       <WMStateToggle entity="classification"/>
     </template>
   </WMListSubHeader>
-  <span v-if="selectedOption === 'service'">Opcion service</span>
-  <span v-if="selectedOption === 'task'">Opcion sales</span>
-  <span v-if="selectedOption === 'project'">Opcion project</span>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMAdminClassificationTable
         ref="adminMessageTable"
         :columns="columns"
+        :entity-type="selectedOption"
         preview
         selectable
         @update:selection="onSelectionChanged"
@@ -182,6 +180,7 @@ useHead({
 
 const changeSelectedOption = (option) => {
   columns.value = culumns2.value[option.value];
+  selectedOption.value = option.value;
 }
 
 const toggleSidebarVisibility = () => {

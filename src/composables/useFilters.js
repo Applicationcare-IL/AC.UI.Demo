@@ -666,7 +666,7 @@ const useFilters = () => {
       },
       {
         type: "dropdown",
-        name: "service_area",
+        name: "area",
         optionSet: "service_area",
         placeholder: i18n.t("customer.service-areas-placeholder") + ":",
       },

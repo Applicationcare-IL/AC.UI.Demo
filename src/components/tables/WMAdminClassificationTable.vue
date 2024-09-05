@@ -29,7 +29,7 @@
 
 <script setup>
 // IMPORTS
-import {ref, watch, watchEffect} from "vue";
+import {onMounted, ref, watch, watchEffect} from "vue";
 
 import useAdminClassifications from "@/composables/useAdminClassifications";
 import {useUtilsStore} from "@/stores/utils";
@@ -40,7 +40,7 @@ const {getClassifications} = useAdminClassifications();
 // INJECT
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   columns: {
     type: Array,
     required: true,
@@ -52,6 +52,10 @@ defineProps({
   selectable: {
     type: Boolean,
     default: false,
+  },
+  entityType: {
+    type: String,
+    default: "service"
   },
 });
 
@@ -78,38 +82,19 @@ const loadLazyData = async () => {
     ...filters,
     page: nextPage ? nextPage : 1,
     per_page: 10,
+    entity_type: props.entityType
   });
-
-  const serviceClassification = [{
-    id: 1,
-    state: {
-      "id": 292,
-      "value": "not_active",
-      "value_en": "Not Active",
-      "value_he": "לא פעיל",
-      "attributes": []
-    },
-    service_area: "service area data",
-    service_detail: "service detail",
-    request_1: "request 1",
-    request_2: "request 2",
-    request_3: "request 3",
-  }];
 
   if (searchValueParam) {
     params.append("search", searchValueParam);
   }
 
-  // let response = await getClassifications(params);
-  // classifications.value = response.data;
-  classifications.value = serviceClassification;
-
-  // totalRecords.value = response.totalRecords;
-  // totalRecords.value = 1;
+  let response = await getClassifications(params);
+  classifications.value = response.data;
+  totalRecords.value = response.totalRecords;
 
 };
 
-loadLazyData();
 
 const onPage = (event) => {
   lazyParams.value = event;
@@ -147,5 +132,14 @@ watch(
     {deep: true}
 );
 
+watch(() => props.entityType,
+    () => {
+      loadLazyData();
+    }
+);
+
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  loadLazyData();
+})
 </script>

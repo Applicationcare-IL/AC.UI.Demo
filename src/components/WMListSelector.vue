@@ -6,6 +6,7 @@
       <WMSelectableButtonGroup
           :name="props.entity"
           :options="options"
+          :value="options[0].value"
           @update:selected-option="changeSelectorValue"
       />
     </div>
@@ -14,7 +15,7 @@
 
 <script setup>
 // IMPORTS
-
+import {onMounted} from "vue";
 // DEPENDENCIES
 
 // INJECT
@@ -47,6 +48,9 @@ const changeSelectorValue = (value) => {
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+
+})
 </script>
 
 <style scoped></style>
