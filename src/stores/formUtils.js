@@ -917,18 +917,8 @@ export const useFormUtilsStore = defineStore("formUtils", {
         }),
         maintenance_period: yup.object().when("maintenance_required", {
           is: true,
-          then: () =>
-            yup
-              .object()
-              .required({
-                key: "validation.required-select",
-                values: { label: "product.maintenance-period" },
-              })
-              .typeError({
-                key: "validation.required-select",
-                values: { label: "product.maintenance-period" },
-              }),
-          otherwise: () => yup.object().optional(),
+          then: () => yup.number().required(),
+          otherwise: () => yup.number().optional(),
         }),
 
         billing_cycle_unit: yup.object().when("maintenance_required", {
@@ -1077,21 +1067,10 @@ export const useFormUtilsStore = defineStore("formUtils", {
         }),
         maintenance_period: yup.object().when("maintenance_required", {
           is: true,
-          then: () =>
-            yup
-              .object()
-              .required({
-                key: "validation.required-select",
-                values: { label: "product.maintenance-period" },
-              })
-              .typeError({
-                key: "validation.required-select",
-                values: { label: "product.maintenance-period" },
-              }),
-          otherwise: () => yup.object().optional(),
+          then: () => yup.number().required(),
+          otherwise: () => yup.number().optional(),
         }),
-
-        billing_cycle_unit: yup.object().when("maintenance_required", {
+        maintenance_billing_cycle_unit: yup.object().when("maintenance_required", {
           is: true,
           then: () =>
             yup
@@ -1106,7 +1085,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
               }),
           otherwise: () => yup.object().optional(),
         }),
-        billing_cycle_period: yup.object().when("maintenance_required", {
+        maintenance_billing_cycle_period: yup.object().when("maintenance_required", {
           is: true,
           then: () =>
             yup

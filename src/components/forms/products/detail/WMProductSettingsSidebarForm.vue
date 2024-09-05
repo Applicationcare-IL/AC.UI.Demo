@@ -43,7 +43,7 @@ const emit = defineEmits(["updateProductSettings"]);
 
 // COMPONENT METHODS AND LOGIC
 const { meta, handleSubmit, values } = useForm({
-  // validationSchema: formUtilsStore.getProductSettingsFormValidationSchema,
+  validationSchema: formUtilsStore.getProductSettingsFormValidationSchema,
 });
 
 const onSubmit = handleSubmit((values) => {

@@ -148,26 +148,29 @@
           option-set
           data-testid="product.form.maintenance-unit"
           required
+          :value="product.maintenance_unit"
         />
 
         <WMInput
-          v-if="maintenancePeriods"
-          name="maintenance_period"
-          :highlighted="true"
-          type="input-select"
-          :label="$t('product.maintenance-period') + ':'"
-          :options="maintenancePeriods"
-          :placeholder="$t('select', ['product.maintenance-period'])"
-          size="sm"
-          option-set
-          data-testid="product.form.maintenance-period"
           required
+          :value="product.maintenance_period"
+          type="input-number"
+          :label="$t('product.maintenance-period') + ':'"
+          name="maintenance_period"
+        />
+
+        <WMInputCurrency
+          v-model="maintenancePrice"
+          required
+          :label="$t('product.maintenance-price') + ':'"
+          name="maintenance_price"
+          :small="true"
         />
       </div>
       <div class="flex gap-5 my-3">
         <WMInput
           v-if="billingCycleUnits"
-          name="billing_cycle_unit"
+          name="maintenance_billing_cycle_unit"
           :highlighted="true"
           type="input-select"
           :label="$t('product.billing-cycle-unit') + ':'"
@@ -177,11 +180,12 @@
           option-set
           data-testid="product.form.billing-cycle-unit"
           required
+          :value="product.maintenance_billing_cycle_unit"
         />
 
         <WMInput
           v-if="billingCyclePeriods"
-          name="billing_cycle_period"
+          name="maintenance_billing_cycle_period"
           :highlighted="true"
           type="input-select"
           :label="$t('product.billing-cycle-period') + ':'"
@@ -191,6 +195,7 @@
           option-set
           data-testid="product.form.billing-cycle-period"
           required
+          :value="product.maintenance_billing_cycle_period"
         />
       </div>
     </WMToggleSwitch>
@@ -271,7 +276,8 @@ const provisioningTypes = ref([]);
 
 const hasMaintenance = ref(false);
 const maintenanceUnits = ref([]);
-const maintenancePeriods = ref([]);
+const maintenancePeriod = ref([]);
+const maintenancePrice = ref(0);
 
 const billingCycleUnits = ref([]);
 const billingCyclePeriods = ref([]);
@@ -311,7 +317,6 @@ const loadFields = async () => {
   commitmentPeriods.value = await optionSetsStore.getOptionSetValues("product_commitment_period");
 
   maintenanceUnits.value = await optionSetsStore.getOptionSetValues("product_maintenance_units");
-  maintenancePeriods.value = await optionSetsStore.getOptionSetValues("product_maintenance_period");
   billingCycleUnits.value = await optionSetsStore.getOptionSetValues("product_billing_cycle_unit");
   billingCyclePeriods.value = await optionSetsStore.getOptionSetValues(
     "product_maintenance_billing_cycle_period"
@@ -339,6 +344,10 @@ const initializeFields = async (product) => {
   hasInstallation.value = product.installation_required === 1 ? true : false;
   hasProvisioning.value = product.provisioning_required === 1 ? true : false;
   hasMaintenance.value = product.maintenance_required === 1 ? true : false;
+
+  if (product.maintenance_price) {
+    maintenancePrice.value = product.maintenance_price;
+  }
 
   selectedQuickCode.value = quickCodes.value.find(
     (quickCode) => quickCode.id === product.service_quick_code

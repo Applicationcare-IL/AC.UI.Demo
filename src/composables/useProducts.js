@@ -180,8 +180,10 @@ const useProducts = () => {
     }
 
     if (product.maintenance_required) {
-      data.maintenance_period = product.maintenance_period.id;
+      data.maintenance_period = product.maintenance_period;
       data.maintenance_unit = product.maintenance_unit.id;
+      data.maintenance_billing_cycle_unit = product.maintenance_billing_cycle_unit.id;
+      data.maintenance_billing_cycle_period = product.maintenance_billing_cycle_period.id;
     }
 
     if (product.discount_type) {
