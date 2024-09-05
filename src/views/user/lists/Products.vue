@@ -125,7 +125,7 @@ const columns = [
   {
     name: "installation",
     type: "checkbox",
-    field: "installation",
+    field: "installation_required",
     header: "product.installation",
   },
   {

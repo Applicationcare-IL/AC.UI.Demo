@@ -186,7 +186,7 @@ const useProducts = () => {
       data.maintenance_billing_cycle_period = product.maintenance_billing_cycle_period.id;
     }
 
-    if (product.discount_type) {
+    if (product.discount_type && product.discount_type.value !== "none") {
       data.discount_number = product.amount;
       data.discount_type = product.discount_type.value;
     } else {
