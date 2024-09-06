@@ -9,25 +9,27 @@
         :small="true"
       />
 
-      {{ selectedDiscountOption }}
       <WMInput
-        name="sale_discount"
+        name="discount_type"
         type="input-select-button"
         :highlighted="true"
         :label="$t('product.sale-discount') + ':'"
         :options="saleDiscountOptions"
-        :value="saleDiscountOptions[0]"
+        :value="selectedDiscountOption"
         width="80"
-        @update:selected-item="selectedDiscountOption = $event.value"
+        @update:selected-item="selectedDiscountOption = $event"
       />
 
-      <WMInputCurrency
-        v-if="selectedDiscountOption === 'amount'"
+      <WMInput
+        v-if="
+          selectedDiscountOption.value === 'percentage' || selectedDiscountOption.value === 'number'
+        "
         v-model="amount"
-        required
+        :value="amount"
+        type="input-number"
         :label="$t('product.amount') + ':'"
         name="amount"
-        :small="true"
+        :width="40"
       />
     </div>
   </div>
@@ -35,7 +37,7 @@
 
 <script setup>
 // IMPORTS
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 // DEPENDENCIES
 
@@ -52,13 +54,14 @@ const props = defineProps({
 // REFS
 const basePrice = ref(props.product.base_price);
 const amount = ref(props.product.amount);
-const selectedDiscountOption = ref("none");
 
 const saleDiscountOptions = ref([
   { name: "None", value: "none" },
-  { name: "Percent %", value: "percent" },
-  { name: "Amount ₪", value: "amount" },
+  { name: "Percent %", value: "percentage" },
+  { name: "Amount ₪", value: "number" },
 ]);
+
+const selectedDiscountOption = ref(saleDiscountOptions.value[0]);
 
 // COMPUTED
 
@@ -69,6 +72,14 @@ const saleDiscountOptions = ref([
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  if (props.product.discount_type) {
+    selectedDiscountOption.value = saleDiscountOptions.value.find(
+      (option) => option.value === props.product.discount_type
+    );
+    amount.value = props.product.discount_number;
+  }
+});
 </script>
 
 <style scoped></style>

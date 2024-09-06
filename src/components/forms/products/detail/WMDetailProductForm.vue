@@ -1,6 +1,4 @@
 <template>
-  <!-- <pre>{{ values }}</pre> -->
-
   <div v-if="product" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
@@ -25,22 +23,22 @@
           </Card>
         </div>
         <div class="flex flex-column gap-5" style="width: calc(470px - 2rem)">
-          <Card class="w-full">
+          <!-- <Card class="w-full">
             <template #title>
               <div class="w-full flex align-items-center justify-content-between">
                 <span>
                   {{ $t("product.sales-data") }}
                 </span>
-                <!-- <i
+                <i
                   class="pi pi-ellipsis-v cursor-pointer"
                   @click="console.log('open sales data')"
-                /> -->
+                />
               </div>
             </template>
-            <template #content> Content </template>
-          </Card>
+            <template #content> </template>
+          </Card> -->
 
-          <Card class="w-full bg-gray-25">
+          <Card class="w-full h-auto bg-gray-25">
             <template #title>
               <div class="w-full flex align-items-center justify-content-between">
                 <span>
@@ -85,14 +83,17 @@
 
           <WMSidebar
             v-if="product"
-            :visible="isUpdateProductSettingsSidebarVisible"
+            :visible="true"
+            :show="isUpdateProductSettingsSidebarVisible"
             name="updateProductSettings"
             @close-sidebar="closeUpdateProductSettingsSidebar"
             @open-sidebar="openUpdateProductSettingsSidebar"
           >
             <WMProductSettingsSidebarForm
               :product="product"
-              @update-product-settings="handleUpdateProductSettings"
+              :form-values="values"
+              @product-settings-updated="handleProductSettingsUpdated"
+              @product-settings-changed="handleProductSettingsChanged"
             />
           </WMSidebar>
         </div>
@@ -138,7 +139,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
@@ -168,8 +169,15 @@ const emit = defineEmits(["productUpdated"]);
 
 // REFS
 const isUpdateProductSettingsSidebarVisible = ref(false);
+const productSettings = ref({});
 
 // COMPUTED
+const productValues = computed(() => {
+  return {
+    ...values,
+    ...productSettings.value,
+  };
+});
 
 // COMPONENT METHODS AND LOGIC
 const { handleSubmit, meta, resetForm, values } = useForm({
@@ -177,7 +185,7 @@ const { handleSubmit, meta, resetForm, values } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  const { new_product_image, ...rest } = values;
+  const { new_product_image, ...rest } = productValues.value;
 
   updateProduct(route.params.id, parseProduct(rest))
     .then(async () => {
@@ -198,30 +206,21 @@ const onSave = handleSubmit((values) => {
     });
 });
 
-const handleUpdateProductSettings = (newSettingConfigValues) => {
-  const data = {
-    ...values,
-    ...newSettingConfigValues,
-  };
-
-  updateProduct(route.params.id, parseProduct(data))
-    .then(() => {
-      toast.success({ message: "Product  settings updated successfully" });
-      resetForm({ values: values });
-      emit("productUpdated");
-    })
-    .catch((error) => {
-      console.error(error);
-      toast.error("Error updating product settings");
-    });
-};
-
 const openUpdateProductSettingsSidebar = () => {
   isUpdateProductSettingsSidebarVisible.value = true;
 };
 
 const closeUpdateProductSettingsSidebar = () => {
   isUpdateProductSettingsSidebarVisible.value = false;
+};
+
+const handleProductSettingsUpdated = () => {
+  closeUpdateProductSettingsSidebar();
+  emit("productUpdated");
+};
+
+const handleProductSettingsChanged = (settings) => {
+  productSettings.value = settings;
 };
 
 // PROVIDE, EXPOSE

@@ -8,6 +8,7 @@
     scrollable
     paginator
     :rows="10"
+    :loading="loading"
     :total-records="totalRecords"
     class="w-full"
     @page="onPage($event)"
@@ -22,10 +23,10 @@
           class="vertical-align-middle"
           @click="openSidebar(data.id)"
         />
-        <WMProductPreviewSidebar
+        <!-- <WMProductPreviewSidebar
           v-model:visible="isPreviewVisible[data.id]"
           :product-id="data.id"
-        />
+        /> -->
       </template>
     </Column>
     <Column
@@ -45,7 +46,7 @@
 
 <script setup>
 // IMPORTS
-import { ref, watch, watchEffect } from "vue";
+import { onMounted, ref, watch, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
@@ -88,6 +89,7 @@ const lazyParams = ref({});
 
 const utilsStore = useUtilsStore();
 const searchValue = ref("");
+const loading = ref(false);
 
 const isPreviewVisible = ref([]);
 
@@ -95,6 +97,7 @@ const isPreviewVisible = ref([]);
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
+  loading.value = true;
   const filters = utilsStore.filters["product"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
@@ -116,9 +119,8 @@ const loadLazyData = async () => {
   let response = await getProducts(params);
   products.value = response.data;
   totalRecords.value = response.totalRecords;
+  loading.value = false;
 };
-
-loadLazyData();
 
 const onPage = (event) => {
   lazyParams.value = event;
@@ -161,4 +163,7 @@ watch(
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  loadLazyData();
+});
 </script>

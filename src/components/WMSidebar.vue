@@ -3,7 +3,7 @@
     <div
       v-if="visible"
       class="wm-sidebar-wrapper"
-      :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''"
+      :class="classes"
       :style="{ left: leftPositon + 'px' }"
     >
       <div ref="target" class="wm-sidebar">
@@ -39,6 +39,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  show: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(["closeSidebar", "openSidebar"]);
@@ -61,6 +65,13 @@ const leftPositon = computed(() => {
   const totalMargin = totalActiveSidebars * space;
 
   return totalMargin - sidebarPositionInActiveSidebarArray * space;
+});
+
+const classes = computed(() => {
+  return {
+    hidden: !props.show,
+    "layout-rtl": layoutConfig.isRTL.value,
+  };
 });
 
 // COMPONENT METHODS AND LOGIC

@@ -1,7 +1,5 @@
 <template>
   <div class="m-3 ml-0" :style="{ minWidth: '600px' }">
-    <!-- <pre>{{ product }}</pre> -->
-    <!-- <pre>{{ values }}</pre> -->
     <div class="flex gap-2 align-items-center justify-content-between">
       <h3 class="h3 m-0">{{ $t("product.settings") }}</h3>
       <div class="flex gap-2">
@@ -20,36 +18,56 @@
 // IMPORTS
 import { useForm } from "vee-validate";
 import { inject, watch } from "vue";
+import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
 // DEPENDENCIES
 const formUtilsStore = useFormUtilsStore();
+const toast = useToast();
+const route = useRoute();
+const { updateProduct, parseProduct } = useProducts();
 
 // INJECT
 const closeSidebar = inject("closeSidebar");
 const isFormDirty = inject("isFormDirty");
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   product: Object,
+  formValues: Object,
 });
 
-const emit = defineEmits(["updateProductSettings"]);
+const emit = defineEmits(["productSettingsUpdated", "productSettingsChanged"]);
 
 // REFS
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { meta, handleSubmit, values } = useForm({
+const { meta, handleSubmit, values, resetForm } = useForm({
   validationSchema: formUtilsStore.getProductSettingsFormValidationSchema,
 });
 
 const onSubmit = handleSubmit((values) => {
   isFormDirty.value = false;
-  emit("updateProductSettings", values);
-  closeSidebar();
+
+  const data = {
+    ...props.formValues,
+    ...values,
+  };
+
+  updateProduct(route.params.id, parseProduct(data))
+    .then(() => {
+      toast.success({ message: "Product  settings updated successfully" });
+      emit("productSettingsUpdated");
+      resetForm({ values: values });
+      closeSidebar();
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Error updating product settings");
+    });
 });
 
 const cancelForm = () => {
@@ -66,6 +84,15 @@ watch(
 
     isFormDirty.value = value.dirty;
   }
+);
+
+watch(
+  () => values,
+  (value) => {
+    console.log("productSettingsChanged", value);
+    emit("productSettingsChanged", value);
+  },
+  { deep: true }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)

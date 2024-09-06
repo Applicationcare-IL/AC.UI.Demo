@@ -26,7 +26,7 @@
           option-set
           data-testid="product.form.commitment-unit"
           required
-          :value="product.commitment_units"
+          :value="product?.commitment_units"
         />
 
         <WMInput
@@ -41,7 +41,7 @@
           option-set
           data-testid="product.form.commitment-period"
           required
-          :value="product.commitment_period"
+          :value="product?.commitment_period"
         />
       </div>
     </WMToggleSwitch>
@@ -64,7 +64,7 @@
           option-set
           data-testid="product.form.warranty-unit"
           required
-          :value="product.warranty_units"
+          :value="product?.warranty_units"
         />
 
         <WMInput
@@ -79,7 +79,7 @@
           option-set
           data-testid="product.form.warranty-period"
           required
-          :value="product.warranty_period"
+          :value="product?.warranty_period"
         />
       </div>
     </WMToggleSwitch>
@@ -102,7 +102,7 @@
           option-set
           data-testid="product.form.installation-types"
           required
-          :value="product.installation_type"
+          :value="product?.installation_type"
         />
       </div>
     </WMToggleSwitch>
@@ -128,6 +128,7 @@
         />
       </div>
     </WMToggleSwitch>
+
     <WMToggleSwitch
       v-model="hasMaintenance"
       :label="$t('product.maintenance')"
@@ -147,34 +148,29 @@
           option-set
           data-testid="product.form.maintenance-unit"
           required
+          :value="product?.maintenance_unit"
         />
 
         <WMInput
-          name="maintenance_period"
           required
-          type="input-text"
+          :value="product?.maintenance_period"
+          type="input-number"
           :label="$t('product.maintenance-period') + ':'"
-          size="sm"
+          name="maintenance_period"
         />
 
-        <WMInput
-          v-if="maintenanceTypes"
-          name="maintenance_type"
-          :highlighted="true"
-          type="input-select"
-          :label="$t('product.maintenance-type') + ':'"
-          :options="maintenanceTypes"
-          :placeholder="$t('select', ['product.maintenance-type'])"
-          size="sm"
-          option-set
-          data-testid="product.form.maintenance-type"
+        <WMInputCurrency
+          v-model="maintenancePrice"
           required
+          :label="$t('product.maintenance-price') + ':'"
+          name="maintenance_price"
+          :small="true"
         />
       </div>
       <div class="flex gap-5 my-3">
         <WMInput
           v-if="billingCycleUnits"
-          name="billing_cycle_unit"
+          name="maintenance_billing_cycle_unit"
           :highlighted="true"
           type="input-select"
           :label="$t('product.billing-cycle-unit') + ':'"
@@ -184,13 +180,22 @@
           option-set
           data-testid="product.form.billing-cycle-unit"
           required
+          :value="product?.maintenance_billing_cycle_unit"
         />
+
         <WMInput
-          name="billing_cycle_period"
-          required
-          type="input-text"
+          v-if="billingCyclePeriods"
+          name="maintenance_billing_cycle_period"
+          :highlighted="true"
+          type="input-select"
           :label="$t('product.billing-cycle-period') + ':'"
+          :options="billingCyclePeriods"
+          :placeholder="$t('select', ['product.billing-cycle-period'])"
           size="sm"
+          option-set
+          data-testid="product.form.billing-cycle-period"
+          required
+          :value="product?.maintenance_billing_cycle_period"
         />
       </div>
     </WMToggleSwitch>
@@ -221,8 +226,6 @@
         required
         :value="selectedQuickCode"
       />
-
-      selectedQuickCode {{ selectedQuickCode }}
     </div>
   </template>
 </template>
@@ -271,7 +274,10 @@ const provisioningTypes = ref([]);
 
 const hasMaintenance = ref(false);
 const maintenanceUnits = ref([]);
-const maintenanceTypes = ref([]);
+const maintenancePrice = ref(0);
+
+const billingCycleUnits = ref([]);
+const billingCyclePeriods = ref([]);
 
 const quickCodes = ref([]);
 const selectedQuickCode = ref(null);
@@ -308,7 +314,10 @@ const loadFields = async () => {
   commitmentPeriods.value = await optionSetsStore.getOptionSetValues("product_commitment_period");
 
   maintenanceUnits.value = await optionSetsStore.getOptionSetValues("product_maintenance_units");
-  maintenanceTypes.value = await optionSetsStore.getOptionSetValues("product_maintenance_type");
+  billingCycleUnits.value = await optionSetsStore.getOptionSetValues("product_billing_cycle_unit");
+  billingCyclePeriods.value = await optionSetsStore.getOptionSetValues(
+    "product_maintenance_billing_cycle_period"
+  );
 
   warrantyUnits.value = await optionSetsStore.getOptionSetValues("product_warranty_period");
   warrantyPeriods.value = await optionSetsStore.getOptionSetValues("product_warranty_period");
@@ -333,8 +342,12 @@ const initializeFields = async (product) => {
   hasProvisioning.value = product.provisioning_required === 1 ? true : false;
   hasMaintenance.value = product.maintenance_required === 1 ? true : false;
 
+  if (product.maintenance_price) {
+    maintenancePrice.value = product.maintenance_price;
+  }
+
   selectedQuickCode.value = quickCodes.value.find(
-    (quickCode) => quickCode.id === product.service_quick_code
+    (quickCode) => quickCode.id === product.service_quick_code.id
   );
 };
 
