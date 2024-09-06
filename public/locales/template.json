@@ -842,7 +842,8 @@
     "notification-created-message": "It will now appear in the quick code grid",
     "notification-created-header": "New Quick Code Created",
     "notification-created-detail": "View quick code",
-    "notification-created-close": "Back to list"
+    "notification-created-close": "Back to list",
+    "classification-error": "A quick code with this classification already exists.\n Change your selection."
   },
   "team": {
     "team": "Team",

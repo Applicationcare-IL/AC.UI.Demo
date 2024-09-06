@@ -33,6 +33,9 @@ export const usePermissionsStore = defineStore("permissions", {
         create: true,
         update: true,
       },
+      triggers: {
+        create: true,
+      },
       milestones: {
         update: true,
       },

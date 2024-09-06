@@ -56,7 +56,7 @@
             <template #content>
 
               <div class="flex flex-column gap-5">
-
+                {{ selectedArea?.id }}
                 <WMInputSearch
                     v-model="selectedArea"
                     name="service_area"
@@ -69,6 +69,7 @@
                     :required="true"
                     @change="handleAreasChange"
                 />
+                {{ selectedType?.id }}
 
                 <WMInputSearch
                     v-model="selectedType"
@@ -83,6 +84,7 @@
                     :required="true"
                     @change="handleTypesChange"
                 />
+                {{ selectedRequest1?.id }}
 
                 <WMInputSearch
                     v-model="selectedRequest1"
@@ -97,6 +99,7 @@
                     :required="true"
                     @change="handleRequest1Change"
                 />
+                {{ selectedRequest2?.id }}
 
                 <WMInputSearch
                     v-model="selectedRequest2"
@@ -110,6 +113,7 @@
                     :disabled="isRequest2Empty"
                     @change="handleRequest2Change"
                 />
+                {{ selectedRequest3?.id }}
 
                 <WMInputSearch
                     v-model="selectedRequest3"
