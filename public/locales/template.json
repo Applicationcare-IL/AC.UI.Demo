@@ -106,6 +106,7 @@
   "weekly": "Weekly",
   "with-file": "With files",
   "yes": "Yes",
+  "quantity": "Quantity",
   "week-days": {
     "monday": "Monday",
     "monday-short": "Mo",
@@ -1030,6 +1031,8 @@
     "new-version-text-part-one": "When creating a new version of the product ",
     "new-version-text-part-two": ", the old version will become inactive.",
     "new-version-success": "New product version created successfully",
-    "previous_version": "Previous version"
+    "previous_version": "Previous version",
+    "discount-type": "Discount Type",
+    "discount-number": "Discount Number"
   }
 }

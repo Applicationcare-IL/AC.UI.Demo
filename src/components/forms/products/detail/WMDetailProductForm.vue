@@ -102,7 +102,9 @@
 
     <div class="flex flex-column gap-5 mb-6">
       <Accordion>
-        <AccordionTab :header="$t('product.bundle-discount')"> Bundle discount table </AccordionTab>
+        <AccordionTab :header="$t('product.bundle-discount')">
+          <WMProductsDiscountsTable :product="product" />
+        </AccordionTab>
       </Accordion>
 
       <Accordion>

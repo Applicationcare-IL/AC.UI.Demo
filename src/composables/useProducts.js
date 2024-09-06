@@ -114,6 +114,16 @@ const useProducts = () => {
     }
   };
 
+  // DISCOUNTS
+  const getProductDiscounts = async (productId, params) => {
+    try {
+      return await productsStore.getProductDiscounts(productId, params);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
   const mapProduct = (product) => {
     return {
       ...product,
@@ -207,6 +217,7 @@ const useProducts = () => {
     newProductVersion,
     activateProduct,
     deactivateProduct,
+    getProductDiscounts,
     // UTILITIES
     parseProduct,
   };
