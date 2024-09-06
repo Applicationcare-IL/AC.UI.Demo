@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { useAdminUsersStore } from "@/stores/adminUsersStore";
 import { useContactsStore } from "@/stores/contactsStore";
 import { useCustomersStore } from "@/stores/customersStore";
+import useAdminQuickCodes from "@/composables/useAdminQuickCodes";
 
 const { ctrl_s } = useMagicKeys({
   passive: false,
@@ -625,12 +626,25 @@ export const useFormUtilsStore = defineStore("formUtils", {
       });
     },
     getQuickCodeNewFormValidationSchema: () => {
+      const {existQuickCodeName} = useAdminQuickCodes();
+
       return yup.object({
-        name: yup.string().required(),
+        name: yup.string()
+            .required()
+            .test("unique", {
+              key: "validation.exists",
+              values: {label: "quick-code.name"},
+            }, async (name) => {
+              if (!name) return true;
+              const nameExists = await existQuickCodeName(name);
+              return !nameExists;
+            }),
         team: yup.object().required(),
         service_area: yup.object().required(),
         service_type: yup.object().required(),
         service_request_1: yup.object().required(),
+        service_request_2: yup.object().optional(),
+        service_request_3: yup.object().optional(),
       });
     },
     getQuickCodeUpdateFormValidationSchema: () => {

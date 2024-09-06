@@ -2,7 +2,7 @@
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
       <h1 v-if="!isSidebar" class="h1 mb-0">{{ $t("new", ["quick-code.quick-code"]) }}</h1>
-      <h2 class="h2 my-0">{{ $t("general-details") }}</h2>
+      <h3 class="h3 my-0">{{ $t("general-details") }}</h3>
 
       <div class="wm-form-row align-items-end gap-5">
         <div class="wm-form-row gap-5">
@@ -30,8 +30,12 @@
       </div>
 
       <Divider class="my-5" layout="horizontal" style="height: 4px" />
-      <h2 class="h2 my-0">{{ $t("classification") }}</h2>
+      <h3 class="h3 my-0">{{ $t("classification") }}</h3>
       <div class="flex flex-column gap-3">
+
+        <div v-if="isClassificationErrorVisible" class="bg-red-100 text-red-600 p-2 secondary-typography text-sm">
+          {{ $t('quick-code.classification-error') }}
+        </div>
 
         <WMInputSearch
             v-model="selectedArea"
@@ -124,7 +128,7 @@ const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 
 const {getTeams} = useAdminTeams();
-const {createQuickCode} = useAdminQuickCodes();
+const {createQuickCode, existQuickCodeClassification} = useAdminQuickCodes();
 
 const toast = useToast();
 const dialog = useDialog();
@@ -159,6 +163,8 @@ const isTypeEmpty = ref(true);
 const isRequest1Empty = ref(true);
 const isRequest2Empty = ref(true);
 const isRequest3Empty = ref(true);
+
+const isClassificationErrorVisible = ref(false);
 
 // COMPUTED
 
@@ -210,24 +216,28 @@ const clearTypes = () => {
   types.value = [];
   selectedType.value = null;
   isTypeEmpty.value = true;
+  isClassificationErrorVisible.value = false;
 }
 
 const clearRequest1 = () => {
   requests1.value = [];
   selectedRequest1.value = null;
   isRequest1Empty.value = true;
+  isClassificationErrorVisible.value = false;
 }
 
 const clearRequest2 = () => {
   requests2.value = [];
   selectedRequest2.value = null;
   isRequest2Empty.value = true;
+  isClassificationErrorVisible.value = false;
 }
 
 const clearRequest3 = () => {
   requests3.value = [];
   selectedRequest3.value = null;
   isRequest3Empty.value = true;
+  isClassificationErrorVisible.value = false;
 }
 
 const handleAreasChange = (option) => {
@@ -268,13 +278,17 @@ const handleRequest2Change = (option) => {
   filterRequests3(option.value.id);
 };
 
-const {handleSubmit, meta, resetForm} = useForm({
+const existsClassification = async (classifications) => {
+  isClassificationErrorVisible.value = await existQuickCodeClassification(classifications);
+}
+
+const {handleSubmit, values, meta, resetForm} = useForm({
   validationSchema: formUtilsStore.getQuickCodeNewFormValidationSchema,
 });
 
 const onSubmit = handleSubmit((values) => {
-  // console.log(values);
-  // return
+  if (existsClassification(values)) return
+
   createQuickCode(values)
       .then((data) => {
         emit("newQuickCodeCreated");
@@ -314,6 +328,13 @@ watch(
       isFormDirty.value = value.dirty;
     }
 );
+
+watch(
+    () => [selectedRequest1.value, selectedRequest2.value, selectedRequest3.value],
+    () => {
+      existsClassification(values);
+    }
+)
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
