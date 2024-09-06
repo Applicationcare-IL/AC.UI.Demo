@@ -64,5 +64,25 @@ export const useAdminQuickCodesStore = defineStore("adminQuickCodes", {
                     console.error(error);
                 });
         },
+        existQuickCodeName(quickCodeName) {
+            return axiosConfig
+                .post(`/admin/quick-codes/name-exists`, quickCodeName)
+                .then((response) => {
+                    return response.data;
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+        existQuickCodeClassification(data) {
+            return axiosConfig
+                .post(`/admin/quick-codes/classification-exists`, data)
+                .then((response) => {
+                    return response.data;
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
     }
 });
