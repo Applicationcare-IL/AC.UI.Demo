@@ -671,6 +671,13 @@ const useFilters = () => {
         placeholder: i18n.t("customer.service-areas-placeholder") + ":",
       },
     ],
+    "classification ": [
+      {
+        type: "state",
+        name: "state",
+        label: i18n.t("state") + ":",
+      },
+    ],
   };
 
   return {
