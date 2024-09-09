@@ -19,6 +19,7 @@
     :total-records="totalRecords"
     class="w-full"
     edit-mode="row"
+    :row-class="rowClass"
     @page="onPage($event)"
     @row-edit-save="onRowEditSave"
     @row-edit-cancel="onRowEditCancel"
@@ -26,10 +27,14 @@
     <Column
       v-if="!props.readOnly"
       :row-editor="true"
-      :frozen="true"
-      align-frozen="right"
       style="width: 10px"
+      class="p-1 extended-column"
     />
+    <Column style="width: 10px">
+      <template #body="{ data }">
+        <WMRemoveButton class="p-2" />
+      </template>
+    </Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -140,6 +145,10 @@ const onPage = (event) => {
   loadLazyData();
 };
 
+const rowClass = (data) => {
+  return [{ "bg-new-row": data.mode === "create" }];
+};
+
 const getDiscountTemplate = () => {
   return {
     id: uuidv4(),
@@ -152,8 +161,8 @@ const getDiscountTemplate = () => {
 
 const handleNewDiscount = async () => {
   const newDiscount = getDiscountTemplate();
-  discounts.value.push(newDiscount);
-  editingRows.value = [...editingRows.value, newDiscount];
+  editingRows.value = [newDiscount, ...editingRows.value];
+  discounts.value = [newDiscount, ...discounts.value];
 };
 
 const onRowEditSave = (event) => {

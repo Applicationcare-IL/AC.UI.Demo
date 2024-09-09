@@ -829,6 +829,10 @@ a {
         line-height: 2em;
         padding: 0;
     }
+    
+    .p-datatable-tbody > tr > td{
+        background: inherit;
+    }
 
     .p-datatable-tbody > tr > td input{
         height: 32px;
@@ -838,6 +842,21 @@ a {
 
     .p-frozen-column{
         z-index: 1;
+    }
+
+    .extended-column{
+        position: relative; 
+
+        &::before{
+            content: "";
+            background: inherit;
+            top: 0;
+            left: 0;
+            position: absolute;
+            height: 100%;
+            width: 10px;
+            transform: translateX(-50%);
+        }
     }
 
 }
