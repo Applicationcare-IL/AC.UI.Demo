@@ -124,6 +124,16 @@ const useProducts = () => {
     }
   };
 
+  // RELATED PRODUCTS
+  const getRelatedProducts = async (productId, params) => {
+    try {
+      return await productsStore.getRelatedProducts(productId, params);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
   const mapProduct = (product) => {
     return {
       ...product,
@@ -217,7 +227,10 @@ const useProducts = () => {
     newProductVersion,
     activateProduct,
     deactivateProduct,
+    // DISCOUNTS
     getProductDiscounts,
+    // RELATED PRODUCTS
+    getRelatedProducts,
     // UTILITIES
     parseProduct,
   };

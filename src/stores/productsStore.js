@@ -102,5 +102,17 @@ export const useProductsStore = defineStore("products", {
           throw new Error(error);
         });
     },
+    // RELATED PRODUCTS
+    getRelatedProducts(productId, params) {
+      return axiosConfig
+        .get("/products/" + productId + "/related", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
   },
 });
