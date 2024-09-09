@@ -10,6 +10,12 @@ const useAdminClassifications = () => {
         return {data: classifications, totalRecords};
     };
 
+    const getClassification = async (id) => {
+        const response = await adminClassificationsStore.getClassification(id);
+
+        return mapClassifications(response.data);
+    }
+
     const mapClassifications = (classification) => {
         return {
             link_detail: {
@@ -31,6 +37,7 @@ const useAdminClassifications = () => {
     }
     return {
         getClassifications,
+        getClassification,
     }
 }
 export default useAdminClassifications

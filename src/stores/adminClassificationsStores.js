@@ -6,7 +6,17 @@ export const useAdminClassificationsStore = defineStore("adminClassifications", 
     actions: {
         getClassifications(params) {
             return axiosConfig
-                .get("/admin/classifications", {params})
+                .get(`/admin/classifications`, {params})
+                .then((response) => {
+                    return response.data;
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+        getClassification(id) {
+            return axiosConfig
+                .get(`/admin/classifications/${id}`)
                 .then((response) => {
                     return response.data;
                 })
