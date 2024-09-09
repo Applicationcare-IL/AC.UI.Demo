@@ -132,7 +132,7 @@
       <Divider class="" layout="horizontal" />
 
       <div class="service-classification flex flex-auto flex-column gap-5">
-        <h2 class="h2 mb-0">{{ $t("classification") }}</h2>
+        <h2 class="h2 mb-0">{{ $t("classification.classification") }}</h2>
 
         <div class="wm-form-row gap-5">
           <WMInputSearch
