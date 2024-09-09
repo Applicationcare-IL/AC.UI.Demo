@@ -6,7 +6,9 @@ import { usePermissionsStore } from "@/stores/permissionsStore";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    isAuthenticated: localStorage.getItem("isAuthenticated"),
+    isAuthenticated: localStorage.getItem("isAuthenticated")
+      ? JSON.parse(localStorage.getItem("isAuthenticated"))
+      : false,
     user: JSON.parse(localStorage.getItem("user")),
     token: localStorage.getItem("token"),
   }),
