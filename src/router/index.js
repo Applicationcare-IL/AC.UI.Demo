@@ -352,6 +352,11 @@ const router = createRouter({
           component: () => import("@/views/admin/lists/TriggersListPage.vue"),
         },
         {
+          path: "triggers/new-triggers",
+          name: "newTrigger",
+          component: () => import("@/views/admin/forms/new/NewTrigger.vue"),
+        },
+        {
           path: "dynamic-attributes",
           name: "adminDynamicAttributes",
           component: () => import("@/views/admin/lists/DynamicAttributesListPage.vue"),

@@ -30,10 +30,12 @@
 
 <script setup>
 // IMPORTS
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {useUtilsStore} from "@/stores/utils";
 
 // DEPENDENCIES
 const {can} = usePermissions();
+const utilsStore = useUtilsStore();
 
 // INJECT
 
@@ -67,6 +69,10 @@ const handleNewTriggerCreated = () => {
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  utilsStore.entity = "trigger";
+
+});
 </script>
 
 <style scoped lang="scss"></style>
