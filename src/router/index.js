@@ -46,7 +46,7 @@ const router = createRouter({
     {
       path: "/",
       component: AppLayout,
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiresAdmin: false },
       children: [
         {
           path: "/",
@@ -227,7 +227,7 @@ const router = createRouter({
     {
       path: "/admin",
       component: AppLayout,
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiresAdmin: true },
       children: [
         {
           path: "/admin",
@@ -413,27 +413,39 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/:pathMatch(.*)*",
+      redirect: () => {
+        return "/dashboard";
+      },
+    },
   ],
 });
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to) => {
   const authStore = useAuthStore();
   const { can, isPermissionsLoaded, fetchPermissionsFromApi } = usePermissions();
 
-  if (!isPermissionsLoaded.value) {
+  // If the user is not authenticated and the route is not the login page, redirect to the login page
+  if (!authStore.isAuthenticated && to.name !== "login") {
+    return { name: "login" };
+  }
+
+  // If the user is authenticated and the permissions are not loaded, fetch them from the API
+  if (!isPermissionsLoaded.value && authStore.isAuthenticated) {
     await fetchPermissionsFromApi();
   }
 
-  if (ENTITIES.includes(to.name)) {
-    if (!can(`${to.name}.read`)) {
-      next("/dashboard");
-    }
+  // If the user is authenticated and the route requires admin permissions
+  if (to.meta.requiresAdmin && !can("global.admin_zone")) {
+    return { name: "dashboard" };
   }
 
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next("/login");
-  } else {
-    next();
+  // If the user is authenticated and the route is an entity route, check if the user has the required permissions
+  if (ENTITIES.includes(to.name)) {
+    if (!can(`${to.name}.read`)) {
+      return { name: "dashboard" };
+    }
   }
 });
 

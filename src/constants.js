@@ -2,6 +2,16 @@ export const SLAS = ["10 ימים", "2 ימים", "3 ימים", "עמד ביעד
 
 export const LANGUAGES = [{ value: "he" }, { value: "en" }];
 
-export const ENTITIES = ["tasks", "services", "customers", "contacts", "projects", "reports"];
+export const ENTITIES = [
+  "contacts",
+  "customers",
+  "tasks",
+  "services",
+  "products",
+  "sales",
+  "projects",
+  "reports",
+  "assets",
+];
 
 export const CONTRACTOR_PROJECT_ID = "contractor";

@@ -347,7 +347,7 @@ const initializeFields = async (product) => {
   }
 
   selectedQuickCode.value = quickCodes.value.find(
-    (quickCode) => quickCode.id === product.service_quick_code.id
+    (quickCode) => quickCode.id === product.service_quick_code?.id
   );
 };
 
