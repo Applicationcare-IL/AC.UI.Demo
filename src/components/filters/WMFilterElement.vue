@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
-    <!-- <pre>appliedFilters {{ appliedFilters }}</pre>
-    <pre>selectedOptions {{ selectedOptions }}</pre> -->
+    <!-- <pre>appliedFilters {{ appliedFilters }}</pre> -->
+    <!-- <pre>selectedOptions {{ selectedOptions }}</pre> -->
     <!-- Toggable label-->
     <div v-if="label != '' && toggable">
       <div class="flex flex-row align-items-center gap-3" @click="toggleContent">
@@ -100,6 +100,21 @@
             type="event"
             @update:state="onStateChange"
           />
+        </div>
+      </div>
+
+      <!-- BOOLEAN SWITCH -->
+      <div v-if="type == 'toggleButton'" class="flex flex-row gap-2 p-2">
+        <div class="flex">
+          <!-- <SelectButton
+            v-model="selectedOption"
+            :options="options"
+            option-label="name"
+            option-value="value"
+            class="flex flex-nowrap"
+            :allow-empty="false"
+            @change="onChangeBooleanSwitch"
+          /> -->
         </div>
       </div>
 
@@ -464,7 +479,7 @@ const handleSelectedState = () => {
   }
 };
 
-function handleSelectedFilters() {
+const handleSelectedFilters = () => {
   handleSelectedSLAs();
   handleSelectedDates();
   handleSelectedButtons();
@@ -473,7 +488,7 @@ function handleSelectedFilters() {
   handleSelectedDropdown();
   handleAutocompleteOptions();
   handleSelectedState();
-}
+};
 
 const toggleContent = () => {
   isToggled.value = !isToggled.value;
