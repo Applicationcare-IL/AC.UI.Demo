@@ -30,7 +30,7 @@
       </div>
 
       <Divider class="my-5" layout="horizontal" style="height: 4px" />
-      <h3 class="h3 my-0">{{ $t("classification") }}</h3>
+      <h3 class="h3 my-0">{{ $t("classification.classification") }}</h3>
       <div class="flex flex-column gap-3">
 
         <div v-if="isClassificationErrorVisible" class="bg-red-100 text-red-600 p-2 secondary-typography text-sm">

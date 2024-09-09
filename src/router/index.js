@@ -297,6 +297,11 @@ const router = createRouter({
           component: () => import("@/views/admin/lists/ClassificationsListPage.vue"),
         },
         {
+          path: "classification/:id",
+          name: "adminClassificationDetail",
+          component: () => import("@/views/admin/forms/detail/ClassificationDetail.vue"),
+        },
+        {
           path: "sla-settings",
           name: "adminSlaSettings",
           component: () => import("@/views/admin/lists/SLASettingsListPage.vue"),

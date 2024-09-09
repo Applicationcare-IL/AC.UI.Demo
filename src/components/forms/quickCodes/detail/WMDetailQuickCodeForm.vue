@@ -52,7 +52,7 @@
         <div class="flex-1 card-container">
 
           <Card class="p-card--first-top-card">
-            <template #title> {{ $t("classification") }}</template>
+            <template #title> {{ $t("classification.classification") }}</template>
             <template #content>
 
               <div class="flex flex-column gap-5">

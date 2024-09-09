@@ -16,6 +16,18 @@
     </template>
   </WMListSubHeader>
 
+  <WMSidebar :visible="isVisible" name="newClassification" @close-sidebar="closeSidebar">
+    <template v-if="can('classification.create')">
+      <WMNewEntityFormHeader entity="classification" name="newClassification"/>
+
+    </template>
+    <template v-else>
+      <div class="m-5">
+        {{ $t("permissions.you-dont-have-permission") }}
+      </div>
+    </template>
+  </WMSidebar>
+
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMAdminClassificationTable
         ref="adminMessageTable"
@@ -26,7 +38,6 @@
         @update:selection="onSelectionChanged"
     />
   </div>
-
 </template>
 
 <script setup>
@@ -59,7 +70,7 @@ culumns2.value['service'] = [
     type: "link",
     field: "link_detail",
     header: "id",
-    routeName: "adminMessageDetail",
+    routeName: "adminClassificationDetail",
   },
   {
     name: "status",
@@ -72,31 +83,31 @@ culumns2.value['service'] = [
   {
     name: "service-area",
     type: "text",
-    field: "service_area",
+    field: "service_area_name",
     header: "service-area",
   },
   {
     name: "service-detail",
     type: "text",
-    field: "service_detail",
+    field: "service_type_name",
     header: "service-detail",
   },
   {
     name: "request-1",
     type: "text",
-    field: "request_1",
+    field: "service_request_1_name",
     header: "request-1",
   },
   {
     name: "request-2",
     type: "text",
-    field: "request_2",
+    field: "service_request_2_name",
     header: "request-2",
   },
   {
     name: "request-3",
     type: "text",
-    field: "request_3",
+    field: "service_request_3_name",
     header: "request-3",
   },
 ];
@@ -107,7 +118,7 @@ culumns2.value['task'] = [
     type: "link",
     field: "link_detail",
     header: "id",
-    routeName: "adminMessageDetail",
+    routeName: "adminClassificationDetail",
   },
   {
     name: "status",
@@ -119,15 +130,15 @@ culumns2.value['task'] = [
   },
   {
     name: "task-family",
-    type: "link",
-    field: "",
-    header: "task-family",
+    type: "text",
+    field: "task_family_name",
+    header: "task.family",
   },
   {
     name: "task-type",
-    type: "link",
-    field: "",
-    header: "task-type",
+    type: "text",
+    field: "task_type_name",
+    header: "task.type",
   },
 ];
 
@@ -137,7 +148,7 @@ culumns2.value['project'] = [
     type: "link",
     field: "link_detail",
     header: "id",
-    routeName: "adminMessageDetail",
+    routeName: "adminClassificationDetail",
   },
   {
     name: "status",
@@ -149,21 +160,21 @@ culumns2.value['project'] = [
   },
   {
     name: "project-area",
-    type: "link",
-    field: "",
-    header: "service-area",
+    type: "text",
+    field: "project_type_name",
+    header: "project.project_type",
   },
   {
     name: "project-area",
-    type: "link",
-    field: "",
-    header: "service-area",
+    type: "text",
+    field: "project_area_name",
+    header: "project.project_area",
   },
   {
     name: "project-detail",
-    type: "link",
-    field: "",
-    header: "project-detail",
+    type: "text",
+    field: "project_detail_name",
+    header: "project.project_detail",
   },
 ];
 

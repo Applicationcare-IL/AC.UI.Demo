@@ -44,7 +44,7 @@
     </div>
 
     <h4 class="h4">
-      {{ $t("classification") }}
+      {{ $t("classification.classification") }}
     </h4>
 
     <Breadcrumb :model="items" class="mb-5">
