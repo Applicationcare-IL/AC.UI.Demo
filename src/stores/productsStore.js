@@ -102,6 +102,28 @@ export const useProductsStore = defineStore("products", {
           throw new Error(error);
         });
     },
+    addProductDiscount(productId, params) {
+      return axiosConfig
+        .post("/products/" + productId + "/discounts", params)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
+    updateProductDiscount(productId, discountId, params) {
+      return axiosConfig
+        .patch("/products/" + productId + "/discounts/" + discountId, params)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
     // RELATED PRODUCTS
     getRelatedProducts(productId, params) {
       return axiosConfig

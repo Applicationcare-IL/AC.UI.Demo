@@ -1,4 +1,12 @@
 <template>
+  <WMNewButton
+    v-if="!props.readOnly"
+    :text="$t('new')"
+    :disabled="creatingMode"
+    class="mb-3"
+    @click="handleNewDiscount"
+  />
+
   <DataTable
     v-model:editingRows="editingRows"
     lazy
@@ -12,6 +20,8 @@
     class="w-full"
     edit-mode="row"
     @page="onPage($event)"
+    @row-edit-save="onRowEditSave"
+    @row-edit-cancel="onRowEditCancel"
   >
     <Column
       v-if="!props.readOnly"
@@ -41,12 +51,13 @@
 <script setup>
 // IMPORTS
 // eslint-disable-next-line no-unused-vars
-import { onMounted, ref, watch, watchEffect } from "vue";
+import { v4 as uuidv4 } from "uuid";
+import { computed, onMounted, ref } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getProductDiscounts } = useProducts();
+const { getProductDiscounts, addProductDiscount, updateProductDiscount } = useProducts();
 
 // INJECT
 
@@ -91,6 +102,11 @@ const utilsStore = useUtilsStore();
 const loading = ref(false);
 
 // COMPUTED
+const creatingMode = computed(() => {
+  if (discounts.value.length < 1) return false;
+
+  return discounts.value.some((discount) => discount.mode === "create");
+});
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
@@ -122,6 +138,46 @@ const loadLazyData = async () => {
 const onPage = (event) => {
   lazyParams.value = event;
   loadLazyData();
+};
+
+const getDiscountTemplate = () => {
+  return {
+    id: uuidv4(),
+    mode: "create",
+    quantity: "",
+    discount_type: "",
+    discount_number: "",
+  };
+};
+
+const handleNewDiscount = async () => {
+  const newDiscount = getDiscountTemplate();
+  discounts.value.push(newDiscount);
+  editingRows.value = [...editingRows.value, newDiscount];
+};
+
+const onRowEditSave = (event) => {
+  let { newData, index } = event;
+
+  if (event.data.mode === "create") {
+    console.log("create", newData);
+    addProductDiscount(props.product.id, newData).then((response) => {
+      delete newData.mode;
+    });
+
+    console.log("creo nuevo descuento");
+  } else {
+    updateProductDiscount(props.product.id, newData.id, newData);
+    console.log("actualizo descuento");
+  }
+
+  discounts.value[index] = newData;
+};
+
+const onRowEditCancel = (event) => {
+  if (event.data.mode === "create") {
+    discounts.value = discounts.value.filter((value) => value.id !== event.data.id);
+  }
 };
 
 // PROVIDE, EXPOSE

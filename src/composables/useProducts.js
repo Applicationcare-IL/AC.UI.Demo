@@ -124,6 +124,24 @@ const useProducts = () => {
     }
   };
 
+  const addProductDiscount = async (productId, params) => {
+    try {
+      return await productsStore.addProductDiscount(productId, params);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
+  const updateProductDiscount = async (productId, discountId, params) => {
+    try {
+      return await productsStore.updateProductDiscount(productId, discountId, params);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
   // RELATED PRODUCTS
   const getRelatedProducts = async (productId, params) => {
     try {
@@ -229,6 +247,8 @@ const useProducts = () => {
     deactivateProduct,
     // DISCOUNTS
     getProductDiscounts,
+    addProductDiscount,
+    updateProductDiscount,
     // RELATED PRODUCTS
     getRelatedProducts,
     // UTILITIES
