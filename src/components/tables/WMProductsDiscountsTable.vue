@@ -1,5 +1,6 @@
 <template>
   <DataTable
+    v-model:editingRows="editingRows"
     lazy
     :value="discounts"
     data-key="id"
@@ -9,8 +10,16 @@
     :loading="loading"
     :total-records="totalRecords"
     class="w-full"
+    edit-mode="row"
     @page="onPage($event)"
   >
+    <Column
+      v-if="!props.readOnly"
+      :row-editor="true"
+      :frozen="true"
+      align-frozen="right"
+      style="width: 10px"
+    />
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -21,6 +30,9 @@
     >
       <template #body="{ data }">
         <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
+      </template>
+      <template #editor="{ data }">
+        <WMRenderTableFieldEditor v-model="data[column.field]" :column-data="column" />
       </template>
     </Column>
   </DataTable>
@@ -47,6 +59,8 @@ const props = defineProps({
 });
 
 // REFS
+const editingRows = ref([]);
+
 const discounts = ref([]);
 const totalRecords = ref(0);
 const lazyParams = ref({});
