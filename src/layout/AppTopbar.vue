@@ -6,12 +6,7 @@
         <img src="@/assets/images/logo.png" alt="EasyMaze small logo" />
       </router-link>
 
-      <img
-        v-if="orgLogo"
-        :src="orgLogo"
-        alt="Client logo"
-        class="client-logo md:hidden"
-      />
+      <img v-if="orgLogo" :src="orgLogo" alt="Client logo" class="client-logo md:hidden" />
     </div>
     <div class="hidden md:flex" :class="layoutConfig.isRTL.value ? 'ml-auto' : 'mr-auto'">
       <WMTopTaskSummary />
@@ -111,6 +106,7 @@
               class="flex p-selectbutton--small p-selectbutton--orange"
               :options="options"
               aria-labelledby="basic"
+              :allow-empty="false"
               @change="onLanguageChange"
             />
           </li>
