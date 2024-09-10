@@ -1039,6 +1039,9 @@
     "discount-number": "Discount Number"
   },
   "classification": {
-    "classification": "Classification"
+    "classification": "Classification",
+    "value": "Internal value",
+    "value-he": "Value for heb",
+    "value-en": "Value for eng"
   }
 }

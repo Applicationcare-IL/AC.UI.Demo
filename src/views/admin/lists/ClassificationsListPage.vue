@@ -17,9 +17,13 @@
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newClassification" @close-sidebar="closeSidebar">
-    <template v-if="can('classification.create')">
+    <template v-if="can('classifications.create')">
       <WMNewEntityFormHeader entity="classification" name="newClassification"/>
-
+      <WMNewClassificationForm
+          :is-sidebar="true"
+          @close-sidebar="closeSidebar"
+          @new-classification-created="handleNewClassificationCreated"
+      />
     </template>
     <template v-else>
       <div class="m-5">

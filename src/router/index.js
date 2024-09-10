@@ -297,6 +297,11 @@ const router = createRouter({
           component: () => import("@/views/admin/lists/ClassificationsListPage.vue"),
         },
         {
+          path: "classifications/new-classification",
+          name: "newClassification",
+          component: () => import("@/views/admin/forms/new/NewClassification.vue"),
+        },
+        {
           path: "classification/:id",
           name: "adminClassificationDetail",
           component: () => import("@/views/admin/forms/detail/ClassificationDetail.vue"),
