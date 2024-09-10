@@ -1,5 +1,14 @@
 <template>
+  <WMNewButton
+    v-if="!props.readOnly"
+    :text="$t('new')"
+    :disabled="creatingMode"
+    class="mb-3"
+    @click="handleNewDiscount"
+  />
+
   <DataTable
+    v-model:editingRows="editingRows"
     lazy
     :value="discounts"
     data-key="id"
@@ -9,8 +18,23 @@
     :loading="loading"
     :total-records="totalRecords"
     class="w-full"
+    edit-mode="row"
+    :row-class="rowClass"
     @page="onPage($event)"
+    @row-edit-save="onRowEditSave"
+    @row-edit-cancel="onRowEditCancel"
   >
+    <Column
+      v-if="!props.readOnly"
+      :row-editor="true"
+      style="width: 10px"
+      class="p-1 extended-column"
+    />
+    <Column style="width: 10px">
+      <template #body="{ data }">
+        <WMRemoveButton class="p-2" />
+      </template>
+    </Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -22,6 +46,9 @@
       <template #body="{ data }">
         <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
       </template>
+      <template #editor="{ data }">
+        <WMRenderTableFieldEditor v-model="data[column.field]" :column-data="column" />
+      </template>
     </Column>
   </DataTable>
 </template>
@@ -29,12 +56,13 @@
 <script setup>
 // IMPORTS
 // eslint-disable-next-line no-unused-vars
-import { onMounted, ref, watch, watchEffect } from "vue";
+import { v4 as uuidv4 } from "uuid";
+import { computed, onMounted, ref } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getProductDiscounts } = useProducts();
+const { getProductDiscounts, addProductDiscount, updateProductDiscount } = useProducts();
 
 // INJECT
 
@@ -47,6 +75,8 @@ const props = defineProps({
 });
 
 // REFS
+const editingRows = ref([]);
+
 const discounts = ref([]);
 const totalRecords = ref(0);
 const lazyParams = ref({});
@@ -77,6 +107,11 @@ const utilsStore = useUtilsStore();
 const loading = ref(false);
 
 // COMPUTED
+const creatingMode = computed(() => {
+  if (discounts.value.length < 1) return false;
+
+  return discounts.value.some((discount) => discount.mode === "create");
+});
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
@@ -108,6 +143,50 @@ const loadLazyData = async () => {
 const onPage = (event) => {
   lazyParams.value = event;
   loadLazyData();
+};
+
+const rowClass = (data) => {
+  return [{ "bg-new-row": data.mode === "create" }];
+};
+
+const getDiscountTemplate = () => {
+  return {
+    id: uuidv4(),
+    mode: "create",
+    quantity: "",
+    discount_type: "",
+    discount_number: "",
+  };
+};
+
+const handleNewDiscount = async () => {
+  const newDiscount = getDiscountTemplate();
+  editingRows.value = [newDiscount, ...editingRows.value];
+  discounts.value = [newDiscount, ...discounts.value];
+};
+
+const onRowEditSave = (event) => {
+  let { newData, index } = event;
+
+  if (event.data.mode === "create") {
+    console.log("create", newData);
+    addProductDiscount(props.product.id, newData).then((response) => {
+      delete newData.mode;
+    });
+
+    console.log("creo nuevo descuento");
+  } else {
+    updateProductDiscount(props.product.id, newData.id, newData);
+    console.log("actualizo descuento");
+  }
+
+  discounts.value[index] = newData;
+};
+
+const onRowEditCancel = (event) => {
+  if (event.data.mode === "create") {
+    discounts.value = discounts.value.filter((value) => value.id !== event.data.id);
+  }
 };
 
 // PROVIDE, EXPOSE

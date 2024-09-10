@@ -24,7 +24,7 @@
     :header="$t('scripts.attach-documents')"
     :style="{ width: '40rem' }"
   >
-    <span class="block mb-5">{{ $t("scripts.do-you-want-to-attach-documents") }} </span>
+    <span class="block mb-5">{{ $t("scripts.do-you-want-to-attach-documents") }}</span>
     <div class="flex gap-3">
       <WMButton
         :text="$t('scripts.send-without-attachments')"

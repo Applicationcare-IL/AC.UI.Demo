@@ -124,6 +124,34 @@ const useProducts = () => {
     }
   };
 
+  const addProductDiscount = async (productId, params) => {
+    try {
+      return await productsStore.addProductDiscount(productId, params);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
+  const updateProductDiscount = async (productId, discountId, params) => {
+    try {
+      return await productsStore.updateProductDiscount(productId, discountId, params);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
+  // RELATED PRODUCTS
+  const getRelatedProducts = async (productId, params) => {
+    try {
+      return await productsStore.getRelatedProducts(productId, params);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
   const mapProduct = (product) => {
     return {
       ...product,
@@ -217,7 +245,12 @@ const useProducts = () => {
     newProductVersion,
     activateProduct,
     deactivateProduct,
+    // DISCOUNTS
     getProductDiscounts,
+    addProductDiscount,
+    updateProductDiscount,
+    // RELATED PRODUCTS
+    getRelatedProducts,
     // UTILITIES
     parseProduct,
   };

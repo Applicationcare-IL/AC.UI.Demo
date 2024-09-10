@@ -109,7 +109,7 @@
 
       <Accordion>
         <AccordionTab :header="$t('product.related-products')">
-          Related product table
+          <WMRelatedProductsTable :product="product" />
         </AccordionTab>
       </Accordion>
     </div>

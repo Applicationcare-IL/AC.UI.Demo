@@ -623,7 +623,7 @@ const useFilters = () => {
         label: i18n.t("state") + ":",
       },
       {
-        type: "toggle",
+        type: "booleanSwitch",
         name: "message_rating",
         label: i18n.t("message.rating") + ":",
         options: [
