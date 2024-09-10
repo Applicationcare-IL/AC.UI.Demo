@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <!-- <pre>appliedFilters {{ appliedFilters }}</pre> -->
-    <!-- <pre>selectedOptions {{ selectedOptions }}</pre> -->
+    <!-- <pre>selectedOption {{ selectedOption }}</pre> -->
     <!-- Toggable label-->
     <div v-if="label != '' && toggable">
       <div class="flex flex-row align-items-center gap-3" @click="toggleContent">
@@ -103,18 +103,18 @@
         </div>
       </div>
 
-      <!-- BOOLEAN SWITCH -->
-      <div v-if="type == 'toggleButton'" class="flex flex-row gap-2 p-2">
+      <!-- MESSAGE RATING -->
+      <div v-if="type == 'message_rating'" class="flex flex-row gap-2 p-2">
         <div class="flex">
-          <!-- <SelectButton
+          <SelectButton
             v-model="selectedOption"
-            :options="options"
+            :options="messageRatingOptions"
             option-label="name"
             option-value="value"
             class="flex flex-nowrap"
             :allow-empty="false"
-            @change="onChangeBooleanSwitch"
-          /> -->
+            @change="onChangeMessageRating"
+          />
         </div>
       </div>
 
@@ -232,6 +232,11 @@ const SLAoptions = [
   },
 ];
 
+const messageRatingOptions = [
+  { name: t("message.important"), value: 1 },
+  { name: t("message.normal"), value: 0 },
+];
+
 const createdAssignedOptions = [
   {
     id: "created_by_me",
@@ -328,6 +333,13 @@ const onStateChange = (value) => {
   });
 };
 
+const onChangeMessageRating = (value) => {
+  emits("update:filter", {
+    name: "important",
+    value: value.value,
+  });
+};
+
 const onDateChanged = (value, type) => {
   let dateFilterName;
   let date;
@@ -378,6 +390,10 @@ const clear = () => {
     forceRerender();
   }
 
+  if (props.type == "message_rating") {
+    selectedOption.value = null;
+  }
+
   emits("update:filter", {
     name: props.filterName,
     value: null,
@@ -402,6 +418,22 @@ const handleSelectedSLAs = () => {
         const index = SLAoptions.findIndex((x) => x.id == element);
         isButtonSelected.value[index] = true;
       });
+    }
+  }
+};
+
+const handleSelectedMessageRating = () => {
+  if (props.appliedFilters && props.type == "message_rating") {
+    if (props.appliedFilters["important"] || props.appliedFilters["important"] == 0) {
+      console.log('props.appliedFilters["important"]', props.appliedFilters["important"]);
+
+      let foundSelectedOption = messageRatingOptions.find(
+        (x) => x.value == props.appliedFilters["important"]
+      );
+
+      console.log("foundSelectedOption", foundSelectedOption);
+
+      selectedOption.value = foundSelectedOption.value;
     }
   }
 };
@@ -488,6 +520,7 @@ const handleSelectedFilters = () => {
   handleSelectedDropdown();
   handleAutocompleteOptions();
   handleSelectedState();
+  handleSelectedMessageRating();
 };
 
 const toggleContent = () => {
