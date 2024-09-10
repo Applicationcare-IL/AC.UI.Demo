@@ -89,7 +89,6 @@ watch(
 watch(
   () => values,
   (value) => {
-    console.log("productSettingsChanged", value);
     emit("productSettingsChanged", value);
   },
   { deep: true }
