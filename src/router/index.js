@@ -297,6 +297,11 @@ const router = createRouter({
           component: () => import("@/views/admin/lists/ClassificationsListPage.vue"),
         },
         {
+          path: "classifications/new-classification",
+          name: "newClassification",
+          component: () => import("@/views/admin/forms/new/NewClassification.vue"),
+        },
+        {
           path: "classification/:id",
           name: "adminClassificationDetail",
           component: () => import("@/views/admin/forms/detail/ClassificationDetail.vue"),
@@ -350,6 +355,11 @@ const router = createRouter({
           path: "triggers",
           name: "adminTriggers",
           component: () => import("@/views/admin/lists/TriggersListPage.vue"),
+        },
+        {
+          path: "triggers/new-triggers",
+          name: "newTrigger",
+          component: () => import("@/views/admin/forms/new/NewTrigger.vue"),
         },
         {
           path: "dynamic-attributes",

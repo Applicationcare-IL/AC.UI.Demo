@@ -26,22 +26,87 @@
       </div>
     </template>
   </WMSidebar>
+
+  <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
+    <WMAdminTriggersTable
+        ref="adminTriggerTable"
+        :columns="columns"
+        @update:selection="onSelectionChanged"
+    />
+  </div>
 </template>
 
 <script setup>
 // IMPORTS
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {useUtilsStore} from "@/stores/utils";
 
 // DEPENDENCIES
 const {can} = usePermissions();
+const utilsStore = useUtilsStore();
 
 // INJECT
 
 // PROPS, EMITS
 
 // REFS
-
+const adminTriggerTable = ref();
 const isVisible = ref(false);
+
+
+const columns = [
+  {
+    name: "id",
+    type: "link",
+    field: "link_detail",
+    header: "id",
+    routeName: "adminTriggerDetail",
+  },
+  {
+    name: "trigger-name",
+    type: "text",
+    field: "",
+    header: "trigger.name",
+  },
+  {
+    name: "description",
+    type: "text",
+    field: "",
+    header: "description",
+  },
+  {
+    name: "entity",
+    type: "text",
+    field: "",
+    header: "entity",
+  },
+  {
+    name: "entity-type",
+    type: "text",
+    field: "",
+    header: "entity-type",
+  },
+  {
+    name: "run",
+    type: "text",
+    field: "",
+    header: "run-once",
+  },
+  {
+    name: "action-trigger",
+    type: "text",
+    field: "",
+    header: "trigger.action-in-trigger",
+  },
+  {
+    name: "status",
+    type: "state",
+    field: "state",
+    header: "status",
+    width: "100px",
+    class: "filled-td",
+  }
+];
 
 // COMPUTED
 
@@ -67,6 +132,10 @@ const handleNewTriggerCreated = () => {
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(() => {
+  utilsStore.entity = "trigger";
+
+});
 </script>
 
 <style scoped lang="scss"></style>
