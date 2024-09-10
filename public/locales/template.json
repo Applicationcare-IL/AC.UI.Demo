@@ -165,7 +165,8 @@
     "sync": "Sync",
     "upload-file": "Upload file",
     "link-related-products": "Link related products",
-    "view_map": "View map"
+    "view_map": "View map",
+    "yes-overwrite": "Yes, overwrite"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -1037,7 +1038,9 @@
     "new-version-success": "New product version created successfully",
     "previous_version": "Previous version",
     "discount-type": "Discount Type",
-    "discount-number": "Discount Number"
+    "discount-number": "Discount Number",
+    "existing-discount": "Existing Discount",
+    "existing-discount-text": "A bulk discount for this product quantity already exists. Would you like to overwrite it with the new one?"
   },
   "classification": {
     "classification": "Classification",
