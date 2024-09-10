@@ -107,11 +107,11 @@
         </AccordionTab>
       </Accordion>
 
-      <Accordion>
+      <!-- <Accordion>
         <AccordionTab :header="$t('product.related-products')">
           <WMRelatedProductsTable :product="product" />
         </AccordionTab>
-      </Accordion>
+      </Accordion> -->
     </div>
 
     <div class="flex-1 tabs-container mt-5">

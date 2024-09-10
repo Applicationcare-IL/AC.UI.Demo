@@ -142,6 +142,15 @@ const useProducts = () => {
     }
   };
 
+  const deleteProductDiscount = async (productId, discountId) => {
+    try {
+      return await productsStore.deleteProductDiscount(productId, discountId);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
   // RELATED PRODUCTS
   const getRelatedProducts = async (productId, params) => {
     try {
@@ -249,6 +258,7 @@ const useProducts = () => {
     getProductDiscounts,
     addProductDiscount,
     updateProductDiscount,
+    deleteProductDiscount,
     // RELATED PRODUCTS
     getRelatedProducts,
     // UTILITIES

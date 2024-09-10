@@ -32,7 +32,11 @@
     />
     <Column style="width: 10px">
       <template #body="{ data }">
-        <WMRemoveButton class="p-2" />
+        <WMRemoveButton
+          v-if="data.mode !== 'create'"
+          class="p-2"
+          @click="handleRemoveDiscount(data)"
+        />
       </template>
     </Column>
     <Column
@@ -62,7 +66,10 @@ import { computed, onMounted, ref } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getProductDiscounts, addProductDiscount, updateProductDiscount } = useProducts();
+const { getProductDiscounts, addProductDiscount, updateProductDiscount, deleteProductDiscount } =
+  useProducts();
+
+const toast = useToast();
 
 // INJECT
 
@@ -90,7 +97,7 @@ const columns = [
   },
   {
     name: "discount_type",
-    type: "text",
+    type: "product-discount-type",
     field: "discount_type",
     header: "product.discount-type",
   },
@@ -165,6 +172,16 @@ const handleNewDiscount = async () => {
   discounts.value = [newDiscount, ...discounts.value];
 };
 
+const handleRemoveDiscount = (discount) => {
+  deleteProductDiscount(props.product.id, discount.id).then(() => {
+    discounts.value = discounts.value.filter((value) => value.id !== discount.id);
+
+    toast.info({
+      title: "Discount removed",
+    });
+  });
+};
+
 const onRowEditSave = (event) => {
   let { newData, index } = event;
 
@@ -174,10 +191,14 @@ const onRowEditSave = (event) => {
       delete newData.mode;
     });
 
-    console.log("creo nuevo descuento");
+    toast.success({
+      title: "Discount added",
+    });
   } else {
     updateProductDiscount(props.product.id, newData.id, newData);
-    console.log("actualizo descuento");
+    toast.success({
+      title: "Discount updated",
+    });
   }
 
   discounts.value[index] = newData;

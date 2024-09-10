@@ -71,6 +71,10 @@
       />
     </div>
   </template>
+  <!-- Product discount type -->
+  <template v-if="columnData.type == 'product-discount-type'">
+    {{ modelValue ? modelValue : "" }}
+  </template>
 </template>
 <script setup>
 // IMPORTS
