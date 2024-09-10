@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative max-w-30rem overflow-scroll">
     <!-- <pre>appliedFilters {{ appliedFilters }}</pre> -->
     <!-- <pre>selectedOption {{ selectedOption }}</pre> -->
     <!-- Toggable label-->
@@ -39,7 +39,7 @@
         :placeholder="placeholder"
         :multiple="true"
         width="248"
-        :options="optionSetsOptions"
+        :options="availableOptions"
         :option-set="optionSet"
         @update:model-value="onAutocompleteDropdownChanged"
         @remove="onRemoveEntityDropdownOption"
@@ -83,10 +83,10 @@
       <!-- BUTTONS -->
       <div v-if="type == 'buttons'" class="flex flex-row gap-2 p-2">
         <WMSelectableButton
-          v-for="(option, index) in optionSetsOptions"
+          v-for="(option, index) in availableOptions"
           :key="index"
           v-model="isButtonSelected[index]"
-          :label="option[optionLabelWithLang]"
+          :label="optionSet ? option[optionLabelWithLang] : option.label"
           @update:model-value="onButtonChanged($event, option)"
         />
       </div>
@@ -207,7 +207,7 @@ const emits = defineEmits(["update:filter"]);
 // REFS
 const isToggled = ref(false);
 
-const optionSetsOptions = ref();
+const availableOptions = ref();
 const selectedOption = ref(null);
 
 const selectedButtons = ref([]);
@@ -314,6 +314,8 @@ const removeUnselectedOptionsFromFilter = (selectedOption) => {
 };
 
 const onButtonChanged = (value, option) => {
+  console.log("onButtonChanged", value, option);
+
   if (value) {
     selectedButtons.value.push(option.id);
   } else {
@@ -454,7 +456,7 @@ const handleSelectedButtons = () => {
   if (props.appliedFilters && props.appliedFilters[props.filterName] && props.type == "buttons") {
     selectedButtons.value = props.appliedFilters[props.filterName];
     selectedButtons.value.forEach((element) => {
-      const index = optionSetsOptions.value.findIndex((x) => x.id == element);
+      const index = availableOptions.value.findIndex((x) => x.id == element);
       isButtonSelected.value[index] = true;
     });
   }
@@ -486,7 +488,7 @@ const handleSelectedDropdown = () => {
   }
 
   if (props.appliedFilters && props.type == "dropdown" && props.optionSet) {
-    selectedOptions.value = optionSetsOptions.value.filter((x) =>
+    selectedOptions.value = availableOptions.value.filter((x) =>
       props.appliedFilters[props.filterName].includes(x.id)
     );
   }
@@ -535,10 +537,14 @@ defineExpose({ clear });
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   if (props.optionSet) {
-    optionSetsOptions.value = await optionSetsStore.getOptionSetValues(props.optionSet);
+    availableOptions.value = await optionSetsStore.getOptionSetValues(props.optionSet);
   }
 
   if (props.options) {
+    availableOptions.value = props.options;
+  }
+
+  if (props.options && props.type == "dropdown") {
     selectedOption.value = props.options[0];
   }
 

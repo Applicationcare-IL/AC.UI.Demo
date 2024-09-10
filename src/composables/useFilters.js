@@ -610,11 +610,30 @@ const useFilters = () => {
     ],
     message: [
       {
-        type: "selectableButtons",
-        name: "message_target",
+        type: "buttons",
+        name: "target",
         label: i18n.t("message.target") + ":",
         options: [
-          // name, value de user, projects, etc.
+          {
+            label: i18n.t("employee.employees"),
+            value: "employee",
+            id: "employee",
+          },
+          {
+            label: i18n.t("project.projects"),
+            value: "project",
+            id: "project",
+          },
+          {
+            label: i18n.t("message.customers"),
+            value: "customer",
+            id: "customer",
+          },
+          {
+            label: i18n.t("service.services"),
+            value: "service",
+            id: "service",
+          },
         ],
       },
       {

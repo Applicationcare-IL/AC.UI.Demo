@@ -47,10 +47,6 @@ const options = ref([
     label: t("project.projects"),
     value: "project",
   },
-  // {
-  //   label: t("sale.sales"),
-  //   value: "sale",
-  // },
   {
     label: t("message.customers"),
     value: "customer",
