@@ -10,6 +10,7 @@
             :highlighted="true"
             :label="$t('owner') + ':'"
             :value="project.owner"
+            data-testid="owner"
           />
           <WMInput
             name="id"

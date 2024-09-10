@@ -70,6 +70,7 @@
   <WMSidebar
     :visible="isNewContactSidebarVisible"
     name="newContactFromAssignContactButton"
+    data-testid="new_form"
     @close-sidebar="closeNewContactSidebar"
     @open-sidebar="openNewContactSidebar"
   >

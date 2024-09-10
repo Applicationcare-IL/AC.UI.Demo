@@ -12,7 +12,7 @@
           :highlighted="true"
           :label="$t('owner') + ':'"
           :value="authStore.userFullName"
-          data-testid="contact.form.owner"
+          data-testid="owner"
         />
       </div>
       <div class="wm-form-row gap-32px">
