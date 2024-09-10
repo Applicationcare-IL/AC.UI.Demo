@@ -128,7 +128,7 @@ const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
 
 const {getTeams} = useAdminTeams();
-const {createQuickCode, existQuickCodeClassification} = useAdminQuickCodes();
+const {createQuickCode, existQuickCodeClassification, existQuickCodeName} = useAdminQuickCodes();
 
 const toast = useToast();
 const dialog = useDialog();
@@ -286,27 +286,31 @@ const {handleSubmit, values, meta, resetForm} = useForm({
   validationSchema: formUtilsStore.getQuickCodeNewFormValidationSchema,
 });
 
-const onSubmit = handleSubmit((values) => {
-  if (existsClassification(values)) return
+const onSubmit = handleSubmit(async (values) => {
+  // const nameResponse = await existQuickCodeName(values.name);
+  const classificationResponse = await existQuickCodeClassification(values);
+  if (!classificationResponse) {
+    createQuickCode(values)
+        .then((data) => {
+          emit("newQuickCodeCreated");
+          dialog.confirmNewAdminQuickCode({id: data.data.id, emit});
 
-  createQuickCode(values)
-      .then((data) => {
-        emit("newQuickCodeCreated");
-        dialog.confirmNewAdminQuickCode({id: data.data.id, emit});
+          resetForm();
 
-        resetForm();
+          if (props.isSidebar) {
+            isFormDirty.value = false;
+            closeSidebar();
+          }
 
-        if (props.isSidebar) {
-          isFormDirty.value = false;
-          closeSidebar();
-        }
+          toast.success({title: "Quick Code created", message: "Quick Code created successfully"});
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error("Error");
+        });
+  }
 
-        toast.success({title: "Quick Code created", message: "Quick Code created successfully"});
-      })
-      .catch((error) => {
-        console.error(error);
-        toast.error("Error");
-      });
+
 });
 
 const onCancel = () => {
