@@ -135,6 +135,17 @@ export const useProductsStore = defineStore("products", {
           throw new Error(error);
         });
     },
+    checkIfDiscountExists({ productId, quantity }) {
+      return axiosConfig
+        .post("/products/" + productId + "/discounts/exists", { quantity })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
     // RELATED PRODUCTS
     getRelatedProducts(productId, params) {
       return axiosConfig

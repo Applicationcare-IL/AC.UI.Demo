@@ -133,7 +133,7 @@ const useProducts = () => {
     }
   };
 
-  const updateProductDiscount = async (productId, discountId, params) => {
+  const updateProductDiscount = async ({ productId, discountId, params }) => {
     try {
       return await productsStore.updateProductDiscount(productId, discountId, params);
     } catch (error) {
@@ -145,6 +145,16 @@ const useProducts = () => {
   const deleteProductDiscount = async (productId, discountId) => {
     try {
       return await productsStore.deleteProductDiscount(productId, discountId);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
+  const checkIfDiscountExists = async (productId, quantity) => {
+    try {
+      const result = await productsStore.checkIfDiscountExists({ productId, quantity });
+      return result.data.exists;
     } catch (error) {
       console.error(error);
       throw new Error(error);
@@ -254,6 +264,7 @@ const useProducts = () => {
     newProductVersion,
     activateProduct,
     deactivateProduct,
+    checkIfDiscountExists,
     // DISCOUNTS
     getProductDiscounts,
     addProductDiscount,

@@ -29,12 +29,13 @@
       :row-editor="true"
       style="width: 10px"
       class="p-1 extended-column"
+      :header="$t('actions')"
     />
     <Column style="width: 10px">
       <template #body="{ data }">
         <WMRemoveButton
           v-if="data.mode !== 'create'"
-          class="p-2"
+          class="p-0"
           @click="handleRemoveDiscount(data)"
         />
       </template>
@@ -66,10 +67,18 @@ import { computed, onMounted, ref } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getProductDiscounts, addProductDiscount, updateProductDiscount, deleteProductDiscount } =
-  useProducts();
+const {
+  getProductDiscounts,
+  addProductDiscount,
+  updateProductDiscount,
+  deleteProductDiscount,
+  checkIfDiscountExists,
+} = useProducts();
 
 const toast = useToast();
+const dialog = useDialog();
+
+const utilsStore = useUtilsStore();
 
 // INJECT
 
@@ -94,12 +103,14 @@ const columns = [
     type: "text",
     field: "quantity",
     header: "quantity",
+    width: "200px",
   },
   {
     name: "discount_type",
     type: "product-discount-type",
     field: "discount_type",
     header: "product.discount-type",
+    width: "200px",
   },
   {
     name: "discount_number",
@@ -109,7 +120,8 @@ const columns = [
   },
 ];
 
-const utilsStore = useUtilsStore();
+const showExistingProductDiscountDialog = ref(false);
+
 // const searchValue = ref("");
 const loading = ref(false);
 
@@ -182,26 +194,56 @@ const handleRemoveDiscount = (discount) => {
   });
 };
 
-const onRowEditSave = (event) => {
-  let { newData, index } = event;
+const onRowEditSave = async (event) => {
+  let { newData: rowData, index } = event;
 
-  if (event.data.mode === "create") {
-    console.log("create", newData);
-    addProductDiscount(props.product.id, newData).then((response) => {
-      delete newData.mode;
-    });
+  const discountExists = await checkIfDiscountExists(props.product.id, rowData.quantity);
 
-    toast.success({
-      title: "Discount added",
-    });
-  } else {
-    updateProductDiscount(props.product.id, newData.id, newData);
-    toast.success({
-      title: "Discount updated",
-    });
+  if (discountExists) {
+    let result = await dialog.confirmOverwriteProductDiscount();
+    if (!result) return;
   }
 
-  discounts.value[index] = newData;
+  if (event.data.mode === "create") {
+    handleAddProductDiscount(rowData, index);
+  } else {
+    handleUpdateProductDiscount(rowData, index);
+  }
+
+  loadLazyData();
+};
+
+const handleAddProductDiscount = async (rowData, index) => {
+  addProductDiscount(props.product.id, rowData)
+    .then(() => {
+      delete rowData.mode;
+
+      discounts.value[index] = rowData;
+
+      toast.success({
+        title: "Discount added",
+      });
+    })
+    .catch((error) => {
+      discounts.value = discounts.value.filter((value) => value.id !== rowData.id);
+
+      console.error(error);
+      toast.error("Error adding discount");
+    });
+};
+
+const handleUpdateProductDiscount = async (rowData, index) => {
+  updateProductDiscount({ productId: props.product.id, discountId: rowData.id, params: rowData })
+    .then(() => {
+      discounts.value[index] = rowData;
+      toast.success({
+        title: "Discount updated",
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      toast.error("Error updating discount");
+    });
 };
 
 const onRowEditCancel = (event) => {

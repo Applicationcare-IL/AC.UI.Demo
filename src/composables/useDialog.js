@@ -146,10 +146,10 @@ const useDialog = () => {
 
   const confirmNewAdminQuickCode = ({ id, emit }) => {
     confirm.require({
-        message: i18n.t("quick-code.notification-created-message"),
-        header: i18n.t("quick-code.notification-created-header"),
-        acceptLabel: i18n.t("quick-code.notification-created-detail"),
-        rejectLabel: i18n.t("quick-code.notification-created-close"),
+      message: i18n.t("quick-code.notification-created-message"),
+      header: i18n.t("quick-code.notification-created-header"),
+      acceptLabel: i18n.t("quick-code.notification-created-detail"),
+      rejectLabel: i18n.t("quick-code.notification-created-close"),
       accept: () => {
         formUtilsStore.goToAdminDetail(id, "quick-codes");
       },
@@ -339,6 +339,23 @@ const useDialog = () => {
     });
   };
 
+  const confirmOverwriteProductDiscount = () => {
+    return new Promise((resolve) => {
+      confirm.require({
+        message: i18n.t("product.existing-discount-text"),
+        header: i18n.t("product.existing-discount"),
+        acceptLabel: i18n.t("buttons.yes-overwrite"),
+        rejectLabel: i18n.t("buttons.cancel"),
+        accept: () => {
+          resolve(true);
+        },
+        reject: () => {
+          resolve(false);
+        },
+      });
+    });
+  };
+
   return {
     cancelService,
     confirmCancelDialog,
@@ -359,6 +376,7 @@ const useDialog = () => {
     confirmNewService,
     confirmNewTask,
     confirmUnlinkRelatedService,
+    confirmOverwriteProductDiscount,
   };
 };
 
