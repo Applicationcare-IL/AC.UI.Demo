@@ -23,10 +23,10 @@
           class="vertical-align-middle"
           @click="openSidebar(data.id)"
         />
-        <!-- <WMProductPreviewSidebar
+        <WMProductPreviewSidebar
           v-model:visible="isPreviewVisible[data.id]"
           :product-id="data.id"
-        /> -->
+        />
       </template>
     </Column>
     <Column

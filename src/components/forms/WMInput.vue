@@ -118,7 +118,9 @@
         <WMOptionSetValue :option-set="refValue" />
       </template>
       <template v-else>
+        <img v-if="iconRoute && iconFront" :class="iconClass" :src="iconRoute" alt=""/>
         {{ refValue }}
+        <img v-if="iconRoute && !iconFront" :class="iconClass" :src="iconRoute" alt=""/>
       </template>
     </span>
     <span v-if="type == 'info-link' && value">
@@ -247,6 +249,18 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  iconClass: {
+    type: String,
+    default: "",
+  },
+  iconRoute: {
+    type: String,
+    default: "",
+  },
+  iconFront: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const emit = defineEmits(["update:value", "update:selectedItem", "update:modelValue"]);
