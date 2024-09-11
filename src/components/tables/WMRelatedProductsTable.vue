@@ -3,6 +3,7 @@
     <h2 class="h2">
       <slot name="title" />
     </h2>
+    <pre>{{ relationshipTypes }}</pre>
 
     <div class="flex flex-column gap-3 mb-3">
       <div class="flex flex-row justify-content-between">
@@ -61,12 +62,12 @@
 
 <script setup>
 // IMPORTS
-import { ref, watchEffect } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getRelatedProducts } = useProducts();
+const { getRelatedProducts, getProductRelationshipTypes } = useProducts();
 
 // INJECT
 
@@ -110,6 +111,8 @@ const utilsStore = useUtilsStore();
 const searchValue = ref("");
 
 const isPreviewVisible = ref([]);
+
+const relationshipTypes = ref([]);
 
 // COMPUTED
 
@@ -193,4 +196,7 @@ watchEffect(() => {
 });
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  relationshipTypes.value = await getProductRelationshipTypes();
+});
 </script>

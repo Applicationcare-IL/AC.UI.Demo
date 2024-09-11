@@ -101,17 +101,25 @@
     </div>
 
     <div class="flex flex-column gap-5 mb-6">
-      <Accordion>
-        <AccordionTab :header="$t('product.bundle-discount')">
-          <WMProductsDiscountsTable :product="product" />
-        </AccordionTab>
-      </Accordion>
+      <div class="bundle-discount-accordion relative">
+        <InputSwitch
+          v-model="hasBundleDiscount"
+          class="bundle-discount-accordion__switcher"
+          @input="handleHasBundleDiscountChange(hasBundleDiscount)"
+        />
 
-      <!-- <Accordion>
+        <Accordion>
+          <AccordionTab :header="$t('product.bundle-discount')">
+            <WMProductsDiscountsTable :product="product" />
+          </AccordionTab>
+        </Accordion>
+      </div>
+
+      <Accordion>
         <AccordionTab :header="$t('product.related-products')">
           <WMRelatedProductsTable :product="product" />
         </AccordionTab>
-      </Accordion> -->
+      </Accordion>
     </div>
 
     <div class="flex-1 tabs-container mt-5">
@@ -140,7 +148,7 @@
 
 <script setup>
 // IMPORTS
-import { useForm } from "vee-validate";
+import { useField, useForm } from "vee-validate";
 import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
@@ -172,6 +180,7 @@ const emit = defineEmits(["productUpdated"]);
 // REFS
 const isUpdateProductSettingsSidebarVisible = ref(false);
 const productSettings = ref({});
+const hasBundleDiscount = ref(false);
 
 // COMPUTED
 const productValues = computed(() => {
@@ -225,6 +234,19 @@ const handleProductSettingsChanged = (settings) => {
   productSettings.value = settings;
 };
 
+const { handleChange: handleChangeHasBundleDiscount, setTouched } = useField(
+  "volume_discount",
+  undefined,
+  {
+    initialValue: hasBundleDiscount.value,
+  }
+);
+
+const handleHasBundleDiscountChange = (value) => {
+  handleChangeHasBundleDiscount(value);
+  setTouched(true);
+};
+
 // PROVIDE, EXPOSE
 defineExpose({
   onSave,
@@ -244,5 +266,20 @@ watch(
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   formUtilsStore.formEntity = "product";
+
+  hasBundleDiscount.value = props.product.volume_discount;
 });
 </script>
+<style lang="scss" scoped>
+.bundle-discount-accordion {
+  display: flex;
+
+  &__switcher {
+    position: absolute !important;
+    left: 1em;
+    top: 28px;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+}
+</style>
