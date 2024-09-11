@@ -120,8 +120,6 @@ const columns = [
   },
 ];
 
-const showExistingProductDiscountDialog = ref(false);
-
 // const searchValue = ref("");
 const loading = ref(false);
 
