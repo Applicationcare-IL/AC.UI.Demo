@@ -60,13 +60,13 @@ const columns = [
     name: "base-price",
     type: "currency",
     field: "base_price",
-    header: "base_price",
+    header: "product.base-price",
   },
   {
     name: "manufacturer",
     type: "text",
     field: "manufacturer_name",
-    header: "manufacturer",
+    header: "product.manufacturer",
   },
   {
     name: "type",

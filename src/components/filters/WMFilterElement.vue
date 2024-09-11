@@ -1,7 +1,7 @@
 <template>
-  <div class="relative">
+  <div class="relative max-w-30rem overflow-scroll">
     <!-- <pre>appliedFilters {{ appliedFilters }}</pre> -->
-    <!-- <pre>selectedOptions {{ selectedOptions }}</pre> -->
+    <!-- <pre>selectedOption {{ selectedOption }}</pre> -->
     <!-- Toggable label-->
     <div v-if="label != '' && toggable">
       <div class="flex flex-row align-items-center gap-3" @click="toggleContent">
@@ -39,7 +39,7 @@
         :placeholder="placeholder"
         :multiple="true"
         width="248"
-        :options="optionSetsOptions"
+        :options="availableOptions"
         :option-set="optionSet"
         @update:model-value="onAutocompleteDropdownChanged"
         @remove="onRemoveEntityDropdownOption"
@@ -83,10 +83,10 @@
       <!-- BUTTONS -->
       <div v-if="type == 'buttons'" class="flex flex-row gap-2 p-2">
         <WMSelectableButton
-          v-for="(option, index) in optionSetsOptions"
+          v-for="(option, index) in availableOptions"
           :key="index"
           v-model="isButtonSelected[index]"
-          :label="option[optionLabelWithLang]"
+          :label="optionSet ? option[optionLabelWithLang] : option.label"
           @update:model-value="onButtonChanged($event, option)"
         />
       </div>
@@ -103,18 +103,18 @@
         </div>
       </div>
 
-      <!-- BOOLEAN SWITCH -->
-      <div v-if="type == 'toggleButton'" class="flex flex-row gap-2 p-2">
+      <!-- MESSAGE RATING -->
+      <div v-if="type == 'message_rating'" class="flex flex-row gap-2 p-2">
         <div class="flex">
-          <!-- <SelectButton
+          <SelectButton
             v-model="selectedOption"
-            :options="options"
+            :options="messageRatingOptions"
             option-label="name"
             option-value="value"
             class="flex flex-nowrap"
             :allow-empty="false"
-            @change="onChangeBooleanSwitch"
-          /> -->
+            @change="onChangeMessageRating"
+          />
         </div>
       </div>
 
@@ -207,7 +207,7 @@ const emits = defineEmits(["update:filter"]);
 // REFS
 const isToggled = ref(false);
 
-const optionSetsOptions = ref();
+const availableOptions = ref();
 const selectedOption = ref(null);
 
 const selectedButtons = ref([]);
@@ -230,6 +230,11 @@ const SLAoptions = [
     value_en: t("sla.no_breach"),
     value_he: t("sla.no_breach"),
   },
+];
+
+const messageRatingOptions = [
+  { name: t("message.important"), value: 1 },
+  { name: t("message.normal"), value: 0 },
 ];
 
 const createdAssignedOptions = [
@@ -309,6 +314,8 @@ const removeUnselectedOptionsFromFilter = (selectedOption) => {
 };
 
 const onButtonChanged = (value, option) => {
+  console.log("onButtonChanged", value, option);
+
   if (value) {
     selectedButtons.value.push(option.id);
   } else {
@@ -325,6 +332,13 @@ const onStateChange = (value) => {
   emits("update:filter", {
     name: props.filterName,
     value: value,
+  });
+};
+
+const onChangeMessageRating = (value) => {
+  emits("update:filter", {
+    name: "important",
+    value: value.value,
   });
 };
 
@@ -378,6 +392,10 @@ const clear = () => {
     forceRerender();
   }
 
+  if (props.type == "message_rating") {
+    selectedOption.value = null;
+  }
+
   emits("update:filter", {
     name: props.filterName,
     value: null,
@@ -406,6 +424,22 @@ const handleSelectedSLAs = () => {
   }
 };
 
+const handleSelectedMessageRating = () => {
+  if (props.appliedFilters && props.type == "message_rating") {
+    if (props.appliedFilters["important"] || props.appliedFilters["important"] == 0) {
+      console.log('props.appliedFilters["important"]', props.appliedFilters["important"]);
+
+      let foundSelectedOption = messageRatingOptions.find(
+        (x) => x.value == props.appliedFilters["important"]
+      );
+
+      console.log("foundSelectedOption", foundSelectedOption);
+
+      selectedOption.value = foundSelectedOption.value;
+    }
+  }
+};
+
 const handleSelectedDates = () => {
   if (props.appliedFilters && props.type == "date") {
     if (props.appliedFilters[props.filterData.from]) {
@@ -422,7 +456,7 @@ const handleSelectedButtons = () => {
   if (props.appliedFilters && props.appliedFilters[props.filterName] && props.type == "buttons") {
     selectedButtons.value = props.appliedFilters[props.filterName];
     selectedButtons.value.forEach((element) => {
-      const index = optionSetsOptions.value.findIndex((x) => x.id == element);
+      const index = availableOptions.value.findIndex((x) => x.id == element);
       isButtonSelected.value[index] = true;
     });
   }
@@ -454,7 +488,7 @@ const handleSelectedDropdown = () => {
   }
 
   if (props.appliedFilters && props.type == "dropdown" && props.optionSet) {
-    selectedOptions.value = optionSetsOptions.value.filter((x) =>
+    selectedOptions.value = availableOptions.value.filter((x) =>
       props.appliedFilters[props.filterName].includes(x.id)
     );
   }
@@ -488,6 +522,7 @@ const handleSelectedFilters = () => {
   handleSelectedDropdown();
   handleAutocompleteOptions();
   handleSelectedState();
+  handleSelectedMessageRating();
 };
 
 const toggleContent = () => {
@@ -502,10 +537,14 @@ defineExpose({ clear });
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   if (props.optionSet) {
-    optionSetsOptions.value = await optionSetsStore.getOptionSetValues(props.optionSet);
+    availableOptions.value = await optionSetsStore.getOptionSetValues(props.optionSet);
   }
 
   if (props.options) {
+    availableOptions.value = props.options;
+  }
+
+  if (props.options && props.type == "dropdown") {
     selectedOption.value = props.options[0];
   }
 

@@ -605,37 +605,46 @@ const useFilters = () => {
       {
         type: "state",
         name: "state",
-        label: i18n.t("state") + ":",
+        label: i18n.t("state.state") + ":",
       },
     ],
     message: [
       {
-        type: "selectableButtons",
-        name: "message_target",
+        type: "buttons",
+        name: "target",
         label: i18n.t("message.target") + ":",
         options: [
-          // name, value de user, projects, etc.
+          {
+            label: i18n.t("employee.employees"),
+            value: "employee",
+            id: "employee",
+          },
+          {
+            label: i18n.t("project.projects"),
+            value: "project",
+            id: "project",
+          },
+          {
+            label: i18n.t("message.customers"),
+            value: "customer",
+            id: "customer",
+          },
+          {
+            label: i18n.t("service.services"),
+            value: "service",
+            id: "service",
+          },
         ],
       },
       {
         type: "state",
         name: "state",
-        label: i18n.t("state") + ":",
+        label: i18n.t("state.state") + ":",
       },
       {
-        type: "booleanSwitch",
+        type: "message_rating",
         name: "message_rating",
         label: i18n.t("message.rating") + ":",
-        options: [
-          {
-            name: "important",
-            value: true,
-          },
-          {
-            name: "normal",
-            value: false,
-          },
-        ],
       },
       {
         type: "date",
@@ -671,14 +680,14 @@ const useFilters = () => {
         placeholder: i18n.t("customer.service-areas-placeholder") + ":",
       },
     ],
-    "classification": [
+    classification: [
       {
         type: "state",
         name: "state",
         label: i18n.t("state") + ":",
       },
     ],
-    "trigger": [
+    trigger: [
       {
         type: "state",
         name: "state",

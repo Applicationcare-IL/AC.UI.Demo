@@ -171,6 +171,16 @@ const useProducts = () => {
     }
   };
 
+  const getProductRelationshipTypes = async () => {
+    try {
+      return await productsStore.getProductRelationshipTypes();
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
+  // UTILITIES
   const mapProduct = (product) => {
     return {
       ...product,
@@ -272,6 +282,7 @@ const useProducts = () => {
     deleteProductDiscount,
     // RELATED PRODUCTS
     getRelatedProducts,
+    getProductRelationshipTypes,
     // UTILITIES
     parseProduct,
   };

@@ -25,22 +25,6 @@
     @row-edit-cancel="onRowEditCancel"
   >
     <Column
-      v-if="!props.readOnly"
-      :row-editor="true"
-      style="width: 10px"
-      class="p-1 extended-column"
-      :header="$t('actions')"
-    />
-    <Column style="width: 10px">
-      <template #body="{ data }">
-        <WMRemoveButton
-          v-if="data.mode !== 'create'"
-          class="p-0"
-          @click="handleRemoveDiscount(data)"
-        />
-      </template>
-    </Column>
-    <Column
       v-for="column in columns"
       :key="column.name"
       :field="column.name"
@@ -53,6 +37,22 @@
       </template>
       <template #editor="{ data }">
         <WMRenderTableFieldEditor v-model="data[column.field]" :column-data="column" />
+      </template>
+    </Column>
+    <Column
+      v-if="!props.readOnly"
+      :row-editor="true"
+      style="width: 10px"
+      class="p-1 extended-column"
+      :header="$t('actions')"
+    />
+    <Column style="width: 100%">
+      <template #body="{ data }">
+        <WMRemoveButton
+          v-if="data.mode !== 'create'"
+          class="p-0"
+          @click="handleRemoveDiscount(data)"
+        />
       </template>
     </Column>
   </DataTable>
@@ -103,14 +103,14 @@ const columns = [
     type: "text",
     field: "quantity",
     header: "quantity",
-    width: "200px",
+    width: "5%",
   },
   {
     name: "discount_type",
     type: "product-discount-type",
     field: "discount_type",
     header: "product.discount-type",
-    width: "200px",
+    width: "15%",
   },
   {
     name: "discount_number",
@@ -119,8 +119,6 @@ const columns = [
     header: "product.discount-number",
   },
 ];
-
-const showExistingProductDiscountDialog = ref(false);
 
 // const searchValue = ref("");
 const loading = ref(false);

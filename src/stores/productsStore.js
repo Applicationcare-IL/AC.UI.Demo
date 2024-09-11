@@ -158,5 +158,16 @@ export const useProductsStore = defineStore("products", {
           throw new Error(error);
         });
     },
+    getProductRelationshipTypes() {
+      return axiosConfig
+        .get("/products/relationship-types")
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
   },
 });
