@@ -113,18 +113,16 @@
       "
     />
 
-    <span v-if="type == 'info'" :class="classes">
+    <span v-if="type == 'info'" :class="classes" class="text-overflow-ellipsis overflow-hidden">
       <template v-if="optionSet">
         <WMOptionSetValue :option-set="refValue" />
       </template>
       <template v-else>
-        <img v-if="iconRoute && iconFront" :class="iconClass" :src="iconRoute" alt=""/>
         {{ refValue }}
-        <img v-if="iconRoute && !iconFront" :class="iconClass" :src="iconRoute" alt=""/>
       </template>
     </span>
-    <span v-if="type == 'info-link' && value">
-      <router-link :to="props.to">{{ value }}</router-link>
+    <span v-if="type == 'info-link'" :class="classes" class="text-overflow-ellipsis overflow-hidden">
+      <router-link v-if="value" :to="props.to">{{ value }}</router-link>
     </span>
     <span v-if="errorMessage" class="wm-validation-message">
       {{
@@ -248,18 +246,6 @@ const props = defineProps({
   minDate: {
     type: String,
     default: "",
-  },
-  iconClass: {
-    type: String,
-    default: "",
-  },
-  iconRoute: {
-    type: String,
-    default: "",
-  },
-  iconFront: {
-    type: Boolean,
-    default: false
   }
 });
 

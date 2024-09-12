@@ -21,7 +21,7 @@
       </div>
       <Divider />
 
-      <div class="wm-form-column gap-5">
+      <div class="flex flex-column gap-4">
         <div class="wm-form-row gap-5">
           <WMInput
               name="manufacturer"
@@ -80,9 +80,9 @@
 
       <Divider/>
 
-      <div class="wm-form-row">
-        <div class="wm-form-column gap-5">
-          <div class="wm-form-row gap-5">
+      <div class="wm-form-row align-items-baseline">
+        <div class="flex flex-column gap-5">
+          <div class="wm-form-row gap-5 align-items-baseline">
             <WMInput
                 name="billing_type"
                 type="info"
@@ -108,7 +108,7 @@
                 :value="product.cancellation_type.value"
             />
           </div>
-          <div class="wm-form-row gap-5">
+          <div class="wm-form-row gap-5 align-items-baseline">
             <WMInput
                 name="info_page"
                 type="info-link"
@@ -135,17 +135,20 @@
             />
           </div>
         </div>
+
         <div class="wm-form-row gap-5">
-          <WMInput
-              name="message"
-              type="info"
-              :highlighted="true"
-              :label="$t('description') + ':'"
-              :value="product.description"
-              size="full"
-          />
+          <div class="wm-input flex flex-column w-full">
+            <label class="wm-form-label highlighted">
+              {{ $t('description') + ':' }}
+            </label>
+            <span class="w-full text-overflow-ellipsis overflow-hidden bg-gray-100 p-2 border-round-lg">
+              {{ product.description }}
+            </span>
+          </div>
         </div>
       </div>
+
+      <Divider/>
 
       <pre>{{ product }}</pre>
     </div>
