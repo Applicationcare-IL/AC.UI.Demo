@@ -117,7 +117,12 @@ const useProducts = () => {
   // DISCOUNTS
   const getProductDiscounts = async (productId, params) => {
     try {
-      return await productsStore.getProductDiscounts(productId, params);
+      const response = await productsStore.getProductDiscounts(productId, params);
+      const discounts = response.data;
+      const totalRecords = response.meta.total;
+
+      return {data: discounts, totalRecords}
+
     } catch (error) {
       console.error(error);
       throw new Error(error);
