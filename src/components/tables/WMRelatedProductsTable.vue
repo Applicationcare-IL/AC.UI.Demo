@@ -19,8 +19,8 @@
     </div>
 
     <pre> {{ relatedProducts }}</pre>
-    <!-- <DataTable
-      v-model:selection="selectedUsers"
+    <DataTable
+      v-model:selection="selectedRelatedProducts"
       lazy
       :value="relatedProducts"
       data-key="id"
@@ -35,13 +35,11 @@
       <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
       <Column v-if="preview" style="width: 40px">
         <template #body="{ data }">
-          <img
-            src="/icons/eye.svg"
-            alt=""
-            class="vertical-align-middle"
-            @click="openSidebar(data.id)"
+          <img src="/icons/eye.svg" class="vertical-align-middle" @click="openSidebar(data.id)" />
+          <WMProductPreviewSidebar
+            v-model:visible="isPreviewVisible[data.id]"
+            :product-id="data.id"
           />
-          <WMUserPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :user="data" />
         </template>
       </Column>
       <Column
@@ -56,7 +54,7 @@
           <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
         </template>
       </Column>
-    </DataTable> -->
+    </DataTable>
   </div>
 </template>
 
@@ -73,8 +71,8 @@ const { getRelatedProducts, getProductRelationshipTypes } = useProducts();
 
 // PROPS, EMITS
 const props = defineProps({
-  columns: {
-    type: Array,
+  product: {
+    type: Object,
     required: true,
   },
   preview: {
@@ -102,7 +100,7 @@ const props = defineProps({
 const emit = defineEmits(["update:selection"]);
 
 // REFS
-const selectedUsers = ref([]);
+const selectedRelatedProducts = ref([]);
 const totalRecords = ref(0);
 const relatedProducts = ref([]);
 const lazyParams = ref({});
@@ -114,16 +112,26 @@ const isPreviewVisible = ref([]);
 
 const relationshipTypes = ref([]);
 
+const columns = ref([
+  {
+    name: "product-image",
+    type: "attachment-image",
+    field: "product_image_url",
+    header: "photo",
+    class: "p-0 filled-td",
+  },
+]);
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  // const filters = utilsStore.filters["employee"];
+  const filters = utilsStore.filters["related-products"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
 
   const params = new URLSearchParams({
-    // ...filters,
+    ...filters,
     page: nextPage ? nextPage : 1,
     per_page: 10,
   });
@@ -138,12 +146,10 @@ const loadLazyData = async () => {
     });
   }
 
-  let response = await getRelatedProducts(params);
+  let response = await getRelatedProducts(props.product.id, params);
   relatedProducts.value = response.data;
   totalRecords.value = response.totalRecords;
 };
-
-loadLazyData();
 
 const onPage = (event) => {
   lazyParams.value = event;
@@ -151,34 +157,34 @@ const onPage = (event) => {
 };
 
 const onSelectionChanged = () => {
-  emit("update:selection", selectedUsers.value);
+  emit("update:selection", selectedRelatedProducts.value);
 };
 
-const cleanSelectedUsers = () => {
-  selectedUsers.value = [];
-  onSelectionChanged();
-};
+// const cleanSelectedRelatedProducts = () => {
+//   selectedRelatedProducts.value = [];
+//   onSelectionChanged();
+// };
 
 const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
 };
 
-const addSelectedUsers = async (users) => {
-  const userIds = users.map((user) => user.id);
+// const addSelectedUsers = async (users) => {
+//   const userIds = users.map((user) => user.id);
 
-  await props.addUsersFunction(userIds);
+//   await props.addUsersFunction(userIds);
 
-  loadLazyData();
-};
+//   loadLazyData();
+// };
 
-const removeSelectedUsers = async () => {
-  const userIds = selectedUsers.value.map((user) => user.id);
+// const removeSelectedUsers = async () => {
+//   const userIds = selectedUsers.value.map((user) => user.id);
 
-  await props.removeUsersFunction(userIds);
+//   await props.removeUsersFunction(userIds);
 
-  cleanSelectedUsers();
-  loadLazyData();
-};
+//   cleanSelectedUsers();
+//   loadLazyData();
+// };
 
 // const onPage = (event) => {
 //   console.log(event);
@@ -187,7 +193,6 @@ const removeSelectedUsers = async () => {
 // PROVIDE, EXPOSE
 defineExpose({
   loadLazyData,
-  cleanSelectedUsers,
 });
 
 // WATCHERS
@@ -198,5 +203,6 @@ watchEffect(() => {
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   relationshipTypes.value = await getProductRelationshipTypes();
+  loadLazyData();
 });
 </script>
