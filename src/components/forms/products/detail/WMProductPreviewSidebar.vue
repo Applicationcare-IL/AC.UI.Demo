@@ -21,7 +21,7 @@
       </div>
       <Divider />
 
-      <div class="wm-form-column gap-5">
+      <div class="flex flex-column gap-4">
         <div class="wm-form-row gap-5">
           <WMInput
               name="manufacturer"
@@ -80,9 +80,9 @@
 
       <Divider/>
 
-      <div class="wm-form-row">
-        <div class="wm-form-column gap-5">
-          <div class="wm-form-row gap-5">
+      <div class="wm-form-row align-items-baseline">
+        <div class="flex flex-column gap-5">
+          <div class="wm-form-row gap-5 align-items-baseline">
             <WMInput
                 name="billing_type"
                 type="info"
@@ -108,7 +108,7 @@
                 :value="product.cancellation_type.value"
             />
           </div>
-          <div class="wm-form-row gap-5">
+          <div class="wm-form-row gap-5 align-items-baseline">
             <WMInput
                 name="info_page"
                 type="info-link"
@@ -135,19 +135,84 @@
             />
           </div>
         </div>
+
         <div class="wm-form-row gap-5">
-          <WMInput
-              name="message"
-              type="info"
-              :highlighted="true"
-              :label="$t('description') + ':'"
-              :value="product.description"
-              size="full"
-          />
+          <div class="wm-input flex flex-column w-full">
+            <label class="wm-form-label highlighted">
+              {{ $t('description') + ':' }}
+            </label>
+            <span class="w-full text-overflow-ellipsis overflow-hidden bg-gray-100 p-2 border-round-lg">
+              {{ product.description }}
+            </span>
+          </div>
         </div>
       </div>
 
-      <pre>{{ product }}</pre>
+      <Divider/>
+
+      <div class="flex flex-row">
+        <DataTable
+            lazy
+            :value="bulkDiscount"
+            data-key="id"
+            scrollable
+            paginator
+            :rows="5"
+            :total-records="totalRecords"
+            class="w-full"
+            @page="onPage($event)"
+        >
+          <Column
+              v-for="column in columns"
+              :key="column.name"
+              :field="column.name"
+              :header="$t(column.header)"
+              :class="column.class"
+              :style="column.width ? { width: column.width } : {}"
+          >
+            <template #body="{ data }">
+              <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column"/>
+            </template>
+          </Column>
+        </DataTable>
+
+        <Divider layout="vertical"/>
+
+        <div class="flex flex-row gap-5">
+          <div class="flex flex-column gap-5">
+            <WMProductSettingPreview
+                :title="$t('product.license')"
+                :state="product.licensing_required"
+            />
+            <WMProductSettingPreview
+                :title="$t('product.commitment')"
+                :state="product.commitment"
+            />
+            <WMProductSettingPreview
+                :title="$t('product.guarantee')"
+                :state="product.warranty"
+            />
+          </div>
+          <div class="flex flex-column gap-5">
+            <WMProductSettingPreview
+                :title="$t('product.installation')"
+                :state="product.installation_required"
+            />
+
+            <WMProductSettingPreview
+                :title="$t('product.provisioning')"
+                :state="product.provisioning_required"
+            />
+            <WMProductSettingPreview
+                :title="$t('product.maintenance')"
+                :state="product.maintenance_required"
+            />
+          </div>
+        </div>
+
+      </div>
+
+      <!--      <pre>{{ product }}</pre>-->
     </div>
   </Sidebar>
 </template>
@@ -157,7 +222,7 @@
 import { onMounted, ref } from "vue";
 
 // DEPENDENCIES
-const { getProduct } = useProducts();
+const {getProduct, getProductDiscounts} = useProducts();
 
 // INJECT
 
@@ -176,19 +241,56 @@ const props = defineProps({
 // REFS
 const visible = ref(false);
 const product = ref({});
+const bulkDiscount = ref();
+const totalRecords = ref(0);
+const lazyParams = ref({});
+
+const columns = [
+  {
+    name: "quantity",
+    type: "text",
+    field: "quantity",
+    header: "quantity",
+  },
+  {
+    name: "discount_number",
+    type: "text",
+    field: "discount_number",
+    header: "product.discount-number",
+  },
+];
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const loadLazyData = async () => {
+  product.value = await getProduct(props.productId);
+  const nextPage = lazyParams.value.page + 1;
 
+  const params = new URLSearchParams({
+    page: nextPage ? nextPage : 1,
+    per_page: 5,
+  });
+
+  let response = await getProductDiscounts(props.productId, params);
+  bulkDiscount.value = response.data;
+  totalRecords.value = response.totalRecords;
+}
+
+const onPage = (event) => {
+  lazyParams.value = event;
+  loadLazyData();
+};
 // PROVIDE, EXPOSE
 
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(async () => {
-  product.value = await getProduct(props.productId);
+onMounted(() => {
+  loadLazyData();
 });
+
+
 </script>
 
 <style scoped></style>
