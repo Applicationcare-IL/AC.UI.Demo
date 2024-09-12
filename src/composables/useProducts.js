@@ -190,6 +190,24 @@ const useProducts = () => {
     }
   };
 
+  const updateRelatedProduct = async (productId, relatedProductId, params) => {
+    try {
+      return await productsStore.updateRelatedProduct(productId, relatedProductId, params);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
+  const deleteRelatedProduct = async (productId, relatedProductId) => {
+    try {
+      return await productsStore.deleteRelatedProduct(productId, relatedProductId);
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  };
+
   // UTILITIES
   const mapProduct = (product) => {
     return {
@@ -308,6 +326,8 @@ const useProducts = () => {
     // RELATED PRODUCTS
     getRelatedProducts,
     getProductRelationshipTypes,
+    updateRelatedProduct,
+    deleteRelatedProduct,
     // UTILITIES
     parseProduct,
   };

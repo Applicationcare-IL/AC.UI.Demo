@@ -74,7 +74,7 @@
           <WMRemoveButton
             v-if="data.mode !== 'create'"
             class="p-0"
-            @click="handleRemoveDiscount(data)"
+            @click="handleRemoveRelatedProduct(data)"
           />
         </template>
       </Column>
@@ -89,7 +89,8 @@ import { onMounted, ref, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getRelatedProducts, getProductRelationshipTypes } = useProducts();
+const { getRelatedProducts, getProductRelationshipTypes, deleteRelatedProduct } = useProducts();
+const toast = useToast();
 
 // INJECT
 
@@ -257,26 +258,19 @@ const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
 };
 
-// const addSelectedUsers = async (users) => {
-//   const userIds = users.map((user) => user.id);
+const handleRemoveRelatedProduct = (relatedProduct) => {
+  deleteRelatedProduct(props.product.id, relatedProduct.id, { type: relatedProduct.type.id }).then(
+    () => {
+      relatedProducts.value = relatedProducts.value.filter(
+        (product) => product.id !== relatedProduct.id
+      );
 
-//   await props.addUsersFunction(userIds);
-
-//   loadLazyData();
-// };
-
-// const removeSelectedUsers = async () => {
-//   const userIds = selectedUsers.value.map((user) => user.id);
-
-//   await props.removeUsersFunction(userIds);
-
-//   cleanSelectedUsers();
-//   loadLazyData();
-// };
-
-// const onPage = (event) => {
-//   console.log(event);
-// };
+      toast.info({
+        title: "Related product removed successfully",
+      });
+    }
+  );
+};
 
 // PROVIDE, EXPOSE
 defineExpose({

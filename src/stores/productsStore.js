@@ -169,5 +169,27 @@ export const useProductsStore = defineStore("products", {
           throw new Error(error);
         });
     },
+    updateRelatedProduct(productId, relatedProduct, params) {
+      return axiosConfig
+        .patch("/products/" + productId + "/related", relatedProduct, { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
+    deleteRelatedProduct(productId, relatedProductId) {
+      return axiosConfig
+        .delete("/products/" + productId + "/related/" + relatedProductId)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error(error);
+        });
+    },
   },
 });
