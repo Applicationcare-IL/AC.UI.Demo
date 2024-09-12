@@ -55,7 +55,7 @@
       </Chip>
     </div>
 
-    <div v-if="value && !multiple" style="position: absolute; bottom: 3px; left: 7px">
+    <div v-if="value && !multiple && !disabled" style="position: absolute; bottom: 3px; left: 7px">
       <i class="pi pi-times cursor-pointer" @click="removeValue"></i>
     </div>
   </div>
