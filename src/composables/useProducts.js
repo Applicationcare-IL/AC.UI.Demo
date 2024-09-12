@@ -225,8 +225,6 @@ const useProducts = () => {
   };
 
   const parseProduct = (product) => {
-    console.log("parseProduct", product);
-
     const today = new Date();
 
     const data = {
@@ -303,7 +301,11 @@ const useProducts = () => {
       product_image_url: relatedProduct.related.icon
         ? relatedProduct.related.icon.thumbnail + "product"
         : null,
-      relationship: relatedProduct.type,
+      relationship: {
+        id: relatedProduct.type.id,
+        name: relatedProduct.type.name,
+        label: relatedProduct.type.name,
+      },
     };
   };
 

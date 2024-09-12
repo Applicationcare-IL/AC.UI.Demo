@@ -7,7 +7,7 @@
     :options="relationshipTypesList"
     :size="size"
     required
-    @update:selected-item="modelValue = $event.id"
+    @update:selected-item="modelValue = $event"
   />
 </template>
 

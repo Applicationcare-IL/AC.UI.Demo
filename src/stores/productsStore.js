@@ -169,9 +169,9 @@ export const useProductsStore = defineStore("products", {
           throw new Error(error);
         });
     },
-    updateRelatedProduct(productId, relatedProduct, params) {
+    updateRelatedProduct(productId, relatedProductId, params) {
       return axiosConfig
-        .patch("/products/" + productId + "/related", relatedProduct, { params })
+        .patch("/products/" + productId + "/related/" + relatedProductId, params)
         .then((response) => {
           return response.data;
         })

@@ -89,7 +89,13 @@ import { onMounted, ref, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getRelatedProducts, getProductRelationshipTypes, deleteRelatedProduct } = useProducts();
+const {
+  getRelatedProducts,
+  getProductRelationshipTypes,
+  deleteRelatedProduct,
+  updateRelatedProduct,
+} = useProducts();
+
 const toast = useToast();
 
 // INJECT
@@ -250,8 +256,21 @@ const onSelectionChanged = () => {
 const onRowEditSave = async (event) => {
   let { newData: rowData, index } = event;
 
-  console.log(rowData);
-  console.log(index);
+  console.log("onRowEditSave rowData", rowData);
+
+  updateRelatedProduct(props.product.id, rowData.id, { type: rowData.relationship.id })
+    .then(() => {
+      relatedProducts.value[index] = rowData;
+
+      toast.info({
+        title: "Related product updated successfully",
+      });
+    })
+    .catch(() => {
+      toast.error({
+        title: "Error updating related product",
+      });
+    });
 };
 
 const openSidebar = (data) => {
@@ -259,8 +278,8 @@ const openSidebar = (data) => {
 };
 
 const handleRemoveRelatedProduct = (relatedProduct) => {
-  deleteRelatedProduct(props.product.id, relatedProduct.id, { type: relatedProduct.type.id }).then(
-    () => {
+  deleteRelatedProduct(props.product.id, relatedProduct.id, { type: relatedProduct.type.id })
+    .then(() => {
       relatedProducts.value = relatedProducts.value.filter(
         (product) => product.id !== relatedProduct.id
       );
@@ -268,8 +287,12 @@ const handleRemoveRelatedProduct = (relatedProduct) => {
       toast.info({
         title: "Related product removed successfully",
       });
-    }
-  );
+    })
+    .catch(() => {
+      toast.error({
+        title: "Error removing related product",
+      });
+    });
 };
 
 // PROVIDE, EXPOSE
