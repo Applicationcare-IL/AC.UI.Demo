@@ -30,7 +30,7 @@ const showDocumentsSelectorDialog = ref(false);
 
 // COMPONENT METHODS AND LOGIC
 const showDialog = () => {
-  showDocumentsSelectorDialog.value = true;
+  // showDocumentsSelectorDialog.value = true;
 };
 
 // WATCHERS

@@ -121,8 +121,7 @@ const useProducts = () => {
       const discounts = response.data;
       const totalRecords = response.meta.total;
 
-      return {data: discounts, totalRecords}
-
+      return { data: discounts, totalRecords };
     } catch (error) {
       console.error(error);
       throw new Error(error);
@@ -278,9 +277,15 @@ const useProducts = () => {
   const mapRelatedProduct = (relatedProduct) => {
     return {
       ...relatedProduct.related,
+      title: relatedProduct.related.name,
+      link_detail: {
+        text: relatedProduct.related.name,
+        id: relatedProduct.related.id,
+      },
       product_image_url: relatedProduct.related.icon
         ? relatedProduct.related.icon.thumbnail + "product"
         : null,
+      relationship: relatedProduct.type,
     };
   };
 

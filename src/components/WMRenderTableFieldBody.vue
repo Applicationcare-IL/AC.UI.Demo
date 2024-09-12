@@ -52,7 +52,7 @@
   </template>
   <!-- Type currency -->
   <template v-if="columnData.type == 'currency'">
-    <WMInputCurrency v-model="modelValue" :read-only="true" />
+    <WMInputCurrency v-model="modelValue" :read-only="true" :name="columnData.field" />
   </template>
   <!-- Checkbox -->
   <template v-if="columnData.type == 'checkbox'">
@@ -75,6 +75,10 @@
   <template v-if="columnData.type == 'product-discount-type'">
     {{ modelValue ? modelValue : "" }}
   </template>
+  <!-- Product relationship type -->
+  <template v-if="columnData.type == 'product-relationship-type'">
+    {{ modelValue ? modelValue.name : "" }}
+  </template>
 </template>
 <script setup>
 // IMPORTS
@@ -85,8 +89,6 @@ const { formatDateFromAPI } = useDates();
 // INJECT
 
 // PROPS, EMITS
-import WMImportantState from "@/components/tables/WMImportantState.vue";
-
 defineProps({
   columnData: Object,
 });
