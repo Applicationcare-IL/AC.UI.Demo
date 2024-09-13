@@ -397,7 +397,7 @@ const useFilters = () => {
       {
         type: "state",
         name: "state",
-        label: i18n.t("state") + ":",
+        label: i18n.t("state.state") + ":",
       },
       {
         type: "entity",
@@ -567,7 +567,7 @@ const useFilters = () => {
       {
         type: "state",
         name: "state",
-        label: i18n.t("state") + ":",
+        label: i18n.t("state.state") + ":",
       },
       {
         type: "entity",
@@ -592,7 +592,7 @@ const useFilters = () => {
       {
         type: "state",
         name: "state",
-        label: i18n.t("state") + ":",
+        label: i18n.t("state.state") + ":",
       },
       {
         type: "entity",
@@ -665,7 +665,7 @@ const useFilters = () => {
       {
         type: "state",
         name: "state",
-        label: i18n.t("state") + ":",
+        label: i18n.t("state.state") + ":",
       },
       {
         type: "entity",
@@ -684,14 +684,21 @@ const useFilters = () => {
       {
         type: "state",
         name: "state",
-        label: i18n.t("state") + ":",
+        label: i18n.t("state.state") + ":",
       },
     ],
     trigger: [
       {
         type: "state",
         name: "state",
-        label: i18n.t("state") + ":",
+        label: i18n.t("state.state") + ":",
+      },
+    ],
+    product: [
+      {
+        type: "state",
+        name: "state",
+        label: i18n.t("state.state") + ":",
       },
     ],
   };

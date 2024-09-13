@@ -1,5 +1,5 @@
 <template>
-  <div class="relative max-w-30rem overflow-scroll">
+  <div class="relative max-w-30rem overflow-auto">
     <!-- <pre>appliedFilters {{ appliedFilters }}</pre> -->
     <!-- <pre>selectedOption {{ selectedOption }}</pre> -->
     <!-- Toggable label-->
