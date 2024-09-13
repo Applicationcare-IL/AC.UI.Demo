@@ -34,7 +34,6 @@ const utilsStore = useUtilsStore();
 // PROPS, EMITS
 
 // REFS
-
 const columns = [
   {
     name: "product-image",

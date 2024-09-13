@@ -57,6 +57,7 @@ const { getProducts } = useProducts();
 // INJECT
 
 // PROPS, EMITS
+
 const props = defineProps({
   columns: {
     type: Array,
