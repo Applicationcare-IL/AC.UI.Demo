@@ -32,7 +32,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     updateProduct(id, product) {
@@ -43,7 +43,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     duplicateProduct(id, name) {
@@ -54,7 +54,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     newProductVersion(id) {
@@ -65,7 +65,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     activateProduct(id) {
@@ -76,7 +76,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     deactivateProduct(id) {
@@ -87,7 +87,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     // DISCOUNTS
@@ -99,7 +99,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     addProductDiscount(productId, params) {
@@ -110,7 +110,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     updateProductDiscount(productId, discountId, params) {
@@ -121,7 +121,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     deleteProductDiscount(productId, discountId) {
@@ -132,7 +132,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     checkIfDiscountExists({ productId, quantity }) {
@@ -143,7 +143,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     // RELATED PRODUCTS
@@ -155,7 +155,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     getProductRelationshipTypes() {
@@ -166,7 +166,29 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
+        });
+    },
+    addRelatedProduct(productId, params) {
+      return axiosConfig
+        .post("/products/" + productId + "/related", params)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
+    addRelatedProductBulk(productId, relationships) {
+      return axiosConfig
+        .post("/products/" + productId + "/related/bulk", relationships)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
         });
     },
     updateRelatedProduct(productId, relatedProductId, params) {
@@ -177,7 +199,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
     deleteRelatedProduct(productId, relatedProductId) {
@@ -188,7 +210,7 @@ export const useProductsStore = defineStore("products", {
         })
         .catch((error) => {
           console.error(error);
-          throw new Error(error);
+          throw error;
         });
     },
   },

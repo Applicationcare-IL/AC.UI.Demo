@@ -23,7 +23,7 @@ const useProducts = () => {
       return await productsStore.updateProduct(id, cleanEmptyKeys(params));
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -55,7 +55,7 @@ const useProducts = () => {
       return await productsStore.createProduct(cleanEmptyKeys(params));
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -83,7 +83,7 @@ const useProducts = () => {
       return await productsStore.duplicateProduct(id, name);
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -92,7 +92,7 @@ const useProducts = () => {
       return await productsStore.newProductVersion(id);
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -101,7 +101,7 @@ const useProducts = () => {
       return await productsStore.activateProduct(id);
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -110,7 +110,7 @@ const useProducts = () => {
       return await productsStore.deactivateProduct(id);
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -124,7 +124,7 @@ const useProducts = () => {
       return { data: discounts, totalRecords };
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -133,7 +133,7 @@ const useProducts = () => {
       return await productsStore.addProductDiscount(productId, params);
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -142,7 +142,7 @@ const useProducts = () => {
       return await productsStore.updateProductDiscount(productId, discountId, params);
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -151,7 +151,7 @@ const useProducts = () => {
       return await productsStore.deleteProductDiscount(productId, discountId);
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -161,7 +161,7 @@ const useProducts = () => {
       return result.data.exists;
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -177,7 +177,7 @@ const useProducts = () => {
       return { data: relatedProducts, totalRecords: response.meta.total };
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -186,7 +186,25 @@ const useProducts = () => {
       return await productsStore.getProductRelationshipTypes();
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
+    }
+  };
+
+  const addRelatedProduct = async (productId, params) => {
+    try {
+      return await productsStore.addRelatedProduct(productId, params);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const addRelatedProductBulk = async (productId, relationships) => {
+    try {
+      return await productsStore.addRelatedProductBulk(productId, { relationships });
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
   };
 
@@ -195,7 +213,7 @@ const useProducts = () => {
       return await productsStore.updateRelatedProduct(productId, relatedProductId, params);
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -204,7 +222,7 @@ const useProducts = () => {
       return await productsStore.deleteRelatedProduct(productId, relatedProductId);
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw error;
     }
   };
 
@@ -328,6 +346,8 @@ const useProducts = () => {
     // RELATED PRODUCTS
     getRelatedProducts,
     getProductRelationshipTypes,
+    addRelatedProduct,
+    addRelatedProductBulk,
     updateRelatedProduct,
     deleteRelatedProduct,
     // UTILITIES

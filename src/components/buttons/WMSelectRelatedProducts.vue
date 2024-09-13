@@ -6,8 +6,9 @@
   </WMButton>
 
   <WMRelatedProductSelectorDialog
-    v-if="showDocumentsSelectorDialog"
-    v-model="showDocumentsSelectorDialog"
+    v-if="showRelatedProductsSelectorDialog"
+    v-model="showRelatedProductsSelectorDialog"
+    :product="product"
     @select-documents="handleSelectDocuments"
   />
 </template>
@@ -21,16 +22,22 @@ import ProductsIcon from "/icons/products.svg?raw";
 // DEPENDENCIES
 
 // PROPS, EMITS
+defineProps({
+  product: {
+    type: Object,
+    default: null,
+  },
+});
 
 // REFS
 
-const showDocumentsSelectorDialog = ref(false);
+const showRelatedProductsSelectorDialog = ref(false);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const showDialog = () => {
-  // showDocumentsSelectorDialog.value = true;
+  showRelatedProductsSelectorDialog.value = true;
 };
 
 // WATCHERS

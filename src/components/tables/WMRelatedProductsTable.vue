@@ -6,7 +6,7 @@
     <div class="flex flex-column gap-3 mb-3">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row gap-2">
-          <WMSelectRelatedProducts @products-selected="addRelatedProducts" />
+          <WMSelectRelatedProducts :product="product" @products-selected="addRelatedProducts" />
         </div>
       </div>
       <!-- <div class="flex flex-row justify-content-between">

@@ -1,6 +1,7 @@
 <template>
-  <!-- <pre>{{ products }}</pre> -->
+  <Skeleton v-if="loading" height="600px"></Skeleton>
   <DataTable
+    v-else
     v-model:selection="selectedProducts"
     lazy
     :value="products"
