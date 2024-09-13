@@ -1,5 +1,5 @@
 <template>
-  <Skeleton v-if="loading" height="600px"></Skeleton>
+  <Skeleton v-if="!productsLoaded" height="600px"></Skeleton>
   <DataTable
     v-else
     v-model:selection="selectedProducts"
@@ -92,6 +92,7 @@ const lazyParams = ref({});
 const utilsStore = useUtilsStore();
 const searchValue = ref("");
 const loading = ref(false);
+const productsLoaded = ref(false);
 
 const isPreviewVisible = ref([]);
 
@@ -122,6 +123,7 @@ const loadLazyData = async () => {
   products.value = response.data;
   totalRecords.value = response.totalRecords;
   loading.value = false;
+  productsLoaded.value = true;
 };
 
 const onPage = (event) => {
