@@ -643,8 +643,6 @@ export const useFormUtilsStore = defineStore("formUtils", {
         service_area: yup.object().required(),
         service_type: yup.object().required(),
         service_request_1: yup.object().required(),
-        service_request_2: yup.object().optional(),
-        service_request_3: yup.object().optional(),
       });
     },
     getQuickCodeUpdateFormValidationSchema: () => {
