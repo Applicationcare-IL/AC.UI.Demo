@@ -53,6 +53,7 @@ import { useLayout } from "@/layout/composables/layout";
 // DEPENDENCIES
 const { layoutConfig } = useLayout();
 const { getProductRelationshipTypes, addRelatedProductBulk } = useProducts();
+const toast = useToast();
 
 // INJECT
 
@@ -64,7 +65,7 @@ const props = defineProps({
   },
 });
 
-// const emit = defineEmits(["selectDocuments"]);
+const emit = defineEmits(["relatedProductsAdded"]);
 
 // REFS
 const modelValue = defineModel();
@@ -218,11 +219,12 @@ const handleAddRelatedProducts = async () => {
 
   addRelatedProductBulk(props.product.id, relationships)
     .then(() => {
-      alert("Related products added successfully");
+      toast.success({ message: "Related products added successfully" });
+      emit("relatedProductsAdded");
       closeDialog();
     })
     .catch((error) => {
-      alert("Error adding related products");
+      toast.error(error);
       console.error(error);
     });
 };

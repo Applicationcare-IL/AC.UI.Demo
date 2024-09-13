@@ -6,7 +6,10 @@
     <div class="flex flex-column gap-3 mb-3">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row gap-2">
-          <WMSelectRelatedProducts :product="product" @products-selected="addRelatedProducts" />
+          <WMSelectRelatedProducts
+            :product="product"
+            @related-products-added="handleRelatedProductsAdded"
+          />
         </div>
       </div>
       <!-- <div class="flex flex-row justify-content-between">
@@ -32,7 +35,7 @@
       @update:selection="onSelectionChanged"
       @row-edit-save="onRowEditSave"
     >
-      <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
+      <!-- <Column v-if="selectable" style="width: 40px" selection-mode="multiple" /> -->
       <Column v-if="preview" style="width: 40px">
         <template #body="{ data }">
           <img src="/icons/eye.svg" class="vertical-align-middle" @click="openSidebar(data.id)" />
@@ -293,6 +296,11 @@ const handleRemoveRelatedProduct = (relatedProduct) => {
         title: "Error removing related product",
       });
     });
+};
+
+const handleRelatedProductsAdded = () => {
+  console.log("entro");
+  loadLazyData();
 };
 
 // PROVIDE, EXPOSE

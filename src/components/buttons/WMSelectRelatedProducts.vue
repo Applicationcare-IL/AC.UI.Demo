@@ -9,7 +9,7 @@
     v-if="showRelatedProductsSelectorDialog"
     v-model="showRelatedProductsSelectorDialog"
     :product="product"
-    @select-documents="handleSelectDocuments"
+    @related-products-added="handleRelatedProductsAdded"
   />
 </template>
 
@@ -29,8 +29,9 @@ defineProps({
   },
 });
 
-// REFS
+const emit = defineEmits(["relatedProductsAdded"]);
 
+// REFS
 const showRelatedProductsSelectorDialog = ref(false);
 
 // COMPUTED
@@ -38,6 +39,11 @@ const showRelatedProductsSelectorDialog = ref(false);
 // COMPONENT METHODS AND LOGIC
 const showDialog = () => {
   showRelatedProductsSelectorDialog.value = true;
+};
+
+const handleRelatedProductsAdded = () => {
+  console.log("entro aquí");
+  emit("relatedProductsAdded");
 };
 
 // WATCHERS

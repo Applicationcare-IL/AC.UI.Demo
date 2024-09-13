@@ -167,7 +167,8 @@
     "upload-file": "Upload file",
     "link-related-products": "Link related products",
     "view_map": "View map",
-    "yes-overwrite": "Yes, overwrite"
+    "yes-overwrite": "Yes, overwrite",
+    "add-related-products": "Add related products"
   },
   "navigation": {
     "dashboard": "Dashboard",
