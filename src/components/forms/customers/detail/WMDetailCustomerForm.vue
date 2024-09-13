@@ -449,26 +449,13 @@ const taskColumns = ref(getTaskColumns());
 const assetColumns = ref(getAssetColumnsforCustomerDetail());
 const basicTerms = ref();
 
-const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
+const yesNoOptions = ref();
 const isProvider = ref("");
 
 const service_areas = ref();
 const selectedServiceAreas = ref("");
 
 utilsStore.resetElements();
-
-onMounted(async () => {
-  await fetchData();
-
-  let params = {
-    per_page: 99999,
-    customer_id: route.params.id,
-  };
-
-  const selectedContacts = await getContactsFromApi(params);
-
-  setSelectedContacts(selectedContacts.data);
-});
 
 const { setSelectedContacts, getContactsFromApi } = useContacts();
 
@@ -480,6 +467,7 @@ const fetchData = async () => {
     .then((data) => (service_areas.value = data));
 
   await optionSetsStore.getOptionSetValues("customer_type").then((data) => (types.value = data));
+
   await optionSetsStore
     .getOptionSetValues("customer_rating")
     .then((data) => (ratings.value = data));
@@ -503,7 +491,9 @@ const fetchData = async () => {
     selectedStatus.value = t("option-set.customer_status." + customer.value.status.value);
 
     statusConditionalStyle.value = getStatusConditionalStyle(customer.value.status.value);
-    isProvider.value = yesNoOptions.find((option) => option.value == customer.value.is_provider);
+    isProvider.value = yesNoOptions.value.find(
+      (option) => option.value == customer.value.is_provider
+    );
   });
 
   loaded.value = true;
@@ -565,6 +555,21 @@ watch(
 defineExpose({
   onSave,
   fetchData,
+});
+
+onMounted(async () => {
+  yesNoOptions.value = await optionSetsStore.getOptionSetValues("yesNo");
+
+  await fetchData();
+
+  let params = {
+    per_page: 99999,
+    customer_id: route.params.id,
+  };
+
+  const selectedContacts = await getContactsFromApi(params);
+
+  setSelectedContacts(selectedContacts.data);
 });
 </script>
 
