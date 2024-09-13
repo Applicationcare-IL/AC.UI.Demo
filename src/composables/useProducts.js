@@ -7,7 +7,7 @@ const useProducts = () => {
   const getProducts = async (params) => {
     const response = await productsStore.getProducts(params);
 
-    const products = response.data.data.map((user) => mapProduct(user));
+    const products = response.data.data.map((product) => mapProduct(product));
 
     return { data: products, totalRecords: response.data.meta.total };
   };
@@ -121,8 +121,7 @@ const useProducts = () => {
       const discounts = response.data;
       const totalRecords = response.meta.total;
 
-      return {data: discounts, totalRecords}
-
+      return { data: discounts, totalRecords };
     } catch (error) {
       console.error(error);
       throw new Error(error);
@@ -169,7 +168,13 @@ const useProducts = () => {
   // RELATED PRODUCTS
   const getRelatedProducts = async (productId, params) => {
     try {
-      return await productsStore.getRelatedProducts(productId, params);
+      const response = await productsStore.getRelatedProducts(productId, params);
+
+      const relatedProducts = response.data.map((relatedProduct) =>
+        mapRelatedProduct(relatedProduct)
+      );
+
+      return { data: relatedProducts, totalRecords: response.meta.total };
     } catch (error) {
       console.error(error);
       throw new Error(error);
@@ -267,6 +272,21 @@ const useProducts = () => {
     }
 
     return data;
+  };
+
+  const mapRelatedProduct = (relatedProduct) => {
+    return {
+      ...relatedProduct.related,
+      title: relatedProduct.related.name,
+      link_detail: {
+        text: relatedProduct.related.name,
+        id: relatedProduct.related.id,
+      },
+      product_image_url: relatedProduct.related.icon
+        ? relatedProduct.related.icon.thumbnail + "product"
+        : null,
+      relationship: relatedProduct.type,
+    };
   };
 
   return {

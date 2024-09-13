@@ -15,7 +15,8 @@
 <script setup>
 // IMPORTS
 import { onMounted, ref } from "vue";
-import {useOptionSetsStore} from "@/stores/optionSets";
+
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
 const { getUsers } = useAdminUsers();
@@ -47,7 +48,7 @@ const loadEmployees = async () => {
 
   let response = await getUsers({
     per_page: 999999999,
-    state: activeStateId
+    state: activeStateId,
   });
 
   employeeList.value = response.data.map((employee) => {
@@ -59,7 +60,7 @@ const loadEmployees = async () => {
 };
 
 const loadSelectedOption = async () => {
-  if ( props.selectedManager ){
+  if (props.selectedManager) {
     selectedOption.value = employeeList.value.find((manager) => {
       return manager.id === props.selectedManager.id;
     });

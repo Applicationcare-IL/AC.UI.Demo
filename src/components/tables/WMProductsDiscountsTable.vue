@@ -36,7 +36,12 @@
         <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
       </template>
       <template #editor="{ data }">
-        <WMRenderTableFieldEditor v-model="data[column.field]" :column-data="column" />
+        <WMRenderTableFieldEditor
+          v-if="column.editable"
+          v-model="data[column.field]"
+          :column-data="column"
+        />
+        <WMRenderTableFieldBody v-else v-model="data[column.field]" :column-data="column" />
       </template>
     </Column>
     <Column
@@ -104,6 +109,7 @@ const columns = [
     field: "quantity",
     header: "quantity",
     width: "5%",
+    editable: true,
   },
   {
     name: "discount_type",
@@ -111,12 +117,14 @@ const columns = [
     field: "discount_type",
     header: "product.discount-type",
     width: "15%",
+    editable: true,
   },
   {
     name: "discount_number",
     type: "text",
     field: "discount_number",
     header: "product.discount-number",
+    editable: true,
   },
 ];
 

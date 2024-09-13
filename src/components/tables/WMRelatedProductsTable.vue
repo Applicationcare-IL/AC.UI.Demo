@@ -3,27 +3,26 @@
     <h2 class="h2">
       <slot name="title" />
     </h2>
-    <pre>{{ relationshipTypes }}</pre>
-
     <div class="flex flex-column gap-3 mb-3">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row gap-2">
           <WMSelectRelatedProducts @products-selected="addRelatedProducts" />
         </div>
       </div>
-      <div class="flex flex-row justify-content-between">
+      <!-- <div class="flex flex-row justify-content-between">
         <div class="flex flex-row">
           <WMSearchBox v-model="searchValue" entity="contact" />
         </div>
-      </div>
+      </div> -->
     </div>
-
-    <pre> {{ relatedProducts }}</pre>
-    <!-- <DataTable
-      v-model:selection="selectedUsers"
+    <!-- <pre> {{ relatedProducts }}</pre> -->
+    <DataTable
+      v-model:editingRows="editingRows"
+      v-model:selection="selectedRelatedProducts"
       lazy
       :value="relatedProducts"
       data-key="id"
+      edit-mode="row"
       scrollable
       paginator
       :rows="10"
@@ -31,17 +30,16 @@
       class="w-full"
       @page="onPage($event)"
       @update:selection="onSelectionChanged"
+      @row-edit-save="onRowEditSave"
     >
       <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
       <Column v-if="preview" style="width: 40px">
         <template #body="{ data }">
-          <img
-            src="/icons/eye.svg"
-            alt=""
-            class="vertical-align-middle"
-            @click="openSidebar(data.id)"
+          <img src="/icons/eye.svg" class="vertical-align-middle" @click="openSidebar(data.id)" />
+          <WMProductPreviewSidebar
+            v-model:visible="isPreviewVisible[data.id]"
+            :product-id="data.id"
           />
-          <WMUserPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :user="data" />
         </template>
       </Column>
       <Column
@@ -55,8 +53,32 @@
         <template #body="{ data }">
           <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
         </template>
+        <template #editor="{ data }">
+          <WMRenderTableFieldEditor
+            v-if="column.editable"
+            v-model="data[column.field]"
+            :column-data="column"
+          />
+          <WMRenderTableFieldBody v-else v-model="data[column.field]" :column-data="column" />
+        </template>
       </Column>
-    </DataTable> -->
+      <Column
+        v-if="!props.readOnly"
+        :row-editor="true"
+        style="width: 10px"
+        class="p-1 extended-column"
+        :header="$t('actions')"
+      />
+      <Column style="width: 100%">
+        <template #body="{ data }">
+          <WMRemoveButton
+            v-if="data.mode !== 'create'"
+            class="p-0"
+            @click="handleRemoveDiscount(data)"
+          />
+        </template>
+      </Column>
+    </DataTable>
   </div>
 </template>
 
@@ -73,8 +95,8 @@ const { getRelatedProducts, getProductRelationshipTypes } = useProducts();
 
 // PROPS, EMITS
 const props = defineProps({
-  columns: {
-    type: Array,
+  product: {
+    type: Object,
     required: true,
   },
   preview: {
@@ -102,7 +124,9 @@ const props = defineProps({
 const emit = defineEmits(["update:selection"]);
 
 // REFS
-const selectedUsers = ref([]);
+const editingRows = ref([]);
+
+const selectedRelatedProducts = ref([]);
 const totalRecords = ref(0);
 const relatedProducts = ref([]);
 const lazyParams = ref({});
@@ -114,16 +138,86 @@ const isPreviewVisible = ref([]);
 
 const relationshipTypes = ref([]);
 
+const columns = ref([
+  {
+    name: "product-image",
+    type: "attachment-image",
+    field: "product_image_url",
+    header: "photo",
+    class: "p-0 filled-td",
+    editable: false,
+  },
+  {
+    name: "product-name",
+    type: "link",
+    field: "link_detail",
+    header: "product.name",
+    routeName: "productDetail",
+    editable: false,
+  },
+  {
+    name: "product-relationship-type",
+    type: "product-relationship-type",
+    field: "relationship",
+    header: "product.relationship-type",
+    editable: true,
+  },
+  {
+    name: "id",
+    type: "text",
+    field: "id",
+    header: "id",
+    editable: false,
+  },
+  {
+    name: "base-price",
+    type: "currency",
+    field: "base_price",
+    header: "product.base-price",
+    editable: false,
+  },
+  {
+    name: "type",
+    type: "option-set",
+    field: "type",
+    header: "product.type",
+    editable: false,
+  },
+  {
+    name: "family",
+    type: "option-set",
+    field: "family",
+    header: "product.family",
+    editable: false,
+  },
+  {
+    name: "department",
+    type: "option-set",
+    field: "department",
+    header: "product.department",
+    editable: false,
+  },
+  {
+    name: "active",
+    type: "state",
+    field: "state",
+    header: "State",
+    width: "100px",
+    class: "p-0 filled-td",
+    editable: false,
+  },
+]);
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  // const filters = utilsStore.filters["employee"];
+  const filters = utilsStore.filters["related-products"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
 
   const params = new URLSearchParams({
-    // ...filters,
+    ...filters,
     page: nextPage ? nextPage : 1,
     per_page: 10,
   });
@@ -138,12 +232,10 @@ const loadLazyData = async () => {
     });
   }
 
-  let response = await getRelatedProducts(params);
+  let response = await getRelatedProducts(props.product.id, params);
   relatedProducts.value = response.data;
   totalRecords.value = response.totalRecords;
 };
-
-loadLazyData();
 
 const onPage = (event) => {
   lazyParams.value = event;
@@ -151,34 +243,36 @@ const onPage = (event) => {
 };
 
 const onSelectionChanged = () => {
-  emit("update:selection", selectedUsers.value);
+  emit("update:selection", selectedRelatedProducts.value);
 };
 
-const cleanSelectedUsers = () => {
-  selectedUsers.value = [];
-  onSelectionChanged();
+const onRowEditSave = async (event) => {
+  let { newData: rowData, index } = event;
+
+  console.log(rowData);
+  console.log(index);
 };
 
 const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
 };
 
-const addSelectedUsers = async (users) => {
-  const userIds = users.map((user) => user.id);
+// const addSelectedUsers = async (users) => {
+//   const userIds = users.map((user) => user.id);
 
-  await props.addUsersFunction(userIds);
+//   await props.addUsersFunction(userIds);
 
-  loadLazyData();
-};
+//   loadLazyData();
+// };
 
-const removeSelectedUsers = async () => {
-  const userIds = selectedUsers.value.map((user) => user.id);
+// const removeSelectedUsers = async () => {
+//   const userIds = selectedUsers.value.map((user) => user.id);
 
-  await props.removeUsersFunction(userIds);
+//   await props.removeUsersFunction(userIds);
 
-  cleanSelectedUsers();
-  loadLazyData();
-};
+//   cleanSelectedUsers();
+//   loadLazyData();
+// };
 
 // const onPage = (event) => {
 //   console.log(event);
@@ -187,7 +281,6 @@ const removeSelectedUsers = async () => {
 // PROVIDE, EXPOSE
 defineExpose({
   loadLazyData,
-  cleanSelectedUsers,
 });
 
 // WATCHERS
@@ -198,5 +291,6 @@ watchEffect(() => {
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   relationshipTypes.value = await getProductRelationshipTypes();
+  loadLazyData();
 });
 </script>

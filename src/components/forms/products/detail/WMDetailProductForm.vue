@@ -117,7 +117,7 @@
 
       <Accordion>
         <AccordionTab :header="$t('product.related-products')">
-          <WMRelatedProductsTable :product="product" />
+          <WMRelatedProductsTable :product="product" selectable preview />
         </AccordionTab>
       </Accordion>
     </div>
