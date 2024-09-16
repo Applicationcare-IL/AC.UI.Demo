@@ -77,7 +77,7 @@
   </template>
   <!-- Product relationship type -->
   <template v-if="columnData.type == 'product-relationship-type'">
-    {{ modelValue ? modelValue.name : "" }}
+    {{ modelValue ? modelValue.label : "" }}
   </template>
 </template>
 <script setup>

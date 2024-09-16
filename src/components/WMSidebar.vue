@@ -151,6 +151,6 @@ watch(
   box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.1);
   height: 100vh;
   width: 100%;
-  overflow: scroll;
+  overflow: auto;
 }
 </style>

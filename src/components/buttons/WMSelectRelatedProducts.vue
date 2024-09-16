@@ -6,9 +6,10 @@
   </WMButton>
 
   <WMRelatedProductSelectorDialog
-    v-if="showDocumentsSelectorDialog"
-    v-model="showDocumentsSelectorDialog"
-    @select-documents="handleSelectDocuments"
+    v-if="showRelatedProductsSelectorDialog"
+    v-model="showRelatedProductsSelectorDialog"
+    :product="product"
+    @related-products-added="handleRelatedProductsAdded"
   />
 </template>
 
@@ -21,16 +22,28 @@ import ProductsIcon from "/icons/products.svg?raw";
 // DEPENDENCIES
 
 // PROPS, EMITS
+defineProps({
+  product: {
+    type: Object,
+    default: null,
+  },
+});
+
+const emit = defineEmits(["relatedProductsAdded"]);
 
 // REFS
-
-const showDocumentsSelectorDialog = ref(false);
+const showRelatedProductsSelectorDialog = ref(false);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const showDialog = () => {
-  // showDocumentsSelectorDialog.value = true;
+  showRelatedProductsSelectorDialog.value = true;
+};
+
+const handleRelatedProductsAdded = () => {
+  console.log("entro aquí");
+  emit("relatedProductsAdded");
 };
 
 // WATCHERS

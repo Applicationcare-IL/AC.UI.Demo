@@ -1,12 +1,11 @@
 <template>
   <Sidebar
-    v-if="product"
     v-model:visible="visible"
     class="details-sidebar w-6"
     :show-close-icon="false"
     @update:model-value="updateModelValue"
   >
-    <div class="flex flex-auto flex-column overflow-auto w-full px-2">
+    <div v-if="product" class="flex flex-auto flex-column overflow-auto w-full px-2">
       <div class="flex justify-content-between">
         <h2 class="h2">{{ product.name }}</h2>
         <router-link
@@ -233,7 +232,7 @@
 
 <script setup>
 // IMPORTS
-import { onMounted, ref } from "vue";
+import { ref, watch } from "vue";
 
 // DEPENDENCIES
 const { getProduct, getProductDiscounts } = useProducts();
@@ -241,6 +240,8 @@ const { getProduct, getProductDiscounts } = useProducts();
 // INJECT
 
 // PROPS, EMITS
+const visible = defineModel("visible");
+
 const props = defineProps({
   isVisible: {
     type: Boolean,
@@ -253,11 +254,11 @@ const props = defineProps({
 });
 
 // REFS
-const visible = ref(false);
-const product = ref({});
+const product = ref(null);
 const bulkDiscount = ref();
 const totalRecords = ref(0);
 const lazyParams = ref({});
+const isProductLoaded = ref(false);
 
 const columns = [
   {
@@ -279,6 +280,8 @@ const columns = [
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
   product.value = await getProduct(props.productId);
+  isProductLoaded.value = true;
+
   const nextPage = lazyParams.value.page + 1;
 
   const params = new URLSearchParams({
@@ -298,11 +301,17 @@ const onPage = (event) => {
 // PROVIDE, EXPOSE
 
 // WATCHERS
+watch(
+  () => visible,
+  (value) => {
+    if (value && !isProductLoaded.value) {
+      loadLazyData();
+    }
+  },
+  { deep: true }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(() => {
-  loadLazyData();
-});
 </script>
 
 <style scoped></style>

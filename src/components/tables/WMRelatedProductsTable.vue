@@ -6,7 +6,10 @@
     <div class="flex flex-column gap-3 mb-3">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row gap-2">
-          <WMSelectRelatedProducts @products-selected="addRelatedProducts" />
+          <WMSelectRelatedProducts
+            :product="product"
+            @related-products-added="handleRelatedProductsAdded"
+          />
         </div>
       </div>
       <!-- <div class="flex flex-row justify-content-between">
@@ -32,7 +35,7 @@
       @update:selection="onSelectionChanged"
       @row-edit-save="onRowEditSave"
     >
-      <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
+      <!-- <Column v-if="selectable" style="width: 40px" selection-mode="multiple" /> -->
       <Column v-if="preview" style="width: 40px">
         <template #body="{ data }">
           <img src="/icons/eye.svg" class="vertical-align-middle" @click="openSidebar(data.id)" />
@@ -74,7 +77,7 @@
           <WMRemoveButton
             v-if="data.mode !== 'create'"
             class="p-0"
-            @click="handleRemoveDiscount(data)"
+            @click="handleRemoveRelatedProduct(data)"
           />
         </template>
       </Column>
@@ -89,7 +92,14 @@ import { onMounted, ref, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getRelatedProducts, getProductRelationshipTypes } = useProducts();
+const {
+  getRelatedProducts,
+  getProductRelationshipTypes,
+  deleteRelatedProduct,
+  updateRelatedProduct,
+} = useProducts();
+
+const toast = useToast();
 
 // INJECT
 
@@ -249,34 +259,49 @@ const onSelectionChanged = () => {
 const onRowEditSave = async (event) => {
   let { newData: rowData, index } = event;
 
-  console.log(rowData);
-  console.log(index);
+  console.log("onRowEditSave rowData", rowData);
+
+  updateRelatedProduct(props.product.id, rowData.id, { type: rowData.relationship.id })
+    .then(() => {
+      relatedProducts.value[index] = rowData;
+
+      toast.info({
+        title: "Related product updated successfully",
+      });
+    })
+    .catch(() => {
+      toast.error({
+        title: "Error updating related product",
+      });
+    });
 };
 
 const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
 };
 
-// const addSelectedUsers = async (users) => {
-//   const userIds = users.map((user) => user.id);
+const handleRemoveRelatedProduct = (relatedProduct) => {
+  deleteRelatedProduct(props.product.id, relatedProduct.id, { type: relatedProduct.type.id })
+    .then(() => {
+      relatedProducts.value = relatedProducts.value.filter(
+        (product) => product.id !== relatedProduct.id
+      );
 
-//   await props.addUsersFunction(userIds);
+      toast.info({
+        title: "Related product removed successfully",
+      });
+    })
+    .catch(() => {
+      toast.error({
+        title: "Error removing related product",
+      });
+    });
+};
 
-//   loadLazyData();
-// };
-
-// const removeSelectedUsers = async () => {
-//   const userIds = selectedUsers.value.map((user) => user.id);
-
-//   await props.removeUsersFunction(userIds);
-
-//   cleanSelectedUsers();
-//   loadLazyData();
-// };
-
-// const onPage = (event) => {
-//   console.log(event);
-// };
+const handleRelatedProductsAdded = () => {
+  console.log("entro");
+  loadLazyData();
+};
 
 // PROVIDE, EXPOSE
 defineExpose({
