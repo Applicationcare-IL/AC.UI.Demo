@@ -55,6 +55,10 @@
             <template #title> {{ $t("classification.classification") }}</template>
             <template #content>
 
+              <div v-if="isClassificationErrorVisible" class="bg-red-100 text-red-600 p-2 secondary-typography text-sm">
+                {{ $t('quick-code.classification-error') }}
+              </div>
+
               <div class="flex flex-column gap-5">
                 <WMInputSearch
                     v-model="selectedArea"
@@ -194,7 +198,7 @@ import {useUtilsStore} from "@/stores/utils";
 const optionSetsStore = useOptionSetsStore();
 const route = useRoute();
 
-const {updateQuickCode} = useAdminQuickCodes();
+const {updateQuickCode, existQuickCodeClassification} = useAdminQuickCodes();
 const {getTeams} = useAdminTeams();
 
 const formUtilsStore = useFormUtilsStore();
@@ -239,6 +243,8 @@ const isRequest1Empty = ref(true);
 const isRequest2Empty = ref(true);
 const isRequest3Empty = ref(true);
 
+const isClassificationErrorVisible = ref(false);
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
@@ -277,7 +283,6 @@ const loadLazyData = async () => {
   selectedRequest3.value = requests3.value.find(
       (request) => request.id === props.quickCode.request_3?.id
   );
-
 };
 
 const filterTypes = async (value) => {
@@ -370,7 +375,11 @@ const handleRequest2Change = async (option) => {
   await filterRequests3(option.value.id);
 };
 
-const {handleSubmit, meta, resetForm} = useForm({
+const existsClassification = async (classifications, id) => {
+  isClassificationErrorVisible.value = await existQuickCodeClassification(classifications, id);
+}
+
+const {handleSubmit, meta, values, resetForm} = useForm({
   validationSchema: formUtilsStore.getQuickCodeUpdateFormValidationSchema,
 });
 
@@ -400,6 +409,13 @@ watch(
         formUtilsStore.formMeta = value;
         formUtilsStore.setFormMetas(value, props.formKey);
       }
+    }
+);
+
+watch(
+    () => [values.service_request_1, values.service_request_2, values.service_request_3],
+    () => {
+      if (values.service_area) existsClassification(values, route.params.id);
     }
 );
 

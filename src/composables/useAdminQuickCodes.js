@@ -35,12 +35,12 @@ const useAdminFlowmaze = () => {
     }
 
     const existQuickCodeName = async (quickCodeName, quickCodeId = null) => {
-        const response = await adminQuickCodes.existQuickCodeName(mapExistName(quickCodeName, quickCodeId));
+        const response = await adminQuickCodes.existQuickCodeName(parseExistName(quickCodeName, quickCodeId));
         return response.exists;
     }
 
-    const existQuickCodeClassification = async (data) => {
-        const response = await adminQuickCodes.existQuickCodeClassification(mapExistClassification(data));
+    const existQuickCodeClassification = async (data, quickCodeId = null) => {
+        const response = await adminQuickCodes.existQuickCodeClassification(parseExistClassification(data, quickCodeId));
         return response.exists;
     }
 
@@ -52,29 +52,30 @@ const useAdminFlowmaze = () => {
                 id: quickCode.id,
             },
             title: quickCode.name,
-            service_area_name: quickCode.area?.value,
-            service_detail_name: quickCode.type?.value,
-            request_1_name: quickCode.request_1?.value,
-            request_2_name: quickCode.request_2?.value,
-            request_3_name: quickCode.request_3?.value,
+            service_area_name: quickCode.area?.value + ' ' + quickCode.area?.id,
+            service_detail_name: quickCode.type?.value + ' ' + quickCode.type?.id,
+            request_1_name: quickCode.request_1?.value + ' ' + quickCode.request_1?.id,
+            request_2_name: quickCode.request_2?.value + ' ' + quickCode.request_2?.id,
+            request_3_name: quickCode.request_3?.value + ' ' + quickCode.request_3?.id,
             team_name: quickCode.team?.name,
         };
     };
 
-    const mapExistName = (name, id) => {
+    const parseExistName = (name, id) => {
         return {
             name: name,
             id: id ?? ''
         }
     }
 
-    const mapExistClassification = (data) => {
+    const parseExistClassification = (data, id) => {
         return {
             area: data.service_area.id,
             type: data.service_type.id,
             request_1: data.service_request_1.id,
             request_2: data.service_request_2?.id,
             request_3: data.service_request_3?.id,
+            id: id ?? ''
         }
     }
 
