@@ -1,5 +1,8 @@
 <template>
-  <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
+  <div
+    class="wm-new-form-container flex flex-auto flex-column overflow-auto"
+    data-testid="customer"
+  >
     <div class="customer-data flex flex-auto flex-column gap-5 mb-5">
       <h1 v-if="!props.isSidebar" class="h1 mb-0">
         {{ $t("new", ["customer.customer"]) }}
@@ -11,6 +14,7 @@
           :highlighted="true"
           :label="$t('owner') + ':'"
           :value="authStore.userFullName"
+          data-testid="owner"
         />
       </div>
       <div class="wm-form-row gap-5">

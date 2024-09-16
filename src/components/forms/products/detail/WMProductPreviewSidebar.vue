@@ -2,10 +2,15 @@
   <Sidebar
     v-model:visible="visible"
     class="details-sidebar w-6"
+    data-testid="preview_sidebar"
     :show-close-icon="false"
     @update:model-value="updateModelValue"
   >
-    <div v-if="product" class="flex flex-auto flex-column overflow-auto w-full px-2">
+    <div
+      v-if="product"
+      class="flex flex-auto flex-column overflow-auto w-full px-2"
+      data-testid="product"
+    >
       <div class="flex justify-content-between">
         <h2 class="h2">{{ product.name }}</h2>
         <router-link

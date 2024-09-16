@@ -6,7 +6,7 @@
       :class="classes"
       :style="{ left: leftPositon + 'px' }"
     >
-      <div ref="target" class="wm-sidebar">
+      <div ref="target" class="wm-sidebar" :data-testid="dataTestid">
         <slot :props="props" @close-sidebar="handleCloseSidebar" />
       </div>
       <div class="wm-sidebar-overlay" @click="handleCloseSidebar"></div>
@@ -42,6 +42,10 @@ const props = defineProps({
   show: {
     type: Boolean,
     default: true,
+  },
+  dataTestid: {
+    type: String,
+    default: "",
   },
 });
 

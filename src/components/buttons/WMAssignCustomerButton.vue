@@ -35,6 +35,7 @@
   <WMSidebar
     :visible="isNewCustomerSidebarVisible"
     name="newAssignCustomerButtonCustomer"
+    data-testid="new_form"
     @close-sidebar="closeNewCustomerSidebar"
     @open-sidebar="openNewCustomerSidebar"
   >
