@@ -11,7 +11,11 @@
         <WMFilterForm entity="existing-document" filter-form-name="existing-document" />
       </div> -->
       <div class="flex flex-column p-3 existing-documents-dialog__table">
-        <WMExistingDocumentsTable @update:selection="onSelectionChanged" />
+        <WMExistingDocumentsTable
+          :related-entity="relatedEntity"
+          :related-entity-id="relatedEntityId"
+          @update:selection="onSelectionChanged"
+        />
         <div class="flex flex-row w-full justify-content-end gap-3 mt-3">
           <WMButton :text="$t('buttons.cancel')" type="type-3" @click="closeDialog" />
           <WMButton
@@ -28,18 +32,37 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { ref } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
-
+// DEPENDENCIES
 const { layoutConfig } = useLayout();
 
-const modelValue = defineModel();
+// INJECT
 
+// PROPS, EMITS
 const emit = defineEmits(["selectDocument"]);
+
+defineProps({
+  relatedEntity: {
+    type: String,
+    required: false,
+  },
+  relatedEntityId: {
+    type: Number,
+    required: false,
+  },
+});
+
+// REFS
+const modelValue = defineModel();
 
 const selectedDocument = ref();
 
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
 const onSelectionChanged = (value) => {
   selectedDocument.value = value;
 };
@@ -52,4 +75,10 @@ const handleSelectDocument = () => {
   emit("selectDocument", selectedDocument.value);
   closeDialog();
 };
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

@@ -8,7 +8,6 @@
       <WMSearchBox entity="existing-document" />
     </div>
   </div>
-  <!-- <pre>{{ documents }}</pre> -->
   <DataTable
     v-model:selection="selectedDocument"
     selection-mode="single"
@@ -51,10 +50,18 @@ const utilsStore = useUtilsStore();
 // INJECT
 
 // PROPS, EMITS
-defineProps({
+const props = defineProps({
   hideTitle: {
     type: Boolean,
     default: false,
+  },
+  relatedEntity: {
+    type: String,
+    required: false,
+  },
+  relatedEntityId: {
+    type: Number,
+    required: false,
   },
 });
 
@@ -130,6 +137,10 @@ const loadLazyData = async () => {
     search: searchValueParam,
     with_attachment: true,
   });
+
+  if (props.relatedEntity === "project") {
+    params.append("project_id", props.relatedEntityId);
+  }
 
   getDocumentsFromApi(params).then((result) => {
     documents.value = result.data;
