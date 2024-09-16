@@ -257,6 +257,27 @@ const loadLazyData = async () => {
   await optionSetsStore
       .getOptionSetValuesFromApiRaw("service_area")
       .then((data) => (areas.value = data));
+
+  selectedArea.value = areas.value.find(
+      (area) => area.id === props.quickCode.area?.id
+  );
+  await filterTypes(props.quickCode.area.id);
+  selectedType.value = types.value.find(
+      (type) => type.id === props.quickCode.type?.id
+  );
+  await filterRequests1(props.quickCode.type.id);
+  selectedRequest1.value = requests1.value.find(
+      (request) => request.id === props.quickCode.request_1?.id
+  );
+  await filterRequests2(props.quickCode.request_1?.id);
+  selectedRequest2.value = requests2.value.find(
+      (request) => request.id === props.quickCode.request_2?.id
+  );
+  await filterRequests3(props.quickCode.request_2?.id);
+  selectedRequest3.value = requests3.value.find(
+      (request) => request.id === props.quickCode.request_3?.id
+  );
+
 };
 
 const filterTypes = async (value) => {
@@ -319,7 +340,6 @@ const handleAreasChange = async (option) => {
     clearRequest3();
     return;
   }
-
   await filterTypes(option.value.id);
 };
 
@@ -389,28 +409,6 @@ onMounted(async () => {
 
   formUtilsStore.formEntity = "quick-code";
   utilsStore.entity = "quick-code";
-  
-  if (props.quickCode) {
-    selectedArea.value = areas.value.find(
-        (area) => area.id === props.quickCode.area?.id
-    );
-    await handleAreasChange(selectedArea.value);
-    selectedType.value = types.value.find(
-        (type) => type.id === props.quickCode.type?.id
-    );
-    await handleTypesChange(selectedType.value);
-    selectedRequest1.value = requests1.value.find(
-        (request) => request.id === props.quickCode.request_1?.id
-    );
-    await handleRequest1Change(selectedRequest1.value);
-    selectedRequest2.value = requests2.value.find(
-        (request) => request.id === props.quickCode.request_2?.id
-    );
-    await handleRequest2Change(selectedRequest2.value);
-    selectedRequest3.value = requests3.value.find(
-        (request) => request.id === props.quickCode.request_3?.id
-    );
-  }
 })
 </script>
 
