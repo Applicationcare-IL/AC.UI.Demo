@@ -422,7 +422,7 @@ const clear = () => {
     forceRerender();
   }
 
-  if (props.type == "message_rating") {
+  if (props.type == "message_rating" || props.type == "booleanButtons") {
     selectedOption.value = null;
   }
 

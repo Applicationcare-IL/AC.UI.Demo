@@ -785,10 +785,46 @@ const useFilters = () => {
         type: "booleanButtons",
         name: "licensing_required",
         options: [
-          { name: i18n.t("products.includes-license"), value: 1 },
-          { name: i18n.t("products.do-not-include"), value: 0 },
+          { name: i18n.t("product.includes-license"), value: 1 },
+          { name: i18n.t("product.do-not-include"), value: 0 },
         ],
         label: i18n.t("product.license") + ":",
+      },
+      {
+        type: "booleanButtons",
+        name: "commitment",
+        options: [
+          { name: i18n.t("product.includes-commitment"), value: 1 },
+          { name: i18n.t("product.do-not-include"), value: 0 },
+        ],
+        label: i18n.t("product.commitment") + ":",
+      },
+      {
+        type: "booleanButtons",
+        name: "warranty",
+        options: [
+          { name: i18n.t("product.includes-warranty"), value: 1 },
+          { name: i18n.t("product.do-not-include"), value: 0 },
+        ],
+        label: i18n.t("product.warranty") + ":",
+      },
+      {
+        type: "booleanButtons",
+        name: "installation_required",
+        options: [
+          { name: i18n.t("product.includes-installation"), value: 1 },
+          { name: i18n.t("product.do-not-include"), value: 0 },
+        ],
+        label: i18n.t("product.installation") + ":",
+      },
+      {
+        type: "booleanButtons",
+        name: "maintenance_required",
+        options: [
+          { name: i18n.t("product.includes-maintenance"), value: 1 },
+          { name: i18n.t("product.do-not-include"), value: 0 },
+        ],
+        label: i18n.t("product.maintenance") + ":",
       },
     ],
   };

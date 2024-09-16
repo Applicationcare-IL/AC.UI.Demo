@@ -970,6 +970,7 @@
     "commitment-period": "Commitment Period",
     "commitment-unit": "Commitment Unit",
     "commitment": "Commitment",
+    "includes-commitment": "Includes Commitment",
     "crm-id": "CRM ID",
     "department": "Department",
     "discount-number": "Discount Number",
@@ -992,6 +993,7 @@
     "information-page": "Information Page",
     "installation-types": "Installation Types",
     "installation": "Installation",
+    "installation-included": "Installation Included",
     "license": "License",
     "includes-license": "Includes License",
     "maintenance-period": "Maintenance Period",
@@ -1000,6 +1002,7 @@
     "maintenance-types": "Maintenance Types",
     "maintenance-unit": "Maintenance Unit",
     "maintenance": "Maintenance",
+    "maintenance-included": "Maintenance Included",
     "management-and-marketing": "Management and Marketing",
     "manufacturer-type": "Manufacturer Type",
     "manufacturer": "Manufacturer",
@@ -1046,6 +1049,7 @@
     "warranty-period": "Guarantee Period",
     "warranty-unit": "Guarantee Unit",
     "warranty": "Guarantee",
+    "includes-warranty": "Includes Guarantee",
     "do-not-include": "Do not include"
   },
   "classification": {
