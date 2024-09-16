@@ -1,5 +1,5 @@
 <template>
-  <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
+  <div class="wm-new-form-container flex flex-auto flex-column overflow-auto" data-testid="contact">
     <div class="contact-data flex flex-auto flex-column gap-5 mb-5">
       <h1 v-if="!props.isSidebar" class="h1 mb-0">
         {{ $t("new", ["contact.contact"]) }}
@@ -35,10 +35,10 @@
 
       <div class="wm-form-row gap-32px">
         <WMInput
-            name="contact-number"
-            type="input-text"
-            :label="$t('contact.number') + ':'"
-            data-testid="contact.form.contact-number"
+          name="contact-number"
+          type="input-text"
+          :label="$t('contact.number') + ':'"
+          data-testid="contact.form.contact-number"
         />
 
         <WMInput
@@ -74,6 +74,7 @@
         <WMSidebar
           :visible="isNewCustomerSidebarVisible"
           name="newCustomer"
+          data-testid="new_form"
           @close-sidebar="closeNewCustomerSidebar"
           @open-sidebar="openSidebar"
         >
@@ -101,18 +102,18 @@
           data-testid="contact.form.mobile-phone"
         />
         <WMInput
-            name="landline"
-            type="input-text"
-            :label="$t('landline') + ':'"
-            width="88"
-            data-testid="contact.form.landline"
+          name="landline"
+          type="input-text"
+          :label="$t('landline') + ':'"
+          width="88"
+          data-testid="contact.form.landline"
         />
         <WMInput
-            name="fax"
-            type="input-text"
-            :label="$t('fax') + ':'"
-            width="88"
-            data-testid="contact.form.fax"
+          name="fax"
+          type="input-text"
+          :label="$t('fax') + ':'"
+          width="88"
+          data-testid="contact.form.fax"
         />
       </div>
 
@@ -139,11 +140,11 @@
 
       <div class="wm-form-row gap-5">
         <WMInput
-            id="notes"
-            type="text-area"
-            name="notes"
-            size="full"
-            data-testid="contact.form.notes"
+          id="notes"
+          type="text-area"
+          name="notes"
+          size="full"
+          data-testid="contact.form.notes"
         />
       </div>
     </div>

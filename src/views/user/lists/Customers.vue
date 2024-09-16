@@ -19,6 +19,7 @@
   <WMSidebar
     :visible="isVisible"
     name="newCustomer"
+    data-testid="new_form"
     @close-sidebar="closeSidebar"
     @open-sidebar="openSidebar"
   >
