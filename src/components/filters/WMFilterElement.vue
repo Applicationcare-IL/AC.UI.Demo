@@ -1,13 +1,17 @@
 <template>
-  <div class="relative max-w-30rem overflow-auto">
+  <div v-if="type === 'section-title'">
+    <h4 class="h4">{{ label }}</h4>
+  </div>
+  <div v-else class="relative max-w-30rem overflow-auto">
     <!-- <pre>appliedFilters {{ appliedFilters }}</pre> -->
     <!-- <pre>selectedOption {{ selectedOption }}</pre> -->
     <!-- Toggable label-->
     <div v-if="label != '' && toggable">
-      <div class="flex flex-row align-items-center gap-3" @click="toggleContent">
+      <div class="flex flex-row align-items-center gap-3">
         <div
           class="toggable w-full hover:bg-blue-50"
           :class="isToggled || hasSelectedOptions ? 'bg-blue-50' : 'bg-gray-50'"
+          @click="toggleContent"
         >
           <div class="w-full flex justify-content-between align-items-center">
             <span class="h6">{{ label }}</span>
@@ -22,7 +26,11 @@
             <div class="p-button-svg flex" v-html="ExpandIcon" />
           </div>
         </div>
-        <WMButton :text="$t('buttons.clear')" type="clear mx-0 px-0" @click="clear" />
+        <WMButton
+          :text="$t('buttons.clear')"
+          type="overflow-hidden clear mx-0 px-1"
+          @click="clear"
+        />
       </div>
     </div>
 
@@ -166,7 +174,7 @@
       />
     </div>
   </div>
-  <Divider></Divider>
+  <Divider v-if="type !== 'section-title'" />
 </template>
 
 <script setup>

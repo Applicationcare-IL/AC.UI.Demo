@@ -16,7 +16,6 @@
 
   <Divider></Divider>
   <div class="filter-body p-4">
-    <!-- <pre>{{ appliedFilters }}</pre> -->
     <div>
       <WMFilterElement
         v-for="(filter, index) in filterElements"
@@ -112,7 +111,6 @@ const checkIfFiltersArrayKeysAreEmpty = () => {
 };
 
 const addFilter = (filter) => {
-  console.log("filter", filter);
   if (typeof filters.value === "undefined") {
     filters.value = {};
     return;

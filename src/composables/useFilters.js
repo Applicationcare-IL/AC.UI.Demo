@@ -700,6 +700,26 @@ const useFilters = () => {
         name: "state",
         label: i18n.t("state.state") + ":",
       },
+      {
+        type: "section-title",
+        label: i18n.t("product.characteristics"),
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "manufacturer",
+        label: i18n.t("product.manufacturer") + ":",
+        placeholder: i18n.t("product.manufacturer"),
+        searchFunction: searchCustomers,
+      },
+      {
+        toggable: true,
+
+        type: "dropdown",
+        name: "product_type",
+        optionSet: "product_type",
+        label: i18n.t("product.product-type") + ":",
+      },
     ],
   };
 
