@@ -34,8 +34,8 @@ const useAdminFlowmaze = () => {
         return await adminQuickCodes.deactivateQuickCode(quickCodeId);
     }
 
-    const existQuickCodeName = async (quickCodeName) => {
-        const response = await adminQuickCodes.existQuickCodeName(mapExistName(quickCodeName));
+    const existQuickCodeName = async (quickCodeName, quickCodeId = null) => {
+        const response = await adminQuickCodes.existQuickCodeName(mapExistName(quickCodeName, quickCodeId));
         return response.exists;
     }
 
@@ -61,9 +61,10 @@ const useAdminFlowmaze = () => {
         };
     };
 
-    const mapExistName = (name) => {
+    const mapExistName = (name, id) => {
         return {
-            name: name
+            name: name,
+            id: id ?? ''
         }
     }
 

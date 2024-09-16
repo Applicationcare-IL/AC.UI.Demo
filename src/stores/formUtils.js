@@ -646,8 +646,18 @@ export const useFormUtilsStore = defineStore("formUtils", {
       });
     },
     getQuickCodeUpdateFormValidationSchema: () => {
+      const {existQuickCodeName} = useAdminQuickCodes();
+
       return yup.object({
-        name: yup.string().required(),
+        name: yup.string().required()
+            .test("unique", {
+              key: "validation.exists",
+              values: {label: "quick-code.name"},
+            }, async (name, context) => {
+              if (!name) return true;
+              const nameExists = await existQuickCodeName(name, context.parent.id);
+              return !nameExists;
+            }),
         team: yup.object().required(),
         service_area: yup.object().required(),
         service_type: yup.object().required(),

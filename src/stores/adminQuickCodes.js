@@ -64,9 +64,9 @@ export const useAdminQuickCodesStore = defineStore("adminQuickCodes", {
                     console.error(error);
                 });
         },
-        existQuickCodeName(quickCodeName) {
+        existQuickCodeName(data) {
             return axiosConfig
-                .post(`/admin/quick-codes/name-exists`, quickCodeName)
+                .post(`/admin/quick-codes/name-exists`, data)
                 .then((response) => {
                     return response.data;
                 })
