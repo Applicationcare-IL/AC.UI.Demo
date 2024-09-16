@@ -782,6 +782,7 @@ const useFilters = () => {
         label: i18n.t("product.settings"),
       },
       {
+        toggable: true,
         type: "booleanButtons",
         name: "licensing_required",
         options: [
@@ -791,6 +792,7 @@ const useFilters = () => {
         label: i18n.t("product.license") + ":",
       },
       {
+        toggable: true,
         type: "booleanButtons",
         name: "commitment",
         options: [
@@ -800,6 +802,7 @@ const useFilters = () => {
         label: i18n.t("product.commitment") + ":",
       },
       {
+        toggable: true,
         type: "booleanButtons",
         name: "warranty",
         options: [
@@ -809,6 +812,7 @@ const useFilters = () => {
         label: i18n.t("product.warranty") + ":",
       },
       {
+        toggable: true,
         type: "booleanButtons",
         name: "installation_required",
         options: [
@@ -818,6 +822,7 @@ const useFilters = () => {
         label: i18n.t("product.installation") + ":",
       },
       {
+        toggable: true,
         type: "booleanButtons",
         name: "maintenance_required",
         options: [

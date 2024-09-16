@@ -298,6 +298,7 @@ const hasSelectedOptions = computed(() => {
   if (selectedOptions.value.length > 0) return true;
   if (fromDate.value || toDate.value) return true;
   if (selectedButtons.value.length > 0) return true;
+  if (selectedOption.value) return true;
 
   return false;
 });
