@@ -993,6 +993,7 @@
     "installation-types": "Installation Types",
     "installation": "Installation",
     "license": "License",
+    "includes-license": "Includes License",
     "maintenance-period": "Maintenance Period",
     "maintenance-price": "Maintenance Price",
     "maintenance-type": "Maintenance Type",
@@ -1044,7 +1045,8 @@
     "valid-till": "Valid till",
     "warranty-period": "Guarantee Period",
     "warranty-unit": "Guarantee Unit",
-    "warranty": "Guarantee"
+    "warranty": "Guarantee",
+    "do-not-include": "Do not include"
   },
   "classification": {
     "classification": "Classification",

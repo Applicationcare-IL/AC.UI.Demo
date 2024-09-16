@@ -106,7 +106,7 @@ const columns = [
   {
     name: "license",
     type: "checkbox",
-    field: "license",
+    field: "licensing_required",
     header: "product.license",
   },
   {

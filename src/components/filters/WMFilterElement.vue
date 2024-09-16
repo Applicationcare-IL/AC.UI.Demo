@@ -126,6 +126,21 @@
         </div>
       </div>
 
+      <!-- BOOLEAN BUTTONS -->
+      <div v-if="type == 'booleanButtons'" class="flex flex-row gap-2 p-2">
+        <div class="flex mt-2">
+          <SelectButton
+            v-model="selectedOption"
+            :options="options"
+            option-label="name"
+            option-value="value"
+            class="flex flex-nowrap"
+            :allow-empty="false"
+            @change="onChangeBooleanButton"
+          />
+        </div>
+      </div>
+
       <!-- DATES -->
       <div v-if="type == 'date'" class="flex flex-row gap-2 p-2">
         <div class="flex flex-column">
@@ -350,6 +365,13 @@ const onChangeMessageRating = (value) => {
   });
 };
 
+const onChangeBooleanButton = (value) => {
+  emits("update:filter", {
+    name: props.filterName,
+    value: value.value,
+  });
+};
+
 const onDateChanged = (value, type) => {
   let dateFilterName;
   let date;
@@ -435,14 +457,21 @@ const handleSelectedSLAs = () => {
 const handleSelectedMessageRating = () => {
   if (props.appliedFilters && props.type == "message_rating") {
     if (props.appliedFilters["important"] || props.appliedFilters["important"] == 0) {
-      console.log('props.appliedFilters["important"]', props.appliedFilters["important"]);
-
       let foundSelectedOption = messageRatingOptions.find(
         (x) => x.value == props.appliedFilters["important"]
       );
 
-      console.log("foundSelectedOption", foundSelectedOption);
+      selectedOption.value = foundSelectedOption.value;
+    }
+  }
+};
 
+const handleSelectedBooleanButtons = () => {
+  if (props.appliedFilters && props.type == "booleanButtons") {
+    if (props.appliedFilters[props.filterName] || props.appliedFilters[props.filterName] == 0) {
+      let foundSelectedOption = messageRatingOptions.find(
+        (x) => x.value == props.appliedFilters[props.filterName]
+      );
       selectedOption.value = foundSelectedOption.value;
     }
   }
@@ -531,6 +560,7 @@ const handleSelectedFilters = () => {
   handleAutocompleteOptions();
   handleSelectedState();
   handleSelectedMessageRating();
+  handleSelectedBooleanButtons();
 };
 
 const toggleContent = () => {
