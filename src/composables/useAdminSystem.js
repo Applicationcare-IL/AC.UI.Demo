@@ -15,9 +15,29 @@ const useAdminFlowmaze = () => {
     return { data: easymazeEntities, totalRecords };
   };
 
+  const getSLAValue = async () => {
+    try {
+      return await adminSystemStore.getSALValue();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const updateSLAValue = async (SLAValue) => {
+    try {
+      return await adminSystemStore.updateSLAValue({ value: SLAValue });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   return {
     // ACTIONS
     getEasymazeEntitiesList,
+    getSLAValue,
+    updateSLAValue,
   };
 };
 

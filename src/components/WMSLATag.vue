@@ -1,17 +1,15 @@
 <template>
   <div class="sla-tag" :class="slaClasses">
-    <span
-      v-if="
-        props.state === 'active' &&
-        props.sla !== 'breached' &&
-        props.daysForClosing === 1
-      "
-    >
+    <span v-if="props.state === 'active' && props.sla !== 'breached' && props.daysForClosing === 1">
       {{ t("sla.one_day_left") }}
+    </span>
+    <span v-else-if="props.state === 'active' && props.sla === 'near_breach'">
+      {{ t("sla.near_breach") }}
     </span>
     <span v-else-if="props.state === 'active' && props.sla !== 'breached'">
       {{ t("sla.days_left", { days: Math.abs(props.daysForClosing) }) }}
     </span>
+
     <span v-else-if="props.state === 'active' && props.sla === 'breached'">
       {{ t("sla.days_passed", { days: Math.abs(props.daysForClosing) }) }}
     </span>
@@ -40,12 +38,10 @@ const slaClasses = computed(() => {
   return [
     "px-2",
     {
-      "bg-teal-200 text-teal-900":
-        props.sla === "no_breach" && props.state === "active",
-      "bg-yellow-100 text-gray-900":
-        props.sla === "near_breach" && props.state === "active",
-      "bg-red-100 text-red-600 ":
-        props.sla === "breached" && props.state === "active",
+      "bg-green-200 text-gray-900": props.state !== "active" && props.sla !== "breached",
+      "bg-teal-200 text-teal-900": props.sla === "no_breach" && props.state === "active",
+      "bg-yellow-200 text-gray-800": props.sla === "near_breach" && props.state === "active",
+      "bg-red-100 text-red-600 ": props.sla === "breached" && props.state === "active",
       "text-teal-900": props.sla !== "breached" && props.state === "not_active",
       "text-red-600": props.sla === "breached" && props.state === "not_active",
     },
