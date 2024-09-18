@@ -128,6 +128,8 @@
       <template #body="slotProps">
         <WMUploadAttachmentButton
           entity="document"
+          :related-entity="relatedEntity"
+          :related-entity-id="relatedEntityId"
           :entity-id="slotProps.data.id"
           file-name="document"
           :has-file="slotProps.data.attachment"

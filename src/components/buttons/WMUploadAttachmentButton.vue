@@ -27,6 +27,8 @@
   <WMExistingDocumentsDialog
     v-if="showExistingDocumentsDialog"
     v-model="showExistingDocumentsDialog"
+    :related-entity="relatedEntity"
+    :related-entity-id="relatedEntityId"
     @select-document="handleSelectExistingDocument"
   />
 </template>
@@ -52,6 +54,14 @@ const props = defineProps({
   entityId: {
     type: Number,
     required: true,
+  },
+  relatedEntity: {
+    type: String,
+    required: false,
+  },
+  relatedEntityId: {
+    type: Number,
+    required: false,
   },
   fileName: {
     type: String,

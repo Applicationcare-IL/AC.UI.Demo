@@ -146,12 +146,12 @@ const model = computed(() => {
           image: new URL("/icons/nav/category.svg", import.meta.url).href,
           visibility: true,
         },
-        // {
-        //   label: t("navigation.sla-settings"),
-        //   to: "/admin/sla-settings",
-        //   image: new URL("/icons/nav/alarm.svg", import.meta.url).href,
-        //   visibility: true,
-        // },
+        {
+          label: t("navigation.sla-settings"),
+          to: "/admin/sla-settings",
+          image: new URL("/icons/nav/alarm.svg", import.meta.url).href,
+          visibility: true,
+        },
         // {
         //   label: t("navigation.task-settings"),
         //   to: "/admin/task-settings",

@@ -1,13 +1,17 @@
 <template>
-  <div class="relative max-w-30rem overflow-auto">
+  <div v-if="type === 'section-title'">
+    <h4 class="h4">{{ label }}</h4>
+  </div>
+  <div v-else class="relative max-w-30rem overflow-auto">
     <!-- <pre>appliedFilters {{ appliedFilters }}</pre> -->
     <!-- <pre>selectedOption {{ selectedOption }}</pre> -->
     <!-- Toggable label-->
     <div v-if="label != '' && toggable">
-      <div class="flex flex-row align-items-center gap-3" @click="toggleContent">
+      <div class="flex flex-row align-items-center gap-3">
         <div
           class="toggable w-full hover:bg-blue-50"
           :class="isToggled || hasSelectedOptions ? 'bg-blue-50' : 'bg-gray-50'"
+          @click="toggleContent"
         >
           <div class="w-full flex justify-content-between align-items-center">
             <span class="h6">{{ label }}</span>
@@ -22,7 +26,11 @@
             <div class="p-button-svg flex" v-html="ExpandIcon" />
           </div>
         </div>
-        <WMButton :text="$t('buttons.clear')" type="clear mx-0 px-0" @click="clear" />
+        <WMButton
+          :text="$t('buttons.clear')"
+          type="overflow-hidden clear mx-0 px-1"
+          @click="clear"
+        />
       </div>
     </div>
 
@@ -118,6 +126,21 @@
         </div>
       </div>
 
+      <!-- BOOLEAN BUTTONS -->
+      <div v-if="type == 'booleanButtons'" class="flex flex-row gap-2 p-2">
+        <div class="flex mt-2">
+          <SelectButton
+            v-model="selectedOption"
+            :options="options"
+            option-label="name"
+            option-value="value"
+            class="flex flex-nowrap"
+            :allow-empty="false"
+            @change="onChangeBooleanButton"
+          />
+        </div>
+      </div>
+
       <!-- DATES -->
       <div v-if="type == 'date'" class="flex flex-row gap-2 p-2">
         <div class="flex flex-column">
@@ -166,7 +189,7 @@
       />
     </div>
   </div>
-  <Divider></Divider>
+  <Divider v-if="type !== 'section-title'" />
 </template>
 
 <script setup>
@@ -275,6 +298,7 @@ const hasSelectedOptions = computed(() => {
   if (selectedOptions.value.length > 0) return true;
   if (fromDate.value || toDate.value) return true;
   if (selectedButtons.value.length > 0) return true;
+  if (selectedOption.value) return true;
 
   return false;
 });
@@ -342,6 +366,13 @@ const onChangeMessageRating = (value) => {
   });
 };
 
+const onChangeBooleanButton = (value) => {
+  emits("update:filter", {
+    name: props.filterName,
+    value: value.value,
+  });
+};
+
 const onDateChanged = (value, type) => {
   let dateFilterName;
   let date;
@@ -392,7 +423,7 @@ const clear = () => {
     forceRerender();
   }
 
-  if (props.type == "message_rating") {
+  if (props.type == "message_rating" || props.type == "booleanButtons") {
     selectedOption.value = null;
   }
 
@@ -427,14 +458,21 @@ const handleSelectedSLAs = () => {
 const handleSelectedMessageRating = () => {
   if (props.appliedFilters && props.type == "message_rating") {
     if (props.appliedFilters["important"] || props.appliedFilters["important"] == 0) {
-      console.log('props.appliedFilters["important"]', props.appliedFilters["important"]);
-
       let foundSelectedOption = messageRatingOptions.find(
         (x) => x.value == props.appliedFilters["important"]
       );
 
-      console.log("foundSelectedOption", foundSelectedOption);
+      selectedOption.value = foundSelectedOption.value;
+    }
+  }
+};
 
+const handleSelectedBooleanButtons = () => {
+  if (props.appliedFilters && props.type == "booleanButtons") {
+    if (props.appliedFilters[props.filterName] || props.appliedFilters[props.filterName] == 0) {
+      let foundSelectedOption = messageRatingOptions.find(
+        (x) => x.value == props.appliedFilters[props.filterName]
+      );
       selectedOption.value = foundSelectedOption.value;
     }
   }
@@ -523,6 +561,7 @@ const handleSelectedFilters = () => {
   handleAutocompleteOptions();
   handleSelectedState();
   handleSelectedMessageRating();
+  handleSelectedBooleanButtons();
 };
 
 const toggleContent = () => {
