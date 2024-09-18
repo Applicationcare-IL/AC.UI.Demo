@@ -956,7 +956,23 @@
   },
   "sale": {
     "sale": "Sale",
-    "sales": "Sales"
+    "sales": "Sales",
+    "contact": "Contact",
+    "customer": "Customer",
+    "sale-type": "Sale type",
+    "sale-source": "Sale source",
+    "tender": "Tender",
+    "initiator": "Initiator",
+    "sla": "SLA",
+    "stage-in-sale": "Stage in sale",
+    "waiting-for-customers": "Waiting for customer",
+    "open-tasks": "Open Tasks",
+    "breached-tasks": "Breached Tasks",
+    "deal-price-base": "Deal price (base)",
+    "total-discount": "Total discount",
+    "deal-price-final": "Deal price (final)",
+    "budget": "Budget",
+    "last-change": "Last change"
   },
   "product": {
     "amount": "Amount",

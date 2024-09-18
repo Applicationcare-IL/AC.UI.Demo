@@ -3,7 +3,6 @@
   <WMListSubHeader
     entity="sale"
     :total-records="0"
-    :show-communications="true"
     :has-action-builder="false"
     @new="toggleSidebarVisibility"
   >
@@ -70,118 +69,118 @@ const columns = [
     name: "contact",
     type: "link",
     field: "",
-    header: "contact",
+    header: "sale.contact",
     routeName: "",
   },
   {
     name: "customer",
     type: "link",
     field: "",
-    header: "customer",
+    header: "sale.customer",
     routeName: "",
   },
   {
     name: "sale-type",
     type: "text",
     field: "",
-    header: "sale-type",
+    header: "sale.sale-type",
   },
   {
     name: "sale-source",
     type: "text",
     field: "",
-    header: "sale-source",
+    header: "sale.sale-source",
   },
   {
     name: "tender",
     type: "checkbox",
     field: "",
-    header: "tender",
+    header: "sale.tender",
   },
   {
     name: "initiator",
     type: "link",
     field: "",
-    header: "initiator",
+    header: "sale.initiator",
     routeName: "",
   },
   {
     name: "start-date",
     type: "date",
     field: "start_date",
-    header: "start-date",
+    header: "sale.start-date",
   },
   {
     name: "end-date",
     type: "date",
     field: "end_date",
-    header: "end-date",
+    header: "sale.end-date",
   },
   {
     name: "sla",
     type: "sla",
     field: "",
-    header: "sla",
+    header: "sale.sla",
   },
   {
     name: "stage-in-sale",
     type: "text",
     field: "",
-    header: "stage-in-sale",
+    header: "sale.stage-in-sale",
   },
   {
     name: "owner",
     type: "text",
     field: "",
-    header: "owner",
+    header: "sale.owner",
   },
   {
     name: "waiting-for-customers",
     type: "checkbox",
     field: "",
-    header: "waiting-for-customers",
+    header: "sale.waiting-for-customers",
   },
   {
     name: "open-tasks",
     type: "tasks",
     field: "",
-    header: "open-tasks",
+    header: "sale.open-tasks",
   },
   {
     name: "breached-tasks",
     type: "tasks",
     field: "",
-    header: "breached-tasks",
+    header: "sale.breached-tasks",
   },
   {
     name: "deal-price-base",
     type: "currency",
     field: "",
-    header: "deal-price-base",
+    header: "sale.deal-price-base",
   },
   {
     name: "total-discount",
     type: "currency",
     field: "",
-    header: "total-discount",
+    header: "sale.total-discount",
   },
   {
     name: "deal-price-final",
     type: "currency",
     field: "",
-    header: "deal-price-final",
+    header: "sale.deal-price-final",
   },
   {
     name: "budget",
     type: "currency",
     field: "",
-    header: "budget",
+    header: "sale.budget",
   },
   {
     name: "last-change",
     type: "date",
     field: "last_change_date",
-    header: "last-change",
+    header: "sale.last-change",
   },
 ];
 
