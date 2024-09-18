@@ -79,6 +79,22 @@
   <template v-if="columnData.type == 'product-relationship-type'">
     {{ modelValue ? modelValue.label : "" }}
   </template>
+  <template v-if="columnData.type == 'sla'">
+    <WMSLATag
+      v-if="modelValue"
+      :sla="modelValue.sla"
+      :days-for-closing="modelValue.days_for_closing"
+      :state="modelValue.state.value"
+    />
+  </template>
+  <template v-if="columnData.type == 'tasks'">
+    <div
+      :class="highlightCellClass(modelValue.breached_tasks)"
+      class="h-full w-full flex justify-content-center align-items-center"
+    >
+      {{ modelValue.breached_tasks }}
+    </div>
+  </template>
 </template>
 <script setup>
 // IMPORTS
