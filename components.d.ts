@@ -33,7 +33,7 @@ declare module 'vue' {
     WMAdminReportsTable: typeof import('./src/components/tables/WMAdminReportsTable.vue')['default']
     WMAdminTeamsTable: typeof import('./src/components/tables/WMAdminTeamsTable.vue')['default']
     WMAdminUserTable: typeof import('./src/components/tables/WMAdminUserTable.vue')['default']
-    WMAnnouncementsButton: typeof import('./src/components/buttons/WMAnnouncementsButton.vue')['default']
+    WMMessagesButton: typeof import('./src/components/buttons/WMMessagesButton.vue')['default']
     WMAssetsTable: typeof import('./src/components/tables/WMAssetsTable.vue')['default']
     WMAssignContactButton: typeof import('./src/components/buttons/WMAssignContactButton.vue')['default']
     WMAssignCustomerButton: typeof import('./src/components/buttons/WMAssignCustomerButton.vue')['default']

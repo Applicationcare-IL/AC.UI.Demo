@@ -69,9 +69,9 @@ const model = computed(() => {
         },
         {
           label: t("navigation.sales"),
-          to: "/projects",
+          to: "/sales",
           image: new URL("/icons/nav/sales.svg", import.meta.url).href,
-          visibility: false,
+          visibility: checkIfEntityIsActive("sales") && can("sales.read"),
         },
         {
           label: t("navigation.products"),

@@ -2,9 +2,9 @@ import { defineStore } from "pinia";
 
 import axiosConfig from "@/service/axiosConfig";
 
-export const useAnnouncementsStore = defineStore("announcements", {
+export const useMessagesStore = defineStore("messages", {
   actions: {
-    getAnnouncements(params) {
+    getMessages(params) {
       return axiosConfig
         .get("/messages", { params })
         .then((response) => {

@@ -17,11 +17,11 @@
     />
 
     <div class="hidden md:block mx-6">
-      <div class="layout-topbar-menu" :class="topbarMenuClasses">
+      <div class="layout-topbar-menu gap-1" :class="topbarMenuClasses">
         <li
           class="topbar-item notifications ml-2"
           :class="{
-            'active-topmenuitem': activeTopbarItem === 'notifications',
+            'active-item': activeTopbarItem === 'notifications',
           }"
         >
           <a href="#" @click="onTopbarItemClick($event, 'notifications')">
@@ -37,49 +37,24 @@
               ></Badge> -->
             </Button>
           </a>
-
-          <!-- <ul class="notifications-dropdown fadeInDown p-4">
-            <li class="layout-submenu-header flex flex-row justify-content-between">
-              <h6 class="header-text">There are no notifications</h6>
-              <span class="p-badge">3</span>
-            </li>
-            <li role="menuitem">
-              <a href="#" @click="onTopbarSubItemClick($event)">
-                <div class="notifications-item">
-                  <h6>Notification 1</h6>
-                </div>
-              </a>
-            </li>
-            <li role="menuitem">
-              <a href="#" @click="onTopbarSubItemClick($event)">
-                <div class="notifications-item">
-                  <h6>Notification 2</h6>
-                </div>
-              </a>
-            </li>
-            <li role="menuitem">
-              <a href="#" @click="onTopbarSubItemClick($event)">
-                <div class="notifications-item">
-                  <h6>Notification 3</h6>
-                </div>
-              </a>
-            </li>
-            <li role="menuitem">
-              <a href="#" @click="onTopbarSubItemClick($event)">
-                <div class="notifications-item">
-                  <div class="notifications-item">
-                    <h6>Notification 4</h6>
-                  </div>
-                </div>
-              </a>
-            </li>
-          </ul> -->
         </li>
 
-        <li
-          class="topbar-item profile"
-          :class="{ 'active-topmenuitem': activeTopbarItem === 'profile' }"
+        <ul
+          class="item-menu-dropdown"
+          style="min-width: 500px"
+          :class="{
+            active: activeTopbarItem === 'notifications',
+            'layout-rtl': layoutConfig.isRTL.value,
+          }"
         >
+          <h2 class="h2">Notifications</h2>
+          <template v-for="(notification, key) in notifications" :key="key">
+            <WMNotification :notification="notification" />
+            <Divider v-if="key < notifications.length - 1" />
+          </template>
+        </ul>
+
+        <li class="topbar-item profile" :class="{ 'active-item': activeTopbarItem === 'profile' }">
           <a
             href="#"
             class="flex flex-row flex align-items-center gap-2"
@@ -93,7 +68,7 @@
         </li>
 
         <ul
-          class="profile-dropdown"
+          class="item-menu-dropdown"
           :class="{
             active: activeTopbarItem === 'profile',
             'layout-rtl': layoutConfig.isRTL.value,
@@ -135,7 +110,6 @@
 // IMPORTS
 import { useWindowSize } from "@vueuse/core";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
-import { useI18n } from "vue-i18n";
 
 import ExitIcon from "/icons/exit.svg?raw";
 import LanguageIcon from "/icons/language.svg?raw";
@@ -152,11 +126,11 @@ const { layoutConfig } = useLayout();
 const authStore = useAuthStore();
 const { can } = usePermissions();
 const { width } = useWindowSize();
+const { getMessages } = useMessages();
 
 // INJECT
 
 // PROPS, EMITS
-
 defineProps({
   activeTopbarItem: String,
 });
@@ -169,6 +143,8 @@ const options = ref(["En", "He"]);
 const outsideClickListener = ref(null);
 const topbarMenuActive = ref(false);
 const searchValue = ref("");
+
+const notifications = ref([]);
 
 // COMPUTED
 const logoRedirectLink = computed(() => {
@@ -241,6 +217,11 @@ const setCurrentLanguage = () => {
 onMounted(() => {
   bindOutsideClickListener();
   setCurrentLanguage();
+
+  getMessages({ entity_type: "user", entity_id: authStore.user.id }).then((response) => {
+    // notifications.value = response.data;
+    notifications.value = [1, 2, 3];
+  });
 });
 
 onBeforeUnmount(() => {
@@ -259,6 +240,7 @@ onBeforeUnmount(() => {
   padding: 8px;
   border-radius: 8px;
 
+  &.active-item,
   &:hover {
     background-color: var(--orange-100);
   }
@@ -269,7 +251,7 @@ onBeforeUnmount(() => {
   height: 32px;
 }
 
-.profile-dropdown {
+.item-menu-dropdown {
   display: none;
   flex-direction: column;
   background-color: white;

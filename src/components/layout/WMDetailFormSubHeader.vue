@@ -108,7 +108,7 @@
               @click="dialog.cancelService(route.params.id)"
             />
 
-            <WMAnnouncementsButton
+            <WMMessagesButton
               v-if="['customer', 'service', 'project'].includes(entityType)"
               :id="route.params.id"
               :entity="entityType"

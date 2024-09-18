@@ -8,10 +8,14 @@
   >
     <div v-for="announcement in announcements" :key="announcement.id" class="p-0">
       <div :class="announcement.important ? 'p-2 bg-orange-100' : 'p-2'">
-        <WMImportantState v-if="announcement.important" class="mb-3" :important="announcement.important"/>
+        <WMImportantState
+          v-if="announcement.important"
+          class="mb-3"
+          :important="announcement.important"
+        />
         {{ announcement.message }}
       </div>
-      <Divider class="m-0"/>
+      <Divider class="m-0" />
     </div>
   </Dialog>
 
@@ -33,11 +37,11 @@
 import { onMounted, ref } from "vue";
 
 import PinIcon from "/icons/push_pin.svg?raw";
-import { useLayout } from "@/layout/composables/layout";
 import WMImportantState from "@/components/tables/WMImportantState.vue";
+import { useLayout } from "@/layout/composables/layout";
 
 const { layoutConfig } = useLayout();
-const { getAnnouncements } = useAnnouncements();
+const { getMessages } = useMessages();
 
 const announcements = ref([]);
 
@@ -49,7 +53,7 @@ const props = defineProps({
 const visible = ref(false);
 
 onMounted(() => {
-  getAnnouncements({
+  getMessages({
     entity_type: props.entity,
     entity_id: props.id,
   }).then((result) => {

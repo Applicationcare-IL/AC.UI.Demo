@@ -54,7 +54,7 @@ module.exports = {
   },
   globals: {
     // Composables
-    useAnnouncements: true,
+    useMessages: true,
     useAssets: true,
     useCommunications: true,
     useContacts: true,
@@ -95,6 +95,6 @@ module.exports = {
     useAdminRoles: true,
     useAdminTeams: true,
     useAdminPermissions: true,
-      useAdminMessages: true,
+    useAdminMessages: true,
   },
 };
