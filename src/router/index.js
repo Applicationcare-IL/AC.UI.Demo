@@ -227,16 +227,6 @@ const router = createRouter({
           name: "sales",
           component: () => import("@/views/user/lists/Sales.vue"),
         },
-        {
-          path: "/new-sale",
-          name: "newSale",
-          component: () => import("@/views/user/forms/new/Sales.vue"),
-        },
-        {
-          path: "sale/:id",
-          name: "saleDetail",
-          component: () => import("@/views/user/forms/detail/SalesDetail.vue"),
-        },
       ],
     },
     {

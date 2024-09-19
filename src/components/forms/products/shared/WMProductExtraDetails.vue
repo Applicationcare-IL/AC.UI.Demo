@@ -1,35 +1,35 @@
 <template>
-  <Skeleton v-if="loading" width="100%" height="120px"/>
+  <Skeleton v-if="loading" width="100%" height="120px" />
   <div class="flex flex-column gap-5">
     <div class="flex flex-wrap gap-5">
       <WMInput
-          name="crm"
-          required
-          type="input-text"
-          :label="$t('product.crm-id') + ':'"
-          size="sm"
-          :value="product.crm"
+        name="crm"
+        required
+        type="input-text"
+        :label="$t('product.crm-id') + ':'"
+        size="sm"
+        :value="product.crm"
       />
       <WMInput
-          name="erp"
-          required
-          type="input-text"
-          :label="$t('product.erp-id') + ':'"
-          size="sm"
-          :value="product.erp"
+        name="erp"
+        required
+        type="input-text"
+        :label="$t('product.erp-id') + ':'"
+        size="sm"
+        :value="product.erp"
       />
       <WMInput
-          name="expenses_card"
-          type="input-text"
-          :label="$t('product.expenses-card') + ':'"
-          size="sm"
+        name="expenses_card"
+        type="input-text"
+        :label="$t('product.expenses-card') + ':'"
+        size="sm"
       />
       <WMInput
-          name="incomes_card"
-          required
-          type="input-text"
-          :label="$t('product.incomes-card') + ':'"
-          size="sm"
+        name="incomes_card"
+        required
+        type="input-text"
+        :label="$t('product.incomes-card') + ':'"
+        size="sm"
       />
     </div>
   </div>
@@ -37,7 +37,7 @@
 
 <script setup>
 // IMPORTS
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
 // DEPENDENCIES
 

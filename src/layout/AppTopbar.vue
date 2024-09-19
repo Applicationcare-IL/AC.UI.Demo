@@ -48,6 +48,7 @@
           }"
         >
           <h2 class="h2">Notifications</h2>
+          <pre>{{ notifications }}</pre>
           <template v-for="(notification, key) in notifications" :key="key">
             <WMNotification :notification="notification" />
             <Divider v-if="key < notifications.length - 1" />
@@ -218,9 +219,8 @@ onMounted(() => {
   bindOutsideClickListener();
   setCurrentLanguage();
 
-  getMessages({ entity_type: "user", entity_id: authStore.user.id }).then((response) => {
-    // notifications.value = response.data;
-    notifications.value = [1, 2, 3];
+  getMessages({ entity_type: "employee", entity_id: authStore.user.id }).then((response) => {
+    notifications.value = response.data;
   });
 });
 

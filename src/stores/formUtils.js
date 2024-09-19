@@ -2,10 +2,10 @@ import { useMagicKeys, whenever } from "@vueuse/core";
 import { defineStore } from "pinia";
 import * as yup from "yup";
 
+import useAdminQuickCodes from "@/composables/useAdminQuickCodes";
 import { useAdminUsersStore } from "@/stores/adminUsersStore";
 import { useContactsStore } from "@/stores/contactsStore";
 import { useCustomersStore } from "@/stores/customersStore";
-import useAdminQuickCodes from "@/composables/useAdminQuickCodes";
 
 const { ctrl_s } = useMagicKeys({
   passive: false,
@@ -626,19 +626,24 @@ export const useFormUtilsStore = defineStore("formUtils", {
       });
     },
     getQuickCodeNewFormValidationSchema: () => {
-      const {existQuickCodeName} = useAdminQuickCodes();
+      const { existQuickCodeName } = useAdminQuickCodes();
 
       return yup.object({
-        name: yup.string()
-            .required()
-            .test("unique", {
+        name: yup
+          .string()
+          .required()
+          .test(
+            "unique",
+            {
               key: "validation.exists",
-              values: {label: "quick-code.name"},
-            }, async (name) => {
+              values: { label: "quick-code.name" },
+            },
+            async (name) => {
               if (!name) return true;
               const nameExists = await existQuickCodeName(name);
               return !nameExists;
-            }),
+            }
+          ),
         team: yup.object().required(),
         service_area: yup.object().required(),
         service_type: yup.object().required(),
@@ -646,18 +651,24 @@ export const useFormUtilsStore = defineStore("formUtils", {
       });
     },
     getQuickCodeUpdateFormValidationSchema: () => {
-      const {existQuickCodeName} = useAdminQuickCodes();
+      const { existQuickCodeName } = useAdminQuickCodes();
 
       return yup.object({
-        name: yup.string().required()
-            .test("unique", {
+        name: yup
+          .string()
+          .required()
+          .test(
+            "unique",
+            {
               key: "validation.exists",
-              values: {label: "quick-code.name"},
-            }, async (name, context) => {
+              values: { label: "quick-code.name" },
+            },
+            async (name, context) => {
               if (!name) return true;
               const nameExists = await existQuickCodeName(name, context.parent.id);
               return !nameExists;
-            }),
+            }
+          ),
         team: yup.object().required(),
         service_area: yup.object().required(),
         service_type: yup.object().required(),
@@ -825,6 +836,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
           }),
         price: yup.number().required(),
         crm: yup.string().required(),
+        incomes_card: yup.string().required(),
         erp: yup.string().required(),
         // CONFIG PART
         // COMMITMENT
