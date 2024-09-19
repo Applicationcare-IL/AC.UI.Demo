@@ -13,6 +13,7 @@
   "classification-5": "Service Detail",
   "communication-details": "Communication Details",
   "created_at": "Created at",
+  "read": "Read",
   "created_by": "Created by",
   "customer-name": "Customer Name",
   "daily": "Daily",
@@ -169,7 +170,8 @@
     "link-related-products": "Link related products",
     "view_map": "View map",
     "yes-overwrite": "Yes, overwrite",
-    "add-related-products": "Add related products"
+    "add-related-products": "Add related products",
+    "mark-as-read": "Mark as read"
   },
   "navigation": {
     "dashboard": "Dashboard",
