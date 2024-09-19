@@ -1,26 +1,28 @@
 <template>
   <span class="p-input-icon-left lg:flex hidden">
     <i class="pi pi-search" />
-    <InputText class="w-30rem" v-model="searchValue" placeholder="חיפוש" />
+    <InputText v-model="searchValue" class="w-30rem" placeholder="חיפוש" />
   </span>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { useMagicKeys, whenever } from "@vueuse/core";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
 const searchValue = ref("");
 
-const props = defineProps({
+defineProps({
   entity: String,
 });
 
 const keys = useMagicKeys();
 
 whenever(keys.Enter, () => {
+  if (!searchValue.value) return;
+
   router.push({
     name: "search",
     params: { query: searchValue.value },
