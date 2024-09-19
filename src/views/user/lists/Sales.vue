@@ -6,9 +6,7 @@
     :has-action-builder="false"
     @new="toggleSidebarVisibility"
   >
-    <template #top-left>
-      <WMStateToggle entity="sale" />
-    </template>
+    <template #top-left> </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newsale" @close-sidebar="closeSidebar">
