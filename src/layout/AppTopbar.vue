@@ -44,10 +44,11 @@
           }"
         >
           <h2 class="h2">Notifications</h2>
-          <pre>{{ notifications }}</pre>
-
           <template v-for="(notification, key) in notifications" :key="key">
-            <WMNotification :notification="notification" />
+            <WMNotification
+              :notification="notification"
+              @refresh-notifications="getNotifications"
+            />
             <Divider v-if="key < notifications.length - 1" />
           </template>
         </ul>
@@ -211,6 +212,12 @@ const setCurrentLanguage = () => {
   value.value = i18n.global.locale.value === "he" ? "He" : "En";
 };
 
+const getNotifications = () => {
+  getMessages({ entity_type: "employee", entity_id: authStore.user.id }).then((response) => {
+    notifications.value = response.data;
+  });
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
@@ -219,10 +226,7 @@ const setCurrentLanguage = () => {
 onMounted(() => {
   bindOutsideClickListener();
   setCurrentLanguage();
-
-  getMessages({ entity_type: "employee", entity_id: authStore.user.id }).then((response) => {
-    notifications.value = response.data;
-  });
+  getNotifications();
 });
 
 onBeforeUnmount(() => {

@@ -27,7 +27,7 @@
       :text="$t('buttons.mark-as-read ')"
       type="type-5"
       size="small"
-      @click="closeNotification"
+      @click="handleReadMessage(notification.id)"
     />
   </div>
 </template>
@@ -36,6 +36,7 @@
 // IMPORTS
 
 // DEPENDENCIES
+const { readMessage } = useMessages();
 
 // INJECT
 
@@ -44,11 +45,17 @@ defineProps({
   notification: Object,
 });
 
+const emit = defineEmits(["refreshNotifications"]);
+
 // REFS
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const handleReadMessage = (notificationId) => {
+  readMessage(notificationId);
+  emit("refreshNotifications");
+};
 
 // PROVIDE, EXPOSE
 
