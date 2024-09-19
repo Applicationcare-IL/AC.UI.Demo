@@ -87,13 +87,13 @@ const columns = [
     name: "start-date",
     type: "date",
     field: "start_date",
-    header: "sale.start-date",
+    header: "start-date",
   },
   {
     name: "end-date",
     type: "date",
     field: "end_date",
-    header: "sale.end-date",
+    header: "end-date",
   },
   {
     name: "sla",

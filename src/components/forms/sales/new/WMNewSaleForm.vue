@@ -10,7 +10,7 @@
           name="owner"
           type="info"
           :highlighted="true"
-          :label="$t('sale.owner') + ':'"
+          :label="$t('owner') + ':'"
           :value="'pepito'"
         />
       </div>
