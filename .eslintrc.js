@@ -43,6 +43,8 @@ module.exports = {
           "Asset",
           "Products",
           "Product",
+          "Sales",
+          "Sale",
         ],
       },
     ],
