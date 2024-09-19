@@ -88,9 +88,90 @@ const paletteOptions = [
     image: new URL("/icons/nav/customers.svg", import.meta.url).href,
   },
   {
+    label: "navigation.contacts",
+    to: "/contacts",
+    image: new URL("/icons/nav/contacts.svg", import.meta.url).href,
+  },
+  {
+    label: "navigation.services",
+    to: "/services",
+    image: new URL("/icons/nav/services.svg", import.meta.url).href,
+  },
+  {
+    label: "navigation.tasks",
+    to: "/tasks",
+    image: new URL("/icons/nav/tasks.svg", import.meta.url).href,
+  },
+  {
+    label: "navigation.projects",
+    to: "/projects",
+    image: new URL("/icons/nav/projects.svg", import.meta.url).href,
+  },
+  {
+    label: "navigation.sales",
+    to: "/sales",
+    image: new URL("/icons/nav/sales.svg", import.meta.url).href,
+  },
+  {
+    label: "navigation.products",
+    to: "/products",
+    image: new URL("/icons/nav/products.svg", import.meta.url).href,
+  },
+  {
+    label: "navigation.assets",
+    to: "/assets_list",
+    image: new URL("/icons/nav/assets.svg", import.meta.url).href,
+  },
+  {
+    label: "navigation.reports",
+    to: "/reports",
+    image: new URL("/icons/nav/reports.svg", import.meta.url).href,
+  },
+  {
+    label: "navigation.projects-report",
+    to: "/projects-report",
+    image: new URL("/icons/nav/reports.svg", import.meta.url).href,
+  },
+  // ADMIN
+  {
     label: "Admin Users",
     to: "/admin/users",
     image: new URL("/icons/nav/person.svg", import.meta.url).href,
+  },
+  {
+    label: "Admin Teams",
+    to: "/admin/teams",
+    image: new URL("/icons/nav/groups.svg", import.meta.url).href,
+  },
+  {
+    label: "Admin Roles",
+    to: "/admin/roles",
+    image: new URL("/icons/nav/badge.svg", import.meta.url).href,
+  },
+  {
+    label: "Admin Permissions",
+    to: "/admin/permissions",
+    image: new URL("/icons/nav/clinical_notes.svg", import.meta.url).href,
+  },
+  {
+    label: "Admin Classifications",
+    to: "/admin/classifications",
+    image: new URL("/icons/nav/category.svg", import.meta.url).href,
+  },
+  {
+    label: "Admin SLA Settings",
+    to: "/admin/sla-settings",
+    image: new URL("/icons/nav/alarm.svg", import.meta.url).href,
+  },
+  {
+    label: "Admin Quick Codes",
+    to: "/admin/quick-codes",
+    image: new URL("/icons/nav/bolt.svg", import.meta.url).href,
+  },
+  {
+    label: "Admin Messages",
+    to: "/admin/messages",
+    image: new URL("/icons/nav/comment.svg", import.meta.url).href,
   },
 ];
 
