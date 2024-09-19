@@ -198,7 +198,15 @@ const handleCommand = (command) => {
 // PROVIDE, EXPOSE
 
 // WATCHERS
-watch(CtrlK);
+watch(CtrlK, (v) => {
+  if (v) {
+    if (visible.value) {
+      visible.value = false;
+    } else {
+      visible.value = true;
+    }
+  }
+});
 
 watch(CmdK, (v) => {
   if (v) {
