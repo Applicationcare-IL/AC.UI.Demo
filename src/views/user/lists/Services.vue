@@ -201,17 +201,17 @@ const clearSelectedServices = () => {
   onSelectionChanged();
 };
 
-function toggleSidebarVisibility() {
+const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
-}
+};
 
-function closeSidebar() {
+const closeSidebar = () => {
   isVisible.value = false;
-}
+};
 
-function openSidebar() {
+const openSidebar = () => {
   isVisible.value = true;
-}
+};
 
 const loadLazyData = () => {
   loading.value = true;
