@@ -48,7 +48,7 @@
           }"
         >
           <h2 class="h2">Notifications</h2>
-          <pre>{{ notifications }}</pre>
+
           <template v-for="(notification, key) in notifications" :key="key">
             <WMNotification :notification="notification" />
             <Divider v-if="key < notifications.length - 1" />

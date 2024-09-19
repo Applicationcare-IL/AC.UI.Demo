@@ -11,10 +11,10 @@
         <circle cx="6" cy="6" r="6" fill="#1EA2CE" />
       </svg>
 
-      <span class="h5 text-xl">Notification title</span>
-      <WMImportantState :important="1" />
+      <span class="h5 text-xl">{{ notification.topic }} title</span>
+      <WMImportantState v-if="notification.important === 1" :important="1" />
     </div>
-    <p class="secondary-typography text-base">Notification message</p>
+    <p class="secondary-typography text-base">{{ notification.message }} message</p>
     <WMButton text="Mark as read" type="type-5" size="small" @click="closeNotification" />
     <div class="text-gray-500 font-bold">Read <i class="pi pi-check"></i></div>
   </div>
@@ -28,6 +28,9 @@
 // INJECT
 
 // PROPS, EMITS
+defineProps({
+  notification: Object,
+});
 
 // REFS
 
