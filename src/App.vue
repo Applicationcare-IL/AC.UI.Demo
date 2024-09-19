@@ -39,7 +39,7 @@
 
 <script setup>
 // IMPORTS
-import { useMagicKeys } from "@vueuse/core";
+import { useMagicKeys, whenever } from "@vueuse/core";
 import { computed, onMounted, ref } from "vue";
 import { watch } from "vue";
 import { Command } from "vue-command-palette";
@@ -72,7 +72,6 @@ const callData = ref(null);
 const visible = ref(false);
 const keys = useMagicKeys();
 const CmdK = keys["Meta+K"];
-const CtrlK = keys["Control+K"];
 const ESC = keys["Escape"];
 const inputValue = ref("");
 
@@ -189,6 +188,15 @@ if (window.Echo) {
   );
 }
 
+const { ctrl_k } = useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    if (e.ctrlKey && e.key === "k" && e.type === "keydown") {
+      e.preventDefault();
+    }
+  },
+});
+
 const handleCommand = (command) => {
   router.push(command.value);
   visible.value = false;
@@ -198,7 +206,7 @@ const handleCommand = (command) => {
 // PROVIDE, EXPOSE
 
 // WATCHERS
-watch(CtrlK, (v) => {
+whenever(ctrl_k, (v) => {
   if (v) {
     if (visible.value) {
       visible.value = false;
