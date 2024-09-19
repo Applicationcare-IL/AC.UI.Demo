@@ -79,7 +79,6 @@ culumns2.value["service"] = [
     type: "link",
     field: "link_detail",
     header: "id",
-    routeName: "adminClassificationDetail",
   },
   {
     name: "status",
@@ -127,7 +126,6 @@ culumns2.value["task"] = [
     type: "link",
     field: "link_detail",
     header: "id",
-    routeName: "adminClassificationDetail",
   },
   {
     name: "status",
@@ -157,7 +155,6 @@ culumns2.value["project"] = [
     type: "link",
     field: "link_detail",
     header: "id",
-    routeName: "adminClassificationDetail",
   },
   {
     name: "status",
