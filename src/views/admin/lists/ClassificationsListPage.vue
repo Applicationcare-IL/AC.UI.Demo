@@ -1,28 +1,33 @@
 <template>
   <WMListSelector
-      entity="classification"
-      :options="options"
-      @update:selected-option="changeSelectedOption"
+    entity="classification"
+    :options="options"
+    @update:selected-option="changeSelectedOption"
   />
   <WMListSubHeader
-      entity="classification"
-      :total-records="0"
-      :show-communications="false"
-      :has-action-builder="false"
-      @new="toggleSidebarVisibility"
+    entity="classification"
+    :total-records="0"
+    :show-communications="false"
+    :has-action-builder="false"
+    @new="toggleSidebarVisibility"
   >
     <template #top-left>
-      <WMStateToggle entity="classification"/>
+      <WMStateToggle entity="classification" />
     </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newClassification" @close-sidebar="closeSidebar">
     <template v-if="can('classifications.create')">
-      <WMNewEntityFormHeader entity="classification" name="newClassification"/>
+      <div class="m-3">
+        <div class="flex flex-row justify-content-between align-content-center">
+          <h1 class="h1 mb-0">New service area</h1>
+        </div>
+        <Divider />
+      </div>
       <WMNewClassificationForm
-          :is-sidebar="true"
-          @close-sidebar="closeSidebar"
-          @new-classification-created="handleNewClassificationCreated"
+        :is-sidebar="true"
+        @close-sidebar="closeSidebar"
+        @new-classification-created="handleNewClassificationCreated"
       />
     </template>
     <template v-else>
@@ -34,25 +39,25 @@
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMAdminClassificationTable
-        ref="adminMessageTable"
-        :columns="columns"
-        :entity-type="selectedOption"
-        preview
-        selectable
-        @update:selection="onSelectionChanged"
+      ref="adminMessageTable"
+      :columns="columns"
+      :entity-type="selectedOption"
+      preview
+      selectable
+      @update:selection="onSelectionChanged"
     />
   </div>
 </template>
 
 <script setup>
 // IMPORTS
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
-import {useUtilsStore} from "@/stores/utils";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
-const {can} = usePermissions();
+const { can } = usePermissions();
 
 // INJECT
 
@@ -60,15 +65,15 @@ const {can} = usePermissions();
 
 // REFS
 const options = [
-  {value: 'service', label: 'Service classifications'},
-  {value: 'task', label: 'Task classifications'},
-  {value: 'project', label: 'Project classifications'},
-]
+  { value: "service", label: "Service classifications" },
+  { value: "task", label: "Task classifications" },
+  { value: "project", label: "Project classifications" },
+];
 
 const columns = ref([]);
 const culumns2 = ref([]);
 
-culumns2.value['service'] = [
+culumns2.value["service"] = [
   {
     name: "id",
     type: "link",
@@ -116,7 +121,7 @@ culumns2.value['service'] = [
   },
 ];
 
-culumns2.value['task'] = [
+culumns2.value["task"] = [
   {
     name: "id",
     type: "link",
@@ -146,7 +151,7 @@ culumns2.value['task'] = [
   },
 ];
 
-culumns2.value['project'] = [
+culumns2.value["project"] = [
   {
     name: "id",
     type: "link",
@@ -196,7 +201,7 @@ useHead({
 const changeSelectedOption = (option) => {
   columns.value = culumns2.value[option.value];
   selectedOption.value = option.value;
-}
+};
 
 const toggleSidebarVisibility = () => {
   isVisible.value = !isVisible.value;
@@ -217,7 +222,7 @@ const handleNewClassificationCreated = () => {
 onMounted(() => {
   utilsStore.entity = "classification";
 
-  columns.value = culumns2.value['service'];
+  columns.value = culumns2.value["service"];
 });
 </script>
 

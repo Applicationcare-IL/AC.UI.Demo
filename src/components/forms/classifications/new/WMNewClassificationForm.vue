@@ -3,7 +3,7 @@
     <div class="task-data flex flex-auto flex-column gap-5 mb-5">
       <h2 class="h2 my-0">{{ $t("classification.classification") }}</h2>
 
-      <div class="wm-form-column align-items-end gap-5">
+      <div class="wm-form-column flex flex-column gap-5">
         <div class="wm-form-row gap-5">
           <WMInput
             name="value"
@@ -30,8 +30,12 @@
           />
         </div>
       </div>
-
       <Divider />
+
+      <div class="flex flex-row flex-wrap gap-2">
+        <WMSaveButton @click="saveForm()" />
+        <WMCancelButton @click="cancelForm()" />
+      </div>
     </div>
   </div>
 </template>
@@ -39,7 +43,7 @@
 <script setup>
 // IMPORTS
 import { useForm } from "vee-validate";
-import { inject, watch } from "vue";
+import { inject, ref, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
@@ -51,10 +55,10 @@ const closeSidebar = inject("closeSidebar");
 const isFormDirty = inject("isFormDirty");
 
 // PROPS, EMITS
-
 const emit = defineEmits(["newClassificationCreated"]);
 
 // REFS
+const optionSet = ref("service_area");
 
 // COMPUTED
 
