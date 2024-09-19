@@ -2,6 +2,7 @@
   <div class="flex flex-column gap-2">
     <div class="flex align-items-center gap-2">
       <svg
+        v-if="!notification.read"
         width="12"
         height="12"
         viewBox="0 0 12 12"
@@ -15,8 +16,19 @@
       <WMImportantState v-if="notification.important === 1" :important="1" />
     </div>
     <p class="secondary-typography text-base">{{ notification.message }} message</p>
-    <WMButton text="Mark as read" type="type-5" size="small" @click="closeNotification" />
-    <div class="text-gray-500 font-bold">Read <i class="pi pi-check"></i></div>
+
+    <div v-if="notification.read" class="text-gray-500 font-bold">
+      {{ $t("read") }}
+      <i class="pi pi-check"></i>
+    </div>
+
+    <WMButton
+      v-else
+      :text="$t('buttons.mark-as-read ')"
+      type="type-5"
+      size="small"
+      @click="closeNotification"
+    />
   </div>
 </template>
 
