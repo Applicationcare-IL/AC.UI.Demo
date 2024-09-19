@@ -4,27 +4,10 @@
     entity="sale"
     :total-records="0"
     :has-action-builder="false"
-    @new="toggleSidebarVisibility"
+    @new="redirectToNewSalePage"
   >
     <template #top-left> </template>
   </WMListSubHeader>
-
-  <WMSidebar :visible="isVisible" name="newsale" @close-sidebar="closeSidebar">
-    <template v-if="can('sales.create')">
-      sidebar
-      <!-- <WMNewEntityFormHeader entity="sale" name="newsale" />
-        <WMNewsaleForm
-            :is-sidebar="true"
-            @close-sidebar="closeSidebar"
-            @new-sale-created="handleNewSaleCreated"
-        />
-      </template>
-      <template v-else>
-        <div class="m-5">
-          {{ $t("permissions.you-dont-have-permission") }}
-        </div> -->
-    </template>
-  </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMSalesTable
@@ -39,22 +22,20 @@
 
 <script setup>
 // IMPORTS
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
+const router = useRouter();
 const utilsStore = useUtilsStore();
-const { can } = usePermissions();
 
 // INJECT
 
 // PROPS, EMITS
 
 // REFS
-const salesTable = ref();
-const isVisible = ref(false);
-
 const columns = [
   {
     name: "id",
@@ -189,17 +170,12 @@ useHead({
   title: "Sales",
 });
 
-const toggleSidebarVisibility = () => {
-  isVisible.value = !isVisible.value;
+const redirectToNewSalePage = () => {
+  router.push({
+    name: "newSale",
+    force: true,
+  });
 };
-
-const closeSidebar = () => {
-  isVisible.value = false;
-};
-
-// const handleNewSaleCreated = () => {
-//   salesTable.value.loadLazyData();
-// };
 
 // PROVIDE, EXPOSE
 
