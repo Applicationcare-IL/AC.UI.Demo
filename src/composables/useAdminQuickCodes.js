@@ -1,110 +1,116 @@
-import {useAdminQuickCodesStore} from "@/stores/adminQuickCodes";
+import { useAdminQuickCodesStore } from "@/stores/adminQuickCodes";
 
 const useAdminFlowmaze = () => {
-    const adminQuickCodes = useAdminQuickCodesStore();
+  const adminQuickCodes = useAdminQuickCodesStore();
 
-    const getQuickCodes = async (params) => {
-        const response = await adminQuickCodes.getQuickCodes(params);
-        const quickCodes = response.data.map((quickCode) => mapQuickCode(quickCode));
-        const totalRecords = response.meta.total;
+  const getQuickCodes = async (params) => {
+    const response = await adminQuickCodes.getQuickCodes(params);
+    const quickCodes = response.data.map((quickCode) => mapQuickCode(quickCode));
+    const totalRecords = response.meta.total;
 
-        return {data: quickCodes, totalRecords};
-    };
+    return { data: quickCodes, totalRecords };
+  };
 
-    const getQuickCode = async (id) => {
-        const response = await adminQuickCodes.getQuickCode(id);
+  const getQuickCode = async (id) => {
+    const response = await adminQuickCodes.getQuickCode(id);
 
-        return mapQuickCode(response.data);
-    }
+    return mapQuickCode(response.data);
+  };
 
-    const createQuickCode = async (params) => {
-        return await adminQuickCodes.createQuickCode(parseQuickCode(params));
-    }
+  const createQuickCode = async (params) => {
+    return await adminQuickCodes.createQuickCode(parseQuickCode(params));
+  };
 
-    const updateQuickCode = async (quickCodeId, params) => {
-        return await adminQuickCodes.updateQuickCode(quickCodeId, parseQuickCode(params));
-    }
+  const updateQuickCode = async (quickCodeId, params) => {
+    return await adminQuickCodes.updateQuickCode(quickCodeId, parseQuickCode(params));
+  };
 
-    const activateQuickCodes = async (quickCodesId) => {
-        const promises = quickCodesId.map((quickCodeId) => adminQuickCodes.activateQuickCode(quickCodeId));
-        return await Promise.all(promises);
-    }
+  const activateQuickCodes = async (quickCodesId) => {
+    const promises = quickCodesId.map((quickCodeId) =>
+      adminQuickCodes.activateQuickCode(quickCodeId)
+    );
+    return await Promise.all(promises);
+  };
 
-    const deactivateQuickCode = async (quickCodeId) => {
-        return await adminQuickCodes.deactivateQuickCode(quickCodeId);
-    }
+  const deactivateQuickCode = async (quickCodeId) => {
+    return await adminQuickCodes.deactivateQuickCode(quickCodeId);
+  };
 
-    const existQuickCodeName = async (quickCodeName, quickCodeId = null) => {
-        const response = await adminQuickCodes.existQuickCodeName(parseExistName(quickCodeName, quickCodeId));
-        return response.exists;
-    }
+  const existQuickCodeName = async (quickCodeName, quickCodeId = null) => {
+    const response = await adminQuickCodes.existQuickCodeName(
+      parseExistName(quickCodeName, quickCodeId)
+    );
+    return response.exists;
+  };
 
-    const existQuickCodeClassification = async (data, quickCodeId = null) => {
-        const response = await adminQuickCodes.existQuickCodeClassification(parseExistClassification(data, quickCodeId));
-        return response.exists;
-    }
+  const existQuickCodeClassification = async (data, quickCodeId = null) => {
+    const response = await adminQuickCodes.existQuickCodeClassification(
+      parseExistClassification(data, quickCodeId)
+    );
+    return response.exists;
+  };
 
-    const mapQuickCode = (quickCode) => {
-        return {
-            ...quickCode,
-            link_detail: {
-                text: quickCode.id,
-                id: quickCode.id,
-            },
-            title: quickCode.name,
-            service_area_name: quickCode.area?.value + ' ' + quickCode.area?.id,
-            service_detail_name: quickCode.type?.value + ' ' + quickCode.type?.id,
-            request_1_name: quickCode.request_1?.value + ' ' + quickCode.request_1?.id,
-            request_2_name: quickCode.request_2?.value + ' ' + quickCode.request_2?.id,
-            request_3_name: quickCode.request_3?.value + ' ' + quickCode.request_3?.id,
-            team_name: quickCode.team?.name,
-        };
-    };
-
-    const parseExistName = (name, id) => {
-        return {
-            name: name,
-            id: id ?? ''
-        }
-    }
-
-    const parseExistClassification = (data, id) => {
-        return {
-            area: data.service_area.id,
-            type: data.service_type.id,
-            request_1: data.service_request_1.id,
-            request_2: data.service_request_2?.id,
-            request_3: data.service_request_3?.id,
-            id: id ?? ''
-        }
-    }
-
-    const parseQuickCode = (quickCode) => {
-        return {
-            name: quickCode.name,
-            area: quickCode.service_area.id,
-            type: quickCode.service_type.id,
-            request_1: quickCode.service_request_1.id,
-            request_2: quickCode.service_request_2?.id,
-            request_3: quickCode.service_request_3?.id,
-            team: quickCode.team.id,
-        }
-    };
-
+  const mapQuickCode = (quickCode) => {
     return {
-        //ACTIONS
-        getQuickCodes,
-        getQuickCode,
-        createQuickCode,
-        updateQuickCode,
-        activateQuickCodes,
-        deactivateQuickCode,
-        existQuickCodeName,
-        existQuickCodeClassification,
-        // UTILITIES
-        mapQuickCode,
-        parseQuickCode
-    }
-}
+      ...quickCode,
+      link_detail: {
+        text: quickCode.id,
+        id: quickCode.id,
+      },
+      title: quickCode.name,
+      service_area_name: quickCode.area?.value,
+      service_detail_name: quickCode.type?.value,
+      request_1_name: quickCode.request_1?.value,
+      request_2_name: quickCode.request_2?.value,
+      request_3_name: quickCode.request_3?.value,
+      team_name: quickCode.team?.name,
+    };
+  };
+
+  const parseExistName = (name, id) => {
+    return {
+      name: name,
+      id: id ?? "",
+    };
+  };
+
+  const parseExistClassification = (data, id) => {
+    return {
+      area: data.service_area.id,
+      type: data.service_type.id,
+      request_1: data.service_request_1.id,
+      request_2: data.service_request_2?.id,
+      request_3: data.service_request_3?.id,
+      id: id ?? "",
+    };
+  };
+
+  const parseQuickCode = (quickCode) => {
+    return {
+      name: quickCode.name,
+      area: quickCode.service_area.id,
+      type: quickCode.service_type.id,
+      request_1: quickCode.service_request_1.id,
+      request_2: quickCode.service_request_2?.id,
+      request_3: quickCode.service_request_3?.id,
+      team: quickCode.team.id,
+    };
+  };
+
+  return {
+    //ACTIONS
+    getQuickCodes,
+    getQuickCode,
+    createQuickCode,
+    updateQuickCode,
+    activateQuickCodes,
+    deactivateQuickCode,
+    existQuickCodeName,
+    existQuickCodeClassification,
+    // UTILITIES
+    mapQuickCode,
+    parseQuickCode,
+  };
+};
 
 export default useAdminFlowmaze;
