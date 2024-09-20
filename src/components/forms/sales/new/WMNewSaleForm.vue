@@ -20,53 +20,50 @@
           :highlighted="true"
           type="input-select"
           :label="$t('sale.customer') + ':'"
-          :options="selectDetault"
+          :options="customers"
           :placeholder="$t('select', ['sale.customer'])"
           size="sm"
-          option-set
           required
-          :value="product?.type"
         />
         <WMInput
           name="initiator"
           :highlighted="true"
           type="input-select"
           :label="$t('sale.initiator') + ':'"
-          :options="selectDetault"
+          :options="initiators"
           :placeholder="$t('select', ['sale.initiator'])"
           size="sm"
           option-set
           required
-          :value="product?.type"
-        /><WMInput
+        />
+        <WMInput
           name="sale-type"
           :highlighted="true"
           type="input-select"
           :label="$t('sale.sale-type') + ':'"
-          :options="selectDetault"
+          :options="sales"
           :placeholder="$t('select', ['sale.sale-type'])"
           size="sm"
           option-set
           required
-          :value="product?.type"
-        /><WMInput
+        />
+        <WMInput
           name="source"
           :highlighted="true"
           type="input-select"
           :label="$t('sale.source') + ':'"
-          :options="selectDetault"
+          :options="sources"
           :placeholder="$t('select', ['sale.source'])"
           size="sm"
           option-set
           required
-          :value="product?.type"
         />
       </div>
     </div>
 
     <Divider />
 
-    <WMToggleSwitch v-model="isRecurring" :label="$t('sales.tender')">
+    <WMToggleSwitch v-model="isRecurring" :label="$t('sale.tender')">
       <div class="flex flex-column gap-5">
         <div class="flex flex-row gap-5">
           <WMInput
@@ -119,46 +116,39 @@
         :highlighted="true"
         type="input-select"
         :label="$t('sale.legal-adviser') + ':'"
-        :options="selectDetault"
+        :options="contacts"
         :placeholder="$t('select', ['contact.contact'])"
         size="sm"
-        option-set
-        :value="product?.type"
       />
       <WMInput
         name="financial-guide"
         :highlighted="true"
         type="input-select"
         :label="$t('sale.financial-guide') + ':'"
-        :options="selectDetault"
+        :options="contacts"
         :placeholder="$t('select', ['contact.contact'])"
         size="sm"
-        option-set
-        :value="product?.type"
       />
       <WMInput
         name="sales-manager"
         :highlighted="true"
         type="input-select"
         :label="$t('sale.sales-manager') + ':'"
-        :options="selectDetault"
+        :options="contacts"
         :placeholder="$t('select', ['contact.contact'])"
         size="sm"
-        option-set
-        :value="product?.type"
       />
       <WMInput
         name="projects-managers"
         :highlighted="true"
         type="input-select"
         :label="$t('sale.projects-managers') + ':'"
-        :options="selectDetault"
+        :options="contacts"
         :placeholder="$t('select', ['contact.contact'])"
         size="sm"
-        option-set
-        :value="product?.type"
       />
     </div>
+
     <Divider />
 
     <Divider />
@@ -171,44 +161,36 @@
           :highlighted="true"
           type="input-select"
           :label="$t('sale.customer-consultant') + ':'"
-          :options="selectDetault"
+          :options="contacts"
           :placeholder="$t('select', ['contact.contact'])"
           size="sm"
-          option-set
-          :value="product?.type"
         />
         <WMInput
           name="information-technology"
           :highlighted="true"
           type="input-select"
           :label="$t('sale.information-technology') + ':'"
-          :options="selectDetault"
+          :options="contacts"
           :placeholder="$t('select', ['contact.contact'])"
           size="sm"
-          option-set
-          :value="product?.type"
         />
         <WMInput
           name="business-manager"
           :highlighted="true"
           type="input-select"
           :label="$t('sale.business-manager') + ':'"
-          :options="selectDetault"
+          :options="contacts"
           :placeholder="$t('select', ['contact.contact'])"
           size="sm"
-          option-set
-          :value="product?.type"
         />
         <WMInput
           name="decision-maker"
           :highlighted="true"
           type="input-select"
           :label="$t('sale.decision-maker') + ':'"
-          :options="selectDetault"
+          :options="contacts"
           :placeholder="$t('select', ['contact.contact'])"
           size="sm"
-          option-set
-          :value="product?.type"
         />
       </div>
       <div class="flex flex-row gap-5">
@@ -217,11 +199,9 @@
           :highlighted="true"
           type="input-select"
           :label="$t('sale.budgeting-factor') + ':'"
-          :options="selectDetault"
+          :options="contacts"
           :placeholder="$t('select', ['contact.contact'])"
           size="sm"
-          option-set
-          :value="product?.type"
         />
         <WMInput
           name="budget"
@@ -239,24 +219,65 @@
 // IMPORTS
 import { onMounted, ref } from "vue";
 
+import { useOptionSetsStore } from "@/stores/optionSets";
+
 // DEPENDENCIES
+const { getContactsFromApi } = useContacts();
+const optionSetsStore = useOptionSetsStore();
+const { getCustomersFromApi } = useCustomers();
 
 // INJECT
 
 // PROPS, EMITS
 
 // REFS
+const customers = ref();
+const initiators = ref();
+const sales = ref();
+const sources = ref();
+const contacts = ref();
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const loadLazyData = async () => {
+  const activeStateId = await optionSetsStore.getId("state", "active");
 
+  const filters = {
+    per_page: 99999,
+    state: activeStateId,
+  };
+
+  const response2 = await getCustomersFromApi(filters);
+
+  customers.value = response2.data.map((customer) => {
+    return {
+      id: customer.id,
+      label: customer.name,
+    };
+  });
+
+  initiators.value = await optionSetsStore.getOptionSetValues("sales_initiator");
+  sales.value = await optionSetsStore.getOptionSetValues("sales_type");
+  sources.value = await optionSetsStore.getOptionSetValues("sales_source");
+
+  const response = await getContactsFromApi(filters);
+
+  contacts.value = response.data.map((contact) => {
+    return {
+      id: contact.id,
+      label: contact.firstName,
+    };
+  });
+};
 // PROVIDE, EXPOSE
 
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(() => {});
+onMounted(() => {
+  loadLazyData();
+});
 </script>
 
 <style scoped></style>
