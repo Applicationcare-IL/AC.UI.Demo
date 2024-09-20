@@ -1,7 +1,7 @@
 <template>
-  <div class="m-3 ml-0" :style="{ minWidth: '600px' }">
+  <div class="m-3" :style="{ minWidth: '600px' }">
     <div class="flex gap-2 align-items-center justify-content-between">
-      <h3 class="h3 m-0">{{ $t("product.settings") }}</h3>
+      <h3 class="h3">{{ $t("product.settings") }}</h3>
       <div class="flex gap-2">
         <WMSaveButton @click="onSubmit" />
         <WMCancelButton @click="cancelForm()" />
@@ -9,7 +9,7 @@
     </div>
     <Divider />
   </div>
-  <div class="m-3 ml-0 flex flex-column gap-3">
+  <div class="m-3 flex flex-column gap-3">
     <WMProductSettings :product="product" />
   </div>
 </template>

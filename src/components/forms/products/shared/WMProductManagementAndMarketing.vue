@@ -56,8 +56,10 @@
 import { onMounted, ref } from "vue";
 
 import { OwnersService } from "@/service/OwnersService";
+import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
+const optionSetsStore = useOptionSetsStore();
 
 // INJECT
 
@@ -87,7 +89,12 @@ const selectedTechnicalManager = ref(null);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
-  let employeeResponse = await OwnersService.getOwnersFromApi({ per_page: 9999999 }, "employee");
+  let activeStateId = await optionSetsStore.getId("state", "active");
+
+  let employeeResponse = await OwnersService.getOwnersFromApi(
+    { per_page: 9999999, state: activeStateId },
+    "employee"
+  );
 
   employees.value = employeeResponse.data.map((contact) => ({
     label: contact.name,

@@ -205,8 +205,9 @@ onMounted(async () => {
   units.value = await optionSetsStore.getOptionSetValues("units");
   manufacturerTypes.value = await optionSetsStore.getOptionSetValues("manufacturer_type");
   yesNoOptions.value = await optionSetsStore.getOptionSetValues("yesNo");
+  let activeStateId = await optionSetsStore.getId("state", "active");
 
-  let customersData = await getCustomersFromApi({ per_page: 9999999 });
+  let customersData = await getCustomersFromApi({ state: activeStateId, per_page: 9999999 });
   customers.value = customersData.data.map((customer) => ({
     label: customer.name,
     value: customer.id,
