@@ -15,5 +15,16 @@ export const useMessagesStore = defineStore("messages", {
           console.error(error);
         });
     },
+    readMessage(messageId) {
+      return axiosConfig
+        .post(`/messages/${messageId}/read`)
+        .then(({ data }) => {
+          return data;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });

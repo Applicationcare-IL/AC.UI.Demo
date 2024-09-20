@@ -2,7 +2,6 @@
   <div class="layout-topbar flex justify-content-between flex-wrap md:flex-nowrap">
     <div class="flex justify-content-between align-items-center mx-3 w-full md:w-auto">
       <router-link :to="logoRedirectLink">
-        <!-- <img :src="logoUrl" alt="logo" /> -->
         <img src="@/assets/images/logo.png" alt="EasyMaze small logo" />
       </router-link>
 
@@ -25,16 +24,13 @@
           }"
         >
           <a href="#" @click="onTopbarItemClick($event, 'notifications')">
+            <div v-if="unreadNotifications" class="notification-badge" />
             <Button
               type="button"
-              class="border-none bg-transparent px-1 outline-none"
+              class="border-none bg-transparent px-1 outline-none relative"
               style="box-shadow: none"
             >
               <img alt="logo" src="/icons/notifications_bell.svg" style="height: 26px" />
-              <!-- <Badge
-                value="1"
-                class="topbar-badge notifications-badge p-badge-warning"
-              ></Badge> -->
             </Button>
           </a>
         </li>
@@ -48,9 +44,11 @@
           }"
         >
           <h2 class="h2">Notifications</h2>
-          <pre>{{ notifications }}</pre>
           <template v-for="(notification, key) in notifications" :key="key">
-            <WMNotification :notification="notification" />
+            <WMNotification
+              :notification="notification"
+              @refresh-notifications="getNotifications"
+            />
             <Divider v-if="key < notifications.length - 1" />
           </template>
         </ul>
@@ -61,8 +59,8 @@
             class="flex flex-row flex align-items-center gap-2"
             @click="onTopbarItemClick($event, 'profile')"
           >
-            <span class="h6 text-gray-800"
-              >{{ authStore.user?.name }} {{ authStore.user?.surname }}</span
+            <span class="h6 text-gray-800">
+              {{ authStore.user?.name }} {{ authStore.user?.surname }}</span
             >
             <img alt="logo" src="/icons/user.svg" class="profile-image" />
           </a>
@@ -162,6 +160,10 @@ const topbarMenuClasses = computed(() => {
   };
 });
 
+const unreadNotifications = computed(() => {
+  return notifications.value.some((notification) => !notification.read);
+});
+
 // COMPONENT METHODS AND LOGIC
 const onTopbarItemClick = (event, item) => {
   emit("topbar-item-click", { originalEvent: event, item: item });
@@ -210,6 +212,12 @@ const setCurrentLanguage = () => {
   value.value = i18n.global.locale.value === "he" ? "He" : "En";
 };
 
+const getNotifications = () => {
+  getMessages({ entity_type: "employee", entity_id: authStore.user.id }).then((response) => {
+    notifications.value = response.data;
+  });
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
@@ -218,10 +226,7 @@ const setCurrentLanguage = () => {
 onMounted(() => {
   bindOutsideClickListener();
   setCurrentLanguage();
-
-  getMessages({ entity_type: "employee", entity_id: authStore.user.id }).then((response) => {
-    notifications.value = response.data;
-  });
+  getNotifications();
 });
 
 onBeforeUnmount(() => {
@@ -282,5 +287,28 @@ onBeforeUnmount(() => {
     color: var(--orange-500);
     text-decoration: underline;
   }
+}
+
+.notifications-dropdown {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background-color: var(--orange-500);
+  width: 10px;
+  height: 10px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
 }
 </style>

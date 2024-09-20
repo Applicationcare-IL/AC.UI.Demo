@@ -2,6 +2,7 @@
   <div class="flex flex-column gap-2">
     <div class="flex align-items-center gap-2">
       <svg
+        v-if="!notification.read"
         width="12"
         height="12"
         viewBox="0 0 12 12"
@@ -11,12 +12,23 @@
         <circle cx="6" cy="6" r="6" fill="#1EA2CE" />
       </svg>
 
-      <span class="h5 text-xl">Notification title</span>
-      <WMImportantState :important="1" />
+      <span class="h5 text-xl">{{ notification.topic }} title</span>
+      <WMImportantState v-if="notification.important === 1" :important="1" />
     </div>
-    <p class="secondary-typography text-base">Notification message</p>
-    <WMButton text="Mark as read" type="type-5" size="small" @click="closeNotification" />
-    <div class="text-gray-500 font-bold">Read <i class="pi pi-check"></i></div>
+    <p class="secondary-typography text-base">{{ notification.message }} message</p>
+
+    <div v-if="notification.read" class="text-gray-500 font-bold">
+      {{ $t("read") }}
+      <i class="pi pi-check"></i>
+    </div>
+
+    <WMButton
+      v-else
+      :text="$t('buttons.mark-as-read ')"
+      type="type-5"
+      size="small"
+      @click="handleReadMessage(notification.id)"
+    />
   </div>
 </template>
 
@@ -24,16 +36,26 @@
 // IMPORTS
 
 // DEPENDENCIES
+const { readMessage } = useMessages();
 
 // INJECT
 
 // PROPS, EMITS
+defineProps({
+  notification: Object,
+});
+
+const emit = defineEmits(["refreshNotifications"]);
 
 // REFS
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const handleReadMessage = (notificationId) => {
+  readMessage(notificationId);
+  emit("refreshNotifications");
+};
 
 // PROVIDE, EXPOSE
 

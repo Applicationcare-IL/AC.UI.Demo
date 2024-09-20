@@ -1,27 +1,27 @@
 <template>
   <DataTable
-      v-model:selection="selectedClassifications"
-      lazy
-      :value="classifications"
-      data-key="id"
-      scrollable
-      paginator
-      :rows="10"
-      :total-records="totalRecords"
-      class="w-full"
-      @page="onPage($event)"
-      @update:selection="onSelectionChanged"
+    v-model:selection="selectedClassifications"
+    lazy
+    :value="classifications"
+    data-key="id"
+    scrollable
+    paginator
+    :rows="10"
+    :total-records="totalRecords"
+    class="w-full"
+    @page="onPage($event)"
+    @update:selection="onSelectionChanged"
   >
     <Column
-        v-for="column in columns"
-        :key="column.name"
-        :field="column.name"
-        :header="$t(column.header)"
-        :class="column.class"
-        :style="column.width ? { width: column.width } : {}"
+      v-for="column in columns"
+      :key="column.name"
+      :field="column.name"
+      :header="$t(column.header)"
+      :class="column.class"
+      :style="column.width ? { width: column.width } : {}"
     >
       <template #body="{ data }">
-        <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column"/>
+        <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
       </template>
     </Column>
   </DataTable>
@@ -29,13 +29,13 @@
 
 <script setup>
 // IMPORTS
-import {onMounted, ref, watch, watchEffect} from "vue";
+import { onMounted, ref, watch, watchEffect } from "vue";
 
 import useAdminClassifications from "@/composables/useAdminClassifications";
-import {useUtilsStore} from "@/stores/utils";
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const {getClassifications} = useAdminClassifications();
+const { getClassifications } = useAdminClassifications();
 
 // INJECT
 
@@ -55,7 +55,7 @@ const props = defineProps({
   },
   entityType: {
     type: String,
-    default: "service"
+    default: "service",
   },
 });
 
@@ -82,7 +82,7 @@ const loadLazyData = async () => {
     ...filters,
     page: nextPage ? nextPage : 1,
     per_page: 10,
-    entity_type: props.entityType
+    entity_type: props.entityType,
   });
 
   if (searchValueParam) {
@@ -92,9 +92,7 @@ const loadLazyData = async () => {
   let response = await getClassifications(params);
   classifications.value = response.data;
   totalRecords.value = response.totalRecords;
-
 };
-
 
 const onPage = (event) => {
   lazyParams.value = event;
@@ -122,24 +120,25 @@ watchEffect(() => {
 });
 
 watch(
-    () => utilsStore.searchString["classification"],
-    () => {
-      searchValue.value = utilsStore.searchString["classification"];
-      utilsStore.debounceAction(() => {
-        loadLazyData();
-      });
-    },
-    {deep: true}
+  () => utilsStore.searchString["classification"],
+  () => {
+    searchValue.value = utilsStore.searchString["classification"];
+    utilsStore.debounceAction(() => {
+      loadLazyData();
+    });
+  },
+  { deep: true }
 );
 
-watch(() => props.entityType,
-    () => {
-      loadLazyData();
-    }
+watch(
+  () => props.entityType,
+  () => {
+    loadLazyData();
+  }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
   loadLazyData();
-})
+});
 </script>

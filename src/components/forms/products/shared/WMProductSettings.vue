@@ -319,7 +319,7 @@ const loadFields = async () => {
     "product_maintenance_billing_cycle_period"
   );
 
-  warrantyUnits.value = await optionSetsStore.getOptionSetValues("product_warranty_period");
+  warrantyUnits.value = await optionSetsStore.getOptionSetValues("product_warranty_units");
   warrantyPeriods.value = await optionSetsStore.getOptionSetValues("product_warranty_period");
 
   installationTypes.value = await optionSetsStore.getOptionSetValues("installation_type");

@@ -80,7 +80,7 @@
         :highlighted="true"
         type="input-select"
         :label="$t('product.billing-type') + ':'"
-        :options="productTypes"
+        :options="billingTypes"
         :placeholder="$t('select', ['product.billing-type'])"
         size="sm"
         option-set
