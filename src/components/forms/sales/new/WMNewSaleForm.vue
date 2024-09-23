@@ -13,6 +13,7 @@
           :label="$t('owner') + ':'"
           :value="'pepito'"
         />
+        <pre>{{ values }}</pre>
       </div>
       <div class="flex flex-row gap-5">
         <WMInput
@@ -37,7 +38,7 @@
           required
         />
         <WMInput
-          name="sale-type"
+          name="sale_type"
           :highlighted="true"
           type="input-select"
           :label="$t('sale.sale-type') + ':'"
@@ -67,21 +68,21 @@
       <div class="flex flex-column gap-5">
         <div class="flex flex-row gap-5">
           <WMInput
-            name="publication-date"
+            name="publication_date"
             :highlighted="true"
             type="date"
             :label="$t('sale.publication-date') + ':'"
             size="sm"
           />
           <WMInput
-            name="question-date"
+            name="question_date"
             :highlighted="true"
             type="date"
             :label="$t('sale.question-date') + ':'"
             size="sm"
           />
           <WMInput
-            name="response-date"
+            name="response_date"
             :highlighted="true"
             type="date"
             :label="$t('sale.response-date') + ':'"
@@ -90,7 +91,7 @@
         </div>
         <div class="flex flex-row gap-5">
           <WMInput
-            name="resolution-date"
+            name="resolution_date"
             :highlighted="true"
             type="date"
             :label="$t('sale.resolution-date') + ':'"
@@ -112,7 +113,7 @@
     <h3 class="h3 mt-0">{{ $t("sale.factors-in-the-organization") }}</h3>
     <div class="flex flex-row gap-5">
       <WMInput
-        name="legal-adviser"
+        name="legal_adviser"
         :highlighted="true"
         type="input-select"
         :label="$t('sale.legal-adviser') + ':'"
@@ -121,7 +122,7 @@
         size="sm"
       />
       <WMInput
-        name="financial-guide"
+        name="financial_guide"
         :highlighted="true"
         type="input-select"
         :label="$t('sale.financial-guide') + ':'"
@@ -130,7 +131,7 @@
         size="sm"
       />
       <WMInput
-        name="sales-manager"
+        name="sales_manager"
         :highlighted="true"
         type="input-select"
         :label="$t('sale.sales-manager') + ':'"
@@ -139,10 +140,10 @@
         size="sm"
       />
       <WMInput
-        name="projects-managers"
+        name="projects_manager"
         :highlighted="true"
         type="input-select"
-        :label="$t('sale.projects-managers') + ':'"
+        :label="$t('sale.projects-manager') + ':'"
         :options="contacts"
         :placeholder="$t('select', ['contact.contact'])"
         size="sm"
@@ -157,7 +158,7 @@
     <div class="flex flex-column gap-5">
       <div class="flex flex-row gap-5">
         <WMInput
-          name="customer-consultant"
+          name="customer_consultant"
           :highlighted="true"
           type="input-select"
           :label="$t('sale.customer-consultant') + ':'"
@@ -166,7 +167,7 @@
           size="sm"
         />
         <WMInput
-          name="information-technology"
+          name="information_technology"
           :highlighted="true"
           type="input-select"
           :label="$t('sale.information-technology') + ':'"
@@ -175,7 +176,7 @@
           size="sm"
         />
         <WMInput
-          name="business-manager"
+          name="business_manager"
           :highlighted="true"
           type="input-select"
           :label="$t('sale.business-manager') + ':'"
@@ -184,7 +185,7 @@
           size="sm"
         />
         <WMInput
-          name="decision-maker"
+          name="decision_maker"
           :highlighted="true"
           type="input-select"
           :label="$t('sale.decision-maker') + ':'"
@@ -195,7 +196,7 @@
       </div>
       <div class="flex flex-row gap-5">
         <WMInput
-          name="budgeting-factor"
+          name="budgeting_factor"
           :highlighted="true"
           type="input-select"
           :label="$t('sale.budgeting-factor') + ':'"
@@ -217,18 +218,27 @@
 
 <script setup>
 // IMPORTS
+import { useForm } from "vee-validate";
 import { onMounted, ref } from "vue";
 
+import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
 const { getContactsFromApi } = useContacts();
-const optionSetsStore = useOptionSetsStore();
 const { getCustomersFromApi } = useCustomers();
+const { createSale } = useSales();
+
+const formUtilsStore = useFormUtilsStore();
+const optionSetsStore = useOptionSetsStore();
+
+const toast = useToast();
+const dialog = useDialog();
 
 // INJECT
 
 // PROPS, EMITS
+const emit = defineEmits(["newSaleCreated"]);
 
 // REFS
 const customers = ref();
@@ -240,6 +250,25 @@ const contacts = ref();
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const { handleSubmit, values, resetForm, meta } = useForm({
+  validationSchema: formUtilsStore.getNewSalesFormValidationSchema,
+});
+
+const onSubmit = handleSubmit(async () => {
+  try {
+    const data = await createSale(values);
+
+    emit("newSaleCreated");
+    dialog.confirmNewAdminMessage({ id: data.data.id, emit });
+
+    resetForm();
+
+    toast.success({ title: "Sale created", message: "sale created successfully" });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 const loadLazyData = async () => {
   const activeStateId = await optionSetsStore.getId("state", "active");
 
@@ -270,7 +299,11 @@ const loadLazyData = async () => {
     };
   });
 };
+
 // PROVIDE, EXPOSE
+defineExpose({
+  onSubmit,
+});
 
 // WATCHERS
 

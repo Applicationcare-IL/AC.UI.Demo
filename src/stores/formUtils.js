@@ -706,6 +706,40 @@ export const useFormUtilsStore = defineStore("formUtils", {
           }),
       });
     },
+    getNewSalesFormValidationSchema: () => {
+      return yup.object({
+        customer: yup.object().required({
+          key: "validation.required-select",
+          values: { label: "sale.customer" },
+        }),
+        initiator: yup.object().required({
+          key: "validation.required-select",
+          values: { label: "sale.initiator" },
+        }),
+        sale_type: yup.object().required({
+          key: "validation.required-select",
+          values: { label: "sale.sale-type" },
+        }),
+        source: yup.object().required({
+          key: "validation.required-select",
+          values: { label: "sale.source" },
+        }),
+        publication_date: yup.date(),
+        question_date: yup.date(),
+        response_date: yup.date(),
+        resolution_date: yup.date(),
+        supply_date: yup.date(),
+        legal_adviser: yup.object(),
+        sales_manager: yup.object(),
+        projects_managers: yup.object(),
+        customer_consultant: yup.object(),
+        information_technology: yup.object(),
+        business_manager: yup.object(),
+        decision_maker: yup.object(),
+        budgeting_factor: yup.object(),
+        budget: yup.number(),
+      });
+    },
     getNewProductFormValidationSchema: () => {
       return yup.object({
         name: yup.string().required(),
