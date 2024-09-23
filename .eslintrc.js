@@ -88,6 +88,7 @@ module.exports = {
     useEmployees: true,
     useAdminFlowmaze: true,
     useFlowmaze: true,
+    useSales: true,
     useProducts: true,
     useAdminUsers: true,
     useAdminReports: true,
