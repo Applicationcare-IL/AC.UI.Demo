@@ -74,8 +74,9 @@
       <WMInput type="date" :label="$t('product.eos') + ':'" name="eos" :value="product?.eos" />
     </div>
     <div class="flex gap-5">
+      hola
+      {{ billingTypes }}
       <WMInput
-        v-if="billingTypes"
         name="billing_type"
         :highlighted="true"
         type="input-select"
@@ -86,7 +87,6 @@
         option-set
         data-testid="product.form.billing-type"
         required
-        :value="product?.billing_type"
       />
 
       <WMInput

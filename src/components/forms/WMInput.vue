@@ -121,7 +121,11 @@
         {{ refValue }}
       </template>
     </span>
-    <span v-if="type == 'info-link'" :class="classes" class="text-overflow-ellipsis overflow-hidden">
+    <span
+      v-if="type == 'info-link'"
+      :class="classes"
+      class="text-overflow-ellipsis overflow-hidden"
+    >
       <router-link v-if="value" :to="props.to">{{ value }}</router-link>
     </span>
     <span v-if="errorMessage" class="wm-validation-message">
@@ -246,7 +250,7 @@ const props = defineProps({
   minDate: {
     type: String,
     default: "",
-  }
+  },
 });
 
 const emit = defineEmits(["update:value", "update:selectedItem", "update:modelValue"]);

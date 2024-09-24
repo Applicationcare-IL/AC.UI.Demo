@@ -69,14 +69,14 @@ const { handleSubmit, values, resetForm, meta } = useForm({
 
 const onSubmit = handleSubmit(() => {});
 
-const onCancel = () => {
+const cancelForm = () => {
   closeSidebar();
 };
 
 // PROVIDE, EXPOSE
 defineExpose({
   onSubmit,
-  onCancel,
+  cancelForm,
 });
 
 // WATCHERS

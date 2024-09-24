@@ -1,13 +1,13 @@
 <template>
-  <div class="pb-0 " style="padding: 18px 48px;">
+  <div class="wm-subheader pb-2">
     <h1 class="h1 capitalize">{{ props.entity }}</h1>
-    <Divider/>
+    <Divider />
     <div class="flex gap-2">
       <WMSelectableButtonGroup
-          :name="props.entity"
-          :options="options"
-          :value="options[0].value"
-          @update:selected-option="changeSelectorValue"
+        :name="props.entity"
+        :options="options"
+        :value="options[0].value"
+        @update:selected-option="changeSelectorValue"
       />
     </div>
   </div>
@@ -15,7 +15,7 @@
 
 <script setup>
 // IMPORTS
-import {onMounted} from "vue";
+import { onMounted } from "vue";
 // DEPENDENCIES
 
 // INJECT
@@ -24,12 +24,12 @@ import {onMounted} from "vue";
 const props = defineProps({
   entity: {
     type: String,
-    default: ''
+    default: "",
   },
   options: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
 });
 
 const emit = defineEmits(["update:selectedOption"]);
@@ -41,16 +41,14 @@ const emit = defineEmits(["update:selectedOption"]);
 // COMPONENT METHODS AND LOGIC
 const changeSelectorValue = (value) => {
   emit("update:selectedOption", value);
-}
+};
 
 // PROVIDE, EXPOSE
 
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(() => {
-
-})
+onMounted(() => {});
 </script>
 
 <style scoped></style>
