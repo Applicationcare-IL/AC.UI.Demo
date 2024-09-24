@@ -241,6 +241,8 @@ const dialog = useDialog();
 const emit = defineEmits(["newSaleCreated"]);
 
 // REFS
+const loading = ref(true);
+
 const customers = ref();
 const initiators = ref();
 const sales = ref();
@@ -298,6 +300,8 @@ const loadLazyData = async () => {
       label: contact.firstName,
     };
   });
+
+  loading.value = false;
 };
 
 // PROVIDE, EXPOSE
