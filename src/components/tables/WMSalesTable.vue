@@ -49,7 +49,7 @@ import { onMounted, ref, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-//   const { getSales } = useSales();
+const { getSales } = useSales();
 
 // INJECT
 
@@ -116,9 +116,9 @@ const loadLazyData = async () => {
     params.append(props.relatedEntity, props.relatedEntityId);
   }
 
-  //   let response = await getSales(params);
-  //   sales.value = response.data;
-  //   totalRecords.value = response.totalRecords;
+  let response = await getSales(params);
+  sales.value = response.data;
+  totalRecords.value = response.totalRecords;
   loading.value = false;
   salesLoaded.value = true;
 };
