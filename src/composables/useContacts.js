@@ -2,7 +2,7 @@ import { storeToRefs } from "pinia";
 
 import { useContactsStore } from "@/stores/contactsStore";
 
-export function useContacts() {
+const useContacts = () => {
   const contactsStore = useContactsStore();
   const { selectedContacts } = storeToRefs(contactsStore);
 
@@ -50,9 +50,7 @@ export function useContacts() {
 
   // UTILITIES
   const mapContact = (contact) => {
-    const contactFullName = contact.surname
-      ? `${contact.name} ${contact.surname}`
-      : contact.name;
+    const contactFullName = contact.surname ? `${contact.name} ${contact.surname}` : contact.name;
 
     return {
       id: contact.id,
@@ -76,9 +74,7 @@ export function useContacts() {
       is_main: contact.main_contact_for != null,
       customer: contact.main_contact_for,
       customers: contact.customers,
-      first_customer_full_name: contact.customers[0]
-        ? getFullName(contact.customers[0])
-        : null,
+      first_customer_full_name: contact.customers[0] ? getFullName(contact.customers[0]) : null,
       role: contact.role,
       role_project: contact.role_project,
       notes: contact.notes,
@@ -91,9 +87,7 @@ export function useContacts() {
         city: contact.location?.city,
         street: contact.location?.street,
         house_number:
-          contact.location?.house_number !== null
-            ? parseInt(contact.location?.house_number)
-            : null,
+          contact.location?.house_number !== null ? parseInt(contact.location?.house_number) : null,
         apartment: contact.location?.apartment_number,
         entrance: contact.location?.house_entrance,
         zip: contact.location?.zip?.id,
@@ -119,9 +113,7 @@ export function useContacts() {
       fax: contact["fax"],
       email: contact["email"],
       gender: contact["gender"].id,
-      customers: contact["customer"]
-        ? contact["customer"].map((x) => x.id)
-        : "",
+      customers: contact["customer"] ? contact["customer"].map((x) => x.id) : "",
       street: contact["street"]?.id,
       street_number: contact["house-number"],
       city: contact["city"]?.id,
@@ -199,9 +191,7 @@ export function useContacts() {
     return Promise.resolve(this.getContactsWithOrdersData());
   };
   const getContact = (id) => {
-    return Promise.resolve(
-      this.getContactsData().find((contact) => contact.contact_id === id)
-    );
+    return Promise.resolve(this.getContactsData().find((contact) => contact.contact_id === id));
   };
 
   return {
@@ -235,4 +225,6 @@ export function useContacts() {
     getContactsWithOrders,
     getContact,
   };
-}
+};
+
+export default useContacts;
