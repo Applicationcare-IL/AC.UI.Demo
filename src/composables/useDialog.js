@@ -112,10 +112,10 @@ const useDialog = () => {
 
   const confirmNewAdminRole = ({ id, emit }) => {
     confirm.require({
-      message: i18n.t("team.notification-created-message"),
-      header: i18n.t("team.notification-created-header"),
-      acceptLabel: i18n.t("team.notification-created-detail"),
-      rejectLabel: i18n.t("team.notification-created-close"),
+      message: i18n.t("role.notification-created-message"),
+      header: i18n.t("role.notification-created-header"),
+      acceptLabel: i18n.t("role.notification-created-detail"),
+      rejectLabel: i18n.t("role.notification-created-close"),
       accept: () => {
         formUtilsStore.goToAdminDetail(id, "role");
       },
