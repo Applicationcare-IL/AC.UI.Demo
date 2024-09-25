@@ -1,10 +1,10 @@
 <template>
-  <Skeleton v-if="!salesLoaded" height="600px"></Skeleton>
+  <Skeleton v-if="!customersLoaded" height="600px"></Skeleton>
   <DataTable
     v-else
-    v-model:selection="selectedSales"
+    v-model:selection="selectedCustomers"
     lazy
-    :value="sales"
+    :value="customers"
     data-key="id"
     scrollable
     paginator
@@ -24,7 +24,10 @@
           class="vertical-align-middle"
           @click="openSidebar(data.id)"
         />
-        <WMSalePreviewSidebar v-model:visible="isPreviewVisible[data.id]" :sale-id="data.id" />
+        <!-- <WMCustomerPreviewSidebar
+          v-model:visible="isPreviewVisible[data.id]"
+          :customer-id="data.id"
+        /> -->
       </template>
     </Column>
     <Column
@@ -39,6 +42,7 @@
         <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
       </template>
     </Column>
+    <!-- <pre>{{ customers }}</pre> -->
   </DataTable>
 </template>
 
@@ -49,7 +53,7 @@ import { onMounted, ref, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getSales } = useSales();
+const { getCustomersFromApi } = useCustomers();
 
 // INJECT
 
@@ -81,15 +85,15 @@ const props = defineProps({
 const emit = defineEmits(["update:selection"]);
 
 // REFS
-const selectedSales = ref([]);
+const selectedCustomers = ref([]);
 const totalRecords = ref(0);
-const sales = ref([]);
+const customers = ref([]);
 const lazyParams = ref({});
 
 const utilsStore = useUtilsStore();
 const searchValue = ref("");
 const loading = ref(false);
-const salesLoaded = ref(true);
+const customersLoaded = ref(true);
 
 const isPreviewVisible = ref([]);
 
@@ -98,7 +102,7 @@ const isPreviewVisible = ref([]);
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
   loading.value = true;
-  const filters = utilsStore.filters["sale"];
+  const filters = utilsStore.filters["customer"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
 
@@ -116,11 +120,12 @@ const loadLazyData = async () => {
     params.append(props.relatedEntity, props.relatedEntityId);
   }
 
-  let response = await getSales(params);
-  sales.value = response.data;
+  let response = await getCustomersFromApi(params);
+  customers.value = response.data;
   totalRecords.value = response.totalRecords;
+
   loading.value = false;
-  salesLoaded.value = true;
+  customersLoaded.value = true;
 };
 
 const onPage = (event) => {
@@ -129,11 +134,11 @@ const onPage = (event) => {
 };
 
 const onSelectionChanged = () => {
-  emit("update:selection", selectedSales.value);
+  emit("update:selection", selectedCustomers.value);
 };
 
-const cleanSelectedSales = () => {
-  selectedSales.value = [];
+const cleanSelectedCustomers = () => {
+  selectedCustomers.value = [];
   onSelectionChanged();
 };
 
@@ -144,7 +149,7 @@ const openSidebar = (data) => {
 // PROVIDE, EXPOSE
 defineExpose({
   loadLazyData,
-  cleanSelectedSales,
+  cleanSelectedCustomers,
 });
 
 // WATCHERS
@@ -153,9 +158,9 @@ watchEffect(() => {
 });
 
 watch(
-  () => utilsStore.searchString["sale"],
+  () => utilsStore.searchString["customer"],
   () => {
-    searchValue.value = utilsStore.searchString["sale"];
+    searchValue.value = utilsStore.searchString["customer"];
     utilsStore.debounceAction(() => {
       loadLazyData();
     });

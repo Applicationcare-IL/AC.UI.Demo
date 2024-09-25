@@ -28,125 +28,13 @@
   </WMSidebar>
 
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
-    <DataTable
-      ref="dt"
-      v-model:selection="selectedCustomers"
-      lazy
-      :value="customers"
-      data-key="id"
-      table-style="min-width: 50rem"
-      class="p-datatable-sm"
-      scrollable
-      scroll-height="flex"
-      paginator
-      :rows="selectedRowsPerPage"
-      :first="0"
-      :total-records="totalRecords"
-      :loading="loading"
-      @page="onPage($event)"
+    <WMCustomersTableTemp
+      ref="salesTable"
+      :columns="columns"
+      preview
+      selectable
       @update:selection="onSelectionChanged"
-    >
-      <Column style="width: 35px">
-        <template #body="slotProps">
-          <img
-            src="/icons/eye.svg"
-            alt=""
-            class="vertical-align-middle"
-            @click="displayDetails(slotProps.data)"
-          />
-        </template>
-      </Column>
-      <Column style="width: 40px" selection-mode="multiple"></Column>
-
-      <Column field="id" :header="$t('customer.number-abbreviation')" class="link-col">
-        <template #body="slotProps">
-          <router-link
-            :to="{ name: 'customerDetail', params: { id: slotProps.data.id } }"
-            class="vertical-align-middle"
-            >{{ slotProps.data.id }}</router-link
-          >
-        </template>
-      </Column>
-
-      <Column field="name" :header="$t('customer-name')"></Column>
-      <Column field="type" :header="$t('customer.type')">
-        <template #body="slotProps">
-          <div :class="highlightCellClass(slotProps.data.type)">
-            <WMOptionSetValue :option-set="slotProps.data.type" />
-          </div>
-        </template>
-      </Column>
-      <Column field="main_contact" :header="$t('customer.main-contact')" class="link-col">
-        <template #body="slotProps">
-          <router-link
-            v-if="slotProps.data.main_contact?.id != null"
-            :to="{
-              name: 'contactDetail',
-              params: { id: slotProps.data.main_contact?.id },
-            }"
-            class="vertical-align-middle"
-          >
-            {{ slotProps.data.main_contact.name }}
-          </router-link>
-        </template>
-      </Column>
-      <Column field="address" :header="$t('address.address')">
-        <template #body="slotProps">
-          {{ formatAddress(slotProps.data.location) }}
-        </template>
-      </Column>
-      <Column field="open_services" :header="$t('customer.open-services')" class="numeric"></Column>
-      <Column field="breached_services" :header="$t('customer.breached-services')" class="numeric">
-        <template #body="slotProps">
-          <div :class="highlightCellClass(slotProps.data.breached_services)">
-            {{ slotProps.data.breached_services }}
-          </div>
-        </template>
-      </Column>
-      <Column field="open_tasks" :header="$t('customer.open-tasks')" class="numeric"></Column>
-      <Column field="breached_tasks" :header="$t('customer.breached-tasks')" class="numeric">
-        <template #body="slotProps">
-          <div :class="highlightCellClass(slotProps.data.breached_tasks)">
-            {{ slotProps.data.breached_tasks }}
-          </div>
-        </template>
-      </Column>
-      <Column field="rating" :header="$t('customer.rating')">
-        <template #body="slotProps">
-          <div :class="highlightCellClass(slotProps.data.rating)">
-            {{ slotProps.data.rating ? slotProps.data.rating[optionLabelWithLang] : "" }}
-          </div>
-        </template>
-      </Column>
-      <Column field="service_areas" :header="$t('customer.areas')">
-        <template #body="slotProps">
-          <div
-            :class="highlightCellClass(slotProps.data.area)"
-            class="flex flex-row gap-2 overflow-x-auto max-w-15rem"
-          >
-            <Chip
-              v-for="(area, index) in slotProps.data.service_areas"
-              :key="index"
-              :label="area[optionLabelWithLang]"
-            ></Chip>
-          </div>
-        </template>
-      </Column>
-      <Column field="number" :header="$t('customer.number')"></Column>
-      <Column field="owner.name" :header="$t('owner')"></Column>
-      <Column field="status" :header="$t('status')" class="numeric">
-        <template #body="slotProps">
-          <div :class="highlightStatusClass(slotProps.data.status.value.toLowerCase())">
-            {{ $t("statuses." + slotProps.data.status.value.toLowerCase()) }}
-          </div>
-        </template>
-      </Column>
-      <!-- <Column field="state" class="filled-td" :header="$t('state.state')">
-        <template #body="slotProps">
-          <WMStateField :state="slotProps.data.state" />
-        </template>
-      </Column> -->
-    </DataTable>
+    />
   </div>
 </template>
 
@@ -183,6 +71,104 @@ const selectedCustomers = ref([]);
 const isDetailsVisible = ref(false);
 const customerDetail = ref(null);
 
+const columns = [
+  {
+    name: "id",
+    type: "link",
+    field: "link_detail",
+    header: "id",
+    routeName: "customerDetail",
+  },
+  {
+    name: "customer-name",
+    type: "text",
+    field: "render_name",
+    header: "customer.name",
+  },
+  {
+    name: "type",
+    type: "text",
+    field: "render_type",
+    header: "customer.type",
+  },
+  {
+    name: "main-contact",
+    type: "link",
+    field: "render_main_contact",
+    header: "customer.main-contact",
+    routeName: "customerDetail",
+  },
+  {
+    name: "address",
+    type: "text",
+    field: "render_location",
+    header: "address.address",
+  },
+  {
+    name: "open-services",
+    type: "centered-number",
+    field: "render_open_services",
+    header: "customer.open-services",
+  },
+  {
+    name: "breached-services",
+    type: "breached-number",
+    field: "render_breached_services",
+    header: "customer.breached-services",
+    class: "p-0 filled-td",
+  },
+  {
+    name: "open-tasks",
+    type: "centered-number",
+    field: "render_open_tasks",
+    header: "customer.open-tasks",
+  },
+  {
+    name: "breached-tasks",
+    type: "breached-number",
+    field: "render_breached_tasks",
+    header: "customer.breached-tasks",
+    class: "p-0 filled-td",
+  },
+  {
+    name: "rating",
+    type: "text",
+    field: "render_rating",
+    header: "customer.rating",
+  },
+  {
+    name: "service-areas",
+    type: "chips",
+    field: "render_service_areas",
+    header: "customer.service-areas",
+  },
+  {
+    name: "customer-number",
+    type: "text",
+    field: "render_number",
+    header: "customer.number",
+  },
+  {
+    name: "owner",
+    type: "text",
+    field: "render_owner",
+    header: "customer.owner",
+  },
+  {
+    name: "status",
+    type: "status",
+    field: "render_status",
+    header: "status",
+  },
+  {
+    name: "state",
+    type: "state",
+    field: "state",
+    header: "state.state",
+    width: "100px",
+    class: "filled-td",
+  },
+];
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
