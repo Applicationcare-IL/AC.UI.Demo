@@ -78,6 +78,7 @@ const optionSetsStore = useOptionSetsStore();
 const toast = useToast();
 const { linkService, getServiceFromApi } = useServices();
 const utilsStore = useUtilsStore();
+const { can } = usePermissions();
 
 // INJECT
 
@@ -91,10 +92,7 @@ const op = ref();
 const showExistingRelatedServicesDialog = ref(false);
 const isNewRelatedServiceSidebarVisible = ref(false);
 
-const options = [
-  { label: t("service.link-existing-service"), value: "existing" },
-  { label: t("service.link-new-service"), value: "new" },
-];
+const options = [{ label: t("service.link-existing-service"), value: "existing" }];
 
 const selectedOption = ref(options[0]);
 
@@ -155,13 +153,13 @@ const handleLinkNewService = async (newServiceData) => {
   emit("newServiceLinked", relatedService);
 };
 
-function closeNewRelatedServiceSidebar() {
+const closeNewRelatedServiceSidebar = () => {
   isNewRelatedServiceSidebarVisible.value = false;
-}
+};
 
-function openNewRelatedServiceSidebar() {
+const openNewRelatedServiceSidebar = () => {
   isNewRelatedServiceSidebarVisible.value = true;
-}
+};
 
 // PROVIDE, EXPOSE
 provide("preselectedRelationType", selectedRelationType);
@@ -169,9 +167,12 @@ provide("preselectedRelationType", selectedRelationType);
 // WATCHERS
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-
 onMounted(async () => {
   relationTypes.value = await optionSetsStore.getOptionSetValues("service_related_relationship");
+
+  if (can("services.create")) {
+    options.push({ label: t("service.link-new-service"), value: "new" });
+  }
 
   selectedRelationType.value = relationTypes.value[0];
 });

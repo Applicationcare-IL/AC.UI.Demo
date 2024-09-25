@@ -95,14 +95,20 @@
 </template>
 
 <script setup>
+// IMPORTS
 import { onMounted, ref, watch } from "vue";
 
 import { useOptionSetsStore } from "@/stores/optionSets";
 
-const message = ref("");
+// DEPENDENCIES
+const optionSetsStore = useOptionSetsStore();
+const { can } = usePermissions();
+const { getContactsFromApi, selectedContacts } = useContacts();
+const { sendSMS } = useCommunications();
 
-const sendMessageDialogVisible = ref(false);
+// INJECT
 
+// PROPS, EMITS
 const props = defineProps({
   selectedElements: {
     type: Number,
@@ -114,29 +120,13 @@ const props = defineProps({
   },
 });
 
+// REFS
+const message = ref("");
+const sendMessageDialogVisible = ref(false);
+
 const inputSearch = ref();
 
 const menu = ref();
-
-const toggleCommunicationsMenu = (event) => {
-  menu.value.toggle(event);
-};
-
-const optionSetsStore = useOptionSetsStore();
-const { can } = usePermissions();
-
-let communicationChannels = optionSetsStore.getOptionSetValues("communicationChannels");
-
-// filter communication channels based on user permissions
-if (!can("global.sms")) {
-  communicationChannels = communicationChannels.filter((channel) => channel.value !== "sms");
-}
-
-if (!can("global.whatsapp")) {
-  communicationChannels = communicationChannels.filter((channel) => channel.value !== "whatsapp");
-}
-
-const { getContactsFromApi, selectedContacts } = useContacts();
 
 const contactOptions = ref([]);
 
@@ -144,10 +134,17 @@ const getContactsFromApiParams = ref({
   per_page: 100,
 });
 
-onMounted(async () => {
-  const response = await getContactsFromApi(getContactsFromApiParams.value);
-  contactOptions.value = response.data;
-});
+const selectedDropdownContacts = ref(0);
+const selectedChannel = ref();
+
+const communicationChannels = ref([]);
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
+const toggleCommunicationsMenu = (event) => {
+  menu.value.toggle(event);
+};
 
 const searchContact = (query) => {
   return getContactsFromApi({
@@ -155,9 +152,6 @@ const searchContact = (query) => {
     ...getContactsFromApiParams.value,
   });
 };
-
-const selectedDropdownContacts = ref(0);
-const selectedChannel = ref();
 
 const onContactselected = (contacts) => {
   selectedDropdownContacts.value = contacts;
@@ -167,18 +161,16 @@ const handleOverlayMenuClick = (action) => {
   switch (action) {
     case "sms":
       sendMessageDialogVisible.value = true;
-      selectedChannel.value = communicationChannels[0];
+      selectedChannel.value = communicationChannels.value[0];
       break;
     case "whatsapp":
       sendMessageDialogVisible.value = true;
-      selectedChannel.value = communicationChannels[1];
+      selectedChannel.value = communicationChannels.value[1];
       break;
     default:
       break;
   }
 };
-
-const { sendSMS } = useCommunications();
 
 const handleSendMessage = () => {
   let params;
@@ -207,17 +199,6 @@ const handleClearAllSelectedDropdownContacts = () => {
   selectedDropdownContacts.value = [];
   inputSearch.value.clear();
 };
-
-watch(
-  () => selectedContacts.value,
-  (newSelectedContacts) => {
-    if (!newSelectedContacts || newSelectedContacts.length == 0) {
-      return;
-    }
-
-    fillSelectedContactDropdownWithSelectedContacts(newSelectedContacts);
-  }
-);
 
 const fillSelectedContactDropdownWithSelectedContacts = (newSelectedContacts) => {
   if (newSelectedContacts?.length == 0 || !contactOptions.value) {
@@ -253,6 +234,41 @@ const getNames = (contacts) => {
 
   return contacts.map((contact) => contact.name).join(", ");
 };
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+watch(
+  () => selectedContacts.value,
+  (newSelectedContacts) => {
+    if (!newSelectedContacts || newSelectedContacts.length == 0) {
+      return;
+    }
+
+    fillSelectedContactDropdownWithSelectedContacts(newSelectedContacts);
+  }
+);
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
+onMounted(async () => {
+  const response = await getContactsFromApi(getContactsFromApiParams.value);
+  contactOptions.value = response.data;
+
+  communicationChannels.value = await optionSetsStore.getOptionSetValues("communicationChannels");
+
+  // filter communication channels based on user permissions
+  if (!can("global.sms")) {
+    communicationChannels.value = communicationChannels.value.filter(
+      (channel) => channel.value !== "sms"
+    );
+  }
+
+  if (!can("global.whatsapp")) {
+    communicationChannels.value = communicationChannels.value.filter(
+      (channel) => channel.value !== "whatsapp"
+    );
+  }
+});
 </script>
 
 <style scoped lang="scss">

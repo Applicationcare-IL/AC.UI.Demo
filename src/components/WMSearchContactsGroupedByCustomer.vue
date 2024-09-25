@@ -25,7 +25,11 @@
     <template v-if="props.relatedSidebar" #emptyfilter>
       <div class="flex flex-column m-2" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
         <span class="vertical-align-middle"> {{ $t("no-results") }} </span>
-        <a class="vertical-align-middle orange-link cursor-pointer" @click="openRelatedSidebar()">
+        <a
+          v-if="can('contacts.create')"
+          class="vertical-align-middle orange-link cursor-pointer"
+          @click="openRelatedSidebar()"
+        >
           {{ $t("buttons.create-new-one") + " + " }}
         </a>
       </div>
@@ -44,6 +48,7 @@ const { layoutConfig } = useLayout();
 const { getCustomersFromApi } = useCustomers();
 const { openSidebar } = useSidebar();
 const { optionLabelWithLang } = useLanguages();
+const { can } = usePermissions();
 
 // INJECT
 

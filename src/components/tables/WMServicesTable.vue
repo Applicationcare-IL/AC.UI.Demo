@@ -18,7 +18,11 @@
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
-        <WMNewButton v-if="!hideCreateButton" :text="$t('new')" @click="toggleSidebarVisibility" />
+        <WMNewButton
+          v-if="!hideCreateButton && can('services.create')"
+          :text="$t('new')"
+          @click="toggleSidebarVisibility"
+        />
 
         <WMLinkServiceButton
           v-if="showLinkServiceButton"
