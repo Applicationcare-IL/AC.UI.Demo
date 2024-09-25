@@ -2,6 +2,7 @@ import { useCustomersStore } from "@/stores/customersStore";
 
 const useCustomers = () => {
   const customersStore = useCustomersStore();
+  const { optionLabelWithLang } = useLanguages();
   const { formatAddress } = useUtils();
 
   // ACTIONS
@@ -129,8 +130,8 @@ const useCustomers = () => {
       render_open_tasks: customer.open_tasks,
       render_breached_tasks: customer.breached_tasks,
       render_rating: customer.rating.value,
-      render_service_areas: customer.service_areas.map((service_area) => {
-        return { name: service_area.value };
+      render_service_areas: customer.service_areas.map((chip) => {
+        return { name: chip[optionLabelWithLang.value] };
       }),
       render_number: customer.number,
       render_owner: customer.owner.name,
