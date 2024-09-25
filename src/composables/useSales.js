@@ -2,6 +2,7 @@ import { useSalesStore } from "@/stores/salesStore";
 
 const useSales = () => {
   const salesStore = useSalesStore();
+  const { optionLabelWithLang } = useLanguages();
 
   const getSales = async (params) => {
     const response = await salesStore.getSales(params);
@@ -47,6 +48,30 @@ const useSales = () => {
   const mapSale = (sale) => {
     return {
       ...sale,
+      link_detail: {
+        text: sale.id,
+        id: sale.id,
+      },
+      render_contact: {
+        text: sale.contact.name,
+        id: sale.id,
+      },
+      render_customer: {
+        text: sale.customer.name,
+        id: sale.id,
+      },
+      render_sale_type: sale.sale_type[optionLabelWithLang.value],
+      render_sale_source: sale.sale_source[optionLabelWithLang.value],
+      render_tender: sale.tender,
+      render_initiator: sale.sale_initiator[optionLabelWithLang.value],
+
+      render_owner: sale.owner.name,
+      render_waiting_customers: sale.waiting_for_customers,
+      render_open_tasks: sale.open_tasks,
+      render_breached_tasks: sale.breached_tasks,
+      render_price_base: sale.deal_price_base,
+
+      render_price_final: sale.deal_price_final,
     };
   };
 

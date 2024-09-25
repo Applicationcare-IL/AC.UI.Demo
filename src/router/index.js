@@ -232,6 +232,11 @@ const router = createRouter({
           name: "newSale",
           component: () => import("@/views/user/forms/new/Sale.vue"),
         },
+        {
+          path: "sale/:id",
+          name: "saleDetail",
+          component: () => import("@/views/user/forms/detail/SaleDetail.vue"),
+        },
       ],
     },
     {
