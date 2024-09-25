@@ -87,13 +87,15 @@
       :state="modelValue.state.value"
     />
   </template>
-  <template v-if="columnData.type == 'tasks'">
-    <div
-      :class="highlightCellClass(modelValue.breached_tasks)"
-      class="h-full w-full flex justify-content-center align-items-center"
-    >
-      {{ modelValue.breached_tasks }}
-    </div>
+  <template v-if="columnData.type == 'centered-number'">
+    <span class="numeric w-full block">
+      {{ modelValue }}
+    </span>
+  </template>
+  <template v-if="columnData.type == 'breached-number'">
+    <span :class="highlightCellClass(modelValue)" class="numeric w-full block">
+      {{ modelValue }}
+    </span>
   </template>
 </template>
 <script setup>
@@ -116,6 +118,9 @@ const modelValue = defineModel();
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const highlightCellClass = (data) => {
+  return [{ "bg-red-100 text-red-600": data > 0 }];
+};
 
 // PROVIDE, EXPOSE
 
