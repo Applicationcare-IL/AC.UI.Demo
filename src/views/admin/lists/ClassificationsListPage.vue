@@ -1,5 +1,6 @@
 <template>
   <WMListSelector
+    class="list-selector"
     entity="classification"
     :options="options"
     @update:selected-option="changeSelectedOption"
@@ -17,24 +18,20 @@
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newClassification" @close-sidebar="closeSidebar">
-    <template v-if="can('classifications.create')">
-      <div class="m-3">
-        <div class="flex flex-row justify-content-between align-content-center">
-          <h1 class="h1 mb-0">New service area</h1>
-        </div>
-        <Divider />
-      </div>
-      <WMNewClassificationForm
-        :is-sidebar="true"
-        @close-sidebar="closeSidebar"
-        @new-classification-created="handleNewClassificationCreated"
-      />
-    </template>
-    <template v-else>
-      <div class="m-5">
-        {{ $t("permissions.you-dont-have-permission") }}
-      </div>
-    </template>
+    <WMClassificationsNewServiceArea
+      v-if="selectedOption === 'service'"
+      @close-sidebar="closeSidebar"
+    />
+
+    <WMClassificationsNewTaskFamily
+      v-if="selectedOption === 'task'"
+      @close-sidebar="closeSidebar"
+    />
+
+    <WMClassificationsNewProjectType
+      v-if="selectedOption === 'project'"
+      @close-sidebar="closeSidebar"
+    />
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
@@ -57,7 +54,6 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const utilsStore = useUtilsStore();
-const { can } = usePermissions();
 
 // INJECT
 
@@ -184,7 +180,7 @@ culumns2.value["project"] = [
   },
 ];
 
-const selectedOption = ref();
+const selectedOption = ref(options[0].value);
 const adminClassificationTable = ref();
 const isVisible = ref(false);
 
@@ -223,4 +219,20 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.list-selector {
+  position: relative;
+  z-index: 2;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 10px;
+    background: white;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+  }
+}
+</style>

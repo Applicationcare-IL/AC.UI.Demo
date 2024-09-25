@@ -7,7 +7,7 @@
     @new="toggleSidebarVisibility"
   >
     <template #top-left>
-      <WMStateToggle entity="message"/>
+      <WMStateToggle entity="message" />
     </template>
   </WMListSubHeader>
 
@@ -15,9 +15,9 @@
     <template v-if="can('messages.create')">
       <WMNewEntityFormHeader entity="message" name="newMessage" />
       <WMNewMessageForm
-          :is-sidebar="true"
-          @close-sidebar="closeSidebar"
-          @new-message-created="handleNewMessageCreated"
+        :is-sidebar="true"
+        @close-sidebar="closeSidebar"
+        @new-message-created="handleNewMessageCreated"
       />
     </template>
     <template v-else>
@@ -83,6 +83,7 @@ const columns = [
     type: "text",
     field: "message",
     header: "message.content",
+    width: "30rem",
   },
   {
     name: "rating",

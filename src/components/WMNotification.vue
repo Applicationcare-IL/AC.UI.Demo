@@ -24,7 +24,7 @@
 
     <WMButton
       v-else
-      :text="$t('buttons.mark-as-read ')"
+      :text="$t('buttons.mark-as-read')"
       type="type-5"
       size="small"
       @click="handleReadMessage(notification.id)"

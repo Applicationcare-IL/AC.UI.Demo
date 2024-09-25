@@ -12,6 +12,20 @@
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
+    <Column style="width: 40px">
+      <template #body="{ data }">
+        <img
+          src="/icons/eye.svg"
+          alt=""
+          class="vertical-align-middle"
+          @click="openSidebar(data.id)"
+        />
+        <WMClassificationEditSidebar
+          v-model:visible="isEditSidebarVisible[data.id]"
+          :classification="data"
+        />
+      </template>
+    </Column>
     <Column
       v-for="column in columns"
       :key="column.name"
@@ -31,7 +45,6 @@
 // IMPORTS
 import { onMounted, ref, watch, watchEffect } from "vue";
 
-import useAdminClassifications from "@/composables/useAdminClassifications";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
@@ -70,6 +83,8 @@ const lazyParams = ref({});
 const utilsStore = useUtilsStore();
 const searchValue = ref("");
 
+const isEditSidebarVisible = ref([]);
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
@@ -106,6 +121,10 @@ const onSelectionChanged = () => {
 const cleanSelectedClassifications = () => {
   selectedClassifications.value = [];
   onSelectionChanged();
+};
+
+const openSidebar = (data) => {
+  isEditSidebarVisible.value[data] = true;
 };
 
 // PROVIDE, EXPOSE

@@ -1,7 +1,9 @@
 <template>
   <!-- Type text -->
   <template v-if="columnData.type == 'text'">
-    {{ modelValue ? modelValue : "" }}
+    <div class="overflow-x-auto max-w-30rem">
+      {{ modelValue ? modelValue : "" }}
+    </div>
   </template>
   <!-- Type project-link -->
   <template v-if="columnData.type == 'link'">
