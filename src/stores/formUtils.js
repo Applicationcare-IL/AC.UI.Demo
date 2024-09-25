@@ -113,6 +113,13 @@ export const useFormUtilsStore = defineStore("formUtils", {
         "house-number": yup.number().required(),
       });
     },
+    getNewClassificationFormValidationSchema: () => {
+      return yup.object({
+        value: yup.string().required(),
+        value_en: yup.string().required(),
+        value_he: yup.string().required(),
+      });
+    },
     getMobileServiceFormValidationSchema: () => {
       return yup.object({
         "short-classification": yup.object().required(),
