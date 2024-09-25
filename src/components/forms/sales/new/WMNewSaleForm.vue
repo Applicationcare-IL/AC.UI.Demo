@@ -13,7 +13,6 @@
           :label="$t('owner') + ':'"
           :value="'pepito'"
         />
-        <pre>{{ values }}</pre>
       </div>
       <div class="flex flex-row gap-5">
         <WMInput
