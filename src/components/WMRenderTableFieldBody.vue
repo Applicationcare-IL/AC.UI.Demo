@@ -97,13 +97,18 @@
       {{ modelValue }}
     </span>
   </template>
+  <template v-if="columnData.type == 'status'">
+    <span :class="highlightStatusClass(modelValue.toLowerCase())" class="numeric w-full block">
+      {{ $t("statuses." + modelValue.toLowerCase()) }}
+    </span>
+  </template>
 </template>
 <script setup>
 // IMPORTS
 
 // DEPENDENCIES
 const { formatDateFromAPI } = useDates();
-
+const { highlightStatusClass } = useListUtils();
 // INJECT
 
 // PROPS, EMITS

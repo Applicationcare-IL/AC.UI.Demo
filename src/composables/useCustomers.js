@@ -2,6 +2,7 @@ import { useCustomersStore } from "@/stores/customersStore";
 
 const useCustomers = () => {
   const customersStore = useCustomersStore();
+  const { formatAddress } = useUtils();
 
   // ACTIONS
   const getCustomersFromApi = async (params) => {
@@ -102,6 +103,38 @@ const useCustomers = () => {
         neighborhood: customer.location?.neighborhood,
       },
       last_activity: customer.last_activity,
+      link_detail: {
+        text: customer.id,
+        id: customer.id,
+      },
+      render_name: customer.name,
+      render_type: customer.type.value,
+      render_main_contact: customer.main_contact
+        ? { text: customer.main_contact.name, id: customer.main_contact.id }
+        : null,
+      render_location: formatAddress({
+        city: customer.location?.city,
+        street: customer.location?.street,
+        house_number:
+          customer.location?.house_number !== null
+            ? parseInt(customer.location?.house_number)
+            : null,
+        apartment: customer.location?.apartment_number,
+        entrance: customer.location?.house_entrance,
+        zip: customer.location?.zip?.id,
+        neighborhood: customer.location?.neighborhood,
+      }),
+      render_open_services: customer.open_services,
+      render_breached_services: customer.breached_services,
+      render_open_tasks: customer.open_tasks,
+      render_breached_tasks: customer.breached_tasks,
+      render_rating: customer.rating.value,
+      render_service_areas: customer.service_areas.map((service_area) => {
+        return { name: service_area.value };
+      }),
+      render_number: customer.number,
+      render_owner: customer.owner.name,
+      render_status: customer.status.value,
     };
   };
 
