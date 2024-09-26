@@ -335,7 +335,8 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { optionLabelWithLang } = useLanguages();
-const { getServiceDocumentsColumns, getRelatedServiceColumns } = useListUtils();
+const { getServiceDocumentsColumns, getRelatedServiceColumns, getTaskColumns, getPriorityClasses } =
+  useListUtils();
 const { can } = usePermissions();
 
 const { getTasksFromApi } = useTasks();
@@ -352,8 +353,6 @@ const {
 
 const toast = useToast();
 const route = useRoute();
-
-const { getTaskColumns, getPriorityClasses } = useListUtils();
 
 const utilsStore = useUtilsStore();
 const formUtilsStore = useFormUtilsStore();

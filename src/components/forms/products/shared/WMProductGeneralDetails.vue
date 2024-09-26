@@ -9,7 +9,9 @@
         :label="$t('id') + ':'"
         :value="product.id"
       />
-      <WMTeamOwnerFields />
+
+      <!-- <WMTeamOwnerFields /> -->
+
       <WMInput
         name="version"
         type="info"

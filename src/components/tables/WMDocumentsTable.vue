@@ -289,6 +289,10 @@ const handleNewDocument = () => {
     document.contact_id = props.relatedEntityId;
   }
 
+  if (props.relatedEntity === "sale") {
+    document.sale_id = props.relatedEntityId;
+  }
+
   // we can create documents related to tasks but also to projects
   if (props.projectId) {
     document.project_id = props.projectId;
@@ -341,6 +345,10 @@ const loadLazyData = () => {
 
   if (props.relatedEntity === "contact") {
     params.append("contact_id", props.relatedEntityId);
+  }
+
+  if (props.relatedEntity === "sale") {
+    params.append("sale", props.relatedEntityId);
   }
 
   getDocumentsFromApi(params).then((result) => {

@@ -10,14 +10,14 @@
     <template #top-left> Cancel button </template>
     <template #custom-buttons> Waiting for customer button </template>
   </WMDetailFormSubHeader>
-  <pre>{{ sale }}</pre>
-  <!-- <WMDetailSaleForm
-    v-if="product"
+  <!-- <pre>{{ sale }}</pre> -->
+  <WMDetailSaleForm
+    v-if="sale"
     ref="detailSaleForm"
     :form-key="formKey"
-    :product="product"
-    @product-updated="loadLazyData()"
-  /> -->
+    :sale="sale"
+    @sale-updated="loadLazyData()"
+  />
 </template>
 
 <script setup>
