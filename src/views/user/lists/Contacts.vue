@@ -35,101 +35,13 @@
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <DataTable
-      v-if="permissions.contacts.read"
-      ref="dt"
-      v-model:selection="selectedContacts"
-      lazy
-      :value="contacts"
-      data-key="contact_id"
-      table-style="min-width: 50rem"
-      class="p-datatable-sm"
-      paginator
-      scrollable
-      scroll-height="flex"
-      :rows="selectedRowsPerPage"
-      :first="0"
-      :total-records="totalRecords"
-      :loading="loading"
-      @page="onPage($event)"
+    <WMContactsTableTemp
+      ref="contactsTable"
+      :columns="columns"
+      preview
+      selectable
       @update:selection="onSelectionChanged"
-    >
-      <Column style="width: 35px">
-        <template #body="slotProps">
-          <img
-            src="/icons/eye.svg"
-            alt=""
-            class="vertical-align-middle"
-            @click="displayDetails(slotProps.data)"
-          />
-        </template>
-      </Column>
-      <Column style="width: 40px" selection-mode="multiple"></Column>
-      <Column field="contact" :header="$t('contact.contact')" class="link-col">
-        <template #body="slotProps">
-          <router-link
-            v-if="slotProps.data.contact_id"
-            :to="{
-              name: 'contactDetail',
-              params: { id: slotProps.data.contact_id },
-            }"
-            class="vertical-align-middle"
-            >{{ slotProps.data.name }}</router-link
-          >
-        </template>
-      </Column>
-      <Column field="customer" :header="$t('customer.customer')" class="link-col">
-        <template #body="slotProps">
-          <router-link
-            v-if="slotProps.data.customers.length === 1"
-            :to="{
-              name: 'customerDetail',
-              params: { id: slotProps.data.customers[0]?.id },
-            }"
-            class="vertical-align-middle"
-          >
-            {{ slotProps.data.first_customer_full_name }}
-          </router-link>
-          <span
-            v-if="slotProps.data.customers.length > 1"
-            class="w-full text-center font-bold block"
-          >
-            ...
-          </span>
-        </template>
-      </Column>
-      <Column field="telephone" :header="$t('contact.telephone')"></Column>
-      <Column field="landline" :header="$t('contact.landline')"></Column>
-      <Column field="email" :header="$t('contact.email')"></Column>
-      <Column field="address" :header="$t('contact.address')">
-        <template #body="slotProps">
-          {{ formatAddress(slotProps.data.location) }}
-        </template>
-      </Column>
-      <Column field="open_services" :header="$t('contact.open-services')" class="numeric"> </Column>
-      <Column field="breached_services" :header="$t('contact.breached-services')" class="numeric">
-        <template #body="slotProps">
-          <div :class="highlightCellClass(slotProps.data.breached_services)">
-            {{ slotProps.data.breached_services }}
-          </div>
-        </template>
-      </Column>
-      <Column field="open_tasks" :header="$t('contact.open-tasks')" class="numeric"> </Column>
-      <Column field="breached_tasks" :header="$t('contact.breached-tasks')" class="numeric">
-        <template #body="slotProps">
-          <div :class="highlightCellClass(slotProps.data.breached_tasks)">
-            {{ slotProps.data.breached_tasks }}
-          </div>
-        </template>
-      </Column>
-      <Column field="contact_id" :header="$t('contact.system-id')"></Column>
-      <Column field="owner.name" :header="$t('owner')"></Column>
-      <Column field="state" class="filled-td" :header="$t('state.state')">
-        <template #body="slotProps">
-          <WMStateField :state="slotProps.data.state" />
-        </template>
-      </Column>
-    </DataTable>
+    />
   </div>
 </template>
 
@@ -169,6 +81,91 @@ const contacts = ref();
 const loading = ref(false);
 const dt = ref();
 const searchValue = ref("");
+
+const columns = [
+  {
+    name: "contact",
+    type: "link",
+    field: "render_contact",
+    header: "contact.contact",
+    routeName: "contactDetail",
+  },
+  {
+    name: "customer",
+    type: "link",
+    field: "render_customer",
+    header: "customer.customer",
+    routeName: "customerDetail",
+  },
+  {
+    name: "telephone",
+    type: "text",
+    field: "render_phone",
+    header: "telephone",
+  },
+  {
+    name: "landline",
+    type: "text",
+    field: "render_landline",
+    header: "contact.landline",
+  },
+  {
+    name: "email",
+    type: "text",
+    field: "render_email",
+    header: "email",
+  },
+  {
+    name: "address",
+    type: "text",
+    field: "render_address",
+    header: "contact.address",
+  },
+  {
+    name: "open_services",
+    type: "centered-number",
+    field: "render_open_services",
+    header: "contact.open-services",
+  },
+  {
+    name: "breached_services",
+    type: "breached-number",
+    field: "render_breached_services",
+    header: "contact.breached-services",
+  },
+  {
+    name: "open_tasks",
+    type: "centered-number",
+    field: "render_open_tasks",
+    header: "contact.open-tasks",
+  },
+  {
+    name: "breached_tasks",
+    type: "breached-number",
+    field: "render_breached_tasks",
+    header: "contact.breached-tasks",
+  },
+  {
+    name: "system_id",
+    type: "text",
+    field: "render_system_id",
+    header: "contact.system-id",
+  },
+  {
+    name: "owner",
+    type: "text",
+    field: "render_owner",
+    header: "owner",
+  },
+  {
+    name: "state",
+    type: "state",
+    field: "state",
+    header: "state.state",
+    width: "100px",
+    class: "filled-td",
+  },
+];
 
 const loadLazyData = () => {
   loading.value = true;

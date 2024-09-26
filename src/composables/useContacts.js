@@ -5,6 +5,7 @@ import { useContactsStore } from "@/stores/contactsStore";
 const useContacts = () => {
   const contactsStore = useContactsStore();
   const { selectedContacts } = storeToRefs(contactsStore);
+  const { formatAddress } = useUtils();
 
   // ACTIONS
   const getContactsFromApi = async (params) => {
@@ -94,6 +95,38 @@ const useContacts = () => {
         neighborhood: contact.location?.neighborhood,
       },
       last_activity: contact.last_activity,
+      render_contact: contact.id
+        ? {
+            text: contactFullName,
+            id: contact.id,
+          }
+        : null,
+      render_customer:
+        contact.customers.length === 1
+          ? {
+              text: getFullName(contact.customers[0]),
+              id: contact.customers[0].id,
+            }
+          : null,
+      render_phone: contact.phone,
+      render_landline: contact.landline,
+      render_email: contact.email,
+      render_address: formatAddress({
+        city: contact.location?.city,
+        street: contact.location?.street,
+        house_number:
+          contact.location?.house_number !== null ? parseInt(contact.location?.house_number) : null,
+        apartment: contact.location?.apartment_number,
+        entrance: contact.location?.house_entrance,
+        zip: contact.location?.zip?.id,
+        neighborhood: contact.location?.neighborhood,
+      }),
+      render_open_services: contact.open_services,
+      render_breached_services: contact.breached_services,
+      render_open_tasks: contact.open_tasks,
+      render_breached_tasks: contact.breached_tasks,
+      render_system_id: contact.id,
+      render_owner: contact.owner.name,
     };
   };
 
