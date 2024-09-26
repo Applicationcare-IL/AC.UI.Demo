@@ -30,7 +30,11 @@
       <template v-if="props.relatedSidebar" #empty>
         <div class="flex flex-column m-2" :class="layoutConfig.isRTL.value ? 'layout-rtl' : ''">
           <span class="vertical-align-middle"> {{ $t("no-results") }} </span>
-          <a class="vertical-align-middle orange-link cursor-pointer" @click="openRelatedSidebar()">
+          <a
+            v-if="canCreateNew"
+            class="vertical-align-middle orange-link cursor-pointer"
+            @click="openRelatedSidebar()"
+          >
             {{ $t("buttons.create-new-one") + " + " }}
           </a>
         </div>
@@ -147,6 +151,10 @@ const props = defineProps({
   customOptionLabel: {
     type: String,
     default: null,
+  },
+  canCreateNew: {
+    type: Boolean,
+    default: false,
   },
   size: {
     type: String,

@@ -4,7 +4,11 @@
   <div v-if="showHeaderOptions" class="flex flex-column gap-3 mb-3">
     <div class="flex flex-row justify-content-between">
       <div class="flex flex-row gap-2">
-        <WMNewButton :text="$t('new')" @click="toggleSidebarVisibility" />
+        <WMNewButton
+          v-if="can('tasks.create')"
+          :text="$t('new')"
+          @click="toggleSidebarVisibility"
+        />
 
         <WMSidebar
           :visible="isVisible"

@@ -17,6 +17,7 @@
         related-sidebar="newAssignCustomerButtonCustomer"
         :search-function="searchCustomer"
         :model-value="selectedCustomers"
+        :can-create-new="can('customers.create')"
         @update:model-value="updateSelectedCustomers"
       />
 
@@ -59,6 +60,7 @@ import { useLayout } from "@/layout/composables/layout";
 // DEPENDENCIES
 const { getCustomersFromApi, getCustomerFromApi } = useCustomers();
 const { layoutConfig } = useLayout();
+const { can } = usePermissions();
 
 // PROPS, EMITS
 defineProps({

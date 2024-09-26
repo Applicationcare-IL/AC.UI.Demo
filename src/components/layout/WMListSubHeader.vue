@@ -10,7 +10,7 @@
           />
 
           <WMNewButton
-            v-if="entity == 'asset'"
+            v-if="entity == 'asset' && can(utilsStore.pluralEntity + '.create')"
             :text="$t('buttons.new') + ' ' + $t('service.service')"
             :disabled="utilsStore.selectedElements['asset']?.length != 1"
             @click="$emit('new')"

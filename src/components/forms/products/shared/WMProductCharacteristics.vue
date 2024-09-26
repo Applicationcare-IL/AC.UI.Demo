@@ -74,8 +74,6 @@
       <WMInput type="date" :label="$t('product.eos') + ':'" name="eos" :value="product?.eos" />
     </div>
     <div class="flex gap-5">
-      hola
-      {{ billingTypes }}
       <WMInput
         name="billing_type"
         :highlighted="true"
