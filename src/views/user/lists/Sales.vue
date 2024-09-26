@@ -6,7 +6,13 @@
     :has-action-builder="false"
     @new="redirectToNewSalePage"
   >
-    <template #top-left> </template>
+    <template #top-left>
+      <div class="gap-1 flex">
+        <WMStateToggle entity="sale" />
+        <Divider layout="vertical" />
+        <WMOwnerToggle entity="sale" />
+      </div>
+    </template>
   </WMListSubHeader>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">

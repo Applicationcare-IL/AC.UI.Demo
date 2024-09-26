@@ -4,6 +4,8 @@ import useAdminRoles from "@/composables/useAdminRoles";
 import useAdminTeams from "@/composables/useAdminTeams";
 import useAdminUsers from "@/composables/useAdminUsers";
 
+import useProducts from "./useProducts";
+
 const useFilters = () => {
   const { getTasksTypesFromApi } = useTasks();
   const { getCustomersFromApi } = useCustomers();
@@ -12,6 +14,7 @@ const useFilters = () => {
   const { getTeams } = useAdminTeams();
   const { getRoles } = useAdminRoles();
   const { getUsers } = useAdminUsers();
+  const { getProducts } = useProducts();
 
   const i18n = useI18n();
 
@@ -77,6 +80,12 @@ const useFilters = () => {
 
   const searchUsers = async (query) => {
     return getUsers({
+      search: query,
+    });
+  };
+
+  const searchProducts = async (query) => {
+    return getProducts({
       search: query,
     });
   };
@@ -692,6 +701,94 @@ const useFilters = () => {
         type: "state",
         name: "state",
         label: i18n.t("state.state") + ":",
+      },
+    ],
+    sale: [
+      {
+        toggable: true,
+        type: "entity",
+        name: "contact",
+        label: i18n.t("contact.contacts") + ":",
+        searchFunction: searchContacts,
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "customer",
+        label: i18n.t("customer.customer") + ":",
+        searchFunction: searchCustomers,
+      },
+      {
+        toggable: true,
+        type: "dropdown",
+        name: "sales_type",
+        optionSet: "sales_type",
+        label: i18n.t("sale.sale-type") + ":",
+      },
+      {
+        toggable: true,
+        type: "dropdown",
+        name: "sales_source",
+        optionSet: "sales_source",
+        label: i18n.t("sale.sale-source") + ":",
+      },
+      {
+        toggable: true,
+        type: "booleanButtons",
+        name: "tender",
+        options: [
+          { name: i18n.t("yes"), value: 1 },
+          { name: i18n.t("no"), value: 0 },
+        ],
+        label: i18n.t("sale.tender") + ":",
+      },
+      {
+        toggable: true,
+        type: "booleanButtons",
+        name: "waiting_for_customer",
+        options: [
+          { name: i18n.t("yes"), value: 1 },
+          { name: i18n.t("no"), value: 0 },
+        ],
+        label: i18n.t("sale.waiting-for-customers") + ":",
+      },
+      {
+        type: "date",
+        name: "open",
+        label: i18n.t("filters.open-date") + ":",
+        from: "opened_from",
+        to: "opened_to",
+      },
+      {
+        type: "date",
+        name: "goal",
+        label: i18n.t("filters.due-date") + ":",
+        from: "due_date_from",
+        to: "due_date_to",
+      },
+      {
+        type: "state",
+        name: "state",
+        label: i18n.t("state.state") + ":",
+      },
+      {
+        type: "sla_status",
+        name: "sla",
+        label: i18n.t("filters.service-sla-status") + ":",
+      },
+      {
+        toggable: true,
+        type: "dropdown",
+        name: "sales_source",
+        optionSet: "sales_initiator",
+        label: i18n.t("sale.initiator") + ":",
+      },
+      {
+        toggable: true,
+        type: "entity",
+        name: "product",
+        label: i18n.t("product.product") + ":",
+        searchFunction: searchProducts,
       },
     ],
     product: [
