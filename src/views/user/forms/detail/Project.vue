@@ -5,7 +5,8 @@
     @save-form="saveForm()"
     @refresh-table="refreshProject"
   >
-    <template #custom-secondary-buttons>
+    <template #bottom-left>
+      <WMMessagesButton :id="route.params.id" entity="project" />
       <WMCancelButton
         v-if="can('projects.cancel')"
         :is-disabled="!isProjectCancellable"
@@ -20,6 +21,7 @@
 // IMPORTS
 import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
 
@@ -27,6 +29,8 @@ import { useUtilsStore } from "@/stores/utils";
 const utilsStore = useUtilsStore();
 const dialog = useDialog();
 const toast = useToast();
+const route = useRoute();
+
 const { can } = usePermissions();
 const { cancelProject } = useProjects();
 const { t } = useI18n();

@@ -37,7 +37,6 @@
 import { onMounted, ref } from "vue";
 
 import PinIcon from "/icons/push_pin.svg?raw";
-import WMImportantState from "@/components/tables/WMImportantState.vue";
 import { useLayout } from "@/layout/composables/layout";
 
 const { layoutConfig } = useLayout();
