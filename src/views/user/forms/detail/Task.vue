@@ -6,7 +6,7 @@
     @task-completed="refreshTask"
     @refresh-table="refreshTask"
   >
-    <template #custom-secondary-buttons>
+    <template #bottom-left>
       <WMCancelButton
         v-if="can('tasks.cancel')"
         :is-disabled="!isTaskCancellable"

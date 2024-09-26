@@ -6,25 +6,41 @@
     @deactivate-entity="handleDeactivateCustomer"
     @activate-entity="handleActivateCustomer"
     @refresh-table="refreshTable"
-  />
+  >
+    <template #bottom-left>
+      <WMMessagesButton :id="route.params.id" entity="customer" />
+    </template>
+  </WMDetailFormSubHeader>
   <WMDetailCustomerForm ref="detailCustomerForm" :form-key="formKey" />
 </template>
 
 <script setup>
+// IMPORTS
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 
+// DEPENDENCIES
+const route = useRoute();
+const { activateCustomer, deactivateCustomer } = useCustomers();
+
+// INJECT
+
+// PROPS, EMITS
+
+// REFS
+const formKey = ref("customerDetailForm");
+const detailCustomerForm = ref(null);
+
+// COMPUTED
+
+// COMPONENT METHODS AND LOGIC
 useHead({
   title: "Customer Detail",
 });
 
-const formKey = ref("customerDetailForm");
-const detailCustomerForm = ref(null);
-
 const saveForm = () => {
   detailCustomerForm.value.onSave();
 };
-
-const { activateCustomer, deactivateCustomer } = useCustomers();
 
 const handleActivateCustomer = (id) => {
   activateCustomer(id);
@@ -39,4 +55,10 @@ const handleDeactivateCustomer = (id) => {
 const refreshTable = () => {
   detailCustomerForm.value.fetchData();
 };
+
+// PROVIDE, EXPOSE
+
+// WATCHERS
+
+// LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 </script>

@@ -102,18 +102,7 @@
             />
           </div>
           <div class="flex gap-3 align-items-center">
-            <WMCancelButton
-              v-if="isActiveTask"
-              size="small"
-              @click="dialog.cancelService(route.params.id)"
-            />
-
-            <WMMessagesButton
-              v-if="['customer', 'service', 'project'].includes(entityType)"
-              :id="route.params.id"
-              :entity="entityType"
-            />
-            <slot name="custom-secondary-buttons" />
+            <slot name="bottom-left" />
           </div>
         </div>
       </template>
@@ -126,14 +115,11 @@
 // IMPORTS
 import { storeToRefs } from "pinia";
 import { computed, ref, watch } from "vue";
-import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const route = useRoute();
-const dialog = useDialog();
 const entityObject = ref(null);
 const formUtilsStore = useFormUtilsStore();
 const utilsStore = useUtilsStore();
