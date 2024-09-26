@@ -29,7 +29,7 @@
 
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMCustomersTableTemp
-      ref="salesTable"
+      ref="customersTable"
       :columns="columns"
       preview
       selectable
