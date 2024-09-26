@@ -784,6 +784,20 @@ const useFilters = () => {
         label: i18n.t("sale.initiator") + ":",
       },
       {
+        type: "price",
+        name: "price_base",
+        label: i18n.t("sale.deal-price-base") + ":",
+        from: "deal_price_base_from",
+        to: "deal_price_base_to",
+      },
+      {
+        type: "price",
+        name: "price_final",
+        label: i18n.t("sale.budget") + ":",
+        from: "deal_price_base_from",
+        to: "deal_price_base_to",
+      },
+      {
         toggable: true,
         type: "entity",
         name: "product",
