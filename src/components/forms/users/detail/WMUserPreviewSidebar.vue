@@ -1,11 +1,11 @@
 <template>
   <Sidebar
-      v-if="props.user"
-      v-model:visible="visible"
-      class="details-sidebar w-4"
-      :show-close-icon="false"
-      :class="''"
-      @update:model-value="updateModelValue"
+    v-if="props.user"
+    v-model:visible="visible"
+    class="details-sidebar w-4"
+    :show-close-icon="false"
+    :class="''"
+    @update:model-value="updateModelValue"
   >
     <div class="flex flex-auto flex-column overflow-auto w-full px-2">
       <div class="flex justify-content-between">
@@ -26,37 +26,37 @@
         <div class="wm-form-row align-items-end gap-5">
           <div class="wm-form-row gap-5">
             <WMInput
-                name="id"
-                type="info"
-                :highlighted="true"
-                :label="$t('id') + ':'"
-                :value="props.user.id"
+              name="id"
+              type="info"
+              :highlighted="true"
+              :label="$t('id') + ':'"
+              :value="props.user.id"
             />
             <WMInput
-                name="state"
-                type="info"
-                :highlighted="true"
-                :label="$t('state') + ':'"
-                :value="props.user.state.value"
-                :class="statusClass(props.user.state.value)"
+              name="state"
+              type="info"
+              :highlighted="true"
+              :label="$t('state') + ':'"
+              :value="props.user.state.value"
+              :class="statusClass(props.user.state.value)"
             />
           </div>
         </div>
         <div class="wm-form-row align-items-end gap-5">
           <div class="wm-form-row gap-5">
             <WMInput
-                name="phone"
-                type="info"
-                :highlighted="true"
-                :label="$t('mobile') + ':'"
-                :value="props.user.phone"
+              name="phone"
+              type="info"
+              :highlighted="true"
+              :label="$t('mobile') + ':'"
+              :value="props.user.phone"
             />
             <WMInput
-                name="email"
-                type="info"
-                :highlighted="true"
-                :label="$t('email') + ':'"
-                :value="props.user.email"
+              name="email"
+              type="info"
+              :highlighted="true"
+              :label="$t('email') + ':'"
+              :value="props.user.email"
             />
           </div>
         </div>
@@ -65,22 +65,18 @@
 
         <div class="wm-form-row align-items-end gap-5">
           <div class="wm-form-column flex flex-column gap-5">
-
             <WMInput
-                name="manager"
-                type="info"
-                :highlighted="true"
-                :label="$t('manager') + ':'"
-                :value="props.user.manager_fullname"
+              name="manager"
+              type="info"
+              :highlighted="true"
+              :label="$t('manager') + ':'"
+              :value="props.user.manager_fullname"
             />
 
             <div class="flex flex-wrap gap-2 flex-column">
               <label class="wm-form-label highlighted">Teams:</label>
               <div class="flex gap-2">
-                <Chip
-                    v-for="(item, index) in props.user.teams"
-                    :key="index"
-                    class="p-chip--purple">
+                <Chip v-for="(item, index) in props.user.teams" :key="index" class="p-chip--purple">
                   <span>{{ item.name }}</span>
                 </Chip>
               </div>
@@ -89,27 +85,21 @@
             <div class="flex flex-wrap gap-2 flex-column">
               <label class="wm-form-label highlighted">Roles:</label>
               <div class="flex gap-2">
-                <Chip
-                    v-for="(item, index) in props.user.roles"
-                    :key="index"
-                    class="p-chip--purple">
+                <Chip v-for="(item, index) in props.user.roles" :key="index" class="p-chip--purple">
                   <span>{{ item.name }}</span>
                 </Chip>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
-
   </Sidebar>
 </template>
 
 <script setup>
 // IMPORTS
-import  { ref } from 'vue';
+import { ref } from "vue";
 
 // DEPENDENCIES
 const { getStatusConditionalStyle } = useListUtils();
