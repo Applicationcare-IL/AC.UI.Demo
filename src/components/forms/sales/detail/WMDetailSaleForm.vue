@@ -5,38 +5,8 @@
         <div class="flex flex-1 flex-column card-container gap-5">
           <Card class="p-card--first-top-card">
             <template #title> {{ $t("general-details") }} </template>
-
             <template #content>
-              <div class="flex flex-auto gap-5 flex-row">
-                <WMInput
-                  name="identifier"
-                  type="info"
-                  :highlighted="true"
-                  :label="$t('id') + ':'"
-                  :value="sale.id"
-                />
-
-                <WMInput
-                  name="owner"
-                  type="info"
-                  :highlighted="true"
-                  :label="$t('owner') + ':'"
-                  :value="sale.owner.name"
-                />
-
-                <WMInput
-                  name="customer"
-                  type="info-link"
-                  :highlighted="true"
-                  :label="$t('customer.customer') + ':'"
-                  :value="sale.customer.name + sale.customer.surname"
-                  :to="'/customer/' + sale.customer.id"
-                />
-
-                <div>
-                  <label class="wm-form-label highlighted"> {{ $t("contact.contact") }}: </label>
-                </div>
-              </div>
+              <WMDetailSaleFormGeneralDetails :sale="sale" />
             </template>
           </Card>
           <Card>
@@ -216,9 +186,7 @@ const props = defineProps({
 const emit = defineEmits(["productUpdated"]);
 
 // REFS
-const isUpdateProductSettingsSidebarVisible = ref(false);
 const productSettings = ref({});
-const hasBundleDiscount = ref(false);
 
 const taskColumns = ref(getTaskColumns());
 const documentsColumns = ref(getServiceDocumentsColumns());
@@ -270,36 +238,6 @@ const onSave = handleSubmit((values) => {
       toast.error("Error updating product");
     });
 });
-
-const openUpdateProductSettingsSidebar = () => {
-  isUpdateProductSettingsSidebarVisible.value = true;
-};
-
-const closeUpdateProductSettingsSidebar = () => {
-  isUpdateProductSettingsSidebarVisible.value = false;
-};
-
-const handleProductSettingsUpdated = () => {
-  closeUpdateProductSettingsSidebar();
-  emit("productUpdated");
-};
-
-const handleProductSettingsChanged = (settings) => {
-  productSettings.value = settings;
-};
-
-const { handleChange: handleChangeHasBundleDiscount, setTouched } = useField(
-  "volume_discount",
-  undefined,
-  {
-    initialValue: hasBundleDiscount.value,
-  }
-);
-
-const handleHasBundleDiscountChange = (value) => {
-  handleChangeHasBundleDiscount(value);
-  setTouched(true);
-};
 
 // PROVIDE, EXPOSE
 defineExpose({
