@@ -5,7 +5,39 @@
         <div class="flex flex-1 flex-column card-container gap-5">
           <Card class="p-card--first-top-card">
             <template #title> {{ $t("general-details") }} </template>
-            <template #content> CONTENT </template>
+
+            <template #content>
+              <div class="flex flex-auto gap-5 flex-row">
+                <WMInput
+                  name="identifier"
+                  type="info"
+                  :highlighted="true"
+                  :label="$t('id') + ':'"
+                  :value="sale.id"
+                />
+
+                <WMInput
+                  name="owner"
+                  type="info"
+                  :highlighted="true"
+                  :label="$t('owner') + ':'"
+                  :value="sale.owner.name"
+                />
+
+                <WMInput
+                  name="customer"
+                  type="info-link"
+                  :highlighted="true"
+                  :label="$t('customer.customer') + ':'"
+                  :value="sale.customer.name + sale.customer.surname"
+                  :to="'/customer/' + sale.customer.id"
+                />
+
+                <div>
+                  <label class="wm-form-label highlighted"> {{ $t("contact.contact") }}: </label>
+                </div>
+              </div>
+            </template>
           </Card>
           <Card>
             <template #title>
@@ -46,13 +78,15 @@
                 <WMEditButtonIconOnly />
               </div>
             </template>
-            <template #content> CONTENT </template>
+            <template #content>
+              <pre>{{ sale }}</pre>
+            </template>
           </Card>
           <Card class="w-full">
             <template #title>
               <div class="w-full flex align-items-center justify-content-between">
                 <span>
-                  {{ $t("product.mandatory-requirements") }}
+                  {{ $t("sale.mandatory-requirements") }}
                 </span>
                 <WMEditButtonIconOnly />
               </div>
