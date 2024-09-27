@@ -157,6 +157,36 @@
         </div>
       </div>
 
+      <!-- PRICE -->
+      <div v-if="type == 'price'" class="flex flex-row gap-2 p-2">
+        <div class="flex flex-column">
+          <label v-if="label != ''" class="wm-form-label"> {{ $t("from") }}: </label>
+          <!-- <Calendar
+            v-model="fromDate"
+            show-icon
+            @update:model-value="onDateChanged($event, 'from')"
+          /> -->
+          <WMInputCurrency
+            v-model="fromPrice"
+            required
+            name="price"
+            :small="true"
+            @update:model-value="onPriceChanged($event, 'from')"
+          />
+        </div>
+        <div class="flex flex-column">
+          <label v-if="label != ''" class="wm-form-label"> {{ $t("to") }}: </label>
+          <!-- <Calendar v-model="toDate" show-icon @update:model-value="onDateChanged($event, 'to')" /> -->
+          <WMInputCurrency
+            v-model="toPrice"
+            required
+            name="price"
+            :small="true"
+            @update:model-value="onPriceChanged($event, 'to')"
+          />
+        </div>
+      </div>
+
       <!-- SLA -->
       <div v-if="type == 'sla_status'" class="flex flex-row gap-2 p-2">
         <WMSelectableButton
@@ -240,6 +270,9 @@ const selectedOptions = ref([]);
 
 const fromDate = ref(null);
 const toDate = ref(null);
+
+const fromPrice = ref(null);
+const toPrice = ref(null);
 
 const SLAoptions = [
   { id: "breached", value_en: t("sla.breached"), value_he: t("sla.breached") },
@@ -390,6 +423,28 @@ const onDateChanged = (value, type) => {
   emits("update:filter", {
     name: dateFilterName,
     value: useDateFormat(date, "YYYY-MM-DD").value,
+  });
+};
+
+const onPriceChanged = (value, type) => {
+  let priceFilterName;
+  let price;
+
+  if (type == "from") {
+    priceFilterName = props.filterData.from;
+    fromPrice.value = value;
+    price = fromPrice.value;
+  } else {
+    priceFilterName = props.filterData.to;
+    toPrice.value = value;
+    price = toPrice.value;
+  }
+
+  // console.log(price);
+
+  emits("update:filter", {
+    name: priceFilterName,
+    value: price,
   });
 };
 
