@@ -1,21 +1,10 @@
 <template>
-  <Story :layout="{ type: 'grid', width: '100%' }">
-    <Variant title="Table">
-      <DataTable :value="exampleData" :rows="1" :total-records="1">
-        <Column
-          v-for="column in columns"
-          :key="column.name"
-          :field="column.name"
-          :header="$t(column.header)"
-          :class="column.class"
-          :style="column.width ? { width: column.width } : {}"
-        >
-          <template #body="{ data }">
-            <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
-          </template>
-        </Column>
-      </DataTable>
-    </Variant>
+  <Story :layout="{ type: 'grid', width: '300px' }">
+    <template v-for="column in columns" :key="column.name">
+      <Variant :title="`Type: ${column.type}`">
+        <WMRenderTableFieldInfo :column="column" :example-data="exampleData" />
+      </Variant>
+    </template>
   </Story>
 </template>
 <script setup>
@@ -34,7 +23,7 @@ const columns = [
     field: "state",
     header: "State",
     width: "100px",
-    class: "p-0 filled-td",
+    class: "filled-td",
   },
   {
     name: "option-set",
