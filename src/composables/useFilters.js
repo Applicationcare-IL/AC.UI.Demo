@@ -853,13 +853,6 @@ const useFilters = () => {
       },
       {
         toggable: true,
-        type: "dropdown",
-        name: "product_department",
-        optionSet: "product_department",
-        label: i18n.t("product.product-department") + ":",
-      },
-      {
-        toggable: true,
         type: "buttons",
         name: "renewal_type",
         optionSet: "renewal_type",

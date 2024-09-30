@@ -11,7 +11,7 @@
           type="info"
           :highlighted="true"
           :label="$t('owner') + ':'"
-          :value="'pepito'"
+          :value="''"
         />
       </div>
       <div class="flex flex-row gap-5">

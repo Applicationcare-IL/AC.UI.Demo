@@ -1033,6 +1033,8 @@
     "installation-types": "Installation Types",
     "installation": "Installation",
     "installation-included": "Installation Included",
+    "includes-installation": "Includes Installation",
+    "includes-maintenance": "Includes Maintenance",
     "license": "License",
     "includes-license": "Includes License",
     "maintenance-period": "Maintenance Period",
