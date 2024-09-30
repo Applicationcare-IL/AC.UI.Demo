@@ -87,6 +87,14 @@
       </WMButton>
     </Variant>
 
+    <Variant title="New (icon only)">
+      <WMButton type="new" :is-active="state.active" :icon-only="true">
+        <template #customIcon>
+          <div class="flex" v-html="PlusIcon" />
+        </template>
+      </WMButton>
+    </Variant>
+
     <Variant title="Clear">
       <WMButton text="Clear" :is-active="state.active" type="clear" />
     </Variant>
@@ -155,6 +163,22 @@
       </WMButton>
     </Variant>
 
+    <Variant title="Remove button (Icon only)">
+      <WMButton :is-active="state.active" type="remove" :icon-only="true">
+        <template #customIcon>
+          <div class="flex" v-html="DeleteIcon" />
+        </template>
+      </WMButton>
+    </Variant>
+
+    <Variant title="Delete button">
+      <WMButton :is-active="state.active" type="delete" :icon-only="true">
+        <template #customIcon>
+          <div class="flex" v-html="DeleteIcon" />
+        </template>
+      </WMButton>
+    </Variant>
+
     <Variant title="Link">
       <WMButton text="Link button" :is-active="state.active" type="link" />
     </Variant>
@@ -167,6 +191,7 @@ import DeleteIcon from "/icons/delete.svg?raw";
 import EditIcon from "/icons/edit_default.svg?raw";
 import FilterIcon from "/icons/filter.svg?raw";
 import MoreIcon from "/icons/more_vert.svg?raw";
+import PlusIcon from "/icons/plus.svg?raw";
 import SaveIcon from "/icons/save_default.svg?raw";
 
 const state = reactive({

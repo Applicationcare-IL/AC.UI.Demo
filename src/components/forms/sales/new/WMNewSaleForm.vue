@@ -5,6 +5,9 @@
   <div v-else class="wm-new-form-container flex flex-auto flex-column overflow-auto gap-5">
     <div class="task-data flex flex-column gap-5">
       <h3 class="h3 mb-0">{{ $t("general-details") }}</h3>
+
+      <pre> {{ values }} </pre>
+
       <div class="flex flex-row gap-5">
         <WMInput
           name="owner"
@@ -151,6 +154,12 @@
 
     <Divider />
 
+    <h3 class="h3 mt-0 mb-0">{{ $t("sale.mandatory-requirements") }}</h3>
+    <div class="flex flex-column gap-5">
+      <WMNewButtonIconOnly @click="addNewMandatoryField" />
+      <WMNewMandatoryFields v-model="mandatoryRequirementsList" />
+    </div>
+
     <Divider />
 
     <h3 class="h3 mt-0">{{ $t("sale.customers-details") }}</h3>
@@ -248,10 +257,12 @@ const sales = ref();
 const sources = ref();
 const contacts = ref();
 
+const mandatoryRequirementsList = ref([]);
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, values, resetForm, meta } = useForm({
+const { handleSubmit, values, resetForm } = useForm({
   validationSchema: formUtilsStore.getNewSalesFormValidationSchema,
 });
 
@@ -301,6 +312,10 @@ const loadLazyData = async () => {
   });
 
   loading.value = false;
+};
+
+const addNewMandatoryField = () => {
+  mandatoryRequirementsList.value.push("test");
 };
 
 // PROVIDE, EXPOSE
