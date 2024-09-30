@@ -37,6 +37,7 @@
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMContactsTableTemp
       ref="contactsTable"
+      v-model:selection="selectedContacts"
       :columns="columns"
       preview
       selectable

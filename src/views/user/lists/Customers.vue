@@ -30,9 +30,11 @@
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMCustomersTableTemp
       ref="customersTable"
+      v-model:selection="selectedCustomers"
       :columns="columns"
       preview
       selectable
+      @page="onPage($event)"
       @update:selection="onSelectionChanged"
     />
   </div>
