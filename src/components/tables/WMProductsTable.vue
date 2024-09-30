@@ -132,6 +132,8 @@ const onPage = (event) => {
 };
 
 const onSelectionChanged = () => {
+  utilsStore.selectedElements["product"] = selectedProducts.value;
+
   emit("update:selection", selectedProducts.value);
 };
 
