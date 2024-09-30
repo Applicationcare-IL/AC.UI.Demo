@@ -55,6 +55,7 @@
         />
 
         <WMInput
+          v-if="yesNoOptions"
           name="is_provider"
           type="input-select-button"
           :highlighted="true"
@@ -224,7 +225,7 @@ const serviceAreas = ref();
 const basicTerms = ref();
 const defaultRole = ref();
 
-const yesNoOptions = optionSetsStore.getOptionSetValues("yesNo");
+const yesNoOptions = ref();
 const selectedContacts = ref([]);
 
 const isVisible = ref(false);
@@ -388,6 +389,7 @@ onMounted(async () => {
   defaultRole.value = await optionSetsStore.getOptionSetValues("contact_customer_role");
 
   optionSetsStore.getOptionSetValues("service_area").then((data) => (serviceAreas.value = data));
+  yesNoOptions.value = await optionSetsStore.getOptionSetValues("yesNo");
 });
 </script>
 
