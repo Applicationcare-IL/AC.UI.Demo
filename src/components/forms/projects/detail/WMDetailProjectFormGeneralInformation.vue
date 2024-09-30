@@ -16,18 +16,18 @@
             name="id"
             type="info"
             :highlighted="true"
-            :label="$t('team') + ':'"
+            :label="$t('team.team') + ':'"
             :value="project.team"
           />
         </div>
         <div v-if="project.parent" class="wm-form-row gap-5">
           <WMInput
-              name="parent"
-              type="info-link"
-              :highlighted="true"
-              :label="$t('project.parent') + ':'"
-              :value="project.parent.name"
-              :to="'/project/' + project.parent.id"
+            name="parent"
+            type="info-link"
+            :highlighted="true"
+            :label="$t('project.parent') + ':'"
+            :value="project.parent.name"
+            :to="'/project/' + project.parent.id"
           />
         </div>
         <div class="wm-form-row gap-5">
@@ -62,10 +62,10 @@
             size="full"
           />
           <WMButton
-              :text="$t('buttons.open')"
-              type="primary"
-              size="small"
-              @click="openNetworkFolderLinkInNewTab"
+            :text="$t('buttons.open')"
+            type="primary"
+            size="small"
+            @click="openNetworkFolderLinkInNewTab"
           />
         </div>
       </div>

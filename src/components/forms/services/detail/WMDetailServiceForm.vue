@@ -19,10 +19,10 @@
                     :value="service.owner.name"
                   />
                   <WMInput
-                    name="team"
+                    name="team.team"
                     type="info"
                     :highlighted="true"
-                    :label="$t('team') + ':'"
+                    :label="$t('team.team') + ':'"
                     :value="service.team"
                   />
                   <WMInput

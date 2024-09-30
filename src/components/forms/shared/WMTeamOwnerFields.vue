@@ -12,7 +12,7 @@
     name="id"
     type="info"
     :highlighted="true"
-    :label="$t('team') + ':'"
+    :label="$t('team.team') + ':'"
     :value="authStore.team"
     size="sm"
   />

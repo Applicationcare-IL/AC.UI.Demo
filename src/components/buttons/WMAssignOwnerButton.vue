@@ -35,7 +35,7 @@
         />
 
         <WMButton
-          :text="$t('team')"
+          :text="$t('team.team')"
           type="secondary"
           :is-active="assignTo == 'team'"
           @click="onAssignTo('team')"
