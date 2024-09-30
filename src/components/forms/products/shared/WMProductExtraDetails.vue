@@ -25,11 +25,12 @@
         size="sm"
       />
       <WMInput
-        name="incomes_card"
+        name="income"
         required
         type="input-text"
         :label="$t('product.incomes-card') + ':'"
         size="sm"
+        :value="product.income"
       />
     </div>
   </div>

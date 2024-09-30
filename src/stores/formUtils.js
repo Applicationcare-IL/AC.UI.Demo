@@ -877,7 +877,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
           }),
         price: yup.number().required(),
         crm: yup.string().required(),
-        incomes_card: yup.string().required(),
+        income: yup.string().required(),
         erp: yup.string().required(),
         // CONFIG PART
         // COMMITMENT

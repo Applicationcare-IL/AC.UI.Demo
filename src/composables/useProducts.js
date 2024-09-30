@@ -261,9 +261,9 @@ const useProducts = () => {
       renewal_type: product.renewal_type.id,
       licensing_required: product.licensing_required,
       valid_until: formatDateToAPI(product.valid_until),
+      income: product.income,
       // NOT FOUND
       purchase: 1,
-      income: 1,
       from: formatDateToAPI(today),
       promoted: false,
     };
