@@ -78,6 +78,7 @@ const useSales = () => {
   const parseSale = (sale) => {
     return {
       customer: sale.customer.id,
+      contact: sale.contact.id,
       sale_initiator: sale.initiator.id,
       sale_type: sale.sale_type.id,
       sale_source: sale.source.id,

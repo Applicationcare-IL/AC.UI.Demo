@@ -21,6 +21,16 @@
             required
           />
           <WMInput
+            name="contact"
+            :highlighted="true"
+            type="input-select"
+            :label="$t('sale.contact') + ':'"
+            :options="contacts"
+            :placeholder="$t('select', ['sale.contact'])"
+            size="sm"
+            required
+          />
+          <WMInput
             name="initiator"
             :highlighted="true"
             type="input-select"
@@ -282,9 +292,9 @@ const loadLazyData = async () => {
     state: activeStateId,
   };
 
-  const response2 = await getCustomersFromApi(filters);
+  const customersResponse = await getCustomersFromApi(filters);
 
-  customers.value = response2.data.map((customer) => {
+  customers.value = customersResponse.data.map((customer) => {
     return {
       id: customer.id,
       label: customer.name,
@@ -295,9 +305,9 @@ const loadLazyData = async () => {
   sales.value = await optionSetsStore.getOptionSetValues("sales_type");
   sources.value = await optionSetsStore.getOptionSetValues("sales_source");
 
-  const response = await getContactsFromApi(filters);
+  const contactsResponse = await getContactsFromApi(filters);
 
-  contacts.value = response.data.map((contact) => {
+  contacts.value = contactsResponse.data.map((contact) => {
     return {
       id: contact.id,
       label: contact.firstName,
