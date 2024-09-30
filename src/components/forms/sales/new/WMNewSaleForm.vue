@@ -3,213 +3,215 @@
     <ProgressSpinner />
   </div>
   <div v-else class="wm-new-form-container flex flex-auto flex-column overflow-auto gap-5">
-    <div class="task-data flex flex-column gap-5">
-      <h3 class="h3 mb-0">{{ $t("general-details") }}</h3>
-      <div class="flex flex-row gap-5">
-        <WMTeamOwnerFields />
+    <div class="flex flex-column gap-3" style="max-width: 700px">
+      <div class="flex flex-column gap-5">
+        <h3 class="h3 mb-0">{{ $t("general-details") }}</h3>
+        <div class="flex flex-row gap-5">
+          <WMTeamOwnerFields />
+        </div>
+        <div class="flex flex-row gap-5">
+          <WMInput
+            name="customer"
+            :highlighted="true"
+            type="input-select"
+            :label="$t('sale.customer') + ':'"
+            :options="customers"
+            :placeholder="$t('select', ['sale.customer'])"
+            size="sm"
+            required
+          />
+          <WMInput
+            name="initiator"
+            :highlighted="true"
+            type="input-select"
+            :label="$t('sale.initiator') + ':'"
+            :options="initiators"
+            :placeholder="$t('select', ['sale.initiator'])"
+            size="sm"
+            option-set
+            required
+          />
+          <WMInput
+            name="sale_type"
+            :highlighted="true"
+            type="input-select"
+            :label="$t('sale.sale-type') + ':'"
+            :options="sales"
+            :placeholder="$t('select', ['sale.sale-type'])"
+            size="sm"
+            option-set
+            required
+          />
+          <WMInput
+            name="source"
+            :highlighted="true"
+            type="input-select"
+            :label="$t('sale.source') + ':'"
+            :options="sources"
+            :placeholder="$t('select', ['sale.source'])"
+            size="sm"
+            option-set
+            required
+          />
+        </div>
       </div>
+
+      <Divider />
+
+      <WMToggleSwitch v-model="isRecurring" :label="$t('sale.tender')">
+        <div class="flex flex-column gap-5">
+          <div class="flex flex-row gap-5">
+            <WMInput
+              name="publication_date"
+              :highlighted="true"
+              type="date"
+              :label="$t('sale.publication-date') + ':'"
+              size="sm"
+            />
+            <WMInput
+              name="question_date"
+              :highlighted="true"
+              type="date"
+              :label="$t('sale.question-date') + ':'"
+              size="sm"
+            />
+            <WMInput
+              name="response_date"
+              :highlighted="true"
+              type="date"
+              :label="$t('sale.response-date') + ':'"
+              size="sm"
+            />
+          </div>
+          <div class="flex flex-row gap-5">
+            <WMInput
+              name="resolution_date"
+              :highlighted="true"
+              type="date"
+              :label="$t('sale.resolution-date') + ':'"
+              size="sm"
+            />
+            <WMInput
+              name="supply-date"
+              :highlighted="true"
+              type="date"
+              :label="$t('sale.supply-date') + ':'"
+              size="sm"
+            />
+          </div>
+        </div>
+      </WMToggleSwitch>
+
+      <Divider />
+
+      <h3 class="h3 mt-0">{{ $t("sale.factors-in-the-organization") }}</h3>
       <div class="flex flex-row gap-5">
         <WMInput
-          name="customer"
+          name="legal_adviser"
           :highlighted="true"
           type="input-select"
-          :label="$t('sale.customer') + ':'"
-          :options="customers"
-          :placeholder="$t('select', ['sale.customer'])"
+          :label="$t('sale.legal-adviser') + ':'"
+          :options="contacts"
+          :placeholder="$t('select', ['contact.contact'])"
           size="sm"
-          required
         />
         <WMInput
-          name="initiator"
+          name="financial_guide"
           :highlighted="true"
           type="input-select"
-          :label="$t('sale.initiator') + ':'"
-          :options="initiators"
-          :placeholder="$t('select', ['sale.initiator'])"
+          :label="$t('sale.financial-guide') + ':'"
+          :options="contacts"
+          :placeholder="$t('select', ['contact.contact'])"
           size="sm"
-          option-set
-          required
         />
         <WMInput
-          name="sale_type"
+          name="sales_manager"
           :highlighted="true"
           type="input-select"
-          :label="$t('sale.sale-type') + ':'"
-          :options="sales"
-          :placeholder="$t('select', ['sale.sale-type'])"
+          :label="$t('sale.sales-manager') + ':'"
+          :options="contacts"
+          :placeholder="$t('select', ['contact.contact'])"
           size="sm"
-          option-set
-          required
         />
         <WMInput
-          name="source"
+          name="projects_manager"
           :highlighted="true"
           type="input-select"
-          :label="$t('sale.source') + ':'"
-          :options="sources"
-          :placeholder="$t('select', ['sale.source'])"
+          :label="$t('sale.projects-manager') + ':'"
+          :options="contacts"
+          :placeholder="$t('select', ['contact.contact'])"
           size="sm"
-          option-set
-          required
         />
       </div>
-    </div>
 
-    <Divider />
+      <Divider />
 
-    <WMToggleSwitch v-model="isRecurring" :label="$t('sale.tender')">
+      <h3 class="h3 mt-0 mb-0">{{ $t("sale.mandatory-requirements") }}</h3>
+      <div class="flex flex-column gap-5">
+        <WMNewButtonIconOnly @click="addNewMandatoryField" />
+        <WMNewMandatoryFields v-model="mandatoryRequirementsList" />
+      </div>
+
+      <Divider />
+
+      <h3 class="h3 mt-0">{{ $t("sale.customers-details") }}</h3>
       <div class="flex flex-column gap-5">
         <div class="flex flex-row gap-5">
           <WMInput
-            name="publication_date"
+            name="customer_consultant"
             :highlighted="true"
-            type="date"
-            :label="$t('sale.publication-date') + ':'"
+            type="input-select"
+            :label="$t('sale.customer-consultant') + ':'"
+            :options="contacts"
+            :placeholder="$t('select', ['contact.contact'])"
             size="sm"
           />
           <WMInput
-            name="question_date"
+            name="information_technology"
             :highlighted="true"
-            type="date"
-            :label="$t('sale.question-date') + ':'"
+            type="input-select"
+            :label="$t('sale.information-technology') + ':'"
+            :options="contacts"
+            :placeholder="$t('select', ['contact.contact'])"
             size="sm"
           />
           <WMInput
-            name="response_date"
+            name="business_manager"
             :highlighted="true"
-            type="date"
-            :label="$t('sale.response-date') + ':'"
+            type="input-select"
+            :label="$t('sale.business-manager') + ':'"
+            :options="contacts"
+            :placeholder="$t('select', ['contact.contact'])"
+            size="sm"
+          />
+          <WMInput
+            name="decision_maker"
+            :highlighted="true"
+            type="input-select"
+            :label="$t('sale.decision-maker') + ':'"
+            :options="contacts"
+            :placeholder="$t('select', ['contact.contact'])"
             size="sm"
           />
         </div>
         <div class="flex flex-row gap-5">
           <WMInput
-            name="resolution_date"
+            name="budgeting_factor"
             :highlighted="true"
-            type="date"
-            :label="$t('sale.resolution-date') + ':'"
+            type="input-select"
+            :label="$t('sale.budgeting-factor') + ':'"
+            :options="contacts"
+            :placeholder="$t('select', ['contact.contact'])"
             size="sm"
           />
-          <WMInput
-            name="supply-date"
+          <WMInputCurrency
+            name="budget"
             :highlighted="true"
-            type="date"
-            :label="$t('sale.supply-date') + ':'"
+            type="input-number"
+            :label="$t('sale.budget') + ':'"
             size="sm"
           />
         </div>
-      </div>
-    </WMToggleSwitch>
-
-    <Divider />
-
-    <h3 class="h3 mt-0">{{ $t("sale.factors-in-the-organization") }}</h3>
-    <div class="flex flex-row gap-5">
-      <WMInput
-        name="legal_adviser"
-        :highlighted="true"
-        type="input-select"
-        :label="$t('sale.legal-adviser') + ':'"
-        :options="contacts"
-        :placeholder="$t('select', ['contact.contact'])"
-        size="sm"
-      />
-      <WMInput
-        name="financial_guide"
-        :highlighted="true"
-        type="input-select"
-        :label="$t('sale.financial-guide') + ':'"
-        :options="contacts"
-        :placeholder="$t('select', ['contact.contact'])"
-        size="sm"
-      />
-      <WMInput
-        name="sales_manager"
-        :highlighted="true"
-        type="input-select"
-        :label="$t('sale.sales-manager') + ':'"
-        :options="contacts"
-        :placeholder="$t('select', ['contact.contact'])"
-        size="sm"
-      />
-      <WMInput
-        name="projects_manager"
-        :highlighted="true"
-        type="input-select"
-        :label="$t('sale.projects-manager') + ':'"
-        :options="contacts"
-        :placeholder="$t('select', ['contact.contact'])"
-        size="sm"
-      />
-    </div>
-
-    <Divider />
-
-    <h3 class="h3 mt-0 mb-0">{{ $t("sale.mandatory-requirements") }}</h3>
-    <div class="flex flex-column gap-5">
-      <WMNewButtonIconOnly @click="addNewMandatoryField" />
-      <WMNewMandatoryFields v-model="mandatoryRequirementsList" />
-    </div>
-
-    <Divider />
-
-    <h3 class="h3 mt-0">{{ $t("sale.customers-details") }}</h3>
-    <div class="flex flex-column gap-5">
-      <div class="flex flex-row gap-5">
-        <WMInput
-          name="customer_consultant"
-          :highlighted="true"
-          type="input-select"
-          :label="$t('sale.customer-consultant') + ':'"
-          :options="contacts"
-          :placeholder="$t('select', ['contact.contact'])"
-          size="sm"
-        />
-        <WMInput
-          name="information_technology"
-          :highlighted="true"
-          type="input-select"
-          :label="$t('sale.information-technology') + ':'"
-          :options="contacts"
-          :placeholder="$t('select', ['contact.contact'])"
-          size="sm"
-        />
-        <WMInput
-          name="business_manager"
-          :highlighted="true"
-          type="input-select"
-          :label="$t('sale.business-manager') + ':'"
-          :options="contacts"
-          :placeholder="$t('select', ['contact.contact'])"
-          size="sm"
-        />
-        <WMInput
-          name="decision_maker"
-          :highlighted="true"
-          type="input-select"
-          :label="$t('sale.decision-maker') + ':'"
-          :options="contacts"
-          :placeholder="$t('select', ['contact.contact'])"
-          size="sm"
-        />
-      </div>
-      <div class="flex flex-row gap-5">
-        <WMInput
-          name="budgeting_factor"
-          :highlighted="true"
-          type="input-select"
-          :label="$t('sale.budgeting-factor') + ':'"
-          :options="contacts"
-          :placeholder="$t('select', ['contact.contact'])"
-          size="sm"
-        />
-        <WMInput
-          name="budget"
-          :highlighted="true"
-          type="input-number"
-          :label="$t('sale.budget') + ':'"
-          size="sm"
-        />
       </div>
     </div>
   </div>
