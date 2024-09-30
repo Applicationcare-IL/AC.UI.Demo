@@ -294,9 +294,13 @@ const onCancel = () => {
 //   });
 // };
 
-const searchContact = (query) => {
-  return getContactsFromApi({
+const searchContact = async (query) => {
+  let activeStateId = await optionSetsStore.getId("state", "active");
+
+  return await getContactsFromApi({
     search: query,
+    per_page: 9999,
+    state: activeStateId,
   });
 };
 

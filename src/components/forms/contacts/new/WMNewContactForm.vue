@@ -210,8 +210,14 @@ function closeNewCustomerSidebar() {
   isNewCustomerSidebarVisible.value = false;
 }
 
-const searchCustomer = (query) => {
-  return getCustomersFromApi({ search: query });
+const searchCustomer = async (query) => {
+  let activeStateId = await optionSetsStore.getId("state", "active");
+
+  return await getCustomersFromApi({
+    search: query,
+    per_page: 9999,
+    state: activeStateId,
+  });
 };
 
 const onSubmit = handleSubmit((values) => {
