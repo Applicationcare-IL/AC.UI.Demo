@@ -8,13 +8,7 @@
   </WMListSubHeader>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMProductsTable
-      ref="productsTable"
-      :columns="columns"
-      preview
-      selectable
-      @update:selection="onSelectionChanged"
-    />
+    <WMProductsTable ref="productsTable" :columns="columns" preview selectable />
   </div>
 </template>
 
