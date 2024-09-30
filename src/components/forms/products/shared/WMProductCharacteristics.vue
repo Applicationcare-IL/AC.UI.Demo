@@ -85,6 +85,7 @@
         option-set
         data-testid="product.form.billing-type"
         required
+        :value="product?.billing_type"
       />
 
       <WMInput
