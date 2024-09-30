@@ -995,7 +995,11 @@
     "total-discount": "Total discount",
     "waiting-for-customers": "Waiting for customer",
     "mandatory-requirements": "Mandatory requirements",
-    "remarks": "Remarks"
+    "remarks": "Remarks",
+    "notification-created-message": "The new sale was successfully created! \n From now on he will appear in your sales list",
+    "notification-created-header": "New Sale Created",
+    "notification-created-detail": "View Sale",
+    "notification-created-close": "Close"
   },
   "product": {
     "amount": "Amount",

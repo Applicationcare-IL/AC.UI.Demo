@@ -5,17 +5,8 @@
   <div v-else class="wm-new-form-container flex flex-auto flex-column overflow-auto gap-5">
     <div class="task-data flex flex-column gap-5">
       <h3 class="h3 mb-0">{{ $t("general-details") }}</h3>
-
-      <pre> {{ values }} </pre>
-
       <div class="flex flex-row gap-5">
-        <WMInput
-          name="owner"
-          type="info"
-          :highlighted="true"
-          :label="$t('owner') + ':'"
-          :value="''"
-        />
+        <WMTeamOwnerFields />
       </div>
       <div class="flex flex-row gap-5">
         <WMInput
@@ -226,8 +217,8 @@
 
 <script setup>
 // IMPORTS
-import { useForm } from "vee-validate";
-import { onMounted, ref } from "vue";
+import { useField, useForm } from "vee-validate";
+import { onMounted, ref, watch } from "vue";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 import { useOptionSetsStore } from "@/stores/optionSets";
@@ -235,7 +226,7 @@ import { useOptionSetsStore } from "@/stores/optionSets";
 // DEPENDENCIES
 const { getContactsFromApi } = useContacts();
 const { getCustomersFromApi } = useCustomers();
-const { createSale } = useSales();
+const { createSale, parseSale } = useSales();
 
 const formUtilsStore = useFormUtilsStore();
 const optionSetsStore = useOptionSetsStore();
@@ -268,10 +259,10 @@ const { handleSubmit, values, resetForm } = useForm({
 
 const onSubmit = handleSubmit(async () => {
   try {
-    const data = await createSale(values);
+    const data = await createSale(parseSale(values));
 
     emit("newSaleCreated");
-    dialog.confirmNewAdminMessage({ id: data.data.id, emit });
+    dialog.confirmNewSale(data.data.data.id);
 
     resetForm();
 
@@ -314,8 +305,15 @@ const loadLazyData = async () => {
   loading.value = false;
 };
 
+const { handleChange: handleChangeMandatoryFields } = useField("mandatory_fields", undefined, {
+  initialValue: [],
+});
+
 const addNewMandatoryField = () => {
-  mandatoryRequirementsList.value.push("test");
+  mandatoryRequirementsList.value.push({
+    id: Math.random(),
+    item: "",
+  });
 };
 
 // PROVIDE, EXPOSE
@@ -324,6 +322,15 @@ defineExpose({
 });
 
 // WATCHERS
+watch(
+  mandatoryRequirementsList,
+  (newValue) => {
+    handleChangeMandatoryFields(newValue);
+  },
+  {
+    deep: true,
+  }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {

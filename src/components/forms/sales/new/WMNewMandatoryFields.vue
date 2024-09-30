@@ -1,6 +1,5 @@
 <template>
   <div ref="el">
-    {{ modelValue }}
     <div
       v-for="(item, index) in modelValue"
       :key="item.id"
@@ -14,11 +13,10 @@
         size="md"
         required
         rows="4"
-        :value="item"
+        :value="item.item"
         @update:value="updateItem($event, index)"
       />
-      <WMDeleteButton @click="deleteItem(item)" />
-      item{{ item }}
+      <WMDeleteButton @click="deleteItem(item.id)" />
     </div>
   </div>
 </template>
@@ -44,12 +42,11 @@ const el = ref(null);
 
 // COMPONENT METHODS AND LOGIC
 const updateItem = (item, index) => {
-  modelValue.value[index] = item;
+  modelValue.value[index].item = item;
 };
 
-const deleteItem = (item) => {
-  console.log("item", item);
-  modelValue.value = modelValue.value.filter((i) => i !== item);
+const deleteItem = (itemId) => {
+  modelValue.value = modelValue.value.filter((item) => item.id !== itemId);
 };
 
 // PROVIDE, EXPOSE
@@ -58,6 +55,7 @@ const deleteItem = (item) => {
 watch(
   modelValue,
   () => {
+    console.log("entro watch");
     useSortable(el, modelValue, {
       animation: 150,
     });
