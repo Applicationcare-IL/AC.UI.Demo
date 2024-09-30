@@ -736,7 +736,8 @@
     "login.user_locked": "Your account has been locked",
     "send-email-reset-password": "Send email to reset password",
     "expired-password-reset-email-sent": "An email has been sent to you with a link to reset your password",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "user_not_active": "User not active"
   },
   "sla": {
     "one_day_left": "1 day left",
