@@ -98,7 +98,7 @@ const columns = [
     type: "link",
     field: "render_main_contact",
     header: "customer.main-contact",
-    routeName: "customerDetail",
+    routeName: "contactDetail",
   },
   {
     name: "address",
@@ -161,6 +161,7 @@ const columns = [
     type: "status",
     field: "render_status",
     header: "status",
+    class: "filled-td",
   },
   {
     name: "state",
