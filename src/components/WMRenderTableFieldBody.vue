@@ -86,7 +86,7 @@
       v-if="modelValue"
       :sla="modelValue.sla"
       :days-for-closing="modelValue.days_for_closing"
-      :state="modelValue.state.value"
+      :state="modelValue.state"
     />
   </template>
   <template v-if="columnData.type == 'centered-number'">
@@ -97,11 +97,6 @@
   <template v-if="columnData.type == 'breached-number'">
     <span :class="highlightCellClass(modelValue)" class="numeric w-full block">
       {{ modelValue }}
-    </span>
-  </template>
-  <template v-if="columnData.type == 'status'">
-    <span :class="highlightStatusClass(modelValue.toLowerCase())" class="numeric w-full block">
-      {{ $t("statuses." + modelValue.toLowerCase()) }}
     </span>
   </template>
 </template>
