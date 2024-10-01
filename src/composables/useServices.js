@@ -1,6 +1,6 @@
 import { useServicesStore } from "@/stores/servicesStore";
 
-export function useServices() {
+const useServices = () => {
   const servicesStore = useServicesStore();
   const toast = useToast();
   const { parseDate } = useDates();
@@ -208,6 +208,35 @@ export function useServices() {
       },
       last_activity: service.last_activity,
       asset: service.asset,
+      render_service_number: {
+        text: service.id,
+        id: service.id,
+      },
+      render_contact: {
+        text: service.contact.name,
+        id: service.contact.id,
+      },
+      render_start_date: parseDate(service.process.opened),
+      render_due_date: parseDate(service.process.sla.due_date),
+      render_service_area: service.area,
+      render_service_type: service.type,
+      render_request_1: service.request_1,
+      render_duration: service.process.sla.days_from_opening_date,
+      render_owner: service.owner?.name,
+      render_team: service.owner.default_team,
+      render_sla: {
+        sla: service.process.sla.sla,
+        days_for_closing: service.process.sla.days_for_closing,
+        state: service.state.value,
+      },
+      render_priority: service.priority,
+      render_recurring: service.recurring == 0 ? "no" : "yes",
+      render_urgency: service.urgent,
+      render_last_change: service.last_activity?.updater.at,
+      render_closed_at: service.process.completed_at ?? null,
+      render_stage: service.process.current_stage?.name,
+      render_status: service.status,
+      render_state: service.state,
     };
   };
 
@@ -272,4 +301,6 @@ export function useServices() {
     mapService,
     mapContactsFromServices,
   };
-}
+};
+
+export default useServices;
