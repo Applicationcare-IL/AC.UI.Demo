@@ -1026,6 +1026,7 @@
     "eol": "EOL",
     "eos": "EOS",
     "erp-id": "ERP ID",
+    "bulk-discounts": "Bulk Discounts",
     "existing-discount-text": "A bulk discount for this product quantity already exists. Would you like to overwrite it with the new one?",
     "existing-discount": "Existing Discount",
     "existing-product": "Existing Product",
