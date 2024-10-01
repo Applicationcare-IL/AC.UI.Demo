@@ -153,7 +153,7 @@
       <div>
         <Accordion :active-index="0">
           <AccordionTab :header="$t('asset.organizations')">
-            <WMCustomersTable
+            <WMCustomersTableSection
               v-if="can('customers.read')"
               :related-entity-id="asset.id"
               :columns="customerColumns"

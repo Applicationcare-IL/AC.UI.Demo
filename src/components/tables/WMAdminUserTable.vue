@@ -15,23 +15,13 @@
     <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
     <Column v-if="preview" style="width: 40px">
       <template #body="{ data }">
-        <img
-          src="/icons/eye.svg"
-          alt=""
-          class="vertical-align-middle"
-          @click="openSidebar(data.id)"
-        />
+        <img src="/icons/eye.svg" class="vertical-align-middle" @click="openSidebar(data.id)" />
         <WMUserPreviewSidebar v-model:visible="isPreviewVisible[data.id]" :user="data" />
       </template>
     </Column>
     <Column style="width: 40px">
       <template #body="{ data }">
-        <img
-            v-if="data.locked"
-            src="/icons/lock.svg"
-            alt=""
-            class="vertical-align-middle"
-        />
+        <img v-if="data.locked" src="/icons/lock.svg" alt="" class="vertical-align-middle" />
       </template>
     </Column>
     <Column

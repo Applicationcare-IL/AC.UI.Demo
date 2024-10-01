@@ -166,7 +166,14 @@ const openFilterSidebar = () => {
   isFilterVisible.value = true;
 };
 
-const enetitiesAvailableForExport = ["task", "customer", "contact", "service", "project"];
+const enetitiesAvailableForExport = [
+  "task",
+  "customer",
+  "contact",
+  "service",
+  "project",
+  "product",
+];
 
 const showExportButton = computed(() => {
   return (

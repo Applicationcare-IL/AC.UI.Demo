@@ -47,7 +47,7 @@
       />
     </div>
 
-    <WMCustomersTable
+    <WMCustomersTableSection
       v-if="can('customers.read')"
       :related-entity-id="contact.id"
       related-entity="contact"
@@ -108,11 +108,8 @@ const updateModelValue = (value) => {
   visible.value = value;
 };
 
-const {
-  getCustomerPreviewColumns,
-  getServicePreviewColumns,
-  getTaskPreviewColumns,
-} = useListUtils();
+const { getCustomerPreviewColumns, getServicePreviewColumns, getTaskPreviewColumns } =
+  useListUtils();
 
 const customerPreviewTableColumns = ref(getCustomerPreviewColumns());
 const servicePreviewTableColumns = ref(getServicePreviewColumns());

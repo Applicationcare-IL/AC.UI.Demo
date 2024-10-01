@@ -88,7 +88,7 @@ const router = createRouter({
         {
           path: "/customers",
           name: "customers",
-          component: () => import("@/views/user/lists/Customers.vue"),
+          component: () => import("@/views/user/lists/CustomersListPage.vue"),
         },
         {
           path: "/new-customer",

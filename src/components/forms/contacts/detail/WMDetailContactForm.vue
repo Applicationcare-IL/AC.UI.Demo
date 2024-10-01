@@ -187,7 +187,7 @@
       <div>
         <Accordion v-if="can('customers.read')" data-testid="customers-accordion">
           <AccordionTab :header="$t('customer.customer')">
-            <WMCustomersTable
+            <WMCustomersTableSection
               v-if="can('customers.read')"
               :related-entity-id="contact.id"
               related-entity="contact"
