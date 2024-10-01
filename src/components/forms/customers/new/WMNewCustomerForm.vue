@@ -160,7 +160,7 @@
             </template>
           </WMSidebar>
         </div>
-        <WMContactsTable
+        <WMContactsTableSection
           v-if="can('contacts.read')"
           :contacts="selectedContacts"
           :columns="getSelectedContactsForNewCustomerColumns()"

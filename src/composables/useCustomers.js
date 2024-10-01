@@ -135,7 +135,7 @@ const useCustomers = () => {
       }),
       render_number: customer.number,
       render_owner: customer.owner.name,
-      render_status: customer.status.value,
+      render_status: customer.status,
     };
   };
 

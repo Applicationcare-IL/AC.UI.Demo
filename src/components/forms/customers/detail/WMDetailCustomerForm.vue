@@ -233,7 +233,7 @@
 
       <Accordion v-if="can('contacts.read')" data-testid="contacts-accordion">
         <AccordionTab :header="$t('contact.contacts')">
-          <WMContactsTable
+          <WMContactsTableSection
             v-if="can('contacts.read')"
             :columns="contactColumns"
             :customer-id="route.params.id"
@@ -247,7 +247,7 @@
         data-testid="services-accordion"
       >
         <AccordionTab :header="$t('service.services')">
-          <WMServicesTable
+          <WMServicesTableSection
             related-entity="customer"
             :related-entity-id="customer.id"
             :columns="serviceColumns"

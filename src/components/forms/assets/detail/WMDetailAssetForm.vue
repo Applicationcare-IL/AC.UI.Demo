@@ -140,7 +140,7 @@
       <div>
         <Accordion :active-index="0">
           <AccordionTab :header="$t('asset.services')">
-            <WMServicesTable
+            <WMServicesTableSection
               v-if="checkIfEntityIsActive('services') && can('services.read')"
               related-entity="asset"
               :related-entity-id="asset.id"
