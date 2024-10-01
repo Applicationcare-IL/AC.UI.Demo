@@ -283,6 +283,29 @@ const useDialog = () => {
     });
   };
 
+  const confirmNewSale = (id) => {
+    confirm.require({
+      message: i18n.t("sale.notification-created-message"),
+      header: i18n.t("sale.notification-created-header"),
+      acceptLabel: i18n.t("sale.notification-created-detail"),
+      rejectLabel: i18n.t("sale.notification-created-close"),
+      accept: () => {
+        formUtilsStore.goToDetail(id, "sale");
+        router.push({
+          name: "saleDetail",
+          params: { id: id },
+          force: true,
+        });
+      },
+      reject: () => {
+        router.push({
+          name: "sales",
+          force: true,
+        });
+      },
+    });
+  };
+
   // { emit } = {} makes the parameters optional
   const confirmCancelDialog = ({ emit } = {}) => {
     return new Promise((resolve) => {
@@ -370,6 +393,7 @@ const useDialog = () => {
     confirmNewAdminTeam,
     confirmNewAdminUser,
     confirmNewContact,
+    confirmNewSale,
     confirmNewCustomer,
     confirmNewProduct,
     confirmNewProject,

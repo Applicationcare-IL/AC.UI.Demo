@@ -10,7 +10,24 @@
         :value="product.id"
       />
 
-      <!-- <WMTeamOwnerFields /> -->
+      <WMInput
+        name="owner"
+        type="info"
+        :highlighted="true"
+        :label="$t('owner') + ':'"
+        :value="product.owner?.name"
+        size="sm"
+      />
+
+      <WMInput
+        v-if="product.owner.default_team"
+        name="id"
+        type="info"
+        :highlighted="true"
+        :label="$t('team.team') + ':'"
+        :value="product.owner.default_team"
+        size="sm"
+      />
 
       <WMInput
         name="version"

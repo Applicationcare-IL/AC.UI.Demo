@@ -19,7 +19,7 @@
                     name="team"
                     type="info"
                     :highlighted="true"
-                    :label="$t('team') + ':'"
+                    :label="$t('team.team') + ':'"
                     :value="task.team"
                   />
                   <WMInput

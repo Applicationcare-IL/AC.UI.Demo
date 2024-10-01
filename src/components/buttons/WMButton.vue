@@ -7,7 +7,8 @@
     <span v-if="badge" class="wm-button__badge">{{ badge }}</span>
     <i v-if="icon" class="pi" :class="icon"></i>
     <slot name="customIcon"></slot>
-    <span>{{ text }}</span>
+
+    <span>{{ text }} </span>
   </Button>
 </template>
 
@@ -47,6 +48,7 @@ const props = defineProps({
         "sign",
         "more",
         "remove",
+        "delete",
         "link",
       ].includes(value);
     },
@@ -403,10 +405,6 @@ const handleClick = () => {
     fill: var(--gray-800);
   }
 
-  :deep(svg path) {
-    fill: var(--gray-800);
-  }
-
   &:hover {
     background-color: var(--gray-100);
     color: var(--gray-800);
@@ -419,6 +417,41 @@ const handleClick = () => {
 
   &.is-active {
     border: 1px solid var(--gray-800);
+  }
+
+  &.is-disabled {
+    background-color: var(--gray-200);
+    color: var(--gray-500);
+    cursor: not-allowed;
+    outline: 0;
+    box-shadow: none;
+
+    :deep(svg path) {
+      fill: var(--gray-500);
+    }
+  }
+}
+
+.delete {
+  background-color: var(--red-200);
+  color: var(--red-800);
+
+  :deep(svg path) {
+    fill: var(--red-800);
+  }
+
+  &:hover {
+    background-color: var(--red-300);
+    color: var(--red-500);
+  }
+
+  &:focus {
+    background-color: var(--red-400);
+    color: var(--red-900);
+  }
+
+  &.is-active {
+    border: 1px solid var(--red-500);
   }
 
   &.is-disabled {
@@ -462,8 +495,8 @@ const handleClick = () => {
 // ICON ONLY
 .wm-button.p-button-icon-only {
   border-radius: 4px;
-  width: 27px;
-  height: 27px;
+  width: 32px;
+  height: 32px;
 
   :deep(svg) {
     max-height: initial;

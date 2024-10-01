@@ -6,6 +6,7 @@
     :show-message-button="false"
     :show-email-button="false"
     @save-form="saveForm()"
+    @refresh-table="loadLazyData()"
   >
     <template #top-left>
       <WMButton

@@ -20,6 +20,7 @@
               :options="relationshipTypesList"
               size="sm"
               required
+              @update:selected-item="selectedOption = $event"
             />
 
             <h5 class="h5">Products</h5>

@@ -42,7 +42,6 @@ const showDialog = () => {
 };
 
 const handleRelatedProductsAdded = () => {
-  console.log("entro aquí");
   emit("relatedProductsAdded");
 };
 

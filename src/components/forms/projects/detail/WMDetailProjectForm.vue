@@ -66,7 +66,7 @@
       </Accordion> -->
 
       <Accordion>
-        <AccordionTab :header="$t('team')">
+        <AccordionTab :header="$t('team.team')">
           <WMDetailProjectFormTeamTab />
         </AccordionTab>
       </Accordion>

@@ -18,9 +18,9 @@ const useSales = () => {
     return mapSale(response.data);
   };
 
-  const createSale = async (params) => {
+  const createSale = async (data) => {
     try {
-      return await salesStore.createSale(parseSale(params));
+      return await salesStore.createSale(data);
     } catch (error) {
       console.error(error);
       throw error;
@@ -77,9 +77,8 @@ const useSales = () => {
 
   const parseSale = (sale) => {
     return {
-      // sale,
       customer: sale.customer.id,
-      contact: 1274,
+      contact: sale.contact.id,
       sale_initiator: sale.initiator.id,
       sale_type: sale.sale_type.id,
       sale_source: sale.source.id,
@@ -89,7 +88,7 @@ const useSales = () => {
       tender_response_date: sale.tender_response_date,
       tender_resolution_date: sale.tender_resolution_date,
       tender_supply_date: sale.tender_supply_date,
-      mandatory_requirements: [],
+      mandatory_requirements: sale.mandatory_requirements,
       legal_adviser: sale.legal_adviser.id,
       financial_guide: sale.financial_guide.id,
       sales_manager: sale.sales_manager.id,
