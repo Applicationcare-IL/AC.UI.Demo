@@ -158,7 +158,7 @@ const columns = [
   },
   {
     name: "status",
-    type: "status",
+    type: "option-set",
     field: "render_status",
     header: "status",
     class: "filled-td",
