@@ -750,7 +750,11 @@ export const useFormUtilsStore = defineStore("formUtils", {
     getNewProductFormValidationSchema: () => {
       return yup.object({
         name: yup.string().required(),
-        info_page: yup.string().matches(URLRegex, "validation.url").required(),
+        info_page: yup
+          .string()
+          .optional()
+          .matches(URLRegex, { message: "validation.url", excludeEmptyString: true })
+          .nullable(),
         description: yup.string().required(),
         valid_until: yup.string().required(),
         units: yup
@@ -853,7 +857,10 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "product.technical-manager" },
           }),
-        technical_info: yup.string().matches(URLRegex, "validation.url").required(),
+        technical_info: yup
+          .string()
+          .matches(URLRegex, { message: "validation.url", excludeEmptyString: true })
+          .nullable(),
         marketing_manager: yup
           .object()
           .required({
@@ -864,7 +871,10 @@ export const useFormUtilsStore = defineStore("formUtils", {
             key: "validation.required-select",
             values: { label: "product.marketing-manager" },
           }),
-        marketing_info: yup.string().matches(URLRegex, "validation.url").required(),
+        marketing_info: yup
+          .string()
+          .matches(URLRegex, { message: "validation.url", excludeEmptyString: true })
+          .nullable(),
         cancellation_type: yup
           .object()
           .required({

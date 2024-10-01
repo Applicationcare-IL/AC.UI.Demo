@@ -17,7 +17,6 @@
       />
       <WMInput
         name="marketing_info"
-        required
         type="input-text"
         :label="$t('product.marketing-info') + ':'"
         size="md"
@@ -41,7 +40,6 @@
       />
       <WMInput
         name="technical_info"
-        required
         type="input-text"
         :label="$t('product.technical-info') + ':'"
         size="md"

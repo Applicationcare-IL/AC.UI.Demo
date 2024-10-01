@@ -20,12 +20,12 @@
       />
 
       <WMInput
-        v-if="product.owner.default_team"
+        v-if="product.owner?.default_team"
         name="id"
         type="info"
         :highlighted="true"
         :label="$t('team.team') + ':'"
-        :value="product.owner.default_team"
+        :value="product.owner?.default_team"
         size="sm"
       />
 
@@ -64,7 +64,6 @@
       />
       <WMInput
         name="info_page"
-        required
         type="input-text"
         :label="$t('product.information-page') + ':'"
         size="md"
