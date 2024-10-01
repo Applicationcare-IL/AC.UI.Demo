@@ -28,7 +28,7 @@
   </WMSidebar>
 
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMCustomersTableTemp
+    <WMCustomersTable
       ref="customersTable"
       v-model:selection="selectedCustomers"
       :columns="columns"
@@ -48,13 +48,11 @@ import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
 const { setSelectedContacts, resetSelectedContacts, getContactsFromApi } = useContacts();
-const { optionLabelWithLang } = useLanguages();
-const { formatAddress } = useUtils();
-const { selectedRowsPerPage, highlightStatusClass } = useListUtils();
+
+const { selectedRowsPerPage } = useListUtils();
 const { getCustomersFromApi, exportCustomers } = useCustomers();
 
 const utilsStore = useUtilsStore();
-
 const { handleExport } = useExports();
 
 // INJECT
@@ -66,7 +64,6 @@ const totalRecords = ref(0);
 const lazyParams = ref({});
 const customers = ref();
 const loading = ref(false);
-const dt = ref();
 const searchValue = ref("");
 const isVisible = ref(false);
 const selectedCustomers = ref([]);
@@ -230,16 +227,6 @@ const openSidebar = () => {
 const clearSelectedCustomers = () => {
   selectedCustomers.value = [];
   onSelectionChanged();
-};
-
-// Display sidebars
-const displayDetails = (data) => {
-  customerDetail.value = data;
-  isDetailsVisible.value = true;
-};
-
-const highlightCellClass = (data) => {
-  return [{ "bg-red-100 text-red-600": data > 0 }];
 };
 
 // Manage selected rows
