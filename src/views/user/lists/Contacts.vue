@@ -35,7 +35,7 @@
   </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMContactsTableTemp
+    <WMContactsTable
       ref="contactsTable"
       v-model:selection="selectedContacts"
       :columns="columns"

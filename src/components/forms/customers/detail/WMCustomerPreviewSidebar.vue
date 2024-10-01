@@ -48,7 +48,7 @@
       />
     </div>
 
-    <WMContactsTable
+    <WMContactsTableSection
       v-if="can('contacts.read')"
       :columns="contactPreviewTableColumns"
       :customer-id="customer.id"
@@ -108,11 +108,8 @@ const updateModelValue = (value) => {
   visible.value = value;
 };
 
-const {
-  getContactPreviewColumns,
-  getServicePreviewColumns,
-  getTaskPreviewColumns,
-} = useListUtils();
+const { getContactPreviewColumns, getServicePreviewColumns, getTaskPreviewColumns } =
+  useListUtils();
 
 const contactPreviewTableColumns = ref(getContactPreviewColumns());
 const servicePreviewTableColumns = ref(getServicePreviewColumns());

@@ -6,7 +6,7 @@
     :style="{ width: '50vw' }"
   >
     <div class="flex align-items-center flex-column gap-3 mb-5">
-      <WMContactsTable
+      <WMContactsTableSection
         v-if="can('contacts.read')"
         :columns="contactIncomingCallsColumns"
         :show-header-options="false"
