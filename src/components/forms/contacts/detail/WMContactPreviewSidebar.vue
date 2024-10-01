@@ -58,7 +58,7 @@
       table-class="compact"
     />
 
-    <WMServicesTable
+    <WMServicesTableSection
       v-if="can('services.read')"
       related-entity="contact"
       :related-entity-id="contact.id"

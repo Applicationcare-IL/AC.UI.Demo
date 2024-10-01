@@ -72,7 +72,7 @@
       </div>
       <Card>
         <template #content>
-          <WMServicesTable
+          <WMServicesTableSection
             v-if="can('services.read')"
             :columns="serviceColumns"
             :hide-title="true"

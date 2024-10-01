@@ -247,7 +247,7 @@
         data-testid="services-accordion"
       >
         <AccordionTab :header="$t('service.services')">
-          <WMServicesTable
+          <WMServicesTableSection
             related-entity="customer"
             :related-entity-id="customer.id"
             :columns="serviceColumns"

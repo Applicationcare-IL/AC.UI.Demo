@@ -237,7 +237,7 @@
 
       <Accordion>
         <AccordionTab :header="$t('service.related-services')">
-          <WMServicesTable
+          <WMServicesTableSection
             related-entity="service"
             :related-entity-id="service.id"
             :columns="relatedServiceColumns"

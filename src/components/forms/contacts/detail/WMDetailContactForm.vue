@@ -203,7 +203,7 @@
           data-testid="services-accordion"
         >
           <AccordionTab :header="$t('service.service')">
-            <WMServicesTable
+            <WMServicesTableSection
               v-if="checkIfEntityIsActive('services') && can('services.read')"
               related-entity="contact"
               :related-entity-id="contact.id"

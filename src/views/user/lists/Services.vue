@@ -27,7 +27,7 @@
   </WMSidebar>
 
   <div class="table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMServicesTableTemp
+    <WMServicesTable
       ref="servicesTable"
       v-model:selection="selectedServices"
       :columns="columns"
