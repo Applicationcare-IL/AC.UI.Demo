@@ -189,6 +189,30 @@
         <div class="flex flex-1 flex-column">
           <h4 class="h4">{{ $t("product.related-products") }}</h4>
           <!-- Similar a la de abajo de bulk discounts pero con los related products -->
+          <DataTable
+            lazy
+            :value="productsRelated"
+            data-key="id"
+            scrollable
+            paginator
+            :rows="5"
+            :total-records="totalRecordsRelated"
+            class="w-full"
+            @page="onPage($event)"
+          >
+            <Column
+              v-for="column in columnsRelated"
+              :key="column.name"
+              :field="column.name"
+              :header="$t(column.header)"
+              :class="column.class"
+              :style="column.width ? { width: column.width } : {}"
+            >
+              <template #body="{ data }">
+                <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
+              </template>
+            </Column>
+          </DataTable>
         </div>
       </div>
 
@@ -204,12 +228,12 @@
             scrollable
             paginator
             :rows="5"
-            :total-records="totalRecords"
+            :total-records="totalRecordsDiscount"
             class="w-full"
             @page="onPage($event)"
           >
             <Column
-              v-for="column in columns"
+              v-for="column in columnsDiscount"
               :key="column.name"
               :field="column.name"
               :header="$t(column.header)"
@@ -268,7 +292,7 @@
 import { ref, watch } from "vue";
 
 // DEPENDENCIES
-const { getProduct, getProductDiscounts } = useProducts();
+const { getProduct, getProductDiscounts, getRelatedProducts } = useProducts();
 
 // INJECT
 
@@ -289,11 +313,13 @@ const props = defineProps({
 // REFS
 const product = ref(null);
 const bulkDiscount = ref();
-const totalRecords = ref(0);
+const productsRelated = ref();
+const totalRecordsDiscount = ref(0);
+const totalRecordsRelated = ref(0);
 const lazyParams = ref({});
 const isProductLoaded = ref(false);
 
-const columns = [
+const columnsDiscount = [
   {
     name: "quantity",
     type: "text",
@@ -305,6 +331,43 @@ const columns = [
     type: "text",
     field: "discount_number",
     header: "product.discount-number",
+  },
+];
+
+const columnsRelated = [
+  {
+    name: "product_name",
+    type: "link",
+    field: "render_name_link",
+    header: "product.name",
+    routeName: "productDetail",
+  },
+  {
+    name: "link_type",
+    type: "text",
+    field: "render_relation_type",
+    header: "product.relationship-type",
+    class: "capitalize",
+  },
+  {
+    name: "id",
+    type: "text",
+    field: "id",
+    header: "id",
+  },
+  {
+    name: "base_price",
+    type: "currency",
+    field: "base_price",
+    header: "product.base-price",
+  },
+  {
+    name: "status",
+    type: "state",
+    field: "state",
+    header: "status",
+    width: "100px",
+    class: "filled-td",
   },
 ];
 
@@ -322,9 +385,13 @@ const loadLazyData = async () => {
     per_page: 5,
   });
 
-  let response = await getProductDiscounts(props.productId, params);
-  bulkDiscount.value = response.data;
-  totalRecords.value = response.totalRecords;
+  let responseDiscount = await getProductDiscounts(props.productId, params);
+  bulkDiscount.value = responseDiscount.data;
+  totalRecordsDiscount.value = responseDiscount.totalRecords;
+
+  let responseRelated = await getRelatedProducts(props.productId, params);
+  productsRelated.value = responseRelated.data;
+  totalRecordsRelated.value = responseRelated.totalRecords;
 };
 
 const onPage = (event) => {
