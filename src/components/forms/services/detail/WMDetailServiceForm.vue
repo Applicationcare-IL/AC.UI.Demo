@@ -82,8 +82,7 @@
                         :sla="service.sla"
                         :days-for-closing="service.days_for_closing"
                         :state="service.state.value"
-                      >
-                      </WMSLATag>
+                      />
                     </div>
                   </div>
                 </div>

@@ -1,47 +1,106 @@
 <template>
   <Skeleton v-if="loading" width="100%" height="196px" />
   <template v-else>
-    <div class="flex flex-auto gap-5 flex-row">
-      <WMInput
-        name="identifier"
-        type="info"
-        :highlighted="true"
-        :label="$t('id') + ':'"
-        :value="sale.id"
-      />
-
-      <WMInput
-        name="owner"
-        type="info"
-        :highlighted="true"
-        :label="$t('owner') + ':'"
-        :value="sale.owner.name"
-      />
-
-      <WMInput
-        name="customer"
-        type="info-link"
-        :highlighted="true"
-        :label="$t('customer.customer') + ':'"
-        :value="sale.customer.name + sale.customer.surname"
-        :to="'/customer/' + sale.customer.id"
-      />
-      <div class="flex">
+    <div class="flex flex-column gap-5">
+      <div class="flex flex-auto gap-5 flex-row">
         <WMInput
-          name="contact"
-          type="input-select"
+          name="identifier"
+          type="info"
           :highlighted="true"
-          :label="$t('contact.contact') + ':'"
-          :options="contacts"
-          :value="selectedContact"
-          required
-          @update:selected-item="selectedContact = $event"
+          :label="$t('id') + ':'"
+          :value="sale.id"
         />
-        {{ selectedContact }} Enlace
+
+        <WMInput
+          name="owner"
+          type="info"
+          :highlighted="true"
+          :label="$t('owner') + ':'"
+          :value="sale.owner.name"
+        />
+
+        <WMInput
+          name="customer"
+          type="info-link"
+          :highlighted="true"
+          :label="$t('customer.customer') + ':'"
+          :value="sale.customer.name + sale.customer.surname"
+          :to="'/customer/' + sale.customer.id"
+        />
+
+        <div class="flex gap-2">
+          <WMInput
+            name="contact"
+            type="input-select"
+            :highlighted="true"
+            :label="$t('contact.contact') + ':'"
+            :options="contacts"
+            :value="selectedContact"
+            required
+            @update:selected-item="selectedContact = $event"
+          />
+          <router-link
+            :to="{
+              name: 'contactDetail',
+              params: { id: selectedContact.id },
+            }"
+            class="flex align-items-center vertical-align-middle"
+          >
+            <div class="flex align-items-center" v-html="NewTabIcon" />
+          </router-link>
+        </div>
+      </div>
+      <div class="flex flex-auto gap-5 flex-row">
+        <WMInput
+          name="sale-type"
+          type="info"
+          :highlighted="true"
+          :label="$t('sale.sale-type') + ':'"
+          :value="sale.sale_type"
+          option-set
+        />
+        <WMInput
+          name="source"
+          type="info"
+          :highlighted="true"
+          :label="$t('sale.source') + ':'"
+          :value="sale.sale_source"
+          option-set
+        />
+        <WMInput
+          name="initiator"
+          type="info"
+          :highlighted="true"
+          :label="$t('sale.initiator') + ':'"
+          :value="sale.sale_initiator"
+          option-set
+        />
+      </div>
+      <div class="flex flex-auto gap-5 flex-row">
+        <!-- <WMInput
+          name="started-date"
+          type="info"
+          :highlighted="true"
+          :label="$t('task.started_at')"
+          :value="task.started_at"
+        />
+
+        <WMInput
+          name="started-date"
+          type="info"
+          :highlighted="true"
+          :label="$t('task.started_at')"
+          :value="task.started_at"
+        /> -->
+
+        <!-- <WMSLATag
+          v-if="sale.process.sla"
+          :sla="sale.process.sla"
+          :days-for-closing="sale.process.sla.days_for_closing"
+          :state="sale.process.state.value"
+        /> -->
       </div>
     </div>
-    <div class="flex flex-auto gap-5 flex-row"></div>
-    <div class="flex flex-auto gap-5 flex-row"></div>
   </template>
 </template>
 
@@ -49,6 +108,7 @@
 // IMPORTS
 import { onMounted, ref } from "vue";
 
+import NewTabIcon from "/icons/new_tab.svg?raw";
 import { useOptionSetsStore } from "@/stores/optionSets";
 
 // DEPENDENCIES
