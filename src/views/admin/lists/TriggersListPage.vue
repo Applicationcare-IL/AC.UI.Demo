@@ -4,28 +4,12 @@
     :total-records="0"
     :show-communications="false"
     :has-action-builder="false"
-    @new="toggleSidebarVisibility"
+    @new="redirectToNewTriggerPage"
   >
     <template #top-left>
       <WMStateToggle entity="trigger" />
     </template>
   </WMListSubHeader>
-
-  <WMSidebar :visible="isVisible" name="newTrigger" @close-sidebar="closeSidebar">
-    <template v-if="can('triggers.create')">
-      <WMNewEntityFormHeader entity="trigger" name="newTrigger" />
-      <WMNewTriggerForm
-        :is-sidebar="true"
-        @close-sidebar="closeSidebar"
-        @new-trigger-created="handleNewTriggerCreated"
-      />
-    </template>
-    <template v-else>
-      <div class="m-5">
-        {{ $t("permissions.you-dont-have-permission") }}
-      </div>
-    </template>
-  </WMSidebar>
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMAdminTriggersTable
@@ -39,12 +23,13 @@
 <script setup>
 // IMPORTS
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { can } = usePermissions();
 const utilsStore = useUtilsStore();
+const router = useRouter();
 
 // INJECT
 
@@ -52,7 +37,6 @@ const utilsStore = useUtilsStore();
 
 // REFS
 const adminTriggerTable = ref();
-const isVisible = ref(false);
 
 const columns = [
   {
@@ -108,24 +92,19 @@ const columns = [
   },
 ];
 
+const redirectToNewTriggerPage = () => {
+  router.push({
+    name: "newTrigger",
+    force: true,
+  });
+};
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 useHead({
   title: "Triggers",
 });
-
-const toggleSidebarVisibility = () => {
-  isVisible.value = !isVisible.value;
-};
-
-const closeSidebar = () => {
-  isVisible.value = false;
-};
-
-const handleNewTriggerCreated = () => {
-  adminTriggerTable.value.loadLazyData();
-};
 
 // PROVIDE, EXPOSE
 
