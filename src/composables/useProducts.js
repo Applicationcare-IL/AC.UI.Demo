@@ -114,6 +114,15 @@ const useProducts = () => {
     }
   };
 
+  const exportProducts = async (params) => {
+    try {
+      return await productsStore.exportProducts(params);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   // DISCOUNTS
   const getProductDiscounts = async (productId, params) => {
     try {
@@ -338,6 +347,7 @@ const useProducts = () => {
     activateProduct,
     deactivateProduct,
     checkIfDiscountExists,
+    exportProducts,
     // DISCOUNTS
     getProductDiscounts,
     addProductDiscount,

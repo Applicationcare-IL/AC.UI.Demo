@@ -4,17 +4,25 @@
     :show-communications="false"
     :has-action-builder="false"
     @new="redirectToNewProductPage"
+    @export="handleExportProducts"
   >
   </WMListSubHeader>
-
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
-    <WMProductsTable ref="productsTable" :columns="columns" preview selectable />
+    <WMProductsTable
+      :columns="columns"
+      :products="products"
+      :total-records="totalRecords"
+      :loading="loading"
+      preview
+      selectable
+      @update:page="currentPage = $event"
+    />
   </div>
 </template>
 
 <script setup>
 // IMPORTS
-import { onMounted } from "vue";
+import { onMounted, ref, watch, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -22,10 +30,15 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const router = useRouter();
 const utilsStore = useUtilsStore();
+const { getProducts, exportProducts } = useProducts();
+const { handleExport } = useExports();
 
 // INJECT
 
 // PROPS, EMITS
+const products = ref([]);
+const productsLoaded = ref(false);
+const searchValue = ref("");
 
 // REFS
 const columns = [
@@ -137,12 +150,36 @@ const columns = [
   },
 ];
 
+const loading = ref(false);
+const currentPage = ref(0);
+const totalRecords = ref(0);
+
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-useHead({
-  title: "Products",
-});
+const loadProducts = async () => {
+  loading.value = true;
+  const filters = utilsStore.filters["product"];
+  const nextPage = currentPage.value + 1;
+  const searchValueParam = searchValue.value;
+
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage ? nextPage : 1,
+    per_page: 10,
+  });
+
+  if (searchValueParam) {
+    params.append("search", searchValueParam);
+  }
+
+  let response = await getProducts(params);
+
+  products.value = response.data;
+  totalRecords.value = response.totalRecords;
+  loading.value = false;
+  productsLoaded.value = true;
+};
 
 const redirectToNewProductPage = () => {
   router.push({
@@ -151,13 +188,37 @@ const redirectToNewProductPage = () => {
   });
 };
 
+const handleExportProducts = async () => {
+  handleExport({
+    filters: utilsStore.filters["product"],
+    searchValue: searchValue.value,
+    exportFunction: exportProducts,
+  });
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
+watchEffect(() => {
+  loadProducts();
+});
+
+watch(
+  () => utilsStore.searchString["product"],
+  () => {
+    searchValue.value = utilsStore.searchString["product"];
+    utilsStore.debounceAction(() => {
+      loadProducts();
+    });
+  },
+  { deep: true }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
   utilsStore.entity = "product";
+
+  loadProducts();
 });
 </script>
 

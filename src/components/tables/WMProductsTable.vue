@@ -1,5 +1,5 @@
 <template>
-  <Skeleton v-if="!productsLoaded" height="600px"></Skeleton>
+  <Skeleton v-if="loading" height="600px"></Skeleton>
   <DataTable
     v-else
     v-model:selection="selectedProducts"
@@ -12,18 +12,15 @@
     :loading="loading"
     :total-records="totalRecords"
     class="w-full"
+    :first="datatableOffset"
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
+    @update:first="datatableOffset = $event"
   >
     <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
     <Column v-if="preview" style="width: 40px">
       <template #body="{ data }">
-        <img
-          src="/icons/eye.svg"
-          alt=""
-          class="vertical-align-middle"
-          @click="openSidebar(data.id)"
-        />
+        <img src="/icons/eye.svg" class="vertical-align-middle" @click="openSidebar(data.id)" />
         <WMProductPreviewSidebar
           v-model:visible="isPreviewVisible[data.id]"
           :product-id="data.id"
@@ -47,21 +44,32 @@
 
 <script setup>
 // IMPORTS
-import { onMounted, ref, watch, watchEffect } from "vue";
+import { ref } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getProducts } = useProducts();
+const utilsStore = useUtilsStore();
 
 // INJECT
 
 // PROPS, EMITS
-
-const props = defineProps({
+defineProps({
   columns: {
     type: Array,
     required: true,
+  },
+  products: {
+    type: Array,
+    required: true,
+  },
+  totalRecords: {
+    type: Number,
+    default: 0,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
   },
   preview: {
     type: Boolean,
@@ -71,69 +79,25 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  relatedEntity: {
-    type: String,
-    required: true,
-  },
-  relatedEntityId: {
-    type: Number,
-    required: true,
-  },
 });
 
-const emit = defineEmits(["update:selection"]);
+const emit = defineEmits(["update:selection", "update:page"]);
 
 // REFS
 const selectedProducts = ref([]);
-const totalRecords = ref(0);
-const products = ref([]);
-const lazyParams = ref({});
-
-const utilsStore = useUtilsStore();
-const searchValue = ref("");
-const loading = ref(false);
-const productsLoaded = ref(false);
-
 const isPreviewVisible = ref([]);
+const datatableOffset = ref(0);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const loadLazyData = async () => {
-  loading.value = true;
-  const filters = utilsStore.filters["product"];
-  const nextPage = lazyParams.value.page + 1;
-  const searchValueParam = searchValue.value;
-
-  const params = new URLSearchParams({
-    ...filters,
-    page: nextPage ? nextPage : 1,
-    per_page: 10,
-  });
-
-  if (searchValueParam) {
-    params.append("search", searchValueParam);
-  }
-
-  if (props.relatedEntity && props.relatedEntityId) {
-    params.append(props.relatedEntity, props.relatedEntityId);
-  }
-
-  let response = await getProducts(params);
-  products.value = response.data;
-  totalRecords.value = response.totalRecords;
-  loading.value = false;
-  productsLoaded.value = true;
-};
 
 const onPage = (event) => {
-  lazyParams.value = event;
-  loadLazyData();
+  emit("update:page", event.page);
 };
 
 const onSelectionChanged = () => {
   utilsStore.selectedElements["product"] = selectedProducts.value;
-
   emit("update:selection", selectedProducts.value);
 };
 
@@ -148,28 +112,10 @@ const openSidebar = (data) => {
 
 // PROVIDE, EXPOSE
 defineExpose({
-  loadLazyData,
   cleanSelectedProducts,
 });
 
 // WATCHERS
-watchEffect(() => {
-  loadLazyData();
-});
-
-watch(
-  () => utilsStore.searchString["product"],
-  () => {
-    searchValue.value = utilsStore.searchString["product"];
-    utilsStore.debounceAction(() => {
-      loadLazyData();
-    });
-  },
-  { deep: true }
-);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(() => {
-  loadLazyData();
-});
 </script>
