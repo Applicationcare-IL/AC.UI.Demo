@@ -7,9 +7,7 @@
     >
       <div class="flex" v-html="DragIndicator" />
       <WMInput
-        id="description"
         type="text-area"
-        name="description"
         size="md"
         required
         rows="4"
@@ -24,7 +22,7 @@
 <script setup>
 // IMPORTS
 import { useSortable } from "@vueuse/integrations/useSortable";
-import { onMounted, ref, watch } from "vue";
+import { nextTick, onMounted, ref, watch } from "vue";
 
 import DragIndicator from "/icons/drag_indicator.svg?raw";
 
@@ -49,15 +47,21 @@ const deleteItem = (itemId) => {
   modelValue.value = modelValue.value.filter((item) => item.id !== itemId);
 };
 
+const mountSortable = () => {
+  nextTick(() => {
+    useSortable(el, modelValue, {
+      animation: 150,
+    });
+  });
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
 watch(
   modelValue,
   () => {
-    useSortable(el, modelValue, {
-      animation: 150,
-    });
+    mountSortable();
   },
   {
     deep: true,
@@ -66,9 +70,7 @@ watch(
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
-  useSortable(el, modelValue, {
-    animation: 150,
-  });
+  mountSortable();
 });
 </script>
 

@@ -2,7 +2,7 @@
   <div v-if="sale" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
-        <div class="flex flex-1 flex-column card-container gap-5">
+        <div class="flex flex-column card-container gap-5" style="width: 55%">
           <Card class="p-card--first-top-card">
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
@@ -23,7 +23,7 @@
           </Card>
         </div>
 
-        <div class="flex flex-1 flex-column gap-5">
+        <div class="flex flex-column gap-5" style="width: 42%">
           <Card class="w-full h-auto bg-gray-25">
             <template #title>
               <div class="w-full flex align-items-center justify-content-between">
@@ -34,7 +34,7 @@
               </div>
             </template>
             <template #content>
-              <pre>{{ sale.mandatory_requirements }}</pre>
+              <!-- <pre>{{ values }}</pre> -->
             </template>
           </Card>
 
@@ -130,7 +130,7 @@
 <script setup>
 // IMPORTS
 import { useDateFormat } from "@vueuse/core";
-import { useField, useForm } from "vee-validate";
+import { useForm } from "vee-validate";
 import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
@@ -186,12 +186,12 @@ const { handleSubmit, meta, resetForm, values } = useForm({
 });
 
 const onSave = handleSubmit((values) => {
-  const TEMPDATA = {
+  const saleData = {
     ...props.sale,
     ...values,
   };
 
-  updateSale(route.params.id, parseSale(TEMPDATA))
+  updateSale(route.params.id, parseSale(saleData))
     .then(() => {
       toast.success({ message: "Sale updated successfully" });
       resetForm({ values: values });

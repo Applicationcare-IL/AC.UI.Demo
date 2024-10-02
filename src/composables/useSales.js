@@ -88,7 +88,7 @@ const useSales = () => {
       tender_response_date: sale.tender_response_date,
       tender_resolution_date: sale.tender_resolution_date,
       tender_supply_date: sale.tender_supply_date,
-      mandatory_requirements: sale.mandatory_requirements,
+      mandatory_requirements: sale.mandatory_requirements.map((item) => item.item),
       legal_adviser: sale.legal_adviser.id,
       financial_guide: sale.financial_guide.id,
       sales_manager: sale.sales_manager.id,

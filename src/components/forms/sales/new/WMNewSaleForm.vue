@@ -323,7 +323,7 @@ const { handleChange: handleChangeMandatoryFields } = useField("mandatory_fields
 
 const addNewMandatoryField = () => {
   mandatoryRequirementsList.value.push({
-    id: Math.random(),
+    id: Math.random(), // used to work with indexes in the list
     item: "",
   });
 };
