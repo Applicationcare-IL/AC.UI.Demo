@@ -1,23 +1,23 @@
 <template>
   <WMListSubHeader
-      entity="trigger"
-      :total-records="0"
-      :show-communications="false"
-      :has-action-builder="false"
-      @new="toggleSidebarVisibility"
+    entity="trigger"
+    :total-records="0"
+    :show-communications="false"
+    :has-action-builder="false"
+    @new="toggleSidebarVisibility"
   >
     <template #top-left>
-      <WMStateToggle entity="trigger"/>
+      <WMStateToggle entity="trigger" />
     </template>
   </WMListSubHeader>
 
   <WMSidebar :visible="isVisible" name="newTrigger" @close-sidebar="closeSidebar">
     <template v-if="can('triggers.create')">
-      <WMNewEntityFormHeader entity="trigger" name="newTrigger"/>
+      <WMNewEntityFormHeader entity="trigger" name="newTrigger" />
       <WMNewTriggerForm
-          :is-sidebar="true"
-          @close-sidebar="closeSidebar"
-          @new-trigger-created="handleNewTriggerCreated"
+        :is-sidebar="true"
+        @close-sidebar="closeSidebar"
+        @new-trigger-created="handleNewTriggerCreated"
       />
     </template>
     <template v-else>
@@ -29,20 +29,21 @@
 
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMAdminTriggersTable
-        ref="adminTriggerTable"
-        :columns="columns"
-        @update:selection="onSelectionChanged"
+      ref="adminTriggerTable"
+      :columns="columns"
+      @update:selection="onSelectionChanged"
     />
   </div>
 </template>
 
 <script setup>
 // IMPORTS
-import {onMounted, ref} from "vue";
-import {useUtilsStore} from "@/stores/utils";
+import { onMounted, ref } from "vue";
+
+import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const {can} = usePermissions();
+const { can } = usePermissions();
 const utilsStore = useUtilsStore();
 
 // INJECT
@@ -52,7 +53,6 @@ const utilsStore = useUtilsStore();
 // REFS
 const adminTriggerTable = ref();
 const isVisible = ref(false);
-
 
 const columns = [
   {
@@ -84,13 +84,13 @@ const columns = [
     name: "entity-type",
     type: "text",
     field: "",
-    header: "entity-type",
+    header: "trigger.entity-type",
   },
   {
     name: "run",
     type: "text",
     field: "",
-    header: "run-once",
+    header: "trigger.run-once",
   },
   {
     name: "action-trigger",
@@ -105,7 +105,7 @@ const columns = [
     header: "status",
     width: "100px",
     class: "filled-td",
-  }
+  },
 ];
 
 // COMPUTED
@@ -134,7 +134,6 @@ const handleNewTriggerCreated = () => {
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
   utilsStore.entity = "trigger";
-
 });
 </script>
 
