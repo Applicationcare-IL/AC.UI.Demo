@@ -333,6 +333,11 @@ const useProducts = () => {
         name: relatedProduct.type.name,
         label: relatedProduct.type.name,
       },
+      render_name_link: {
+        text: relatedProduct.related.name,
+        id: relatedProduct.related.id,
+      },
+      render_relation_type: relatedProduct.type.name,
     };
   };
 
