@@ -37,7 +37,7 @@
   <div class="wm-table-container mt-5 mx-8 flex-auto overflow-auto">
     <WMAdminClassificationTable
       ref="adminMessageTable"
-      :columns="columns"
+      :columns="selectedColumns"
       :entity-type="selectedOption"
       preview
       selectable
@@ -66,10 +66,10 @@ const options = [
   { value: "project", label: "Project classifications" },
 ];
 
+const selectedColumns = ref([]);
 const columns = ref([]);
-const culumns2 = ref([]);
 
-culumns2.value["service"] = [
+columns.value["service"] = [
   {
     name: "id",
     type: "link",
@@ -116,7 +116,7 @@ culumns2.value["service"] = [
   },
 ];
 
-culumns2.value["task"] = [
+columns.value["task"] = [
   {
     name: "id",
     type: "link",
@@ -145,7 +145,7 @@ culumns2.value["task"] = [
   },
 ];
 
-culumns2.value["project"] = [
+columns.value["project"] = [
   {
     name: "id",
     type: "link",
@@ -192,7 +192,7 @@ useHead({
 });
 
 const changeSelectedOption = (option) => {
-  columns.value = culumns2.value[option.value];
+  selectedColumns.value = columns.value[option.value];
   selectedOption.value = option.value;
 };
 
@@ -215,7 +215,7 @@ const handleNewClassificationCreated = () => {
 onMounted(() => {
   utilsStore.entity = "classification";
 
-  columns.value = culumns2.value["service"];
+  selectedColumns.value = columns.value["service"];
 });
 </script>
 

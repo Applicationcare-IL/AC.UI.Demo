@@ -61,6 +61,12 @@
       </Accordion>
 
       <Accordion>
+        <AccordionTab :header="$t('product.products')">
+          <WMSaleProductsSection :sale="sale" />
+        </AccordionTab>
+      </Accordion>
+
+      <Accordion>
         <AccordionTab :header="$t('journal')">
           <WMJournalDataView entity-type="sale" :entity-id="sale.id" />
         </AccordionTab>
