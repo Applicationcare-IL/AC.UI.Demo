@@ -10,7 +10,7 @@
     <template #top-left> Cancel button </template>
     <template #custom-buttons> Waiting for customer button </template>
   </WMDetailFormSubHeader>
-  <!-- <pre>{{ sale }}</pre> -->
+
   <WMDetailSaleForm
     v-if="sale"
     ref="detailSaleForm"

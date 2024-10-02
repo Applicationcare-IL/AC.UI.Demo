@@ -9,35 +9,20 @@
               <WMDetailSaleFormGeneralDetails :sale="sale" />
             </template>
           </Card>
-          <Card>
-            <template #title>
-              <div class="w-full flex align-items-center justify-content-between">
-                <span>
-                  {{ $t("sale.factors-in-the-organization") }}
-                </span>
-                <WMEditButtonIconOnly />
-              </div>
-            </template>
-            <template #content>CONTENT</template>
-          </Card>
-          <Card>
-            <template #title>
-              <div class="w-full flex align-items-center justify-content-between">
-                <span>
-                  {{ $t("sale.customer-details") }}
-                </span>
-                <WMEditButtonIconOnly />
-              </div>
-            </template>
-            <template #content>CONTENT</template>
-          </Card>
+
+          <WMDetailSaleFormFactorsCard :sale="sale" @save="onSave" />
+          <WMDetailSaleFormCustomerDetailsCard :sale="sale" @save="onSave" />
+
           <Card>
             <template #title>
               {{ $t("sale.remarks") }}
             </template>
-            <template #content>CONTENT</template>
+            <template #content>
+              <WMInput :value="sale.remarks" type="text-area" name="remarks" size="full" />
+            </template>
           </Card>
         </div>
+
         <div class="flex flex-1 flex-column gap-5">
           <Card class="w-full h-auto bg-gray-25">
             <template #title>
@@ -49,20 +34,11 @@
               </div>
             </template>
             <template #content>
-              <pre>{{ sale }}</pre>
+              <pre>{{ sale.mandatory_requirements }}</pre>
             </template>
           </Card>
-          <Card class="w-full">
-            <template #title>
-              <div class="w-full flex align-items-center justify-content-between">
-                <span>
-                  {{ $t("sale.mandatory-requirements") }}
-                </span>
-                <WMEditButtonIconOnly />
-              </div>
-            </template>
-            <template #content> CONTENT </template>
-          </Card>
+
+          <WMDetailSaleFormMandatoryRequirementsCard :sale="sale" @save="onSave" />
         </div>
       </div>
     </div>
@@ -166,7 +142,7 @@ const route = useRoute();
 const formUtilsStore = useFormUtilsStore();
 
 const { can } = usePermissions();
-const { updateProduct, parseProduct, uploadProductImage } = useProducts();
+const { updateSale, parseSale } = useSales();
 const { getTaskColumns, getServiceDocumentsColumns } = useListUtils();
 
 // INJECT
@@ -183,21 +159,13 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["productUpdated"]);
+const emit = defineEmits(["saleUpdated"]);
 
 // REFS
-const productSettings = ref({});
-
 const taskColumns = ref(getTaskColumns());
 const documentsColumns = ref(getServiceDocumentsColumns());
 
 // COMPUTED
-const productValues = computed(() => {
-  return {
-    ...values,
-    ...productSettings.value,
-  };
-});
 
 const stages = computed(() => {
   if (!props.sale.process.stages) return [];
@@ -214,28 +182,24 @@ const currentStage = computed(() => {
 
 // COMPONENT METHODS AND LOGIC
 const { handleSubmit, meta, resetForm, values } = useForm({
-  validationSchema: formUtilsStore.getNewProductFormValidationSchema,
+  // validationSchema: formUtilsStore.getNewProductFormValidationSchema,
 });
 
 const onSave = handleSubmit((values) => {
-  const { new_product_image, ...rest } = productValues.value;
+  const TEMPDATA = {
+    ...props.sale,
+    ...values,
+  };
 
-  updateProduct(route.params.id, parseProduct(rest))
-    .then(async () => {
-      if (new_product_image) {
-        return await uploadProductImage(route.params.id, new_product_image);
-      }
-
-      return Promise.resolve();
-    })
+  updateSale(route.params.id, parseSale(TEMPDATA))
     .then(() => {
-      toast.success({ message: "Product updated successfully" });
+      toast.success({ message: "Sale updated successfully" });
       resetForm({ values: values });
-      emit("productUpdated");
+      emit("saleUpdated");
     })
     .catch((error) => {
       console.error(error);
-      toast.error("Error updating product");
+      toast.error("Error updating sale");
     });
 });
 

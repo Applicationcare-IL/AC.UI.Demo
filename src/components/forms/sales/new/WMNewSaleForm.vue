@@ -159,7 +159,7 @@
       <h3 class="h3 mt-0 mb-0">{{ $t("sale.mandatory-requirements") }}</h3>
       <div class="flex flex-column gap-5">
         <WMNewButtonIconOnly @click="addNewMandatoryField" />
-        <WMNewMandatoryFields v-model="mandatoryRequirementsList" />
+        <WMEditMandatoryFields v-model="mandatoryRequirementsList" />
       </div>
 
       <Divider />
