@@ -84,7 +84,7 @@ const columns = [
     name: "entity-type",
     type: "text",
     field: "",
-    header: "trigger.entity-type",
+    header: "trigger.event-type",
   },
   {
     name: "run",
@@ -96,7 +96,7 @@ const columns = [
     name: "action-trigger",
     type: "text",
     field: "",
-    header: "trigger.action-in-trigger",
+    header: "trigger.actions-in-trigger",
   },
   {
     name: "status",

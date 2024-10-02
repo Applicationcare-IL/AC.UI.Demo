@@ -1108,7 +1108,7 @@
   "trigger": {
     "trigger": "Trigger",
     "name": "Trigger name",
-    "entity-type": "Entity type",
+    "event-type": "Event type",
     "run-once": "Run once",
     "actions-in-trigger": "Actions in trigger"
   }
