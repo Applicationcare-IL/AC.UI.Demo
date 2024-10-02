@@ -9,49 +9,10 @@
               <WMDetailSaleFormGeneralDetails :sale="sale" />
             </template>
           </Card>
-          <Card>
-            <template #title>
-              <div class="w-full flex align-items-center justify-content-between">
-                <span>
-                  {{ $t("sale.factors-in-the-organization") }}
-                </span>
-                <WMEditButtonIconOnly v-if="!editFormFactors" @click="editFormFactors = true" />
-                <WMSaveButtonIconOnly
-                  v-else
-                  @click="
-                    onSave();
-                    editFormFactors = false;
-                  "
-                />
-              </div>
-            </template>
-            <template #content>
-              <WMDetailSaleFormFactors :sale="sale" :edit-mode="editFormFactors" />
-            </template>
-          </Card>
-          <Card>
-            <template #title>
-              <div class="w-full flex align-items-center justify-content-between">
-                <span>
-                  {{ $t("sale.customer-details") }}
-                </span>
-                <WMEditButtonIconOnly
-                  v-if="!editFormCustomerDetails"
-                  @click="editFormCustomerDetails = true"
-                />
-                <WMSaveButtonIconOnly
-                  v-else
-                  @click="
-                    onSave();
-                    editFormCustomerDetails = false;
-                  "
-                />
-              </div>
-            </template>
-            <template #content>
-              <WMDetailSaleFormCustomerDetails :sale="sale" :edit-mode="editFormCustomerDetails" />
-            </template>
-          </Card>
+
+          <WMDetailSaleFormFactorsCard :sale="sale" @save="onSave" />
+          <WMDetailSaleFormCustomerDetailsCard :sale="sale" @save="onSave" />
+
           <Card>
             <template #title>
               {{ $t("sale.remarks") }}
@@ -61,6 +22,7 @@
             </template>
           </Card>
         </div>
+
         <div class="flex flex-1 flex-column gap-5">
           <Card class="w-full h-auto bg-gray-25">
             <template #title>
@@ -73,20 +35,10 @@
             </template>
             <template #content>
               <pre>{{ sale.mandatory_requirements }}</pre>
-              <!-- <pre>{{ values }}</pre> -->
             </template>
           </Card>
-          <Card class="w-full">
-            <template #title>
-              <div class="w-full flex align-items-center justify-content-between">
-                <span>
-                  {{ $t("sale.mandatory-requirements") }}
-                </span>
-                <WMEditButtonIconOnly />
-              </div>
-            </template>
-            <template #content> CONTENT </template>
-          </Card>
+
+          <WMDetailSaleFormMandatoryRequirementsCard :sale="sale" @save="onSave" />
         </div>
       </div>
     </div>
@@ -212,9 +164,6 @@ const emit = defineEmits(["saleUpdated"]);
 // REFS
 const taskColumns = ref(getTaskColumns());
 const documentsColumns = ref(getServiceDocumentsColumns());
-
-const editFormFactors = ref(false);
-const editFormCustomerDetails = ref(false);
 
 // COMPUTED
 
