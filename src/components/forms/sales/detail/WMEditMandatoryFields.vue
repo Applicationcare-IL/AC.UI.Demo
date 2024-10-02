@@ -55,7 +55,6 @@ const deleteItem = (itemId) => {
 watch(
   modelValue,
   () => {
-    console.log("entro watch");
     useSortable(el, modelValue, {
       animation: 150,
     });
