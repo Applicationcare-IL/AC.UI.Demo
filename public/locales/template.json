@@ -1104,5 +1104,12 @@
     "value": "Internal value",
     "value-he": "Value for heb",
     "value-en": "Value for eng"
+  },
+  "trigger": {
+    "trigger": "Trigger",
+    "name": "Trigger name",
+    "entity-type": "Entity type",
+    "run-once": "Run once",
+    "actions-in-trigger": "Actions in trigger"
   }
 }
