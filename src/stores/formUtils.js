@@ -22,7 +22,7 @@ whenever(ctrl_s, () => {
 
 const israeliPhoneRegex = /^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$/;
 const israeliLandlineRegex = /^0(?:[234689]|5[0-689]|7[246789])(?![01])(\d{7})$/;
-const URLRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.){1,}[a-zA-Z0-9-]+(\/)?$/;
+const URLRegex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.){1,}[a-zA-Z0-9-]+(\/.*)?$/;
 
 export const useFormUtilsStore = defineStore("formUtils", {
   state: () => ({
