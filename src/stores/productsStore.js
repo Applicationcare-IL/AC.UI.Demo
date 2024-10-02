@@ -90,6 +90,16 @@ export const useProductsStore = defineStore("products", {
           throw error;
         });
     },
+    exportProducts(params) {
+      return axiosConfig
+        .get("/products/export", { params })
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     // DISCOUNTS
     getProductDiscounts(productId, params) {
       return axiosConfig

@@ -25,10 +25,13 @@
 
             <h5 class="h5">Products</h5>
             <WMProductsTable
-              ref="productsTable"
               :columns="productsTableColumns"
+              :products="products"
+              :total-records="totalRecords"
+              :loading="loading"
               preview
               selectable
+              @update:page="currentPage = $event"
               @update:selection="onSelectionChanged"
             />
           </div>
@@ -47,13 +50,13 @@
 
 <script setup>
 // IMPORTS
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 
 import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES
 const { layoutConfig } = useLayout();
-const { getProductRelationshipTypes, addRelatedProductBulk } = useProducts();
+const { getProducts, getProductRelationshipTypes, addRelatedProductBulk } = useProducts();
 const toast = useToast();
 
 // INJECT
@@ -70,7 +73,12 @@ const emit = defineEmits(["relatedProductsAdded"]);
 
 // REFS
 const modelValue = defineModel();
+
+const currentPage = ref(0);
+const products = ref([]);
 const selectedProducts = ref();
+const loading = ref(true);
+const totalRecords = ref(0);
 
 const relationshipTypesList = ref([]);
 const selectedOption = ref(null);
@@ -195,6 +203,23 @@ const closeDialog = () => {
   modelValue.value = false;
 };
 
+const loadProducts = async () => {
+  loading.value = true;
+
+  const nextPage = currentPage.value + 1;
+
+  const params = new URLSearchParams({
+    page: nextPage ? nextPage : 1,
+    per_page: 10,
+  });
+
+  let response = await getProducts(params);
+
+  products.value = response.data;
+  totalRecords.value = response.totalRecords;
+  loading.value = false;
+};
+
 const loadProductRelationshipTypes = async () => {
   let response = await getProductRelationshipTypes({
     per_page: 999999999,
@@ -233,10 +258,15 @@ const handleAddRelatedProducts = async () => {
 // PROVIDE, EXPOSE
 
 // WATCHERS
+watchEffect(() => {
+  loadProducts();
+});
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   await loadProductRelationshipTypes();
+  await loadProducts();
+
   selectedOption.value = relationshipTypesList.value[0];
 });
 </script>
