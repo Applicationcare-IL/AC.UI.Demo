@@ -96,8 +96,8 @@ const useSales = () => {
       consultant: sale.consultant.id,
       information_technology: sale.information_technology.id,
       business_manager: sale.business_manager.id,
-      decision_maker: sale.decision_maker.id,
-      budgeting_factor: sale.budgeting_factor.id,
+      decision_maker: sale.decision_maker?.id,
+      budgeting_factor: sale.budgeting_factor?.id,
     };
   };
 

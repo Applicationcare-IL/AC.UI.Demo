@@ -9,7 +9,7 @@
               <WMDetailSaleFormGeneralDetails :sale="sale" />
             </template>
           </Card>
-
+          <!-- {{ sale }} -->
           <WMDetailSaleFormFactorsCard :sale="sale" @save="onSave" />
           <WMDetailSaleFormCustomerDetailsCard :sale="sale" @save="onSave" />
 
@@ -30,11 +30,102 @@
                 <span>
                   {{ $t("sale.sale-summary") }}
                 </span>
-                <WMEditButtonIconOnly />
+                <WMEditButtonIconOnly
+                  v-if="!editFormSaleSummary"
+                  @click="editFormSaleSummary = true"
+                />
+                <WMSaveButtonIconOnly
+                  v-else
+                  @click="
+                    onSave();
+                    editFormSaleSummary = false;
+                  "
+                />
               </div>
             </template>
             <template #content>
               <!-- <pre>{{ values }}</pre> -->
+
+              <div class="flex">
+                <div class="flex flex-column gap-2">
+                  <WMInputCurrency
+                    name="default"
+                    :label="$t('sale.total-bulk-discounts') + ':'"
+                    :read-only="true"
+                  />
+                  <img
+                    class="input-currency__icon vertical-align-middle mr-2"
+                    style="max-width: 1rem"
+                    src="/icons/plus.svg"
+                    alt="plus symbol"
+                  />
+                  <WMInputCurrency
+                    name="default"
+                    :label="$t('sale.total-salesman-discounts') + ':'"
+                    :read-only="true"
+                  />
+                  <Divider />
+                  <WMInputCurrency
+                    name="default"
+                    :label="$t('sale.total-sale-discounts') + ':'"
+                    :read-only="true"
+                  />
+                </div>
+
+                <Divider layout="vertical" />
+
+                <div class="flex flex-column gap-2">
+                  <WMInputCurrency
+                    name="default"
+                    :label="$t('sale.manager-discount') + ':'"
+                    :read-only="!editFormSaleSummary"
+                  />
+                  <img
+                    class="input-currency__icon vertical-align-middle mr-2"
+                    style="max-width: 1rem"
+                    src="/icons/plus.svg"
+                    alt="plus symbol"
+                  />
+                  <WMInputCurrency
+                    name="default"
+                    :label="$t('sale.ceo-discount') + ':'"
+                    :read-only="!editFormSaleSummary"
+                  />
+                  <Divider />
+                  <WMInputCurrency
+                    name="default"
+                    :label="$t('sale.total-managers-discounts') + ':'"
+                    :read-only="true"
+                  />
+                </div>
+
+                <Divider layout="vertical" />
+
+                <div class="flex flex-column gap-2">
+                  <WMInputCurrency
+                    name="default"
+                    :label="$t('sale.deal-price-base') + ':'"
+                    :read-only="true"
+                  />
+                  <img
+                    class="input-currency__icon vertical-align-middle mr-2"
+                    style="max-width: 1rem"
+                    src="/icons/plus.svg"
+                    alt="plus symbol"
+                  />
+                  <WMInputCurrency
+                    name="default"
+                    :label="$t('sale.total-discounts') + ':'"
+                    :read-only="true"
+                  />
+                  <Divider />
+                  <WMInputCurrency
+                    name="default"
+                    :label="$t('sale.deal-price-final') + ':'"
+                    :read-only="true"
+                  />
+                </div>
+              </div>
             </template>
           </Card>
 
@@ -142,6 +233,8 @@ import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
 
+import WMInputCurrency from "../../WMInputCurrency.vue";
+
 // DEPENDENCIES
 const toast = useToast();
 const route = useRoute();
@@ -170,6 +263,7 @@ const emit = defineEmits(["saleUpdated"]);
 // REFS
 const taskColumns = ref(getTaskColumns());
 const documentsColumns = ref(getServiceDocumentsColumns());
+const editFormSaleSummary = ref(false);
 
 // COMPUTED
 

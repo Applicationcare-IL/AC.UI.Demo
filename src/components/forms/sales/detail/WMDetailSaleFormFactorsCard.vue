@@ -25,8 +25,8 @@
               type="info-link"
               :highlighted="true"
               :label="$t('sale.legal-adviser') + ':'"
-              :value="sale.legal_adviser.name + sale.legal_adviser.surname"
-              :to="'/contact/' + sale.legal_adviser.id"
+              :value="sale.legal_adviser?.name + sale.legal_adviser?.surname"
+              :to="'/contact/' + sale.legal_adviser?.id"
             />
           </div>
 
@@ -49,8 +49,8 @@
               type="info-link"
               :highlighted="true"
               :label="$t('sale.financial-guide') + ':'"
-              :value="sale.financial_guide.name + sale.financial_guide.surname"
-              :to="'/contact/' + sale.financial_guide.id"
+              :value="sale.financial_guide?.name + sale.financial_guide?.surname"
+              :to="'/contact/' + sale.financial_guide?.id"
             />
           </div>
 
@@ -62,6 +62,52 @@
               :label="$t('sale.financial-guide') + ':'"
               :options="contacts"
               :value="selectedFiancialGuide"
+              :placeholder="$t('select', ['contact.contact'])"
+              size="sm"
+            />
+          </div>
+
+          <div v-show="!editFormFactors">
+            <WMInput
+              type="info-link"
+              :highlighted="true"
+              :label="$t('sale.sales-manager') + ':'"
+              :value="sale.sales_manager?.name + sale.sales_manager?.surname"
+              :to="'/contact/' + sale.sales_manager?.id"
+            />
+          </div>
+
+          <div v-show="editFormFactors">
+            <WMInput
+              name="sales_manager"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('sale.sales-manager') + ':'"
+              :options="contacts"
+              :value="selectedSalesManager"
+              :placeholder="$t('select', ['contact.contact'])"
+              size="sm"
+            />
+          </div>
+
+          <div v-show="!editFormFactors">
+            <WMInput
+              type="info-link"
+              :highlighted="true"
+              :label="$t('sale.projects-manager') + ':'"
+              :value="sale.project_manager?.name + sale.project_manager?.surname"
+              :to="'/contact/' + sale.project_manager?.id"
+            />
+          </div>
+
+          <div v-show="editFormFactors">
+            <WMInput
+              name="project_manager"
+              :highlighted="true"
+              type="input-select"
+              :label="$t('sale.projects-manager') + ':'"
+              :options="contacts"
+              :value="selectedProjectManager"
               :placeholder="$t('select', ['contact.contact'])"
               size="sm"
             />
@@ -100,6 +146,8 @@ const editFormFactors = ref(false);
 const contacts = ref();
 const selectedLegalAdviser = ref();
 const selectedFiancialGuide = ref();
+const selectedSalesManager = ref();
+const selectedProjectManager = ref();
 const loading = ref(true);
 
 // COMPUTED
@@ -127,11 +175,19 @@ const loadLazyData = async () => {
 
 const setSelectedFields = () => {
   selectedLegalAdviser.value = contacts.value.find(
-    (contact) => contact.id === props.sale.legal_adviser.id
+    (contact) => contact.id === props.sale.legal_adviser?.id
   );
 
   selectedFiancialGuide.value = contacts.value.find(
-    (contact) => contact.id === props.sale.financial_guide.id
+    (contact) => contact.id === props.sale.financial_guide?.id
+  );
+
+  selectedSalesManager.value = contacts.value.find(
+    (contact) => contact.id === props.sale.sales_manager?.id
+  );
+
+  selectedProjectManager.value = contacts.value.find(
+    (contact) => contact.id === props.sale.project_manager?.id
   );
 };
 
@@ -141,6 +197,7 @@ const setSelectedFields = () => {
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
+  console.log(props.sale);
   await loadLazyData();
   setSelectedFields();
 });
