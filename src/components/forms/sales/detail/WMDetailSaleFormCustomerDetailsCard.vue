@@ -181,7 +181,7 @@ const selectedInfoTech = ref();
 const selectedBuissnesManager = ref();
 const selectedDecisionMaker = ref();
 const selectedBudgetingFactor = ref();
-const currency = ref(54);
+const currency = ref();
 const loading = ref(true);
 
 // COMPUTED
