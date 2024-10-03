@@ -24,20 +24,7 @@
         </div>
 
         <div class="flex flex-column gap-5" style="width: 42%">
-          <Card class="w-full h-auto bg-gray-25">
-            <template #title>
-              <div class="w-full flex align-items-center justify-content-between">
-                <span>
-                  {{ $t("sale.sale-summary") }}
-                </span>
-                <WMEditButtonIconOnly />
-              </div>
-            </template>
-            <template #content>
-              <!-- <pre>{{ values }}</pre> -->
-            </template>
-          </Card>
-
+          <WMDetailSaleFormSummaryCard :sale="sale" @save="onSave" />
           <WMDetailSaleFormMandatoryRequirementsCard :sale="sale" @save="onSave" />
         </div>
       </div>
@@ -187,7 +174,7 @@ const currentStage = computed(() => {
 });
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, meta, resetForm, values } = useForm({
+const { handleSubmit, meta, resetForm } = useForm({
   // validationSchema: formUtilsStore.getNewProductFormValidationSchema,
 });
 

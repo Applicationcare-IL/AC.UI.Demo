@@ -5,15 +5,12 @@
         <span>
           {{ $t("sale.customer-details") }}
         </span>
-        <WMEditButtonIconOnly
-          v-if="!editFormCustomerDetails"
-          @click="editFormCustomerDetails = true"
-        />
+        <WMEditButtonIconOnly v-if="!editMode" @click="editMode = true" />
         <WMSaveButtonIconOnly
           v-else
           @click="
             emit('save');
-            editFormCustomerDetails = false;
+            editMode = false;
           "
         />
       </div>
@@ -22,7 +19,7 @@
       <Skeleton v-if="loading" width="100%" height="196px" />
       <template v-else>
         <div class="flex flex-auto gap-5 flex-row">
-          <div v-show="!editFormCustomerDetails">
+          <div v-show="!editMode">
             <WMInput
               name="legal_adviser_info_link"
               type="info-link"
@@ -33,7 +30,7 @@
             />
           </div>
 
-          <div v-show="editFormCustomerDetails">
+          <div v-show="editMode">
             <WMInput
               name="legal_adviser"
               :highlighted="true"
@@ -46,7 +43,7 @@
             />
           </div>
 
-          <div v-show="!editFormCustomerDetails">
+          <div v-show="!editMode">
             <WMInput
               name="financial_guide_info_link"
               type="info-link"
@@ -57,7 +54,7 @@
             />
           </div>
 
-          <div v-show="editFormCustomerDetails">
+          <div v-show="editMode">
             <WMInput
               name="financial_guide"
               :highlighted="true"
@@ -98,7 +95,7 @@ const props = defineProps({
 const emit = defineEmits(["save"]);
 
 // REFS
-const editFormCustomerDetails = ref(false);
+const editMode = ref(false);
 
 const contacts = ref();
 const selectedLegalAdviser = ref();

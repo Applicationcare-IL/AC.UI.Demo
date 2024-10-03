@@ -1,9 +1,9 @@
 <template>
-  <Card>
+  <Card class="w-full h-auto bg-gray-25">
     <template #title>
       <div class="w-full flex align-items-center justify-content-between">
         <span>
-          {{ $t("sale.factors-in-the-organization") }}
+          {{ $t("sale.sale-summary") }}
         </span>
         <WMEditButtonIconOnly v-if="!editMode" @click="editMode = true" />
         <WMSaveButtonIconOnly
