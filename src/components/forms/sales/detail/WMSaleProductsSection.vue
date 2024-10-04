@@ -8,7 +8,12 @@
     />
   </div>
 
-  {{ selectedOption }}
+  <WMProductsInSaleTable
+    v-if="selectedOption === 'products-in-sale'"
+    :sale="sale"
+    selectable
+    preview
+  />
 </template>
 
 <script setup>
@@ -20,6 +25,12 @@ import { ref } from "vue";
 // INJECT
 
 // PROPS, EMITS
+defineProps({
+  sale: {
+    type: Object,
+    required: true,
+  },
+});
 
 // REFS
 const options = ref([

@@ -45,6 +45,13 @@ const useSales = () => {
     }
   };
 
+  const getSaleProducts = async (id, params) => {
+    const response = await salesStore.getSaleProducts(id, params);
+
+    return { data: response.data.data, totalRecords: response.data.meta.total };
+  };
+
+  // UTILITIES
   const mapSale = (sale) => {
     return {
       ...sale,
@@ -108,6 +115,7 @@ const useSales = () => {
     createSale,
     updateSale,
     cancelSale,
+    getSaleProducts,
     // UTILITIES
     parseSale,
   };
