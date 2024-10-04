@@ -6,7 +6,7 @@
       </template>
     </WMButton>
     <Divider layout="vertical" />
-    <WMButton :text="$t('buttons.order')" type="save" @click="showDialog" />
+    <WMButton :text="$t('buttons.order')" type="save" is-disabled="true" :is-disabled="true" />
   </div>
 
   <WMSaleProductSelectorDialog
