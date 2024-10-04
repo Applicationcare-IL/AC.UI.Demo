@@ -81,6 +81,11 @@
   <template v-if="columnData.type == 'product-relationship-type'">
     {{ modelValue ? modelValue.label : "" }}
   </template>
+  <!-- Product in sale status -->
+  <template v-if="columnData.type == 'product-in-sale-status'">
+    <WMOptionSetValue :option-set="modelValue" />
+  </template>
+  <!-- SLA -->
   <template v-if="columnData.type == 'sla'">
     <WMSLATag
       v-if="modelValue"

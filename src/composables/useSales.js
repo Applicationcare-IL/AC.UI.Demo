@@ -45,10 +45,22 @@ const useSales = () => {
     }
   };
 
+  // SALE AND OFFERED PRODUCTS
   const getSaleProducts = async (id, params) => {
     const response = await salesStore.getSaleProducts(id, params);
 
-    return { data: response.data.data, totalRecords: response.data.meta.total };
+    const sales = response.data.data.map((sale) => mapSaleProduct(sale));
+
+    return { data: sales, totalRecords: response.data.meta.total };
+  };
+
+  const createOfferedProducts = async (saleId, productIds) => {
+    try {
+      return await salesStore.createOfferedProducts(saleId, productIds);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 
   // UTILITIES
@@ -79,6 +91,16 @@ const useSales = () => {
       render_price_base: sale.deal_price_base,
 
       render_price_final: sale.deal_price_final,
+    };
+  };
+
+  const mapSaleProduct = (sale) => {
+    return {
+      ...sale,
+      link_detail: {
+        text: sale.product.name,
+        id: sale.product.id,
+      },
     };
   };
 
@@ -116,6 +138,7 @@ const useSales = () => {
     updateSale,
     cancelSale,
     getSaleProducts,
+    createOfferedProducts,
     // UTILITIES
     parseSale,
   };

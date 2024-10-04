@@ -172,7 +172,8 @@
     "yes-overwrite": "Yes, overwrite",
     "add-products": "Add products",
     "add-related-products": "Add related products",
-    "mark-as-read": "Mark as read"
+    "mark-as-read": "Mark as read",
+    "order": "Order"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -1025,6 +1026,7 @@
     "includes-commitment": "Includes Commitment",
     "crm-id": "CRM ID",
     "department": "Department",
+    "status": "Status",
     "discount-number": "Discount Number",
     "discount-type": "Discount Type",
     "duplicate-product": "Duplicate Product",

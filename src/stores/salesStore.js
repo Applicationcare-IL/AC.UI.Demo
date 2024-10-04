@@ -67,5 +67,16 @@ export const useSalesStore = defineStore("sales", {
           console.error(error);
         });
     },
+    createOfferedProducts(saleId, productIds) {
+      return axiosConfig
+        .post("/sales/" + saleId + "/product-offered", { ids: productIds })
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });

@@ -12,7 +12,7 @@
   <WMSaleProductSelectorDialog
     v-if="showSaleProductsSelectorDialog"
     v-model="showSaleProductsSelectorDialog"
-    :product="product"
+    :sale="sale"
     @sale-products-added="handleSaleProductsAdded"
   />
 </template>
@@ -27,7 +27,7 @@ import ProductsIcon from "/icons/products.svg?raw";
 
 // PROPS, EMITS
 defineProps({
-  product: {
+  sale: {
     type: Object,
     default: null,
   },

@@ -43,20 +43,22 @@ import { useLayout } from "@/layout/composables/layout";
 
 // DEPENDENCIES
 const { layoutConfig } = useLayout();
-const { getProducts, addRelatedProductBulk } = useProducts();
+const { getProducts } = useProducts();
+const { createOfferedProducts } = useSales();
+
 const toast = useToast();
 
 // INJECT
 
 // PROPS, EMITS
 const props = defineProps({
-  product: {
+  sale: {
     type: Object,
     default: null,
   },
 });
 
-const emit = defineEmits(["relatedProductsAdded"]);
+const emit = defineEmits(["saleProductsAdded"]);
 
 // REFS
 const modelValue = defineModel();
@@ -205,18 +207,18 @@ const loadProducts = async () => {
 };
 
 const handleAddRelatedProducts = async () => {
-  console.log("selectedProducts", selectedProducts.value);
+  const selectedProductsIds = selectedProducts.value.map((product) => product.id);
 
-  // addRelatedProductBulk(props.product.id)
-  //   .then(() => {
-  //     toast.success({ message: "Related products added successfully" });
-  //     emit("relatedProductsAdded");
-  //     closeDialog();
-  //   })
-  //   .catch((error) => {
-  //     toast.error(error);
-  //     console.error(error);
-  //   });
+  createOfferedProducts(props.sale.id, selectedProductsIds)
+    .then(() => {
+      toast.success({ message: "Related products added successfully" });
+      emit("saleProductsAdded");
+      closeDialog();
+    })
+    .catch((error) => {
+      toast.error(error);
+      console.error(error);
+    });
 };
 
 // PROVIDE, EXPOSE

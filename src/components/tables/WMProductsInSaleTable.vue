@@ -65,19 +65,10 @@
       <Column
         v-if="!props.readOnly"
         :row-editor="true"
-        style="width: 10px"
-        class="p-1 extended-column"
+        style="width: 100%"
+        class="p-1"
         :header="$t('actions')"
       />
-      <Column style="width: 100%">
-        <template #body="{ data }">
-          <WMRemoveButton
-            v-if="data.mode !== 'create'"
-            class="p-0"
-            @click="handleRemoveSaleProduct(data)"
-          />
-        </template>
-      </Column>
     </DataTable>
   </div>
 </template>
@@ -144,14 +135,6 @@ const isPreviewVisible = ref([]);
 
 const columns = ref([
   {
-    name: "product-image",
-    type: "attachment-image",
-    field: "product_image_url",
-    header: "photo",
-    class: "p-0 filled-td",
-    editable: false,
-  },
-  {
     name: "product-name",
     type: "link",
     field: "link_detail",
@@ -160,10 +143,10 @@ const columns = ref([
     editable: false,
   },
   {
-    name: "product-relationship-type",
-    type: "product-relationship-type",
-    field: "relationship",
-    header: "product.relationship-type",
+    name: "product-status",
+    type: "product-in-sale-status",
+    field: "status",
+    header: "product.status",
     editable: true,
   },
   {
@@ -180,43 +163,13 @@ const columns = ref([
     header: "product.base-price",
     editable: false,
   },
-  {
-    name: "type",
-    type: "option-set",
-    field: "type",
-    header: "product.type",
-    editable: false,
-  },
-  {
-    name: "family",
-    type: "option-set",
-    field: "family",
-    header: "product.family",
-    editable: false,
-  },
-  {
-    name: "department",
-    type: "option-set",
-    field: "department",
-    header: "product.department",
-    editable: false,
-  },
-  {
-    name: "active",
-    type: "state",
-    field: "state",
-    header: "State",
-    width: "100px",
-    class: "p-0 filled-td",
-    editable: false,
-  },
 ]);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  const filters = utilsStore.filters["related-products"];
+  const filters = utilsStore.filters["sale-products"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
 
@@ -237,6 +190,7 @@ const loadLazyData = async () => {
   }
 
   let response = await getSaleProducts(props.sale.id, params);
+
   saleProducts.value = response.data;
   totalRecords.value = response.totalRecords;
 };
@@ -291,7 +245,7 @@ const openSidebar = (data) => {
 // };
 
 const handleSaleProductsAdded = () => {
-  console.log("entro");
+  console.log("llego 1");
   loadLazyData();
 };
 
