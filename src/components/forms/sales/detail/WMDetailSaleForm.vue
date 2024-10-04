@@ -10,6 +10,8 @@
             </template>
           </Card>
 
+          <NestedDraggableList :initial-items="items" />
+
           <WMDetailSaleFormFactorsCard :sale="sale" @save="onSave" />
           <WMDetailSaleFormCustomerDetailsCard :sale="sale" @save="onSave" />
 
@@ -157,6 +159,33 @@ const emit = defineEmits(["saleUpdated"]);
 // REFS
 const taskColumns = ref(getTaskColumns());
 const documentsColumns = ref(getServiceDocumentsColumns());
+
+const items = ref([
+  {
+    id: 1,
+    text: "Item 1",
+    children: [
+      { id: 2, text: "Item 1.1" },
+      { id: 3, text: "Item 1.2" },
+    ],
+  },
+  {
+    id: 4,
+    text: "Item 2",
+    children: [
+      { id: 5, text: "Item 2.1" },
+      {
+        id: 6,
+        text: "Item 2.2",
+        children: [
+          { id: 7, text: "Item 2.2.1" },
+          { id: 8, text: "Item 2.2.2" },
+        ],
+      },
+    ],
+  },
+  { id: 9, text: "Item 3" },
+]);
 
 // COMPUTED
 
