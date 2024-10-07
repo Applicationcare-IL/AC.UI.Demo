@@ -103,7 +103,8 @@
 
                 <div class="flex flex-column gap-2">
                   <WMInputCurrency
-                    name="default"
+                    v-model="dealPriceBase"
+                    name="dealPriceBase"
                     :label="$t('sale.deal-price-base') + ':'"
                     :read-only="true"
                   />
@@ -114,13 +115,15 @@
                     alt="plus symbol"
                   />
                   <WMInputCurrency
-                    name="default"
+                    v-model="totalDiscounts"
+                    name="total_dicount"
                     :label="$t('sale.total-discounts') + ':'"
                     :read-only="true"
                   />
                   <Divider />
                   <WMInputCurrency
-                    name="default"
+                    v-model="dealPriceFinal"
+                    name="deal_price_final"
                     :label="$t('sale.deal-price-final') + ':'"
                     :read-only="true"
                   />
@@ -265,6 +268,10 @@ const taskColumns = ref(getTaskColumns());
 const documentsColumns = ref(getServiceDocumentsColumns());
 const editFormSaleSummary = ref(false);
 
+const dealPriceBase = ref();
+const totalDiscounts = ref();
+const dealPriceFinal = ref();
+
 // COMPUTED
 
 const stages = computed(() => {
@@ -303,6 +310,12 @@ const onSave = handleSubmit((values) => {
     });
 });
 
+const loadSaleSummary = () => {
+  dealPriceBase.value = props.sale.deal_price_base;
+  totalDiscounts.value = props.sale.total_discount;
+  dealPriceFinal.value = props.sale.deal_price_final;
+};
+
 // PROVIDE, EXPOSE
 defineExpose({
   onSave,
@@ -322,6 +335,7 @@ watch(
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   formUtilsStore.formEntity = "sale";
+  loadSaleSummary();
 });
 </script>
 <style lang="scss" scoped>

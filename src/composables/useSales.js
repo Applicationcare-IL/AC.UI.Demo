@@ -136,6 +136,7 @@ const useSales = () => {
       business_manager: sale.business_manager.id,
       decision_maker: sale.decision_maker?.id,
       budgeting_factor: sale.budgeting_factor?.id,
+      budget: sale.budget ?? 0,
     };
   };
 
