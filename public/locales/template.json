@@ -1073,6 +1073,7 @@
     "notification-created-header": "New Product Created",
     "notification-created-message": "The new product was successfully created! \n From now on he will appear in your product list",
     "percentage": "Percentage",
+    "percentage-amount": "Percentage/Amount",
     "previous_version": "Previous version",
     "pricing": "Pricing",
     "product-department": "Product Department",

@@ -123,7 +123,7 @@ const columns = [
     name: "discount_number",
     type: "text",
     field: "discount_number",
-    header: "product.discount-number",
+    header: "product.percentage-amount",
     editable: true,
   },
 ];
