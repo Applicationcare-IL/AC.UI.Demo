@@ -80,7 +80,7 @@ import { onMounted, ref, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getSaleProducts } = useSales();
+const { getSaleProducts, updateOfferedProduct, parseOfferedProduct } = useSales();
 
 const toast = useToast();
 
@@ -159,8 +159,43 @@ const columns = ref([
   {
     name: "base-price",
     type: "currency",
-    field: "base_price",
+    field: "product_original_price",
     header: "product.base-price",
+    editable: false,
+  },
+  // {
+  //   name: "bulk-discount",
+  //   type: "currency",
+  //   field: "product_original_price",
+  //   header: "product.base-price",
+  //   editable: true,
+  // },
+  {
+    name: "salesman-discount",
+    type: "currency",
+    field: "salesman_discount",
+    header: "product.salesman-discount",
+    editable: true,
+  },
+  {
+    name: "product-price-in-sale",
+    type: "currency",
+    field: "price_in_sale",
+    header: "product.products-price-in-sale",
+    editable: false,
+  },
+  {
+    name: "units",
+    type: "number",
+    field: "quantity",
+    header: "product.units",
+    editable: true,
+  },
+  {
+    name: "deal-price",
+    type: "currency",
+    field: "deal_price",
+    header: "product.deal-price",
     editable: false,
   },
 ]);
@@ -204,25 +239,25 @@ const onSelectionChanged = () => {
   emit("update:selection", selectedSaleProducts.value);
 };
 
-// const onRowEditSave = async (event) => {
-//   let { newData: rowData, index } = event;
+const onRowEditSave = async (event) => {
+  let { newData: rowData, index } = event;
 
-//   console.log("onRowEditSave rowData", rowData);
+  console.log("onRowEditSave rowData", rowData);
 
-//   updateRelatedProduct(props.sale.id, rowData.id, { type: rowData.relationship.id })
-//     .then(() => {
-//       saleProducts.value[index] = rowData;
+  updateOfferedProduct(props.sale.id, rowData.id, parseOfferedProduct(rowData))
+    .then(() => {
+      saleProducts.value[index] = rowData;
 
-//       toast.info({
-//         title: "Related product updated successfully",
-//       });
-//     })
-//     .catch(() => {
-//       toast.error({
-//         title: "Error updating related product",
-//       });
-//     });
-// };
+      toast.info({
+        title: "Product in sale updated successfully",
+      });
+    })
+    .catch(() => {
+      toast.error({
+        title: "Error updating product",
+      });
+    });
+};
 
 const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;

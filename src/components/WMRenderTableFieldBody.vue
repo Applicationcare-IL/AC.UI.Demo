@@ -5,6 +5,12 @@
       {{ modelValue ? modelValue : "" }}
     </div>
   </template>
+  <!-- Type number -->
+  <template v-if="columnData.type == 'number'">
+    <span class="w-full block">
+      {{ modelValue }}
+    </span>
+  </template>
   <!-- Type project-link -->
   <template v-if="columnData.type == 'link'">
     <router-link

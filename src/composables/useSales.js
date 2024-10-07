@@ -63,6 +63,15 @@ const useSales = () => {
     }
   };
 
+  const updateOfferedProduct = async (saleId, productId, params) => {
+    try {
+      return await salesStore.updateOfferedProduct(saleId, productId, params);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   // UTILITIES
   const mapSale = (sale) => {
     return {
@@ -130,6 +139,13 @@ const useSales = () => {
     };
   };
 
+  const parseOfferedProduct = (product) => {
+    return {
+      quantity: product.quantity,
+      status: product.status.id,
+    };
+  };
+
   return {
     // ACTIONS
     getSales,
@@ -139,8 +155,10 @@ const useSales = () => {
     cancelSale,
     getSaleProducts,
     createOfferedProducts,
+    updateOfferedProduct,
     // UTILITIES
     parseSale,
+    parseOfferedProduct,
   };
 };
 
