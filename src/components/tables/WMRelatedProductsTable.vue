@@ -13,11 +13,11 @@
           <WMStateToggle entity="related-products" />
         </div>
       </div>
-      <!-- <div class="flex flex-row justify-content-between">
+      <div class="flex flex-row justify-content-between">
         <div class="flex flex-row">
-          <WMSearchBox v-model="searchValue" entity="contact" />
+          <WMSearchBox v-model="searchValue" entity="related-products" />
         </div>
-      </div> -->
+      </div>
     </div>
     <!-- <pre> {{ relatedProducts }}</pre> -->
     <DataTable
@@ -233,6 +233,7 @@ const loadLazyData = async () => {
     per_page: 10,
   });
 
+  console.log(searchValueParam);
   if (searchValueParam) {
     params.append("search", searchValueParam);
   }
