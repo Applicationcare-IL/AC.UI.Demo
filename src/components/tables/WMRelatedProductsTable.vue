@@ -10,6 +10,7 @@
             :product="product"
             @related-products-added="handleRelatedProductsAdded"
           />
+          <WMStateToggle entity="related-products" />
         </div>
       </div>
       <!-- <div class="flex flex-row justify-content-between">
