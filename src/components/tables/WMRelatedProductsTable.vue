@@ -233,7 +233,6 @@ const loadLazyData = async () => {
     per_page: 10,
   });
 
-  console.log(searchValueParam);
   if (searchValueParam) {
     params.append("search", searchValueParam);
   }
