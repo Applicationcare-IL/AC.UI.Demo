@@ -212,6 +212,23 @@ const useDialog = () => {
     });
   };
 
+  const confirmCancelSale = () => {
+    return new Promise((resolve) => {
+      confirm.require({
+        message: i18n.t("sale.notification-cancel-sale-message"),
+        header: i18n.t("sale.notification-cancel-sale-header"),
+        acceptLabel: i18n.t("sale.notification-cancel-sale-yes"),
+        rejectLabel: i18n.t("sale.notification-cancel-sale-no"),
+        accept: () => {
+          resolve(true);
+        },
+        reject: () => {
+          resolve(false);
+        },
+      });
+    });
+  };
+
   const confirmCancelProject = () => {
     return new Promise((resolve) => {
       confirm.require({
@@ -384,6 +401,7 @@ const useDialog = () => {
     confirmCancelDialog,
     confirmCancelProject,
     confirmCancelTask,
+    confirmCancelSale,
     confirmCompleteMilestone,
     confirmCompleteTasks,
     confirmNewAdminMessage,

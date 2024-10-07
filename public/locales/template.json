@@ -928,7 +928,13 @@
     "notification-created-message": "The new message was successfully created! \n From now on he will appear in your message list",
     "notification-created-header": "New Message Created",
     "notification-created-detail": "View Message",
-    "notification-created-close": "Close"
+    "notification-created-close": "Close",
+    "notification-cancel-sale-header": "Cancel sale",
+    "notification-cancel-sale-message": "Once canceled, the sale can’t be restored. Are you sure you want to cancel the sale?",
+    "notification-cancel-sale-yes": "Yes, cancel it",
+    "notification-cancel-sale-no": "No, go back",
+    "toast-sale-cancelled-title": "Sale canceled",
+    "toast-sale-cancelled-message": "The sale was successfully canceled"
   },
   "report": {
     "report": "Report"
