@@ -45,6 +45,34 @@ const useSales = () => {
     }
   };
 
+  // SALE AND OFFERED PRODUCTS
+  const getSaleProducts = async (id, params) => {
+    const response = await salesStore.getSaleProducts(id, params);
+
+    const sales = response.data.data.map((sale) => mapSaleProduct(sale));
+
+    return { data: sales, totalRecords: response.data.meta.total };
+  };
+
+  const createOfferedProducts = async (saleId, productIds) => {
+    try {
+      return await salesStore.createOfferedProducts(saleId, productIds);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const updateOfferedProduct = async (saleId, productId, params) => {
+    try {
+      return await salesStore.updateOfferedProduct(saleId, productId, params);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  // UTILITIES
   const mapSale = (sale) => {
     return {
       ...sale,
@@ -75,6 +103,16 @@ const useSales = () => {
     };
   };
 
+  const mapSaleProduct = (sale) => {
+    return {
+      ...sale,
+      link_detail: {
+        text: sale.product.name,
+        id: sale.product.id,
+      },
+    };
+  };
+
   const parseSale = (sale) => {
     return {
       customer: sale.customer.id,
@@ -102,6 +140,13 @@ const useSales = () => {
     };
   };
 
+  const parseOfferedProduct = (product) => {
+    return {
+      quantity: product.quantity,
+      status: product.status.id,
+    };
+  };
+
   return {
     // ACTIONS
     getSales,
@@ -109,8 +154,12 @@ const useSales = () => {
     createSale,
     updateSale,
     cancelSale,
+    getSaleProducts,
+    createOfferedProducts,
+    updateOfferedProduct,
     // UTILITIES
     parseSale,
+    parseOfferedProduct,
   };
 };
 

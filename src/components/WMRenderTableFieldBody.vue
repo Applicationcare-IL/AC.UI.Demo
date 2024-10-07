@@ -5,6 +5,12 @@
       {{ modelValue ? modelValue : "" }}
     </div>
   </template>
+  <!-- Type number -->
+  <template v-if="columnData.type == 'number'">
+    <span class="w-full block">
+      {{ modelValue }}
+    </span>
+  </template>
   <!-- Type project-link -->
   <template v-if="columnData.type == 'link'">
     <router-link
@@ -81,6 +87,11 @@
   <template v-if="columnData.type == 'product-relationship-type'">
     {{ modelValue ? modelValue.label : "" }}
   </template>
+  <!-- Product in sale status -->
+  <template v-if="columnData.type == 'product-in-sale-status'">
+    <WMOptionSetValue :option-set="modelValue" />
+  </template>
+  <!-- SLA -->
   <template v-if="columnData.type == 'sla'">
     <WMSLATag
       v-if="modelValue"

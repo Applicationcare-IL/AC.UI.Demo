@@ -141,6 +141,49 @@
             </div>
           </div>
         </TabPanel>
+        <TabPanel :header="$t('additional-information')">
+          <div class="flex flex-column gap-5 m-2">
+            <h4 class="h4 mb-0">
+              {{ $t("logs") }}
+            </h4>
+            <div class="flex flex-auto gap-5 flex-row">
+              <WMInput
+                name="created_by"
+                type="info"
+                :highlighted="true"
+                :label="$t('created_by') + ':'"
+                :value="product.last_activity?.creator.name"
+                width="150"
+              />
+              <WMInput
+                name="modified_by"
+                type="info"
+                :highlighted="true"
+                :label="$t('modified_by') + ':'"
+                :value="product.last_activity?.updater.name"
+                width="150"
+              />
+            </div>
+            <div class="flex flex-auto gap-5 flex-row">
+              <WMInput
+                name="created_at"
+                type="info"
+                :highlighted="true"
+                :label="$t('created_at') + ':'"
+                :value="product.last_activity?.creator.at"
+                width="150"
+              />
+              <WMInput
+                name="modified_at"
+                type="info"
+                :highlighted="true"
+                :label="$t('modified_at') + ':'"
+                :value="product.last_activity?.updater.at"
+                width="150"
+              />
+            </div>
+          </div>
+        </TabPanel>
       </TabView>
     </div>
   </div>

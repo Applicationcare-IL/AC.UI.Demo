@@ -288,7 +288,7 @@ const currentStage = computed(() => {
 });
 
 // COMPONENT METHODS AND LOGIC
-const { handleSubmit, meta, resetForm, values } = useForm({
+const { handleSubmit, meta, resetForm } = useForm({
   // validationSchema: formUtilsStore.getNewProductFormValidationSchema,
 });
 

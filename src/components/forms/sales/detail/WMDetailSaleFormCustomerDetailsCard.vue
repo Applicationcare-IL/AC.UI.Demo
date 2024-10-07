@@ -5,15 +5,12 @@
         <span>
           {{ $t("sale.customer-details") }}
         </span>
-        <WMEditButtonIconOnly
-          v-if="!editFormCustomerDetails"
-          @click="editFormCustomerDetails = true"
-        />
+        <WMEditButtonIconOnly v-if="!editMode" @click="editMode = true" />
         <WMSaveButtonIconOnly
           v-else
           @click="
             emit('save');
-            editFormCustomerDetails = false;
+            editMode = false;
           "
         />
       </div>
@@ -78,7 +75,7 @@
             />
           </div>
 
-          <div v-show="editFormCustomerDetails">
+          <div v-show="editMode">
             <WMInput
               name="business_manager"
               :highlighted="true"
@@ -91,7 +88,7 @@
             />
           </div>
 
-          <div v-show="!editFormCustomerDetails">
+          <div v-show="!editMode">
             <WMInput
               type="info-link"
               :highlighted="true"
@@ -125,7 +122,7 @@
             />
           </div>
 
-          <div v-show="editFormCustomerDetails">
+          <div v-show="editMode">
             <WMInput
               name="budgeting_factor"
               :highlighted="true"
@@ -173,7 +170,7 @@ const props = defineProps({
 const emit = defineEmits(["save"]);
 
 // REFS
-const editFormCustomerDetails = ref(false);
+const editMode = ref(false);
 
 const contacts = ref();
 const selectedCusomerConsultant = ref();
