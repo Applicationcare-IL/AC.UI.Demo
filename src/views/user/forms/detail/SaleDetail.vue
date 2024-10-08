@@ -16,9 +16,25 @@
       />
     </template>
     <template #bottom-left>
-      <WMMessagesButton :id="route.params.id" entity="sale" />
+      <!-- <WMMessagesButton :id="route.params.id" entity="sale" /> -->
     </template>
-    <template #custom-buttons> Waiting for customer button </template>
+    <template #custom-buttons>
+      <div class="waiting-for-customer" :class="{ active: isWaitingForCustomer }">
+        <!-- <span class="waiting-for-customer__text font-bold h6">Waiting for customer button</span> -->
+        <label
+          for="waitingForCustomer"
+          class="waiting-for-customer__text font-bold h6 cursor-pointer"
+        >
+          Waiting for customer
+        </label>
+        <Checkbox
+          v-model="isWaitingForCustomer"
+          input-id="waitingForCustomer"
+          :binary="true"
+          @change="handleWaitingForCustomer"
+        />
+      </div>
+    </template>
   </WMDetailFormSubHeader>
 
   <WMDetailSaleForm
@@ -56,15 +72,16 @@ const formKey = ref("saleDetailForm");
 const detailSaleForm = ref();
 const sale = ref(null);
 
+const isWaitingForCustomer = ref(false);
+
 // COMPUTED
 const isSaleCancellable = computed(() => {
-  return true;
-  // return (
-  //   sale.value &&
-  //   sale.value.status.value !== "canceled" &&
-  //   sale.value.status.value !== "completed" &&
-  //   sale.value.status.value !== "closed"
-  // );
+  return (
+    sale.value &&
+    sale.value.status.value !== "canceled" &&
+    sale.value.status.value !== "completed" &&
+    sale.value.status.value !== "closed"
+  );
 });
 
 // COMPONENT METHODS AND LOGIC
@@ -74,7 +91,6 @@ useHead({
 
 const loadLazyData = async () => {
   sale.value = await getSale(route.params.id);
-
   utilsStore.selectedElements["sale"] = [sale.value];
 };
 
@@ -101,6 +117,18 @@ const handleCancelSale = async () => {
   }
 };
 
+const handleWaitingForCustomer = async () => {
+  detailSaleForm.value.handleIsWaitingForCustomerFieldState(isWaitingForCustomer.value ? 1 : 0);
+};
+
+const handleWaitingForCustomerToast = () => {
+  toast.warning({
+    title: "The sale is marked as “waiting for costumer”",
+    group: "bl",
+    life: 5000,
+  });
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
@@ -109,5 +137,53 @@ const handleCancelSale = async () => {
 onMounted(async () => {
   utilsStore.entity = "sale";
   await loadLazyData();
+
+  if (sale.value.waiting_for_customer) {
+    isWaitingForCustomer.value = true;
+    handleWaitingForCustomerToast();
+  }
 });
 </script>
+
+<style lang="scss" scoped>
+.waiting-for-customer {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+
+  &__text {
+    padding: 2.5px 8px;
+    border-radius: 6px;
+    color: var(--blue-700);
+    height: 24px;
+  }
+
+  :deep(.p-checkbox) {
+    height: 24px;
+    width: 24px;
+  }
+
+  :deep(.p-checkbox .p-checkbox-box) {
+    border-radius: 6px;
+    height: 100%;
+    width: 100%;
+  }
+
+  &.active {
+    .waiting-for-customer__text {
+      color: var(--gray-800);
+      background-color: var(--yellow-400);
+    }
+
+    :deep(.p-checkbox .p-checkbox-box.p-highlight) {
+      background: var(--yellow-400);
+      border-color: var(--yellow-400);
+      color: var(--gray-800);
+    }
+
+    :deep(.p-checkbox .p-checkbox-box .p-checkbox-icon) {
+      color: var(--gray-800);
+    }
+  }
+}
+</style>

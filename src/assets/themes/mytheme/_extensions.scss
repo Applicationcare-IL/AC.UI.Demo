@@ -1002,6 +1002,40 @@ cursor: text !important;
     }
 }
 
+.p-toast .p-toast-message.p-toast-message-warn {
+    background-color: var(--yellow-100);
+    border: 1px solid var(--yellow-300);
+    color: var(--gray-900);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    
+    .p-toast-message-content{
+        display: flex;
+        align-items: center;
+    }
+
+    .p-toast-summary{
+        font-size: 1.1em;
+    }
+
+    .p-toast-detail{
+        margin-top: 4px;
+    }
+    
+    .p-toast-icon-close{
+        margin-left: 1em;
+    }
+
+    svg{
+        width: 20px;
+        height: 20px;
+
+    path{
+        fill: var(--yellow-400);
+        }
+    }
+}
+
 // Charts
 .p-chart{
     direction : ltr;

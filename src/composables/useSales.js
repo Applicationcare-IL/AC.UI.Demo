@@ -126,7 +126,7 @@ const useSales = () => {
       tender_response_date: sale.tender_response_date,
       tender_resolution_date: sale.tender_resolution_date,
       tender_supply_date: sale.tender_supply_date,
-      mandatory_requirements: sale.mandatory_requirements.map((item) => item.item),
+      mandatory_requirements: sale.mandatory_requirements?.map((item) => item.item),
       legal_adviser: sale.legal_adviser.id,
       financial_guide: sale.financial_guide.id,
       sales_manager: sale.sales_manager.id,
@@ -137,6 +137,7 @@ const useSales = () => {
       decision_maker: sale.decision_maker?.id,
       budgeting_factor: sale.budgeting_factor?.id,
       budget: sale.budget ?? 0,
+      waiting_for_customer: sale.waiting_for_customer,
     };
   };
 
