@@ -15,6 +15,9 @@
         @click="handleCancelSale"
       />
     </template>
+    <template #bottom-left>
+      <WMMessagesButton :id="route.params.id" entity="sale" />
+    </template>
     <template #custom-buttons> Waiting for customer button </template>
   </WMDetailFormSubHeader>
 
