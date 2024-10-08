@@ -19,9 +19,10 @@
           style="margin-top: 32px"
           size="full"
         />
-        <router-link to="/forgot-password" class="align-self-end mb-4">{{
-          $t("login.forgot_password")
-        }}</router-link>
+
+        <router-link :to="{ name: 'forgotPassword' }" class="align-self-end mb-4">
+          {{ $t("login.forgot_password") }}
+        </router-link>
 
         <div v-if="error != ''" class="bg-red-100 text-red-700 p-2">
           <template v-if="error === 'login.password_expired'">

@@ -25,16 +25,19 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: () => import("@/views/auth/Login.vue"),
+      meta: { requiresAuth: false },
     },
     {
       path: "/forgot-password",
       name: "forgotPassword",
       component: () => import("@/views/auth/ForgotPassword.vue"),
+      meta: { requiresAuth: false },
     },
     {
       path: "/reset-password",
       name: "resetPassword",
       component: () => import("@/views/auth/ResetPassword.vue"),
+      meta: { requiresAuth: false },
       props: (route) => {
         return {
           token: route.query.token,
@@ -441,8 +444,8 @@ router.beforeEach(async (to) => {
   const authStore = useAuthStore();
   const { can, isPermissionsLoaded, fetchPermissionsFromApi } = usePermissions();
 
-  // If the user is not authenticated and the route is not the login page, redirect to the login page
-  if (!authStore.isAuthenticated && to.name !== "login") {
+  // If the user is not authenticated and the route requires authentication, redirect to the login page
+  if (!authStore.isAuthenticated && to.meta.requiresAuth) {
     return { name: "login" };
   }
 
