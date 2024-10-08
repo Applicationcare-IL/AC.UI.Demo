@@ -214,6 +214,13 @@ const columns = ref([
     editable: false,
   },
   {
+    name: "group",
+    type: "option-set",
+    field: "group",
+    header: "product.group",
+    editable: false,
+  },
+  {
     name: "department",
     type: "option-set",
     field: "department",
