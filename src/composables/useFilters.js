@@ -14,7 +14,7 @@ const useFilters = () => {
   const { getTeams } = useAdminTeams();
   const { getRoles } = useAdminRoles();
   const { getUsers } = useAdminUsers();
-  const { getProducts } = useProducts();
+  const { getProducts, getProductRelationshipTypes } = useProducts();
 
   const i18n = useI18n();
 
@@ -87,6 +87,13 @@ const useFilters = () => {
   const searchProducts = async (query) => {
     return getProducts({
       search: query,
+    });
+  };
+
+  const searchProductRelationshipTypes = async (query) => {
+    return getProductRelationshipTypes({
+      search: query,
+      per_page: 999999999,
     });
   };
 
@@ -937,6 +944,13 @@ const useFilters = () => {
       },
     ],
     "related-products": [
+      {
+        type: "entity",
+        name: "related",
+        label: i18n.t("product.manufacturer") + ":",
+        placeholder: i18n.t("product.manufacturer"),
+        searchFunction: searchProductRelationshipTypes,
+      },
       {
         type: "state",
         name: "state",
