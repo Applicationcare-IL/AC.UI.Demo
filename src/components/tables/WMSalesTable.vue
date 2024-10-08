@@ -24,7 +24,7 @@
           class="vertical-align-middle"
           @click="openSidebar(data.id)"
         />
-        <WMSalePreviewSidebar v-model:visible="isPreviewVisible[data.id]" :sale-id="data.id" />
+        <WMSalePreviewSidebar v-model:visible="isPreviewVisible[data.id]" :sale="data" />
       </template>
     </Column>
     <Column
