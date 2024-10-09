@@ -16,6 +16,10 @@
   <template v-if="columnData.type == 'currency'">
     <WMInputCurrency v-model="modelValue" :name="columnData.field" :read-only="false" />
   </template>
+  <!-- Product discount -->
+  <template v-if="columnData.type == 'product-discount'">
+    <InputNumber v-model="modelValue.quantity" />
+  </template>
 </template>
 <script setup>
 defineProps({

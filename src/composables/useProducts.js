@@ -128,7 +128,7 @@ const useProducts = () => {
     try {
       const response = await productsStore.getProductDiscounts(productId, params);
 
-      const discounts = response.data.map((discount) => parseProductDiscount(discount));
+      const discounts = response.data.map((discount) => mapProductDiscount(discount));
 
       const totalRecords = response.meta.total;
 
@@ -344,13 +344,20 @@ const useProducts = () => {
     };
   };
 
-  const parseProductDiscount = (discount) => {
+  const mapProductDiscount = (discount) => {
     return {
       ...discount,
       render_discount: {
         quantity: discount.quantity,
         type: discount.discount_type,
       },
+    };
+  };
+
+  const parseProductDiscount = (discount) => {
+    return {
+      ...discount,
+      discount_number: discount.render_discount.quantity,
     };
   };
 
@@ -380,6 +387,7 @@ const useProducts = () => {
     deleteRelatedProduct,
     // UTILITIES
     parseProduct,
+    parseProductDiscount,
   };
 };
 

@@ -18,7 +18,7 @@
       @change="onChangeDiscountTypeFilter"
     />
   </div>
-  <!-- <pre>{{ discounts }}</pre> -->
+
   <DataTable
     v-model:editingRows="editingRows"
     lazy
@@ -88,6 +88,7 @@ const {
   updateProductDiscount,
   deleteProductDiscount,
   checkIfDiscountExists,
+  parseProductDiscount,
 } = useProducts();
 
 const toast = useToast();
@@ -189,9 +190,12 @@ const getDiscountTemplate = () => {
   return {
     id: uuidv4(),
     mode: "create",
-    quantity: "",
     discount_type: "",
-    discount_number: "",
+    quantity: "",
+    render_discount: {
+      quantity: 0,
+      type: "percentage",
+    },
   };
 };
 
@@ -231,11 +235,16 @@ const onRowEditSave = async (event) => {
 };
 
 const handleAddProductDiscount = async (rowData, index) => {
-  addProductDiscount(props.product.id, rowData)
-    .then(() => {
+  addProductDiscount(props.product.id, parseProductDiscount(rowData))
+    .then((response) => {
       delete rowData.mode;
 
-      discounts.value[index] = rowData;
+      rowData = {
+        ...rowData,
+        id: response.data.id,
+      };
+
+      discounts.value[index + 1] = rowData;
 
       toast.success({
         title: "Discount added",
@@ -250,9 +259,19 @@ const handleAddProductDiscount = async (rowData, index) => {
 };
 
 const handleUpdateProductDiscount = async (rowData, index) => {
-  updateProductDiscount({ productId: props.product.id, discountId: rowData.id, params: rowData })
+  updateProductDiscount({
+    productId: props.product.id,
+    discountId: rowData.id,
+    params: parseProductDiscount(rowData),
+  })
     .then(() => {
+      rowData = {
+        ...rowData,
+        render_discount: { ...rowData.render_discount, type: rowData.discount_type },
+      };
+
       discounts.value[index] = rowData;
+
       toast.success({
         title: "Discount updated",
       });

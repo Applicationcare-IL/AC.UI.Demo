@@ -1017,7 +1017,11 @@
     "notification-created-message": "The new sale was successfully created! \n From now on he will appear in your sales list",
     "notification-created-header": "New Sale Created",
     "notification-created-detail": "View Sale",
-    "notification-created-close": "Close"
+    "notification-created-close": "Close",
+    "notification-cancel-sale-header": "Cancel sale",
+    "notification-cancel-sale-message": "Once canceled, the sale can’t be restored. Are you sure you want to cancel the sale?",
+    "notification-cancel-sale-yes": "Yes, cancel it",
+    "notification-cancel-sale-no": "No, go back"
   },
   "product": {
     "amount-with-symbol": "Amount ₪",

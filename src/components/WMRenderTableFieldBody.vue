@@ -87,15 +87,13 @@
   <template v-if="columnData.type == 'product-discount'">
     <div class="flex align-items-center justify-content-between">
       <span>{{ modelValue.quantity }}</span>
-      <span
-        class="font-bold"
-        :class="{
-          'text-blue-500': modelValue.type === 'percentage',
-          'text-green-500': modelValue.type === 'number',
-        }"
-      >
-        {{ modelValue.type === "percentage" ? "%" : "₪" }}
-      </span>
+      <span v-if="modelValue.type === 'percentage'" class="font-bold text-blue-500"> % </span>
+      <img
+        v-else
+        class="input-currency__icon vertical-align-middle mr-2"
+        src="/icons/shekel.svg"
+        alt="shekel symbol"
+      />
     </div>
   </template>
   <!-- Product relationship type -->
