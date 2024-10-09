@@ -945,16 +945,16 @@ const useFilters = () => {
     ],
     "related-products": [
       {
-        type: "entity",
-        name: "related",
-        label: i18n.t("product.manufacturer") + ":",
-        placeholder: i18n.t("product.manufacturer"),
-        searchFunction: searchProductRelationshipTypes,
-      },
-      {
         type: "state",
         name: "state",
         label: i18n.t("state.state") + ":",
+      },
+      {
+        type: "entity",
+        name: "types",
+        label: i18n.t("product.relationship-type") + ":",
+        placeholder: i18n.t("product.select-relationship-type"),
+        searchFunction: searchProductRelationshipTypes,
       },
       {
         type: "section-title",
@@ -965,7 +965,7 @@ const useFilters = () => {
         type: "entity",
         name: "manufacturer",
         label: i18n.t("product.manufacturer") + ":",
-        placeholder: i18n.t("product.manufacturer"),
+        placeholder: i18n.t("product.select-manufacturer"),
         searchFunction: searchCustomers,
       },
       {
@@ -974,6 +974,7 @@ const useFilters = () => {
         name: "product_type",
         optionSet: "product_type",
         label: i18n.t("product.product-type") + ":",
+        placeholder: i18n.t("product.select-product-type"),
       },
       {
         toggable: true,
@@ -981,6 +982,7 @@ const useFilters = () => {
         name: "product_family",
         optionSet: "product_family",
         label: i18n.t("product.product-family") + ":",
+        placeholder: i18n.t("product.select-product-family"),
       },
       {
         toggable: true,
@@ -988,6 +990,7 @@ const useFilters = () => {
         name: "product_group",
         optionSet: "product_group",
         label: i18n.t("product.product-group") + ":",
+        placeholder: i18n.t("product.select-product-group"),
       },
       {
         toggable: true,
@@ -995,6 +998,7 @@ const useFilters = () => {
         name: "product_department",
         optionSet: "product_department",
         label: i18n.t("product.product-department") + ":",
+        placeholder: i18n.t("product.select-product-department"),
       },
     ],
   };
