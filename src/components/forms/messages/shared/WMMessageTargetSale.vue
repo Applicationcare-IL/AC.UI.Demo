@@ -8,10 +8,10 @@
       name="sale"
       :highlighted="true"
       :required="true"
-      :label="$t('message.project-type') + ':'"
+      :label="$t('message.sale-type') + ':'"
       :options="sales"
       size="md"
-      :placeholder="$t('message.select-project-type')"
+      :placeholder="$t('message.select-sale-type')"
       :option-set="true"
     />
     <WMInputSearch
@@ -19,10 +19,10 @@
       name="source"
       :highlighted="true"
       :required="true"
-      :label="$t('message.project-type') + ':'"
+      :label="$t('message.sale-origin') + ':'"
       :options="sources"
       size="md"
-      :placeholder="$t('message.select-project-type')"
+      :placeholder="$t('message.select-sale-origin')"
       :option-set="true"
     />
 
@@ -30,7 +30,7 @@
       name="tender"
       type="input-select-button"
       :highlighted="true"
-      :label="$t('product.existing-product') + ':'"
+      :label="$t('message.tender') + ':'"
       :options="yesNoOptions"
       :value="selectedTender"
       width="80"
