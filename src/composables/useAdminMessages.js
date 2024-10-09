@@ -45,7 +45,7 @@ const useAdminFlowmaze = () => {
       title: message.topic,
       start_date: message.start_date ? formatDateFromAPI(message.start_date) : null,
       end_date: message.end_date ? formatDateFromAPI(message.end_date) : null,
-      service_type: message.service_type_id,  //temporal fix until backend fix the _id
+      service_type: message.service_type_id, //temporal fix until backend fix the _id
     };
   };
 
@@ -67,6 +67,14 @@ const useAdminFlowmaze = () => {
           : [],
         customer_types: message.customer_types ? message.customer_types : [],
         customer_ratings: message.customer_ratings ? message.customer_ratings : [],
+      };
+    }
+
+    if (message.target === "sale") {
+      return {
+        sale_type: message.sale?.id,
+        sale_initiator: message.source?.id,
+        tender: message.tender?.value ? 1 : 0,
       };
     }
 
