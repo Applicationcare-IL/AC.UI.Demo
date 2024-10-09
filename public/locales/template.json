@@ -1131,5 +1131,15 @@
     "event-type": "Event type",
     "run-once": "Run once",
     "actions-in-trigger": "Actions in trigger"
+  },
+  "process": {
+    "process": "Process",
+    "processes": "Processes",
+    "service-process-name": "Service process name",
+    "sale-process-name": "Sale process name",
+    "project-process-name": "Project process name",
+    "duration": "Duration",
+    "number-of-stages": "Number of stages",
+    "default-team": "Default team",
   }
 }
