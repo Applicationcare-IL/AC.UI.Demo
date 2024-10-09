@@ -1,11 +1,23 @@
 <template>
-  <WMNewButton
-    v-if="!props.readOnly"
-    :text="$t('new')"
-    :disabled="creatingMode"
-    class="mb-3"
-    @click="handleNewDiscount"
-  />
+  <div class="w-full flex justify-content-between">
+    <WMNewButton
+      v-if="!props.readOnly"
+      :text="$t('new')"
+      :disabled="creatingMode"
+      class="mb-3"
+      @click="handleNewDiscount"
+    />
+    <!-- All - percentage - amount filters -->
+    <SelectButton
+      v-model="selectedDiscountTypeFilter"
+      :options="discountTypeOptions"
+      option-label="name"
+      option-value="value"
+      class="flex flex-nowrap"
+      :allow-empty="false"
+      @change="onChangeDiscountTypeFilter"
+    />
+  </div>
 
   <DataTable
     v-model:editingRows="editingRows"
@@ -65,11 +77,9 @@
 
 <script setup>
 // IMPORTS
-// eslint-disable-next-line no-unused-vars
 import { v4 as uuidv4 } from "uuid";
 import { computed, onMounted, ref } from "vue";
-
-import { useUtilsStore } from "@/stores/utils";
+import { useI18n } from "vue-i18n";
 
 // DEPENDENCIES
 const {
@@ -82,8 +92,7 @@ const {
 
 const toast = useToast();
 const dialog = useDialog();
-
-const utilsStore = useUtilsStore();
+const { t } = useI18n();
 
 // INJECT
 
@@ -101,6 +110,14 @@ const editingRows = ref([]);
 const discounts = ref([]);
 const totalRecords = ref(0);
 const lazyParams = ref({});
+
+const discountTypeOptions = [
+  { name: t("product.percentage-with-symbol"), value: "percentage" },
+  { name: t("product.amount-with-symbol"), value: "number" },
+  { name: t("all"), value: "" },
+];
+
+const selectedDiscountTypeFilter = ref(discountTypeOptions[2].value);
 
 const columns = [
   {
@@ -128,7 +145,6 @@ const columns = [
   },
 ];
 
-// const searchValue = ref("");
 const loading = ref(false);
 
 // COMPUTED
@@ -141,23 +157,18 @@ const creatingMode = computed(() => {
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
   loading.value = true;
-  const filters = utilsStore.filters["product"];
+  // const filters = utilsStore.filters["product"];
   const nextPage = lazyParams.value.page + 1;
-  // const searchValueParam = searchValue.value;
 
   const params = new URLSearchParams({
-    ...filters,
+    // ...filters,
     page: nextPage ? nextPage : 1,
     per_page: 10,
   });
 
-  // if (searchValueParam) {
-  //   params.append("search", searchValueParam);
-  // }
-
-  // if (props.relatedEntity && props.relatedEntityId) {
-  //   params.append(props.relatedEntity, props.relatedEntityId);
-  // }
+  if (selectedDiscountTypeFilter.value !== "") {
+    params.append("discount_type", selectedDiscountTypeFilter.value);
+  }
 
   let response = await getProductDiscounts(props.product.id, params);
   discounts.value = response.data;
@@ -256,6 +267,10 @@ const onRowEditCancel = (event) => {
   if (event.data.mode === "create") {
     discounts.value = discounts.value.filter((value) => value.id !== event.data.id);
   }
+};
+
+const onChangeDiscountTypeFilter = () => {
+  loadLazyData();
 };
 
 // PROVIDE, EXPOSE
