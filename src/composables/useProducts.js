@@ -271,6 +271,7 @@ const useProducts = () => {
       licensing_required: product.licensing_required,
       valid_until: formatDateToAPI(product.valid_until),
       income: product.income,
+      existing_product: product.existing_product.value ? 1 : 0,
       // NOT FOUND
       purchase: 1,
       from: formatDateToAPI(today),

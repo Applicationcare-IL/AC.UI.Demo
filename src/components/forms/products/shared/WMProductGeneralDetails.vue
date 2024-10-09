@@ -151,7 +151,7 @@
         :highlighted="true"
         :label="$t('product.existing-product') + ':'"
         :options="yesNoOptions"
-        :value="yesNoOptions[1]"
+        :value="existingProduct"
         width="80"
       />
     </div>
@@ -188,6 +188,7 @@ const customers = ref(null);
 const selectedManufacturer = ref();
 const yesNoOptions = ref([]);
 const productImage = ref(props.product?.product_image_url);
+const existingProduct = ref();
 
 const isPreviousVersionPreviewVisible = ref(false);
 
@@ -214,6 +215,16 @@ const handleRemoveImage = () => {
   setTouched(true);
 };
 
+const selectManufacturer = (customers, manufacturerId) => {
+  return customers.find((customer) => customer.value === manufacturerId);
+};
+
+const selectExistingProduct = (existingProductFlag, yesNoOptions) => {
+  return existingProductFlag
+    ? yesNoOptions.find((option) => option.value === true)
+    : yesNoOptions.find((option) => option.value === false);
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
@@ -223,6 +234,7 @@ onMounted(async () => {
   units.value = await optionSetsStore.getOptionSetValues("units");
   manufacturerTypes.value = await optionSetsStore.getOptionSetValues("manufacturer_type");
   yesNoOptions.value = await optionSetsStore.getOptionSetValues("yesNo");
+
   let activeStateId = await optionSetsStore.getId("state", "active");
 
   let customersData = await getCustomersFromApi({ state: activeStateId, per_page: 9999999 });
@@ -232,8 +244,14 @@ onMounted(async () => {
   }));
 
   if (props.product) {
-    selectedManufacturer.value = customers.value.find(
-      (customer) => customer.value === props.product.manufacturer?.id
+    selectedManufacturer.value = selectManufacturer(
+      customers.value,
+      props.product.manufacturer?.id
+    );
+
+    existingProduct.value = selectExistingProduct(
+      props.product.existing_product,
+      yesNoOptions.value
     );
   }
 
