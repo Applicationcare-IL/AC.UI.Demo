@@ -6,7 +6,8 @@
           <Card class="p-card--first-top-card">
             <template #title> {{ $t("general-details") }} </template>
             <template #content>
-              <WMProductGeneralDetails :product="product" />
+              <WMProductGeneralDetails v-if="can('customers.read')" :product="product" />
+              <NoPermissions v-else />
             </template>
           </Card>
           <Card>
@@ -201,6 +202,7 @@ import { useFormUtilsStore } from "@/stores/formUtils";
 const toast = useToast();
 const route = useRoute();
 const formUtilsStore = useFormUtilsStore();
+const { can } = usePermissions();
 
 const { updateProduct, parseProduct, uploadProductImage } = useProducts();
 
