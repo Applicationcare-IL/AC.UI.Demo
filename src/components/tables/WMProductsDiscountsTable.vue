@@ -18,7 +18,7 @@
       @change="onChangeDiscountTypeFilter"
     />
   </div>
-
+  <!-- <pre>{{ discounts }}</pre> -->
   <DataTable
     v-model:editingRows="editingRows"
     lazy
@@ -138,9 +138,9 @@ const columns = [
   },
   {
     name: "discount_number",
-    type: "text",
-    field: "discount_number",
-    header: "product.discount-number",
+    type: "product-discount",
+    field: "render_discount",
+    header: "product.discount-percentage-amount",
     editable: true,
   },
 ];

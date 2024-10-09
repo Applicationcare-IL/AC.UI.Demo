@@ -136,6 +136,7 @@ const columns = [
     type: "breached-number",
     field: "render_breached_tasks",
     header: "sale.breached-tasks",
+    class: "filled-td",
   },
   {
     name: "deal-price-base",

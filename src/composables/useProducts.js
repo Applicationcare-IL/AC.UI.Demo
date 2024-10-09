@@ -127,7 +127,9 @@ const useProducts = () => {
   const getProductDiscounts = async (productId, params) => {
     try {
       const response = await productsStore.getProductDiscounts(productId, params);
-      const discounts = response.data;
+
+      const discounts = response.data.map((discount) => parseProductDiscount(discount));
+
       const totalRecords = response.meta.total;
 
       return { data: discounts, totalRecords };
@@ -339,6 +341,16 @@ const useProducts = () => {
         id: relatedProduct.related.id,
       },
       render_relation_type: relatedProduct.type.name,
+    };
+  };
+
+  const parseProductDiscount = (discount) => {
+    return {
+      ...discount,
+      render_discount: {
+        quantity: discount.quantity,
+        type: discount.discount_type,
+      },
     };
   };
 

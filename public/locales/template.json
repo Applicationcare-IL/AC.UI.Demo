@@ -744,6 +744,7 @@
     "user_not_active": "User not active"
   },
   "sla": {
+    "sla": "SLA",
     "one_day_left": "1 day left",
     "days_left": "{days} days left",
     "days_passed": "{days} days passed",
@@ -1019,10 +1020,9 @@
     "notification-created-close": "Close"
   },
   "product": {
+    "amount-with-symbol": "Amount ₪",
     "amount": "Amount",
     "base-price": "Base Price",
-    "percentage-with-symbol": "Percentage %",
-    "amount-with-symbol": "Amount ₪",
     "billing-cycle-period": "Billing Cycle Period",
     "billing-cycle-unit": "Billing Cycle Unit",
     "billing-type": "Billing Type",
@@ -1038,6 +1038,7 @@
     "deal-price": "Deal Price",
     "department": "Department",
     "discount-number": "Discount Number",
+    "discount-percentage-amount": "Percentage/Amount",
     "discount-type": "Discount Type",
     "do-not-include": "Do not include",
     "duplicate-product": "Duplicate Product",
@@ -1087,6 +1088,7 @@
     "notification-created-detail": "View Product",
     "notification-created-header": "New Product Created",
     "notification-created-message": "The new product was successfully created! \n From now on he will appear in your product list",
+    "percentage-with-symbol": "Percentage %",
     "percentage": "Percentage",
     "previous_version": "Previous version",
     "pricing": "Pricing",
