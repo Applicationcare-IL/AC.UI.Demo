@@ -100,6 +100,7 @@ const useSales = () => {
       render_price_base: sale.deal_price_base,
 
       render_price_final: sale.deal_price_final,
+      last_change_date: sale.last_activity?.updater.at ?? sale.last_activity?.creator.at,
     };
   };
 
