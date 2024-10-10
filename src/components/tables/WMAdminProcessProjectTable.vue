@@ -40,7 +40,7 @@ import { onMounted, ref, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-// const { getProcesses } = useAdminProcesses();
+const { getProcesses } = useAdminProcess();
 
 // INJECT
 
@@ -57,10 +57,6 @@ const props = defineProps({
   selectable: {
     type: Boolean,
     default: false,
-  },
-  entityType: {
-    type: String,
-    default: "service",
   },
 });
 
@@ -89,16 +85,16 @@ const loadLazyData = async () => {
     ...filters,
     page: nextPage ? nextPage : 1,
     per_page: 10,
-    entity_type: props.entityType,
+    entity_type: "project",
   });
 
   if (searchValueParam) {
     params.append("search", searchValueParam);
   }
 
-  //   let response = await getProcesses(params);
-  //   processes.value = response.data;
-  //   totalRecords.value = response.totalRecords;
+  let response = await getProcesses(params);
+  processes.value = response.data;
+  totalRecords.value = response.totalRecords;
 };
 
 const onPage = (event) => {
