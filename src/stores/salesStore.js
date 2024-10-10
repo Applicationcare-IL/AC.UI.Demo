@@ -57,5 +57,37 @@ export const useSalesStore = defineStore("sales", {
           throw error;
         });
     },
+    getSaleProducts(id, params) {
+      return axiosConfig
+        .get("/sales/" + id + "/product-offered", { params })
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    createOfferedProducts(saleId, productIds) {
+      return axiosConfig
+        .post("/sales/" + saleId + "/product-offered", { ids: productIds })
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
+    updateOfferedProduct(saleId, productId, params) {
+      return axiosConfig
+        .patch("/sales/" + saleId + "/product-offered/" + productId, params)
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    },
   },
 });

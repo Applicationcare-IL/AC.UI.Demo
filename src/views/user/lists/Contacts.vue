@@ -80,7 +80,6 @@ const totalRecords = ref(0);
 const lazyParams = ref({});
 const contacts = ref();
 const loading = ref(false);
-const dt = ref();
 const searchValue = ref("");
 
 const columns = [
@@ -133,6 +132,7 @@ const columns = [
     type: "breached-number",
     field: "render_breached_services",
     header: "contact.breached-services",
+    class: "filled-td",
   },
   {
     name: "open_tasks",
@@ -145,6 +145,7 @@ const columns = [
     type: "breached-number",
     field: "render_breached_tasks",
     header: "contact.breached-tasks",
+    class: "filled-td",
   },
   {
     name: "system_id",
@@ -217,10 +218,6 @@ const openSidebar = () => {
 };
 
 const contactDetail = ref(null);
-const displayDetails = (data) => {
-  contactDetail.value = data;
-  isDetailsVisible.value = true;
-};
 
 const isDetailsVisible = ref(false);
 
@@ -232,11 +229,6 @@ const handleExportContacts = async () => {
     searchValue: searchValue.value,
     exportFunction: exportContacts,
   });
-};
-
-//Move to Store
-const highlightCellClass = (data) => {
-  return [{ "bg-red-100 text-red-600": data > 0 }];
 };
 
 //Manage selected rows

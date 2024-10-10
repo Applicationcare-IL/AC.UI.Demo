@@ -5,12 +5,13 @@
       <div class="w-full text-gray-600">
         {{ $t("login.forgot-password-instructions") }}
       </div>
-      <div class="mt-6 flex flex-column">
+      <div class="mt-3 flex flex-column">
         <WMInput
           name="email"
           type="input-text"
           :highlighted="true"
           :label="$t('login.email') + ':'"
+          size="full"
         />
 
         <div v-if="error != ''" class="bg-red-100 text-red-700 p-2">

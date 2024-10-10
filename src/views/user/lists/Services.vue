@@ -134,7 +134,8 @@ const columns = [
     name: "sla",
     type: "sla",
     field: "render_sla",
-    header: "sla",
+    header: "sla.sla",
+    class: "filled-td",
   },
   {
     name: "priority",

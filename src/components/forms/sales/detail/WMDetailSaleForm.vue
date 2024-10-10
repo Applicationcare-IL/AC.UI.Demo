@@ -1,4 +1,5 @@
 <template>
+  <!-- <pre>{{ sale }}</pre> -->
   <div v-if="sale" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
@@ -131,7 +132,6 @@
               </div>
             </template>
           </Card>
-
           <WMDetailSaleFormMandatoryRequirementsCard :sale="sale" @save="onSave" />
         </div>
       </div>
@@ -230,13 +230,11 @@
 <script setup>
 // IMPORTS
 import { useDateFormat } from "@vueuse/core";
-import { useForm } from "vee-validate";
+import { useField, useForm } from "vee-validate";
 import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { useFormUtilsStore } from "@/stores/formUtils";
-
-import WMInputCurrency from "../../WMInputCurrency.vue";
 
 // DEPENDENCIES
 const toast = useToast();
@@ -292,6 +290,18 @@ const { handleSubmit, meta, resetForm, values } = useForm({
   // validationSchema: formUtilsStore.getNewProductFormValidationSchema,
 });
 
+// This checkbox is part of the form, but it's logic is outside, in the parent component SaleDetail.vue
+const { handleChange: changeIsWaitingForCustomerFieldState, setTouched } = useField(
+  "waiting_for_customer",
+  undefined,
+  { initialValue: props.sale.waiting_for_customer }
+);
+
+const handleIsWaitingForCustomerFieldState = (state) => {
+  changeIsWaitingForCustomerFieldState(state);
+  setTouched(true);
+};
+
 const onSave = handleSubmit((values) => {
   const saleData = {
     ...props.sale,
@@ -319,6 +329,7 @@ const loadSaleSummary = () => {
 // PROVIDE, EXPOSE
 defineExpose({
   onSave,
+  handleIsWaitingForCustomerFieldState,
 });
 
 // WATCHERS

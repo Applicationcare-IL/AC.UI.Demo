@@ -1,30 +1,21 @@
 <template>
-  <Skeleton v-if="!salesLoaded" height="600px"></Skeleton>
   <DataTable
-    v-else
-    v-model:selection="selectedSales"
+    v-model:selection="selectedProcesses"
     lazy
-    :value="sales"
+    :value="processes"
     data-key="id"
     scrollable
     paginator
     :rows="10"
-    :loading="loading"
     :total-records="totalRecords"
     class="w-full"
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
   >
-    <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
-    <Column v-if="preview" style="width: 40px">
+    <Column style="width: 40px">
       <template #body="{ data }">
-        <img
-          src="/icons/eye.svg"
-          alt=""
-          class="vertical-align-middle"
-          @click="openSidebar(data.id)"
-        />
-        <WMSalePreviewSidebar v-model:visible="isPreviewVisible[data.id]" :sale="data" />
+        <img src="/icons/arrow_sort_down.svg" alt="arrow-down icon" class="vertical-align-middle" />
+        <!--- desplegable tabla detalle -->
       </template>
     </Column>
     <Column
@@ -49,12 +40,11 @@ import { onMounted, ref, watch, watchEffect } from "vue";
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getSales } = useSales();
+// const { getProcesses } = useAdminProcesses();
 
 // INJECT
 
 // PROPS, EMITS
-
 const props = defineProps({
   columns: {
     type: Array,
@@ -68,37 +58,30 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  relatedEntity: {
+  entityType: {
     type: String,
-    required: true,
-  },
-  relatedEntityId: {
-    type: Number,
-    required: true,
+    default: "service",
   },
 });
 
 const emit = defineEmits(["update:selection"]);
 
 // REFS
-const selectedSales = ref([]);
+const selectedProcesses = ref([]);
 const totalRecords = ref(0);
-const sales = ref([]);
+const processes = ref([]);
 const lazyParams = ref({});
 
 const utilsStore = useUtilsStore();
 const searchValue = ref("");
-const loading = ref(false);
-const salesLoaded = ref(true);
 
-const isPreviewVisible = ref([]);
+const isEditSidebarVisible = ref([]);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  loading.value = true;
-  const filters = utilsStore.filters["sale"];
+  const filters = utilsStore.filters["process"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
 
@@ -106,21 +89,16 @@ const loadLazyData = async () => {
     ...filters,
     page: nextPage ? nextPage : 1,
     per_page: 10,
+    entity_type: props.entityType,
   });
 
   if (searchValueParam) {
     params.append("search", searchValueParam);
   }
 
-  if (props.relatedEntity && props.relatedEntityId) {
-    params.append(props.relatedEntity, props.relatedEntityId);
-  }
-
-  let response = await getSales(params);
-  sales.value = response.data;
-  totalRecords.value = response.totalRecords;
-  loading.value = false;
-  salesLoaded.value = true;
+  //   let response = await getProcesses(params);
+  //   processes.value = response.data;
+  //   totalRecords.value = response.totalRecords;
 };
 
 const onPage = (event) => {
@@ -129,22 +107,22 @@ const onPage = (event) => {
 };
 
 const onSelectionChanged = () => {
-  emit("update:selection", selectedSales.value);
+  emit("update:selection", selectedProcesses.value);
 };
 
-const cleanSelectedSales = () => {
-  selectedSales.value = [];
+const cleanSelectedProcesses = () => {
+  selectedProcesses.value = [];
   onSelectionChanged();
 };
 
 const openSidebar = (data) => {
-  isPreviewVisible.value[data] = true;
+  isEditSidebarVisible.value[data] = true;
 };
 
 // PROVIDE, EXPOSE
 defineExpose({
   loadLazyData,
-  cleanSelectedSales,
+  cleanSelectedProcesses,
 });
 
 // WATCHERS
@@ -153,14 +131,21 @@ watchEffect(() => {
 });
 
 watch(
-  () => utilsStore.searchString["sale"],
+  () => utilsStore.searchString["process"],
   () => {
-    searchValue.value = utilsStore.searchString["sale"];
+    searchValue.value = utilsStore.searchString["process"];
     utilsStore.debounceAction(() => {
       loadLazyData();
     });
   },
   { deep: true }
+);
+
+watch(
+  () => props.entityType,
+  () => {
+    loadLazyData();
+  }
 );
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)

@@ -37,12 +37,13 @@ export function useToast() {
     });
   };
 
-  const warning = (message) => {
+  const warning = ({ title, message, life, group }) => {
     toast.add({
       severity: "warn",
-      summary: i18n.t("toast.warning"),
+      summary: title ? title : i18n.t("toast.warning"),
       detail: message,
-      life: 3000,
+      life: life ? life : 3000,
+      group: group,
     });
   };
 

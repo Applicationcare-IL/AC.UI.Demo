@@ -127,7 +127,9 @@ const useProducts = () => {
   const getProductDiscounts = async (productId, params) => {
     try {
       const response = await productsStore.getProductDiscounts(productId, params);
-      const discounts = response.data;
+
+      const discounts = response.data.map((discount) => mapProductDiscount(discount));
+
       const totalRecords = response.meta.total;
 
       return { data: discounts, totalRecords };
@@ -271,6 +273,7 @@ const useProducts = () => {
       licensing_required: product.licensing_required,
       valid_until: formatDateToAPI(product.valid_until),
       income: product.income,
+      existing_product: product.existing_product.value ? 1 : 0,
       // NOT FOUND
       purchase: 1,
       from: formatDateToAPI(today),
@@ -341,6 +344,23 @@ const useProducts = () => {
     };
   };
 
+  const mapProductDiscount = (discount) => {
+    return {
+      ...discount,
+      render_discount: {
+        quantity: discount.quantity,
+        type: discount.discount_type,
+      },
+    };
+  };
+
+  const parseProductDiscount = (discount) => {
+    return {
+      ...discount,
+      discount_number: discount.render_discount.quantity,
+    };
+  };
+
   return {
     getProducts,
     getProduct,
@@ -367,6 +387,7 @@ const useProducts = () => {
     deleteRelatedProduct,
     // UTILITIES
     parseProduct,
+    parseProductDiscount,
   };
 };
 

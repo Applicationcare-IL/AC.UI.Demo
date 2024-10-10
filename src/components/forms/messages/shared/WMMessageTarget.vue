@@ -11,6 +11,7 @@
   <div class="flex flex-column gap-5 py-4">
     <WMMessageTargetServices v-if="unref(selectedOption) === 'service'" :message="message" />
     <WMMessageTargetCustomers v-if="unref(selectedOption) === 'customer'" :message="message" />
+    <WMMessageTargetSale v-if="unref(selectedOption) === 'sale'" :message="message" />
     <WMMessageTargetProjects v-if="unref(selectedOption) === 'project'" :message="message" />
     <WMMessageTargetUsers v-if="unref(selectedOption) === 'employee'" :message="message" />
   </div>
@@ -21,6 +22,8 @@
 import { useField } from "vee-validate";
 import { onMounted, ref, unref } from "vue";
 import { useI18n } from "vue-i18n";
+
+import WMMessageTargetSale from "./WMMessageTargetSale.vue";
 
 // DEPENDENCIES
 const { t } = useI18n();
@@ -46,6 +49,10 @@ const options = ref([
   {
     label: t("project.projects"),
     value: "project",
+  },
+  {
+    label: t("message.sale"),
+    value: "sale",
   },
   {
     label: t("message.customers"),

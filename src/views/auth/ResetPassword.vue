@@ -5,13 +5,14 @@
       <div class="w-full text-gray-600">
         {{ $t("login.reset-password-instructions") }}
       </div>
-      <div class="mt-6 flex flex-column">
+      <div class="mt-6 flex flex-column gap-3">
         <WMInput
           name="email"
           type="input-text"
           :highlighted="true"
           :label="$t('login.email') + ':'"
           :value="email"
+          size="full"
         />
         <WMInput
           v-model="password"
@@ -19,7 +20,7 @@
           type="input-password"
           :highlighted="true"
           :label="$t('login.new-password') + ':'"
-          style="margin-top: 32px"
+          size="full"
         />
 
         <WMInput
@@ -28,7 +29,7 @@
           type="input-password"
           :highlighted="true"
           :label="$t('login.confirm-password') + ':'"
-          style="margin-top: 32px"
+          size="full"
         />
 
         <div v-if="error" class="bg-red-100 text-red-700 p-2">

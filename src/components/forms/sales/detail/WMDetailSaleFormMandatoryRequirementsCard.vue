@@ -4,23 +4,20 @@
       <div class="w-full flex align-items-center justify-content-between">
         <div class="flex gap-3">
           {{ $t("sale.mandatory-requirements") }}
-          <WMNewButtonIconOnly v-if="editMandatoryRequirements" @click="addNewMandatoryField" />
+          <WMNewButtonIconOnly v-if="editMode" @click="addNewMandatoryField" />
         </div>
-        <WMEditButtonIconOnly
-          v-if="!editMandatoryRequirements"
-          @click="editMandatoryRequirements = true"
-        />
+        <WMEditButtonIconOnly v-if="!editMode" @click="editMode = true" />
         <WMSaveButtonIconOnly
           v-else
           @click="
             emit('save');
-            editMandatoryRequirements = false;
+            editMode = false;
           "
         />
       </div>
     </template>
     <template #content>
-      <div v-if="!editMandatoryRequirements" class="flex flex-column gap-3">
+      <div v-if="!editMode" class="flex flex-column gap-3">
         <div
           v-for="(mandatoryRequirement, index) in mandatoryRequirementsList"
           :key="mandatoryRequirement.id"
@@ -56,7 +53,7 @@ const props = defineProps({
 const emit = defineEmits(["save"]);
 
 // REFS
-const editMandatoryRequirements = ref(false);
+const editMode = ref(false);
 const mandatoryRequirementsList = ref([]);
 
 // COMPUTED
