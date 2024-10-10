@@ -358,7 +358,6 @@ const initializeFields = async (product) => {
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   await loadFields();
-  console.log("props.product", props.product);
 
   if (props.product) {
     await initializeFields(props.product);

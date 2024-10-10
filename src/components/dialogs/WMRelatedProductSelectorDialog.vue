@@ -225,10 +225,10 @@ const loadProductRelationshipTypes = async () => {
     per_page: 999999999,
   });
 
-  relationshipTypesList.value = response.data.map((employee) => {
+  relationshipTypesList.value = response.data.map((relationship) => {
     return {
-      id: employee.id,
-      label: employee.name,
+      id: relationship.id,
+      label: relationship.name,
     };
   });
 };
