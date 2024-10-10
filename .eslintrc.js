@@ -45,6 +45,7 @@ module.exports = {
           "Product",
           "Sales",
           "Sale",
+          "Process",
         ],
       },
     ],

@@ -16,6 +16,10 @@ export const useUtilsStore = defineStore("utils", {
   }),
   getters: {
     pluralEntity: (state) => {
+      if (state.entity === "process") {
+        return "processes";
+      }
+
       return state.entity + "s";
     },
   },

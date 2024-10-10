@@ -36,6 +36,9 @@ export const usePermissionsStore = defineStore("permissions", {
       classifications: {
         create: true,
       },
+      processes: {
+        create: true,
+      },
       triggers: {
         create: true,
       },
