@@ -134,12 +134,12 @@ const model = computed(() => {
         {
           divider: true,
         },
-        // {
-        //   label: t("navigation.processes"),
-        //   to: "/admin/processes",
-        //   image: new URL("/icons/nav/mediation.svg", import.meta.url).href,
-        //   visibility: true,
-        // },
+        {
+          label: t("navigation.processes"),
+          to: "/admin/processes",
+          image: new URL("/icons/nav/mediation.svg", import.meta.url).href,
+          visibility: true,
+        },
         {
           label: t("navigation.classifications"),
           to: "/admin/classifications",
