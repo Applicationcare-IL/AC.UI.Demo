@@ -792,6 +792,10 @@ a {
 }
 
 // Datatable
+.p-datatable-table{
+    height: 1px;
+}
+
 .p-datatable{
 
     a{
@@ -1073,6 +1077,11 @@ cursor: text !important;
 
 td.filled-td {
   padding: 0 !important;
+
+  > * {
+    padding: 0;
+    height: 100%;
+  }
 }
 
 // PERMISSIONS TABLE AND COMPONENTS

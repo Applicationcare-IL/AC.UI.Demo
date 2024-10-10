@@ -1,5 +1,9 @@
 <template>
-  <div v-if="loading" class="flex flex-column justify-content-center h-screen align-items-center">
+  <NoPermissions v-if="!can('customers.read') || !can('services.read')" />
+  <div
+    v-else-if="loading"
+    class="flex flex-column justify-content-center h-screen align-items-center"
+  >
     <ProgressSpinner />
   </div>
   <div v-else class="wm-new-form-container flex flex-auto flex-column overflow-auto">
@@ -55,6 +59,7 @@ const formUtilsStore = useFormUtilsStore();
 const { getCustomersFromApi } = useCustomers();
 const { createProduct, parseProduct, uploadProductImage } = useProducts();
 const dialog = useDialog();
+const { can } = usePermissions();
 
 const toast = useToast();
 
@@ -102,6 +107,16 @@ const onSubmit = handleSubmit((values) => {
     });
 });
 
+const fetchCustomers = async () => {
+  if (!can("customers.read")) return;
+
+  let customersData = await getCustomersFromApi({ per_page: 9999999 });
+  customers.value = customersData.data.map((customer) => ({
+    label: customer.name,
+    value: customer.id,
+  }));
+};
+
 // PROVIDE, EXPOSE
 defineExpose({
   onSubmit,
@@ -114,14 +129,9 @@ onMounted(async () => {
   units.value = await optionSetsStore.getOptionSetValues("units");
   manufacturerTypes.value = await optionSetsStore.getOptionSetValues("manufacturer_type");
   yesNoOptions.value = await optionSetsStore.getOptionSetValues("yesNo");
-
-  let customersData = await getCustomersFromApi({ per_page: 9999999 });
-  customers.value = customersData.data.map((customer) => ({
-    label: customer.name,
-    value: customer.id,
-  }));
-
   billingCycleUnits.value = await optionSetsStore.getOptionSetValues("product_billing_cycle_unit");
+
+  await fetchCustomers();
 
   loading.value = false;
 });

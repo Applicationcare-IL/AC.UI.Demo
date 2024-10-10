@@ -83,6 +83,19 @@
   <template v-if="columnData.type == 'product-discount-type'">
     {{ modelValue ? modelValue : "" }}
   </template>
+  <!-- Product discount -->
+  <template v-if="columnData.type == 'product-discount'">
+    <div class="flex align-items-center justify-content-between">
+      <span>{{ modelValue.quantity }}</span>
+      <span v-if="modelValue.type === 'percentage'" class="font-bold text-blue-500"> % </span>
+      <img
+        v-else
+        class="input-currency__icon vertical-align-middle mr-2"
+        src="/icons/shekel.svg"
+        alt="shekel symbol"
+      />
+    </div>
+  </template>
   <!-- Product relationship type -->
   <template v-if="columnData.type == 'product-relationship-type'">
     {{ modelValue ? modelValue.label : "" }}
@@ -95,6 +108,7 @@
   <template v-if="columnData.type == 'sla'">
     <WMSLATag
       v-if="modelValue"
+      class="flex align-items-center justify-content-center"
       :sla="modelValue.sla"
       :days-for-closing="modelValue.days_for_closing"
       :state="modelValue.state"
@@ -106,7 +120,10 @@
     </span>
   </template>
   <template v-if="columnData.type == 'breached-number'">
-    <span :class="highlightCellClass(modelValue)" class="numeric w-full block">
+    <span
+      :class="highlightCellClass(modelValue)"
+      class="numeric w-full flex align-items-center justify-content-center"
+    >
       {{ modelValue }}
     </span>
   </template>
@@ -116,7 +133,7 @@
 
 // DEPENDENCIES
 const { formatDateFromAPI } = useDates();
-const { highlightStatusClass } = useListUtils();
+
 // INJECT
 
 // PROPS, EMITS

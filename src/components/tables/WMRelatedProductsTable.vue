@@ -1,8 +1,5 @@
 <template>
-  <div class="flex flex-column w-full">
-    <h2 class="h2">
-      <slot name="title" />
-    </h2>
+  <div>
     <div class="flex flex-column gap-3 mb-3">
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row gap-2">
@@ -11,12 +8,24 @@
             @related-products-added="handleRelatedProductsAdded"
           />
         </div>
-      </div>
-      <!-- <div class="flex flex-row justify-content-between">
-        <div class="flex flex-row">
-          <WMSearchBox v-model="searchValue" entity="contact" />
+        <div class="flex flex-row align-items-center gap-3">
+          <WMStateToggle entity="related-products" />
         </div>
-      </div> -->
+      </div>
+      <div class="flex flex-row gap-3">
+        <WMSearchBox v-model="searchValue" entity="related-products" />
+
+        <WMFilterButton :is-active="isFilterOpen || isFilterApplied" @click="openFilterSidebar" />
+
+        <WMSidebar
+          :visible="isFilterVisible"
+          name="filterRelatedProducts"
+          @close-sidebar="closeFilterSidebar"
+          @open-sidebar="openFilterSidebar"
+        >
+          <WMFilterForm entity="related-products" filter-form-name="related-products" />
+        </WMSidebar>
+      </div>
     </div>
     <!-- <pre> {{ relatedProducts }}</pre> -->
     <DataTable
@@ -136,10 +145,14 @@ const emit = defineEmits(["update:selection"]);
 // REFS
 const editingRows = ref([]);
 
+const isFilterOpen = ref(false);
+const isFilterApplied = ref(false);
+
 const selectedRelatedProducts = ref([]);
 const totalRecords = ref(0);
 const relatedProducts = ref([]);
 const lazyParams = ref({});
+const isFilterVisible = ref(false);
 
 const utilsStore = useUtilsStore();
 const searchValue = ref("");
@@ -198,6 +211,13 @@ const columns = ref([
     type: "option-set",
     field: "family",
     header: "product.family",
+    editable: false,
+  },
+  {
+    name: "group",
+    type: "option-set",
+    field: "group",
+    header: "product.group",
     editable: false,
   },
   {
@@ -301,6 +321,14 @@ const handleRemoveRelatedProduct = (relatedProduct) => {
 const handleRelatedProductsAdded = () => {
   console.log("entro");
   loadLazyData();
+};
+
+const closeFilterSidebar = () => {
+  isFilterVisible.value = false;
+};
+
+const openFilterSidebar = () => {
+  isFilterVisible.value = true;
 };
 
 // PROVIDE, EXPOSE

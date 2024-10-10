@@ -744,6 +744,7 @@
     "user_not_active": "User not active"
   },
   "sla": {
+    "sla": "SLA",
     "one_day_left": "1 day left",
     "days_left": "{days} days left",
     "days_passed": "{days} days passed",
@@ -1016,13 +1017,16 @@
     "notification-created-message": "The new sale was successfully created! \n From now on he will appear in your sales list",
     "notification-created-header": "New Sale Created",
     "notification-created-detail": "View Sale",
-    "notification-created-close": "Close"
+    "notification-created-close": "Close",
+    "notification-cancel-sale-header": "Cancel sale",
+    "notification-cancel-sale-message": "Once canceled, the sale can’t be restored. Are you sure you want to cancel the sale?",
+    "notification-cancel-sale-yes": "Yes, cancel it",
+    "notification-cancel-sale-no": "No, go back"
   },
   "product": {
+    "amount-with-symbol": "Amount ₪",
     "amount": "Amount",
     "base-price": "Base Price",
-    "percentage-with-symbol": "Percentage %",
-    "amount-with-symbol": "Amount ₪",
     "billing-cycle-period": "Billing Cycle Period",
     "billing-cycle-unit": "Billing Cycle Unit",
     "billing-type": "Billing Type",
@@ -1038,6 +1042,7 @@
     "deal-price": "Deal Price",
     "department": "Department",
     "discount-number": "Discount Number",
+    "discount-percentage-amount": "Percentage/Amount",
     "discount-type": "Discount Type",
     "do-not-include": "Do not include",
     "duplicate-product": "Duplicate Product",
@@ -1087,7 +1092,9 @@
     "notification-created-detail": "View Product",
     "notification-created-header": "New Product Created",
     "notification-created-message": "The new product was successfully created! \n From now on he will appear in your product list",
+    "percentage-with-symbol": "Percentage %",
     "percentage": "Percentage",
+    "percentage-amount": "Percentage/Amount",
     "previous_version": "Previous version",
     "pricing": "Pricing",
     "product-department": "Product Department",
@@ -1106,6 +1113,12 @@
     "renewal-type": "Renewal Type",
     "sale-discount": "Sale Discount",
     "sales-data": "Sales Data",
+    "select-relationship-type": "Select relationship type",
+    "select-manufacturer": "Select manufacturer",
+    "select-product-type": "Select product type",
+    "select-product-family": "Select product family",
+    "select-product-group": "Select product group",
+    "select-product-department": "Select product department",
     "salesman-discount": "Salesman Discount",
     "settings": "Settings",
     "status": "Status",
@@ -1143,6 +1156,6 @@
     "project-process-name": "Project process name",
     "duration": "Duration",
     "number-of-stages": "Number of stages",
-    "default-team": "Default team",
+    "default-team": "Default team"
   }
 }
