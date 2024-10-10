@@ -112,7 +112,7 @@
                   <img
                     class="input-currency__icon vertical-align-middle mr-2"
                     style="max-width: 1rem"
-                    src="/icons/plus.svg"
+                    src="/icons/minus.svg"
                     alt="plus symbol"
                   />
                   <WMInputCurrency
