@@ -310,6 +310,11 @@ const router = createRouter({
           component: () => import("@/views/admin/lists/ProcessesListPage.vue"),
         },
         {
+          path: "processes/new-process",
+          name: "newProcess",
+          component: () => import("@/views/admin/forms/new/NewProcess.vue"),
+        },
+        {
           path: "classifications",
           name: "adminClassifications",
           component: () => import("@/views/admin/lists/ClassificationsListPage.vue"),
