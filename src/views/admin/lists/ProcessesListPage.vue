@@ -77,6 +77,7 @@ const columnsService = [
     type: "link",
     field: "link_detail",
     header: "id",
+    routeName: "adminProcessDetail",
   },
   {
     name: "name",
@@ -118,6 +119,7 @@ const columnsSale = [
     type: "link",
     field: "link_detail",
     header: "id",
+    routeName: "adminProcessDetail",
   },
   {
     name: "name",
@@ -159,6 +161,7 @@ const columnsProject = [
     type: "link",
     field: "link_detail",
     header: "id",
+    routeName: "adminProcessDetail",
   },
   {
     name: "name",
