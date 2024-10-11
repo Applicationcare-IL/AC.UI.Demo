@@ -1,6 +1,6 @@
 <template>
   <div class="wm-new-form-container flex flex-auto flex-column overflow-auto">
-    <div class="task-data flex flex-auto flex-column gap-5 mb-5">form processes</div>
+    <div class="task-data flex flex-auto flex-column gap-5 mb-5">New Process Form</div>
   </div>
 </template>
 

@@ -315,6 +315,11 @@ const router = createRouter({
           component: () => import("@/views/admin/forms/new/NewProcess.vue"),
         },
         {
+          path: "process/:id",
+          name: "adminProcessDetail",
+          component: () => import("@/views/admin/forms/detail/ProcessDetail.vue"),
+        },
+        {
           path: "classifications",
           name: "adminClassifications",
           component: () => import("@/views/admin/lists/ClassificationsListPage.vue"),

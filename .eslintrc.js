@@ -102,5 +102,6 @@ module.exports = {
     useAdminMessages: true,
     useAdminOptionSets: true,
     useAdminClassifications: true,
+    useAdminProcess: true,
   },
 };
