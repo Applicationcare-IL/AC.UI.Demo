@@ -72,6 +72,15 @@ const useSales = () => {
     }
   };
 
+  const orderSaleProducts = async (saleId, productIds) => {
+    try {
+      return await salesStore.orderSaleProducts(saleId, { product_ids: productIds });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   // UTILITIES
   const mapSale = (sale) => {
     return {
@@ -146,6 +155,7 @@ const useSales = () => {
     return {
       quantity: product.quantity,
       status: product.status.id,
+      salesman_discount: product.salesman_discount,
     };
   };
 
@@ -159,6 +169,7 @@ const useSales = () => {
     getSaleProducts,
     createOfferedProducts,
     updateOfferedProduct,
+    orderSaleProducts,
     // UTILITIES
     parseSale,
     parseOfferedProduct,

@@ -5,8 +5,6 @@
         <div class="flex" v-html="ProductsIcon" />
       </template>
     </WMButton>
-    <Divider layout="vertical" />
-    <WMButton :text="$t('buttons.order')" type="save" is-disabled="true" :is-disabled="true" />
   </div>
 
   <WMSaleProductSelectorDialog

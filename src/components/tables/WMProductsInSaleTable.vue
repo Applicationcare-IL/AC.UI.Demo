@@ -7,6 +7,12 @@
       <div class="flex flex-row justify-content-between">
         <div class="flex flex-row gap-2">
           <WMSelectSaleProducts :sale="sale" @sale-products-added="handleSaleProductsAdded" />
+          <Divider layout="vertical" />
+          <WMOrderProductsInSale
+            :sale="sale"
+            :state="!isSomeProductInOfferedStatus"
+            @sale-products-ordered="handleSaleProductsOrdered"
+          />
         </div>
       </div>
       <!-- <div class="flex flex-row justify-content-between">
@@ -15,10 +21,9 @@
         </div>
       </div> -->
     </div>
-    <!-- <pre> {{ saleProducts }}</pre> -->
+
     <DataTable
       v-model:editingRows="editingRows"
-      v-model:selection="selectedSaleProducts"
       lazy
       :value="saleProducts"
       data-key="id"
@@ -29,10 +34,8 @@
       :total-records="totalRecords"
       class="w-full"
       @page="onPage($event)"
-      @update:selection="onSelectionChanged"
       @row-edit-save="onRowEditSave"
     >
-      <!-- <Column v-if="selectable" style="width: 40px" selection-mode="multiple" /> -->
       <Column v-if="preview" style="width: 40px">
         <template #body="{ data }">
           <img src="/icons/eye.svg" class="vertical-align-middle" @click="openSidebar(data.id)" />
@@ -75,7 +78,7 @@
 
 <script setup>
 // IMPORTS
-import { onMounted, ref, watchEffect } from "vue";
+import { computed, onMounted, ref, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
@@ -118,12 +121,9 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["update:selection"]);
-
 // REFS
 const editingRows = ref([]);
 
-const selectedSaleProducts = ref([]);
 const totalRecords = ref(0);
 const saleProducts = ref([]);
 const lazyParams = ref({});
@@ -201,6 +201,9 @@ const columns = ref([
 ]);
 
 // COMPUTED
+const isSomeProductInOfferedStatus = computed(() => {
+  return saleProducts.value.some((product) => product.status.value === "offered");
+});
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
@@ -233,10 +236,6 @@ const loadLazyData = async () => {
 const onPage = (event) => {
   lazyParams.value = event;
   loadLazyData();
-};
-
-const onSelectionChanged = () => {
-  emit("update:selection", selectedSaleProducts.value);
 };
 
 const onRowEditSave = async (event) => {
@@ -280,7 +279,10 @@ const openSidebar = (data) => {
 // };
 
 const handleSaleProductsAdded = () => {
-  console.log("llego 1");
+  loadLazyData();
+};
+
+const handleSaleProductsOrdered = () => {
   loadLazyData();
 };
 
