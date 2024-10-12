@@ -918,6 +918,84 @@ a {
     }
 }
 
+
+.p-dropdown-sale-product-status{
+    border-radius: 4px;  
+    font-weight: 700;
+    height: 100%;
+    display: flex;
+    padding-left: 8px;
+    padding-right: 8px;
+    line-height: 12px;
+    border: none;
+
+    &--planned{
+        background-color: var(--blue-100);
+    
+        .p-inputtext{
+            color: var(--gray-900);
+        }
+    }
+
+    &--optional{
+        background-color: var(--purple-100);
+    
+        .p-inputtext{
+            color: var(--gray-900);
+        }
+    }
+
+    &--offered{
+        background-color: var(--blue-200);
+    
+        .p-inputtext{
+            color: var(--gray-900);
+        }
+    }
+
+    &--cancelled{
+        background-color: var(--gray-200);
+    
+        .p-inputtext{
+            color: var(--gray-900);
+        }
+    }
+
+    &--rejected{
+        background-color: var(--red-200);
+    
+        .p-inputtext{
+            color: var(--gray-900);
+        }
+    }
+
+    &--pending{
+        background-color: var(--yellow-200);
+    
+        .p-inputtext{
+            color: var(--gray-900);
+        }
+    }
+
+    &--in_use,
+    &--in-use{
+        background-color: var(--green-200);
+    
+        .p-inputtext{
+            color: var(--gray-900);
+        }
+    }
+
+    &--not_in_use,
+    &--not-in-use{
+        background-color: var(--gray-200);
+    
+        .p-inputtext{
+            color: var(--gray-900);
+        }
+    }
+}
+
 // Others 
 pre {
     background-color: #2b2b2b;

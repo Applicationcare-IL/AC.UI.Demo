@@ -102,7 +102,7 @@
   </template>
   <!-- Product in sale status -->
   <template v-if="columnData.type == 'product-in-sale-status'">
-    <WMOptionSetValue :option-set="modelValue" />
+    <WMProductsInSaleTableStatusFieldBody v-model="modelValue" />
   </template>
   <!-- SLA -->
   <template v-if="columnData.type == 'sla'">

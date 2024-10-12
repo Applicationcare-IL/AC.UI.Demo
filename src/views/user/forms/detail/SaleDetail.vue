@@ -20,7 +20,6 @@
     </template>
     <template #custom-buttons>
       <div class="waiting-for-customer" :class="{ active: isWaitingForCustomer }">
-        <!-- <span class="waiting-for-customer__text font-bold h6">Waiting for customer button</span> -->
         <label
           for="waitingForCustomer"
           class="waiting-for-customer__text font-bold h6 cursor-pointer"
