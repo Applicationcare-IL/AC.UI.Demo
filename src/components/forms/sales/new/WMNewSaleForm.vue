@@ -8,7 +8,7 @@
         <h3 class="h3 mb-0">{{ $t("general-details") }}</h3>
         <div class="flex flex-row gap-5">
           <WMTeamOwnerFields />
-          <!-- <pre>{{ values }}</pre> -->
+          <pre>{{ values }}</pre>
         </div>
         <div class="flex flex-row gap-5">
           <WMInput
@@ -69,25 +69,29 @@
 
       <Divider />
 
-      <WMToggleSwitch v-model="isRecurring" :label="$t('sale.tender')">
+      <WMToggleSwitch
+        v-model="isTender"
+        :label="$t('sale.tender')"
+        @update:model-value="handleIsTenderField"
+      >
         <div class="flex flex-column gap-5">
           <div class="flex flex-row gap-5">
             <WMInput
-              name="publication_date"
+              name="tender_publication_date"
               :highlighted="true"
               type="date"
               :label="$t('sale.publication-date') + ':'"
               size="sm"
             />
             <WMInput
-              name="question_date"
+              name="tender_question_date"
               :highlighted="true"
               type="date"
               :label="$t('sale.question-date') + ':'"
               size="sm"
             />
             <WMInput
-              name="response_date"
+              name="tender_response_date"
               :highlighted="true"
               type="date"
               :label="$t('sale.response-date') + ':'"
@@ -96,14 +100,14 @@
           </div>
           <div class="flex flex-row gap-5">
             <WMInput
-              name="resolution_date"
+              name="tender_resolution_date"
               :highlighted="true"
               type="date"
               :label="$t('sale.resolution-date') + ':'"
               size="sm"
             />
             <WMInput
-              name="supply-date"
+              name="tender_supply_date"
               :highlighted="true"
               type="date"
               :label="$t('sale.supply-date') + ':'"
@@ -261,6 +265,7 @@ const sales = ref();
 const sources = ref();
 const contacts = ref();
 
+const isTender = ref(false);
 const mandatoryRequirementsList = ref([]);
 
 // COMPUTED
@@ -332,6 +337,10 @@ const addNewMandatoryField = () => {
     item: "",
   });
 };
+
+const { handleChange: handleIsTenderField } = useField("tender", undefined, {
+  initialValue: false,
+});
 
 // PROVIDE, EXPOSE
 defineExpose({

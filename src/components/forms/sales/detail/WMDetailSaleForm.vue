@@ -136,6 +136,55 @@
         </div>
       </div>
     </div>
+    <div v-if="sale.tender === 1" class="my-5">
+      <Card class="bg-blue-50">
+        <template #title> {{ $t("sale.tender") }} </template>
+        <template #content>
+          <div class="flex gap-5">
+            <WMInput
+              name="tender_publication_date"
+              :highlighted="true"
+              type="date"
+              :label="$t('sale.publication-date') + ':'"
+              size="sm"
+              :value="sale.tender_publication_date"
+            />
+            <WMInput
+              name="tender_question_date"
+              :highlighted="true"
+              type="date"
+              :label="$t('sale.question-date') + ':'"
+              size="sm"
+              :value="sale.tender_question_date"
+            />
+            <WMInput
+              name="tender_response_date"
+              :highlighted="true"
+              type="date"
+              :label="$t('sale.response-date') + ':'"
+              size="sm"
+              :value="sale.tender_response_date"
+            />
+            <WMInput
+              name="tender_resolution_date"
+              :highlighted="true"
+              type="date"
+              :label="$t('sale.resolution-date') + ':'"
+              size="sm"
+              :value="sale.tender_resolution_date"
+            />
+            <WMInput
+              name="tender_supply_date"
+              :highlighted="true"
+              type="date"
+              :label="$t('sale.supply-date') + ':'"
+              size="sm"
+              :value="sale.tender_supply_date"
+            />
+          </div>
+        </template>
+      </Card>
+    </div>
 
     <div class="my-5">
       <WMStepper :steps="stages" :current-step="currentStage" aria-label="Form Steps" />
