@@ -8,6 +8,7 @@
         <h3 class="h3 mb-0">{{ $t("general-details") }}</h3>
         <div class="flex flex-row gap-5">
           <WMTeamOwnerFields />
+          <!-- <pre>{{ values }}</pre> -->
         </div>
         <div class="flex flex-row gap-5">
           <WMInput
@@ -317,9 +318,13 @@ const loadLazyData = async () => {
   loading.value = false;
 };
 
-const { handleChange: handleChangeMandatoryFields } = useField("mandatory_fields", undefined, {
-  initialValue: [],
-});
+const { handleChange: handleChangeMandatoryFields } = useField(
+  "mandatory_requirements",
+  undefined,
+  {
+    initialValue: [],
+  }
+);
 
 const addNewMandatoryField = () => {
   mandatoryRequirementsList.value.push({

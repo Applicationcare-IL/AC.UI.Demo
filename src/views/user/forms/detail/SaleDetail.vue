@@ -16,7 +16,7 @@
       />
     </template>
     <template #bottom-left>
-      <!-- <WMMessagesButton :id="route.params.id" entity="sale" /> -->
+      <WMMessagesButton :id="route.params.id" entity="sale" />
     </template>
     <template #custom-buttons>
       <div class="waiting-for-customer" :class="{ active: isWaitingForCustomer }">

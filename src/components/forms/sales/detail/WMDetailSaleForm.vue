@@ -1,5 +1,5 @@
 <template>
-  <!-- <pre>{{ sale }}</pre> -->
+  <!-- <pre>{{ values }}</pre> -->
   <div v-if="sale" class="wm-detail-form-container flex flex-auto flex-column overflow-auto">
     <div class="flex flex-auto flex-column gap-5 mb-5">
       <div class="flex flex-row gap-5 flex-wrap">
@@ -10,7 +10,7 @@
               <WMDetailSaleFormGeneralDetails :sale="sale" />
             </template>
           </Card>
-          <!-- {{ sale }} -->
+
           <WMDetailSaleFormFactorsCard :sale="sale" @save="onSave" />
           <WMDetailSaleFormCustomerDetailsCard :sale="sale" @save="onSave" />
 
