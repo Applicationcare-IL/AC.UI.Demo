@@ -82,6 +82,18 @@ const useSales = () => {
     }
   };
 
+  // CUSTOMER OWNED PRODUCTS
+  const getSaleCustomerProducts = async (customerId, params) => {
+    const response = await salesStore.getSaleCustomerProducts({
+      customer: customerId,
+      ...params,
+    });
+
+    const sales = response.data.data.map((sale) => mapCustomerSaleProduct(sale));
+
+    return { data: sales, totalRecords: response.data.meta.total };
+  };
+
   // UTILITIES
   const mapSale = (sale) => {
     return {
@@ -136,6 +148,20 @@ const useSales = () => {
         text: sale.product.name,
         id: sale.product.id,
       },
+    };
+  };
+
+  const mapCustomerSaleProduct = (sale) => {
+    return {
+      ...sale,
+      link_detail: {
+        text: sale.product.name,
+        id: sale.product.id,
+      },
+      render_type: sale.product.type,
+      render_family: sale.product.family,
+      render_group: sale.product.group,
+      render_department: sale.product.department,
     };
   };
 
@@ -204,6 +230,7 @@ const useSales = () => {
     createOfferedProducts,
     updateOfferedProduct,
     orderSaleProducts,
+    getSaleCustomerProducts,
     // UTILITIES
     parseSale,
     parseOfferedProduct,

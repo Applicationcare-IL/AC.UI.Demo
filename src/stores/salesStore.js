@@ -100,5 +100,16 @@ export const useSalesStore = defineStore("sales", {
           throw error;
         });
     },
+    getSaleCustomerProducts(params) {
+      console.log("params", params);
+      return axiosConfig
+        .get("/sales/products-owned", { params })
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
 });

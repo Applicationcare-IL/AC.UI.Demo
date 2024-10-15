@@ -14,6 +14,12 @@
     selectable
     preview
   />
+
+  <WMCustomerProductsInSaleTable
+    v-if="selectedOption === 'customers-products'"
+    :sale="sale"
+    preview
+  />
 </template>
 
 <script setup>

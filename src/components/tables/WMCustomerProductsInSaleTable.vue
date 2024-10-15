@@ -3,38 +3,17 @@
     <h2 class="h2">
       <slot name="title" />
     </h2>
-    <div class="flex flex-column gap-3 mb-3">
-      <div class="flex flex-row justify-content-between">
-        <div class="flex flex-row gap-2">
-          <WMSelectSaleProducts :sale="sale" @sale-products-added="handleSaleProductsAdded" />
-          <Divider layout="vertical" />
-          <WMOrderProductsInSale
-            :sale="sale"
-            :state="!isSomeProductInOfferedStatus"
-            @sale-products-ordered="handleSaleProductsOrdered"
-          />
-        </div>
-      </div>
-      <!-- <div class="flex flex-row justify-content-between">
-        <div class="flex flex-row">
-          <WMSearchBox v-model="searchValue" entity="contact" />
-        </div>
-      </div> -->
-    </div>
 
     <DataTable
-      v-model:editingRows="editingRows"
       lazy
-      :value="saleProducts"
+      :value="customerProducts"
       data-key="id"
-      edit-mode="row"
       scrollable
       paginator
       :rows="10"
       :total-records="totalRecords"
       class="w-full"
       @page="onPage($event)"
-      @row-edit-save="onRowEditSave"
     >
       <Column v-if="preview" style="width: 40px">
         <template #body="{ data }">
@@ -65,36 +44,23 @@
           <WMRenderTableFieldBody v-else v-model="data[column.field]" :column-data="column" />
         </template>
       </Column>
-      <Column
-        v-if="!props.readOnly"
-        :row-editor="true"
-        style="width: 100%"
-        class="p-1"
-        :header="$t('actions')"
-      />
     </DataTable>
   </div>
 </template>
 
 <script setup>
 // IMPORTS
-import { computed, onMounted, ref, watchEffect } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 
 import { useUtilsStore } from "@/stores/utils";
 
 // DEPENDENCIES
-const { getSaleProducts, updateOfferedProduct, parseOfferedProduct } = useSales();
-
-const toast = useToast();
+const { getSaleCustomerProducts } = useSales();
 
 // INJECT
 
 // PROPS, EMITS
 const props = defineProps({
-  product: {
-    type: Object,
-    required: true,
-  },
   sale: {
     type: Object,
     required: false,
@@ -103,30 +69,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  selectable: {
-    type: Boolean,
-    default: false,
-  },
-  urlParams: {
-    type: Array,
-    required: false,
-  },
-  addUsersFunction: {
-    type: Function,
-    required: false,
-  },
-  removeUsersFunction: {
-    type: Function,
-    required: false,
-  },
 });
 
 // REFS
-const editingRows = ref([]);
-
 const totalRecords = ref(0);
-const saleProducts = ref([]);
 const lazyParams = ref({});
+
+const customerProducts = ref([]);
 
 const utilsStore = useUtilsStore();
 const searchValue = ref("");
@@ -143,13 +92,6 @@ const columns = ref([
     editable: false,
   },
   {
-    name: "product-status",
-    type: "product-in-sale-status",
-    field: "status",
-    header: "product.status",
-    editable: true,
-  },
-  {
     name: "id",
     type: "text",
     field: "id",
@@ -164,50 +106,65 @@ const columns = ref([
     editable: false,
   },
   // {
-  //   name: "bulk-discount",
-  //   type: "currency",
-  //   field: "product_original_price",
-  //   header: "product.base-price",
-  //   editable: true,
+  //   name: "manufacturer",
+  //   type: "text",
+  //   field: "render_text",
+  //   header: "Type Text",
   // },
   {
-    name: "salesman-discount",
-    type: "currency",
-    field: "salesman_discount",
-    header: "product.salesman-discount",
-    editable: true,
+    name: "type",
+    type: "option-set",
+    field: "render_type",
+    header: "product.product-type",
   },
   {
-    name: "product-price-in-sale",
-    type: "currency",
-    field: "price_in_sale",
-    header: "product.products-price-in-sale",
-    editable: false,
+    name: "family",
+    type: "option-set",
+    field: "render_family",
+    header: "product.product-family",
   },
   {
-    name: "units",
-    type: "number",
-    field: "quantity",
-    header: "product.units",
-    editable: true,
+    name: "group",
+    type: "option-set",
+    field: "render_group",
+    header: "product.product-group",
   },
   {
-    name: "deal-price",
-    type: "currency",
-    field: "deal_price",
-    header: "product.deal-price",
-    editable: false,
+    name: "department",
+    type: "option-set",
+    field: "render_department",
+    header: "product.product-department",
+  },
+  // order date
+  {
+    name: "open-services",
+    type: "centered-number",
+    field: "open_services",
+    header: "product.open-services",
+  },
+  {
+    name: "state",
+    type: "state",
+    field: "state",
+    header: "product.state",
+    width: "100px",
+    class: "filled-td",
+  },
+  {
+    name: "status",
+    type: "state",
+    field: "status",
+    header: "product.status",
+    width: "100px",
+    class: "filled-td",
   },
 ]);
 
 // COMPUTED
-const isSomeProductInOfferedStatus = computed(() => {
-  return saleProducts.value.some((product) => product.status.value === "offered");
-});
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  const filters = utilsStore.filters["sale-products"];
+  const filters = utilsStore.filters["sale-customer-products"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
 
@@ -227,9 +184,9 @@ const loadLazyData = async () => {
     });
   }
 
-  let response = await getSaleProducts(props.sale.id, params);
+  let response = await getSaleCustomerProducts(props.sale.customer.id, params);
 
-  saleProducts.value = response.data;
+  customerProducts.value = response.data;
   totalRecords.value = response.totalRecords;
 };
 
@@ -238,52 +195,8 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const onRowEditSave = async (event) => {
-  let { newData: rowData, index } = event;
-
-  console.log("onRowEditSave rowData", rowData);
-
-  updateOfferedProduct(props.sale.id, rowData.id, parseOfferedProduct(rowData))
-    .then(() => {
-      saleProducts.value[index] = rowData;
-
-      toast.info({
-        title: "Product in sale updated successfully",
-      });
-    })
-    .catch(() => {
-      toast.error({
-        title: "Error updating product",
-      });
-    });
-};
-
 const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
-};
-
-// const handleRemoveSaleProduct = (relatedProduct) => {
-//   deleteRelatedProduct(props.sale.id, relatedProduct.id, { type: relatedProduct.type.id })
-//     .then(() => {
-//       saleProducts.value = saleProducts.value.filter((product) => product.id !== relatedProduct.id);
-
-//       toast.info({
-//         title: "Related product removed successfully",
-//       });
-//     })
-//     .catch(() => {
-//       toast.error({
-//         title: "Error removing related product",
-//       });
-//     });
-// };
-
-const handleSaleProductsAdded = () => {
-  loadLazyData();
-};
-
-const handleSaleProductsOrdered = () => {
-  loadLazyData();
 };
 
 // PROVIDE, EXPOSE
