@@ -34,6 +34,9 @@ const productStatuses = ref([]);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+const findProductStatus = (statusId) => {
+  return productStatuses.value.find((status) => status.id === statusId);
+};
 
 // PROVIDE, EXPOSE
 
@@ -42,6 +45,7 @@ const productStatuses = ref([]);
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(async () => {
   productStatuses.value = await optionSetsStore.getOptionSetValues("product_offered_status");
+  modelValue.value = findProductStatus(modelValue.value.id);
 });
 </script>
 
