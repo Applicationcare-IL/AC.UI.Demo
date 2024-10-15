@@ -1,6 +1,12 @@
 <template>
   <div class="flex">
-    <WMButton :text="$t('buttons.order')" type="save" :is-disabled="state" @click="showDialog" />
+    <WMButton
+      :text="$t('buttons.order')"
+      type="save"
+      :disabled="state"
+      :is-disabled="state"
+      @click="showDialog"
+    />
   </div>
 
   <WMOrderSaleProductsSelectorDialog

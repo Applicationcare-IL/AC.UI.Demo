@@ -1298,3 +1298,49 @@ $access-column-width: 320px;
     }
 
 }
+
+// TABS and BUTTON GROUPS
+.custom-selectable-button-group-tabs{
+
+    .p-button.selectable-button{
+        background: transparent;
+        border: none;
+        color: var(--gray-800);
+        font-weight: 400;
+        position: relative;
+        border-radius: 0 !important;
+        padding-bottom: 1em;
+
+        .p-button-label{
+            transition-duration: 0s;
+        }
+
+        &::after{
+            content: "";
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: var(--gray-400);
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+        }
+
+        &.completed,
+        &:hover{
+            color: var(--gray-800);
+            background: transparent;
+            font-weight: 700;
+            border: none;
+
+            &::after{
+                height: 6px;
+                background-color: var(--blue-300);
+            }
+        }
+
+        &:focus{
+            outline: none;
+        }
+    }
+}

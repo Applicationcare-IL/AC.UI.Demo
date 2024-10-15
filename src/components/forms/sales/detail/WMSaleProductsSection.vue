@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-2">
+  <div class="flex mt-1 mb-3 custom-selectable-button-group-tabs">
     <WMSelectableButtonGroup
       :options="options"
       :value="selectedOption"

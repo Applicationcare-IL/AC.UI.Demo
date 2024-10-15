@@ -21,9 +21,8 @@
         </div>
       </div> -->
     </div>
-    <Skeleton v-if="loading" height="74px"></Skeleton>
+
     <DataTable
-      v-else
       v-model:editingRows="editingRows"
       lazy
       :value="saleProducts"
@@ -123,7 +122,6 @@ const props = defineProps({
 });
 
 // REFS
-const loading = ref(false);
 const editingRows = ref([]);
 
 const totalRecords = ref(0);
@@ -209,7 +207,6 @@ const isSomeProductInOfferedStatus = computed(() => {
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  loading.value = true;
   const filters = utilsStore.filters["sale-products"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
@@ -234,8 +231,6 @@ const loadLazyData = async () => {
 
   saleProducts.value = response.data;
   totalRecords.value = response.totalRecords;
-
-  loading.value = false;
 };
 
 const onPage = (event) => {
