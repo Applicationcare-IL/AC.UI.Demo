@@ -5,7 +5,7 @@
     </h2>
     <div class="flex flex-column gap-3 mb-3">
       <div class="flex flex-row justify-content-between">
-        <div class="flex flex-row gap-2">
+        <div class="flex flex-row">
           <WMSelectSaleProducts :sale="sale" @sale-products-added="handleSaleProductsAdded" />
           <Divider layout="vertical" />
           <WMOrderProductsInSale

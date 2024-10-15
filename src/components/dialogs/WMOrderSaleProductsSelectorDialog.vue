@@ -8,8 +8,11 @@
   >
     <div class="flex">
       <div class="flex flex-column p-3 documents-selector-dialog__table">
-        <h4 class="h4">Order products</h4>
-        <div class="flex flex-row w-full justify-content-end gap-3 mt-3">
+        <h4 class="h4 mb-0">{{ $t("order-dialog-title") }}</h4>
+        <p class="mb-3">{{ $t("order-dialog-text") }}</p>
+
+        <p class="font-bold">{{ $t("order-dialog-pre-table-text") }}:</p>
+        <div class="flex flex-row w-full justify-content-end gap-3">
           <div class="w-full overflow-auto">
             <WMProductsTable
               :columns="productsTableColumns"

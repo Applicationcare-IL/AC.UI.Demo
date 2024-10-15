@@ -1021,7 +1021,10 @@
     "notification-cancel-sale-header": "Cancel sale",
     "notification-cancel-sale-message": "Once canceled, the sale can’t be restored. Are you sure you want to cancel the sale?",
     "notification-cancel-sale-yes": "Yes, cancel it",
-    "notification-cancel-sale-no": "No, go back"
+    "notification-cancel-sale-no": "No, go back",
+    "order-dialog-title": "Order details",
+    "order-dialog-text": "Please enter the order number",
+    "order-dialog-pre-table-text": "Save"
   },
   "product": {
     "amount-with-symbol": "Amount ₪",
