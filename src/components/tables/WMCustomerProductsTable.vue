@@ -3,10 +3,11 @@
     <h2 class="h2">
       <slot name="title" />
     </h2>
-
+    <Skeleton v-if="loading" height="300px"></Skeleton>
     <DataTable
+      v-else
       lazy
-      :value="customerProducts"
+      :value="products"
       data-key="id"
       scrollable
       paginator
@@ -50,20 +51,25 @@
 
 <script setup>
 // IMPORTS
-import { onMounted, ref, watchEffect } from "vue";
-
-import { useUtilsStore } from "@/stores/utils";
+import { ref } from "vue";
 
 // DEPENDENCIES
-const { getSaleCustomerProducts } = useSales();
 
 // INJECT
 
 // PROPS, EMITS
-const props = defineProps({
-  sale: {
+defineProps({
+  products: {
     type: Object,
     required: false,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  totalRecords: {
+    type: Number,
+    default: 0,
   },
   preview: {
     type: Boolean,
@@ -71,15 +77,9 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(["update:page"]);
+
 // REFS
-const totalRecords = ref(0);
-const lazyParams = ref({});
-
-const customerProducts = ref([]);
-
-const utilsStore = useUtilsStore();
-const searchValue = ref("");
-
 const isPreviewVisible = ref([]);
 
 const columns = ref([
@@ -163,36 +163,8 @@ const columns = ref([
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const loadLazyData = async () => {
-  const filters = utilsStore.filters["sale-customer-products"];
-  const nextPage = lazyParams.value.page + 1;
-  const searchValueParam = searchValue.value;
-
-  const params = new URLSearchParams({
-    ...filters,
-    page: nextPage ? nextPage : 1,
-    per_page: 10,
-  });
-
-  if (searchValueParam) {
-    params.append("search", searchValueParam);
-  }
-
-  if (props.urlParams) {
-    props.urlParams.forEach((urlParam) => {
-      params.append(urlParam.key, urlParam.value);
-    });
-  }
-
-  let response = await getSaleCustomerProducts(props.sale.customer.id, params);
-
-  customerProducts.value = response.data;
-  totalRecords.value = response.totalRecords;
-};
-
 const onPage = (event) => {
-  lazyParams.value = event;
-  loadLazyData();
+  emit("update:page", event.page);
 };
 
 const openSidebar = (data) => {
@@ -200,17 +172,8 @@ const openSidebar = (data) => {
 };
 
 // PROVIDE, EXPOSE
-defineExpose({
-  loadLazyData,
-});
 
 // WATCHERS
-watchEffect(() => {
-  loadLazyData();
-});
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(async () => {
-  loadLazyData();
-});
 </script>

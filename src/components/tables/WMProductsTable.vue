@@ -91,7 +91,6 @@ const datatableOffset = ref(0);
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-
 const onPage = (event) => {
   emit("update:page", event.page);
 };

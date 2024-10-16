@@ -298,6 +298,15 @@
         </AccordionTab>
       </Accordion>
 
+      <Accordion
+        v-if="can('products.read') && checkIfEntityIsActive('sales')"
+        data-testid="products-accordion"
+      >
+        <AccordionTab :header="$t('product.products')">
+          <WMDetailCustomerFormProductsSection :customer="customer" />
+        </AccordionTab>
+      </Accordion>
+
       <Accordion>
         <AccordionTab :header="$t('documents.documents')" data-testid="documents-accordion">
           <WMDocumentsTable
@@ -508,7 +517,7 @@ const fetchData = async () => {
   tasks.value = tasksData.data;
 };
 
-const { handleSubmit, setFieldError, meta, resetForm } = useForm({
+const { handleSubmit, meta, resetForm } = useForm({
   validationSchema: formUtilsStore.getCustomerDetailFormValidationSchema,
 });
 
@@ -532,10 +541,6 @@ const onSave = handleSubmit((values) => {
       toast.error("customer", "not-updated");
     });
 });
-
-function onProviderChanged(value) {
-  isProvider.value = value;
-}
 
 formUtilsStore.$reset();
 formUtilsStore.save = onSave;
