@@ -9,6 +9,14 @@
         :small="true"
       />
 
+      <WMInputCurrency
+        v-model="minPrice"
+        required
+        :label="$t('product.minimun-price') + ':'"
+        name="min_price"
+        :small="true"
+      />
+
       <WMInput
         name="discount_type"
         type="input-select-button"
@@ -53,6 +61,7 @@ const props = defineProps({
 
 // REFS
 const basePrice = ref(props.product.base_price);
+const minPrice = ref(props.product.min_price);
 const amount = ref(props.product.amount);
 
 const saleDiscountOptions = ref([

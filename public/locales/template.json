@@ -1027,6 +1027,7 @@
     "order-dialog-pre-table-text": "Save"
   },
   "product": {
+    "minimun-price": "Minimum price",
     "amount-with-symbol": "Amount ₪",
     "amount": "Amount",
     "base-price": "Base Price",
