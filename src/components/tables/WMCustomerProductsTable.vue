@@ -1,51 +1,70 @@
 <template>
-  <div class="flex flex-column w-full">
+  <div class="flex flex-column">
     <h2 class="h2">
       <slot name="title" />
     </h2>
-    <Skeleton v-if="loading" height="300px"></Skeleton>
-    <DataTable
-      v-else
-      lazy
-      :value="products"
-      data-key="id"
-      scrollable
-      paginator
-      :rows="10"
-      :total-records="totalRecords"
-      class="w-full"
-      @page="onPage($event)"
-    >
-      <Column v-if="preview" style="width: 40px">
-        <template #body="{ data }">
-          <img src="/icons/eye.svg" class="vertical-align-middle" @click="openSidebar(data.id)" />
-          <WMProductPreviewSidebar
-            v-model:visible="isPreviewVisible[data.id]"
-            :product-id="data.id"
+
+    <div class="flex flex-column gap-3">
+      <div class="flex flex-row gap-3">
+        <WMSearchBox entity="customer-product" @update:search="handleUpdateSearchValue" />
+        <!-- <WMFilterButton
+            :is-active="isFilterApplied || isFilterVisible"
+            @click="openFilterSidebar"
           />
-        </template>
-      </Column>
-      <Column
-        v-for="column in columns"
-        :key="column.name"
-        :field="column.name"
-        :header="$t(column.header)"
-        :class="column.class"
-        :style="column.width ? { width: column.width } : {}"
+
+          <WMSidebar
+            :visible="isFilterVisible"
+            name="filterPayment"
+            @close-sidebar="closeFilterSidebar"
+            @open-sidebar="openFilterSidebar"
+          >
+            <WMFilterForm entity="payment" filter-form-name="payment" />
+          </WMSidebar> -->
+      </div>
+
+      <DataTable
+        lazy
+        :value="products"
+        data-key="id"
+        scrollable
+        paginator
+        :rows="10"
+        :loading="loading"
+        :total-records="totalRecords"
+        class="w-full"
+        @page="onPage($event)"
       >
-        <template #body="{ data }">
-          <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
-        </template>
-        <template #editor="{ data }">
-          <WMRenderTableFieldEditor
-            v-if="column.editable"
-            v-model="data[column.field]"
-            :column-data="column"
-          />
-          <WMRenderTableFieldBody v-else v-model="data[column.field]" :column-data="column" />
-        </template>
-      </Column>
-    </DataTable>
+        <Column v-if="preview" style="width: 40px">
+          <template #body="{ data }">
+            <img src="/icons/eye.svg" class="vertical-align-middle" @click="openSidebar(data.id)" />
+            <WMProductPreviewSidebar
+              v-model:visible="isPreviewVisible[data.id]"
+              :product-id="data.id"
+            />
+          </template>
+        </Column>
+        <Column
+          v-for="column in columns"
+          :key="column.name"
+          :field="column.name"
+          :header="$t(column.header)"
+          :class="column.class"
+          :style="column.width ? { width: column.width } : {}"
+        >
+          <template #body="{ data }">
+            <WMRenderTableFieldBody v-model="data[column.field]" :column-data="column" />
+          </template>
+          <template #editor="{ data }">
+            <WMRenderTableFieldEditor
+              v-if="column.editable"
+              v-model="data[column.field]"
+              :column-data="column"
+            />
+            <WMRenderTableFieldBody v-else v-model="data[column.field]" :column-data="column" />
+          </template>
+        </Column>
+      </DataTable>
+    </div>
   </div>
 </template>
 
@@ -77,7 +96,7 @@ defineProps({
   },
 });
 
-const emit = defineEmits(["update:page"]);
+const emit = defineEmits(["update:page", "update:search"]);
 
 // REFS
 const isPreviewVisible = ref([]);
@@ -169,6 +188,10 @@ const onPage = (event) => {
 
 const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
+};
+
+const handleUpdateSearchValue = (searchValue) => {
+  emit("update:search", searchValue);
 };
 
 // PROVIDE, EXPOSE

@@ -5,6 +5,7 @@
     :total-records="totalCustomerProducts"
     preview
     @update:page="currentCustomerProductsPage = $event"
+    @update:search="handleUpdateSearchValue($event)"
   />
 </template>
 
@@ -30,6 +31,7 @@ const currentCustomerProductsPage = ref(0);
 const loadingCustomerProducts = ref(true);
 const totalCustomerProducts = ref(0);
 const customerProducts = ref([]);
+const searchValue = ref("");
 
 // COMPUTED
 
@@ -44,11 +46,20 @@ const loadCustomerProducts = async () => {
     per_page: 10,
   });
 
+  if (searchValue.value) {
+    params.append("search", searchValue.value);
+  }
+
   let response = await getSaleCustomerProducts(props.customer.id, params);
 
   customerProducts.value = response.data;
   totalCustomerProducts.value = response.totalRecords;
   loadingCustomerProducts.value = false;
+};
+
+const handleUpdateSearchValue = (value) => {
+  searchValue.value = value;
+  loadCustomerProducts();
 };
 
 // PROVIDE, EXPOSE

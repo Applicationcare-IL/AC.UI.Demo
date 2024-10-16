@@ -86,7 +86,7 @@ const useSales = () => {
   const getSaleCustomerProducts = async (customerId, params) => {
     const response = await salesStore.getSaleCustomerProducts({
       customer: customerId,
-      ...params,
+      ...Object.fromEntries(params),
     });
 
     const sales = response.data.data.map((sale) => mapCustomerSaleProduct(sale));
