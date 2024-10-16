@@ -765,7 +765,8 @@
     "milestone-updated": "Milestone updated",
     "action-completed-successfully": "Action completed successfully",
     "export": "Export",
-    "loading-export-message": "Generating export file, please don't close the window"
+    "loading-export-message": "Generating export file, please don't close the window",
+    "please-fill-all-required-fields": "Please fill all required fields"
   },
   "communication-channels": {
     "sms": "SMS",

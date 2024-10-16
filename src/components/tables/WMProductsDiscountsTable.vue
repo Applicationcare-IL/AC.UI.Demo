@@ -216,6 +216,17 @@ const handleRemoveDiscount = (discount) => {
 };
 
 const onRowEditSave = async (event) => {
+  if (
+    event.data.quantity === "" ||
+    event.data.discount_type === "" ||
+    event.data.render_discount.quantity === ""
+  ) {
+    toast.error("Quantity and discount type are required");
+
+    editingRows.value = [...editingRows.value, event.data]; // keep editing mode
+    return;
+  }
+
   let { newData: rowData, index } = event;
 
   const discountExists = await checkIfDiscountExists(props.product.id, rowData.quantity);
@@ -230,8 +241,6 @@ const onRowEditSave = async (event) => {
   } else {
     handleUpdateProductDiscount(rowData, index);
   }
-
-  loadLazyData();
 };
 
 const handleAddProductDiscount = async (rowData, index) => {
@@ -278,7 +287,12 @@ const handleUpdateProductDiscount = async (rowData, index) => {
     })
     .catch((error) => {
       console.error(error);
-      toast.error("Error updating discount");
+      if (error.response.data.message) {
+        toast.error(error.response.data.message);
+        return;
+      } else {
+        toast.error("Error updating discount");
+      }
     });
 };
 
