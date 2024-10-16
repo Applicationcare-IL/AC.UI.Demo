@@ -872,6 +872,7 @@ export const useFormUtilsStore = defineStore("formUtils", {
             values: { label: "product.cancellation-type" },
           }),
         price: yup.number().required(),
+        min_price: yup.number().required(),
         crm: yup.string().required(),
         income: yup.string().required(),
         erp: yup.string().required(),
