@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-column w-full">
+  <div class="flex flex-column">
     <h2 class="h2">
       <slot name="title" />
     </h2>
@@ -15,11 +15,11 @@
           />
         </div>
       </div>
-      <!-- <div class="flex flex-row justify-content-between">
+      <div class="flex flex-row justify-content-between">
         <div class="flex flex-row">
-          <WMSearchBox v-model="searchValue" entity="contact" />
+          <WMSearchBox entity="product-in-sale" @update:search="handleUpdateSearchValue($event)" />
         </div>
-      </div> -->
+      </div>
     </div>
     <Skeleton v-if="loading" height="74px"></Skeleton>
     <DataTable
@@ -267,27 +267,16 @@ const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
 };
 
-// const handleRemoveSaleProduct = (relatedProduct) => {
-//   deleteRelatedProduct(props.sale.id, relatedProduct.id, { type: relatedProduct.type.id })
-//     .then(() => {
-//       saleProducts.value = saleProducts.value.filter((product) => product.id !== relatedProduct.id);
-
-//       toast.info({
-//         title: "Related product removed successfully",
-//       });
-//     })
-//     .catch(() => {
-//       toast.error({
-//         title: "Error removing related product",
-//       });
-//     });
-// };
-
 const handleSaleProductsAdded = () => {
   loadLazyData();
 };
 
 const handleSaleProductsOrdered = () => {
+  loadLazyData();
+};
+
+const handleUpdateSearchValue = (value) => {
+  searchValue.value = value;
   loadLazyData();
 };
 
