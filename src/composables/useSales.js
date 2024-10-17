@@ -104,11 +104,11 @@ const useSales = () => {
       },
       render_contact: {
         text: sale.contact.name,
-        id: sale.id,
+        id: sale.contact.id,
       },
       render_customer: {
         text: sale.customer.name,
-        id: sale.id,
+        id: sale.customer.id,
       },
 
       render_sla: {
