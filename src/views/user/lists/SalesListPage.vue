@@ -179,6 +179,14 @@ const columns = [
     field: "last_change_date",
     header: "sale.last-change",
   },
+  {
+    name: "active",
+    type: "state",
+    field: "state",
+    header: "State",
+    width: "100px",
+    class: "py-0 filled-td",
+  },
 ];
 
 // COMPUTED
@@ -197,7 +205,7 @@ const redirectToNewSalePage = () => {
 
 const loadSales = async () => {
   loading.value = true;
-  const filters = utilsStore.filters["sales"];
+  const filters = utilsStore.filters["sale"];
   const nextPage = currentPage.value + 1;
   const searchValueParam = searchValue.value;
 

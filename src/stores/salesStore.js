@@ -48,7 +48,7 @@ export const useSalesStore = defineStore("sales", {
     },
     cancelSale(id) {
       return axiosConfig
-        .post("/sales" + id + "/cancel")
+        .post("/sales/" + id + "/cancel")
         .then((response) => {
           return response;
         })

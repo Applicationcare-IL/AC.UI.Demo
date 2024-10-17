@@ -77,7 +77,7 @@ const isWaitingForCustomer = ref(false);
 const isSaleCancellable = computed(() => {
   return (
     sale.value &&
-    sale.value.status.value !== "canceled" &&
+    sale.value.status.value !== "cancelled" &&
     sale.value.status.value !== "completed" &&
     sale.value.status.value !== "closed"
   );
