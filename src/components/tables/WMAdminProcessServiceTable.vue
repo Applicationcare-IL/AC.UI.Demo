@@ -77,7 +77,7 @@ const isEditSidebarVisible = ref([]);
 
 // COMPONENT METHODS AND LOGIC
 const loadLazyData = async () => {
-  const filters = utilsStore.filters["process "];
+  const filters = utilsStore.filters["process"];
   const nextPage = lazyParams.value.page + 1;
   const searchValueParam = searchValue.value;
 
