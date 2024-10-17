@@ -650,6 +650,11 @@ const useFilters = () => {
             value: "service",
             id: "service",
           },
+          {
+            label: i18n.t("sale.sales"),
+            value: "sale",
+            id: "sale",
+          },
         ],
       },
       {
