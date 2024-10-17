@@ -10,6 +10,7 @@
     :total-records="0"
     :show-communications="false"
     :has-action-builder="false"
+    :show-filter-button="false"
     @new="redirectToNewProcessPage"
   >
     <template #top-left>
@@ -71,6 +72,7 @@ const options = [
 ];
 
 const selectedOption = ref(options[0].value);
+
 const columnsService = [
   {
     name: "id",
@@ -212,6 +214,7 @@ const redirectToNewProcessPage = () => {
   router.push({
     name: "newProcess",
     force: true,
+    params: { entity: selectedOption.value },
   });
 };
 

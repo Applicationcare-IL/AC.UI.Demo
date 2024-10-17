@@ -26,6 +26,7 @@
                   />
                 </div>
                 <div class="wm-form-row gap-5">
+                  <WMDuration :duration="process.duration" />
                   <WMInputSearch
                     v-if="teams"
                     name="default-team"
