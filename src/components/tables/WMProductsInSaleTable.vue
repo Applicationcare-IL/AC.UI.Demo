@@ -66,13 +66,21 @@
           <WMRenderTableFieldBody v-else v-model="data[column.field]" :column-data="column" />
         </template>
       </Column>
-      <Column
+      <!-- <Column
         v-if="!props.readOnly"
         :row-editor="true"
         style="width: 100%"
         class="p-1"
         :header="$t('actions')"
-      />
+      /> -->
+      <Column style="width: 100%" class="p-1">
+        <template #body="{ data }">
+          <WMEditButtonIconOnly v-if="data.status.value !== 'ordered'" @click="editRow(data)" />
+        </template>
+        <template #editor="{ data, index }">
+          <WMSaveButtonIconOnly @click="onRowEditSave(data, index)" />
+        </template>
+      </Column>
     </DataTable>
   </div>
 </template>
@@ -243,26 +251,6 @@ const onPage = (event) => {
   loadLazyData();
 };
 
-const onRowEditSave = async (event) => {
-  let { newData: rowData, index } = event;
-
-  console.log("onRowEditSave rowData", rowData);
-
-  updateOfferedProduct(props.sale.id, rowData.id, parseOfferedProduct(rowData))
-    .then(() => {
-      saleProducts.value[index] = rowData;
-
-      toast.info({
-        title: "Product in sale updated successfully",
-      });
-    })
-    .catch(() => {
-      toast.error({
-        title: "Error updating product",
-      });
-    });
-};
-
 const openSidebar = (data) => {
   isPreviewVisible.value[data] = true;
 };
@@ -278,6 +266,28 @@ const handleSaleProductsOrdered = () => {
 const handleUpdateSearchValue = (value) => {
   searchValue.value = value;
   loadLazyData();
+};
+
+const editRow = (data) => {
+  editingRows.value = [...editingRows.value, data];
+};
+
+const onRowEditSave = async (data, index) => {
+  updateOfferedProduct(props.sale.id, data.id, parseOfferedProduct(data))
+    .then(() => {
+      saleProducts.value[index] = data;
+
+      toast.info({
+        title: "Product in sale updated successfully",
+      });
+
+      editingRows.value = editingRows.value.filter((row) => row.id !== data.id);
+    })
+    .catch(() => {
+      toast.error({
+        title: "Error updating product",
+      });
+    });
 };
 
 // PROVIDE, EXPOSE
