@@ -46,10 +46,7 @@
 // IMPORTS
 import { ref } from "vue";
 
-import { useUtilsStore } from "@/stores/utils";
-
 // DEPENDENCIES
-const utilsStore = useUtilsStore();
 
 // INJECT
 

@@ -39,6 +39,9 @@ const { handleExport } = useExports();
 const products = ref([]);
 const productsLoaded = ref(false);
 const searchValue = ref("");
+const loading = ref(false);
+const currentPage = ref(0);
+const totalRecords = ref(0);
 
 // REFS
 const columns = [
@@ -150,13 +153,13 @@ const columns = [
   },
 ];
 
-const loading = ref(false);
-const currentPage = ref(0);
-const totalRecords = ref(0);
-
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
+useHead({
+  title: "Products",
+});
+
 const loadProducts = async () => {
   loading.value = true;
   const filters = utilsStore.filters["product"];

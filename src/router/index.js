@@ -213,7 +213,7 @@ const router = createRouter({
         {
           path: "/products",
           name: "products",
-          component: () => import("@/views/user/lists/ProductsGridPage.vue"),
+          component: () => import("@/views/user/lists/ProductsListPage.vue"),
         },
         {
           path: "/new-product",
@@ -228,7 +228,7 @@ const router = createRouter({
         {
           path: "/sales",
           name: "sales",
-          component: () => import("@/views/user/lists/Sales.vue"),
+          component: () => import("@/views/user/lists/SalesListPage.vue"),
         },
         {
           path: "/new-sale",

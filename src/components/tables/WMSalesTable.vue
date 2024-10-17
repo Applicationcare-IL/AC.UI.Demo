@@ -1,5 +1,5 @@
 <template>
-  <Skeleton v-if="!salesLoaded" height="600px"></Skeleton>
+  <Skeleton v-if="loading" height="600px"></Skeleton>
   <DataTable
     v-else
     v-model:selection="selectedSales"
@@ -12,8 +12,10 @@
     :loading="loading"
     :total-records="totalRecords"
     class="w-full"
+    :first="datatableOffset"
     @page="onPage($event)"
     @update:selection="onSelectionChanged"
+    @update:first="datatableOffset = $event"
   >
     <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
     <Column v-if="preview" style="width: 40px">
@@ -39,18 +41,18 @@
 
 <script setup>
 // IMPORTS
-import { onMounted, ref, watch, watchEffect } from "vue";
-
-import { useUtilsStore } from "@/stores/utils";
+import { ref } from "vue";
 
 // DEPENDENCIES
-const { getSales } = useSales();
 
 // INJECT
 
 // PROPS, EMITS
-
-const props = defineProps({
+defineProps({
+  sales: {
+    type: Array,
+    required: true,
+  },
   columns: {
     type: Array,
     required: true,
@@ -73,54 +75,18 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["update:selection"]);
+const emit = defineEmits(["update:selection", "update:page"]);
 
 // REFS
 const selectedSales = ref([]);
-const totalRecords = ref(0);
-const sales = ref([]);
-const lazyParams = ref({});
-
-const utilsStore = useUtilsStore();
-const searchValue = ref("");
-const loading = ref(false);
-const salesLoaded = ref(true);
-
 const isPreviewVisible = ref([]);
+const datatableOffset = ref(0);
 
 // COMPUTED
 
 // COMPONENT METHODS AND LOGIC
-const loadLazyData = async () => {
-  loading.value = true;
-  const filters = utilsStore.filters["sale"];
-  const nextPage = lazyParams.value.page + 1;
-  const searchValueParam = searchValue.value;
-
-  const params = new URLSearchParams({
-    ...filters,
-    page: nextPage ? nextPage : 1,
-    per_page: 10,
-  });
-
-  if (searchValueParam) {
-    params.append("search", searchValueParam);
-  }
-
-  if (props.relatedEntity && props.relatedEntityId) {
-    params.append(props.relatedEntity, props.relatedEntityId);
-  }
-
-  let response = await getSales(params);
-  sales.value = response.data;
-  totalRecords.value = response.totalRecords;
-  loading.value = false;
-  salesLoaded.value = true;
-};
-
 const onPage = (event) => {
-  lazyParams.value = event;
-  loadLazyData();
+  emit("update:page", event.page);
 };
 
 const onSelectionChanged = () => {
@@ -138,28 +104,10 @@ const openSidebar = (data) => {
 
 // PROVIDE, EXPOSE
 defineExpose({
-  loadLazyData,
   cleanSelectedSales,
 });
 
 // WATCHERS
-watchEffect(() => {
-  loadLazyData();
-});
-
-watch(
-  () => utilsStore.searchString["sale"],
-  () => {
-    searchValue.value = utilsStore.searchString["sale"];
-    utilsStore.debounceAction(() => {
-      loadLazyData();
-    });
-  },
-  { deep: true }
-);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
-onMounted(() => {
-  loadLazyData();
-});
 </script>

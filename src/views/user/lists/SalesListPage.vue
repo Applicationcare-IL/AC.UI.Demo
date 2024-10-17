@@ -18,16 +18,20 @@
     <WMSalesTable
       ref="salesTable"
       :columns="columns"
+      :sales="sales"
+      :total-records="totalRecords"
+      :loading="loading"
       preview
       selectable
       @update:selection="onSelectionChanged"
+      @update:page="currentPage = $event"
     />
   </div>
 </template>
 
 <script setup>
 // IMPORTS
-import { onMounted } from "vue";
+import { onMounted, ref, watch, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 
 import { useUtilsStore } from "@/stores/utils";
@@ -35,12 +39,19 @@ import { useUtilsStore } from "@/stores/utils";
 // DEPENDENCIES
 const router = useRouter();
 const utilsStore = useUtilsStore();
+const { getSales } = useSales();
 
 // INJECT
 
 // PROPS, EMITS
 
 // REFS
+const sales = ref([]);
+const searchValue = ref("");
+const loading = ref(false);
+const currentPage = ref(0);
+const totalRecords = ref(0);
+
 const columns = [
   {
     name: "id",
@@ -184,13 +195,52 @@ const redirectToNewSalePage = () => {
   });
 };
 
+const loadSales = async () => {
+  loading.value = true;
+  const filters = utilsStore.filters["sales"];
+  const nextPage = currentPage.value + 1;
+  const searchValueParam = searchValue.value;
+
+  const params = new URLSearchParams({
+    ...filters,
+    page: nextPage ? nextPage : 1,
+    per_page: 10,
+  });
+
+  if (searchValueParam) {
+    params.append("search", searchValueParam);
+  }
+
+  let response = await getSales(params);
+
+  sales.value = response.data;
+  totalRecords.value = response.totalRecords;
+  loading.value = false;
+};
+
 // PROVIDE, EXPOSE
 
 // WATCHERS
+watchEffect(() => {
+  loadSales();
+});
+
+watch(
+  () => utilsStore.searchString["sale"],
+  () => {
+    searchValue.value = utilsStore.searchString["sale"];
+    utilsStore.debounceAction(() => {
+      loadSales();
+    });
+  },
+  { deep: true }
+);
 
 // LIFECYCLE METHODS (https://vuejs.org/api/composition-api-lifecycle.html)
 onMounted(() => {
   utilsStore.entity = "sale";
+
+  loadSales();
 });
 </script>
 
