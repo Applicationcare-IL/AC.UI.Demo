@@ -18,12 +18,7 @@
     <Column v-if="selectable" style="width: 40px" selection-mode="multiple" />
     <Column v-if="preview" style="width: 40px">
       <template #body="{ data }">
-        <img
-          src="/icons/eye.svg"
-          alt=""
-          class="vertical-align-middle"
-          @click="openSidebar(data.id)"
-        />
+        <img src="/icons/eye.svg" class="vertical-align-middle" @click="openSidebar(data.id)" />
         <WMSalePreviewSidebar v-model:visible="isPreviewVisible[data.id]" :sale="data" />
       </template>
     </Column>

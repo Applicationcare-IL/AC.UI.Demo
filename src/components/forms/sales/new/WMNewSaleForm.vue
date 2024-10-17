@@ -8,7 +8,6 @@
         <h3 class="h3 mb-0">{{ $t("general-details") }}</h3>
         <div class="flex flex-row gap-5">
           <WMTeamOwnerFields />
-          <pre>{{ values }}</pre>
         </div>
         <div class="flex flex-row gap-5">
           <WMInput

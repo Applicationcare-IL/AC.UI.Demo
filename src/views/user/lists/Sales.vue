@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <WMListSubHeader
     entity="sale"
@@ -104,13 +103,14 @@ const columns = [
   {
     name: "sla",
     type: "sla",
-    field: "",
+    field: "render_sla",
     header: "sale.sla",
+    class: "filled-td",
   },
   {
     name: "stage-in-sale",
     type: "text",
-    field: "",
+    field: "render_current_stage",
     header: "sale.stage-in-sale",
   },
   {

@@ -110,6 +110,15 @@ const useSales = () => {
         text: sale.customer.name,
         id: sale.id,
       },
+
+      render_sla: {
+        sla: sale.process.sla.sla,
+        days_for_closing: sale.process.sla.days_for_closing,
+        state: sale.state.value,
+      },
+
+      render_current_stage: sale.process.current_stage.name,
+
       render_sale_type: sale.sale_type[optionLabelWithLang.value],
       render_sale_source: sale.sale_source[optionLabelWithLang.value],
       render_initiator: sale.sale_initiator[optionLabelWithLang.value],
@@ -119,6 +128,9 @@ const useSales = () => {
       render_open_tasks: sale.open_tasks,
       render_breached_tasks: sale.breached_tasks,
       render_price_base: sale.deal_price_base,
+
+      start_date: sale.process.opened,
+      end_date: sale.process.due_date,
 
       render_price_final: sale.deal_price_final,
       last_change_date: sale.last_activity?.updater.at ?? sale.last_activity?.creator.at,

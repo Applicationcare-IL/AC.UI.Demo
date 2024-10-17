@@ -253,17 +253,8 @@ const onPage = (event) => {
 };
 
 // Display sidebars
-const displayDetails = (data) => {
-  serviceDetail.value = data;
-  isDetailsVisible.value = true;
-};
-
 const rowClass = (data) => {
   return [{ inactive_row: !data.is_active }];
-};
-
-const priorityClass = (data) => {
-  return getPriorityClasses(data);
 };
 
 // Manage selected rows
